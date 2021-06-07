@@ -1,0 +1,17 @@
+0 Brick  2 x  4 with 4 Black Axle Bushes and Trans-Clear Underside
+0 Name: 7049c.dat
+0 Author: Tore Eriksson [Tore_Eriksson]
+0 !LDRAW_ORG Shortcut UPDATE 2018-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2016-12-31 [PTadmin] Official Update 2016-01
+0 !HISTORY 2018-11-24 [cwdee]   Update description
+0 !HISTORY 2018-12-08 [PTadmin] Official Update 2018-02
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 3109.dat
+1 47 0 0 0 1 0 0 0 1 0 0 0 1 3110.dat
+1 0 0 10 0 1 0 0 0 1 0 0 0 1 3112.dat
+1 0 22 10 0 1 0 0 0 1 0 0 0 1 3111.dat
+1 0 -22 10 0 1 0 0 0 1 0 0 0 1 3111.dat

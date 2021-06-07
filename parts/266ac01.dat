@@ -1,0 +1,18 @@
+0 Electric Lightbrick  2 x  2 Type 1 12V (Complete) 
+0 Name: 266ac01.dat
+0 Author: Niels Karsdorp [nielsk]
+0 !LDRAW_ORG Shortcut UPDATE 2011-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+
+0 !HISTORY 2009-12-29 [PTadmin] Official Update 2009-03
+0 !HISTORY 2010-04-25 [PTadmin] Renamed from 266c01
+0 !HISTORY 2010-07-05 [PTadmin] Official Update 2010-02
+0 !HISTORY 2011-12-11 [Steffen] replaced color 383 by 494
+0 !HISTORY 2011-12-29 [PTadmin] Official Update 2011-02
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 266a.dat
+1 47 0 0 0 1 0 0 0 1 0 0 0 1 267a.dat
+1 494 -10 9 12 1 0 0 0 0 1 0 -1 0 s\266s01.dat
+1 494 10 9 12 1 0 0 0 0 1 0 -1 0 s\266s01.dat

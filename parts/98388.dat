@@ -1,0 +1,27 @@
+0 Animal Friends Bird
+0 Name: 98388.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2014-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Sparrow, Parrot, Chick
+
+0 !HISTORY 2013-12-07 {LEGO Digital Designer} Original part shape
+0 !HISTORY 2014-10-03 [Philo] File preparation for LDraw Parts Tracker
+0 !HISTORY 2014-12-23 [PTadmin] Official Update 2014-02
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\98388s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\98388s01.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\98388s02.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\98388s02.dat
+1 16 0 -4 0 1 0 0 0 -1 0 0 0 -1 stud4a.dat
+1 16 0 -7 0 8 0 0 0 3 0 0 0 8 4-4cyli.dat
+0 BFC INVERTNEXT
+1 16 0 -4 0 4 0 0 0 -16 0 0 0 4 4-4cyli.dat
+1 16 0 -20 0 4 0 0 0 -1 0 0 0 4 4-4edge.dat
+1 16 0 -4 0 4 0 0 0 -1 0 0 0 4 4-4edge.dat
+1 16 0 -4 0 2 0 0 0 -1 0 0 0 2 4-4ring2.dat
+1 16 0 -4 0 6 0 0 0 -1 0 0 0 6 4-4edge.dat
+1 16 0 -20 0 4 0 0 0 -1 0 0 0 4 4-4disc.dat

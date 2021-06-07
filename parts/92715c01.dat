@@ -1,0 +1,14 @@
+0 Conveyor Belt  4 x 16 with Rubber Black Belt and Orange Drive Axles
+0 Name: 92715c01.dat
+0 Author: Massimo Maso [Sirio]
+0 !LDRAW_ORG Shortcut UPDATE 2019-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2019-06-28 [PTadmin] Official Update 2019-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 92715.dat
+1 25 -140 10 0 1 0 0 0 1 0 0 0 1 92716.dat
+1 25 140 10 0 1 0 0 0 1 0 0 0 1 92716.dat
+1 256 0 10 0 1 0 0 0 1 0 0 0 1 92713c01.dat

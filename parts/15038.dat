@@ -1,0 +1,25 @@
+0 Wheel Rim 34 x 56 with  6 Spokes and  6 Pegholes
+0 Name: 15038.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2014-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Technic
+
+0 !HISTORY 2014-02-09 {LEGO Digital Designer} Original part shape
+0 !HISTORY 2014-02-09 [Philo] Complete rewrite for LDraw Parts Tracker
+0 !HISTORY 2014-06-21 [PTadmin] Official Update 2014-01
+
+0 // Nomenclature: width_(mm) x rim_diameter_(mm) [optional qualifier]
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\15038s02.dat
+0 BFC INVERTNEXT
+1 16 0 0 -45 3.1 0 0 0 0 -3.1 0 3 0 48\4-4con20.dat
+1 16 0 0 -45 2.1 0 0 0 0 2.1 0 1 0 48\1-4rin31.dat
+1 16 0 0 -45 0 0 2.1 -2.1 0 0 0 1 0 48\1-4rin31.dat
+1 16 0 0 -45 0 0 -2.1 2.1 0 0 0 1 0 48\1-4rin31.dat
+1 16 0 0 -45 -2.1 0 0 0 0 -2.1 0 1 0 48\1-4rin31.dat
+1 16 0 0 -45 2.8 0 0 0 0 2.8 0 1 0 48\4-4rin24.dat
+1 16 0 0 -45 65.1 0 0 0 0 65.1 0 -1 0 48\4-4edge.dat

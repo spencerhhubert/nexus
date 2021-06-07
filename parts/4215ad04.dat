@@ -1,0 +1,13 @@
+0 Panel  1 x  4 x  3 with Solid Studs and Octan Logo and Text Sticker
+0 Name: 4215ad04.dat
+0 Author: Ulrich Röder [UR]
+0 !LDRAW_ORG Shortcut UPDATE 2019-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+0 !KEYWORDS Set 4549, Train, Cargo, Container, Transport
+
+0 !HISTORY 2019-12-27 [PTadmin] Official Update 2019-03
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 4215a.dat
+1 16 0 36 10 -1 0 0 0 0 -1 0 -1 0 821421c.dat

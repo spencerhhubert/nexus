@@ -1,0 +1,38 @@
+0 Brick  1 x  1 x  5 with Hollow Stud
+0 Name: 2453a.dat
+0 Author: James Jessiman
+0 !LDRAW_ORG Part UPDATE 2017-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+
+0 !HISTORY 2007-05-10 [PTadmin] Header formatted for Contributor Agreement
+0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01
+0 !HISTORY 2008-07-07 [nielsk] Made BFC compliant (2006-01-09)
+0 !HISTORY 2009-05-02 [PTadmin] Official Update 2009-01
+0 !HISTORY 2017-02-11 [PTadmin] Renamed from 2453
+0 !HISTORY 2017-12-30 [PTadmin] Official Update 2017-01
+
+0 BFC INVERTNEXT
+1 16 0 4 0 6 0 0 0 116 0 0 0 6 box4.dat
+4 16 -10 120 10 -6 120 6 6 120 6 10 120 10
+4 16 -10 120 -10 -6 120 -6 -6 120 6 -10 120 10
+4 16 10 120 -10 6 120 -6 -6 120 -6 -10 120 -10
+4 16 10 120 10 6 120 6 6 120 -6 10 120 -10
+4 16 -6 4 6 -4 4 4 4 4 4 6 4 6
+4 16 -6 4 -6 -4 4 -4 -4 4 4 -6 4 6
+4 16 6 4 -6 4 4 -4 -4 4 -4 -6 4 -6
+4 16 6 4 6 4 4 4 4 4 -4 6 4 -6
+4 16 10 0 10 6 0 6 -6 0 6 -10 0 10
+4 16 -10 0 10 -6 0 6 -6 0 -6 -10 0 -10
+4 16 -10 0 -10 -6 0 -6 6 0 -6 10 0 -10
+4 16 10 0 -10 6 0 -6 6 0 6 10 0 10
+1 16 0 0 0 10 0 0 0 120 0 0 0 10 box4.dat
+1 16 0 4 0 4 0 0 0 -1 0 0 0 4 4-4ndis.dat
+1 16 0 4 0 4 0 0 0 1 0 0 0 4 4-4edge.dat
+1 16 0 0 0 6 0 0 0 1 0 0 0 6 4-4ndis.dat
+1 16 0 0 0 6 0 0 0 1 0 0 0 6 4-4edge.dat
+0 BFC INVERTNEXT
+1 16 0 0 0 4 0 0 0 4 0 0 0 4 4-4cyli.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 stud2a.dat
+0

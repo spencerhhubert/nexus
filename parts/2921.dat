@@ -1,0 +1,45 @@
+0 Brick  1 x  1 with Handle
+0 Name: 2921.dat
+0 Author: James Jessiman
+0 !LDRAW_ORG Part UPDATE 2004-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 1998-07-15 [PTadmin] Official Update 1998-07
+0 !HISTORY 2003-06-08 [jriley] BFC compliant
+0 !HISTORY 2003-12-19 [PTadmin] Official Update 2003-03
+0 !HISTORY 2004-01-02 [Steffen] fixed L3P errors, used subfile
+0 !HISTORY 2004-04-22 [PTadmin] Official Update 2004-02
+0 !HISTORY 2007-05-22 [PTadmin] Header formatted for Contributor Agreement
+0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01
+
+2 24 4 8 -10 4 16 -10
+2 24 4 16 -10 -4 16 -10
+2 24 -4 16 -10 -4 8 -10
+2 24 -4 8 -10 4 8 -10
+2 24 4 8 -10 4 8 -20
+2 24 -4 8 -10 -4 8 -20
+2 24 4 16 -10 4 16 -20
+2 24 -4 16 -10 -4 16 -20
+1 16 0 24 -20 4 0 0 0 4 0 0 0 4 4-4edge.dat
+1 16 0 16 -20 4 0 0 0 4 0 0 0 4 2-4edge.dat
+1 16 0 8 -20 4 0 0 0 4 0 0 0 4 2-4edge.dat
+1 16 0 0 -20 4 0 0 0 4 0 0 0 4 4-4edge.dat
+1 16 0 24 -20 4 0 0 0 -1 0 0 0 -4 4-4disc.dat
+1 16 0 16 -20 -4 0 0 0 -1 0 0 0 4 2-4ndis.dat
+1 16 0 8 -20 4 0 0 0 1 0 0 0 4 2-4ndis.dat
+1 16 0 0 -20 4 0 0 0 1 0 0 0 4 4-4disc.dat
+4 16 4 8 -10 -4 8 -10 -4 8 -16 4 8 -16
+4 16 4 16 -10 4 16 -16 -4 16 -16 -4 16 -10
+4 16 4 8 -10 4 8 -20 4 16 -20 4 16 -10
+4 16 -4 8 -10 -4 16 -10 -4 16 -20 -4 8 -20
+1 16 0 16 -20 4 0 0 0 8 0 0 0 4 2-4cyli.dat
+1 16 0 0 -20 4 0 0 0 8 0 0 0 4 2-4cyli.dat
+1 16 0 0 -20 4 0 0 0 24 0 0 0 -4 2-4cyli.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\3005s01.dat
+4 16 4 8 -10 10 0 -10 -10 0 -10 -4 8 -10
+4 16 -4 8 -10 -10 0 -10 -10 24 -10 -4 16 -10
+4 16 10 0 -10 4 8 -10 4 16 -10 10 24 -10
+4 16 10 24 -10 4 16 -10 -4 16 -10 -10 24 -10
+0

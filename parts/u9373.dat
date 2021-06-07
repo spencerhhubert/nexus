@@ -1,0 +1,45 @@
+0 ~Electric Technic Motor Back with Centre Pin Hole
+0 Name: u9373.dat
+0 Author: Chris Dee [cwdee]
+0 !LDRAW_ORG Part UPDATE 2020-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS 4.5V, 12V, Stator
+
+0 !HISTORY 2000-09-30 [PTadmin] Official Update 2000-02
+0 !HISTORY 2007-09-10 [PTadmin] Header formatted for Contributor Agreement
+0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01
+0 !HISTORY 2013-04-09 [MagFors] bfc'd, removed t-junctions
+0 !HISTORY 2018-03-31 [MagFors] renamed from s/6216mb, subfiled for parts with/without centre hole
+0 !HISTORY 2020-12-29 [PTadmin] Official Update 2020-03
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\u9373s01.dat
+
+0 // top hole
+1 16 0 17.5 40 4 0 0 0 0 1.5 0 -1 0 rect3.dat
+0 BFC INVERTNEXT
+1 16 0 19 50 4 0 0 0 -3 0 0 0 4 2-4cylo.dat
+1 16 4 17.5 45 0 1 0 1.5 0 0 0 0 -5 rect3.dat
+1 16 -4 17.5 45 0 -1 0 -1.5 0 0 0 0 -5 rect3.dat
+1 16 0 19 50 4 0 0 0 -1 0 0 0 4 2-4ndis.dat
+1 16 0 16 50 4 0 0 0 1 0 0 0 4 2-4ndis.dat
+4 16 4 19 40 4 19 54 6 19 54 6 19 46
+4 16 -6 19 46 -6 19 54 -4 19 54 -4 19 40
+4 16 4 16 54 4 16 56 -4 16 56 -4 16 54
+
+0 // rear hole
+0 BFC INVERTNEXT
+1 16 0 25 56 4 0 0 0 0 -4 0 4 0 4-4cylo.dat
+1 16 0 25 56 4 0 0 0 0 -4 0 1 0 4-4ndis.dat
+1 16 0 25 60 4 0 0 0 0 -4 0 -1 0 4-4ndis.dat
+
+0 // vision blocker
+1 0 0 25 40 0 0 16 -6 0 0 0 -2 0 box.dat
+
+0 // contact plates
+1 494 13.75 25 42 0 0 -0.25 -5.5 0 0 0 14 0 box5.dat
+1 494 6.25 25 42 0 0 -0.25 -5.5 0 0 0 14 0 box5.dat
+1 494 -6.25 25 42 0 0 -0.25 -5.5 0 0 0 14 0 box5.dat
+1 494 -13.75 25 42 0 0 -0.25 -5.5 0 0 0 14 0 box5.dat

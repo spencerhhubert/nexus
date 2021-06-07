@@ -1,0 +1,16 @@
+0 Electric Power Functions Solar Panel
+0 Name: 87578.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Shortcut UPDATE 2019-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Set 9667, Set 9688, Renewable Energy, Harvesting
+
+0 !HISTORY 2019-12-27 [PTadmin] Official Update 2019-03
+
+1 72 0 0 0 1 0 0 0 1 0 0 0 1 88325.dat
+1 16 0 -49 0 1 0 0 0 1 0 0 0 1 88324.dat
+1 47 0 -45 19 1 0 0 0 1 0 0 0 1 88326.dat
+1 0 0 -43.5 19 1 0 0 0 1 0 0 0 1 88327.dat

@@ -1,0 +1,23 @@
+0 ~Motor Windup  2 x  6 x  2.333 Axle Bush
+0 Name: u9051.dat
+0 Author: Chris Dee [cwdee]
+0 !LDRAW_ORG Part UPDATE 2013-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+
+0 !CATEGORY Technic
+
+0 !HISTORY 2013-07-21 [PTadmin] Official Update 2013-01
+
+0 // Needs work: hidden structure assumed 
+
+1 16 20 0 0 0 -40 0 0 0 7.5 7.5 0 0 4-4cyli.dat
+1 16 20 0 0 0 1 0 0 0 7.5 7.5 0 0 4-4edge.dat
+1 16 -20 0 0 0 1 0 0 0 7.5 7.5 0 0 4-4edge.dat
+1 16 20 0 0 0 -40 0 0 0 1 1 0 0 axlehole.dat
+1 16 20 0 0 0 -40 0 0 0 1 1 0 0 axlehol2.dat
+1 16 -20 0 0 0 40 0 0 0 1 1 0 0 axlehol2.dat
+1 16 20 0 0 0 -1 0 0 0 1.5 1.5 0 0 4-4ring4.dat
+1 16 -20 0 0 0 1 0 0 0 1.5 1.5 0 0 4-4ring4.dat
+0

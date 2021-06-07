@@ -1,0 +1,20 @@
+0 Electric Technic Mini-Motor  9V - Axle
+0 Name: u9345.dat
+0 Author: Magnus Forsberg [MagFors]
+0 !LDRAW_ORG Part UPDATE 2018-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2018-01-30 [PTadmin] Official Update 2018-01
+
+0 // axle
+
+1 16 0 0 0 1 0 0 0 0 1 0 -20 0 axle.dat
+1 16 0 0 4 8 0 0 0 0 -8 0 26 0 4-4cylc.dat
+1 16 0 0 30 20 0 0 0 0 -20 0 10 0 4-4cylc.dat
+1 16 0 0 40 20 0 0 0 0 -20 0 -1 0 4-4disc.dat
+
+0 // bearing
+1 16 0 0 0 9 0 0 0 0 -9 0 4 0 4-4cylc.dat
+1 16 0 0 4 1 0 0 0 0 -1 0 -1 0 4-4ring8.dat

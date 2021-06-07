@@ -1,0 +1,16 @@
+0 Technic Rotor  1 Blade 31L with Beam  3L
+0 Name: 99013.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2013-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2012-10-16 {LEGO Digital Designer} Original part shape
+0 !HISTORY 2012-10-16 [Philo] File preparation for LDraw Parts Tracker
+0 !HISTORY 2013-12-23 [PTadmin] Official Update 2013-02
+
+1 16 0 -20 0 1 0 0 0 1 0 0 0 1 s\99013s01.dat
+1 16 0 -20 0 1 0 0 0 1 0 0 0 -1 s\99013s01.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\99013s02.dat
+1 16 0 0 0 -1 0 0 0 0 -1 0 -1 0 32523.dat

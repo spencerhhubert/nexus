@@ -1,0 +1,16 @@
+0 Train Front  2 x  2 x  6 with  3 x  4 Cutout 
+0 Name: 2924a.dat
+0 Author: Thomas Burger [grapeape]
+0 !LDRAW_ORG Part UPDATE 2015-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+0 !KEYWORDS Freight, Locomotive, Railroad, Engine
+0 !CMDLINE -c4
+
+0 !HISTORY 2006-08-15 [WilliamH] Sub-parted
+0 !HISTORY 2013-08-11 [MMR1988] Used new subparts
+0 !HISTORY 2015-10-11 [PTadmin] Official Update 2015-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\2924as01.dat
+1 47 0 0 0 1 0 0 0 1 0 0 0 1 s\2924s02.dat

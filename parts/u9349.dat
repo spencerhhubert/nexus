@@ -1,0 +1,27 @@
+0 ~Minifig Compass Dial
+0 Name: u9349.dat
+0 Author: Michael Heidemann [mikeheide]
+0 !LDRAW_ORG Part UPDATE 2020-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+0 !HISTORY 2009-12-29 [PTadmin] Official Update 2009-03
+0 !HISTORY 2018-06-02 [MagFors] Renamed from 889
+0 !HISTORY 2020-06-28 [PTadmin] Official Update 2020-01
+
+1 16 0 -10 0 1 0 0 0 -6 0 0 0 1 4-4con4.dat
+1 16 0 -10 0 5 0 0 0 -1 0 0 0 5 4-4edge.dat
+1 16 0 -16 0 4 0 0 0 -1 0 0 0 4 4-4edge.dat
+1 16 0 -16 0 4 0 0 0 1 0 0 0 -4 4-4disc.dat
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\u9349s01.dat
+0 // top surface
+1 16 0 -10 0 3.53553 0 3.53553 0 1 0 -3.53553 0 3.53553 4-4ndis.dat
+1 16 0 -10 0 15 0 0 0 1 0 0 0 15 1-4chrd.dat
+1 16 0 -10 0 0 0 15 0 1 0 -15 0 0 1-4chrd.dat
+1 16 0 -10 0 -15 0 0 0 1 0 0 0 -15 1-4chrd.dat
+1 16 0 -10 0 0 0 -15 0 1 0 15 0 0 1-4chrd.dat
+4 16 0 -10 -7.07106 -7.07106 -10 0 -15 -10 0 0 -10 -15
+4 16 7.07106 -10 0 0 -10 -7.07106 0 -10 -15 15 -10 0
+4 16 7.07106 -10 0 15 -10 0 0 -10 15 0 -10 7.07106
+4 16 0 -10 7.07106 0 -10 15 -15 -10 0 -7.07106 -10 0

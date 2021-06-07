@@ -1,0 +1,28 @@
+0 Tile  1 x  1 with Clip with Centre Notch
+0 Name: 93794.dat
+0 Author: Magnus Forsberg [MagFors]
+0 !LDRAW_ORG Part UPDATE 2013-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2013-12-23 [PTadmin] Official Update 2013-02
+
+1 16 0 8 0 10 0 0 0 -8 0 0 0 10 box4.dat
+0 BFC INVERTNEXT
+1 16 0 8 0 6 0 0 0 -4 0 0 0 6 box5.dat
+4 16 10 8 10 6 8 6 -6 8 6 -10 8 10
+4 16 -10 8 10 -6 8 6 -6 8 -6 -10 8 -10
+4 16 -10 8 -10 -6 8 -6 6 8 -6 10 8 -10
+4 16 10 8 -10 6 8 -6 6 8 6 10 8 10
+1 16 0 0 -7 0 0 -10 0 1 0 3 0 0 rect1.dat
+1 16 0 0 7 0 0 10 0 1 0 -3 0 0 rect1.dat
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 clip8.dat
+3 16 -8 0 4 -10 0 4 -7.8478 -8.1481 4
+3 16 7.8478 -8.1481 4 10 0 4 8 0 4
+3 16 -7.8478 -8.1481 -4 -10 0 -4 -8 0 -4
+3 16 8 0 -4 10 0 -4 7.8478 -8.1481 -4
+1 16 -8.9239 -4.07405 0 1.0761 1 0 -4.07405 0 0 0 0 4 rect2p.dat
+1 16 8.9239 -4.07405 0 -1.0761 -1 0 -4.07405 0 0 0 0 -4 rect2p.dat
+

@@ -1,0 +1,15 @@
+0 Sticker  1.9 x  3.8 with Yellow Box and Arrows
+0 Name: 190595a.dat
+0 Author: Rafael Skibicki [Rola]
+0 !LDRAW_ORG Part UPDATE 2012-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS set 7823
+
+0 !HISTORY 2012-12-28 [PTadmin] Official Update 2012-03
+
+0 // Alias of 190145a
+
+1 16 0 0 0  1 0 0  0 1 0  0 0 1 190145a.dat

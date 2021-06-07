@@ -1,0 +1,20 @@
+0 Scala Clip-On Bow
+0 Name: 87690.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2011-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !CATEGORY Figure Accessory
+
+0 !HISTORY 2010-09-10 {LEGO Universe Team} Original part shape
+0 !HISTORY 2010-10-06 [Philo] File preparation for LDraw Parts Tracker
+0 !HISTORY 2011-12-29 [PTadmin] Official Update 2011-02
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\87690s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\87690s01.dat
+1 16 0 0 0 4 0 0 0 4 0 0 0 4 4-4cylo.dat
+0 BFC INVERTNEXT
+1 16 0 0 0 2 0 0 0 4 0 0 0 2 4-4cylo.dat
+1 16 0 4 0 2 0 0 0 -1 0 0 0 2 4-4ring1.dat

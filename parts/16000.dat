@@ -1,0 +1,20 @@
+0 ~Minifig Arm Right Dual Mould
+0 Name: 16000.dat
+0 Author: Magnus Forsberg [MagFors]
+0 !LDRAW_ORG Part UPDATE 2020-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 !HELP Place at -15.552 9 0 relative to torso
+0 !HELP Then rotate about x axis to give required elevation of arm
+0 !HELP 0 = upper arm vertical
+0 !HELP -45 = lower arm horizontal
+0 !HELP -90 = upper arm horizontal
+0 !HELP -135 = lower arm vertical
+0 !HELP Then rotate 9.782 about z axis to align with slope of torso
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2020-06-28 [PTadmin] Official Update 2020-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\16000s02.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\16000s01.dat

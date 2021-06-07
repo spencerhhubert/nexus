@@ -1,0 +1,41 @@
+0 Wheel 14 x 30 Smooth
+0 Name: 32146.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2012-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS 30.4 x 14
+
+0 !HISTORY 2009-10-13 {LEGO Universe Team} Original part shape
+0 !HISTORY 2010-05-20 [Philo] File preparation for LDraw Parts Tracker
+0 !HISTORY 2012-08-09 [PTadmin] Official Update 2012-02
+
+0 // Nomenclature: width_(mm) x rim_diameter_(mm) [optional qualifier]
+
+1 16 0 0 10 1 0 0 0 1 0 0 0 1 s\32146s01.dat
+1 16 0 0 10 -1 0 0 0 1 0 0 0 1 s\32146s01.dat
+1 16 0 0 10 0.5 -0.86603 0 0.86603 0.5 0 0 0 1 s\32146s01.dat
+1 16 0 0 10 -0.5 -0.86603 0 -0.86603 0.5 0 0 0 1 s\32146s01.dat
+1 16 0 0 10 0.5 0.86603 0 -0.86603 0.5 0 0 0 1 s\32146s01.dat
+1 16 0 0 10 -0.5 0.86603 0 0.86603 0.5 0 0 0 1 s\32146s01.dat
+1 16 0 0 10 1 0 0 0 -1 0 0 0 1 s\32146s01.dat
+1 16 0 0 10 -1 0 0 0 -1 0 0 0 1 s\32146s01.dat
+1 16 0 0 10 0.5 -0.86603 0 -0.86603 -0.5 0 0 0 1 s\32146s01.dat
+1 16 0 0 10 -0.5 -0.86603 0 0.86603 -0.5 0 0 0 1 s\32146s01.dat
+1 16 0 0 10 0.5 0.86603 0 0.86603 -0.5 0 0 0 1 s\32146s01.dat
+1 16 0 0 10 -0.5 0.86603 0 -0.86603 -0.5 0 0 0 1 s\32146s01.dat
+0 BFC INVERTNEXT
+1 16 0 0 -10 6 0 0 0 0 -6 0 10 0 4-4cyli.dat
+1 16 0 0 0 0 0 -1 -1 0 0 0 10 0 axl2hol8.dat
+1 16 0 0 0 0 0 -1 -1 0 0 0 1 0 axl2hol9.dat
+1 16 0 0 0 0 0 -1 -1 0 0 0 1 0 axl2ho10.dat
+1 16 0 0 10 0 0 -1 -1 0 0 0 -1 0 axl2hol9.dat
+1 16 0 0 10 0 0 -1 -1 0 0 0 -1 0 axl2ho10.dat
+1 16 0 0 10 0 0 -1 -1 0 0 0 -1 0 axl2hol2.dat
+1 16 0 0 0 0 0 -1 -1 0 0 0 -1 0 axl2hol3.dat
+1 16 0 0 -10 6 0 0 0 0 -6 0 10 0 4-4edge.dat
+1 16 0 0 -10 2 0 0 0 0 -2 0 1 0 4-4ring3.dat
+1 16 0 0 10 -2 0 0 0 0 -2 0 -1 0 4-4ring3.dat
+

@@ -1,0 +1,12 @@
+0 Slope Brick 31  1 x  2 x  0.667 with Left Black Deflectors on Red Face Sticker
+0 Name: 85984d01.dat
+0 Author: Massimo Maso [Sirio]
+0 !LDRAW_ORG Shortcut UPDATE 2020-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2020-12-29 [PTadmin] Official Update 2020-03
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 85984.dat
+1 16 0 -10 0 0 0 1 0.514499 0.857491 0 -0.857491 0.514499 0 6009312c.dat

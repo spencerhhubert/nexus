@@ -1,0 +1,29 @@
+0 Fence  1 x  4 x  2 Picket
+0 Name: 33303.dat
+0 Author: Niels Bugge [SirBugge]
+0 !LDRAW_ORG Part UPDATE 2009-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2009-05-02 [PTadmin] Official Update 2009-01
+
+1 16 20 44 0 1 0 0 0 -1 0 0 0 -1 stud3.dat
+1 16 0 44 0 1 0 0 0 -1 0 0 0 -1 stud3.dat
+1 16 -20 44 0 1 0 0 0 -1 0 0 0 -1 stud3.dat
+0 BFC INVERTNEXT
+1 16 0 48 0 36 0 0 0 -4 0 0 0 6 box5.dat
+4 16 40 48 10 36 48 6 -36 48 6 -40 48 10
+4 16 -40 48 10 -36 48 6 -36 48 -6 -40 48 -10
+4 16 -40 48 -10 -36 48 -6 36 48 -6 40 48 -10
+4 16 40 48 -10 36 48 -6 36 48 6 40 48 10
+1 16 0 48 0 40 0 0 0 -8 0 0 0 10 box5.dat
+1 16 -30 0 0 1 0 0 0 1 0 0 0 1 s\33303s01.dat
+1 16 -10 0 0 1 0 0 0 1 0 0 0 1 s\33303s01.dat
+1 16 10 0 0 1 0 0 0 1 0 0 0 1 s\33303s01.dat
+1 16 30 0 0 1 0 0 0 1 0 0 0 1 s\33303s01.dat
+1 16 -40 11.5 0 0 1 0 -2.5 0 0 0 0 2.5 rect.dat
+1 16 -40 32 0 0 1 0 -2.5 0 0 0 0 2.5 rect.dat
+1 16 40 11.5 0 0 -1 0 -2.5 0 0 0 0 -2.5 rect.dat
+1 16 40 32 0 0 -1 0 -2.5 0 0 0 0 -2.5 rect.dat
+0

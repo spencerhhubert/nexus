@@ -1,0 +1,32 @@
+0 Figure Friends Girl/Woman Template
+0 Name: 92198c01.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Shortcut UPDATE 2013-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2013-12-23 [PTadmin] Official Update 2013-02
+
+0 // Legs
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 92252.dat
+0 // Hips
+1 16 0 -47.4 2.7 1 0 0 0 1 0 0 0 1 92248.dat
+0 // Girl Torso. Use 92243 for woman
+1 16 0 -76.8 3.9 1 0 0 0 1 0 0 0 1 92241.dat
+0 // Head
+1 16 0 -110 3.9 1 0 0 0 1 0 0 0 1 92198.dat
+0 // Wig
+1 16 0 -110 0.9 1 0 0 0 1 0 0 0 1 92255.dat
+0 // Hair accessories (position depend on hairpiece!)
+1 16 18.1 -110.2 4.4 0 -1 0 1 0 0 0 0 1 96489.dat
+1 16 0 -121.9 0.9 1 0 0 0 1 0 0 0 1 96490.dat
+0 // Left arm
+1 16 11 -76.8 3.9 1 0 0 0 1 0 0 0 1 92244.dat
+0 // Right Arm
+1 16 -11 -76.8 3.9 1 0 0 0 1 0 0 0 1 92245.dat
+0 // Accessory (bar connection)
+1 16 26 -49.3 5.5 1 0 0 0 0 -1 0 1 0 55298.dat
+0 // Accessory (stud connection)
+1 16 -26 -49.3 -3.5 1 0 0 0 0 -1 0 1 0 33291.dat

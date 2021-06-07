@@ -1,0 +1,59 @@
+0 ~Minifig Torso with Bead Necklace - Beads
+0 Name: s\973p71a.dat
+0 Author: Heather Patey
+0 !LDRAW_ORG Subpart UPDATE 2015-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2002-08-18 [PTadmin] Official Update 2002-04
+0 !HISTORY 2007-09-14 [PTadmin] Header formatted for Contributor Agreement
+0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01
+0 !HISTORY 2015-01-19 [MagFors] Made bfc compliant
+0 !HISTORY 2015-10-11 [PTadmin] Official Update 2015-01
+
+1 16 0 24 -10 1 0 0 0 0 1 0 1 0 4-4disc.dat
+
+1 16 -2.5 23.7 -10 1 0 0 0 0 1 0 1 0 4-4disc.dat
+1 16 -5 22.7 -10 1 0 0 0 0 1 0 1 0 4-4disc.dat
+1 16 -7.5 21 -10 1 0 0 0 0 1 0 1 0 4-4disc.dat
+1 16 -9.4 19.2 -10 1 0 0 0 0 1 0 1 0 4-4disc.dat
+1 16 -10.4 17 -10 1 0 0 0 0 1 0 1 0 4-4disc.dat
+1 16 -11 14.8 -10 1 0 0 0 0 1 0 1 0 4-4disc.dat
+1 16 -11.5 12 -10 1 0 0 0 0 1 0 1 0 4-4disc.dat
+1 16 -11.5 9.5 -10 1 0 0 0 0 1 0 1 0 4-4disc.dat
+1 16 -11.2 7.4 -10 1 0 0 0 0 1 0 1 0 4-4disc.dat
+1 16 -11 5.3 -10 1 0 0 0 0 1 0 1 0 4-4disc.dat
+1 16 -10.2 3.3 -10 1 0 0 0 0 1 0 1 0 4-4disc.dat
+
+1 16 2.5 23.7 -10 1 0 0 0 0 1 0 1 0 4-4disc.dat
+1 16 5 22.7 -10 1 0 0 0 0 1 0 1 0 4-4disc.dat
+1 16 7.5 21 -10 1 0 0 0 0 1 0 1 0 4-4disc.dat
+1 16 9.4 19.2 -10 1 0 0 0 0 1 0 1 0 4-4disc.dat
+1 16 10.4 17 -10 1 0 0 0 0 1 0 1 0 4-4disc.dat
+1 16 11 14.8 -10 1 0 0 0 0 1 0 1 0 4-4disc.dat
+1 16 11.5 12 -10 1 0 0 0 0 1 0 1 0 4-4disc.dat
+1 16 11.5 9.5 -10 1 0 0 0 0 1 0 1 0 4-4disc.dat
+1 16 11.2 7.4 -10 1 0 0 0 0 1 0 1 0 4-4disc.dat
+1 16 11 5.3 -10 1 0 0 0 0 1 0 1 0 4-4disc.dat
+1 16 10.2 3.3 -10 1 0 0 0 0 1 0 1 0 4-4disc.dat
+
+1 16 -8.3 1.8 -10 1 0 0 0 0 1 0 1 0 4-4disc.dat
+1 16 -8.5 4.6 -10 1 0 0 0 0 1 0 1 0 4-4disc.dat
+1 16 -8.7 7.5 -10 1 0 0 0 0 1 0 1 0 4-4disc.dat
+1 16 -8.7 10.5 -10 1 0 0 0 0 1 0 1 0 4-4disc.dat
+1 16 -8 13.2 -10 1 0 0 0 0 1 0 1 0 4-4disc.dat
+1 16 -6.5 15 -10 1 0 0 0 0 1 0 1 0 4-4disc.dat
+1 16 -4.5 16.2 -10 1 0 0 0 0 1 0 1 0 4-4disc.dat
+1 16 -2.4 17 -10 1 0 0 0 0 1 0 1 0 4-4disc.dat
+
+1 16 8.3 1.8 -10 1 0 0 0 0 1 0 1 0 4-4disc.dat
+1 16 8.5 4.6 -10 1 0 0 0 0 1 0 1 0 4-4disc.dat
+1 16 8.7 7.5 -10 1 0 0 0 0 1 0 1 0 4-4disc.dat
+1 16 8.7 10.5 -10 1 0 0 0 0 1 0 1 0 4-4disc.dat
+1 16 8 13.2 -10 1 0 0 0 0 1 0 1 0 4-4disc.dat
+1 16 6.5 15 -10 1 0 0 0 0 1 0 1 0 4-4disc.dat
+1 16 4.5 16.2 -10 1 0 0 0 0 1 0 1 0 4-4disc.dat
+1 16 2.4 17 -10 1 0 0 0 0 1 0 1 0 4-4disc.dat
+
+1 16 0 17.5 -10 1 0 0 0 0 1 0 1 0 4-4disc.dat

@@ -1,0 +1,15 @@
+0 =Minifig Shield Round Bowed with Mercedes-Benz Logo
+0 Name: 21100.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part Alias UPDATE 2015-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !CATEGORY Minifig Accessory
+
+0 !HISTORY 2015-10-11 [PTadmin] Official Update 2015-01
+
+0 // Alias of 75902p04
+
+1 16 0 0 0  1 0 0  0 1 0  0 0 1 75902p04.dat

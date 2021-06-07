@@ -1,0 +1,26 @@
+0 Minifig Sword Longsword
+0 Name: 98370.dat
+0 Author: Christian Neumann [Wesley]
+0 !LDRAW_ORG Part UPDATE 2013-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !CATEGORY Minifig Accessory
+0 !KEYWORDS Weapon
+
+0 !HISTORY 2013-07-21 [PTadmin] Official Update 2013-01
+
+1 16 0 0 0 4 0 0 0 16 0 0 0 4 4-4cylo.dat
+1 16 0 16 0 2 0 0 0 1 0 0 0 2 4-4ring2.dat
+1 16 0 16 0 6 0 0 0 1 0 0 0 6 4-4edge.dat
+1 16 0 16 0 6 0 0 0 6 0 0 0 6 4-8sphe.dat
+1 16 0 0 0 0 0 -1 0 1 0 1 0 0 s\98370s01.dat
+1 16 0 0 0 0 0 -1 0 1 0 -1 0 0 s\98370s01.dat
+2 24 2 -57.5 0 2 -5.5 0
+2 24 -2 -5.5 0 -2 -57.5 0
+2 24 0.6 -71.5 0 2 -57.5 0
+2 24 0.4 -73.5 0 0.6 -71.5 0
+2 24 -2 -57.5 0 -0.6 -71.5 0
+2 24 -0.6 -71.5 0 -0.4 -73.5 0
+5 24 -0.4 -73.5 0 0.4 -73.5 0 -0.4 -73.32 0.75 -0.4 -73.32 -0.75

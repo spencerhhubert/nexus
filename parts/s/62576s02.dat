@@ -1,0 +1,15 @@
+0 ~Windscreen  5 x  8 x  2 Front Surface
+0 Name: s\62576s02.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Subpart UPDATE 2018-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2018-12-08 [PTadmin] Official Update 2018-02
+
+4 16 80 48 50 80 0 50 80 0 30 80 44 -10
+4 16 -80 44 -10 -80 0 30 -80 0 50 -80 48 50
+1 16 60 22 -10 0 0 -20 -22 1 0 20 0 -20 rect2p.dat
+1 16 -60 22 -10 0 0 -20 -22 1 0 20 0 20 rect2p.dat
+4 16 -40 44 -50 40 44 -50 40 0 -10 -40 0 -10

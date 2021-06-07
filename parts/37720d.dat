@@ -1,0 +1,27 @@
+0 Minifig Bar  0.8L with Tip Bat Emblem
+0 Name: 37720d.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2020-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !CATEGORY Minifig Accessory
+0 !KEYWORDS Batman, Batarang, Weapon
+
+0 !HISTORY 2019-06-06 {Mecabricks} Original part shape
+0 !HISTORY 2019-06-06 [Philo] File preparation for LDraw Parts Tracker
+0 !HISTORY 2020-06-28 [PTadmin] Official Update 2020-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\37720ds01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\37720ds01.dat
+1 16 0 -16 0 4 0 0 0 24 0 0 0 4 4-4cyli.dat
+1 16 0 8 0 4 0 0 0 1 0 0 0 4 4-4edge.dat
+1 16 0 8 0 4 0 0 0 -1 0 0 0 4 4-4disc.dat
+3 16 2.8284 -18.3432 2.8284 0 -16 4 -2.8284 -18.3432 2.8284
+2 24 2.8284 -18.3432 2.8284 -2.8284 -18.3432 2.8284
+4 16 2.155 -43.7475 2.8284 2.8284 -18.3432 2.8284 -2.8284 -18.3432 2.8284 -2.155 -43.7475 2.8284
+3 16 0 -16 -4 2.8284 -18.3432 -2.8284 -2.8284 -18.3432 -2.8284
+2 24 2.8284 -18.3432 -2.8284 -2.8284 -18.3432 -2.8284
+4 16 -2.8284 -18.3432 -2.8284 2.8284 -18.3432 -2.8284 2.155 -43.7475 -2.8284 -2.155 -43.7475 -2.8284
+1 16 0 -43.7475 0 2.155 0 0 0 1 0 0 0 2.8284 rect2p.dat

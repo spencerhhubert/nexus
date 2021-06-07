@@ -1,0 +1,23 @@
+0 Minifig Helmet Castle Rohan with Cheek Protection & Comb
+0 Name: 10054.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2013-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !CATEGORY Minifig Headwear
+0 !KEYWORDS Lord of the Rings
+
+0 !HISTORY 2013-12-23 [PTadmin] Official Update 2013-02
+
+1 16 0 -4 0 1 0 0 0 -1 0 0 0 -1 stud4.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\10054s00.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\10054s00.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\10054s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\10054s01.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\10054s02.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\10054s02.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\10054s03.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\10054s04.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\10054s04.dat

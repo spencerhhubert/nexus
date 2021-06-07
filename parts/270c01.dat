@@ -1,0 +1,16 @@
+0 Train Base  6 x 12 Type 1 with Wheels (Complete)
+0 Name: 270c01.dat
+0 Author: Niels Karsdorp [nielsk]
+0 !LDRAW_ORG Shortcut UPDATE 2011-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2011-01-14 [Steffen] unmirrored stud logos
+0 !HISTORY 2011-12-11 [Steffen] changed color 383 to 494 on wheelaxles
+0 !HISTORY 2011-12-11 [MagFors] subfiled wheelaxles
+0 !HISTORY 2011-12-29 [PTadmin] Official Update 2011-02
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 270.dat
+1 4 0 42 70 1 0 0 0 1 0 0 0 1 243c02.dat
+1 4 0 42 -70 1 0 0 0 1 0 0 0 1 243c02.dat

@@ -1,0 +1,36 @@
+0 ~Electric Technic Capacitor Circuit Board
+0 Name: 22579.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2012-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+
+0 !HISTORY 2012-01-23 [cwdee] colour 383->494
+0 !HISTORY 2012-03-30 [PTadmin] Official Update 2012-01
+
+1 2 0 30 -40 35 0 0 0 0 -1 0 55 0 box5-4a.dat
+1 2 0 30 -55 15 0 0 0 0 -1 0 1 0 rect.dat
+1 2 25 30 -47.5 10 0 0 0 0 -1 7.5 1 0 rect.dat
+1 2 -25 30 -47.5 -10 0 0 0 0 -1 7.5 1 0 rect.dat
+4 2 15 31 -55 35 31 -40 -35 31 -40 -15 31 -55
+4 2 -15 29 -55 -35 29 -40 35 29 -40 15 29 -55
+1 0 20 -35 -38 12 0 0 0 64 0 0 0 -12 7-8cyli.dat
+1 0 20 29 -38 12 0 0 0 -1 0 0 0 -12 4-4disc.dat
+1 0 20 29 -38 12 0 0 0 -1 0 0 0 -12 4-4edge.dat
+1 494 20 -35 -38 8 0 0 0 1 0 0 0 -8 4-4disc.dat
+1 494 20 -35 -38 8 0 0 0 1 0 0 0 -8 4-4edge.dat
+1 494 20 -35 -38 4 0 0 0 1 0 0 0 4 1-8ring2.dat
+1 0 20 -35 -38 -4 0 0 0 1 0 0 0 4 3-8ring2.dat
+1 0 20 -35 -38 -4 0 0 0 1 0 0 0 -4 2-4ring2.dat
+1 0 20 -35 -38 12 0 0 0 -1 0 0 0 -12 4-4edge.dat
+1 494 20 -35 -38 12 0 0 0 64 0 0 0 12 1-8cyli.dat
+1 0 0 5 4 10 0 0 0 24 0 0 0 -10 4-4cyli.dat
+1 0 0 5 4 10 0 0 0 24 0 0 0 -10 4-4edge.dat
+1 0 0 29 4 10 0 0 0 24 0 0 0 -10 4-4edge.dat
+1 0 0 5 4 3.3333 0 0 0 24 0 0 0 -3.3333 4-4ring2.dat
+1 494 0 5 4 6.666 0 0 0 24 0 0 0 -6.6666 4-4disc.dat
+1 0 0 5 4 6.666 0 0 0 24 0 0 0 -6.6666 4-4edge.dat
+1 47 -30 21 -30 4 0 0 0 8 0 0 0 4 4-4cyli.dat
+1 47 -30 29 -30 4 0 0 0 8 0 0 0 4 4-4edge.dat
+1 47 -30 21 -30 4 0 0 0 -4 0 0 0 -4 4-8sphe.dat

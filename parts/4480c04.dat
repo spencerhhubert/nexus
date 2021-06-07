@@ -1,0 +1,27 @@
+0 Bike  2 Wheel Motorcycle with TransClear Wheels, Windshield and Lights
+0 Name: 4480c04.dat
+0 Author: Magnus Forsberg [MagFors]
+0 !LDRAW_ORG Shortcut UPDATE 2020-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !CATEGORY Vehicle
+0 !KEYWORDS motorbike
+
+0 !HISTORY 2020-09-05 [PTadmin] Official Update 2020-02
+
+0 // Bike
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 4480c01.dat
+
+0 // Wheels
+1 47 0 30 0 0 0 -1 0 1 0 1 0 0 3464c01.dat
+1 47 0 30 -90 0 0 -1 0 1 0 1 0 0 3464c01.dat
+
+0 // Lights
+1 47 0 -13.638671 -93.126693 0 0 1 1 0 0 0 1 0 6141.dat
+1 36 0 10 28 0 0 -1 1 0 0 0 -1 0 3024.dat
+
+0 // Windshield
+1 47 0 -11.06 -76.24 1 0 0 0 0.924 0.383 0 -0.383 0.924 4483.dat

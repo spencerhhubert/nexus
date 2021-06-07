@@ -1,0 +1,31 @@
+0 Tyre 12/ 57 x 10 Balloon
+0 Name: 56890.dat
+0 Author: Magnus Forsberg [MagFors]
+0 !LDRAW_ORG Part UPDATE 2014-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2009-10-13 {LEGO Universe Team} Original part shape
+0 !HISTORY 2010-05-17 [MagFors] File preparation for LDraw Parts Tracker
+0 !HISTORY 2013-05-20 [MagFors] Moved origin, Changed description to standardized nomenclature
+0 !HISTORY 2014-06-21 [PTadmin] Official Update 2014-01
+
+0 // Nomenclature: width_(mm)/profile_as_%age_of_width x rim_diameter_(mm) [optional qualifier]
+
+1 16 0 0 15 -6.5 0 0 0 0 6.5 0 -1 0 4-4ring2.dat
+0 BFC INVERTNEXT
+1 16 0 0 3 13 0 0 0 0 13 0 12 0 4-4cylo.dat
+0 BFC INVERTNEXT
+1 16 0 0 3 0 0 1 1 0 0 0 -0.666667 0 4-4con12.dat
+0 BFC INVERTNEXT
+1 16 0 0 -2.3333 12 0 0 0 0 12 0 4.6667 0 4-4cylo.dat
+0 BFC INVERTNEXT
+1 16 0 0 -3 0 0 -1 1 0 0 0 0.666667 0 4-4con12.dat
+0 BFC INVERTNEXT
+1 16 0 0 -15 13 0 0 0 0 13 0 12 0 4-4cylo.dat
+1 16 0 0 -15 6.5 0 0 0 0 6.5 0 1 0 4-4ring2.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\56890s01.dat
+1 16 0 0 0 -1 0 0 0 -1 0 0 0 -1 s\56890s01.dat
+1 16 0 0 0 1 0 0 0 -1 0 0 0 -1 s\56890s01.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\56890s01.dat

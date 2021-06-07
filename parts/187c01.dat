@@ -1,0 +1,13 @@
+0 Electric Train Pole Reverser (Complete)
+0 Name: 187c01.dat
+0 Author: Michael Heidemann [mikeheide]
+0 !LDRAW_ORG Shortcut UPDATE 2013-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2013-07-21 [PTadmin] Official Update 2013-01
+
+1 79 0 13 30 0.961262 0 0.275637 0 1 0 -0.275637 0 0.961262 187.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 188.dat
+1 1 0 8 -100 0 0 1 0 1 0 -1 0 0 499c01.dat

@@ -1,0 +1,14 @@
+0 Trailer for Legoland Car with White Wheel Hubs (Complete) with Tyres  6/ 50 x  8 Offset Tread
+0 Name: 817c04.dat
+0 Author: Alex Taylor [anathema]
+0 !LDRAW_ORG Shortcut UPDATE 2020-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+0 !CATEGORY Vehicle
+
+0 !HISTORY 2020-09-05 [PTadmin] Official Update 2020-02
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 817c02.dat
+1 256 -52 10 0 0 0 1 0 1 0 -1 0 0 3641.dat
+1 256 52 10 0 0 0 1 0 1 0 -1 0 0 3641.dat

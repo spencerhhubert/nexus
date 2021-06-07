@@ -1,0 +1,15 @@
+0 =Brick  4 x  4 Round Corner
+0 Name: 15588.dat
+0 Author: [PTadmin]
+0 !LDRAW_ORG Part Alias UPDATE 2017-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+
+0 !HISTORY 2017-12-30 [PTadmin] Official Update 2017-01
+
+0 // Alias of 48092
+0 // Part 15588 is the metallic ink counterpart of 48092
+
+1 16 0 0 0  1 0 0  0 1 0  0 0 1 48092.dat
+0

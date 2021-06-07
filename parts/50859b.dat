@@ -1,0 +1,21 @@
+0 Bike  2 Wheel Motorcycle Frame  2 x  6 x  3 with Long Pins
+0 Name: 50859b.dat
+0 Author: Magnus Forsberg [MagFors]
+0 !LDRAW_ORG Part UPDATE 2015-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 !HELP Wheel centers are at (0, -3.7, -43.5) and (0, -3.7, 63.5)
+0 !HELP Axle hole center is at (0, 0, 0)
+
+0 BFC CERTIFY CCW
+0 !CATEGORY Vehicle
+
+0 !HISTORY 2007-08-25 {LEGO Universe Team} Original part shape
+0 !HISTORY 2009-05-12 [westrate] File preparation for LDraw Parts Tracker
+0 !HISTORY 2015-03-12 [MagFors]  split into ...a and ...b variant
+0 !HISTORY 2015-10-11 [PTadmin] Official Update 2015-01
+
+1 16 0 0 0  1 0 0 0 1 0 0 0 1 s\50859s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\50859s01.dat
+1 16 20 -10.93 17.36 0 -10 0 -4 0 0 0 0 -4 4-4cylc.dat
+1 16 -20 -10.93 17.36 0 10 0 -4 0 0 0 0 -4 4-4cylc.dat

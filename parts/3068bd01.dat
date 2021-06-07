@@ -1,0 +1,20 @@
+0 Tile  2 x  2 with 3 Black Circles Sticker 
+0 Name: 3068bd01.dat
+0 Author: Steffen [Steffen]
+0 !LDRAW_ORG Shortcut UPDATE 2010-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+0 !KEYWORDS stove, stove top, hob, plate, hotplate, hot plate, burner, oven
+0 !KEYWORDS set 6372
+0 !CMDLINE -c15
+
+0 !HISTORY 1998-09-15 [PTadmin] Official Update 1998-08
+0 !HISTORY 2007-06-13 [PTadmin] Header formatted for Contributor Agreement
+0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01
+0 !HISTORY 2009-10-25 [PTadmin] Renamed from 3068p65
+0 !HISTORY 2010-05-11 [Steffen] recreated from scratch
+0 !HISTORY 2010-07-05 [PTadmin] Official Update 2010-02
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 3068b.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 194325b.dat

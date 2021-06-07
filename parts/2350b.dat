@@ -1,0 +1,26 @@
+0 Crane Arm Outside Narrow 15 Studs
+0 Name: 2350b.dat
+0 Author: Gerald Lasser [GeraldLasser]
+0 !LDRAW_ORG Part UPDATE 2015-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2015-04-15 [GeraldLasser] Reorganised the 2350 part family
+0 !HISTORY 2015-10-11 [PTadmin] Official Update 2015-01
+
+1 16 0 0 140 1 0 0 0 1 0 0 0 1 s\2350s01.dat
+2 24 20 24 120 12 24 120
+2 24 8 24 120 -8 24 120
+2 24 -12 24 120 -20 24 120
+2 24 20 0 120 12 0 120
+2 24 -12 0 120 -20 0 120
+4 16 -12 24 120 -12 0 120 -20 0 120 -20 24 120
+4 16 20 24 120 20 0 120 12 0 120 12 24 120
+4 16 8 24 120 8 2 120 -8 2 120 -8 24 120
+1 16 0 0 -20 1 0 0 0 1 0 0 0 1 s\2350s02.dat
+1 16 0 0 80 0 0 -1 0 1 0 1 0 0 stug-1x8.dat
+1 16 0 0 -70 0 0 -1 0 1 0 1 0 0 stug-1x7.dat
+4 16 12 24 120  12 0 120 12 0 -160  12 24 -160
+4 16 -12 24 -160  -12 0 -160 -12 0 120  -12 24 120
+

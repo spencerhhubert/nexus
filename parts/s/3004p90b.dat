@@ -1,0 +1,26 @@
+0 ~Brick  1 x  2 with Classic Space Logo - Gold Details
+0 Name: s\3004p90b.dat
+0 Author: Chris Dee [cwdee]
+0 !LDRAW_ORG Subpart UPDATE 2010-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+
+0 !HISTORY 2002-08-19 [Holly-Wood] refined pattern
+0 !HISTORY 2002-12-31 [PTadmin] Official Update 2002-06
+0 !HISTORY 2007-08-29 [PTadmin] Header formatted for Contributor Agreement
+0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01
+0 !HISTORY 2008-07-07 [nielsk] Made BFC compliant (2005-11-04)
+0 !HISTORY 2010-12-31 [PTadmin] Official Update 2010-03
+
+4 16 -2.909 4.188 0 0.092 4.789 0 2.635 6.484 0 1.429 11.601 0
+4 16 2.635 6.484 0 4.333 9.022 0 4.571 10.213 0 1.429 11.601 0
+4 16 4.774 12.801 0 4.334 15.010 0 2.636 17.562 0 2.337 13.887 0
+3 16 2.337 13.887 0 2.636 17.562 0 0.099 19.258 0
+4 16 2.337 13.887 0 0.099 19.258 0 -2.899 19.860 0 -4.537 16.584 0
+4 16 -4.537 16.584 0 -2.899 19.860 0 -5.892 19.256 0 -8.164 17.737 0
+3 16 -5.264 14.159 0 -9.746 15.608 0 -10.125 15.012 0
+4 16 -10.147 9.019 0 -5.264 14.159 0 -10.125 15.012 0 -10.744 12.007 0
+4 16 -5.899 4.784 0 -5.264 14.159 0 -10.147 9.019 0 -8.439 6.486 0
+4 16 -2.909 4.188 0 1.429 11.601 0 -5.264 14.159 0 -5.899 4.784 0
+0

@@ -1,0 +1,15 @@
+0 Minifig Book Cover
+0 Name: 24093.dat
+0 Author: Gerald Lasser [GeraldLasser]
+0 !LDRAW_ORG Part UPDATE 2019-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !CATEGORY Minifig Accessory
+
+0 !HISTORY 2019-06-28 [PTadmin] Official Update 2019-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\24093s01.dat
+4 16 2 -24 34 2 -24 5 2 24 5 2 24 34
+4 16 -2 24 34 -2 24 5 -2 -24 5 -2 -24 34

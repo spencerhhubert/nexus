@@ -1,0 +1,29 @@
+0 Sticker Minifig Shield Triangular with Crown on Dark Pink Background
+0 Name: 003238a.dat
+0 Author: J.C. Tchang [tchang]
+0 !LDRAW_ORG Part UPDATE 2020-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Castle, part 3846, set 375-2, set 6075-2
+
+0 !HISTORY 2007-11-11 [mikeheide] correct errors
+0 !HISTORY 2008-11-28 [anathema] used new subpart for crown
+0 !HISTORY 2010-04-05 [PTadmin] Official Update 2010-01
+0 !HISTORY 2019-09-08 [anathema] Corrected colour of back, fixed overlap
+0 !HISTORY 2020-12-29 [PTadmin] Official Update 2020-03
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\3238s01.dat
+1 8 0 -0.25 -10 0.08 0 0 0 1 0 0 0 0.08 s\003238s1.dat
+1 5 0 -0.25 -10 0.08 0 0 0 1 0 0 0 0.08 s\003238s2.dat
+1 8 0 -0.25 -10 -0.08 0 0 0 1 0 0 0 0.08 s\003238s1.dat
+1 5 0 -0.25 -10 -0.08 0 0 0 1 0 0 0 0.08 s\003238s2.dat
+4 5 -11.6 -0.25 6 11.6 -0.25 6 20 -0.25 14 -20 -0.25 14
+4 5 18.72 -0.25 -6.03 20 -0.25 4 20 -0.25 14 11.6 -0.25 6
+4 5 11.6 -0.25 6 11.6 -0.25 -14.15 14.93 -0.25 -15.68 18.72 -0.25 -6.03
+4 5 8.76 -0.25 -24.57 14.93 -0.25 -15.68 11.6 -0.25 -14.15 0 -0.25 -32.37
+4 5 -11.6 -0.25 6 -20 -0.25 14 -20 -0.25 4 -18.72 -0.25 -6.03
+4 5 -18.72 -0.25 -6.03 -14.93 -0.25 -15.68 -11.6 -0.25 -14.15 -11.6 -0.25 6
+4 5 0 -0.25 -32.37 -11.6 -0.25 -14.15 -14.93 -0.25 -15.68 -8.76 -0.25 -24.57
+3 5 0 -0.25 -32.37 11.6 -0.25 -14.15 -11.6 -0.25 -14.15

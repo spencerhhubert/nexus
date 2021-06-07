@@ -1,0 +1,22 @@
+0 ~Duplo Brick  1 x  4 x  3 with Small Hole
+0 Name: 4145.dat
+0 Author: Tim Lampmann [L4mpi]
+0 !LDRAW_ORG Part UPDATE 2020-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !CATEGORY Brick
+
+0 !HISTORY 2020-12-29 [PTadmin] Official Update 2020-03
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\4145s01.dat
+1 16 0 72 -20 5 0 0 0 0 5 0 1 0 4-4ndis.dat
+4 16 80 0 -20 5 67 -20 5 72 -20 80 144 -20
+4 16 80 144 -20 5 77 -20 0 77 -20 -80 144 -20
+4 16 -80 144 -20 -5 77 -20 -5 72 -20 -80 0 -20
+4 16 -80 0 -20 -5 67 -20 0 67 -20 80 0 -20
+3 16 80 0 -20 0 67 -20 5 67 -20
+3 16 -5 72 -20 -5 67 -20 -80 0 -20
+3 16 0 77 -20 -5 77 -20 -80 144 -20
+3 16 80 144 -20 5 72 -20 5 77 -20

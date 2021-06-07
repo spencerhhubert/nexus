@@ -1,0 +1,59 @@
+0 Hinge Plate  1 x  2 with 1 Large Finger
+0 Name: u1125.dat
+0 Author: Max Martin Richter [MMR1988]
+0 !LDRAW_ORG Part UPDATE 2010-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2010-12-31 [PTadmin] Official Update 2010-03
+
+1 16 1 8 0 0 0 -21 0 -8 0 -10 0 0 box4-4a.dat
+
+1 16 0 4 0 1 0 0 0 -1 0 0 0 1 stud3.dat
+
+0 BFC INVERTNEXT
+1 16 0 8 0 16 0 0 0 -4 0 0 0 6 box5.dat
+4 16 22 8 10 16 8 6 -16 8 6 -20 8 10
+4 16 -20 8 10 -16 8 6 -16 8 -6 -20 8 -10
+4 16 -20 8 -10 -16 8 -6 16 8 -6 22 8 -10
+4 16 16 8 -6 16 8 6 22 8 10 22 8 -10
+
+1 16 10 0 0 1 0 0 0 1 0 0 0 1 stud.dat
+1 16 -10 0 0 1 0 0 0 1 0 0 0 1 stud.dat
+
+0 BFC INVERTNEXT
+1 16 26 8 0 4 0 0 0 -4 0 0 0 2.5 box5.dat
+
+1 16 26 8 4.25 0 0 4 0 -1 0 1.75 0 0 rect1.dat
+1 16 26 8 -4.25 0 0 -4 0 -1 0 -1.75 0 0 rect1.dat
+1 16 22 4 6 0 0 4 4 0 0 0 4 0 2-4cyli.dat
+1 16 22 4 10 0 0 4 4 0 0 0 -1 0 2-4disc.dat
+1 16 22 4 10 0 0 4 4 0 0 0 1 0 2-4edge.dat
+1 16 22 4 6 0 0 4 4 0 0 0 1 0 2-4edge.dat
+1 16 22 4 6 0 0 4 4 0 0 0 -1 0 2-4ndis.dat
+
+0 BFC INVERTNEXT
+1 16 30 4 6 3.5 0 0 0 0 3.5 0 1.5 0 bump5000.dat
+1 16 30 4 6 0 0 0.5 -0.5 0 0 0 -1 0 4-4ring7.dat
+1 16 30 4 6 0 0 -4 4 0 0 0 -1 0 2-4ndis.dat
+
+
+1 16 22 4 -10 0 0 4 4 0 0 0 4 0 2-4cyli.dat
+1 16 22 4 -10 0 0 4 4 0 0 0 1 0 2-4disc.dat
+1 16 22 4 -10 0 0 4 4 0 0 0 1 0 2-4edge.dat
+1 16 22 4 -6 0 0 4 4 0 0 0 1 0 2-4edge.dat
+1 16 22 4 -6 0 0 4 4 0 0 0 1 0 2-4ndis.dat
+
+0 BFC INVERTNEXT
+1 16 30 4 -6 3.5 0 0 0 0 3.5 0 -1.5 0 bump5000.dat
+1 16 30 4 -6 0 0 0.5 -0.5 0 0 0 1 0 4-4ring7.dat
+1 16 30 4 -6 0 0 -4 4 0 0 0 1 0 2-4ndis.dat
+
+1 16 30 4 -6 0 0 4 4 0 0 0 12 0 2-4cyli.dat
+
+
+1 16 30 4 6 0 0 4 4 0 0 0 1 0 2-4edge.dat
+1 16 30 4 -6 0 0 4 4 0 0 0 1 0 2-4edge.dat
+
+1 16 26 0 0 4 0 0 0 1 0 0 0 6 rect2p.dat

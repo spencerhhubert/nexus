@@ -1,0 +1,14 @@
+0 Sticker  1.1 x  3.6 with Black/Red/Blue Badge and "POLICE" Right
+0 Name: 4615865g.dat
+0 Author: Massimo Maso [Sirio]
+0 !LDRAW_ORG Part UPDATE 2015-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2015-10-11 [PTadmin] Official Update 2015-01
+
+1 16 -27 0 0 1 0 0 0 1 0 0 0 1 s\4615865gs01.dat
+1 16 9 0 0 1 0 0 0 1 0 0 0 1 s\4615865gs02.dat
+4 16 -36 -0.25 -10.8 -36 -0.25 10.8 -36 0 10.8 -36 0 -10.8
+4 16 36 0 -10.8 36 0 10.8 36 -0.25 10.8 36 -0.25 -10.8

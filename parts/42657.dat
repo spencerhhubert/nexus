@@ -1,0 +1,15 @@
+0 Duplo Brick  1 x  2 x  2 Type 3
+0 Name: 42657.dat
+0 Author: Chris Dee [cwdee]
+0 !LDRAW_ORG Part UPDATE 2014-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+
+0 !CATEGORY Brick
+
+0 !HISTORY 2014-12-23 [PTadmin] Official Update 2014-02
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\42657s01.dat
+0 // Front face
+4 16 40 96 -20 -40 96 -20 -40 0 -20 40 0 -20

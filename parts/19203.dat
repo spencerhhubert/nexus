@@ -1,0 +1,16 @@
+0 Figure Elves Hair Short Spiked with Ears
+0 Name: 19203.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2017-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 !HELP Rear accessory position: X = 0,  Y = 9 , Z = 19.7
+
+0 BFC CERTIFY CCW
+
+0 !CATEGORY Minifig Headwear
+
+0 !HISTORY 2017-12-30 [PTadmin] Official Update 2017-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\19203s01.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\19203s02.dat

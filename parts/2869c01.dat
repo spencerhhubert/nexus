@@ -1,0 +1,27 @@
+0 Train Speed Regulator  9V without Dial
+0 Name: 2869c01.dat
+0 Author: Max Martin Richter [MMR1988]
+0 !LDRAW_ORG Part UPDATE 2014-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HELP To place the controller turn it around y-axis in steps of 13.75 degrees
+0 !HELP then turn it 30 degrees around x-axis and
+0 !HELP move to x/y/z 120/58.757/-145.12129
+
+0 !HISTORY 2014-12-23 [PTadmin] Official Update 2014-02
+
+1 7 0 0 0 1 0 0 0 1 0 0 0 1 2868.dat
+1 16 0 58.75 -145.1213 1 0 0 0 0.866 -0.5 0 0.5 0.866 2869.dat
+1 14 0 0 -20 0 0 1 0 1 0 -1 0 0 2726c01.dat
+1 19 0 58.75 -145.1213 -1 0 0 0 0.866 0.5 0 0.5 -0.866 u9268.dat
+1 8 -147.5 122 -215.25 -1 0 0 0 -1 0 0 0 1 u9266.dat
+1 8 -117.5 122 -59.5 -1 0 0 0 -1 0 0 0 1 u9266.dat
+1 8 147.5 122 -215.25 -1 0 0 0 -1 0 0 0 1 u9266.dat
+1 8 117.5 122 -59.5 -1 0 0 0 -1 0 0 0 1 u9266.dat
+1 494 -176 111.446 -224.394 -1 0 0 0 -0.866 -0.5 0 -0.5 0.866 u9267.dat
+1 494 176 111.446 -224.394 -1 0 0 0 -0.866 -0.5 0 -0.5 0.866 u9267.dat
+1 494 -210 23.9462 -72.8392 -1 0 0 0 -0.866 -0.5 0 -0.5 0.866 u9267.dat
+1 494 210 23.9462 -72.8392 -1 0 0 0 -0.866 -0.5 0 -0.5 0.866 u9267.dat
+1 256 0 4.5 -37 0 0 1 1 0 0 0 -6 0 993.dat

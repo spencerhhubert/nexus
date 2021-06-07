@@ -1,0 +1,28 @@
+0 Sticker  2.4 x  3 with Sweden Flag
+0 Name: 003432d.dat
+0 Author: Willy Tschager [Holly-Wood]
+0 !LDRAW_ORG Part UPDATE 2016-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+
+0 !HISTORY 2009-06-03 [cwdee] Use box5-12
+0 !HISTORY 2009-09-03 [PTadmin] Official Update 2009-02
+0 !HISTORY 2016-07-01 [cwdee] Updated description
+0 !HISTORY 2016-12-31 [PTadmin] Official Update 2016-01
+
+0 // Yellow
+4 14 0 -0.25 4.5 0 -0.25 -4.5 -9 -0.25 -4.5 -9 -0.25 4.5
+4 14 0 -0.25 24 0 -0.25 4.5 -9 -0.25 4.5 -9 -0.25 24
+4 14 30 -0.25 4.5 30 -0.25 -4.5 -3 -0.25 -4.5 -3 -0.25 4.5
+0 // www.holly-wood.it
+4 14 0 -0.25 -4.5 0 -0.25 -24 -9 -0.25 -24 -9 -0.25 -4.5
+4 14 -9 -0.25 4.5 -9 -0.25 -4.5 -30 -0.25 -4.5 -30 -0.25 4.5
+0 // Blue
+4 1 -9 -0.25 24 -9 -0.25 4.5 -30 -0.25 4.5 -30 -0.25 24
+4 1 30 -0.25 24 30 -0.25 4.5 0 -0.25 4.5 0 -0.25 24
+4 1 30 -0.25 -4.5 30 -0.25 -24 0 -0.25 -24 0 -0.25 -4.5
+4 1 -9 -0.25 -4.5 -9 -0.25 -24 -30 -0.25 -24 -30 -0.25 -4.5
+
+1 15 0 -0.25 0 30 0 0 0 0.25 0 0 0 24 box5-12.dat
+0

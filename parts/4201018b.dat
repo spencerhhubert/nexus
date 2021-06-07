@@ -1,0 +1,23 @@
+0 Sticker  2.0 x  5.9 with  4 White Stripes
+0 Name: 4201018b.dat
+0 Author: Tim Lampmann [L4mpi]
+0 !LDRAW_ORG Part UPDATE 2019-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Train, Grand Central Station, Set 4513
+
+0 !HISTORY 2019-12-27 [PTadmin] Official Update 2019-03
+
+1 16 0 -0.25 0 59 0 0 0 0.25 0 0 0 20 box5-12.dat
+
+4 16 59 -.25 20 -59 -.25 20 -59 -.25 17 59 -.25 17
+4 15 59 -.25 17 -59 -.25 17 -59 -.25 11 59 -.25 11
+4 16 59 -.25 11 -59 -.25 11 -59 -.25 8 59 -.25 8
+4 15 59 -.25 8 -59 -.25 8 -59 -.25 2 59 -.25 2
+4 16 59 -.25 2 -59 -.25 2 -59 -.25 -1 59 -.25 -1
+4 15 59 -.25 -1 -59 -.25 -1 -59 -.25 -7 59 -.25 -7
+4 16 59 -.25 -7 -59 -.25 -7 -59 -.25 -10 59 -.25 -10
+4 15 59 -.25 -10 -59 -.25 -10 -59 -.25 -16 59 -.25 -16
+4 16 59 -.25 -16 -59 -.25 -16 -59 -.25 -20 59 -.25 -20

@@ -1,0 +1,18 @@
+0 =Technic Disc  5 x  5 Projectile
+0 Name: 32171.dat
+0 Author: [PTadmin]
+0 !LDRAW_ORG Part Alias UPDATE 2014-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+
+0 !HISTORY 2010-12-31 [PTadmin] Official Update 2010-03
+0 !HISTORY 2013-12-14 [cwdee] Add = prefix
+0 !HISTORY 2013-12-23 [PTadmin] Official Update 2013-02
+0 !HISTORY 2014-06-14 [arezey] Description change
+0 !HISTORY 2014-12-23 [PTadmin] Official Update 2014-02
+
+0 // Alias of 32533
+
+1 16 0 0 0  1 0 0  0 1 0  0 0 1 32533.dat
+0

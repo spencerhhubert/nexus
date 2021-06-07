@@ -1,0 +1,13 @@
+0 Electric Brick  2 x  2 x  0.667 with Angled Sided Underside
+0 Name: 2726c02.dat
+0 Author: Max Martin Richter [MMR1988]
+0 !LDRAW_ORG Shortcut UPDATE 2015-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2015-10-11 [PTadmin] Official Update 2015-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 2726c03.dat
+1 0 0 16 0 1 0 0 0 1 0 0 0 1 2727bc01.dat
+1 256 0 0 0 1 0 0 0 1 0 0 0 1 s\2726c01s01.dat

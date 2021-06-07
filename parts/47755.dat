@@ -1,0 +1,38 @@
+0 Wedge  4 x  3 Curved with  2 x  2 Cutout
+0 Name: 47755.dat
+0 Author: Tim Gould [timgould]
+0 !LDRAW_ORG Part UPDATE 2010-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2010-12-15 [Philo] Rebuilt nose shape and sides
+0 !HISTORY 2010-12-31 [PTadmin] Official Update 2010-03
+
+1 16 0 0 20 1 0 0 0 1 0 0 0 1 s\47755s01.dat
+1 16 0 0 20 -1 0 0 0 1 0 0 0 1 s\47755s01.dat
+1 16 0 4 20 20 0 0 0 0 -4 0 1 0 rect.dat
+4 16 30 8 20 -30 8 20 -30 8 24 30 8 24
+4 16 30 8 40 30 8 36 -30 8 36 -30 8 40
+1 16 0 6 40 30 0 0 0 0 2 0 -1 0 rect3.dat
+4 16 -20 4 40 -20 0 40 20 0 40 20 4 40
+2 24 -20 0 40 20 0 40
+4 16 20 0 20 20 0 40 -20 0 40 -20 0 20
+1 16 10 0 30 0 0 1 0 1 0 -1 0 0 stud.dat
+1 16 -10 0 30 0 0 1 0 1 0 -1 0 0 stud.dat
+0 BFC INVERTNEXT
+1 16 0 8 30 16 0 0 0 -4 0 0 0 -6 box5.dat
+1 16 0 4 30 1 0 0 0 -1 0 0 0 1 stud3.dat
+1 16 0 16 -28 20 0 0 0 1 0 0 0 8 rect3.dat
+1 16 0 20 -30 1 0 0 0 -1 0 0 0 1 stud3.dat
+0 BFC INVERTNEXT
+1 16 0 24 -30 16 0 0 0 -4 0 0 0 -6 box3u8p.dat
+1 16 0 20 -22 30 0 0 0 4 0 0 0 2 box4-7a.dat
+1 16 10 16 -30 0 0 1 0 1 0 -1 0 0 stud.dat
+1 16 -10 16 -30 0 0 1 0 1 0 -1 0 0 stud.dat
+4 16 -28 16 -20 28 16 -20 28 20 -20 -28 20 -20
+1 16 0 22 -40 -20 0 0 0 0 2 0 1 0 rect3.dat
+4 16 20 24 -40 -20 24 -40 -20 24 -36 20 24 -36
+4 16 17.7 16 -40 -17.7 16 -40 -20 20 -40 20 20 -40
+4 16 20 16 -36 -20 16 -36 -17.7 16 -40 17.7 16 -40
+2 24 -17.7 16 -40 17.7 16 -40

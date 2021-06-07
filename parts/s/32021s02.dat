@@ -1,0 +1,40 @@
+0 ~Electric Code Pilot Cover - Speaker Holes
+0 Name: s\32021s02.dat
+0 Author: Max Martin Richter [MMR1988]
+0 !LDRAW_ORG Subpart UPDATE 2015-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2015-12-30 [PTadmin] Official Update 2015-02
+
+0 BFC INVERTNEXT
+1 16 0 0.25 1.25 2 0 0 0 0.25 0 0 0 0.75 box2-7.dat
+0 BFC INVERTNEXT
+1 16 0 0.25 -1.25 2 0 0 0 0.25 0 0 0 -0.75 box2-7.dat
+
+0 BFC INVERTNEXT
+1 16 0 2.125 1.25 2 0 0 0 -0.875 0.75 0 0 0.75 box2-5.dat
+0 BFC INVERTNEXT
+1 16 0 2.125 -1.25 2 0 0 0 -0.875 0.75 0 0 -0.75 box2-5.dat
+
+3 16 2 0.5 2 2 0.5 0.5 2 0 2
+4 16 2 0.5 0.5 2 0.5 -0.5 2 0 -2 2 0 2
+3 16 2 0 -2 2 0.5 -0.5 2 0.5 -2
+
+3 16 2 3.75 2 2 0.5 0.5 2 2 2
+4 16 2 3.75 2 2 3.75 -2 2 0.5 -0.5 2 0.5 0.5
+3 16 2 2 -2 2 0.5 -0.5 2 3.75 -2
+
+3 16 -2 0 2 -2 0.5 0.5 -2 0.5 2
+4 16 -2 0 2 -2 0 -2 -2 0.5 -0.5 -2 0.5 0.5
+3 16 -2 0.5 -2 -2 0.5 -0.5 -2 0 -2
+
+3 16 -2 2 2 -2 0.5 0.5 -2 3.75 2
+4 16 -2 0.5 0.5 -2 0.5 -0.5 -2 3.75 -2 -2 3.75 2
+3 16 -2 3.75 -2 -2 0.5 -0.5 -2 2 -2
+
+1 16 0 0 0 -2 0 0 0 1 0 0 0 -2 recte4.dat
+
+2 24 2 3.75 -2 2 3.75 2
+2 24 -2 3.75 2 -2 3.75 -2

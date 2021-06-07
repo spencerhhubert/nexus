@@ -1,0 +1,23 @@
+0 Minifig Cape Cloth Scalloped  5 Points (Formed)
+0 Name: 56630c01.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2019-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 !HELP Place at y = 0 on torso, head at y = -0.6
+
+0 BFC CERTIFY CCW
+
+0 !CATEGORY Minifig Neckwear
+0 !KEYWORDS Cloak, Shawl, Drape, Poncho, Neckwear, Batman, Robin, Batgirl
+
+0 !HISTORY 2014-12-23 [PTadmin] Official Update 2014-02
+0 !HISTORY 2019-01-26 [cwdee] Update category
+0 !HISTORY 2019-06-28 [PTadmin] Official Update 2019-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\50231s01.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\50231s02.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\56630s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\56630s01.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\56630s02.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\56630s02.dat

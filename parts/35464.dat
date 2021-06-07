@@ -1,0 +1,30 @@
+0 Slope Brick 45  1 x  1 Double
+0 Name: 35464.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2018-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Roof, Ridge
+
+0 !HISTORY 2018-12-08 [PTadmin] Official Update 2018-02
+
+1 16 0 0 0 -1 0 0 0 -1.25  0 0 0 1 stud23d.dat
+1 16 0 -1 0 0 0 10 0 -3 0 -10 0 0 box4o4a.dat
+1 16 0 -4 0 -10 0 0 0 -6 -6 0 -5 5 box2-5.dat
+0 BFC INVERTNEXT
+1 16 0 -5 0 -6 0 0 0 -3.5 -3.5 0 -3 3 box2-5.dat
+1 16 0 -1 0 0 0 9 0 1 0 -9 0 0 box4.dat
+4 16 10 -1 -10 9 -1 -9 9 -1 9 10 -1 10
+4 16 -10 -1 10 -9 -1 9 -9 -1 -9 -10 -1 -10
+4 16 10 -1 10 9 -1 9 -9 -1 9 -10 -1 10
+4 16 -10 -1 -10 -9 -1 -9 9 -1 -9 10 -1 -10
+4 16 6 0 -6 6 0 6 9 0 9 9 0 -9
+4 16 -6 0 6 -6 0 -6 -9 0 -9 -9 0 9
+4 16 -6 0 -6 6 0 -6 9 0 -9 -9 0 -9
+4 16 6 0 6 -6 0 6 -9 0 9 9 0 9
+3 16 6 -5 6 6 -5 -6 6 -12 0
+3 16 -6 -5 -6 -6 -5 6 -6 -12 0
+3 16 -10 -4 -10 -10 -16 0 -10 -4 10
+3 16 10 -4 10 10 -16 0 10 -4 -10

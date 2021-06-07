@@ -1,0 +1,71 @@
+0 Hinge  2 x  2 Top
+0 Name: 6134.dat
+0 Author: Lutz Uhlmann
+0 !LDRAW_ORG Part UPDATE 2005-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 1997-09-29 [PTadmin] Official Update 1997-15
+0 !HISTORY 2004-11-16 [guyvivan] Made BFC Compliant
+0 !HISTORY 2005-12-28 [PTadmin] Official Update 2005-01
+0 !HISTORY 2007-07-16 [PTadmin] Header formatted for Contributor Agreement
+0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01
+
+1 16 10 2 0 -4 0 0 0 13.5 0 0 0 2 box3u8p.dat
+1 16 5 2 0 -1 0 0 0 2 0 0 0 2 box3u8p.dat
+1 16 -5 2 0 -1 0 0 0 2 0 0 0 2 box3u8p.dat
+1 16 -10 2 0 -4 0 0 0 13.5 0 0 0 2 box3u8p.dat
+1 16 0 2 0 2 0 0 0 2 0 0 0 -2 box3u2p.dat
+1 16 6 9.75 0 0 1 0 5.75 0 0 0 0 2 rect.dat
+1 16 -6 9.75 0 0 -1 0 5.75 0 0 0 0 2 rect.dat
+1 16 20 10 0 0 1 0 4 0 0 0 0 4 4-4edge.dat
+1 16 -20 10 0 0 1 0 4 0 0 0 0 4 4-4edge.dat
+1 16 16 10 0 0 1 0 4 0 0 0 0 4 4-4edge.dat
+1 16 -16 10 0 0 1 0 4 0 0 0 0 4 4-4edge.dat
+1 16 16 10 0 0 1 0 0 0 6 6 0 0 2-4edge.dat
+1 16 -16 10 0 0 1 0 0 0 6 6 0 0 2-4edge.dat
+1 16 14 10 0 0 1 0 0 0 6 6 0 0 2-4edge.dat
+1 16 -14 10 0 0 1 0 0 0 6 6 0 0 2-4edge.dat
+1 16 4 10 0 0 1 0 0 0 6 6 0 0 2-4edge.dat
+1 16 -4 10 0 0 1 0 0 0 6 6 0 0 2-4edge.dat
+1 16 2 10 0 0 1 0 0 0 6 6 0 0 2-4edge.dat
+1 16 -2 10 0 0 1 0 0 0 6 6 0 0 2-4edge.dat
+2 24 14 2 2 14 15.5 2
+2 24 14 2 -2 14 15.5 -2
+2 24 14 15.5 -2 14 15.5 2
+2 24 -14 15.5 -2 -14 15.5 2
+2 24 4 4 2 4 2 2
+2 24 4 4 -2 4 2 -2
+2 24 4 4 -2 4 4 2
+2 24 -4 4 -2 -4 4 2
+2 24 -14 2 2 -14 15.5 2
+2 24 -14 2 -2 -14 15.5 -2
+2 24 -4 4 2 -4 2 2
+2 24 -4 4 -2 -4 2 -2
+1 16 0 1 10 20 0 0 0 1 0 0 0 20 box.dat
+1 16 20 10 0 0 -1 0 4 0 0 0 0 4 4-4disc.dat
+1 16 -20 10 0 0 1 0 4 0 0 0 0 4 4-4disc.dat
+1 16 16 10 0 0 -1 0 0 0 6 6 0 0 2-4disc.dat
+1 16 -16 10 0 0 1 0 0 0 6 6 0 0 2-4disc.dat
+1 16 14 10 0 0 1 0 0 0 6 6 0 0 2-4disc.dat
+1 16 -14 10 0 0 -1 0 0 0 6 6 0 0 2-4disc.dat
+1 16 4 10 0 0 -1 0 0 0 6 6 0 0 2-4disc.dat
+1 16 -4 10 0 0 1 0 0 0 6 6 0 0 2-4disc.dat
+1 16 2 10 0 0 1 0 0 0 6 6 0 0 2-4disc.dat
+1 16 -2 10 0 0 -1 0 0 0 6 6 0 0 2-4disc.dat
+1 16 20 10 0 0 -4 0 4 0 0 0 0 4 4-4cyli.dat
+1 16 -20 10 0 0 4 0 4 0 0 0 0 4 4-4cyli.dat
+1 16 16 10 0 0 -2 0 0 0 6 6 0 0 2-4cyli.dat
+1 16 -16 10 0 0 2 0 0 0 6 6 0 0 2-4cyli.dat
+1 16 4 10 0 0 -2 0 0 0 6 6 0 0 2-4cyli.dat
+1 16 -4 10 0 0 2 0 0 0 6 6 0 0 2-4cyli.dat
+1 16 3 2 0 0 0 1 0 8 0 -6 0 0 box4o4a.dat
+1 16 -3 2 0 0 0 1 0 8 0 -6 0 0 box4o4a.dat
+1 16 -15 2 0 0 0 1 0 8 0 -6 0 0 box4o4a.dat
+1 16 15 2 0 0 0 1 0 8 0 -6 0 0 box4o4a.dat
+1 16 10 0 0 1 0 0 0 1 0 0 0 1 stud2.dat
+1 16 -10 0 0 1 0 0 0 1 0 0 0 1 stud2.dat
+1 16 10 0 20 1 0 0 0 1 0 0 0 1 stud2.dat
+1 16 -10 0 20 1 0 0 0 1 0 0 0 1 stud2.dat
+0

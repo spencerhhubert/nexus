@@ -1,0 +1,18 @@
+0 Technic Shock Absorber 11L/9L (in Compressed Position, Pre-Tensioned)
+0 Name: 47373-f4.dat
+0 Author: Guy Vivan [guyvivan]
+0 !LDRAW_ORG Part UPDATE 2017-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2017-12-30 [PTadmin] Official Update 2017-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 48912.dat
+1 8 0 39 0 1 0 0 0 1 0 0 0 1 48914.dat
+1 16 0 13 0 0 0 -1 0 1 0 1 0 0 48915.dat
+1 494 0 81 0 0 0 -1 0 1 0 1 0 0 48918c03.dat
+1 494 -20.325 45.5 -8.419 0 0.739104 0.306147 0.8 0 0 0 0.306147 -0.739104 u9013.dat
+1 494 20.325 45.5 8.419 0 -0.739104 -0.306147 0.8 0 0 0 -0.306147 0.739104 u9013.dat
+1 16 0 170 0 1 0 0 0 1 0 0 0 1 48913.dat
+1 494 0 50 0 1 0 0 0 1 0 0 0 1 48917.dat

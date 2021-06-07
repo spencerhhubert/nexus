@@ -1,0 +1,18 @@
+0 ~Boat Keel - Top Part
+0 Name: u9305.dat
+0 Author: Max Martin Richter [MMR1988]
+0 !LDRAW_ORG Part UPDATE 2018-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2018-12-08 [PTadmin] Official Update 2018-02
+
+1 16 0 0 0 1 0 0  0 1 0 0 0 1 s\u9305s01.dat
+1 16 0 0 0 -1 0 0  0 1 0 0 0 1 s\u9305s01.dat
+1 16 0 0 0 1 0 0  0 1 0 0 0 -1 s\u9305s01.dat
+1 16 0 0 0 -1 0 0  0 1 0 0 0 -1 s\u9305s01.dat
+
+1 16 -4.5 56.125 0 0 9 0 3.875 0 0 0 0 2.5 box4o8a.dat
+3 16 4.5 60 2.5 7.440356 60 0 4.5 60 -2.5
+3 16 -4.5 60 -2.5 -7.440356 60 0 -4.5 60 2.5

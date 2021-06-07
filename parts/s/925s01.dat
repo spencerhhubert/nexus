@@ -1,0 +1,31 @@
+0 ~Brick  1 x  8 without Centerstuds without Front Face
+0 Name: s\925s01.dat
+0 Author: Niels Karsdorp [nielsk]
+0 !LDRAW_ORG Subpart UPDATE 2010-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+0 !HELP Uncomment for front face:
+0 !HELP 4 16 80 0 -10 -80 0 -10 -80 24 -10 80 24 -10
+
+0 !HISTORY 2010-07-05 [PTadmin] Official Update 2010-02
+
+0 BFC INVERTNEXT
+1 16 0 24 0 76 0 0 0 -20 0 0 0 6 box5.dat
+1 16 40 4 0 0 0 1 0 14 0 6 0 0 box3u2p.dat
+1 16 0 4 0 0 0 1 0 14 0 6 0 0 box3u2p.dat
+1 16 -40 4 0 0 0 1 0 14 0 6 0 0 box3u2p.dat
+4 16 80 24 10 76 24 6 -76 24 6 -80 24 10
+4 16 -80 24 10 -76 24 6 -76 24 -6 -80 24 -10
+4 16 -80 24 -10 -76 24 -6 76 24 -6 80 24 -10
+4 16 80 24 -10 76 24 -6 76 24 6 80 24 10
+1 16 0 24 0 80 0 0 0 -24 0 0 0 10 box4t.dat
+1 16 70 0 0 1 0 0 0 1 0 0 0 1 stud.dat
+1 16 50 0 0 1 0 0 0 1 0 0 0 1 stud.dat
+1 16 30 0 0 1 0 0 0 1 0 0 0 1 stud.dat
+1 16 10 0 0 1 0 0 0 1 0 0 0 1 stud.dat
+1 16 -10 0 0 1 0 0 0 1 0 0 0 1 stud.dat
+1 16 -30 0 0 1 0 0 0 1 0 0 0 1 stud.dat
+1 16 -50 0 0 1 0 0 0 1 0 0 0 1 stud.dat
+1 16 -70 0 0 1 0 0 0 1 0 0 0 1 stud.dat
+0

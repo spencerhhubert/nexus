@@ -1,0 +1,76 @@
+0 ~Electric Light Prism  1 x  6 Holder
+0 Name: 4170.dat
+0 Author: James Jessiman
+0 !LDRAW_ORG Part UPDATE 2010-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 1998-06-20 [PTadmin] Official Update 1998-06
+0 !HISTORY 1999-02-01 [PTadmin] Official Update 1999-01
+0 !HISTORY 2007-07-01 [PTadmin] Header formatted for Contributor Agreement
+0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01
+0 !HISTORY 2008-07-07 [sbliss] BFC'ed; removed bad quad (2003-01-30)
+0 !HISTORY 2008-07-08 [Steffen] fixed 4 rects on inside top rims that had bad height (2003-07-06)
+0 !HISTORY 2008-07-09 [guyvivan] Use more primitives (2004-12-12)
+0 !HISTORY 2010-12-31 [PTadmin] Official Update 2010-03
+
+1 16 0 24 0 0 0 60 0 -24 0 10 0 0 box3u2p.dat
+0 BFC INVERTNEXT
+1 16 0 10 -6 56 0 0 0 0 -6 0 16 0 box4.dat
+1 16 -40 20 0 -1 0 0 0 -1 0 0 0 1 stud3.dat
+1 16 -20 20 0 -1 0 0 0 -1 0 0 0 1 stud3.dat
+1 16 0 20 0 -1 0 0 0 -1 0 0 0 1 stud3.dat
+1 16 20 20 0 -1 0 0 0 -1 0 0 0 1 stud3.dat
+1 16 40 20 0 -1 0 0 0 -1 0 0 0 1 stud3.dat
+0 BFC INVERTNEXT
+1 16 0 24 0 -56 0 0 0 -4 0 0 0 6 box5.dat
+4 16 60 24 10 56 24 6 -56 24 6 -60 24 10
+4 16 -60 24 10 -56 24 6 -56 24 -6 -60 24 -10
+4 16 -60 24 -10 -56 24 -6 56 24 -6 60 24 -10
+4 16 60 24 -10 56 24 -6 56 24 6 60 24 10
+1 16 50 10 -10 6 0 0 0 0 6 0 1 0 4-4edge.dat
+1 16 -50 10 -10 6 0 0 0 0 6 0 1 0 4-4edge.dat
+1 16 50 10 -6 6 0 0 0 0 6 0 1 0 4-4edge.dat
+1 16 -50 10 -6 6 0 0 0 0 6 0 1 0 4-4edge.dat
+2 24 60 24 10 -60 24 10
+2 24 60 24 -10 -60 24 -10
+1 16 6 5 0 0 -1 0 1 0 0 0 0 -6 rect.dat
+1 16 -6 5 0 0 1 0 1 0 0 0 0 6 rect.dat
+1 16 2 5 1 0 1 0 1 0 0 0 0 7 rect.dat
+1 16 -2 5 1 0 -1 0 1 0 0 0 0 -7 rect.dat
+2 24 6 6 -6 2 6 -6
+2 24 -6 6 -6 -2 6 -6
+2 24 6 6 6 2 6 8
+2 24 -6 6 6 -2 6 8
+2 24 6 4 6 2 4 8
+2 24 -6 4 6 -2 4 8
+4 16 2 6 8 6 6 6 6 6 -6 2 6 -6
+4 16 -6 6 -6 -6 6 6 -2 6 8 -2 6 -6
+4 16 2 4 8 6 4 6 6 6 6 2 6 8
+4 16 -6 6 6 -6 4 6 -2 4 8 -2 6 8
+0 BFC INVERTNEXT
+1 16 50 10 -10 6 0 0 0 0 6 0 4 0 4-4cyli.dat
+0 BFC INVERTNEXT
+1 16 -50 10 -10 6 0 0 0 0 6 0 4 0 4-4cyli.dat
+1 16 50 10 -10 6 0 0 0 0 6 0 1 0 4-4ndis.dat
+1 16 -50 10 -10 6 0 0 0 0 6 0 1 0 4-4ndis.dat
+1 16 50 10 -6 -6 0 0 0 0 6 0 -1 0 4-4ndis.dat
+1 16 -50 10 -6 -6 0 0 0 0 6 0 -1 0 4-4ndis.dat
+4 16 -56 4 10 -60 0 10 60 0 10 56 4 10
+4 16 -60 24 10 -56 16 10 56 16 10 60 24 10
+4 16 56 16 10 56 4 10 60 0 10 60 24 10
+4 16 -60 0 10 -56 4 10 -56 16 10 -60 24 10
+4 16 60 0 -10 -60 0 -10 -56 4 -10 56 4 -10
+4 16 56 16 -10 -56 16 -10 -60 24 -10 60 24 -10
+4 16 60 0 -10 56 4 -10 56 16 -10 60 24 -10
+4 16 -56 16 -10 -56 4 -10 -60 0 -10 -60 24 -10
+4 16 -44 16 -10 44 16 -10 44 4 -10 -44 4 -10
+4 16 44 4 -6 44 16 -6 -44 16 -6 -44 4 -6
+1 16 50 0 0 1 0 0 0 1 0 0 0 1 stud2.dat
+1 16 30 0 0 1 0 0 0 1 0 0 0 1 stud2.dat
+1 16 10 0 0 1 0 0 0 1 0 0 0 1 stud2.dat
+1 16 -10 0 0 1 0 0 0 1 0 0 0 1 stud2.dat
+1 16 -30 0 0 1 0 0 0 1 0 0 0 1 stud2.dat
+1 16 -50 0 0 1 0 0 0 1 0 0 0 1 stud2.dat
+0

@@ -1,0 +1,23 @@
+0 Animal Owl
+0 Name: 40232.dat
+0 Author: Andy Westrate [westrate]
+0 !LDRAW_ORG Part UPDATE 2012-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2009-10-13 {LEGO Universe Team} Original part shape
+0 !HISTORY 2009-12-15 [westrate] File preparation for LDraw Parts Tracker
+0 !HISTORY 2012-03-30 [PTadmin] Official Update 2012-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\40232s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\40232s01.dat
+
+1 16 0 -4 0 1 0 0 0 -1 0 0 0 1 stud4a.dat
+1 16 0 -4 0 8 0 0 0 -4 0 0 0 8 4-4cyli.dat
+1 16 0 -8 0 8 0 0 0 1 0 0 0 8 4-4edge.dat
+0 BFC INVERTNEXT
+1 16 0 -4 0 6 0 0 0 -37 0 0 0 6 4-4cyli.dat
+1 16 0 -41 0 6 0 0 0 1 0 0 0 6 4-4edge.dat
+1 16 0 -41 0 6 0 0 0 -1 0 0 0 6 4-4disc.dat
+0

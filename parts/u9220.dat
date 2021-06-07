@@ -1,0 +1,22 @@
+0 ~Train Track 12V Tapered Point Left Main Part (Needs Work)
+0 Name: u9220.dat
+0 Author: Steffen [Steffen]
+0 !LDRAW_ORG Part UPDATE 2012-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+
+0 !CMDLINE -c1
+
+0 !HISTORY 2012-03-30 [PTadmin] Official Update 2012-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\864s01.dat
+1 16 320 0 0 -1 0 0 0 1 0 0 0 -1 s\864s06.dat
+1 16 -320 0 0 1 0 0 0 1 0 0 0 1 s\864s06.dat
+1 16 320 0 160 -1 0 0 0 1 0 0 0 -1 s\864s06.dat
+1 16 310 0 210 -1 0 0 0 1 0 0 0 -1 s\u9220s01.dat
+1 16 310 0 50 -1 0 0 0 1 0 0 0 -1 s\u9220s01.dat
+1 16 310 0 110 -1 0 0 0 1 0 0 0 -1 s\u9220s02.dat
+1 16 310 0 -50 -1 0 0 0 1 0 0 0 -1 s\u9220s01.dat
+1 16 -310 0 -50 1 0 0 0 1 0 0 0 1 s\u9220s01.dat
+1 16 -310 0 50 1 0 0 0 1 0 0 0 1 s\u9220s01.dat

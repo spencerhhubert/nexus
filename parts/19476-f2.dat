@@ -1,0 +1,12 @@
+0 Technic Pneumatic Cylinder  1 x 11 with  2 Ports with Stepped Outlets (Extended)
+0 Name: 19476-f2.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Shortcut UPDATE 2018-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2018-01-30 [PTadmin] Official Update 2018-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 u9145c01.dat
+1 0 0 -320 0 1 0 0 0 1 0 0 0 1 u9111c01.dat

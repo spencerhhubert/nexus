@@ -1,0 +1,19 @@
+0 Technic Motor Pull Back  6 x  5 x  3 (Complete)
+0 Name: 12799.dat
+0 Author: J.C. Tchang [tchang]
+0 !LDRAW_ORG Shortcut UPDATE 2014-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2014-12-23 [PTadmin] Official Update 2014-02
+
+1 25 0 0 0 1 0 0 0 1 0 0 0 1 u9029.dat
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 12787.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 12782.dat
+
+1 0 7 -62 -102 0 -1 0 0.75 0 0 0 0 0.75 u9013.dat
+1 0 7 -62 -33 0 -1 0 0.75 0 0 0 0 0.75 u9013.dat
+1 0 7 7 -25 0 -1 0 0.75 0 0 0 0 0.75 u9013.dat
+1 0 7 7 -102 0 -1 0 0.75 0 0 0 0 0.75 u9013.dat

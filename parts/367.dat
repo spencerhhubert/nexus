@@ -1,0 +1,49 @@
+0 Baseplate 24 x 24 with Studs on 3 Sides
+0 Name: 367.dat
+0 Author: James Jessiman
+0 !LDRAW_ORG Part UPDATE 2015-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2007-06-29 [PTadmin] Header formatted for Contributor Agreement
+0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01
+0 !HISTORY 2014-11-21 [roland]  Auto-corrected with libfix version of LDCad 1.4
+0 !HISTORY 2015-01-16 [Steffen] BFCed
+0 !HISTORY 2015-01-18 [MagFors] Primitive substitution
+0 !HISTORY 2015-10-11 [PTadmin] Official Update 2015-01
+
+1 16 -230 0 -110 1 0 0 0 1 0 0 0 1 stug-11x1.dat
+1 16 230 0 -110 1 0 0 0 1 0 0 0 1 stug-11x1.dat
+1 16 230 0 110 1 0 0 0 1 0 0 0 1 stug-11x1.dat
+1 16 -230 0 110 1 0 0 0 1 0 0 0 1 stug-11x1.dat
+1 16 -210 0 -120 1 0 0 0 1 0 0 0 1 stug-12x1.dat
+1 16 -210 0 120 1 0 0 0 1 0 0 0 1 stug-12x1.dat
+1 16 -100 0 230 1 0 0 0 1 0 0 0 1 stug-1x10.dat
+1 16 -100 0 210 1 0 0 0 1 0 0 0 1 stug-1x10.dat
+1 16 100 0 210 1 0 0 0 1 0 0 0 1 stug-1x10.dat
+1 16 100 0 230 1 0 0 0 1 0 0 0 1 stug-1x10.dat
+1 16 210 0 120 1 0 0 0 1 0 0 0 1 stug-12x1.dat
+1 16 210 0 -120 1 0 0 0 1 0 0 0 1 stug-12x1.dat
+
+1 16 -200 2 0 0 400 0 -2 0 0 0 0 240 box4o8a.dat
+
+1 16 240 2 0 0 -1 0 0 0 2 -200 0 0 rect2p.dat
+4 16 240 4 200 240 4 -200 200 4 -240 200 4 240
+4 16 240 0 -200 240 0 200 200 0 240 200 0 -240
+1 16 200 4 200 40 0 0 0 -1 0 0 0 40 1-4chrd.dat
+1 16 200 4 -200 40 0 0 0 -1 0 0 0 -40 1-4chrd.dat
+1 16 200 0 200 40 0 0 0 1 0 0 0 40 1-4chrd.dat
+1 16 200 0 -200 40 0 0 0 1 0 0 0 -40 1-4chrd.dat
+1 16 200 0 200 40 0 0 0 4 0 0 0 40 1-4cylo.dat
+1 16 200 0 -200 40 0 0 0 4 0 0 0 -40 1-4cylo.dat
+
+1 16 -240 2 0 0 1 0 0 0 2 200 0 0 rect2p.dat
+4 16 -240 4 -200 -240 4 200 -200 4 240 -200 4 -240
+4 16 -240 0 200 -240 0 -200 -200 0 -240 -200 0 240
+1 16 -200 4 200 -40 0 0 0 -1 0 0 0 40 1-4chrd.dat
+1 16 -200 4 -200 -40 0 0 0 -1 0 0 0 -40 1-4chrd.dat
+1 16 -200 0 200 -40 0 0 0 1 0 0 0 40 1-4chrd.dat
+1 16 -200 0 -200 -40 0 0 0 1 0 0 0 -40 1-4chrd.dat
+1 16 -200 0 200 -40 0 0 0 4 0 0 0 40 1-4cylo.dat
+1 16 -200 0 -200 -40 0 0 0 4 0 0 0 -40 1-4cylo.dat

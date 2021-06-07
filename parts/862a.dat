@@ -1,0 +1,82 @@
+0 Train Track 12V Straight Insert Type 2 with Isolation
+0 Name: 862a.dat
+0 Author: Steffen [Steffen]
+0 !LDRAW_ORG Part UPDATE 2012-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 !HELP There exist 2 more patterned variants of this part,
+0 !HELP one with a black top triangle at the part center
+0 !HELP and another with a black top triangle at one end
+
+0 !HELP Note that the central underside rim fully extends to the part bottom 
+0 !HELP (different than 3240a, 3240b)
+
+0 BFC CERTIFY CW
+
+0 !CMDLINE -c7
+
+0 !HISTORY 2012-03-30 [PTadmin] Official Update 2012-01
+
+1 16 140 12 0 1 0 0 0 -1 0 0 0 1 stud4.dat
+1 16 90 12 0 1 0 0 0 -1 0 0 0 1 stug4-1x2.dat
+1 16 0 12 0 1 0 0 0 -1 0 0 0 1 stug4-1x3.dat
+1 16 -90 12 0 1 0 0 0 -1 0 0 0 1 stug4-1x2.dat
+1 16 -140 12 0 1 0 0 0 -1 0 0 0 1 stud4.dat
+1 16 -160 0 0 1 0 0 0 1 0 0 0 1 s\3240s01.dat
+1 16 160 0 0 -1 0 0 0 1 0 0 0 -1 s\3240s01.dat
+1 16 -144 0 0 2.4 0 0 0 1 0 0 0 1 s\3241s02.dat
+1 16 144 0 0 2.4 0 0 0 1 0 0 0 1 s\3241s02.dat
+1 16 -18.5 0 0 3.3 0 0 0 1 0 0 0 1 s\3241s03.dat
+1 16 18.5 0 0 3.3 0 0 0 1 0 0 0 1 s\3241s03.dat
+1 16 -88.5 0 0 8.7 0 0 0 1 0 0 0 1 s\3241s03.dat
+1 16 88.5 0 0 8.7 0 0 0 1 0 0 0 1 s\3241s03.dat
+1 16 -40 0 0 1 0 0 0 1 0 0 0 1 s\3241s05.dat
+1 16 -40 0 0 1 0 0 0 1 0 0 0 1 s\3241s07.dat
+1 16 -40 13.5 -9 2 0 0 0 -1.5 0 0 0 7 box.dat
+1 16 40 0 0 -1 0 0 0 1 0 0 0 -1 s\3241s05.dat
+1 16 40 0 0 1 0 0 0 1 0 0 0 1 s\3241s05.dat
+1 16 -148 12 0 2 0 0 0 4 0 0 0 -2 boxjcyl4.dat
+1 16 -132 12 0 -2 0 0 0 4 0 0 0 2 boxjcyl4.dat
+1 16 -108 12 0 2 0 0 0 4 0 0 0 -2 boxjcyl4.dat
+1 16 -92 12 0 -2 0 0 0 4 0 0 0 2 boxjcyl4.dat
+1 16 -88 12 0 2 0 0 0 4 0 0 0 -2 boxjcyl4.dat
+1 16 -72 12 0 -2 0 0 0 4 0 0 0 2 boxjcyl4.dat
+1 16 -28 12 0 2 0 0 0 4 0 0 0 -2 boxjcyl4.dat
+1 16 -12 12 0 -2 0 0 0 4 0 0 0 2 boxjcyl4.dat
+1 16 -8 12 0 2 0 0 0 4 0 0 0 -2 boxjcyl4.dat
+1 16 8 12 0 -2 0 0 0 4 0 0 0 2 boxjcyl4.dat
+1 16 12 12 0 2 0 0 0 4 0 0 0 -2 boxjcyl4.dat
+1 16 28 12 0 -2 0 0 0 4 0 0 0 2 boxjcyl4.dat
+1 16 72 12 0 2 0 0 0 4 0 0 0 -2 boxjcyl4.dat
+1 16 88 12 0 -2 0 0 0 4 0 0 0 2 boxjcyl4.dat
+1 16 92 12 0 2 0 0 0 4 0 0 0 -2 boxjcyl4.dat
+1 16 108 12 0 -2 0 0 0 4 0 0 0 2 boxjcyl4.dat
+1 16 132 12 0 2 0 0 0 4 0 0 0 -2 boxjcyl4.dat
+1 16 148 12 0 -2 0 0 0 4 0 0 0 2 boxjcyl4.dat
+1 16 -152 12 0 4 0 0 0 4 0 0 0 -2 box3u5p.dat
+1 16 152 12 0 -4 0 0 0 4 0 0 0 2 box3u5p.dat
+1 16 -10 12 0 2 0 0 0 4 0 0 0 -2 box3u8p.dat
+1 16 10 12 0 2 0 0 0 4 0 0 0 -2 box3u8p.dat
+1 16 -50 12 0 22 0 0 0 4 0 0 0 -2 box3u8p.dat
+1 16 50 12 0 22 0 0 0 4 0 0 0 -2 box3u8p.dat
+1 16 -90 12 0 2 0 0 0 4 0 0 0 -2 box3u8p.dat
+1 16 90 12 0 2 0 0 0 4 0 0 0 -2 box3u8p.dat
+1 16 -120 12 0 12 0 0 0 4 0 0 0 -2 box3u8p.dat
+1 16 120 12 0 12 0 0 0 4 0 0 0 -2 box3u8p.dat
+1 494 -120 12 -9 1 0 0 0 1 0 0 0 1 s\3241s08.dat
+1 494 -60 12 -9 1 0 0 0 1 0 0 0 1 s\3241s08.dat
+1 494 60 12 -9 1 0 0 0 1 0 0 0 1 s\3241s08.dat
+1 494 120 12 -9 1 0 0 0 1 0 0 0 1 s\3241s08.dat
+1 494 -120 12 9 -1 0 0 0 1 0 0 0 -1 s\3241s08.dat
+1 494 -60 12 9 -1 0 0 0 1 0 0 0 -1 s\3241s08.dat
+1 494 60 12 9 -1 0 0 0 1 0 0 0 -1 s\3241s08.dat
+1 494 120 12 9 -1 0 0 0 1 0 0 0 -1 s\3241s08.dat
+4 16 2 8 -8 -2 8 -8 -2 8 8 2 8 8
+1 16 0 4 12 2 0 0 0 -4 0 0 0 4 box.dat
+1 494 -2 4 -12 0 4 0 0 0 -4 4 0 0 box4o8a.dat
+0 BFC INVERTNEXT
+1 494 -2 4 -12 0 4 0 0 0 -3.75 3.75 0 0 box4o8a.dat
+1 16 0 10 16 2 0 0 0 0 6 0 4 0 box3u8p.dat
+1 16 0 10 -16 2 0 0 0 0 -6 0 -4 0 box3u8p.dat
+0 BFC INVERTNEXT
+1 16 0 16 0 2 0 0 0 -4 0 0 0 16 box3u8p.dat

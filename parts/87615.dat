@@ -1,0 +1,29 @@
+0 Plane Top  6 x 10 x  1
+0 Name: 87615.dat
+0 Author: Magnus Forsberg [MagFors]
+0 !LDRAW_ORG Part UPDATE 2012-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2011-09-22 {LEGO Digital Designer} Original part shape
+0 !HISTORY 2011-09-24 [MagFors] File preparation for LDraw Parts Tracker
+0 !HISTORY 2012-12-28 [PTadmin] Official Update 2012-03
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\87615s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\87615s01.dat
+0 BFC INVERTNEXT
+1 16 0 24 -120 -16.25 0 0 0 -5.25 0 0 0 16.25 box5.dat
+4 16 -16.25 24 -136.25 16.25 24 -136.25 20 24 -140 -20 24 -140
+4 16 -20 24 -100 20 24 -100 16.25 24 -103.75 -16.25 24 -103.75
+1 16 0 18.75 -120 1 0 0 0 -1.3125 0 0 0 1 stud4.dat
+1 16 0 2.75 20 1 0 0 0 -1.3125 0 0 0 1 stug4-1x3.dat
+1 16 -10 0 -30 0 0 -1 0 1 0 1 0 0 stug-1x7.dat
+1 16 10 0 -30 0 0 -1 0 1 0 1 0 0 stug-1x7.dat
+1 16 -30 0 10 0 0 -1 0 1 0 1 0 0 stug-1x3.dat
+1 16 30 0 10 0 0 -1 0 1 0 1 0 0 stug-1x3.dat
+1 16 0 16 -120 0 0 -1 0 1 0 1 0 0 stug-2x2.dat
+5 24 0 21.76 -156.25 0 18.75 -148.04 5.6 18.75 -146.91 -5.6 18.75 -146.91
+5 24 0 16 -151.5 0 19.2 -160 6.9 19.2 -158.46 -6.58 16 -150.2
+5 24 0 19.2 -160 0 24 -160 6.25 24 -158.72 -6.25 24 -158.72
+5 24 0 24 -156.25 0 21.76 -156.25 3.97 21.74 -155.58 -3.97 21.74 -155.58

@@ -1,0 +1,19 @@
+0 Hinge Brick 1 x 2 Locking with Dual Finger Horiz. Single Vert.
+0 Name: 47975.dat
+0 Author: Willy Tschager [Holly-Wood]
+0 !LDRAW_ORG Part UPDATE 2009-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+
+0 !HISTORY 2007-08-25 {The LEGO Universe Team} Original part shape
+0 !HISTORY 2008-03-21 [Holly-Wood] File preparation for LDraw Parts Tracker
+0 !HISTORY 2009-09-03 [PTadmin] Official Update 2009-02
+
+1 16 30 9 0 1 0 0 0 1 0 0 0 1 s\30364s01.dat
+1 16 20 10 0 0 0 -1 0 1 0 1 0 0 clh1.dat
+1 16 -20 16.25 0 0 -6 0 2.25 0 0 0 0 6 box4o4a.dat
+1 16 -20 3.75 0 0 -6 0 2.25 0 0 0 0 6 box4o4a.dat
+1 16 -26 10 0 0 0 -1 1 0 0 0 -1 0 clh4.dat
+1 16 -26 10 0 0 0 -1 -1 0 0 0 -1 0 clh4.dat
+0

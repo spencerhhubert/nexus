@@ -1,0 +1,52 @@
+0 Glass for Window  1 x  2 x  2 Plane
+0 Name: 4862.dat
+0 Author: James Jessiman
+0 !LDRAW_ORG Part UPDATE 2018-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 1999-02-01 [PTadmin] Official Update 1999-01
+0 !HISTORY 2007-07-09 [PTadmin] Header formatted for Contributor Agreement
+0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01
+0 !HISTORY 2014-11-09 [MagFors] BFCed, primitive substitution
+0 !HISTORY 2014-12-23 [PTadmin] Official Update 2014-02
+0 !HISTORY 2018-01-27 [Steffen] fixed singular matrices
+0 !HISTORY 2018-12-08 [PTadmin] Official Update 2018-02
+
+2 24 -16 4 -6 -12 4 -6
+2 24 -12 4 -6 -8 4 -6
+2 24 8 4 -6 12 4 -6
+2 24 12 4 -6 16 4 -6
+1 16 0 22 -6 -16 0 0 0 0 18 0 4 0 box4-1.dat
+3 16 -16 4 -2 -16 4 -6 -12 4 -6
+3 16 -12 4 -6 -8 4 -6 -16 4 -2
+3 16 16 4 -2 8 4 -6 12 4 -6
+3 16 12 4 -6 16 4 -6 16 4 -2
+4 16 -16 4 -2 -8 4 -6 8 4 -6 16 4 -2
+1 16 8 28 -6 4 0 0 0 0 4 0 1 0 1-4ndis.dat
+1 16 -8 28 -6 -4 0 0 0 0 4 0 1 0 1-4ndis.dat
+1 16 8 8 -6 4 0 0 0 0 -4 0 1 0 1-4ndis.dat
+1 16 -8 8 -6 -4 0 0 0 0 -4 0 1 0 1-4ndis.dat
+3 16 16 4 -6 12 4 -6 12 8 -6
+3 16 16 40 -6 12 28 -6 12 32 -6
+3 16 16 40 -6 12 32 -6 8 32 -6
+3 16 -12 8 -6 -12 4 -6 -16 4 -6
+3 16 -12 32 -6 -12 28 -6 -16 40 -6
+3 16 -8 32 -6 -12 32 -6 -16 40 -6
+4 16 16 4 -6 12 8 -6 12 28 -6 16 40 -6
+4 16 -16 40 -6 -12 28 -6 -12 8 -6 -16 4 -6
+4 16 16 40 -6 8 32 -6 -8 32 -6 -16 40 -6
+1 16 8 28 -10 4 0 0 0 0 4 0 4 0 1-4cylo.dat
+1 16 -8 28 -10 -4 0 0 0 0 4 0 4 0 1-4cylo.dat
+1 16 8 8 -10 4 0 0 0 0 -4 0 4 0 1-4cylo.dat
+1 16 -8 8 -10 -4 0 0 0 0 -4 0 4 0 1-4cylo.dat
+1 16 0 32 -8 -8 0 0 0 -1 0 0 0 2 rect2p.dat
+1 16 0 4 -8 0 0 8 0 1 0 -2 0 0 rect1.dat
+1 16 8 28 -10 4 0 0 0 0 4 0 1 0 1-4chrd.dat
+1 16 -8 28 -10 -4 0 0 0 0 4 0 1 0 1-4chrd.dat
+1 16 8 8 -10 4 0 0 0 0 -4 0 1 0 1-4chrd.dat
+1 16 -8 8 -10 -4 0 0 0 0 -4 0 1 0 1-4chrd.dat
+1 16 0 18 -6 0 0 -12 10 0 0 0 -4 0 box3u8p.dat
+4 16 8 32 -10 12 28 -10 -12 28 -10 -8 32 -10
+4 16 12 8 -10 8 4 -10 -8 4 -10 -12 8 -10

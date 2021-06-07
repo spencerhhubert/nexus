@@ -1,0 +1,16 @@
+0 ~Minifig Leg Left Dual Mould
+0 Name: 20460.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2019-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 !HELP Move down 12 units to align with hips
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS 20926
+
+0 !HISTORY 2019-12-27 [PTadmin] Official Update 2019-03
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\20460s01.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\20460s02.dat

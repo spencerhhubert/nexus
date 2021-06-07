@@ -1,0 +1,15 @@
+0 ~Train Speed Regulator  9V - Cover - Outer Top Box 
+0 Name: s\2869s01.dat
+0 Author: Max Martin Richter [MMR1988]
+0 !LDRAW_ORG Subpart UPDATE 2013-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2013-12-23 [PTadmin] Official Update 2013-02
+
+1 16 0 0.625 0 8.75 0 0 0 0.625 0 0 0 8.75 box2-7.dat
+1 16 0 0.625 -9.375 -8.75 0 0 0 -1 0.625 0 0 0.625 rect3.dat
+4 16 8.75 1.25 -8.75 8.75 1.25 8.75 8.75 0 8.75 8.75 0 -10
+4 16 -8.75 0 -10 -8.75 0 8.75 -8.75 1.25 8.75 -8.75 1.25 -8.75
+1 16 0 0 -0.625 8.75 0 0 0 1 0 0 0 9.375 recte3.dat

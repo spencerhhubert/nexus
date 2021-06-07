@@ -1,0 +1,14 @@
+0 Minifig Shield Round Flat
+0 Name: 59231.dat
+0 Author: Alex Taylor [anathema]
+0 !LDRAW_ORG Part UPDATE 2011-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+0 !CATEGORY Minifig Accessory
+
+0 !HISTORY 2011-12-29 [PTadmin] Official Update 2011-02
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\59231s01.dat
+1 16 0 0 -3 20 0 0 0 0 -20 0 1 0 4-4disc.dat
+0

@@ -1,0 +1,27 @@
+0 Technic Bionicle Ball 16.5 mm
+0 Name: 54821.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2012-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Zamor, Sphere
+
+0 !HISTORY 2012-03-30 [PTadmin] Official Update 2012-01
+
+1 16 0 0 0 1.073 0 0 0 1.073 0 0 0 1.073 s\54821s01.dat
+1 16 0 0 0 -1.073 0 0 0 1.073 0 0 0 1.073 s\54821s01.dat
+1 16 0 0 0 1.073 0 0 0 1.073 0 0 0 -1.073 s\54821s01.dat
+1 16 0 0 0 -1.073 0 0 0 1.073 0 0 0 -1.073 s\54821s01.dat
+1 16 0 -19.723 0 5.365 0 0 0 1.073 0 0 0 5.365 4-4edge.dat
+1 16 0 -19.723 0 2.6825 0 0 0 1.073 0 0 0 2.6825 4-4edge.dat
+1 16 0 1.737 0 2.6825 0 0 0 1.073 0 0 0 2.6825 4-4disc.dat
+0 BFC INVERTNEXT
+1 16 0 -19.723 0 2.6825 0 0 0 21.46 0 0 0 2.6825 4-4cyli.dat
+1 16 0 -19.723 0 2.6825 0 0 0 1.073 0 0 0 2.6825 4-4ring1.dat
+1 16 0 19.509 0 5.365 0 0 0 -1.073 0 0 0 5.365 4-4edge.dat
+1 16 0 18.241 0 2.6825 0 0 0 1.073 0 0 0 2.6825 4-4edge.dat
+1 16 0 18.241 0 2.6825 0 0 0 -1.073 0 0 0 2.6825 4-4disc.dat
+0 BFC INVERTNEXT
+1 16 0 19.509 0 2.6825 0 0 0 -1.26818 0 0 0 2.6825 4-4con1.dat

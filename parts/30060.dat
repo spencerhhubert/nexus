@@ -1,0 +1,21 @@
+0 =Container Box  2 x  2 x  2 with Hollow Studs
+0 Name: 30060.dat
+0 Author: Steve Bliss [sbliss]
+0 !LDRAW_ORG Part Alias UPDATE 2013-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+
+0 !HISTORY 2002-04-25 [PTadmin] Official Update 2002-02
+0 !HISTORY 2003-01-20 [cwdee] changed in line with splitting of 4345 into 4345a and 4345b
+0 !HISTORY 2004-01-23 [Steffen] added BFC statement
+0 !HISTORY 2004-04-22 [PTadmin] Official Update 2004-02
+0 !HISTORY 2007-10-12 [PTadmin] Header formatted for Contributor Agreement
+0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01
+0 !HISTORY 2013-12-14 [cwdee] Add = prefix
+0 !HISTORY 2013-12-23 [PTadmin] Official Update 2013-02
+
+0 // Alias of 4345b
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 4345b.dat
+0

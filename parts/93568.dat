@@ -1,0 +1,28 @@
+0 Minifig Food Pie with Cream Filling
+0 Name: 93568.dat
+0 Author: Willy Tschager [Holly-Wood]
+0 !LDRAW_ORG Part UPDATE 2018-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !CATEGORY Minifig Accessory
+0 !KEYWORDS cake, cookie, pastry, tart, candy, sweet, dessert, last course
+
+0 !HISTORY 2013-08-14 {LEGO Digital Designer} Original part shape
+0 !HISTORY 2013-08-14 [Holly-Wood] File preparation for LDraw Parts Tracker
+0 !HISTORY 2018-12-08 [PTadmin] Official Update 2018-02
+
+0 // Cream filling
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\93568s01.dat
+
+0 // Pie
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\93568s02.dat
+1 16 0 0 0 0 0 1 0 1 0 -1 0 0 s\93568s02.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 -1 s\93568s02.dat
+1 16 0 0 0 0 0 -1 0 1 0 1 0 0 s\93568s02.dat
+
+0 // Stud
+1 16 0 -17 0 1 0 0 0 -4.25 0 0 0 1 stud4.dat
+1 16 0 -17 0 6 0 0 0 -1 0 0 0 6 4-4disc.dat

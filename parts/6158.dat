@@ -1,0 +1,28 @@
+0 Minifig Fire Helmet Breathing Hose
+0 Name: 6158.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2013-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !CATEGORY Minifig Neckwear
+
+0 !HISTORY 2011-11-22 [Philo] File preparation for LDraw Parts Tracker
+0 !HISTORY 2011-11-22 {LEGO Digital Designer} Original part shape
+0 !HISTORY 2013-12-23 [PTadmin] Official Update 2013-02
+
+3 16 12 -15.81 24.15 -12 -15.81 24.15 0 -18.82 12.87
+1 16 0 -10.38 24.57 12 0 0 0 0.07712 5.43 0 -1 0.42 rect2p.dat
+4 16 -12 -4 15.37 -9.01 -10 15.37 9.01 -10 15.37 12 -4 15.37
+1 16 0 -12.5 15.37 0 0 9.01 -2.5 0 0 0 -1.00111 0 rect1.dat
+1 16 0 -9.71 22.04 8.99 0 0 0 0 -5.29 0 1 0 rect2p.dat
+4 16 -8.99 -15 22.04 8.99 -15 22.04 9.01 -15 15.37 -9.01 -15 15.37
+3 16 0 -4 12.87 -12 -4 15.37 12 -4 15.37
+4 16 -12 -4.95 24.99 12 -4.95 24.99 8.99 -4.42 22.04 -8.99 -4.42 22.04
+2 24 -12 -4 15.37 12 -4 15.37
+5 24 0 -18.82 12.87 0 -4 12.87 4.78 -4 11.72 -4.78 -4 11.72
+1 16 -4.125 -2.2 -17 0 8.25 0 -4 0 0 0 0 4 4-4cylc.dat
+1 16 4.125 -2.2 -17 0 -1 0 -4 0 0 0 0 4 4-4disc.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\6158s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\6158s01.dat

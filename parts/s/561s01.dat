@@ -1,0 +1,43 @@
+0 ~Electric  4.5V Battery Box Contact
+0 Name: s\561s01.dat
+0 Author: Guy Vivan [guyvivan]
+0 !LDRAW_ORG Subpart UPDATE 2013-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2011-07-25 [PTadmin] Official Update 2011-01
+0 !HISTORY 2013-03-29 [MagFors] Changed colour 383 to 494 (real metal)
+0 !HISTORY 2013-04-04 [MMR1988] Removed ring prim, removed t-junctions, used cylo prims
+0 !HISTORY 2013-07-21 [PTadmin] Official Update 2013-01
+
+1 494 0 -4 0 5 0 0 0 1 0 0 0 5 4-4edge.dat
+1 494 0 -4 0 1 0 0 0 1 0 0 0 -1 4-4ring5.dat
+1 494 0 -4 0 2 0 0 0 1 0 0 0 -2 4-4ring3.dat
+0 BFC INVERTNEXT
+1 494 0 -4 0 1 0 0 0 1 0 0 0 1 4-4con4.dat
+1 494 0 4 0 5 0 0 0 1 0 0 0 5 4-4edge.dat
+1 494 0 4 0 1 0 0 0 -1 0 0 0 1 4-4ring4.dat
+0 BFC INVERTNEXT
+1 494 0 -3 0 4 0 0 0 7 0 0 0 4 4-4cylo.dat
+1 494 0 -4 0 8 0 0 0 3 0 0 0 8 4-4cylo.dat
+1 16 0 0 0 8 0 0 0 1 0 0 0 8 4-4ndis.dat
+1 16 0 4 0 5 0 0 0 -1 0 0 0 5 4-4ndis.dat
+4 16 -8 0 8 0 0 8 10 0 10 -10 0 10
+3 16 0 0 8 8 0 8 10 0 10
+4 16 8 0 8 8 0 0 10 0 -10 10 0 10
+3 16 8 0 0 8 0 -8 10 0 -10
+4 16 8 0 -8 0 0 -8 -10 0 -10 10 0 -10
+3 16 0 0 -8 -8 0 -8 -10 0 -10
+4 16 -8 0 -8 -8 0 0 -10 0 10 -10 0 -10
+3 16 -8 0 0 -8 0 8 -10 0 10
+4 16 -5 4 -5 0 4 -5 10 4 -10 -10 4 -10
+3 16 0 4 -5 5 4 -5 10 4 -10
+4 16 -5 4 5 -5 4 0 -10 4 -10 -10 4 10
+3 16 -5 4 0 -5 4 -5 -10 4 -10
+4 16 5 4 5 0 4 5 -10 4 10 10 4 10
+3 16 0 4 5 -5 4 5 -10 4 10
+4 16 5 4 -5 5 4 0 10 4 10 10 4 -10
+3 16 5 4 0 5 4 5 10 4 10
+1 16 0 -1 0 8 0 0 0 1 0 0 0 8 4-4cyli.dat
+1 16 0 0 0 8 0 0 0 1 0 0 0 8 4-4edge.dat

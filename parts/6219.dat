@@ -1,0 +1,66 @@
+0 Wing 16 x 14 Shuttle
+0 Name: 6219.dat
+0 Author: Luis E. Fernandez [lfernand]
+0 !LDRAW_ORG Part UPDATE 2010-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+0 !KEYWORDS space, airplane, aeroplane, aircraft, airliner, airship, jet, spaceship
+0 !KEYWORDS extraterrestrial spacecraft, extraterrestrial vessel, spacecraft, spaceship
+0 !KEYWORDS spaceport, space station, lunar module, NASA
+
+0 !HISTORY 1998-02-12 [PTadmin] Official Update 1998-02
+0 !HISTORY 1998-04-11 [PTadmin] Official Update 1998-04
+0 !HISTORY 2007-07-16 [PTadmin] Header formatted for Contributor Agreement
+0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01
+0 !HISTORY 2008-07-07 [WilliamH] Re-worked before Luis Fernandez affiremd the CA (2006-09-17)
+0 !HISTORY 2008-07-08 [Holly-Wood] Added edge lines on top of axleholes (2007-10-21)
+0 !HISTORY 2010-04-05 [PTadmin] Official Update 2010-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\6219s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\6219s01.dat
+1 16 -140 0 100 0 0 -1 0 1 0 1 0 0 stug2.dat
+1 16 -80 0 80 0 0 -1 0 1 0 1 0 0 stug4.dat
+1 16 0 0 80 0 0 -1 0 1 0 1 0 0 stug4.dat
+1 16 80 0 80 0 0 -1 0 1 0 1 0 0 stug4.dat
+1 16 140 0 100 0 0 -1 0 1 0 1 0 0 stug2.dat
+1 16 -130 0 70 0 0 -1 0 1 0 1 0 0 stud.dat
+1 16 130 0 70 0 0 -1 0 1 0 1 0 0 stud.dat
+1 16 -90 0 30 0 0 -1 0 1 0 1 0 0 stud.dat
+1 16 -70 0 30 0 0 -1 0 1 0 1 0 0 stud.dat
+1 16 0 0 -20 0 0 -1 0 1 0 1 0 0 stug6.dat
+1 16 70 0 30 0 0 -1 0 1 0 1 0 0 stud.dat
+1 16 90 0 30 0 0 -1 0 1 0 1 0 0 stud.dat
+1 16 -70 0 10 0 0 -1 0 1 0 1 0 0 stud.dat
+1 16 70 0 10 0 0 -1 0 1 0 1 0 0 stud.dat
+1 16 0 0 -120 0 0 -1 0 1 0 1 0 0 stug4.dat
+1 16 0 0 0 1 0 0 0 4 0 0 0 1 axlehole.dat
+1 16 0 0 -20 1 0 0 0 4 0 0 0 1 axlehole.dat
+1 16 0 0 -40 1 0 0 0 4 0 0 0 1 axlehole.dat
+1 16 0 0 -60 1 0 0 0 4 0 0 0 1 axlehole.dat
+1 16 0 0 -80 1 0 0 0 4 0 0 0 1 axlehole.dat
+1 16 0 0 -100 1 0 0 0 4 0 0 0 1 axlehole.dat
+1 16 0 0 -120 1 0 0 0 4 0 0 0 1 axlehole.dat
+1 16 0 0 -140 1 0 0 0 4 0 0 0 1 axlehole.dat
+1 16 0 0 0 1 0 0 0 4 0 0 0 1 axlehol2.dat
+1 16 0 0 -20 1 0 0 0 4 0 0 0 1 axlehol2.dat
+1 16 0 0 -40 1 0 0 0 4 0 0 0 1 axlehol2.dat
+1 16 0 0 -60 1 0 0 0 4 0 0 0 1 axlehol2.dat
+1 16 0 0 -80 1 0 0 0 4 0 0 0 1 axlehol2.dat
+1 16 0 0 -100 1 0 0 0 4 0 0 0 1 axlehol2.dat
+1 16 0 0 -120 1 0 0 0 4 0 0 0 1 axlehol2.dat
+1 16 0 0 -140 1 0 0 0 4 0 0 0 1 axlehol2.dat
+1 16 0 4 100 1 0 0 0 -1 0 0 0 1 stud4.dat
+1 16 0 4 80 1 0 0 0 -1 0 0 0 1 stud4.dat
+1 16 0 4 60 1 0 0 0 -1 0 0 0 1 stud4.dat
+1 16 0 4 40 1 0 0 0 -1 0 0 0 1 stud4.dat
+1 16 0 4 20 1 0 0 0 -1 0 0 0 1 stud4.dat
+1 16 0 4 0 1 0 0 0 -1 0 0 0 1 stud4.dat
+1 16 0 4 -20 1 0 0 0 -1 0 0 0 1 stud4.dat
+1 16 0 4 -40 1 0 0 0 -1 0 0 0 1 stud4.dat
+1 16 0 4 -60 1 0 0 0 -1 0 0 0 1 stud4.dat
+1 16 0 4 -80 1 0 0 0 -1 0 0 0 1 stud4.dat
+1 16 0 4 -100 1 0 0 0 -1 0 0 0 1 stud4.dat
+1 16 0 4 -120 1 0 0 0 -1 0 0 0 1 stud4.dat
+1 16 0 4 -140 1 0 0 0 -1 0 0 0 1 stud4.dat
+0

@@ -1,0 +1,21 @@
+0 ~Sticker  3.3 x  1.8 with White Stripe on Black Background and Logo Ferrari Rectangular - Upper Section 1
+0 Name: s\6009194ds01.dat
+0 Author: Massimo Maso [Sirio]
+0 !LDRAW_ORG Subpart UPDATE 2020-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2020-09-05 [PTadmin] Official Update 2020-02
+
+0 // Primitives
+
+1 0 -15.5585 -0.25 16 0 0 -2 0 1 0 2 0 0 1-4chrd.dat
+1 0 15.5585 -0.25 16 2 0 0 0 1 0 0 0 2 1-4chrd.dat
+0 // Black top faces
+4 0 -15.5585 -0.25 18 -17.5585 -0.25 16 -17.5303 -0.25 14.9714 -9 -0.25 18
+4 0 9 -0.25 18 17.5303 -0.25 14.9714 17.559 -0.25 16 15.559 -0.25 18
+4 0 -9 -0.25 18 -17.5303 -0.25 14.9714 -17.5259 -0.25 14.878 -9 -0.25 14.878
+4 0 9 -0.25 14.878 17.5259 -0.25 14.878 17.5303 -0.25 14.9714 9 -0.25 18
+0 // White band
+4 15 -9 -0.25 18 -9 -0.25 14.878 9 -0.25 14.878 9 -0.25 18

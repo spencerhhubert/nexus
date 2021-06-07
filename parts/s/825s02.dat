@@ -1,0 +1,16 @@
+0 ~Door  1 x  3 x  4 Left - Lower Section
+0 Name: s\825s02.dat
+0 Author: Steffen [Steffen]
+0 !LDRAW_ORG Subpart UPDATE 2020-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2020-12-29 [PTadmin] Official Update 2020-03
+
+1 16 0 40 0 10 0 0 0 56 0 0 0 -10 3-4cyli.dat
+4 16 10 40 50 10 40 0 10 42 38 10 42 40
+4 16 10 40 0 10 96 0 10 52 38 10 42 38
+4 16 10 96 50 10 40 50 10 42 40 10 52 40
+4 16 10 52 38 10 96 0 10 96 50 10 52 40
+1 16 10 47 39 0 5 0 -5 0 0 0 0 1 box5.dat

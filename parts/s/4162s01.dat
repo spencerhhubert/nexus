@@ -1,0 +1,23 @@
+0 ~Tile  1 x  8 without Top Face
+0 Name: s\4162s01.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Subpart UPDATE 2012-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2012-03-30 [PTadmin] Official Update 2012-01
+
+1 16 0 7 0 80 0 0 0 -7 0 0 0 10 box4.dat
+0 BFC INVERTNEXT
+1 16 0 8 0 76 0 0 0 -4 0 0 0 6 box5.dat
+4 16 79 8 9 76 8 6 -76 8 6 -79 8 9
+4 16 -79 8 9 -76 8 6 -76 8 -6 -79 8 -9
+4 16 -79 8 -9 -76 8 -6 76 8 -6 79 8 -9
+4 16 79 8 -9 76 8 -6 76 8 6 79 8 9
+1 16 0 8 0 79 0 0 0 -1 0 0 0 9 box4.dat
+4 16 80 7 10 79 7 9 -79 7 9 -80 7 10
+4 16 -80 7 10 -79 7 9 -79 7 -9 -80 7 -10
+4 16 -80 7 -10 -79 7 -9 79 7 -9 80 7 -10
+4 16 80 7 -10 79 7 -9 79 7 9 80 7 10
+1 16 0 4 0 1 0 0 0 -1 0 0 0 1 stug3-1x7.dat

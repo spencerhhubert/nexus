@@ -1,0 +1,15 @@
+0 Minifig Baby Head
+0 Name: 24581.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2018-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2016-10-05 {LEGO Digital Designer} Original part shape
+0 !HISTORY 2016-10-11 [Philo] Complete rewrite for LDraw Parts Tracker
+0 !HISTORY 2018-12-08 [PTadmin] Official Update 2018-02
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\24581s01.dat
+0 // Face area
+1 16 0 -12.5 0 -7.07107 0 7.07107 0 9 0 -7.07107 0 -7.07107 1-4cyli.dat

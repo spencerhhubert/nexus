@@ -1,0 +1,37 @@
+0 ~Electric Motor  4.5V Screw Hole
+0 Name: s\581s03.dat
+0 Author: Michael Heidemann [mikeheide]
+0 !LDRAW_ORG Subpart UPDATE 2014-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2014-06-21 [PTadmin] Official Update 2014-01
+
+0 BFC INVERTNEXT
+1 16 0 2 0 2 0 0 0 4 0 0 0 2 1-4con2.dat
+0 BFC INVERTNEXT
+1 16 0 2 0 0 0 -2 0 4 0 2 0 0 1-4con2.dat
+0 BFC INVERTNEXT
+1 16 0 2 0 0 0 2 0 4 0 -2 0 0 1-4con2.dat
+0 BFC INVERTNEXT
+1 16 0 2 0 -2 0 0 0 4 0 0 0 -2 1-4con2.dat
+1 16 0 2 0 -6 0 0 0 4 0 0 0 -6 4-4edge.dat
+1 16 0 0 0 -6 0 0 0 4 0 0 0 -6 4-4edge.dat
+1 16 0 8 0 -6 0 0 0 4 0 0 0 -6 4-4edge.dat
+1 16 0 4 0 -6 0 0 0 4 0 0 0 -6 4-4edge.dat
+1 16 0 0 0 -6 0 0 0 4 0 0 0 -6 4-4ndis.dat
+1 16 0 4 0 -6 0 0 0 -4 0 0 0 6 4-4ndis.dat
+0 BFC INVERTNEXT
+1 16 0 0 0 -6 0 0 0 2 0 0 0 -6 4-4cyli.dat
+1 16 0 6 0 -4 0 0 0 4 0 0 0 -4 4-4edge.dat
+1 16 0 8 0 -4 0 0 0 4 0 0 0 -4 4-4edge.dat
+0 BFC INVERTNEXT
+1 16 0 6 0 -4 0 0 0 2 0 0 0 -4 4-4cyli.dat
+1 16 0 8 0 1 0 0 0 -2 0 0 0 -1 2-4RING4.DAT
+1 16 0 8 0 -1 0 0 0 -2 0 0 0 1 2-4RING4.DAT
+1 16 0 8 0 -1 0 0 0 -2 0 0 0 1 1-4ring5.dat
+1 16 0 8 0 0 0 1 0 -2 0 1 0 0 1-4ring5.dat
+1 16 0 8 0 1 0 0 0 -2 0 0 0 -1 1-4ring5.dat
+1 16 0 8 0 0 0 -1 0 -2 0 -1 0 0 1-4ring5.dat
+1 16 0 4 0 -6 0 0 0 4 0 0 0 -6 4-4cyli.dat

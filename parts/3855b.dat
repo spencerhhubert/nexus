@@ -1,0 +1,26 @@
+0 Glass for Window  1 x  4 x  3 without Handle
+0 Name: 3855b.dat
+0 Author: James Jessiman
+0 !LDRAW_ORG Part UPDATE 2016-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 1998-06-20 [PTadmin] Official Update 1998-06
+0 !HISTORY 1999-02-01 [PTadmin] Official Update 1999-01
+0 !HISTORY 2003-01-28 [sbliss] Completed header, added bumps
+0 !HISTORY 2003-12-19 [PTadmin] Official Update 2003-03
+0 !HISTORY 2007-06-30 [PTadmin] Header formatted for Contributor Agreement
+0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01
+0 !HISTORY 2008-07-07 [anathema] Added missing edge-lines around bumps (2008-02-08)
+0 !HISTORY 2009-09-03 [PTadmin] Official Update 2009-02
+0 !HISTORY 2013-03-11 [mikeheide] Changed origin
+0 !HISTORY 2013-03-12 [PTadmin] Renamed from 3855
+0 !HISTORY 2016-06-07 [mikeheide] Changed origin to rotation axes, fixed scaled flat prims
+0 !HISTORY 2016-12-31 [PTadmin] Official Update 2016-01
+
+1 16 0 0 0 36 0 0 0 30 0 0 0 2 box.dat
+1 16 -36 0 0 0 -1.5 0 2.25 0 0 0 0 2 4-8sphe.dat
+1 16 -36 0 0 0 -1 0 2.25 0 0 0 0 2 4-4edge.dat
+1 16 36 0 0 0 -1 0 2.25 0 0 0 0 2 4-4edge.dat
+1 16 36 0 0 0 1.5 0 2.25 0 0 0 0 -2 4-8sphe.dat

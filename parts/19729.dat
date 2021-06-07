@@ -1,0 +1,17 @@
+0 Minifig Head Cuboid
+0 Name: 19729.dat
+0 Author: Mark Kennedy [mkennedy]
+0 !LDRAW_ORG Part UPDATE 2016-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+
+0 !KEYWORDS Minecraft
+
+0 !HISTORY 2016-03-18 {LEGO Digital Designer} Original part shape
+0 !HISTORY 2016-03-28 [mkennedy] Primitive substitution
+0 !HISTORY 2016-12-31 [PTadmin] Official Update 2016-01
+
+4 16 -15 30 -15 -15 0 -15 15 0 -15 15 30 -15
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\19729s01.dat
+

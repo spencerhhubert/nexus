@@ -1,0 +1,18 @@
+0 ~Technic Steering Wheel Bearing with Planetary Gear Reduction Body Front
+0 Name: u9476.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2020-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2020-09-05 [PTadmin] Official Update 2020-02
+
+0 BFC INVERTNEXT
+1 16 0 0 0 28.33333 0 0 0 0 28.33333 0 -3 0 48\4-4cylo.dat
+1 16 0 0 -3 34 0 0 0 0 34 0 13 0 48\4-4cylo.dat
+1 16 0 0 -3 5.66667 0 0 0 0 5.66667 0 1 0 48\4-4ring5.dat
+1 16 0 0 0 1.88889 0 0 0 0 1.88889 0 -1 0 48\4-4rin15.dat
+1 16 0 0 10 3.77778 0 0 0 0 3.77778 0 -1 0 48\4-4ring8.dat
+0 BFC INVERTNEXT
+1 16 0 0 10 30.22222 0 0 0 0 30.22222 0 -10 0 48\4-4cylo.dat

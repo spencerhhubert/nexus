@@ -1,0 +1,23 @@
+0 ~Motor Windup  2 x  6 x  2.333 Rachet Axle
+0 Name: u9052.dat
+0 Author: Chris Dee [cwdee]
+0 !LDRAW_ORG Part UPDATE 2013-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+
+0 !CATEGORY Technic
+
+0 !HISTORY 2013-07-21 [PTadmin] Official Update 2013-01
+
+1 16 18 0 0 0 -1 0 0 0 1 1 0 0 axleend.dat
+1 16 18 0 0 0 1 0 0 0 1 1 0 0 axlehol2.dat
+1 16 18 0 0 0 -1 0 0 0 1 1 0 0 axlehol9.dat
+1 16 0 0 0 0 -1 0 0 0 1 1 0 0 axlehol9.dat
+1 16 0 0 0 0 18 0 0 0 1 1 0 0 axlehol8.dat
+1 16 0 0 0 0 -1 0 0 0 1 1 0 0 axleho10.dat
+1 16 0 0 0 0 1 0 0 0 1 1 0 0 axlehol3.dat
+1 16 -10 0 0 0 1 0 0 0 6 6 0 0 4-4edge.dat
+1 16 0 0 0 0 -10 0 0 0 6 6 0 0 4-4cyli.dat
+1 16 -10 0 0 0 1 0 0 0 6 6 0 0 4-4disc.dat
+0

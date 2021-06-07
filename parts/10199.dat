@@ -1,0 +1,86 @@
+0 Duplo Plate  4 x  8 with 11 Underside Studs with Supports
+0 Name: 10199.dat
+0 Author: Rolf Osterthun [Rolf]
+0 !LDRAW_ORG Part UPDATE 2017-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !CATEGORY Plate
+
+0 !HISTORY 2014-07-06 [MagFors] Moved most content to s\4672s01.dat
+0 !HISTORY 2017-12-30 [PTadmin] Official Update 2017-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\4672s01.dat
+
+1 16 120 4 40 1 0 0 0 -5 0 0 0 1 stud8.dat
+1 16 120 4 -40 1 0 0 0 -5 0 0 0 1 stud8.dat
+1 16 80 4 0 1 0 0 0 -5 0 0 0 1 stud8.dat
+1 16 40 4 -40 1 0 0 0 -5 0 0 0 1 stud8.dat
+1 16 40 4 40 1 0 0 0 -5 0 0 0 1 stud8.dat
+1 16 0 4 0 1 0 0 0 -5 0 0 0 1 stud8.dat
+1 16 -40 4 40 1 0 0 0 -5 0 0 0 1 stud8.dat
+1 16 -40 4 -40 1 0 0 0 -5 0 0 0 1 stud8.dat
+1 16 -80 4 0 1 0 0 0 -5 0 0 0 1 stud8.dat
+1 16 -120 4 -40 1 0 0 0 -5 0 0 0 1 stud8.dat
+1 16 -120 4 40 1 0 0 0 -5 0 0 0 1 stud8.dat
+
+1 16 146 4 40 -10 0 0 0 8 0 0 0 -1.5 box3u5p.dat
+1 16 136 4 40 -1.5 0 0 0 8 0 0 0 -1.5 boxjcyl4.dat
+1 16 104 4 40 1.5 0 0 0 8 0 0 0 1.5 boxjcyl4.dat
+1 16 80 4 40 24 0 0 0 8 0 0 0 1.5 box3u8p.dat
+1 16 56 4 40 -1.5 0 0 0 8 0 0 0 -1.5 boxjcyl4.dat
+1 16 24 4 40 1.5 0 0 0 8 0 0 0 1.5 boxjcyl4.dat
+1 16 0 4 40 24 0 0 0 8 0 0 0 1.5 box3u8p.dat
+1 16 -24 4 40 -1.5 0 0 0 8 0 0 0 -1.5 boxjcyl4.dat
+1 16 -56 4 40 1.5 0 0 0 8 0 0 0 1.5 boxjcyl4.dat
+1 16 -80 4 40 24 0 0 0 8 0 0 0 1.5 box3u8p.dat
+1 16 -104 4 40 -1.5 0 0 0 8 0 0 0 -1.5 boxjcyl4.dat
+1 16 -136 4 40 1.5 0 0 0 8 0 0 0 1.5 boxjcyl4.dat
+1 16 -146 4 40 10 0 0 0 8 0 0 0 1.5 box3u5p.dat
+
+1 16 146 4 -40 -10 0 0 0 8 0 0 0 -1.5 box3u5p.dat
+1 16 136 4 -40 -1.5 0 0 0 8 0 0 0 -1.5 boxjcyl4.dat
+1 16 104 4 -40 1.5 0 0 0 8 0 0 0 1.5 boxjcyl4.dat
+1 16 80 4 -40 24 0 0 0 8 0 0 0 1.5 box3u8p.dat
+1 16 56 4 -40 -1.5 0 0 0 8 0 0 0 -1.5 boxjcyl4.dat
+1 16 24 4 -40 1.5 0 0 0 8 0 0 0 1.5 boxjcyl4.dat
+1 16 0 4 -40 24 0 0 0 8 0 0 0 1.5 box3u8p.dat
+1 16 -24 4 -40 -1.5 0 0 0 8 0 0 0 -1.5 boxjcyl4.dat
+1 16 -56 4 -40 1.5 0 0 0 8 0 0 0 1.5 boxjcyl4.dat
+1 16 -80 4 -40 24 0 0 0 8 0 0 0 1.5 box3u8p.dat
+1 16 -104 4 -40 -1.5 0 0 0 8 0 0 0 -1.5 boxjcyl4.dat
+1 16 -136 4 -40 1.5 0 0 0 8 0 0 0 1.5 boxjcyl4.dat
+1 16 -146 4 -40 10 0 0 0 8 0 0 0 1.5 box3u5p.dat
+
+1 16 120 4 -66 0 0 -1.5 0 8 0 10 0 0 box3u5p.dat
+1 16 120 4 -56 0 0 -1.5 0 8 0 1.5 0 0 boxjcyl4.dat
+1 16 120 4 -24 0 0 1.5 0 8 0 -1.5 0 0 boxjcyl4.dat
+1 16 120 4 0 0 0 -1.5 0 8 0 24 0 0 box3u8p.dat
+1 16 120 4 24 0 0 -1.5 0 8 0 1.5 0 0 boxjcyl4.dat
+1 16 120 4 56 0 0 1.5 0 8 0 -1.5 0 0 boxjcyl4.dat
+1 16 120 4 66 0 0 1.5 0 8 0 -10 0 0 box3u5p.dat
+
+1 16 40 4 -66 0 0 -1.5 0 8 0 10 0 0 box3u5p.dat
+1 16 40 4 -56 0 0 -1.5 0 8 0 1.5 0 0 boxjcyl4.dat
+1 16 40 4 -24 0 0 1.5 0 8 0 -1.5 0 0 boxjcyl4.dat
+1 16 40 4 0 0 0 -1.5 0 8 0 24 0 0 box3u8p.dat
+1 16 40 4 24 0 0 -1.5 0 8 0 1.5 0 0 boxjcyl4.dat
+1 16 40 4 56 0 0 1.5 0 8 0 -1.5 0 0 boxjcyl4.dat
+1 16 40 4 66 0 0 1.5 0 8 0 -10 0 0 box3u5p.dat
+
+1 16 -40 4 -66 0 0 -1.5 0 8 0 10 0 0 box3u5p.dat
+1 16 -40 4 -56 0 0 -1.5 0 8 0 1.5 0 0 boxjcyl4.dat
+1 16 -40 4 -24 0 0 1.5 0 8 0 -1.5 0 0 boxjcyl4.dat
+1 16 -40 4 0 0 0 -1.5 0 8 0 24 0 0 box3u8p.dat
+1 16 -40 4 24 0 0 -1.5 0 8 0 1.5 0 0 boxjcyl4.dat
+1 16 -40 4 56 0 0 1.5 0 8 0 -1.5 0 0 boxjcyl4.dat
+1 16 -40 4 66 0 0 1.5 0 8 0 -10 0 0 box3u5p.dat
+
+1 16 -120 4 -66 0 0 -1.5 0 8 0 10 0 0 box3u5p.dat
+1 16 -120 4 -56 0 0 -1.5 0 8 0 1.5 0 0 boxjcyl4.dat
+1 16 -120 4 -24 0 0 1.5 0 8 0 -1.5 0 0 boxjcyl4.dat
+1 16 -120 4 0 0 0 -1.5 0 8 0 24 0 0 box3u8p.dat
+1 16 -120 4 24 0 0 -1.5 0 8 0 1.5 0 0 boxjcyl4.dat
+1 16 -120 4 56 0 0 1.5 0 8 0 -1.5 0 0 boxjcyl4.dat
+1 16 -120 4 66 0 0 1.5 0 8 0 -10 0 0 box3u5p.dat

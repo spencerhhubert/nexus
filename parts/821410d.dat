@@ -1,0 +1,25 @@
+0 Sticker  1.0 x  3.8 with Black "POLICE" and Red Line
+0 Name: 821410d.dat
+0 Author: Michael Heidemann [mikeheide]
+0 !LDRAW_ORG Part UPDATE 2016-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+0 !KEYWORDS Set 6598
+0 !HELP For 1 x 4 Brick
+
+0 !HISTORY 2010-07-05 [PTadmin] Official Update 2010-02
+0 !HISTORY 2016-07-01 [cwdee] Updated description
+0 !HISTORY 2016-12-31 [PTadmin] Official Update 2016-01
+
+1 16 0 9.75 11 1 0 0 0 0 1 0 -1 0 s\3009p17a.dat
+4 16 -38 -0.25 10 -38 -0.25 -10 -31 -0.25 -9.5 -31 -0.25 9
+4 16 32 -0.25 9 32 -0.25 -9.5 38 -0.25 -10 38 -0.25 10
+4 16 -38 -0.25 -10 38 -0.25 -10 32 -0.25 -9.5 -31 -0.25 -9.5
+4 16 38 -0.25 10 -38 -0.25 10 -31 -0.25 9 32 -0.25 9
+4 16 38 0 10 38 0 -10 -38 0 -10 -38 0 10
+4 16 38 -0.25 10 38 -0.25 -10 38 0 -10 38 0 10
+4 16 -38 0 10 -38 0 -10 -38 -0.25 -10 -38 -0.25 10
+4 16 38 0 -10 38 -0.25 -10 -38 -0.25 -10 -38 0 -10
+4 16 -38 0 10 -38 -0.25 10 38 -0.25 10 38 0 10
+0

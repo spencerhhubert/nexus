@@ -1,0 +1,21 @@
+0 ~Quatro Side
+0 Name: s\48138s02.dat
+0 Author: Andy Westrate [westrate]
+0 !LDRAW_ORG Subpart UPDATE 2014-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2014-06-21 [PTadmin] Official Update 2014-01
+
+0 // outside
+4 16 -1 6 6 1 6 6 1 94 6 -1 94 6
+0 // inside
+4 16 1 6 3 -1 6 3 -1 96 3 1 96 3
+0 // top edge
+1 16 1 6 0 0 -2 0 -6 0 0 0 0 6 1-4cyli.dat
+0 BFC INVERTNEXT
+1 16 1 6 0 0 -2 0 -3 0 0 0 0 3 1-4cyli.dat
+0 // bottom edge
+1 16  1 94 4 0 -2 0 2 0 0 0 0  2 1-4cyli.dat
+1 16 0 96 3.5 0 0 1 0 -1 0 -0.5 0 0 rect1.dat

@@ -1,0 +1,18 @@
+0 ~Technic Control Centre II - Top without Power Cord Inlet
+0 Name: u9038.dat
+0 Author: Santeri Piippo [arezey]
+0 !LDRAW_ORG Part UPDATE 2012-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !CATEGORY Electric
+
+0 !HISTORY 2012-03-30 [PTadmin] Official Update 2012-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\2841s02.dat
+1 16 -180 0 60 -1 0 0 0 1 0 0 0 -1 stug2-2x2.dat
+1 16 -180 0 20 -1 0 0 0 1 0 0 0 -1 stug2-2x2.dat
+1 16 -180 2 0 -13 0 0 0 0 2 0 1 0 rect.dat
+4 16 -160 0 60 -200 0 60 -200 0 0 -160 0 0
+4 16 -160 4 0 -200 4 0 -200 4 60 -160 4 60

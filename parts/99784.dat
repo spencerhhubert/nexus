@@ -1,0 +1,62 @@
+0 Bar 12L with Plate  1 x  2 with Hollow Studs and Hollow Stud
+0 Name: 99784.dat
+0 Author: Owen Burgoyne [C3POwen]
+0 !LDRAW_ORG Part UPDATE 2012-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2012-12-28 [PTadmin] Official Update 2012-03
+
+0 // PLATE 1 x 2
+
+1 16 0 4 -100 0 0 1 0 -1 0 -1 0 0 stud3.dat
+0 BFC INVERTNEXT
+1 16 0 8 -100 0 0 6 0 -4 0 -16 0 0 box5.dat
+4 16 -10 8 -120 -6 8 -116 6 8 -116 10 8 -120
+4 16 -10 8 -80 -6 8 -84 -6 8 -116 -10 8 -120
+4 16 10 8 -80 6 8 -84 -6 8 -84 -10 8 -80
+4 16 10 8 -120 6 8 -116 6 8 -84 10 8 -80
+1 16 0 8 -100 0 0 10 0 -8 0 -20 0 0 box5.dat
+1 16 0 0 -110 1 0 0 0 1 0 0 0 1 stud2.dat
+1 16 0 0 -90 1 0 0 0 1 0 0 0 1 stud2.dat
+0 // BAR
+1 16 0 4 -80 4 0 0 0 0 4 0 1 0 4-4edge.dat
+1 16 0 4 -80 4 0 0 0 0 4 0 160 0 4-4cyli.dat
+
+1 16 0 4 80 -4 0 0 0 0 -4 0 0.75 0 1-4cyls2.dat
+1 16 0 4 80 4 0 0 0 0 -4 0 0.75 0 1-4cyls2.dat
+1 16 0 4 80 -4 0 0 0 0 4 0 0.75 0 1-4cyls2.dat
+1 16 0 4 80 4 0 0 0 0 4 0 0.75 0 1-4cyls2.dat
+1 16 0 4 80 0 0 -4 -4 0 0 0 1 0.75 2-4edge.dat
+1 16 0 4 80 0 0 4 4 0 0 0 1 0.75 2-4edge.dat
+
+1 16 0 4 100 0 0 4 -4 0 0 0 -1 -0.75 2-4edge.dat
+1 16 0 4 100 0 0 -4 4 0 0 0 -1 -0.75 2-4edge.dat
+1 16 0 4 100 -4 0 0 0 0 -4 0 -0.75 0 1-4cyls2.dat
+1 16 0 4 100 4 0 0 0 0 -4 0 -0.75 0 1-4cyls2.dat
+1 16 0 4 100 -4 0 0 0 0 4 0 -0.75 0 1-4cyls2.dat
+1 16 0 4 100 4 0 0 0 0 4 0 -0.75 0 1-4cyls2.dat
+
+1 16 0 4 100 4 0 0 0 0 4 0 20 0 4-4cyli.dat
+1 16 0 4 120 4 0 0 0 0 4 0 -1 0 4-4disc.dat
+1 16 0 4 120 4 0 0 0 0 4 0 1 0 4-4edge.dat
+0 // ROUND PLATE 1 x 1
+1 16 0 8 90 6 0 0 0 1 0 0 0 6 4-4edge.dat
+1 16 0 8 90 2 0 0 0 -1 0 0 0 -2 4-4ring3.dat
+1 16 0 8 90 -2 0 0 0 -1 0 0 0 -2 4-4ring4.dat
+1 16 0 8 90 10 0 0 0 1 0 0 0 10 4-4edge.dat
+0 BFC INVERTNEXT
+1 16 0 4 90 6 0 0 0 4 0 0 0 6 4-4cyli.dat
+1 16 0 4 90 6 0 0 0 1 0 0 0 6 4-4edge.dat
+1 16 0 4 90 2 0 0 0 -1 0 0 0 2 4-4ring2.dat
+1 16 0 4 90 4 0 0 0 1 0 0 0 4 4-4edge.dat
+0 BFC INVERTNEXT
+1 16 0 0 90 4 0 0 0 4 0 0 0 4 4-4cyli.dat
+
+1 16 0 0 90 10 0 0 0 8 0 0 0 10 4-4cyli.dat
+1 16 0 0 90 10 0 0 0 1 0 0 0 10 4-4edge.dat
+1 16 0 0 90 -2 0 0 0 1 0 0 0 -2 4-4ring4.dat
+1 16 0 0 90 -2 0 0 0 1 0 0 0 -2 4-4ring3.dat
+1 16 0 0 90 6 0 0 0 1 0 0 0 6 4-4edge.dat
+1 16 0 0 90 1 0 0 0 1 0 0 0 1 stud2a.dat

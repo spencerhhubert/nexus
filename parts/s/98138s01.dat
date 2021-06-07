@@ -1,0 +1,17 @@
+0 ~Tile  1 x  1 Round with Groove with Partial Top Face
+0 Name: s\98138s01.dat
+0 Author: Magnus Forsberg [MagFors]
+0 !LDRAW_ORG Subpart UPDATE 2020-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2011-12-29 [PTadmin] Official Update 2011-02
+0 !HISTORY 2016-06-17 [MagFors] Reduced the rounded edge to 0.5 ldu
+0 !HISTORY 2016-12-31 [PTadmin] Official Update 2016-01
+0 !HISTORY 2019-06-17 [MagFors] Removed the rounded edge
+0 !HISTORY 2019-07-19 [MagFors] Subfiled without top surface
+0 !HISTORY 2020-06-28 [PTadmin] Official Update 2020-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\98138s02.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 4-4ring9.dat

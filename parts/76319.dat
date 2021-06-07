@@ -1,0 +1,15 @@
+0 Znap Connector  3 x  3 -  4 Way Closed w. Rotating Section
+0 Name: 76319.dat
+0 Author: Michael Heidemann [mikeheide]
+0 !LDRAW_ORG Shortcut UPDATE 2011-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+
+0 !HISTORY 2007-03-07 [cwdee] Removed hard-code colours
+0 !HISTORY 2011-07-25 [PTadmin] Official Update 2011-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 32228.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 32227.dat
+1 16 0 0 0 1 0 0 0 -1 0 0 0 -1 32227.dat
+0

@@ -1,0 +1,16 @@
+0 Minifig Mechanical Head and Torso
+0 Name: 53988.dat
+0 Author: Michael Heidemann [mikeheide]
+0 !LDRAW_ORG Part UPDATE 2012-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Exoforce
+
+0 !HISTORY 2012-08-09 [PTadmin] Official Update 2012-02
+
+1 16 0 50 0 1 0 0 0 1 0 0 0 1 s\53988s01.dat
+1 16 0 50 0 -1 0 0 0 1 0 0 0 1 s\53988s01.dat
+1 16 0 34 -10 -1 0 0 0 0 1 0 1 0 stud2.dat
+0

@@ -1,0 +1,12 @@
+0 ~Train Track 12V Tapered Point Left Housing
+0 Name: u9224.dat
+0 Author: Steffen [Steffen]
+0 !LDRAW_ORG Part UPDATE 2012-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+
+0 !HISTORY 2012-03-30 [PTadmin] Official Update 2012-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\u9224s01.dat
+1 16 40 0 10 1 0 0 0 1 0 0 0 1 stug-2x2.dat

@@ -1,0 +1,29 @@
+0 Plate  1 x  1 Round with Towball
+0 Name: 3614a.dat
+0 Author: Magnus Forsberg [MagFors]
+0 !LDRAW_ORG Part UPDATE 2018-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+0 !KEYWORDS hand, bendy-arm, grab, maxi-figure, arm
+
+0 !HISTORY 2018-04-29 [MagFors] Corrected the length between stud and ball to 19 ldu
+0 !HISTORY 2018-12-08 [PTadmin] Official Update 2018-02
+
+1 16 0 4 -19 8 0 0 0 8 0 0 0 8 8-8sphe.dat
+0 // Wrist
+1 16 0 4 -19 4 0 0 0 0 4 0 -4 0 4-4cyl1sph2.dat
+1 16 0 4 -10 4 0 0 0 0 4 0 -1 0 4-4cyli.dat
+1 16 0 4 -10 -1 0 0 0 0 -1 0 -1 0 cylj4x10.dat
+0 // Plate  1 x  1 Round
+1 16 0 4 0 1 0 0 0 -1 0 0 0 1 stud4od.dat
+1 16 0 0 0 6 0 0 0 1 0 0 0 6 4-4edge.dat
+1 16 0 4 0 4 0 0 0 1 0 0 0 4 4-4edge.dat
+0 BFC INVERTNEXT
+1 16 0 0 0 4 0 0 0 4 0 0 0 4 4-4cyli.dat
+1 16 0 4 0 -2 0 0 0 -1 0 0 0 2 4-4ring2.dat
+1 16 0 8 0 -2 0 0 0 -1 0 0 0 2 4-4ring4.dat
+1 16 0 0 0 10 0 0 0 8 0 0 0 10 4-4cylo.dat
+1 16 0 0 0 2 0 0 0 1 0 0 0 2 4-4ring4.dat
+1 16 0 0 0 2 0 0 0 1 0 0 0 2 4-4ring3.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 stud2a.dat

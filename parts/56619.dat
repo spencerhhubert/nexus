@@ -1,0 +1,16 @@
+0 =Minifig Shackles
+0 Name: 56619.dat
+0 Author: [PTadmin]
+0 !LDRAW_ORG Part Alias UPDATE 2013-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+
+0 !CATEGORY Minifig Accessory
+
+0 !HISTORY 2013-12-23 [PTadmin] Official Update 2013-02
+
+0 // Alias of 55707d
+
+1 16 0 0 0  1 0 0  0 1 0  0 0 1 55707d.dat
+0

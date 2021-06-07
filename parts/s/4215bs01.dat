@@ -1,0 +1,39 @@
+0 ~Panel  1 x  4 x  3 with Hollow Studs without Front Face
+0 Name: s\4215bs01.dat
+0 Author: Andrew Ananjev [woozle]
+0 !LDRAW_ORG Subpart UPDATE 2012-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2006-08-19 [WilliamH] BFCed; used more primitives
+0 !HISTORY 2012-12-28 [PTadmin] Official Update 2012-03
+
+1 16 20 68 0 1 0 0 0 -1 0 0 0 1 stud3.dat
+1 16 0 68 0 1 0 0 0 -1 0 0 0 1 stud3.dat
+1 16 -20 68 0 1 0 0 0 -1 0 0 0 1 stud3.dat
+0 BFC INVERTNEXT
+1 16 0 72 0 36 0 0 0 -4 0 0 0 6 box5.dat
+4 16 40 72 10 36 72 6 -36 72 6 -40 72 10
+4 16 -40 72 10 -36 72 6 -36 72 -6 -40 72 -10
+4 16 -40 72 -10 -36 72 -6 36 72 -6 40 72 -10
+4 16 40 72 -10 36 72 -6 36 72 6 40 72 10
+2 24 40 72 10 -40 72 10
+2 24 -40 72 10 -40 72 -10
+2 24 40 72 -10 40 72 10
+2 24 40 0 10 40 72 10
+2 24 -40 0 10 -40 72 10
+4 16 -40 72 10 -40 72 -10 -40 64 -10 -40 64 6
+1 16 0 68 -10 40 0 0 0 0 4 0 1 0 rect.dat
+4 16 40 72 -10 40 72 10 40 64 6 40 64 -10
+4 16 -40 72 10 -40 64 6 -40 4 6 -40 0 10
+0 BFC INVERTNEXT
+1 16 0 34 -10 40 0 0 0 0 30 0 16 0 box3u4a.dat
+4 16 40 64 6 40 72 10 40 0 10 40 4 6
+4 16 -40 4 6 -40 4 -10 -40 0 -10 -40 0 10
+1 16 0 2 0 -40 0 0 0 -2 0 0 0 -10 box2-5.dat
+4 16 40 4 -10 40 4 6 40 0 10 40 0 -10
+1 16 30 0 0 1 0 0 0 1 0 0 0 1 stud2.dat
+1 16 10 0 0 1 0 0 0 1 0 0 0 1 stud2.dat
+1 16 -10 0 0 1 0 0 0 1 0 0 0 1 stud2.dat
+1 16 -30 0 0 1 0 0 0 1 0 0 0 1 stud2.dat

@@ -1,0 +1,17 @@
+0 ~Electric Technic Motor 9v Geared (480 RPM) Axle Bush
+0 Name: 47157.dat
+0 Author: Guy Vivan [guyvivan]
+0 !LDRAW_ORG Part UPDATE 2010-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2010-04-12 [Philo] Closed back
+0 !HISTORY 2010-07-05 [PTadmin] Official Update 2010-02
+
+1 16 0 0 20 1 0 0 0 0 1 0 1 0 axleend.dat
+1 16 0 0 22 -9 0 0 0 0 9 0 -22 0 4-4cylc.dat
+1 16 0 0 0 1 0 0 0 0 1 0 20 0 axlehole.dat
+1 16 0 0 0 1 0 0 0 0 1 0 1 0 axlehol2.dat
+1 16 0 0 20 1 0 0 0 0 1 0 1 0 axlehol2.dat
+1 16 0 0 0 3 0 0 0 0 3 0 1 0 4-4ring2.dat

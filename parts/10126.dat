@@ -1,0 +1,18 @@
+0 Bigfig Hand Right
+0 Name: 10126.dat
+0 Author: Magnus Forsberg [MagFors]
+0 !LDRAW_ORG Part UPDATE 2014-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 !HELP centre of power grip at y = -9.745, z = -20
+
+0 BFC CERTIFY CCW
+
+0 !CATEGORY Figure
+0 !KEYWORDS Hulk, Mungus, Green Goblin
+
+0 !HISTORY 2013-12-07 {LEGO Digital Designer} Original part shape
+0 !HISTORY 2014-10-16 [MagFors] File preparation for LDraw Parts Tracker
+0 !HISTORY 2014-12-23 [PTadmin] Official Update 2014-02
+
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 10127.dat

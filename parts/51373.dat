@@ -1,0 +1,13 @@
+0 =Dish 10 x 10 Inverted
+0 Name: 51373.dat
+0 Author: Rolf Osterthun [Rolf]
+0 !LDRAW_ORG Part Alias UPDATE 2013-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2013-12-23 [PTadmin] Official Update 2013-02
+
+0 // Alias of 50990
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 50990.dat

@@ -1,0 +1,132 @@
+0 Boat Bow 16 x 20 x  8.333 with Tall Prow
+0 Name: 53452.dat
+0 Author: Andy Westrate [westrate]
+0 !LDRAW_ORG Part UPDATE 2012-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS stern, Viking, Norse, longboat, longship
+
+0 !HISTORY 2010-09-10 {LEGO Universe Team} Original part shape
+0 !HISTORY 2010-10-15 [westrate] File preparation for LDraw Parts Tracker
+0 !HISTORY 2012-08-09 [PTadmin] Official Update 2012-02
+
+1 16 0 0 -200 1 0 0 0 1 0 0 0 1 s\53452s01.dat
+1 16 0 0 -200 -1 0 0 0 1 0 0 0 1 s\53452s01.dat
+
+1 16 80 163.75 180 1 0 0 0 -1 0 0 0 1 stud4.dat
+1 16 -80 163.75 180 1 0 0 0 -1 0 0 0 1 stud4.dat
+1 16 60 163.75 120 1 0 0 0 -1 0 0 0 1 stud4.dat
+1 16 -60 163.75 120 1 0 0 0 -1 0 0 0 1 stud4.dat
+
+0 BFC INVERTNEXT
+1 16 0 160 80 6.25 0 0 0 3.75 0 0 0 6.25 4-4cylo.dat
+1 16 0 160 80 6.25 0 0 0 1 0 0 0 6.25 4-4ndis.dat
+1 16 0 163.75 80 6.25 0 0 0 -1 0 0 0 6.25 4-4ndis.dat
+
+0 // top of prow
+1 16 0 0 -190 1 0 0 0 1 0 0 0 1 stud2a.dat
+1 16 0 0 -170 1 0 0 0 1 0 0 0 1 stud2a.dat
+1 16 0 0 -150 1 0 0 0 1 0 0 0 1 stud2a.dat
+
+0 BFC INVERTNEXT
+1 16 0 0 -190 3 0 0 0 20.5 0 0 0 3 4-4cylo.dat
+1 16 0 0 -190 6 0 0 0 20.5 0 0 0 6 4-4cyli.dat
+1 16 0 0 -190 1 0 0 0 1 0 0 0 1 4-4ring3.dat
+1 16 0 0 -190 4 0 0 0 1 0 0 0 4 4-4edge.dat
+1 16 0 20.5 -190 6 0 0 0 1 0 0 0 6 4-4edge.dat
+
+0 BFC INVERTNEXT
+1 16 0 0 -170 3 0 0 0 20.5 0 0 0 3 4-4cylo.dat
+1 16 0 0 -170 6 0 0 0 20.5 0 0 0 6 4-4cyli.dat
+1 16 0 0 -170 1 0 0 0 1 0 0 0 1 4-4ring3.dat
+1 16 0 0 -170 4 0 0 0 1 0 0 0 4 4-4edge.dat
+1 16 0 20.5 -170 6 0 0 0 1 0 0 0 6 4-4edge.dat
+
+0 BFC INVERTNEXT
+1 16 0 0 -150 3 0 0 0 20.5 0 0 0 3 4-4cylo.dat
+1 16 0 0 -150 6 0 0 0 20.5 0 0 0 6 4-4cyli.dat
+1 16 0 0 -150 1 0 0 0 1 0 0 0 1 4-4ring3.dat
+1 16 0 0 -150 4 0 0 0 1 0 0 0 4 4-4edge.dat
+1 16 0 20.5 -150 6 0 0 0 1 0 0 0 6 4-4edge.dat
+
+1 16 0 20.5 -176 0 0 1 0 -20.5 0 1 0 0 boxjcyl4.dat
+1 16 0 20.5 -180 0 0 -1 0 -20.5 0 4 0 0 box3u8p.dat
+1 16 0 20.5 -184 0 0 1 0 -20.5 0 -1 0 0 boxjcyl4.dat
+
+1 16 0 20.5 -156 0 0 1 0 -20.5 0 1 0 0 boxjcyl4.dat
+1 16 0 20.5 -160 0 0 -1 0 -20.5 0 4 0 0 box3u8p.dat
+1 16 0 20.5 -164 0 0 1 0 -20.5 0 -1 0 0 boxjcyl4.dat
+
+
+0 // base of prow
+1 16 10 136 -110 1 0 0 0 1 0 0 0 1 stud2a.dat
+1 16 10 136 -90 1 0 0 0 1 0 0 0 1 stud2a.dat
+1 16 -10 136 -110 1 0 0 0 1 0 0 0 1 stud2a.dat
+1 16 -10 136 -90 1 0 0 0 1 0 0 0 1 stud2a.dat
+
+0 BFC INVERTNEXT
+1 16 -10 168 -110 3 0 0 0 -32 0 0 0 3 4-4cylc.dat
+1 16 -10 136 -110 6 0 0 0 26 0 0 0 6 4-4cyli.dat
+1 16 -10 136 -110 1 0 0 0 1 0 0 0 1 4-4ring3.dat
+1 16 -10 136 -110 4 0 0 0 1 0 0 0 4 4-4edge.dat
+0 BFC INVERTNEXT
+1 16 -10 168 -90 3 0 0 0 -32 0 0 0 3 4-4cylc.dat
+1 16 -10 136 -90 6 0 0 0 39 0 0 0 6 4-4cyli.dat
+1 16 -10 136 -90 1 0 0 0 1 0 0 0 1 4-4ring3.dat
+1 16 -10 136 -90 4 0 0 0 1 0 0 0 4 4-4edge.dat
+
+0 BFC INVERTNEXT
+1 16 10 168 -110 3 0 0 0 -32 0 0 0 3 4-4cylc.dat
+1 16 10 136 -110 6 0 0 0 26 0 0 0 6 4-4cyli.dat
+1 16 10 136 -110 1 0 0 0 1 0 0 0 1 4-4ring3.dat
+1 16 10 136 -110 4 0 0 0 1 0 0 0 4 4-4edge.dat
+0 BFC INVERTNEXT
+1 16 10 168 -90 3 0 0 0 -32 0 0 0 3 4-4cylc.dat
+1 16 10 136 -90 6 0 0 0 39 0 0 0 6 4-4cyli.dat
+1 16 10 136 -90 1 0 0 0 1 0 0 0 1 4-4ring3.dat
+1 16 10 136 -90 4 0 0 0 1 0 0 0 4 4-4edge.dat
+
+0 // outer corners
+1 16 150 136 130 1 0 0 0 1 0 0 0 1 stud2a.dat
+1 16 130 136 130 1 0 0 0 1 0 0 0 1 stud2a.dat
+1 16 150 136 150 1 0 0 0 1 0 0 0 1 stud2a.dat
+1 16 130 136 150 1 0 0 0 1 0 0 0 1 stud2a.dat
+1 16 150 136 170 1 0 0 0 1 0 0 0 1 stud2a.dat
+1 16 130 136 170 1 0 0 0 1 0 0 0 1 stud2a.dat
+1 16 150 136 190 1 0 0 0 1 0 0 0 1 stud2a.dat
+1 16 130 136 190 1 0 0 0 1 0 0 0 1 stud2a.dat
+1 16 -150 136 130 1 0 0 0 1 0 0 0 1 stud2a.dat
+1 16 -130 136 130 1 0 0 0 1 0 0 0 1 stud2a.dat
+1 16 -150 136 150 1 0 0 0 1 0 0 0 1 stud2a.dat
+1 16 -130 136 150 1 0 0 0 1 0 0 0 1 stud2a.dat
+1 16 -150 136 170 1 0 0 0 1 0 0 0 1 stud2a.dat
+1 16 -130 136 170 1 0 0 0 1 0 0 0 1 stud2a.dat
+1 16 -150 136 190 1 0 0 0 1 0 0 0 1 stud2a.dat
+1 16 -130 136 190 1 0 0 0 1 0 0 0 1 stud2a.dat
+
+0 // main studs
+1 16 80 160 160 1 0 0 0 1 0 0 0 1 stug2-4x4.dat
+1 16 0 160 160 1 0 0 0 1 0 0 0 1 stug2-4x4.dat
+1 16 -80 160 160 1 0 0 0 1 0 0 0 1 stug2-4x4.dat
+
+1 16 90 160 110 1 0 0 0 1 0 0 0 1 stud2.dat
+1 16 -90 160 110 1 0 0 0 1 0 0 0 1 stud2.dat
+1 16 90 160 90 1 0 0 0 1 0 0 0 1 stud2.dat
+1 16 -90 160 90 1 0 0 0 1 0 0 0 1 stud2.dat
+1 16 40 160 80 1 0 0 0 1 0 0 0 1 stug2-4x4.dat
+1 16 -40 160 80 1 0 0 0 1 0 0 0 1 stug2-4x4.dat
+
+1 16 70 160 30 1 0 0 0 1 0 0 0 1 stud2.dat
+1 16 50 160 30 1 0 0 0 1 0 0 0 1 stud2.dat
+1 16 -70 160 30 1 0 0 0 1 0 0 0 1 stud2.dat
+1 16 -50 160 30 1 0 0 0 1 0 0 0 1 stud2.dat
+1 16 50 160 10 1 0 0 0 1 0 0 0 1 stud2.dat
+1 16 -50 160 10 1 0 0 0 1 0 0 0 1 stud2.dat
+1 16 50 160 -10 1 0 0 0 1 0 0 0 1 stud2.dat
+1 16 -50 160 -10 1 0 0 0 1 0 0 0 1 stud2.dat
+1 16 0 160 0 1 0 0 0 1 0 0 0 1 stug2-4x4.dat
+
+1 16 0 160 -60 1 0 0 0 1 0 0 0 1 stug2-2x2.dat
+0

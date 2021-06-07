@@ -1,0 +1,16 @@
+0 Minifig Hips and Legs with Belt and Reflective Stripes, 'EMMET' Badge Pattern
+0 Name: 3815c8h.dat
+0 Author: Magnus Forsberg [MagFors]
+0 !LDRAW_ORG Shortcut UPDATE 2016-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Emmet
+0 !CMDLINE -c25
+
+0 !HISTORY 2016-12-31 [PTadmin] Official Update 2016-01
+
+1 16 0  0 0 1 0 0 0 1 0 0 0 1 3815p8i.dat
+1 16 0 12 0 1 0 0 0 1 0 0 0 1 3816p8h.dat
+1 16 0 12 0 1 0 0 0 1 0 0 0 1 3817p8h.dat

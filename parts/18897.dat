@@ -1,0 +1,74 @@
+0 Brick  6 x  6 Round with Holes
+0 Name: 18897.dat
+0 Author: Massimo Maso [Sirio]
+0 !LDRAW_ORG Part UPDATE 2020-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2016-03-18 {LEGO Digital Designer} Original part shape
+0 !HISTORY 2017-11-18 [Sirio] File preparation for LDraw Parts Tracker
+0 !HISTORY 2020-06-28 [PTadmin] Official Update 2020-01
+
+0 // Underside studs
+1 16 0 20 0 1 0 0 0 -1 0 0 0 1 stud18a.dat
+1 16 0 20 0 8 0 0 0 1 0 0 0 8 4-4edge.dat
+1 16 -20 4 40 1 0 0 0 -5 0 0 0 1 stud4.dat
+1 16 20 4 40 1 0 0 0 -5 0 0 0 1 stud4.dat
+1 16 -40 4 20 1 0 0 0 -5 0 0 0 1 stud4.dat
+1 16 0 4 20 1 0 0 0 -5 0 0 0 1 stud4.dat
+1 16 40 4 20 1 0 0 0 -5 0 0 0 1 stud4.dat
+1 16 -20 4 0 1 0 0 0 -5 0 0 0 1 stud4.dat
+1 16 20 4 0 1 0 0 0 -5 0 0 0 1 stud4.dat
+1 16 -40 4 -20 1 0 0 0 -5 0 0 0 1 stud4.dat
+1 16 0 4 -20 1 0 0 0 -5 0 0 0 1 stud4.dat
+1 16 40 4 -20 1 0 0 0 -5 0 0 0 1 stud4.dat
+1 16 -20 4 -40 1 0 0 0 -5 0 0 0 1 stud4.dat
+1 16 20 4 -40 1 0 0 0 -5 0 0 0 1 stud4.dat
+0 BFC INVERTNEXT
+1 16 0 8 0 6 0 0 0 12 0 0 0 6 4-4cyli.dat
+1 16 0 8 0 1 0 0 0 1 0 0 0 1 4-4ring6.dat
+0 BFC INVERTNEXT
+1 16 0 0 0 7 0 0 0 8 0 0 0 7 4-4cyli.dat
+1 16 0 10 0 8 0 0 0 10 0 0 0 8 4-4cyli.dat
+1 16 0 10 0 2 0 0 0 -1 0 0 0 2 4-4ring4.dat
+1 16 0 4 0 10 0 0 0 6 0 0 0 10 4-4cyli.dat
+1 16 0 10 0 8 0 0 0 1 0 0 0 8 4-4edge.dat
+1 16 0 10 0 10 0 0 0 1 0 0 0 10 4-4edge.dat
+1 16 0 8 0 6 0 0 0 1 0 0 0 6 4-4edge.dat
+1 16 0 8 0 7 0 0 0 1 0 0 0 7 4-4edge.dat
+1 16 0 4 0 10 0 0 0 1 0 0 0 10 4-4edge.dat
+0 // Subparts
+1 16 0 0 0 0 0 -1 0 1 0 1 0 0 s\18897s01.dat
+1 16 0 0 0 0 0 1 0 1 0 1 0 0 s\18897s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\18897s01.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\18897s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 -1 s\18897s01.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 -1 s\18897s01.dat
+1 16 0 0 0 0 0 -1 0 1 0 -1 0 0 s\18897s01.dat
+1 16 0 0 0 0 0 1 0 1 0 -1 0 0 s\18897s01.dat
+0 // Surfaces
+1 16 0 4 0 5 0 0 0 -1 0 0 0 5 4-4ring2.dat
+1 16 0 4 0 3 0 0 0 -1 0 0 0 3 4-4ring5.dat
+1 16 0 4 0 9 0 0 0 -1 0 0 0 9 4-4ring2.dat
+1 16 0 4 0 27 0 0 0 -1 0 0 0 27 4-4ring1.dat
+1 16 0 4 0 54 0 0 0 -1 0 0 0 54 48\4-4aring.dat
+1 16 0 4 0 2 0 0 0 -1 0 0 0 2 48\4-4rin27.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 4-4ring7.dat
+1 16 0 0 0 4 0 0 0 1 0 0 0 4 4-4ring2.dat
+1 16 0 0 0 3 0 0 0 1 0 0 0 3 4-4ring4.dat
+1 16 0 0 0 15 0 0 0 1 0 0 0 15 4-4ring1.dat
+1 16 0 0 0 30 0 0 0 1 0 0 0 30 4-4ring1.dat
+1 16 0 0 0 60 0 0 0 1 0 0 0 60 48\4-4aring.dat
+1 16 0 0 0 7 0 0 0 1 0 0 0 7 4-4edge.dat
+1 16 0 0 0 60 0 0 0 1 0 0 0 60 48\4-4edge.dat
+0 // Studs
+1 16 -10 0 50 1 0 0 0 1 0 0 0 1 stud2.dat
+1 16 10 0 50 1 0 0 0 1 0 0 0 1 stud2.dat
+1 16 -50 0 10 1 0 0 0 1 0 0 0 1 stud2.dat
+1 16 50 0 10 1 0 0 0 1 0 0 0 1 stud2.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 stug-4x4.dat
+1 16 -50 0 -10 1 0 0 0 1 0 0 0 1 stud2.dat
+1 16 50 0 -10 1 0 0 0 1 0 0 0 1 stud2.dat
+1 16 -10 0 -50 1 0 0 0 1 0 0 0 1 stud2.dat
+1 16 10 0 -50 1 0 0 0 1 0 0 0 1 stud2.dat

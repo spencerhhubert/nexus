@@ -1,0 +1,12 @@
+0 Door  1 x  4 x  6 with 3 Panes with TransGreen Glass
+0 Name: 30178c03.dat
+0 Author: Tim Lampmann [L4mpi]
+0 !LDRAW_ORG Shortcut UPDATE 2019-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2019-12-27 [PTadmin] Official Update 2019-03
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 30178.dat
+1 34 1 2 0 1 0 0 0 1 0 0 0 1 30245.dat

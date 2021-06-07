@@ -1,0 +1,20 @@
+0 Electric Energy Display
+0 Name: 87576.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Shortcut UPDATE 2018-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2018-12-08 [PTadmin] Official Update 2018-02
+
+1 16 0 80 0 1 0 0 0 1 0 0 0 1 89654.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 89653.dat
+1 2 0 0 -40 1 0 0 0 1 0 0 0 1 89658.dat
+1 25 -40 -16 -40 -1 0 0 0 1 0 0 0 -1 89657.dat
+1 494 41 42 -116 0 0 -1 0 1 0 -1 0 0 89662.dat
+1 494 -41 42 -116 0 0 1 0 1 0 -1 0 0 89662.dat
+1 47 0 7 45 1 0 0 0 1 0 0 0 1 89655.dat
+1 7 0 36 82 -1 0 0 0 1 0 0 0 -1 54732.dat
+0 // Fake PCB
+1 2 0 30 46 0 0 50 0 2 0 50 0 0 box.dat

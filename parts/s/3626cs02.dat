@@ -1,0 +1,17 @@
+0 ~Minifig Head - Closed Hollow Stud w/o Front and Back Surface
+0 Name: s\3626cs02.dat
+0 Author: Magnus Forsberg [MagFors]
+0 !LDRAW_ORG Subpart UPDATE 2012-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2012-12-28 [PTadmin] Official Update 2012-03
+
+1 16 0 24 0 2 0 0 0 -1 0 0 0 2 4-4ring3.dat
+0 BFC INVERTNEXT
+1 16 0 4 0 6 0 0 0 20 0 0 0 6 4-4cylc.dat
+1 16 0 21 0 8 0 0 0 3 0 0 0 8 4-4cylo.dat
+1 16 0 0 0 4 0 0 0 1 0 0 0 4 4-4disc.dat
+1 16 0 0 0 2 0 0 0 1 0 0 0 2 4-4ring3.dat
+1 16 0 0 0 0 0 1 0 1 0 -1 0 0 stud2.dat

@@ -1,0 +1,15 @@
+0 ~Train Door  1 x  4 x  5 Left Stripe
+0 Name: s\4181s02.dat
+0 Author: James Jessiman
+0 !LDRAW_ORG Subpart UPDATE 2009-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2006-09-12 [WilliamH] BFCed; sub-parted
+0 !HISTORY 2009-05-02 [PTadmin] Official Update 2009-01
+
+4 16 10 8 60 10 0 60 10 0 0 10 8 0
+1 16 0 0 0 10 0 0 0 8 0 0 0 -10 1-4cyli.DAT
+1 16 0 0 60 10 0 0 0 8 0 0 0 10 1-4cyli.DAT
+0

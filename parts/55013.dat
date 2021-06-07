@@ -1,0 +1,17 @@
+0 Technic Axle  8 with Stop
+0 Name: 55013.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2009-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2009-09-03 [PTadmin] Official Update 2009-02
+
+1 16 78 0 0 0 1 0 8 0 0 0 0 8 4-4edge.dat
+1 16 80 0 0 0 1 0 8 0 0 0 0 8 4-4edge.dat
+1 16 78 0 0 0 -158 0 1 0 0 0 0 1 axle.dat
+1 16 78 0 0 0 1 0 8 0 0 0 0 8 4-4disc.dat
+1 16 80 0 0 0 -1 0 8 0 0 0 0 8 4-4disc.dat
+1 16 80 0 0 0 -2 0 8 0 0 0 0 8 4-4cyli.dat
+0

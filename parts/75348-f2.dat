@@ -1,0 +1,14 @@
+0 Technic Shock Absorber  9L Medium Hard (Compressed)
+0 Name: 75348-f2.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Shortcut UPDATE 2018-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2018-12-08 [PTadmin] Official Update 2018-02
+
+1 16 0 50 0 1 0 0 0 1 0 0 0 1 2909.dat
+1 16 0 130 0 1 0 0 0 1 0 0 0 1 2910.dat
+1 494 0 40 0 -1 0 0 0 1 0 0 0 1 u9410-f2.dat
+

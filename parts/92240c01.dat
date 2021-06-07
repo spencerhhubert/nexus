@@ -1,0 +1,28 @@
+0 Figure Friends Male Template
+0 Name: 92240c01.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Shortcut UPDATE 2014-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2014-12-23 [PTadmin] Official Update 2014-02
+
+0 // Legs
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 92253.dat
+0 // Hips
+1 16 0 -47.4 2.7 1 0 0 0 1 0 0 0 1 92248.dat
+0 // Man Torso
+1 16 0 -75.3 3.9 1 0 0 0 1 0 0 0 1 92242.dat
+0 // Head
+1 16 0 -111.5 3.9 1 0 0 0 1 0 0 0 1 92240.dat
+0 // Wig
+1 16 0 -111.5 0.9 1 0 0 0 1 0 0 0 1 62810.dat
+0 // Left arm
+1 16 12.5 -75.3 3.9 1 0 0 0 1 0 0 0 1 92246.dat
+0 // Right Arm
+1 16 -12.5 -75.3 3.9 1 0 0 0 1 0 0 0 1 92247.dat
+0 // Accessory (bar connection)
+1 16 26 -45 10.5 0 0 -1 -1 0 0 0 1 0 33120.dat
+0 // Accessory (stud connection)
+1 16 -26 -45.1 -15.5 1 0 0 0 0 -1 0 1 0 3899.dat

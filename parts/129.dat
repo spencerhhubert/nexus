@@ -1,0 +1,14 @@
+0 ~Train Signal Semaphore Metal Bar
+0 Name: 129.dat
+0 Author: Niels Karsdorp [nielsk]
+0 !LDRAW_ORG Part UPDATE 2010-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+
+0 !HISTORY 2010-07-05 [PTadmin] Official Update 2010-02
+
+1 16 0 124 0 2 0 0 0 2 0 0 0 2 4-8sphe.dat
+1 16 0 124 0 2 0 0 0 -248 0 0 0 2 4-4cyli.dat
+1 16 0 -124 0 2 0 0 0 -2 0 0 0 2 4-8sphe.dat
+0

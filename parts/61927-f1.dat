@@ -1,0 +1,20 @@
+0 Technic Linear Actuator  8 x  2 x  2 (Contracted)
+0 Name: 61927-f1.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Shortcut UPDATE 2019-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Power Functions
+
+0 !HISTORY 2011-12-29 [PTadmin] Official Update 2011-02
+0 !HISTORY 2016-08-31 [PTadmin] Renamed from 61927
+0 !HISTORY 2017-12-30 [PTadmin] Official Update 2017-01
+0 !HISTORY 2019-11-13 [cwdee] Update description
+0 !HISTORY 2019-12-27 [PTadmin] Official Update 2019-03
+
+1 25 0 0 0 0 1 0 -1 0 0 0 0 1 47157.DAT
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 62271c01.DAT
+1 72 0 0 170 1 0 0 0 1 0 0 0 1 62274c01.dat
+

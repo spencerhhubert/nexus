@@ -1,0 +1,27 @@
+0 Hose Joiner  3 x  4 x  3
+0 Name: 30585b.dat
+0 Author: Mikkel Bech Jensen [gaia]
+0 !LDRAW_ORG Part UPDATE 2020-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Space, Life on Mars, Mars Mission
+
+0 !HISTORY 2020-12-29 [PTadmin] Official Update 2020-03
+
+1 16 10 0 0 0 0 1 0 1 0 -1 0 0 stud2.dat
+1 16 30 0 0 0 0 1 0 1 0 -1 0 0 stud2.dat
+1 16 -10 0 0 0 0 1 0 1 0 -1 0 0 stud2.dat
+1 16 -30 0 0 0 0 1 0 1 0 -1 0 0 stud2.dat
+1 16 10 0 -20 0 0 1 0 1 0 -1 0 0 stud2.dat
+1 16 -10 0 -20 0 0 1 0 1 0 -1 0 0 stud2.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\30585s03.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\30585s03.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\30585s02.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\30585s02.dat
+1 16 -20 62 0 1 0 0 0 -2.5 0 0 0 1 stud3a.dat
+1 16 0 62 0 1 0 0 0 -2.5 0 0 0 1 stud3a.dat
+1 16 20 62 0 1 0 0 0 -2.5 0 0 0 1 stud3a.dat
+2 24 0 57 6 0 57 4
+2 24 0 57 -4 0 57 -6

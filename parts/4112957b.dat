@@ -1,0 +1,13 @@
+0 Sticker  1.0 x 11.8 with Pipe, Three Connectors and Lever Oriented Left 
+0 Name: 4112957b.dat
+0 Author: Gerald Lasser [GeraldLasser]
+0 !LDRAW_ORG Part UPDATE 2015-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS set 2126
+
+0 !HISTORY 2015-10-11 [PTadmin] Official Update 2015-01
+
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 4112957a.dat

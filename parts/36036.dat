@@ -1,0 +1,16 @@
+0 Minifig Skirt
+0 Name: 36036.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2019-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Dress, Gown, Robe, Legs, Hips
+
+0 !HISTORY 2019-06-28 [PTadmin] Official Update 2019-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\36036s01.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\36036s02.dat
+0 // Front
+4 16 17.75 0 -10 -17.75 0 -10 -20 40 -10 20 40 -10

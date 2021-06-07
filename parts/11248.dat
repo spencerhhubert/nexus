@@ -1,0 +1,19 @@
+0 ~Duplo Car Base  2 x  6 with Bottom Tube
+0 Name: 11248.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2020-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !CATEGORY Vehicle
+
+0 !HISTORY 2020-12-29 [PTadmin] Official Update 2020-03
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 2312.dat
+1 16 0 4 0 0 0 1 0 -10 0 1 0 0 stud8.dat
+1 16 0 32 -125.7 0 0 1 0 -26 0 -5.7 0 0 box3u5p.dat
+2 24 -1 6 -131.1988 -1 32 -131.1988
+2 24 -1 6 -131.1988 0 6 -131
+2 24 1 6 -131.1988 1 32 -131.1988
+2 24 0 6 -131 1 6 -131.1988

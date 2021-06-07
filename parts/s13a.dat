@@ -1,0 +1,15 @@
+0 Sticker  1.1 x  1.1 Round with Magnetic Silver Copper Machine
+0 Name: s13a.dat
+0 Author: Mikkel Bech Jensen [gaia]
+0 !LDRAW_ORG Part UPDATE 2018-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Space, Insectoids
+
+0 !HISTORY 2018-12-08 [PTadmin] Official Update 2018-02
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\s13as01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\s13as01.dat
+1 16 0 -.25 0 0 0 -11 0 1 0 -11 0 0 4-4ering.dat

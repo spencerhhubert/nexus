@@ -1,0 +1,28 @@
+0 Brick  1 x  2 x  2.333 Shock Absorber (Complete)
+0 Name: 2605c01.dat
+0 Author: Paul Easter [pneaster]
+0 !LDRAW_ORG Shortcut UPDATE 2013-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 !HELP bushing at top
+0 !HELP 1 494 0 4.5 10 1 0 0 0 0.465 0 0 0 1 70864.dat
+0 !HELP 1 15 0 26 10 1 0 0 0 1 0 0 0 1 2606.dat
+0 !HELP bushing at middle
+0 !HELP 1 494 0 4.75 10 1 0 0 0 0.734 0 0 0 1 70864.dat
+0 !HELP 1 15 0 34 10 1 0 0 0 1 0 0 0 1 2606.dat
+
+0 BFC CERTIFY CW
+
+0 !HISTORY 2001-11-23 [pneaster] added BFC
+0 !HISTORY 2003-12-19 [PTadmin] Official Update 2003-03
+0 !HISTORY 2007-10-14 [PTadmin] Header formatted for Contributor Agreement
+0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01
+0 !HISTORY 2013-02-28 [MagFors] Changed colour 383 to 494 (real metal)
+0 !HISTORY 2013-03-22 [mikeheide] adjusted spring because of origin change of the spring.
+0 !HISTORY 2013-07-21 [PTadmin] Official Update 2013-01
+
+0 // bushing at bottom
+
+1 494 0 4 10 1 0 0 0 1 0 0 0 1 70864.dat
+1 15 0 42 10  1 0 0  0 1 0  0 0 1 2606.dat
+1 16  0 0 0  1 0 0  0 1 0  0 0 1 2605.dat

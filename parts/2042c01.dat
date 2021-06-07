@@ -1,0 +1,15 @@
+0 Container Cupboard  2 x  6 x  7 with Blue Doors (Complete)
+0 Name: 2042c01.dat
+0 Author: Chris Dee [cwdee]
+0 !LDRAW_ORG Shortcut UPDATE 2019-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Fabuland, Wall, Panel
+
+0 !HISTORY 2019-06-28 [PTadmin] Official Update 2019-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 2042.dat
+1 1 -52 135 -16 1 0 0 0 1 0 0 0 1 2043.dat
+1 1 52 135 -16 -1 0 0 0 -1 0 0 0 1 2043.dat

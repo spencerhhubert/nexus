@@ -1,0 +1,43 @@
+0 Plate  4 x  6 with Hole
+0 Name: 709.dat
+0 Author: Tore Eriksson [Tore_Eriksson]
+0 !LDRAW_ORG Part UPDATE 2015-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 1997-10-29 [PTadmin] Official Update 1997-16
+0 !HISTORY 2007-07-19 [PTadmin] Header formatted for Contributor Agreement
+0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01
+0 !HISTORY 2014-11-21 [roland]  Auto-corrected with libfix version of LDCad 1.4
+0 !HISTORY 2015-01-11 [Steffen] BFCed, removed T-junctions, used stugs
+0 !HISTORY 2015-10-11 [PTadmin] Official Update 2015-01
+
+1 16 0 4 0 8 0 0 0 1 0 0 0 8 4-4edge.dat
+1 16 0 0 0 8 0 0 0 1 0 0 0 8 4-4edge.dat
+1 16 0 4 0 8 0 0 0 -1 0 0 0 -8 4-4ndis.dat
+1 16 0 0 0 8 0 0 0 1 0 0 0 8 4-4ndis.dat
+0 BFC INVERTNEXT
+1 16 0 0 0 8 0 0 0 4 0 0 0 8 4-4cyli.dat
+1 16 0 4 -20 1 0 0 0 -1 0 0 0 1 stug4-1x5.dat
+1 16 0 4 20 1 0 0 0 -1 0 0 0 1 stug4-1x5.dat
+1 16 -30 4 0 1 0 0 0 -1 0 0 0 1 stug4-1x2.dat
+1 16 30 4 0 1 0 0 0 -1 0 0 0 1 stug4-1x2.dat
+0 BFC INVERTNEXT
+1 16 0 8 0 56 0 0 0 -4 0 0 0 36 box4.dat
+1 16 0 8 0 60 0 0 0 -8 0 0 0 40 box4.dat
+1 16 -20 0 0 1 0 0 0 1 0 0 0 1 stug-4x4.dat
+1 16 40 0 20 1 0 0 0 1 0 0 0 1 stug-2x2.dat
+1 16 40 0 -20 1 0 0 0 1 0 0 0 1 stug-2x2.dat
+4 16 60 8 40 56 8 36 -56 8 36 -60 8 40
+4 16 -60 8 -40 -56 8 -36 56 8 -36 60 8 -40
+4 16 60 8 -40 56 8 -36 56 8 36 60 8 40
+4 16 -60 8 40 -56 8 36 -56 8 -36 -60 8 -40
+4 16 -60 0 -40 -8 0 -8 -8 0 8 -60 0 40
+4 16 60 0 40 8 0 8 8 0 -8 60 0 -40
+4 16 -60 0 -40 60 0 -40 8 0 -8 -8 0 -8
+4 16 -8 0 8 8 0 8 60 0 40 -60 0 40
+4 16 -56 4 36 -8 4 8 -8 4 -8 -56 4 -36
+4 16 56 4 -36 8 4 -8 8 4 8 56 4 36
+4 16 -8 4 -8 8 4 -8 56 4 -36 -56 4 -36
+4 16 -56 4 36 56 4 36 8 4 8 -8 4 8

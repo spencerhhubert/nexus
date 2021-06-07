@@ -1,0 +1,14 @@
+0 ~Plate Gear 10 Tooth  4 x  4 Tooth
+0 Name: s\35443s01.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Subpart UPDATE 2019-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2019-12-27 [PTadmin] Official Update 2019-03
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\35443s02.dat
+1 16 0 0.5 50 5.625 0 0 0 1 0 0 0 5.625 2-4chrd.dat
+4 16 -5.625 0.5 50 -5.7566 0.5 46.4191 5.7566 0.5 46.4191 5.625 0.5 50
+4 16 3.2305 0.5 41.0088 5.7566 0.5 46.4191 -5.7566 0.5 46.4191 -3.2305 0.5 41.0088

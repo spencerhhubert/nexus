@@ -1,0 +1,19 @@
+0 Sticker  3.4 x  1.8 with Black and Yellow Danger Stripes Left
+0 Name: 4198678c.dat
+0 Author: Tim Lampmann [L4mpi]
+0 !LDRAW_ORG Part UPDATE 2019-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Freight yard, Cargo, Container, Crane, Lorry, Set 4514
+
+0 !HISTORY 2019-12-27 [PTadmin] Official Update 2019-03
+
+1 16 0 -0.25 0 18 0 0 0 0.25 0 0 0 34 box5-12.dat
+
+3 0 18 -.25 -11.66 0 -.25 -34 18 -.25 -34
+4 14 18 -.25 -11.66 18 -.25 11.66 -18 -.25 -34 0 -.25 -34
+4 0 18 -.25 11.66 18 -.25 34 -18 -.25 -11.66 -18 -.25 -34
+4 14 18 -.25 34 0 -.25 34 -18 -.25 11.66 -18 -.25 -11.66
+3 0 0 -.25 34 -18 -.25 34 -18 -.25 11.66

@@ -1,0 +1,16 @@
+0 Minifig Food Turkey Body
+0 Name: 33048.dat
+0 Author: Andy Westrate [westrate]
+0 !LDRAW_ORG Part UPDATE 2010-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+0 !CATEGORY Minifig Accessory
+
+0 !HISTORY 2010-09-10 {The LEGO Universe Team} Original part shape
+0 !HISTORY 2010-10-02 [westrate] File preparation for LDraw Parts Tracker
+0 !HISTORY 2010-12-31 [PTadmin] Official Update 2010-03
+
+1 16 0 0 0  1 0 0 0 1 0 0 0 1 s\33048s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\33048s01.dat
+0

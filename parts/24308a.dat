@@ -1,0 +1,27 @@
+0 Wheel Rim 11 x 18 Front with 10 Parallel Spokes
+0 Name: 24308a.dat
+0 Author: Magnus Forsberg [MagFors]
+0 !LDRAW_ORG Part UPDATE 2019-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2019-09-09 [PTadmin] Official Update 2019-02
+
+1 16 0 0 0 18.75 0 0 0 0 -18.75 0 3 0 4-4cyli.dat
+0 BFC INVERTNEXT
+1 16 0 0 0 15.75 0 0 0 0 -15.75 0 3 0 4-4cyli.dat
+1 16 0 0 3 18.75 0 0 0 0 -18.75 0 1 0 4-4edge.dat
+1 16 0 0 3 15.75 0 0 0 0 -15.75 0 1 0 4-4edge.dat
+1 16 0 0 3 1.75 0 0 0 0 1.75 0 -1 0 4-4ring9.dat
+1 16 0 0 3 1.25 0 0 0 0 1.25 0 -1 0 4-4rin14.dat
+1 16 0 0 0 6 0 0 0 0 -6 0 1 0 4-4edge.dat
+1 16 0 0 0 6 0 0 0 0 6 0 -1 0 4-4disc.dat
+1 16 0 0 0 1 0 0 0 0 -1 0 -1 0 stud4a.dat
+1 16 0 0 -2 8 0 0 0 0 -8 0 2 0 4-4cyli.dat
+1 16 0 0 0 1 0 0 0 0 -1 0 1 0 s\24308as01.dat
+1 16 0 0 0 1 0 0 0 0 1 0 1 0 s\24308as01.dat
+5 24 -8.197 0 -3.841 -8.249 0 3 -8.259 -0.212 -3.88 -8.259 0.212 -3.88
+5 24 -8.197 0 -3.841 -6.49 0 -3.392 -6.379 -0.441 -3.388 -6.379 0.441 -3.388
+5 24 -6.49 0 -3.392 -6.1 0 -2.9 -6.024 -0.383 -2.9 -6.024 0.383 -2.9
+5 24 -4 0 -3.5 -4.1 0 -2.9 -4.097 0.446 -3.404 -4.097 -0.446 -3.404

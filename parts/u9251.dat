@@ -1,0 +1,16 @@
+0 Tile  2 x  2 with  1 x  1 Quarter Circle Cutout
+0 Name: u9251.dat
+0 Author: Steffen [Steffen]
+0 !LDRAW_ORG Part UPDATE 2020-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Scala
+
+0 !HISTORY 2020-09-05 [PTadmin] Official Update 2020-02
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\u9251s01.dat
+4 16 20 0 -20 20 0 0 0 0 0 -20 0 -20
+4 16 0 0 0 0 0 20 -20 0 20 -20 0 -20
+1 16 20 0 20 -20 0 0 0 1 0 0 0 -20 1-4ndis.dat

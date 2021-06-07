@@ -1,0 +1,14 @@
+0 ~Electric Mindstorms NXT Cable Segment
+0 Name: 932.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Subpart UPDATE 2012-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2012-03-30 [PTadmin] Official Update 2012-01
+
+1 16 0 0 5 3 0 0 0 1 0 0 0 3 2-4cyli.dat
+1 16 0 0 -5 -3 0 0 0 1 0 0 0 -3 2-4cyli.dat
+4 16 -3 0 5 -3 1 5 -3 1 -5 -3 0 -5
+4 16 3 0 -5 3 1 -5 3 1 5 3 0 5

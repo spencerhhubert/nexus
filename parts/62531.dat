@@ -1,0 +1,24 @@
+0 Technic Panel Smooth 11 x  2 x  3
+0 Name: 62531.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2011-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2011-12-29 [PTadmin] Official Update 2011-02
+
+1 16 0 10 0 -1 0 0 0 -1 0 0 0 1 peghole.dat
+1 16 0 10 0 -1 0 0 0 -1 0 0 0 1 4-4ring8.dat
+0 BFC INVERTNEXT
+1 16 0 8 0 -6 0 0 0 -16 0 0 0 6 4-4cyli.dat
+0 BFC INVERTNEXT
+1 16 6 -9 0 0 1 0 0 0 -1 -8 0 0 box2-5.dat
+2 24 -9 -8 -8 -9 -8 8
+4 16 -8 -8 -8 -8 -8 8 -9 -8 8 -9 -8 -8
+1 16 0 -8 0 6 0 0 0 16 0 0 0 6 4-4edge.dat
+1 16 0 -8 0 2 0 0 0 1 0 0 0 2 4-4ring3.dat
+1 16 0 -8 0 8 0 0 0 16 0 0 0 8 4-4ndis.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\62531s01.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 -1 s\62531s01.dat
+0

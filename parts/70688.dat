@@ -1,0 +1,15 @@
+0 Technic Flex-System Hose 27L (540LDU)
+0 Name: 70688.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2020-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS bar, tube
+
+0 !HISTORY 2020-12-29 [PTadmin] Official Update 2020-03
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 u9053.dat
+1 16 0 1 0 1 0 0 0 538 0 0 0 1 77.dat
+1 16 0 540 0 -1 0 0 0 -1 0 0 0 1 u9053.dat

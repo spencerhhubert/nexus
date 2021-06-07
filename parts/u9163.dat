@@ -1,0 +1,59 @@
+0 Wheel  8 x 19 with Integral Axle
+0 Name: u9163.dat
+0 Author: Alex Taylor [anathema]
+0 !LDRAW_ORG Part UPDATE 2012-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Fabuland, scooter, bike, bicycle, motorbike, motorcycle
+
+0 !HISTORY 2012-12-28 [PTadmin] Official Update 2012-03
+
+0 // Nomenclature: width_(mm) x rim_diameter_(mm) [optional qualifier]
+
+0 BFC INVERTNEXT
+1 16 0 0 -6 2 0 0 0 0 2 0 -10 0 4-4cylc.dat
+1 16 0 0 -16 4.5 0 0 0 0 -4.5 0 5 0 4-4cylo.dat
+0 BFC INVERTNEXT
+1 16 0 0 6 -2 0 0 0 0 2 0 10 0 4-4cylc.dat
+1 16 0 0 16 -4.5 0 0 0 0 -4.5 0 -5 0 4-4cylo.dat
+1 16 0 0 -16 2 0 0 0 0 -2 0 1 0 4-4ring1.dat
+1 16 0 0 16 -2 0 0 0 0 -2 0 -1 0 4-4ring1.dat
+1 16 0 0 -16 0.5 0 0 0 0 -0.5 0 1 0 4-4ring8.dat
+1 16 0 0 -11 0.5 0 0 0 0 -0.5 0 1 0 4-4ring9.dat
+1 16 0 0 11 -0.5 0 0 0 0 -0.5 0 -1 0 4-4ring9.dat
+1 16 0 0 -11 1 0 0 0 0 -1 0 1 0 4-4ring5.dat
+1 16 0 0 11 -1 0 0 0 0 -1 0 -1 0 4-4ring5.dat
+1 16 0 0 -11 3 0 0 0 0 -3 0 1 0 4-4ring2.dat
+1 16 0 0 11 -3 0 0 0 0 -3 0 -1 0 4-4ring2.dat
+1 16 0 0 16 -0.5 0 0 0 0 -0.5 0 -1 0 4-4ring8.dat
+1 16 0 0 -9 11 0 0 0 0 -11 0 3 0 4-4cyli.dat
+0 BFC INVERTNEXT
+1 16 0 0 -9 13 0 0 0 0 -13 0 3 0 4-4cylo.dat
+0 BFC INVERTNEXT
+1 16 0 0 6 13 0 0 0 0 -13 0 3 0 4-4cylo.dat
+0 BFC INVERTNEXT
+1 16 0 0 9 14 0 0 0 0 -14 0 1 0 4-4cylo.dat
+0 BFC INVERTNEXT
+1 16 0 0 -10 14 0 0 0 0 -14 0 1 0 4-4cylo.dat
+1 16 0 0 6 11 0 0 0 0 -11 0 3 0 4-4cyli.dat
+1 16 0 0 6 11 0 0 0 0 -11 0 1 0 4-4edge.dat
+1 16 0 0 -6 11 0 0 0 0 -11 0 1 0 4-4edge.dat
+1 16 0 0 6 -1 0 0 0 0 -1 0 -1 0 4-4rin11.dat
+1 16 0 0 -6 1 0 0 0 0 -1 0 1 0 4-4rin11.dat
+1 16 0 0 -6 1 0 0 0 0 -1 0 1 0 4-4rin12.dat
+1 16 0 0 6 -1 0 0 0 0 -1 0 -1 0 4-4rin12.dat
+1 16 0 0 -9 9 0 0 0 0 9 0 -9 0 t01o2222.dat
+1 16 0 0 9 -9 0 0 0 0 9 0 9 0 t01o2222.dat
+1 16 0 0 -9 1 0 0 0 0 -1 0 1 0 4-4rin13.dat
+1 16 0 0 -10 1 0 0 0 0 -1 0 1 0 4-4rin14.dat
+1 16 0 0 10 -1 0 0 0 0 -1 0 -1 0 4-4rin14.dat
+1 16 0 0 -6 24 0 0 0 0 -24 0 12 0 48\4-4cyli.dat
+1 16 0 0 -10 5 0 0 0 0 -5 0 1 0 4-4ring3.dat
+1 16 0 0 10 -5 0 0 0 0 -5 0 -1 0 4-4ring3.dat
+1 16 0 0 9 -1 0 0 0 0 -1 0 -1 0 4-4rin13.dat
+1 16 0 0 6 20 0 0 0 0 -20 0 20 0 48\t01o2000.dat
+1 16 0 0 -6 20 0 0 0 0 20 0 -20 0 48\t01o2000.dat
+1 16 0 0 -10 20 0 0 0 0 -20 0 1 0 48\4-4aring.dat
+1 16 0 0 10 -20 0 0 0 0 -20 0 -1 0 48\4-4aring.dat

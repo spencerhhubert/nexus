@@ -1,0 +1,15 @@
+0 Train Track 12V Curved Tapered (Complete 1 Segment)
+0 Name: 866c01.dat
+0 Author: Steffen [Steffen]
+0 !LDRAW_ORG Shortcut UPDATE 2012-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+0 !CMDLINE -c1
+
+0 !HISTORY 2012-03-30 [PTadmin] Official Update 2012-01
+
+1 16 0 0 -50 1 0 0 0 1 0 0 0 1 3230A.DAT
+1 16 0 0 50 1 0 0 0 1 0 0 0 1 3229A.DAT
+1 16 0.853 0 15.843 0.980785 0 -0.19509 0 1 0 0.19509 0 0.980785 866.dat
+0

@@ -1,0 +1,56 @@
+0 Container Drawers  4 x  4 x  4
+0 Name: 2.dat
+0 Author: James Jessiman
+0 !LDRAW_ORG Part UPDATE 2003-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+0 !KEYWORDS Homemaker, shelf, cupboard, bookcase
+
+0 !HISTORY 1998-05-21 [PTadmin] Official Update 1998-05
+0 !HISTORY 2003-01-20 [sbliss] Completed header, retitled, BFC'ed, removed excess data
+0 !HISTORY 2003-01-20 [mkennedy] Optimized with box primitives
+0 !HISTORY 2003-08-01 [PTadmin] Official Update 2003-02
+0 !HISTORY 2003-12-19 [PTadmin] Official Update 2003-03
+0 !HISTORY 2007-05-04 [PTadmin] Header formatted for Contributor Agreement
+0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01
+
+ 4 16 40 96 40 36 96 36 -36 96 36 -40 96 40
+ 4 16 -40 96 40 -36 96 36 -36 96 -36 -40 96 -40 
+ 4 16 -40 96 -40 -36 96 -36 36 96 -36 40 96 -40 
+ 4 16 40 96 -40 36 96 -36 36 96 36 40 96 40 
+ 2 24 -40 96 -40 40 96 -40 
+ 4 16 40 96 -40 36 88 -40 -36 88 -40 -40 96 -40
+ 4 16 40 0 -40 36 4 -40 36 88 -40 40 96 -40 
+ 4 16 -40 96 -40 -36 88 -40 -36 4 -40 -40 0 -40 
+ 4 16 -40 0 -40 -36 4 -40 36 4 -40 40 0 -40 
+ 4 16 36 48 -40 36 44 -40 -36 44 -40 -36 48 -40 
+ 1 16 0 96 0 40 0 0 0 -96 0 0 0 40 box4-1.dat
+ 1 16 30 0 30 1 0 0 0 1 0 0 0 1 stud2.dat
+ 1 16 10 0 30 1 0 0 0 1 0 0 0 1 stud2.dat
+ 1 16 -10 0 30 1 0 0 0 1 0 0 0 1 stud2.dat
+ 1 16 -30 0 30 1 0 0 0 1 0 0 0 1 stud2.dat
+ 1 16 30 0 10 1 0 0 0 1 0 0 0 1 stud2.dat
+ 1 16 10 0 10 1 0 0 0 1 0 0 0 1 stud2.dat
+ 1 16 -10 0 10 1 0 0 0 1 0 0 0 1 stud2.dat
+ 1 16 -30 0 10 1 0 0 0 1 0 0 0 1 stud2.dat
+ 1 16 30 0 -10 1 0 0 0 1 0 0 0 1 stud2.dat
+ 1 16 10 0 -10 1 0 0 0 1 0 0 0 1 stud2.dat
+ 1 16 -10 0 -10 1 0 0 0 1 0 0 0 1 stud2.dat
+ 1 16 -30 0 -10 1 0 0 0 1 0 0 0 1 stud2.dat
+ 1 16 30 0 -30 1 0 0 0 1 0 0 0 1 stud2.dat
+ 1 16 10 0 -30 1 0 0 0 1 0 0 0 1 stud2.dat
+ 1 16 -10 0 -30 1 0 0 0 1 0 0 0 1 stud2.dat
+ 1 16 -30 0 -30 1 0 0 0 1 0 0 0 1 stud2.dat
+ 1 16 0 92 0 1 0 0 0 -1 0 0 0 1 stud4.dat
+ 1 16 20 92 20 1 0 0 0 -1 0 0 0 1 stud4.dat
+ 1 16 -20 92 20 1 0 0 0 -1 0 0 0 1 stud4.dat
+ 1 16 20 92 -20 1 0 0 0 -1 0 0 0 1 stud4.dat
+ 1 16 -20 92 -20 1 0 0 0 -1 0 0 0 1 stud4.dat
+0 BFC INVERTNEXT
+ 1 16 0 96 0 36 0 0 0 -4 0 0 0 36 box5.dat
+0 BFC INVERTNEXT
+ 1 16 0 24 -40 36 0 0 0 0 20 0 76 0 box5.dat
+0 BFC INVERTNEXT
+ 1 16 0 68 -40 36 0 0 0 0 20 0 76 0 box5.dat
+0

@@ -1,0 +1,19 @@
+0 Technic Grille  6 x  4 x  3 with  2 Pins and  2 Pin Holes
+0 Name: 30632.dat
+0 Author: Kevin Roach [KROACH]
+0 !LDRAW_ORG Part UPDATE 2020-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS bull bar, kangaroo bar, bumper guard, impact protection
+
+0 !HISTORY 2018-01-11 [MagFors] Changed orientation, description, added keywords
+0 !HISTORY 2020-06-28 [PTadmin] Official Update 2020-01
+
+1 16 20 0 0 1 0 0 0 1 0 0 0 1 s\30632s01.dat
+1 16 -20 0 0 -1 0 0 0 1 0 0 0 1 s\30632s01.dat
+1 16 0 8.25 -30 1 0 0 0 1 0 0 0 1 s\30632s02.dat
+1 16 0 -47.75 -30 1 0 0 0 1 0 0 0 1 s\30632s02.dat
+1 16 0 0 -30 1 0 0 0 1 0 0 0 1 s\30632s03.dat
+1 16 0 0 -30 -1 0 0 0 1 0 0 0 1 s\30632s03.dat

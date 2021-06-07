@@ -1,0 +1,18 @@
+0 ~Tile  1 x  1 with Rounded End with Partial Top Face
+0 Name: s\24246s01.dat
+0 Author: Owen Burgoyne [C3POwen]
+0 !LDRAW_ORG Subpart UPDATE 2020-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2016-10-15 [MagFors] smaller topradius
+0 !HISTORY 2016-12-31 [PTadmin] Official Update 2016-01
+0 !HISTORY 2019-06-17 [MagFors] Removed topradius
+0 !HISTORY 2019-07-19 [MagFors] Subfiled without top surface
+0 !HISTORY 2020-09-05 [PTadmin] Official Update 2020-02
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\24246s02.dat
+1 16 0 0 0 .5 0 0 0 1 0 0 0 -.5 2-4ring19.dat
+3 16 10 0 10 9.5 0 0 10 0 0
+3 16 -10 0 0 -9.5 0 0 -10 0 10

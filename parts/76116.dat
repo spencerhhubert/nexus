@@ -1,0 +1,14 @@
+0 Minifig Mechanical Arm with Clip and Rod Hole (Needs Work)
+0 Name: 76116.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2013-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2013-07-21 [PTadmin] Official Update 2013-01
+
+0 // Alias of 53989
+0 // Needs Work: Though functionally identical, there are cosmetic differences between 76116 and 53989
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 53989.dat

@@ -1,0 +1,19 @@
+0 Technic Gearbox 20:1 Reduction (Complete Assembly)
+0 Name: 170c01.dat
+0 Author: Ross Crawford [rosco]
+0 !LDRAW_ORG Shortcut UPDATE 2019-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+0 !KEYWORDS set 872, 4.5V, 12V
+
+0 !HISTORY 2009-05-02 [PTadmin] Official Update 2009-01
+0 !HISTORY 2017-08-07 [MagFors] bfc'd, updated description
+0 !HISTORY 2019-06-28 [PTadmin] Official Update 2019-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 170.dat
+0 // output shaft, 20 revolutions
+1 0 0 26 0 1 0 0 0 1 0 0 0 1 172.dat
+0 // input shaft, 1 revolution
+1 0 0 26 0 1 0 0 0 1 0 0 0 1 173.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 171.dat

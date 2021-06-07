@@ -1,0 +1,38 @@
+0 ~Boat Inflatable 12 x  6 x  1.333 Lower (Needs Work)
+0 Name: 30086.dat
+0 Author: Guy Vivan [guyvivan]
+0 !LDRAW_ORG Part UPDATE 2010-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2010-07-05 [PTadmin] Official Update 2010-02
+
+0 // Needs Work: inner surface not modeled
+
+
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\30086s02.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\30086s02.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\30086s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\30086s01.dat
+1 16 0 0 -100 1 0 0 0 1 0 0 0 1 s\30086s01.dat
+1 16 0 0 -100 -1 0 0 0 1 0 0 0 1 s\30086s01.dat
+1 16 0 0 0 0 0 1 0 1 0 -1 0 0 stug2.dat
+1 16 0 0 40 0 0 1 0 1 0 -1 0 0 stug2.dat
+1 16 0 0 -40 0 0 1 0 1 0 -1 0 0 stug2.dat
+0 BFC INVERTNEXT
+1 16 0 -8 0 -24 0 0 0 8 0 0 0 60 box4-1.dat
+0 BFC INVERTNEXT
+1 16 0 8 10 -16 0 0 0 -4 0 0 0 66 box5.dat
+0 BFC INVERTNEXT
+1 16 0 -8 70 -40 0 0 0 8 0 0 0 6 box5.dat
+0 BFC INVERTNEXT
+1 16 0 -16 -110 -13 0 0 0 8 0 0 0 6 box5.dat
+1 16 0 4 -40 1 0 0 0 -1 0 0 0 1 stud4.dat
+1 16 0 4 -20 1 0 0 0 -1 0 0 0 1 stud4.dat
+1 16 0 4 0 1 0 0 0 -1 0 0 0 1 stud4.dat
+1 16 0 4 20 1 0 0 0 -1 0 0 0 1 stud4.dat
+1 16 0 4 40 1 0 0 0 -1 0 0 0 1 stud4.dat
+1 16 0 4 60 1 0 0 0 -1 0 0 0 1 stud4.dat
+0 //

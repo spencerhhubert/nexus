@@ -1,0 +1,31 @@
+0 Container Storage  8 x 11 x  3
+0 Name: 729.dat
+0 Author: Tore Eriksson [Tore_Eriksson]
+0 !LDRAW_ORG Part UPDATE 2005-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+0 !CMDLINE -c47
+
+0 !HISTORY 1998-03-23 [PTadmin] Official Update 1998-03
+0 !HISTORY 1999-02-01 [PTadmin] Official Update 1999-01
+0 !HISTORY 2004-04-24 [Steffen] removed hard-coded color 47, BFCed
+0 !HISTORY 2004-11-01 [Steffen] made use of the new stug*.dat files
+0 !HISTORY 2005-12-28 [PTadmin] Official Update 2005-01
+0 !HISTORY 2007-07-21 [PTadmin] Header formatted for Contributor Agreement
+0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01
+
+4 16 110 72 80 -110 72 80 -106 72 76 106 72 76
+4 16 -110 72 -80 110 72 -80 106 72 -76 -106 72 -76
+4 16 -110 72 80 -110 72 -80 -106 72 -76 -106 72 76
+4 16 110 72 -80 110 72 80 106 72 76 106 72 -76
+0 BFC INVERTNEXT
+1 16 0 72 0 106 0 0 0 -68 0 0 0 76 box5.dat
+1 16 0 72 0 110 0 0 0 -72 0 0 0 80 box5.dat
+1 16 -30 0 0 1 0 0 0 1 0 0 0 1 stug8.dat
+1 16 80 0 -50 1 0 0 0 1 0 0 0 1 stug3.dat
+1 16 80 0 10 1 0 0 0 1 0 0 0 1 stug3.dat
+1 16 70 0 60 1 0 0 0 1 0 0 0 1 stug2.dat
+1 16 100 0 70 1 0 0 0 1 0 0 0 1 stud.dat
+1 16 100 0 50 1 0 0 0 1 0 0 0 1 stud.dat
+0

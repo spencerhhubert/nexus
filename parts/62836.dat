@@ -1,0 +1,19 @@
+0 ~Electric Mindstorms NXT Temperature Sensor Probe
+0 Name: 62836.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2012-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2012-03-30 [PTadmin] Official Update 2012-01
+
+1 16 0 0 0 6 0 0 0 0 6 0 -175 0 4-4cyli.dat
+0 BFC INVERTNEXT
+1 16 0 0 0 5.5 0 0 0 0 5.5 0 -175 0 4-4cyli.dat
+1 16 0 0 0 5.5 0 0 0 0 5.5 0 -175 0 4-4edge.dat
+1 16 0 0 0 6 0 0 0 0 6 0 -175 0 4-4edge.dat
+1 16 0 0 0 0.5 0 0 0 0 0.5 0 -1 0 4-4rin11.dat
+1 16 0 0 -175 6 0 0 0 0 6 0 -4 0 4-8sphe.dat
+0 BFC INVERTNEXT
+1 16 0 0 -175 5.5 0 0 0 0 5.5 0 -3.5 0 4-8sphe.dat

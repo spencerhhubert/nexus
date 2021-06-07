@@ -1,0 +1,22 @@
+0 Technic Differential
+0 Name: 73071.dat
+0 Author: James Jessiman
+0 !LDRAW_ORG Shortcut UPDATE 2011-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 1998-06-20 [PTadmin] Official Update 1998-06
+0 !HISTORY 2007-07-21 [PTadmin] Header formatted for Contributor Agreement
+0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01
+0 !HISTORY 2008-07-07 [sbliss] Completed header. (2003-02-03)
+0 !HISTORY 2008-07-08 [guyvivan] Made BFC Compliant (2004-08-07)
+0 !HISTORY 2008-07-09 [guyvivan] Improve 48'ed and tooth (2004-11-05)
+0 !HISTORY 2008-07-10 [Philo] Adapter rings between 28 teeth and 48 primitives (2007-10-16)
+0 !HISTORY 2008-07-11 [Philo] Subparted teeth (2007-10-22)
+0 !HISTORY 2008-07-12 [Philo] Split into constitutive parts (2007-10-26)
+0 !HISTORY 2011-07-11 [Steffen] adjusted to modified origin of 4142.dat
+0 !HISTORY 2011-12-29 [PTadmin] Official Update 2011-02
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 4141.dat
+1 16 0 0 21.5 1 0 0 0 1 0 0 0 1 4142.dat

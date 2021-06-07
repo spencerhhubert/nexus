@@ -1,0 +1,13 @@
+0 =Technic Gear 24 Tooth with Single Axle Hole
+0 Name: 24505.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part Alias UPDATE 2018-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+
+0 !HISTORY 2018-01-30 [PTadmin] Official Update 2018-01
+
+0 // Alias of 3648b
+
+1 16 0 0 0  1 0 0  0 1 0  0 0 1 3648b.dat

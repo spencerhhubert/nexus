@@ -1,0 +1,21 @@
+0 Door  1 x  4 x  6 with Window
+0 Name: 40241.dat
+0 Author: Andy Westrate [westrate]
+0 !LDRAW_ORG Part UPDATE 2011-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 !HELP Center of keyhole: 69.94, -18.64, 0
+0 !HELP Top of window:     49.94, -46.95, 0
+0 !HELP Bottom of window:  49.94,  +4.89, 0
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2007-08-25 {LEGO Universe Team} Original part shape
+0 !HISTORY 2009-11-12 [westrate] File preparation for LDraw Parts Tracker
+0 !HISTORY 2011-12-29 [PTadmin] Official Update 2011-02
+
+1 16 0 0 0  1 0 0 0 1 0 0 0  1  s\40241s01.dat
+1 16 0 0 0  1 0 0 0 1 0 0 0 -1  s\40241s01.dat
+1 16 49.94 -51.36 0   1 0 0 0 1 0 0 0 1  s\40241s02.dat
+1 16 49.94 -51.36 0  -1 0 0 0 1 0 0 0 1  s\40241s02.dat
+0

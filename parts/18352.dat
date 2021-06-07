@@ -1,0 +1,21 @@
+0 Technic Steering Wheel Yoke with Axle Hole and Hollow Stud
+0 Name: 18352.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2014-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2014-05-16 {LEGO Digital Designer} Original part shape
+0 !HISTORY 2014-11-20 [Philo] File preparation for LDraw Parts Tracker
+0 !HISTORY 2014-12-23 [PTadmin] Official Update 2014-02
+
+1 16 0 2 0 1 0 0 0 17 0 0 0 -1 axlehole.dat
+1 16 0 2 0 1 0 0 0 -1 0 0 0 -1 axleend.dat
+1 16 0 2 0 1 0 0 0 1 0 0 0 -1 axlehol2.dat
+1 16 0 19 0 1 0 0 0 1 0 0 0 -1 axlehol3.dat 
+1 16 0 0 0 4 0 0 0 1 0 0 0 4 4-4disc.dat
+1 16 0 0 0 0 0 1 0 1 0 -1 0 0 stud2.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\40001s02.dat
+1 16 0 24 0 -1 0 0 0 1 0 0 0 -1 s\40001s01.dat
+1 16 0 24 0 1 0 0 0 1 0 0 0 -1 s\40001s01.dat

@@ -1,0 +1,31 @@
+0 ~Panel  1 x  6 x  5 without Front Surface
+0 Name: s\59349s01.dat
+0 Author: Gerald Lasser [GeraldLasser]
+0 !LDRAW_ORG Subpart UPDATE 2020-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2020-06-28 [PTadmin] Official Update 2020-01
+
+0 BFC INVERTNEXT
+1 16 0 58 10 56 0 0 0 0 54 0 -16 0 box5.dat
+1 16 0 120 0 0 0 -60 0 -120 0 -10 0 0 box3u2p.dat
+2 24 -60 120 -10 60 120 -10
+1 16 -40 116 0 -1 0 0 0 -1 0 0 0 -1 stud3.dat
+1 16 -20 116 0 -1 0 0 0 -1 0 0 0 -1 stud3.dat
+1 16 0 116 0 -1 0 0 0 -1 0 0 0 -1 stud3.dat
+1 16 20 116 0 -1 0 0 0 -1 0 0 0 -1 stud3.dat
+1 16 40 116 0 -1 0 0 0 -1 0 0 0 -1 stud3.dat
+0 BFC INVERTNEXT
+1 16 0 120 0 -56 0 0 0 -4 0 0 0 -6 box5.dat
+4 16 -60 120 -10 -56 120 -6 56 120 -6 60 120 -10
+4 16 60 120 -10 56 120 -6 56 120 6 60 120 10
+4 16 60 120 10 56 120 6 -56 120 6 -60 120 10
+4 16 -60 120 10 -56 120 6 -56 120 -6 -60 120 -10
+1 16 0 0 0 -1 0 0 0 1 0 0 0 -1 stug2-1x6.dat
+4 16 56 112 10 60 120 10 -60 120 10 -56 112 10
+4 16 -60 120 10 -60 0 10 -56 4 10 -56 112 10
+4 16 60 0 10 60 120 10 56 112 10 56 4 10
+4 16 -56 4 10 -60 0 10 60 0 10 56 4 10
+2 24 60 120 10 -60 120 10

@@ -1,0 +1,16 @@
+0 ~Mursten Glass for Window Pane  1 x  2 x  3
+0 Name: u8033.dat
+0 Author: J.C. Tchang [tchang]
+0 !LDRAW_ORG Part UPDATE 2019-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+
+0 !CATEGORY Window
+0 !KEYWORDS Automatic Binding Brick
+
+0 !CMDLINE -c47
+
+0 !HISTORY 2019-09-09 [PTadmin] Official Update 2019-02
+
+1 16 0 36 4.5 20 0 0 0 0 31.5 0 0.5 0 box.dat

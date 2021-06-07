@@ -1,0 +1,27 @@
+0 Technic Flex-System Cable 96LDu Long (open file for usage guide)
+0 Name: 342c01.dat
+0 Author: Ross Crawford [rosco]
+0 !LDRAW_ORG Shortcut UPDATE 2004-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 !HELP A Technic Flex-System is often seen curved in a model.  In those cases, 
+0 !HELP some part of the ends are normally fixed inside another element, while 
+0 !HELP the rest is bent.  The part "342.DAT" is meant to model the straight 
+0 !HELP parts of the ends.  To achieve this, place one at each end point.  They 
+0 !HELP should not be scaled.  The part "343.DAT" is meant to model the rest. 
+0 !HELP If it is curved, you would typically scale the "343.DAT" to a have a 
+0 !HELP short length, eg. 4LDU, and use many of them along the path of the 
+0 !HELP curve. In the example below, the end points are 20LDU length, while the 
+0 !HELP centre part of the hose is scaled to have 56LDU length, thus filling out
+0 !HELP the rest of the segment.  
+
+0 BFC CERTIFY CW
+
+0 !HISTORY 2004-03-02 [PTadmin] Official Update 2004-01
+0 !HISTORY 2007-06-25 [PTadmin] Header formatted for Contributor Agreement
+0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01
+
+1 16 0 0 0 0 -1 0 1 0 0 0 0 1 342.DAT
+1 16 76 0 0 0 -56 0 1 0 0 0 0 1 343.DAT
+1 16 96 0 0 0 1 0 1 0 0 0 0 -1 342.DAT
+0

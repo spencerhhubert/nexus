@@ -1,0 +1,14 @@
+0 Train Track 12V Tapered Point Left Electric (Straight)
+0 Name: u9232c01.dat
+0 Author: Steffen [Steffen]
+0 !LDRAW_ORG Shortcut UPDATE 2012-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+
+0 !CMDLINE -c1
+
+0 !HISTORY 2012-03-30 [PTadmin] Official Update 2012-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 u9232.dat
+1 15 -240 -56 180 -1 0 0 0 1 0 0 0 -1 3245ap02.dat

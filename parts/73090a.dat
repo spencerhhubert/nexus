@@ -1,0 +1,46 @@
+0 Brick  2 x  6 x  2 Weight with Split Bottom
+0 Name: 73090a.dat
+0 Author: James Jessiman
+0 !LDRAW_ORG Part UPDATE 2009-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+0 !KEYWORDS Train, Boat, Technic
+
+0 !HISTORY 1998-06-20 [PTadmin] Official Update 1998-06
+0 !HISTORY 2007-07-21 [PTadmin] Header formatted for Contributor Agreement
+0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01
+0 !HISTORY 2008-07-07 [nielsk] Remake using primitives and BFC'ed
+0 !HISTORY 2008-07-07 [PTadmin] Renamed from 73090
+0 !HISTORY 2009-05-02 [PTadmin] Official Update 2009-01
+
+0 // Bottom inside details are not functional, and thus not modelled
+
+
+
+
+
+1 16 0 44 10 1 0 0 0 -1 0 0 0 1  stud3.dat
+1 16 0 44 -10 1 0 0 0 -1 0 0 0 1  stud3.dat
+0 BFC INVERTNEXT
+1 16 0 48 10 56 0 0 0 -4 0 0 0 6  box5.dat
+0 BFC INVERTNEXT
+1 16 0 48 -10 56 0 0 0 -4 0 0 0 6  box5.dat
+4 16 60 48 20 56 48 16 -56 48 16 -60 48 20
+4 16 -60 48 20 -56 48 16 -56 48 4 -60 48 0
+4 16 -60 48 0 -56 48 4 56 48 4 60 48 0
+4 16 60 48 0 56 48 4 56 48 16 60 48 20
+4 16 -60 48 -20 -56 48 -16 56 48 -16 60 48 -20
+4 16 -60 48 0 -56 48 -4 -56 48 -16 -60 48 -20
+4 16 60 48 0 56 48 -4 -56 48 -4 -60 48 0
+4 16 60 48 -20 56 48 -16 56 48 -4 60 48 0
+1 16 0 48 0 60 0 0 0 -48 0 0 0 20 box5.dat
+2 24 60 48 0 -60 48 0
+2 24 60 0 0 60 48 0
+2 24 -60 0 0 -60 48 0
+2 24 60 0 0 -60 0 0
+1 16 40 0 0 1 0 0 0 1 0 0 0 1 stug2a.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 stug2a.dat
+1 16 -40 0 0 1 0 0 0 1 0 0 0 1 stug2a.dat
+0
+

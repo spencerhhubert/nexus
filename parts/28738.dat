@@ -1,0 +1,19 @@
+0 Electric Powered Up Hub
+0 Name: 28738.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Shortcut UPDATE 2019-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2019-12-27 [PTadmin] Official Update 2019-03
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 34742.dat
+1 71 20 10 -80 1 0 0 0 1 0 0 0 1 u9320.dat
+1 71 -20 10 -80 1 0 0 0 1 0 0 0 1 u9320.dat
+1 2 0 0 40 1 0 0 0 1 0 0 0 1 34745.dat
+1 71 0 16 0 1 0 0 0 1 0 0 0 1 34743.dat
+1 494 0 78 -72 1 0 0 0 -1 0 0 0 -1 u9013.dat
+1 494 0 78 72 1 0 0 0 -1 0 0 0 -1 u9013.dat
+1 71 0 72 0 1 0 0 0 1 0 0 0 1 34744.dat
+1 15 0 89 0 1 0 0 0 1 0 0 0 1 34752.dat

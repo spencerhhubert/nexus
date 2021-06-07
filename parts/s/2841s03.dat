@@ -1,0 +1,25 @@
+0 ~Technic Control Centre - Top - Housing Ribs
+0 Name: s\2841s03.dat
+0 Author: Michael Heidemann [mikeheide]
+0 !LDRAW_ORG Subpart UPDATE 2012-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2012-03-30 [PTadmin] Official Update 2012-01
+
+2 24 -3 0 0 -3 -40 0
+2 24 -3 0 -4 -3 -40 -4
+2 24 3 0 -4 3 -40 -4
+2 24 3 0 0 3 -40 0
+4 16 -3 0 -4 -3 0 0 -3 -40 0 -3 -40 -4
+4 16 3 0 0 3 0 -4 3 -40 -4 3 -40 0
+4 16 -3 0 0 3 0 0 3 -40 0 -3 -40 0
+0 BFC INVERTNEXT
+1 16 0 -40 -4 3 0 0 0 0 -3 0 4 0 2-4cyli.dat
+0 BFC INVERTNEXT
+1 16 0 -40 -4 3 0 0 0 0 -3 0 8 0 2-4edge.dat
+1 16 0 -40 0 3 0 0 0 0 -3 0 8 0 2-4disc.dat
+1 16 0 -40 0 3 0 0 0 0 -3 0 8 0 2-4edge.dat
+2 24 -3 0 0 -3 0 -4
+2 24 3 0 0 3 0 -4

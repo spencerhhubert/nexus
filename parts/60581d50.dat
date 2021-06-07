@@ -1,0 +1,19 @@
+0 Panel  1 x  4 x  3 Reinforced with Thermometer, Radioactivity Symbol and 'LL2079' in White Squares Sticker
+0 Name: 60581d50.dat
+0 Author: Magnus Forsberg [MagFors]
+0 !LDRAW_ORG Shortcut UPDATE 2020-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Set 70816, Spaceship
+0 !CMDLINE -c47
+
+0 !HISTORY 2015-12-30 [PTadmin] Official Update 2015-02
+0 !HISTORY 2019-05-11 [cwdee] Update description
+0 !HISTORY 2019-09-09 [PTadmin] Official Update 2019-02
+0 !HISTORY 2020-05-25 [PTadmin] Update description
+0 !HISTORY 2020-06-28 [PTadmin] Official Update 2020-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 60581.dat
+1 16 0 36 10 -1 0 0 0 0 -1 0 -1 0 6074343n.dat

@@ -1,0 +1,27 @@
+0 ~Police Badge - Yellow Star Pattern Half without Border
+0 Name: s\3039p08s02.dat
+0 Author: Michael Heidemann [mikeheide]
+0 !LDRAW_ORG Subpart UPDATE 2019-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+0 !HISTORY 2013-03-02 [MagFors] subfiled badge pattern
+0 !HISTORY 2019-06-28 [PTadmin] Official Update 2019-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\3039p08s03.dat
+3 16 0 0 0 -9 0 0 -0.7574 0 -0.7427
+3 16 -9 0 0 -2.7039 0 -2.0432 -0.7574 0 -0.7427
+3 16 -5 0 -2.5 -2.7039 0 -2.0432 -9 0 0
+3 16 -9 0 0 -7.2961 0 -2.0432 -5 0 -2.5
+3 16 -7.2961 0 -2.0432 -9 0 0 -8.75 0 -1.7501
+3 16 -9 0 0 -9 0 -5 -8.75 0 -1.7501
+3 16 -2 0 -21 -9 0 -22 0 0 -22
+3 16 -2 0 -21 -4 0 -19.5 -9 0 -22
+3 16 -9 0 -22 -4 0 -19.5 -6.25 0 -17
+3 16 -6.25 0 -17 -7.5 0 -15 -9 0 -22
+3 16 -9 0 -22 -7.5 0 -15 -8.25 0 -13
+3 16 -8.25 0 -13 -8.75 0 -11 -9 0 -22
+3 16 -9 0 -22 -8.75 0 -11 -9 0 -8
+0 // Pattern created wholly or in part by Quad2Dat
+0 // Thanks James
+

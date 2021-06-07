@@ -1,0 +1,27 @@
+0 ~Technic Gear Rack with Pegholes and Axleholes - Tooth Module
+0 Name: s\64781s02.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Subpart UPDATE 2010-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2010-04-05 [PTadmin] Official Update 2010-01
+
+1 16 0 -2.5 -4 0 0 -1 0 -1 0 -1 0 0 toothr.dat
+1 16 0 0 -6 7 0 0 0 2 0 0 -1 1 box2-7.dat
+1 16 0 0 -2 7 0 0 0 2 0 0 1 -1 box2-7.dat
+1 16 0 -2.5 -0.5 0 0 10 0 1 0 0.5 0 0 rect2p.dat
+1 16 0 -2.5 -7.5 0 0 10 0 1 0 0.5 0 0 rect2p.dat
+1 16 8.5 4 -4 0 0 -1.5 0 6 0 -4 0 0 box2-11.dat
+1 16 -8.5 4 -4 0 0 1.5 0 6 0 4 0 0 box2-11.dat
+3 16 10 10 -8 10 -2.5 -7 10 -2.5 -8
+3 16 10 10 0 10 -2.5 0 10 -2.5 -1
+4 16 10 10 -8 10 10 0 10 -2.5 -1 10 -2.5 -7
+2 24 -10 10 -8 -10 10 0
+3 16 -10 -2.5 -8 -10 -2.5 -7 -10 10 -8
+3 16 -10 -2.5 -1 -10 -2.5 0 -10 10 0
+4 16 -10 -2.5 -7 -10 -2.5 -1 -10 10 0 -10 10 -8
+2 24 10 10 -8 10 10 0
+2 24 -7 -2 -4 7 -2 -4
+

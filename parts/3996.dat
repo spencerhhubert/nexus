@@ -1,0 +1,16 @@
+0 Door  1 x  6 x  2 Left
+0 Name: 3996.dat
+0 Author: Tore Eriksson [Tore_Eriksson]
+0 !LDRAW_ORG Part UPDATE 2017-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+0 !KEYWORDS Fabuland
+
+0 !HISTORY 2012-03-30 [PTadmin] Official Update 2012-01
+0 !HISTORY 2017-08-19 [PTadmin] Renamed from 691
+0 !HISTORY 2017-12-30 [PTadmin] Official Update 2017-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\3996s01.dat
+1 16 0 0 0 0 0 1 0 1 0 -1 0 0 stud.dat
+0

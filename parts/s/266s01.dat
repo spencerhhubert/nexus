@@ -1,0 +1,40 @@
+0 ~Electric Lightbrick  2 x  2 Type 1 12V Metal Connector 
+0 Name: s\266s01.dat
+0 Author: Niels Karsdorp [nielsk]
+0 !LDRAW_ORG Subpart UPDATE 2009-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+
+0 !HISTORY 2009-12-29 [PTadmin] Official Update 2009-03
+
+0 BFC INVERTNEXT
+1 16 0 0 0 3.5 0 0 0 -8 0 0 0 3.5 4-4cyli.dat
+1 16 0 0 0 4 0 0 0 -8 0 0 0 4 4-4cyli.dat
+0 End 1
+1 16 0 0 0 4 0 0 0 4 0 0 0 4 t04o1333.dat
+1 16 0 0 0 0 0 4 0 4 0 -4 0 0 t04o1333.dat
+1 16 0 0 0 -4 0 0 0 4 0 0 0 -4 t04o1333.dat
+1 16 0 0 0 0 0 -4 0 4 0 4 0 0 t04o1333.dat
+1 16 0 0 0 4 0 0 0 4 0 0 0 4 t04i1333.dat
+1 16 0 0 0 0 0 4 0 4 0 -4 0 0 t04i1333.dat
+1 16 0 0 0 -4 0 0 0 4 0 0 0 -4 t04i1333.dat
+1 16 0 0 0 0 0 -4 0 4 0 4 0 0 t04i1333.dat
+1 16 0 0 0 0.5 0 0 0 1 0 0 0 0.5 1-4ring8.dat
+1 16 0 0 0 0 0 0.5 0 1 0 -0.5 0 0 1-4ring8.dat
+1 16 0 0 0 -0.5 0 0 0 1 0 0 0 -0.5 1-4ring8.dat
+1 16 0 0 0 0 0 -0.5 0 1 0 0.5 0 0 1-4ring8.dat
+0 End 2
+1 16 0 -8 0 4 0 0 0 -4 0 0 0 4 t04o1333.dat
+1 16 0 -8 0 0 0 4 0 -4 0 -4 0 0 t04o1333.dat
+1 16 0 -8 0 -4 0 0 0 -4 0 0 0 -4 t04o1333.dat
+1 16 0 -8 0 0 0 -4 0 -4 0 4 0 0 t04o1333.dat
+1 16 0 -8 0 4 0 0 0 -4 0 0 0 4 t04i1333.dat
+1 16 0 -8 0 0 0 4 0 -4 0 -4 0 0 t04i1333.dat
+1 16 0 -8 0 -4 0 0 0 -4 0 0 0 -4 t04i1333.dat
+1 16 0 -8 0 0 0 -4 0 -4 0 4 0 0 t04i1333.dat
+1 16 0 -8 0 0.5 0 0 0 -1 0 0 0 0.5 1-4ring8.dat
+1 16 0 -8 0 0 0 0.5 0 -1 0 -0.5 0 0 1-4ring8.dat
+1 16 0 -8 0 -0.5 0 0 0 -1 0 0 0 -0.5 1-4ring8.dat
+1 16 0 -8 0 0 0 -0.5 0 -1 0 0.5 0 0 1-4ring8.dat
+0

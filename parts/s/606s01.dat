@@ -1,0 +1,30 @@
+0 ~Baseplate 32 x 32 Road 9-Stud Straight without Top Surface
+0 Name: s\606s01.dat
+0 Author: Alex Taylor [anathema]
+0 !LDRAW_ORG Subpart UPDATE 2010-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2010-04-09 [mikeheide] Moved portions to main parts
+0 !HISTORY 2010-07-05 [PTadmin] Official Update 2010-02
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\3811s01.dat
+1 16 -230 0 230 0 0 1 0 1 0 -1 0 0 stug9.dat
+1 16 -230 0 50 0 0 1 0 1 0 -1 0 0 stug9.dat
+1 16 -230 0 -130 0 0 1 0 1 0 -1 0 0 stug9.dat
+1 16 -270 0 -270 0 0 1 0 1 0 -1 0 0 stug5.dat
+1 16 -180 0 -260 0 0 1 0 1 0 -1 0 0 stug4.dat
+1 16 -210 0 -310 0 0 1 0 1 0 -1 0 0 stud.dat
+1 16 -190 0 -310 0 0 1 0 1 0 -1 0 0 stud.dat
+1 16 -170 0 -310 0 0 1 0 1 0 -1 0 0 stud.dat
+1 16 -150 0 -310 0 0 1 0 1 0 -1 0 0 stud.dat
+1 16 230 0 230 0 0 1 0 1 0 -1 0 0 stug9.dat
+1 16 230 0 50 0 0 1 0 1 0 -1 0 0 stug9.dat
+1 16 230 0 -130 0 0 1 0 1 0 -1 0 0 stug9.dat
+1 16 190 0 -270 0 0 1 0 1 0 -1 0 0 stug5.dat
+1 16 280 0 -260 0 0 1 0 1 0 -1 0 0 stug4.dat
+1 16 250 0 -310 0 0 1 0 1 0 -1 0 0 stud.dat
+1 16 270 0 -310 0 0 1 0 1 0 -1 0 0 stud.dat
+1 16 290 0 -310 0 0 1 0 1 0 -1 0 0 stud.dat
+1 16 310 0 -310 0 0 1 0 1 0 -1 0 0 stud.dat

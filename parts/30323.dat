@@ -1,0 +1,17 @@
+0 Minifig Backpack with Sleeping Bag
+0 Name: 30323.dat
+0 Author: Mark Chittenden [mdublade]
+0 !LDRAW_ORG Part UPDATE 2018-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !CATEGORY Minifig Neckwear
+
+0 !HISTORY 2007-08-25 {LEGO Universe Team} Original part shape
+0 !HISTORY 2010-07-14 [mdublade] File preparation for LDraw Parts Tracker
+0 !HISTORY 2016-06-02 [Holly-Wood] Primitive substitution, BFCed, fixed edges und conds, fixed overlap, polished
+0 !HISTORY 2018-12-08 [PTadmin] Official Update 2018-02
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\30323s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\30323s01.dat

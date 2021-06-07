@@ -1,0 +1,14 @@
+0 ~Glass for Door  1 x  2 x  3
+0 Name: u9045.dat
+0 Author: J.C. Tchang [tchang]
+0 !LDRAW_ORG Part UPDATE 2012-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2012-03-30 [PTadmin] Official Update 2012-01
+
+1 16 0 36 -5 16 0 0 0 0 32 0 -1 0 box.dat
+1 16 0 4 -5 1 0 0 0 1 0 0 0 1 4-4edge.dat
+1 16 0 4 -5 1 0 0 0 -1 0 0 0 1 4-8sphe.dat
+0

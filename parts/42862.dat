@@ -1,0 +1,13 @@
+0 Wedge  3 x  3 Sloped Left
+0 Name: 42862.dat
+0 Author: Magnus Forsberg [MagFors]
+0 !LDRAW_ORG Part UPDATE 2019-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2019-09-09 [PTadmin] Official Update 2019-02
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\42862s01.dat
+1 16 -20 0 0 0 0 -1 0 1 0 1 0 0 stug-1x3.dat
+4 16 -10 0 -30 10 20 -30 30 20 30 10 0 30

@@ -1,0 +1,14 @@
+0 Motor Wind-Up  4 x 10 x  3 with Red Wheels and Red Key
+0 Name: u9236c03.dat
+0 Author: Steffen [Steffen]
+0 !LDRAW_ORG Shortcut UPDATE 2013-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !CATEGORY Vehicle
+
+0 !HISTORY 2013-12-23 [PTadmin] Official Update 2013-02
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 u9236c02.dat
+1 4 -115 34 -7 0 0 1 0 1 0 -1 0 0 4234.dat

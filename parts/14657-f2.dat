@@ -1,0 +1,15 @@
+0 Technic Pneumatic Tube  7L with End Bulges
+0 Name: 14657-f2.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2020-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS 56 mm
+
+0 !HISTORY 2020-06-28 [PTadmin] Official Update 2020-01
+
+1 16 -50 0 0 0 100 0 1 0 0 0 0 1 71533k03.dat
+1 16 -50 0 0 0 -1 0 1 0 0 0 0 1 71533k01.dat
+1 16 50 0 0 0 1 0 1 0 0 0 0 1 71533k01.dat

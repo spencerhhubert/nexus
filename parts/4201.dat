@@ -1,0 +1,79 @@
+0 Brick  8 x  8
+0 Name: 4201.dat
+0 Author: James Jessiman
+0 !LDRAW_ORG Part UPDATE 2013-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+
+0 !HISTORY 1998-09-15 [PTadmin]       Official Update 1998-08
+0 !HISTORY 2007-07-04 [PTadmin]       Header formatted for Contributor Agreement
+0 !HISTORY 2008-07-01 [PTadmin]       Official Update 2008-01
+0 !HISTORY 2013-08-02 [theJudeAbides] BFCed, Used more primitives
+0 !HISTORY 2013-12-23 [PTadmin] Official Update 2013-02
+
+1 16 -40 4 -40 6 0 0 0 1 0 0 0 6 4-4edge.dat
+1 16 0 4 -40 6 0 0 0 1 0 0 0 6 4-4edge.dat
+1 16 40 4 -40 6 0 0 0 1 0 0 0 6 4-4edge.dat
+1 16 -40 4 0 6 0 0 0 1 0 0 0 6 4-4edge.dat
+1 16 0 4 0 6 0 0 0 1 0 0 0 6 4-4edge.dat
+1 16 40 4 0 6 0 0 0 1 0 0 0 6 4-4edge.dat
+1 16 -40 4 40 6 0 0 0 1 0 0 0 6 4-4edge.dat
+1 16 0 4 40 6 0 0 0 1 0 0 0 6 4-4edge.dat
+1 16 40 4 40 6 0 0 0 1 0 0 0 6 4-4edge.dat
+1 16 -40 4 40 -1 0 0 0 -5 0 0 0 1 stud4f4s.dat
+1 16 -20 4 40 1 0 0 0 1 0 0 0 1 filletp0s.dat
+1 16 0 4 40 -1 0 0 0 -5 0 0 0 1 stud4f4s.dat
+1 16 20 4 40 1 0 0 0 1 0 0 0 1 filletp0s.dat
+1 16 40 4 40 0 0 1 0 -5 0 1 0 0 stud4f4s.dat
+1 16 -40 4 20 0 0 -1 0 1 0 1 0 0 filletp0s.dat
+1 16 0 4 20 0 0 1 0 1 0 -1 0 0 filletp0s.dat
+1 16 40 4 20 0 0 1 0 1 0 -1 0 0 filletp0s.dat
+1 16 -40 4 0 0 0 -1 0 -5 0 -1 0 0 stud4f4s.dat
+1 16 -20 4 0 1 0 0 0 1 0 0 0 1 filletp0s.dat
+1 16 0 4 0 0 0 -1 0 -5 0 -1 0 0 stud4f4s.dat
+1 16 20 4 0 -1 0 0 0 1 0 0 0 -1 filletp0s.dat
+1 16 40 4 0 0 0 1 0 -5 0 1 0 0 stud4f4s.dat
+1 16 -40 4 -20 0 0 -1 0 1 0 1 0 0 filletp0s.dat
+1 16 0 4 -20 0 0 -1 0 1 0 1 0 0 filletp0s.dat
+1 16 40 4 -20 0 0 1 0 1 0 -1 0 0 filletp0s.dat
+1 16 -40 4 -40 0 0 -1 0 -5 0 -1 0 0 stud4f4s.dat
+1 16 -20 4 -40 -1 0 0 0 1 0 0 0 -1 filletp0s.dat
+1 16 0 4 -40 1 0 0 0 -5 0 0 0 -1 stud4f4s.dat
+1 16 20 4 -40 -1 0 0 0 1 0 0 0 -1 filletp0s.dat
+1 16 40 4 -40 1 0 0 0 -5 0 0 0 -1 stud4f4s.dat
+1 16 -40 4 40 0 0 -1 0 1 0 1 0 0 filletp2s.dat
+1 16 -40 4 40 1 0 0 0 1 0 0 0 1 filletp1s.dat
+1 16 0 4 40 1 0 0 0 1 0 0 0 1 filletp1s.dat
+1 16 40 4 40 1 0 0 0 1 0 0 0 1 filletp2s.dat
+1 16 40 4 40 0 0 1 0 1 0 -1 0 0 filletp1s.dat
+1 16 40 4 0 0 0 1 0 1 0 -1 0 0 filletp1s.dat
+1 16 40 4 -40 0 0 1 0 1 0 -1 0 0 filletp2s.dat
+1 16 40 4 -40 -1 0 0 0 1 0 0 0 -1 filletp1s.dat
+1 16 0 4 -40 -1 0 0 0 1 0 0 0 -1 filletp1s.dat
+1 16 -40 4 -40 -1 0 0 0 1 0 0 0 -1 filletp2s.dat
+1 16 -40 4 -40 0 0 -1 0 1 0 1 0 0 filletp1s.dat
+1 16 -40 4 0 0 0 -1 0 1 0 1 0 0 filletp1s.dat
+1 16 -60 4 60 1 0 0 0 -5 0 0 0 1 stud4.dat
+1 16 -20 4 60 1 0 0 0 -5 0 0 0 1 stud4.dat
+1 16 20 4 60 1 0 0 0 -5 0 0 0 1 stud4.dat
+1 16 60 4 60 1 0 0 0 -5 0 0 0 1 stud4.dat
+1 16 -60 4 20 1 0 0 0 -5 0 0 0 1 stud4.dat
+1 16 -20 4 20 1 0 0 0 -5 0 0 0 1 stud4.dat
+1 16 20 4 20 1 0 0 0 -5 0 0 0 1 stud4.dat
+1 16 60 4 20 1 0 0 0 -5 0 0 0 1 stud4.dat
+1 16 -60 4 -20 1 0 0 0 -5 0 0 0 1 stud4.dat
+1 16 -20 4 -20 1 0 0 0 -5 0 0 0 1 stud4.dat
+1 16 20 4 -20 1 0 0 0 -5 0 0 0 1 stud4.dat
+1 16 60 4 -20 1 0 0 0 -5 0 0 0 1 stud4.dat
+1 16 -60 4 -60 1 0 0 0 -5 0 0 0 1 stud4.dat
+1 16 -20 4 -60 1 0 0 0 -5 0 0 0 1 stud4.dat
+1 16 20 4 -60 1 0 0 0 -5 0 0 0 1 stud4.dat
+1 16 60 4 -60 1 0 0 0 -5 0 0 0 1 stud4.dat
+4 16 -76 4 76 -76 4 -76 76 4 -76 76 4 76
+4 16 -80 24 80 -76 24 76 76 24 76 80 24 80
+4 16 80 24 80 76 24 76 76 24 -76 80 24 -80
+4 16 80 24 -80 76 24 -76 -76 24 -76 -80 24 -80
+4 16 -80 24 80 -80 24 -80 -76 24 -76 -76 24 76
+1 16 0 24 0 80 0 0 0 -24 0 0 0 80 box5.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 stug-8x8.dat

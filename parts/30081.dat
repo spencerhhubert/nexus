@@ -1,0 +1,23 @@
+0 ~Glass for Panel  4 x  3 x  3 with Porthole
+0 Name: 30081.dat
+0 Author: Magnus Forsberg [MagFors]
+0 !LDRAW_ORG Part UPDATE 2011-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2011-12-29 [PTadmin] Official Update 2011-02
+
+1 16 0 0 0 17 0 0 0 1 0 0 0 17 4-4edge.dat
+1 16 0 0 0 -1 0 0 0 -1 0 0 0 1 4-4rin17.dat
+1 16 0 0 0 -3 0 0 0 -1 0 0 0 3 4-4ring6.dat
+0 BFC INVERTNEXT
+1 16 0 -8 0 17 0 0 0 8 0 0 0 17 4-4cyli.dat
+0 BFC INVERTNEXT
+1 16 0 -8 0 17 0 0 0 -1.5 0 0 0 -17 4-8sphe.dat
+1 16 0 -8 0 19 0 0 0 4 0 0 0 19 4-4cyli.dat
+1 16 0 -8 0 19 0 0 0 -3 0 0 0 -19 4-8sphe.dat
+1 16 0 -4 0 19 0 0 0 1 0 0 0 19 4-4edge.dat
+1 16 0 -4 0 1 0 0 0 1 0 0 0 1 4-4rin19.dat
+1 16 0 -4 0 1 0 0 0 1 0 0 0 1 4-4rin20.dat
+1 16 0 -4 0 21 0 0 0 4 0 0 0 21 4-4cylo.dat

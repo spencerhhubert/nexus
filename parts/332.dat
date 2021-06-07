@@ -1,0 +1,19 @@
+0 ~Technic Micro-Scout Axlehole (Needs Work)
+0 Name: 332.dat
+0 Author: Marc Klein [marckl]
+0 !LDRAW_ORG Part UPDATE 2012-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2012-03-30 [PTadmin] Official Update 2012-01
+
+0 // Needs Work: Only the visible section has been modelled.
+
+1 16 0 58 -110 8 0 0 0 0 8 0 1 0 4-4edge.dat
+1 16 0 58 -110 2 0 0 0 0 2 0 1 0 4-4ring3.dat
+1 16 0 58 -110 1 0 0 0 0 1 0 20 0 axlehole.dat
+1 16 0 58 -110 1 0 0 0 0 1 0 1 0 axlehol2.dat
+1 16 0 58 -90 1 0 0 0 0 1 0 1 0 axlehol2.dat
+1 16 0 58 -90 1 0 0 0 0 1 0 1 0 axleend.dat
+0 //

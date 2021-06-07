@@ -1,0 +1,50 @@
+0 Train Base  6 x 34 Split-Level without Bottom Tubes
+0 Name: 87058.dat
+0 Author: Max Martin Richter [MMR1988]
+0 !LDRAW_ORG Part UPDATE 2013-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2013-07-21 [PTadmin] Official Update 2013-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\87058s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\87058s01.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 -1 s\87058s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 -1 s\87058s01.dat
+
+0 // underside studs
+0 // 1 x 2 underside boxes and middle stud of side boxes
+1 16 170 52 0 1 0 0 0 -3 0 0 0 1 stud3.dat
+1 16 -170 52 0 1 0 0 0 -3 0 0 0 1 stud3.dat
+1 16 0 52 -50 1 0 0 0 -1 0 0 0 1 stud3.dat
+1 16 0 52 50 1 0 0 0 -1 0 0 0 1 stud3.dat
+0 // end sides
+
+1 16 300 4 0 1 0 0 0 -1 0 0 0 1 stug4-1x3.dat
+1 16 260 4 0 1 0 0 0 -1 0 0 0 1 stud4h.dat
+1 16 220 4 0 1 0 0 0 -1 0 0 0 1 stug4-1x3.dat
+1 16 -300 4 0 -1 0 0 0 -1 0 0 0 -1 stug4-1x3.dat
+1 16 -260 4 0 1 0 0 0 -1 0 0 0 1 stud4h.dat
+1 16 -220 4 0 -1 0 0 0 -1 0 0 0 -1 stug4-1x3.dat
+
+0 // topside studs
+1 16 280 0 0 1 0 0 0 1 0 0 0 1 stug-6x6.dat
+1 16 200 0 40 1 0 0 0 1 0 0 0 1 stug-2x2.dat
+1 16 210 0 0 1 0 0 0 1 0 0 0 1 stug-2x1.dat
+1 16 200 0 -40 1 0 0 0 1 0 0 0 1 stug-2x2.dat
+1 16 170 48 50 1 0 0 0 1 0 0 0 1 stud.dat
+1 16 170 48 0 1 0 0 0 1 0 0 0 1 stug-2x1.dat
+1 16 170 48 -50 1 0 0 0 1 0 0 0 1 stud.dat
+1 16 100 48 0 1 0 0 0 1 0 0 0 1 stug-6x6.dat
+1 16 0 48 20 1 0 0 0 1 0 0 0 1 stug-4x4.dat
+1 16 20 48 -40 1 0 0 0 1 0 0 0 1 stug-2x2.dat
+1 16 -20 48 -40 1 0 0 0 1 0 0 0 1 stug-2x2.dat
+1 16 -100 48 0 1 0 0 0 1 0 0 0 1 stug-6x6.dat
+1 16 -170 48 50 1 0 0 0 1 0 0 0 1 stud.dat
+1 16 -170 48 0 1 0 0 0 1 0 0 0 1 stug-2x1.dat
+1 16 -170 48 -50 1 0 0 0 1 0 0 0 1 stud.dat
+1 16 -200 0 40 1 0 0 0 1 0 0 0 1 stug-2x2.dat
+1 16 -210 0 0 1 0 0 0 1 0 0 0 1 stug-2x1.dat
+1 16 -200 0 -40 1 0 0 0 1 0 0 0 1 stug-2x2.dat
+1 16 -280 0 0 1 0 0 0 1 0 0 0 1 stug-6x6.dat

@@ -1,0 +1,44 @@
+0 Boat Rigging  5 x 15 Trapezoid
+0 Name: 6057.dat
+0 Author: Donald Sutter [technog]
+0 !LDRAW_ORG Part UPDATE 2015-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+0 !KEYWORDS bar, Pirates, ratlines
+
+0 !HISTORY 2003-03-12 [PTadmin] Official Update 2003-01
+0 !HISTORY 2007-07-09 [PTadmin] Header formatted for Contributor Agreement
+0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01
+0 !HISTORY 2008-07-07 [WilliamH] Reworked with sub-parts (2004-07-02)
+0 !HISTORY 2015-12-30 [PTadmin] Official Update 2015-02
+
+1 16 -48 0 150 1 0 0 0 1 0 0 0 1 s\6057S03.dat
+1 16 -10 0 150 0 -20 0 0 0 4 4 0 0 4-4cyli.dat
+1 16 0 0 150 -1 0 0 0 1 0 0 0 -1 s\6057S04.dat
+1 16 10 0 150 0 20 0 0 0 4 4 0 0 4-4cyli.dat
+1 16 48 0 150 -1 0 0 0 1 0 0 0 1 s\6057S03.dat
+1 16 -44 0 90 1 0 0 0 1 0 0 0 1 s\6057S02.dat
+1 16 -10 0 90 0 -16 0 0 0 4 4 0 0 4-4cyli.dat
+1 16 0 0 90 1 0 0 0 1 0 0 0 1 s\6057S05.dat
+1 16 10 0 90 0 16 0 0 0 4 4 0 0 4-4cyli.dat
+1 16 44 0 90 -1 0 0 0 1 0 0 0 1 s\6057S02.dat
+1 16 -40 0 30 1 0 0 0 1 0 0 0 1 s\6057S02.dat
+1 16 -10 0 30 0 -12 0 0 0 4 4 0 0 4-4cyli.dat
+1 16 0 0 30 1 0 0 0 1 0 0 0 1 s\6057S05.dat
+1 16 10 0 30 0 12 0 0 0 4 4 0 0 4-4cyli.dat
+1 16 40 0 30 -1 0 0 0 1 0 0 0 1 s\6057S02.dat
+1 16 -36 0 -30 1 0 0 0 1 0 0 0 1 s\6057S02.dat
+1 16 -10 0 -30 0 -8 0 0 0 4 4 0 0 4-4cyli.dat
+1 16 0 0 -30 1 0 0 0 1 0 0 0 1 s\6057S05.dat
+1 16 10 0 -30 0 8 0 0 0 4 4 0 0 4-4cyli.dat
+1 16 36 0 -30 -1 0 0 0 1 0 0 0 1 s\6057S02.dat
+1 16 -32 0 -90 1 0 0 0 1 0 0 0 1 s\6057S02.dat
+1 16 -14 0 -90 0 4 0 0 0 -4 -4 0 0 4-4cyli.dat
+1 16 0 0 -90 1 0 0 0 1 0 0 0 1 s\6057S05.dat
+1 16 10 0 -90 0 4 0 0 0 4 4 0 0 4-4cyli.dat
+1 16 32 0 -90 -1 0 0 0 1 0 0 0 1 s\6057S02.dat
+1 16 -28 0 -150 1 0 0 0 1 0 0 0 1 s\6057S01.dat
+1 16 0 0 -150 1 0 0 0 1 0 0 0 1 s\6057S04.dat
+1 16 28 0 -150 -1 0 0 0 1 0 0 0 1 s\6057S01.dat
+0

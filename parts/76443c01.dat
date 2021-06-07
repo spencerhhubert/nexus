@@ -1,0 +1,17 @@
+0 Animal Dinosaur Stegosaurus (Complete) with Light Gray Legs
+0 Name: 76443c01.dat
+0 Author: Magnus Forsberg [MagFors]
+0 !LDRAW_ORG Shortcut UPDATE 2012-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Adventurers
+
+0 !HISTORY 2012-08-09 [PTadmin] Official Update 2012-02
+
+1  16 0 0 0 1 0 0 0 1 0 0 0 1 30463.DAT
+0 // tail
+1 16 0 36.719 89.996 1 0 0 0 1 0 0 0 1 6028.dat
+0 // legs
+1  7 0 63.725 -80.254 1 0 0 0 1 0 0 0 1 30462.DAT

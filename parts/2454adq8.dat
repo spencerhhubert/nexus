@@ -1,0 +1,17 @@
+0 Brick  1 x  2 x  5 with Hieroglyphs in Dark Orange Frames Sticker
+0 Name: 2454adq8.dat
+0 Author: Christian Neumann [Wesley]
+0 !LDRAW_ORG Shortcut UPDATE 2020-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Pharaoh's Quest, Set 7327
+0 !CMDLINE -c19
+
+0 !HISTORY 2016-12-31 [PTadmin] Official Update 2016-01
+0 !HISTORY 2020-09-04 [PTadmin] Renamed from 2454dq8
+0 !HISTORY 2020-12-29 [PTadmin] Official Update 2020-03
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 2454a.dat
+1 16 0 60 -10 1 0 0 0 0 -1 0 1 0 4613908p.dat

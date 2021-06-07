@@ -1,0 +1,15 @@
+0 Minifig Torso with "TINE" Stickers
+0 Name: 973d01.dat
+0 Author: J.C. Tchang [tchang]
+0 !LDRAW_ORG Shortcut UPDATE 2013-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Milk
+
+0 !HISTORY 2013-12-23 [PTadmin] Official Update 2013-02
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 973.dat
+1 16 0 16 -10 1 0 0 0 0 -1 0 1 0 22587b.dat
+1 16 0 16 10 -1 0 0 0 0 -1 0 -1 0 22587c.dat

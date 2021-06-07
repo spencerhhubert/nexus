@@ -1,0 +1,47 @@
+0 ~Turntable  4 x  4 Base
+0 Name: s\3404s03.dat
+0 Author: Max Martin Richter [MMR1988]
+0 !LDRAW_ORG Subpart UPDATE 2014-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2014-12-23 [PTadmin] Official Update 2014-02
+
+0 BFC INVERTNEXT
+1 16 0 12 0 20.2 0 0 0 12 0 0 0 20.2 4-4cylo.dat
+
+1 16 0 24 0 5.05 0 0 0 -1 0 0 0 5.05 4-4ring4.dat      
+1 16 0 24 0 0.25 0 0 0 -1 0 0 0 0.25 4-4ring101.dat 
+
+1 16 0 16 0 23.5589 0 -9.7584 0 8 0 9.7584 0 23.5589 1-8cylo.dat
+1 16 0 16 0 9.7584 0 23.5589 0 8 0 -23.5589 0 9.7584 1-8cylo.dat
+1 16 0 16 0 -23.5589 0 9.7584 0 8 0 -9.7584 0 -23.5589 1-8cylo.dat
+1 16 0 16 0 -9.7584 0 -23.5589 0 8 0 23.5589 0 -9.7584 1-8cylo.dat
+
+1 16 0 16 0 12 0 0 0 -1 0 0 0 12 4-4ring2.dat      
+1 16 0 16 0 2 0 0 0 -1 0 0 0 2 4-4rin18.dat  
+1 16 0 16 0 38 0 0 0 -1 0 0 0 38 48\4-4aring.dat
+
+1 16 0 8 0 37.5 0 0 0 4 0 0 0 37.5 48\4-4cylo.dat
+
+1 16 0 8 0 2 0 0 0 1 0 0 0 2 48\4-4rin17.dat
+1 16 0 8 0 1.5 0 0 0 1 0 0 0 1.5 48\4-4rin24.dat
+
+0 BFC INVERTNEXT
+1 16 0 8 0 34 0 0 0 4 0 0 0 34 48\4-4cylo.dat
+1 16 0 12 0 34 0 0 0 1 0 0 0 34 48\4-4aring.dat
+1 16 0 12 0 8 0 0 0 1 0 0 0 8 4-4ring3.dat      
+1 16 0 12 0 2 0 0 0 1 0 0 0 2 4-4rin16.dat 
+
+1 16 0 8 0 24.375 0 0 0 4 0 0 0 24.375 4-4cylo.dat
+
+1 16 0 8 0 7.7 0 0 0 1 0 0 0 7.7 4-4ring2.dat
+1 16 0 8 0 0.9625 0 0 0 1 0 0 0 0.9625 4-4rin24.dat
+1 16 0 8 0 0.3125 0 0 0 1 0 0 0 0.3125 4-4rin77.dat
+
+0 BFC INVERTNEXT
+1 16 0 8 0 15.4 0 0 0 4 0 0 0 15.4 4-4cylo.dat
+
+1 16 0 12 0 3.85 0 0 0 -1 0 0 0 3.85 4-4ring4.dat      
+1 16 0 12 0 1.75 0 0 0 -1 0 0 0 1.75 4-4rin11.dat    

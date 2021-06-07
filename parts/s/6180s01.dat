@@ -1,0 +1,36 @@
+0 ~Tile  4 x  6 with Studs on Edges without Top Face
+0 Name: s\6180s01.dat
+0 Author: Orion Pobursky [OrionP]
+0 !LDRAW_ORG Subpart UPDATE 2020-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2020-02-23 [MagFors] Used a box primitive and stud groups
+0 !HISTORY 2020-09-05 [PTadmin] Official Update 2020-02
+
+1 16 0 4 -40 0 0 -60 -4 0 0 0 80 0 box3u2p.dat
+0 BFC INVERTNEXT
+1 16 0 8 0 56 0 0 0 -4 0 0 0 36 box5.dat
+4 16 60 8 40 56 8 36 -56 8 36 -60 8 40
+4 16 -60 8 -40 -56 8 -36 56 8 -36 60 8 -40
+4 16 60 8 -40 56 8 -36 56 8 36 60 8 40
+4 16 -60 8 40 -56 8 36 -56 8 -36 -60 8 -40
+
+4 16 -60 0 40 -44 0 24 44 0 24 60 0 40
+4 16 -44 0 -40 -44 0 24 -60 0 40 -60 0 -40
+4 16 44 0 -40 60 0 -40 60 0 40 44 0 24
+2 24 -60 8 -40 60 8 -40
+2 24 60 0 -40 44 0 -40
+2 24 44 0 -40 -44 0 -40
+2 24 -44 0 -40 -60 0 -40
+3 16 -44 0 -40 -60 0 -40 -60 8 -40
+4 16 60 8 -40 44 0 -40 -44 0 -40 -60 8 -40
+3 16 60 0 -40 44 0 -40 60 8 -40
+
+1 16 0 4 20 1 0 0 0 -1 0 0 0 1 stug4-1x5.dat
+1 16 0 4 0 1 0 0 0 -1 0 0 0 1 stug4-1x5.dat
+1 16 0 4 -20 1 0 0 0 -1 0 0 0 1 stug4-1x5.dat
+1 16 0 0 30 -1 0 0 0 1 0 0 0 -1 stug-1x4.dat
+1 16 50 0 0 -1 0 0 0 1 0 0 0 -1 stug-4x1.dat
+1 16 -50 0 0 -1 0 0 0 1 0 0 0 -1 stug-4x1.dat

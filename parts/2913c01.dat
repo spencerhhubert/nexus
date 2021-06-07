@@ -1,0 +1,15 @@
+0 Electric Train Track  9V Power Connector (Complete)
+0 Name: 2913c01.dat
+0 Author: Ludo Soete [ludo]
+0 !LDRAW_ORG Shortcut UPDATE 2015-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2012-03-30 [PTadmin] Official Update 2012-01
+0 !HISTORY 2013-04-14 [MagFors] Moved metal subpart to this assembly
+0 !HISTORY 2015-12-30 [PTadmin] Official Update 2015-02
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 2913.dat
+1 494 0 24 -20 0 0 1 0 1 0 -1 0 0 u9188.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 2912.dat

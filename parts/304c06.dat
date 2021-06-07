@@ -1,0 +1,17 @@
+0 Train Signal Semaphore  4.5V (Complete) Proceed Pos. Blue/Red
+0 Name: 304c06.dat
+0 Author: Steffen [Steffen]
+0 !LDRAW_ORG Shortcut UPDATE 2011-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+
+0 !HISTORY 2011-12-29 [PTadmin] Official Update 2011-02
+
+1 4 0 0 0 1 0 0 0 1 0 0 0 1 304.dat
+1 1 -80 0 0 1 0 0 0 1 0 0 0 1 317.dat
+1 1 -80 0 0 1 0 0 0 1 0 0 0 -1 317.dat
+1 1 0 4 0 1 0 0 0 0.707107 0.707107 0 -0.707107 0.707107 316.dat
+1 1 30 -14 0 0 0 1 0 1 0 1 0 0 318.dat
+1 15 -95 -280.27 0 0.866 0.5 0 -0.5 0.866 0 0 0 1 308.dat
+1 494 -80 -155 0 1 0 0 0 1 0 0 0 1 129.dat

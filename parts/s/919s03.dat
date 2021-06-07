@@ -1,0 +1,27 @@
+0 ~Electric Battery Box with Pinholes Inside (Needs Work)
+0 Name: s\919s03.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Subpart UPDATE 2010-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+
+0 !HISTORY 2010-07-05 [PTadmin] Official Update 2010-02
+
+0 // Work needed: correctly model battery sockets
+
+
+1 16 77 50 20 0 -154 0 20 0 0 0 0 20 1-16cyli.dat
+1 16 77 50 -20 0 -154 0 20 0 0 0 0 -20 1-16cyli.dat
+1 16 0 70 0 0 0 77 0 -1 0 20 0 0 rect2p.dat
+2 24 -77 68.47 27.65 77 68.47 27.65
+2 24 -77 68.47 -27.65 77 68.47 -27.65
+1 16 0 68.47 0 -77 0 0 0 -2.53 0 0 0 27.65 box5-4a.dat
+1 16 77 50 20 0 -154 0 20 0 0 0 0 20 1-16edge.dat
+1 16 77 50 -20 0 -154 0 20 0 0 0 0 -20 1-16edge.dat
+1 16 -77 50 20 0 -154 0 20 0 0 0 0 20 1-16edge.dat
+1 16 -77 50 -20 0 -154 0 20 0 0 0 0 -20 1-16edge.dat
+4 16 -77 70 20 -77 68.48 27.65 -77 68.48 -27.65 -77 70 -20
+4 16 77 70 -20 77 68.48 -27.65 77 68.48 27.65 77 70 20
+1 16 0 66 0 -77 0 0 0 -134 0 0 0 1 box5.dat
+0

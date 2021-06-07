@@ -1,0 +1,97 @@
+0 ~Motor Inertia Flywheel  4 x  7 x  1 Housing with 2 Vertical Pegholes and 4 Studs 
+0 Name: 11125.dat
+0 Author: Ingolf Weisheit [stahlwollschaf]
+0 !LDRAW_ORG Part UPDATE 2014-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !CATEGORY Vehicle
+0 !KEYWORDS Chima, Speedorz, Rip Cord, 11767
+
+0 !HISTORY 2014-12-23 [PTadmin] Official Update 2014-02
+
+0 // origin: center 2x2-plate
+0 // plate 2x2 with technics hole, one side is open
+
+1 16 0 4 20 0 0 20 4 0 0 0 -40 0 box3u4a.dat
+0 BFC INVERTNEXT 
+1 16 0 4 0 0 0 16 0 4 0 16 0 0 box4.dat
+1 16 0 4 0 0 0 1 0 -1 0 1 0 0 stud4a.dat
+1 16 0 4 0 0 0 8 0 1 0 8 0 0 4-4edge.dat
+1 16 0 0 0 0 0 6 0 1 0 6 0 0 4-4edge.dat
+
+1 16 0 0 0 0 0 6 0 1 0 6 0 0 4-4ndis.dat
+4 16 -20 0 -20 -6 0 -6 -6 0 6 -20 0 20
+4 16 20 0 -20 6 0 -6 -6 0 -6 -20 0 -20
+4 16 20 0 20 6 0 6 6 0 -6 20 0 -20
+4 16 -20 0 20 -6 0 6 6 0 6 20 0 20
+
+1 16 10 0 -10 0 0 1 0 1 0 -1 0 0 stud.dat
+1 16 10 0 10 0 0 1 0 1 0 -1 0 0 stud.dat
+1 16 -10 0 -10 0 0 1 0 1 0 -1 0 0 stud.dat
+1 16 -10 0 10 0 0 1 0 1 0 -1 0 0 stud.dat
+
+0 BFC INVERTNEXT 
+1 16 0 0 0 0 0 6 0 4 0 6 0 0 4-4cyli.dat
+4 16 20 8 -20 16 8 -16 16 8 16 20 8 20
+4 16 -20 8 -20 -16 8 -16 16 8 -16 20 8 -20
+4 16 -20 8 20 -16 8 16 -16 8 -16 -20 8 -20
+4 16 20 8 20 16 8 16 -16 8 16 -20 8 20
+1 16 0 4 0 0 0 8 0 -1 0 8 0 0 4-4ndis.dat
+4 16 16 4 -16 8 4 -8 8 4 8 16 4 16
+4 16 -16 4 -16 -8 4 -8 8 4 -8 16 4 -16
+4 16 -16 4 16 -8 4 8 -8 4 -8 -16 4 -16
+4 16 16 4 16 8 4 8 -8 4 8 -16 4 16
+
+
+0 // extension to wheel frame 
+0 BFC INVERTNEXT 
+1 16 0 6 31 0 0 16 2 0 0 0 -11 0 box3u4a.dat
+1 16 15 6 31 0 0 1 2 0 0 0 1 0 rect.dat
+1 16 -15 6 31 0 0 1 2 0 0 0 1 0 rect.dat
+1 16 -8 4 31 0 0 -6 0 4 0 -6 0 0 1-4cylo.dat
+1 16 8 4 31 6 0 0 0 4 0 0 0 -6 1-4cylo.dat
+1 16 0 6 25 8 0 0 0 0 -2 0 1 0 rect2p.dat
+4 16 16 4 25 16 4 20 -16 4 20 -16 4 25
+4 16 -16 4 31 -14 4 31 -14 4 25 -16 4 25
+1 16 -8 4 31 0 0 -6 0 -1 0 -6 0 0 1-4ndis.dat
+4 16 14 4 31 16 4 31 16 4 25 14 4 25
+1 16 8 4 31 6 0 0 0 -1 0 0 0 -6 1-4ndis.dat
+
+4 16 -20 0 24 -15 0 24 -15 0 31 -20 0 31
+1 16 -8 0 31 0 0 -7 0 1 0 -7 0 0 1-4ndis.dat
+1 16 -8 -8 31 0 0 -7 0 8 0 -7 0 0 1-4cylo.dat
+1 16 -17.5 -4 31 0 0 2.5 -4 0 0 0 1 0 rect3.dat
+4 16 15 0 24 20 0 24 20 0 31 15 0 31
+1 16 8 0 31 7 0 0 0 1 0 0 0 -7 1-4ndis.dat
+1 16 8 -8 31 7 0 0 0 8 0 0 0 -7 1-4cylo.dat
+1 16 17.5 -4 31 0 0 -2.5 4 0 0 0 1 0 rect3.dat
+1 16 0 -4 24 8 0 0 0 0 -4 0 1 0 rect2p.dat
+1 16 -20 4 25.5 0 1 0 -4 0 0 0 0 5.5 rect3.dat
+1 16 20 4 25.5 0 -1 0 -4 0 0 0 0 5.5 rect3.dat
+4 16 -20 0 20 20 0 20 20 0 24 -20 0 24
+
+1 16 0 -8 26 8 0 0 0 1 0 0 0 2 rect2p.dat
+1 16 8 -8 31 0 0 3 0 1 0 -3 0 0 1-4ring1.dat
+1 16 8 -8 31 0 0 1 0 1 0 -1 0 0 1-4ring6.dat
+1 16 -8 -8 31 -3 0 0 0 1 0 0 0 -3 1-4ring1.dat
+1 16 -8 -8 31 -1 0 0 0 1 0 0 0 -1 1-4ring6.dat
+
+0 BFC INVERTNEXT 
+1 16 -8 -8 31 0 0 -3 0 16 0 -3 0 0 1-4cylo.dat
+0 BFC INVERTNEXT 
+1 16 8 -8 31 3 0 0 0 16 0 0 0 -3 1-4cylo.dat
+1 16 0 0 28 8 0 0 0 0 -8 0 -1 0 rect2p.dat
+
+1 16 0 8 26.5 8 0 0 0 -1 0 0 0 1.5 rect2p.dat
+1 16 8 8 31 0 0 3 0 -1 0 -3 0 0 1-4ring1.dat
+1 16 -8 8 31 -3 0 0 0 -1 0 0 0 -3 1-4ring1.dat
+
+4 16 -20 8 31 -16 8 31 -16 8 20 -20 8 20
+4 16 16 8 31 20 8 31 20 8 20 16 8 20
+
+0 // wheel frame s\11125s01: symmetric to xz-plane 
+1 16 0 2 70 1 0 0 0 1 0 0 0 1 s\11125s01.dat 
+1 16 0 2 70 -1 0 0 0 1 0 0 0 1 s\11125s01.dat 
+

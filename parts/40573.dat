@@ -1,0 +1,16 @@
+0 ~Electric Spybotic Brick with TransRed Cover (Obsolete)
+0 Name: 40573.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Shortcut Physical_Colour UPDATE 2020-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+0 !KEYWORDS Spybot, Programmable, Robot, Robotics
+0 !KEYWORDS Snaptrax, S45, Snaptrax S45
+
+0 !HISTORY 2013-12-23 [PTadmin] Official Update 2013-02
+0 !HISTORY 2019-07-24 [Holly-Wood] Obsoleted per decision not to include physical colour parts
+0 !HISTORY 2019-09-09 [PTadmin] Official Update 2019-02
+0 !HISTORY 2020-06-28 [PTadmin] Official Update 2020-01
+
+1 36 0 0 0 1 0 0 0 1 0 0 0 1 40574c01.dat

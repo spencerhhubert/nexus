@@ -1,0 +1,15 @@
+0 Door  1 x  3 x  4 Left with Vertical Handle
+0 Name: 825a.dat
+0 Author: Steffen [Steffen]
+0 !LDRAW_ORG Part UPDATE 2020-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2020-12-29 [PTadmin] Official Update 2020-03
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 stud.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\825s01.dat
+4 16 10 0 0 10 40 0 10 40 50 10 0 50
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\825s02.dat
+

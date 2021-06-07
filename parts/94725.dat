@@ -1,0 +1,25 @@
+0 Figure Friends Accessories Bow with Heart
+0 Name: 94725.dat
+0 Author: Takeshi Takahashi [RainbowDolphin]
+0 !LDRAW_ORG Part UPDATE 2020-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !CATEGORY Figure Accessory
+0 !KEYWORDS hair accessories, pet, multipack 92355, animal show, grooming supplies
+
+0 !HISTORY 2013-08-14 {LEGO Digital Designer} Original part shape
+0 !HISTORY 2020-09-27 [RainbowDolphin] File preparation for LDraw Parts Tracker
+0 !HISTORY 2020-12-29 [PTadmin] Official Update 2020-03
+
+0 // Pin
+1 16 0 0 0 2 0 0 0 -5.5 0 0 0 2 4-4cylc.dat
+
+0 // Body
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\94725s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\94725s01.dat
+5 24 0 -12 -7.215 0 -5.5 -7.215 -1.815 -5.5 -6.728 1.815 -5.5 -6.728
+5 24 0 -12 2.464 0 -10.75 2.464 -1.28 -10.75 2.682 1.28 -10.75 2.682
+5 24 0 -12 -4.847 0 -10.75 -4.847 -1.884 -10.75 -3.916 1.884 -10.75 -3.916
+5 24 0 -12 4.833 0 -5.5 4.833 -.825 -5.5 5.077 .825 -5.5 5.077

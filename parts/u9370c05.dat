@@ -1,0 +1,14 @@
+0 Door  2 x  6 x  5 Frame with Yellow Door with 3 Panes with Bars and Padlock Pattern
+0 Name: u9370c05.dat
+0 Author: Steffen [Steffen]
+0 !LDRAW_ORG Shortcut UPDATE 2018-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Fabuland, set 3639, set 3643
+
+0 !HISTORY 2018-12-08 [PTadmin] Official Update 2018-02
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 u9370.dat
+1 14 -45 8 -13 1 0 0 0 1 0 0 0 1 u9371p01.dat

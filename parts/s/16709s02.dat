@@ -1,0 +1,18 @@
+0 ~Minifig Hips and Legs Short Horizontal Stripe
+0 Name: s\16709s02.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Subpart UPDATE 2014-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2014-12-23 [PTadmin] Official Update 2014-02
+
+4 16 1 15 10 1 10 10 18.4167 10 10 18.625 15 10
+1 16 18.5209 12.5 3 -0.10415 -1 0 -2.5 0 0 0 0 -7 rect2p.dat
+4 16 18.6253 15 -4 18.4168 10 -4 1 10 -4 1 15 -4
+1 16 1 12.5 3 0 1 0 -2.5 0 0 0 0 7 rect2p.dat
+4 16 -18.625 15 10 -18.4167 10 10 -1 10 10 -1 15 10
+1 16 -18.5209 12.5 3 0.10415 1 0 -2.5 0 0 0 0 7 rect2p.dat
+4 16 -1 15 -4 -1 10 -4 -18.4168 10 -4 -18.6253 15 -4
+1 16 -1 12.5 3 0 -1 0 -2.5 0 0 0 0 -7 rect2p.dat

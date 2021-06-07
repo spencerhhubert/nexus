@@ -1,0 +1,38 @@
+0 Slope Brick Curved  8 x  8 x  2 Double
+0 Name: 54095.dat
+0 Author: Santeri Piippo [arezey]
+0 !LDRAW_ORG Part UPDATE 2010-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+0 !KEYWORDS slope, roof, panel
+
+0 !HISTORY 2009-10-13 {The LEGO Universe Team} Original part shape
+0 !HISTORY 2010-01-11 [arezey] Create from scratch using LEGO Universe Team version as reference
+0 !HISTORY 2010-04-05 [PTadmin] Official Update 2010-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\54095s01.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 -1 s\54095s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\54095s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 -1 s\54095s01.dat
+1 16 0 0 0 -20 0 0 0 1 0 0 0 -80 rect2p.dat
+1 16 0 10 -70 1 0 0 0 0 1 0 -1 0 connhol2.dat
+1 16 0 10 -80 -9 0 0 0 0 9 0 1 0 4-4ndis.dat
+1 16 0 10 70 -1 0 0 0 0 1 0 1 0 connhol2.dat
+1 16 0 10 80 9 0 0 0 0 9 0 -1 0 4-4ndis.dat
+1 16 0 0 40 0 0 1 0 1 0 -1 0 0 stug2.dat
+1 16 0 0 0 0 0 1 0 1 0 -1 0 0 stug2.dat
+1 16 0 0 -40 0 0 1 0 1 0 -1 0 0 stug2.dat
+1 16 -10 0 70 0 0 1 0 1 0 -1 0 0 stud2.dat
+1 16 10 0 70 0 0 1 0 1 0 -1 0 0 stud2.dat
+1 16 -10 0 -70 0 0 1 0 1 0 -1 0 0 stud2.dat
+1 16 10 0 -70 0 0 1 0 1 0 -1 0 0 stud2.dat
+1 16 70 43.064 0 -6 0 0 0 -1 0 0 0 1 rect1.dat
+1 16 -70 43.064 0 6 0 0 0 -1 0 0 0 -1 rect1.dat
+1 16 0 18 70 1 0 0 0 1 0 0 0 1 cylj4x8.dat
+1 16 0 18 70 1 0 0 0 -1.5 0 0 0 1 stud3a.dat
+1 16 0 18 -70 1 0 0 0 1 0 0 0 1 cylj4x8.dat
+1 16 0 18 -70 1 0 0 0 -1.5 0 0 0 1 stud3a.dat
+0 //
+0 //
+0 //

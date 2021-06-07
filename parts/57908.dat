@@ -1,0 +1,22 @@
+0 Brick  2 x  2 with Two Ball Joints
+0 Name: 57908.dat
+0 Author: Michael Heidemann [mikeheide]
+0 !LDRAW_ORG Part UPDATE 2009-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2009-09-03 [PTadmin] Official Update 2009-02
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 3003.DAT
+1 16 -20 10 0 0 -7.2 0 1 0 0 0 0 1 axlehol8.dat
+1 16 -20 10 0 0 -7.2 0 1 0 0 0 0 1 axlehol9.dat
+1 16 -20 10 0 0 -7.2 0 1 0 0 0 0 1 axlehol2.dat
+1 16 -40 10 0 0 -1 0 1 0 0 0 0 -1 axlesphe.dat
+1 16 -40 10 0 12.81 0 0 0 12.81 0 0 0 12.81 8-8sphe.dat
+1 16 20 10 0 0 7.2 0 1 0 0 0 0 -1 axlehol8.dat
+1 16 20 10 0 0 7.2 0 1 0 0 0 0 -1 axlehol9.dat
+1 16 20 10 0 0 7.2 0 1 0 0 0 0 -1 axlehol2.dat
+1 16 40 10 0 0 1 0 1 0 0 0 0 1 axlesphe.dat
+1 16 40 10 0 -12.81 0 0 0 12.81 0 0 0 -12.81 8-8sphe.dat
+0

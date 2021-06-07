@@ -1,0 +1,15 @@
+0 Minifig Skateboard with Black Wheels (Complete)
+0 Name: 42511c01.dat
+0 Author: Magnus Forsberg [MagFors]
+0 !LDRAW_ORG Shortcut UPDATE 2010-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !CATEGORY Minifig Accessory
+
+0 !HISTORY 2010-12-31 [PTadmin] Official Update 2010-03
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 42511.dat
+1 0 29.6 14.3 0 0 0 1 0 1 0 -1 0 0 2496.dat
+1 0 -29.6 14.3 0 0 0 1 0 1 0 -1 0 0 2496.dat

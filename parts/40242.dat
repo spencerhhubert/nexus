@@ -1,0 +1,54 @@
+0 Door  1 x  8 x  6 Frame
+0 Name: 40242.dat
+0 Author: Willy Tschager [Holly-Wood]
+0 !LDRAW_ORG Part UPDATE 2010-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+0 !KEYWORDS castle, harry potter, HP, wall, aperture, doorway, entranceway
+0 !KEYWORDS entry, entryway, exit, gate, gateway, hatch, hatchway, ingress
+0 !KEYWORDS opening, portal, key, fortification
+
+0 !HISTORY 2007-08-25 {The LEGO Universe Team} Original part shape
+0 !HISTORY 2008-04-10 [Holly-Wood] File preparation for LDraw Parts Tracker
+0 !HISTORY 2010-07-05 [PTadmin] Official Update 2010-02
+
+0 // Subpart Door  1 x  8 x  6 Frame - Shutter Holder
+
+
+
+1 16 45.7 120 10 1 0 0 0 -1 0 0 0 -1 s\40242s01.dat
+1 16 -54.2 120 10 1 0 0 0 -1 0 0 0 -1 s\40242s01.dat
+1 16 54.2 71.75 10 -1 0 0 0 1 0 0 0 -1 s\40242s01.dat
+1 16 -45.7 71.75 10 -1 0 0 0 1 0 0 0 -1 s\40242s01.dat
+
+0 // Subpart Door  1 x  8 x  6 Frame - Back Side
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\40242s03.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\40242s03.dat
+
+0 // Subpart Door  1 x  8 x  6 Frame - Front Side
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\40242s04.dat
+
+0 // Subpart Door  1 x  8 x  6 Frame - Clip
+1 16 42.5 63.75 -8.75 1 0 0 0 1 0 0 0 1 s\40242s02.dat
+1 16 -57.5 63.75 -8.75 1 0 0 0 1 0 0 0 1 s\40242s02.dat
+
+0 // Studs
+1 16 -60 140 0 1 0 0 0 -1 0 0 0 1 stud3.dat
+1 16 -40 140 0 1 0 0 0 -1 0 0 0 1 stud3.dat
+1 16 -20 140 0 1 0 0 0 -1 0 0 0 1 stud3.dat
+1 16 0 140 0 1 0 0 0 -1 0 0 0 1 stud3.dat
+1 16 20 140 0 1 0 0 0 -1 0 0 0 1 stud3.dat
+1 16 40 140 0 1 0 0 0 -1 0 0 0 1 stud3.dat
+1 16 60 140 0 1 0 0 0 -1 0 0 0 1 stud3.dat
+
+0 // Studs Bottom
+1 16 -70 24 0 1 0 0 0 1 0 0 0 1 stud2.dat
+1 16 -50 0 0 1 0 0 0 1 0 0 0 1 stud2.dat
+1 16 -30 0 0 1 0 0 0 1 0 0 0 1 stud2.dat
+1 16 -10 0 0 1 0 0 0 1 0 0 0 1 stud2.dat
+1 16 10 0 0 1 0 0 0 1 0 0 0 1 stud2.dat
+1 16 30 0 0 1 0 0 0 1 0 0 0 1 stud2.dat
+1 16 50 0 0 1 0 0 0 1 0 0 0 1 stud2.dat
+1 16 70 24 0 1 0 0 0 1 0 0 0 1 stud2.dat
+0

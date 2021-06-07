@@ -1,0 +1,20 @@
+0 Electric Brick  2 x  4 x  1.333 Sensor Light
+0 Name: 72634.dat
+0 Author: Steffen [Steffen]
+0 !LDRAW_ORG Shortcut UPDATE 2018-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Dacta, 9V, Mindstorm, RCX
+
+0 !HISTORY 2018-12-08 [PTadmin] Official Update 2018-02
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 2981.dat
+1 8 0 24 0 1 0 0 0 1 0 0 0 1 2982.dat
+1 16 0 24 0 1 0 0 0 1 0 0 0 1 70839.dat
+0 // cable
+1 256 -34 22.5 0 0 -2 0 -1 0 0 0 0 1 993.dat
+1 256 -36 22.5 1.3858 0 1 0 -0.574 0 -1.3858 -1.3858 0 0.574 7-8chrd.dat
+1 256 -36 22.5 -1.3858 0 1 0 0.574 0 1.3858 1.3858 0 -0.574 7-8chrd.dat
+1 0 -34 22 0 0 1 0 -2 0 0 0 0 4.5 rect.dat

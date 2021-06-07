@@ -1,0 +1,20 @@
+0 Bar  6L with Thick Stop
+0 Name: 63965a.dat
+0 Author: N. W. Perry [Plastikean]
+0 !LDRAW_ORG Part UPDATE 2020-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+0 !KEYWORDS star wars, town, umbrella, stand, small, rod, pole, missile
+
+0 !HISTORY 2020-04-16 [Plastikean] Adjusted part length, pos & width of ring
+0 !HISTORY 2020-06-28 [PTadmin] Official Update 2020-01
+
+1 16 0 -104 0 0 0 4 0 96 0 4 0 0 4-4cylc.dat
+1 16 0 -8 0 0 0 6 0 1 0 6 0 0 4-4edge.dat
+1 16 0 -8 0 0 0 2 0 2 0 2 0 0 4-4ring2.dat
+1 16 0 -8 0 0 0 6 0 8 0 6 0 0 4-4cyli.dat
+1 16 0 0 0 0 0 6 0 1 0 6 0 0 4-4edge.dat
+1 16 0 0 0 0 0 -2 0 -2 0 2 0 0 4-4ring2.dat
+1 16 0 16 0 0 0 -4 0 -16 0 4 0 0 4-4cylc.dat
+

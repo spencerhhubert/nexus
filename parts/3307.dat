@@ -1,0 +1,57 @@
+0 Arch  1 x  6 x  2 with Thick Top and Reinforced Underside
+0 Name: 3307.dat
+0 Author: James Jessiman
+0 !LDRAW_ORG Part UPDATE 2013-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 !HELP Bad geometry in this file in 2003-03 and 2008-01 versions can be 
+0 !HELP simulated by using part 12939
+
+0 BFC CERTIFY CW
+
+0 !HISTORY 2003-07-22 [Steffen] BFCed, 48ed
+0 !HISTORY 2003-12-19 [PTadmin] Official Update 2003-03
+0 !HISTORY 2007-06-25 [PTadmin] Header formatted for Contributor Agreement
+0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01
+0 !HISTORY 2013-09-06 [theJudeAbides] Corrected bad geometry, used more prims, renamed
+0 !HISTORY 2013-12-23 [PTadmin] Official Update 2013-02
+
+4 16 40 48 10 44 48 6 56 48 6 60 48 10
+4 16 40 48 -10 44 48 -6 44 48 6 40 48 10
+4 16 60 48 -10 56 48 -6 44 48 -6 40 48 -10
+4 16 60 48 10 56 48 6 56 48 -6 60 48 -10
+1 16 50 48 0 0 0 -10 0 1 0 -10 0 0 recte3.dat
+4 16 -60 48 10 -56 48 6 -44 48 6 -40 48 10
+4 16 -40 48 10 -44 48 6 -44 48 -6 -40 48 -10
+4 16 -40 48 -10 -44 48 -6 -56 48 -6 -60 48 -10
+4 16 -60 48 -10 -56 48 -6 -56 48 6 -60 48 10
+1 16 -50 48 0 0 0 10 0 1 0 10 0 0 recte3.dat
+0 BFC INVERTNEXT
+1 16 50 48 0 6 0 0 0 -44 0 0 0 6 box5.dat
+0 BFC INVERTNEXT
+1 16 0 48 0 0 0 40 0 -44 0 6 0 0 box3u4a.dat
+0 BFC INVERTNEXT
+1 16 -50 48 0 6 0 0 0 -44 0 0 0 6 box5.dat
+1 16 0 4 0 0 0 1 0 7 0 6 0 0 box3u2p.dat
+4 16 -40 12 6 -40 4 6 40 4 6 0 12 6
+3 16 40 12 6 0 12 6 40 4 6
+1 16 0 48 6 40 0 0 0 0 -36 0 1 0 48\2-4ndis.dat
+4 16 40 12 -6 40 4 -6 -40 4 -6 0 12 -6
+3 16 -40 12 -6 0 12 -6 -40 4 -6
+1 16 0 48 -6 40 0 0 0 0 -36 0 -1 0 48\2-4ndis.dat
+0 BFC INVERTNEXT
+1 16 0 48 10 40 0 0 0 0 -36 0 -4 0 48\2-4cylo.dat
+0 BFC INVERTNEXT
+1 16 0 48 -10 40 0 0 0 0 -36 0 4 0 48\2-4cylo.dat
+1 16 0 48 10 -40 0 0 0 0 -36 0 -1 0 48\2-4ndis.dat
+1 16 0 48 -10 40 0 0 0 0 -36 0 1 0 48\2-4ndis.dat
+4 16 -40 48 10 -40 12 10 -60 0 10 -60 48 10
+4 16 -60 0 10 -40 12 10 0 12 10 60 0 10
+3 16 40 12 10 60 0 10 0 12 10
+4 16 60 0 10 40 12 10 40 48 10 60 48 10
+4 16 -60 0 -10 -40 12 -10 -40 48 -10 -60 48 -10
+4 16 60 0 -10 0 12 -10 -40 12 -10 -60 0 -10
+3 16 60 0 -10 40 12 -10 0 12 -10
+4 16 40 48 -10 40 12 -10 60 0 -10 60 48 -10
+1 16 0 48 0 0 0 60 0 -48 0 10 0 0 box3u2p.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 stug-1x6.dat

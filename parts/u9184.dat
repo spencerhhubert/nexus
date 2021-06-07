@@ -1,0 +1,18 @@
+0 ~Motor Inertia Flywheel  4 x  9 x  3.667 - Axle
+0 Name: u9184.dat
+0 Author: Magnus Forsberg [MagFors]
+0 !LDRAW_ORG Part UPDATE 2013-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !CATEGORY Vehicle
+
+0 !HISTORY 2013-07-21 [PTadmin] Official Update 2013-01
+
+1 16 40 0 0 0 -80 0 1 0 0 0 0 -1 axlehole.dat
+1 16 -40 0 0 0 1 0 0 0 1 1 0 0 axlehol2.dat
+1 16 -40 0 0 0 1 0 0 0 1 1 0 0 4-4ring6.dat
+1 16 40 0 0 0 -1 0 0 0 1 -1 0 0 axlehol2.dat
+1 16 40 0 0 0 -1 0 0 0 1 -1 0 0 4-4ring6.dat
+1 16 40 0 0 0 -80 0 7 0 0 0 0 -7 4-4cylo.dat

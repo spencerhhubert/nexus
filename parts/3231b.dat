@@ -1,0 +1,27 @@
+0 Train Track  4.5V Crossing Slotted
+0 Name: 3231b.dat
+0 Author: Alex Taylor [anathema]
+0 !LDRAW_ORG Part UPDATE 2010-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2010-04-05 [PTadmin] Official Update 2010-01
+
+1 16 -50 0 50 1 0 0 0 1 0 0 0 1 s\3231s01.dat
+1 16 50 0 50 -1 0 0 0 1 0 0 0 1 s\3231s01.dat
+1 16 50 0 -50 -1 0 0 0 1 0 0 0 -1 s\3231s01.dat
+1 16 -50 0 -50 1 0 0 0 1 0 0 0 -1 s\3231s01.dat
+1 16 0 0 50 1 0 0 0 1 0 0 0 1 s\3228s01.dat
+1 16 0 0 -50 1 0 0 0 1 0 0 0 1 s\3228s01.dat
+1 16 50 0 0 0 0 -1 0 1 0 1 0 0 s\3228s01.dat
+1 16 -50 0 0 0 0 1 0 1 0 -1 0 0 s\3228s01.dat
+1 16 -150 0 50 1 0 0 0 1 0 0 0 1 s\3231bs01.dat
+1 16 -150 0 -50 1 0 0 0 1 0 0 0 1 s\3231bs01.dat
+1 16 50 0 -150 0 0 -1 0 1 0 1 0 0 s\3231bs01.dat
+1 16 150 0 50 -1 0 0 0 1 0 0 0 -1 s\3231bs01.dat
+1 16 -50 0 150 0 0 1 0 1 0 -1 0 0 s\3231bs01.dat
+1 16 50 0 150 0 0 1 0 1 0 -1 0 0 s\3231bs01.dat
+1 16 150 0 -50 -1 0 0 0 1 0 0 0 -1 s\3231bs01.dat
+1 16 -50 0 -150 0 0 -1 0 1 0 1 0 0 s\3231bs01.dat
+0

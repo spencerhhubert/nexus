@@ -1,0 +1,16 @@
+0 Crane Arm Outside Wide with Fixed Pins
+0 Name: 47643.dat
+0 Author: Magnus Forsberg [MagFors]
+0 !LDRAW_ORG Shortcut UPDATE 2020-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2015-04-15 [GeraldLasser] Reorganised the 2350 part family
+0 !HISTORY 2015-10-11 [PTadmin] Official Update 2015-01
+0 !HISTORY 2020-08-05 [PTadmin] Renamed from 2350d
+0 !HISTORY 2020-12-29 [PTadmin] Official Update 2020-03
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 2350c.dat
+1 16 20 10 140 1 0 0 0 1 0 0 0 1 42865.dat
+1 16 -20 10 140 -1 0 0 0 1 0 0 0 -1 42865.dat

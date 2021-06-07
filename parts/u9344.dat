@@ -1,0 +1,36 @@
+0 ~Technic Gear Block  2 x  4 x  3 - Gears
+0 Name: u9344.dat
+0 Author: Magnus Forsberg [MagFors]
+0 !LDRAW_ORG Part UPDATE 2019-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2019-06-28 [PTadmin] Official Update 2019-01
+
+0 // upper, input gear axle
+0 BFC INVERTNEXT
+1 16 0 34 -16 6 0 0 0 0 6 0 32 0 4-4cylo.dat
+1 16 0 34 -16 1 0 0 0 0 1 0 32 0 axlehol6.dat
+1 16 0 34 -16 -1 0 0 0 0 -1 0 32 0 axlehol6.dat
+1 16 0 34 -16 8 0 0 0 0 -8 0 4 0 4-4cylo.dat
+1 16 0 34 16 -8 0 0 0 0 -8 0 -4 0 4-4cylo.dat
+1 16 0 34 -16 2 0 0 0 0 -2 0 1 0 4-4ring3.dat
+1 16 0 34 16 -2 0 0 0 0 -2 0 -1 0 4-4ring3.dat
+0 // assumed gear
+1 16 0 34 -12 2 0 0 0 0 -2 0 1 0 4-4ring4.dat
+1 16 0 34 -12 10 0 0 0 0 -10 0 24 0 4-4cylo.dat
+1 16 0 34 12 -2 0 0 0 0 -2 0 -1 0 4-4ring4.dat
+
+0 // lower, output gear axle
+1 16 -39 57 0 0 78 0 1 0 0 0 0 1 axlehole.dat
+1 16 39 57 0 0 1 0 1 0 0 0 0 1 axlehol2.dat
+1 16 39 57 0 0 -1 0 1.5 0 0 0 0 1.5 4-4ring4.dat
+1 16 -39 57 0 0 1 0 1 0 0 0 0 1 axlehol2.dat
+1 16 -39 57 0 0 1 0 1.5 0 0 0 0 1.5 4-4ring4.dat
+0 // assumed gear
+1 16 -30 57 0 0 10 0 0 0 -9 -9 0 0 4-4cylo.dat
+1 16 -39 57 0 0 9 0 0 0 -7.5 -7.5 0 0 4-4cylo.dat
+1 16 -30 57 0 0 1 0 0 0 -1.5 -1.5 0 0 4-4ring5.dat
+1 16 39 57 0 0 -59 0 0 0 -7.5 7.5 0 0 4-4cylo.dat
+1 16 -20 57 0 0 -1 0 0 0 -1.5 1.5 0 0 4-4ring5.dat

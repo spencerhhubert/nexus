@@ -1,0 +1,13 @@
+0 Animal Wing  4 x  7 Left with Feathers and Handle Bars
+0 Name: 20313.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2020-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2016-03-18 {LEGO Digital Designer} Original part shape
+0 !HISTORY 2019-12-18 [Philo] File preparation for LDraw Parts Tracker
+0 !HISTORY 2020-06-28 [PTadmin] Official Update 2020-01
+
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 20312.dat

@@ -1,0 +1,30 @@
+0 Sticker  1.2 x  0.8 with Yellow/Black Diagonal Stripes
+0 Name: s8.dat
+0 Author: Steffen [Steffen]
+0 !LDRAW_ORG Part UPDATE 2016-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+
+0 !KEYWORDS set 7760
+
+0 !HISTORY 2009-12-29 [PTadmin] Official Update 2009-03
+0 !HISTORY 2016-07-01 [cwdee] Updated description
+0 !HISTORY 2016-12-31 [PTadmin] Official Update 2016-01
+
+0 // from set 7760, for use on the side of a "Brick  1 x  1 with Headlight"
+
+3 0 2 -0.25 12 8 -0.25 12 8 -0.25 6
+3 0 -8 -0.25 10 -8 -0.25 12 -4 -0.25 12
+4 0 -8 -0.25 10 -4 -0.25 12 8 -0.25 0 8 -0.25 -6
+4 0 -8 -0.25 -2 -8 -0.25 4 8 -0.25 -12 2 -0.25 -12
+3 0 -8 -0.25 -12 -8 -0.25 -8 -4 -0.25 -12
+4 14 -4 -0.25 12 2 -0.25 12 8 -0.25 6 8 -0.25 0
+4 14 -8 -0.25 4 -8 -0.25 10 8 -0.25 -6 8 -0.25 -12
+4 14 -8 -0.25 -8 -8 -0.25 -2 2 -0.25 -12 -4 -0.25 -12
+4 14 -8 0 -12 8 0 -12 8 0 12 -8 0 12
+4 14 8 0 12 8 -.25 12 -8 -.25 12 -8 0 12
+4 14 -8 0 12 -8 -.25 12 -8 -.25 -12 -8 0 -12
+4 14 -8 0 -12 -8 -.25 -12 8 -.25 -12 8 0 -12
+4 14 8 0 -12 8 -.25 -12 8 -.25 12 8 0 12
+0

@@ -1,0 +1,35 @@
+0 ~Brick  4 x  4 x  0.667 Round - Bottom
+0 Name: 18603.dat
+0 Author: Evert-Jan Boer [ejboer]
+0 !LDRAW_ORG Part UPDATE 2018-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2018-12-08 [PTadmin] Official Update 2018-02
+
+1 16 0 7 0 0 0 32 0 -1 0 32 0 0 48\4-4disc.dat
+0 BFC INVERTNEXT
+1 16 0 7 0 5.25 0 0 0 1 0 0 0 5.25 48\4-4cylo.dat
+1 16 0 8 0 2.625 0 0 0 -1 0 0 0 -2.625 48\4-4ring2.dat
+1 16 0 7 0 7.875 0 0 0 1 0 0 0 7.875 48\4-4cylo.dat
+0 BFC INVERTNEXT
+1 16 0 7 0 32 0 0 0 1 0 0 0 32 48\4-4cylo.dat
+1 16 0 8 0 4 0 0 0 -1 0 0 0 -4 48\4-4ring8.dat
+1 16 0 5.5 0 36 0 0 0 2.5 0 0 0 36 48\4-4cylo.dat
+1 16 0 5.5 0 37 0 0 0 1 0 0 0 37 48\4-4edge.dat
+1 16 0 5.5 0 1 0 0 0 -1 0 0 0 -1 48\1-4rin36.dat
+1 16 0 5.5 0 0 0 -1 0 -1 0 -1 0 0 48\1-4rin36.dat
+1 16 0 5.5 0 -1 0 0 0 -1 0 0 0 1 48\1-4rin36.dat
+1 16 0 5.5 0 0 0 1 0 -1 0 1 0 0 48\1-4rin36.dat
+1 16 0 5.5 0 1 0 0 0 -1 0 0 0 -1 48\1-4con36.dat
+1 16 0 5.5 0 0 0 -1 0 -1 0 -1 0 0 48\1-4con36.dat
+1 16 0 5.5 0 -1 0 0 0 -1 0 0 0 1 48\1-4con36.dat
+1 16 0 5.5 0 0 0 1 0 -1 0 1 0 0 48\1-4con36.dat
+1 16 0 -1.5 0 36 0 0 0 6 0 0 0 36 48\4-4cylo.dat
+0 BFC INVERTNEXT
+1 16 0 -1.5 0 33 0 0 0 6.5 0 0 0 33 48\4-4cylo.dat
+1 16 0 -1.5 0 1 0 0 0 1 0 0 0 1 48\4-4rin33.dat
+1 16 0 -1.5 0 1 0 0 0 1 0 0 0 1 48\4-4rin34.dat
+1 16 0 -1.5 0 1 0 0 0 1 0 0 0 1 48\4-4ring35.dat
+1 16 0 5 0 0 0 33 0 1 0 -33 0 0 48\4-4disc.dat

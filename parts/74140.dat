@@ -1,0 +1,12 @@
+0 Electric Brick  2 x  3 Sensor Touch 4.5V
+0 Name: 74140.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Shortcut UPDATE 2020-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2020-12-29 [PTadmin] Official Update 2020-03
+
+1 7 10 10 -20 1 0 0 0 1 0 0 0 1 u9498.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 2761c01.dat

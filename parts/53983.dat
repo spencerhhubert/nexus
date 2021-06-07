@@ -1,0 +1,33 @@
+0 Turbine Fan 16 / 8 Blade 10 Diameter with Case
+0 Name: 53983.dat
+0 Author: Santeri Piippo [arezey]
+0 !LDRAW_ORG Part UPDATE 2020-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !CATEGORY Propellor
+0 !KEYWORDS Exo-Force, Bionicle
+
+0 !HISTORY 2008-11-02 [mikeheide] Original submission to LDraw Parts Tracker
+0 !HISTORY 2018-02-07 [arezey] Complete rewrite
+0 !HISTORY 2020-06-03 [Holly-Wood] Fixed subfiles
+0 !HISTORY 2020-12-29 [PTadmin] Official Update 2020-03
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\53983s01.dat
+1 16 0 0 0 0 -1 0 1 0 0 0 0 1 s\53983s01.dat
+1 16 0 0 0 -1 0 0 0 -1 0 0 0 1 s\53983s01.dat
+1 16 0 0 0 0 1 0 -1 0 0 0 0 1 s\53983s01.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\53983s05.dat
+1 16 0 0 0 0 -1 0 1 0 0 0 0 1 s\53983s05.dat
+1 16 0 0 0 -1 0 0 0 -1 0 0 0 1 s\53983s05.dat
+1 16 0 0 0 0 1 0 -1 0 0 0 0 1 s\53983s05.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\53983s03.dat
+1 16 0 0 0 0 -1 0 1 0 0 0 0 1 s\53983s03.dat
+1 16 0 0 0 0 1 0 -1 0 0 0 0 1 s\53983s03.dat
+1 16 0 0 0 -1 0 0 0 -1 0 0 0 1 s\53983s03.dat
+1 16 0 0 0 1 0 0 0 0 1 0 -1 0 connhole.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\53983s04.dat
+1 16 0 0 0 0 -1 0 1 0 0 0 0 1 s\53983s04.dat
+1 16 0 0 0 0 1 0 -1 0 0 0 0 1 s\53983s04.dat
+1 16 0 0 0 -1 0 0 0 -1 0 0 0 1 s\53983s04.dat

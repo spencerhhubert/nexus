@@ -1,0 +1,16 @@
+0 ~Minifig Construction Helmet without Hair
+0 Name: s\16178s01.dat
+0 Author: Magnus Forsberg [MagFors]
+0 !LDRAW_ORG Subpart UPDATE 2020-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2014-05-16 {LEGO Digital Designer} Original part shape
+0 !HISTORY 2015-11-15 [MagFors] File preparation for LDraw Parts Tracker
+0 !HISTORY 2020-06-28 [PTadmin] Official Update 2020-01
+
+0 // this helmet should have a sloping surface above the understud
+0 // but instead it is using the very similar s\16175s01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\16175s01.dat

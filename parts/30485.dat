@@ -1,0 +1,27 @@
+0 Windscreen  6 x  8 x  3 Curved Canopy
+0 Name: 30485.dat
+0 Author: Marc Schickele [samrotule]
+0 !LDRAW_ORG Part UPDATE 2012-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2003-11-19 [OrionP] Fixed L3P Errors, BFC'd
+0 !HISTORY 2006-08-29 [WilliamH] 48'ed; Used sub-part
+0 !HISTORY 2012-03-23 [Philo] Corrected description, removed useless condlines
+0 !HISTORY 2012-08-09 [PTadmin] Official Update 2012-02
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\30485s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\30485s01.dat
+1 16 0 0 20 1 0 0 0 1 0 0 0 1 stug-2x2.dat
+1 16 0 0 -20 1 0 0 0 1 0 0 0 1 stug-2x2.dat
+1 16 -20 40 40 -40 0 0 0 0 -40 0 -100 0 48\1-4cyli.dat
+1 16 -20 40 -60 -40 20 0 0 24 -40 0 -60 0 48\1-4cyli.dat
+1 16 20 40 -60 40 0 0 0 0 -40 0 100 0 48\1-4cyli.dat
+1 16 0 64 -120 40 20 0 0 -24 -40 0 60 0 48\1-4cyli.dat
+3 16 60 40 -60 40 64 -120 60 64 -60
+3 16 -60 40 -60 -60 64 -60 -40 64 -120
+3 16 0 24 -120 20 0 -60 -20 0 -60
+4 16 -20 0 -60 20 0 -60 20 0 40 -20 0 40
+4 16 -60 72 -60 -60 40 -60 -60 40 40 -60 72 40
+4 16 60 72 -60 60 72 40 60 40 40 60 40 -60

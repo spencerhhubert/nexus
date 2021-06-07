@@ -1,0 +1,16 @@
+0 _Hinge Plate  1 x  2 Locking with Single Finger Vertical [72]
+0 Name: 4210883.dat
+0 Author: Michael Heidemann [mikeheide]
+0 !LDRAW_ORG Part Physical_Colour UPDATE 2010-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2010-12-31 [PTadmin] Official Update 2010-03
+
+0 // This file is a "shortcut" with the correct number for the actual
+0 // colouring of the part (Dark_Bluish_Gray).
+
+
+1 72 0 0 0 1 0 0 0 1 0 0 0 1 44301.DAT
+0

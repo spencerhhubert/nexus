@@ -1,0 +1,31 @@
+0 Znap Beam Angle  2 Holes
+0 Name: 32242.dat
+0 Author: Thomas Woelk [t.woelk]
+0 !LDRAW_ORG Part UPDATE 2011-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+
+0 !HISTORY 2005-07-27 [mikeheide] added details and BFC'ed
+0 !HISTORY 2011-07-25 [PTadmin] Official Update 2011-01
+
+1 16 0 0 40 0 0 -1 0 1 0 1 0 0 znap4.dat
+1 16 20 0 40 0 0 -1 0 1 0 1 0 0 znap6.dat
+1 16 -40 0 -20 1 0 0 0 1 0 0 0 1 znap6.dat
+1 16 -40 0 0 1 0 0 0 1 0 0 0 1 connhole.dat
+1 16 0 0 40 1 0 0 0 1 0 0 0 1 connhole.dat
+1 16 -40 0 0 -1 0 0 0 -1 0 0 0 1 znap4.dat
+1 16 -20 0 20 -0.707107 0 5.85767 0 -1 0 0.707107 0 5.85767 znap5.dat
+4 16 25 10 50 25 -10 50 0 -10 50 0 10 50
+4 16 4.142 10 30 4.142 -10 30 25 -10 30 25 10 30
+2 24 0 10 50 25 10 50
+2 24 4.142 10 30 25 10 30
+2 24 4.142 -10 30 25 -10 30
+2 24 0 -10 50 25 -10 50
+4 16 -50 10 0 -50 -10 0 -50 -10 -25 -50 10 -25
+4 16 -30 10 -25 -30 -10 -25 -30 -10 -4.142 -30 10 -4.142
+2 24 -50 10 0 -50 10 -25
+2 24 -30 10 -4.142 -30 10 -25
+2 24 -30 -10 -4.142 -30 -10 -25
+2 24 -50 -10 0 -50 -10 -25
+0

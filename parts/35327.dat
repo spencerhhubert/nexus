@@ -1,0 +1,13 @@
+0 =Dish  6 x  6 Inverted With Solid Studs
+0 Name: 35327.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part Alias UPDATE 2019-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+
+0 !HISTORY 2019-09-09 [PTadmin] Official Update 2019-02
+
+0 // Alias of 44375b; used for parts moulded in trans colours
+
+1 16 0 0 0  1 0 0  0 1 0  0 0 1 44375b.dat

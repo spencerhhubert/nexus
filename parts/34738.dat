@@ -1,0 +1,21 @@
+0 Train Track Roller Coaster Ramp  4 x 16 x  3 S-Shape
+0 Name: 34738.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2019-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2019-12-27 [PTadmin] Official Update 2019-03
+
+1 16 300 72 0 1 0 0 0 1 0 0 0 1 stug-2x1.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 stug-2x1.dat
+1 16 300 72 0 -1 0 0 0 1 0 0 0 -1 s\34738s01.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 -1 s\34738s01.dat
+1 16 150 72 0 1 0 0 0 1 0 0 0 1 s\34738s02.dat
+1 16 150 72 0 1 0 0 0 1 0 0 0 -1 s\34738s02.dat
+1 16 150 30.5 0 1 0 0 0 1 0 0 0 1 s\34738s03.dat
+1 16 195.8 48.1 0 1 0 0 0 1 0 0 0 1 s\34738s03.dat
+1 16 104.2 12 0 1 0 0 0 1 0 0 0 1 s\34738s03.dat
+1 16 55.9 0 0 1 0 0 0 1 0 0 0 1 s\34738s03.dat
+1 16 244.7 60.2 0 1 0 0 0 1 0 0 0 1 s\34738s03.dat

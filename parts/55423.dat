@@ -1,0 +1,17 @@
+0 Train Wheel for RC Train w Technic Axle Hole and Rubber Ring
+0 Name: 55423.dat
+0 Author: Matthew J. Chiles [mchiles]
+0 !LDRAW_ORG Shortcut UPDATE 2013-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS 9V, 9 Volt, remote control, rubber, rubber band, rubber friction band
+
+0 !HISTORY 2009-05-02 [PTadmin] Official Update 2009-01
+0 !HISTORY 2012-10-02 [Steffen] splitup into 2 files
+0 !HISTORY 2013-07-01 [MMR1988] Changed rubber colour from 375 to 67
+0 !HISTORY 2013-12-23 [PTadmin] Official Update 2013-02
+
+1 16 0 0 10 1 0 0 0 1 0 0 0 1 u9241.dat
+1 67 0 0 1 1 0 0 0 1 0 0 0 1 u9242.dat

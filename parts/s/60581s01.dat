@@ -1,0 +1,39 @@
+0 ~Panel  1 x  4 x  3 with Side Flanges without Front
+0 Name: s\60581s01.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Subpart UPDATE 2019-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2009-10-13 {LEGO Universe Team} Original part shape
+0 !HISTORY 2019-01-25 [Philo] Subparted from Rolf Osterthun initial design
+0 !HISTORY 2019-09-09 [PTadmin] Official Update 2019-02
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 stug2-1x4.dat
+1 16 0 68 0 1 0 0 0 -1 0 0 0 1 stug3-1x3.dat
+0 BFC INVERTNEXT
+1 16 0 72 0 36 0 0 0 -4 0 0 0 6 box5.dat
+4 16 40 0 10 40 0 -10 40 3 -10 40 3 2.5
+4 16 40 0 10 40 3 2.5 40 64 2.5 40 72 10
+4 16 40 72 -10 40 72 10 40 64 2.5 40 64 -10
+4 16 -40 0 -10 -40 0 10 -40 3 2.5 -40 3 -10
+4 16 -40 72 10 -40 64 2.5 -40 3 2.5 -40 0 10
+4 16 -40 72 10 -40 72 -10 -40 64 -10 -40 64 2.5
+1 16 0 68 -3.75 -40 0 0 0 -4 0 0 0 -6.25 box2-7.dat
+1 16 0 3 -3.75 0 0 40 0 -1 0 6.25 0 0 rect2p.dat
+1 16 -38.125 33.5 2.5 0 0 -1.875 -30.5 0 0 0 1 0 rect3.dat
+1 16 38.125 33.5 2.5 0 0 1.875 30.5 0 0 0 1 0 rect3.dat
+4 16 40 72 10 36 72 6 -36 72 6 -40 72 10
+4 16 -40 72 10 -36 72 6 -36 72 -6 -40 72 -10
+4 16 -40 72 -10 -36 72 -6 36 72 -6 40 72 -10
+4 16 40 72 -10 36 72 -6 36 72 6 40 72 10
+1 16 0 1.5 0 40 0 0 0 -1.5 0 0 0 -10 box2-5.dat
+0 BFC INVERTNEXT
+1 16 0 33.5 2.5 36.25 0 0 0 0 -30.5 0 3.75 0 box5-2p.dat
+2 24 40 72 10 -40 72 10
+2 24 -40 72 10 -40 72 -10
+2 24 40 72 -10 40 72 10
+2 24 40 0 10 40 72 10
+2 24 -40 0 10 -40 72 10
+2 24 -40 72 -10 40 72 -10

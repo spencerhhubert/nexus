@@ -1,0 +1,27 @@
+0 ~Technic Control Centre II - Battery Cover - Locking Pins
+0 Name: s\2845s04.dat
+0 Author: Michael Heidemann [mikeheide]
+0 !LDRAW_ORG Subpart UPDATE 2012-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+
+0 !HISTORY 2012-03-30 [PTadmin] Official Update 2012-01
+
+2 24 -7 0 9 -11 0 9
+2 24 2 0 9 -2 0 9
+2 24 11 0 9 7 0 9
+1 16 0 0 5 -11 0 0 0 6 0 0 0 -4 box4-1.dat
+0 BFC INVERTNEXT
+1 16 -4.5 0 6 -2.5 0 0 0 2 0 0 0 -3 box4-1.dat
+0 BFC INVERTNEXT
+1 16 4.5 0 6 -2.5 0 0 0 2 0 0 0 -3 box4-1.dat
+4 16 -11 2 9 -11 6 9 11 6 9 11 2 9
+4 16 -11 0 1 -11 0 9 -7 0 9 -7 0 1
+4 16 7 0 9 7 2 9 11 2 9 11 0 9
+4 16 -2 0 9 -2 2 9 2 2 9 2 0 9
+4 16 -11 0 9 -11 2 9 -7 2 9 -7 0 9
+4 16 -7 0 1 -7 0 3 -2 0 3 -2 0 1
+4 16 -2 0 1 -2 0 9 2 0 9 2 0 1
+4 16 2 0 1 2 0 3 7 0 3 7 0 1
+4 16 7 0 1 7 0 9 11 0 9 11 0 1

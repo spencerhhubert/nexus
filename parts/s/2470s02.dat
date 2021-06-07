@@ -1,0 +1,15 @@
+0 ~Wheel  2.8 x 27 with  8 Spokes - Half Spoke
+0 Name: s\2470s02.dat
+0 Author: Max Martin Richter [MMR1988]
+0 !LDRAW_ORG Subpart UPDATE 2013-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2013-12-23 [PTadmin] Official Update 2013-02
+
+4 16 0 -27 -8.5795 0 -10 -1.74 3 -9.4034 -1.5 3 -26.8023 -8.5
+4 16 0 -27 -4.5795 3 -26.8023 -4.5 3 -9.4034 2.5 0 -10 2.26
+1 16 3 -18.10285 -3 0 -1 0 8.69945 0 0 3.5 0 2 rect2p.dat
+1 16 1.5 -9.7017 0.38 0 0 1.5 0 1 0.2983 -2 0 0.12 recte3.dat
+1 16 1.5 -26.90115 -6.53975 0 0 1.5 0 -1 0.09885 2 0 0.03975 recte3.dat

@@ -1,0 +1,21 @@
+0 Sticker  1.15 x  1.95 with White Train Logo
+0 Name: 821430a.dat
+0 Author: Max Martin Richter [MMR1988]
+0 !LDRAW_ORG Part UPDATE 2013-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS railway, set 4537
+
+0 !HISTORY 2013-07-21 [PTadmin] Official Update 2013-01
+
+1 16 0 -0.25 0 1.8 0 0 0 0 1 0 1.8 0 s\4865p01b.dat
+1 15 0 -0.25 0 1.8 0 0 0 0 1 0 1.8 0 s\4865p01c.dat
+
+1 16 0 -0.25 0 19.5 0 0 0 0.25 0 0 0 11.5 box5-12.dat
+
+4 16 -19.5 -0.25 11.5 -18 -0.25 7.2 18 -0.25 7.2 19.5 -0.25 11.5
+4 16 19.5 -0.25 -11.5 18 -0.25 -7.2 -18 -0.25 -7.2 -19.5 -0.25 -11.5
+4 16 19.5 -0.25 11.5 18 -0.25 7.2 18 -0.25 -7.2 19.5 -0.25 -11.5
+4 16 -19.5 -0.25 -11.5 -18 -0.25 -7.2 -18 -0.25 7.2 -19.5 -0.25 11.5

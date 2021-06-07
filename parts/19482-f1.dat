@@ -1,0 +1,14 @@
+0 Technic Pneumatic Pump  1 x  1 x  6 with Stepped Outlet (Retracted)
+0 Name: 19482-f1.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Shortcut UPDATE 2018-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2018-12-08 [PTadmin] Official Update 2018-02
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 2943b.dat
+1 16 0 -88 0 1 0 0 0 1 0 0 0 1 99799.dat
+1 0 0 -90 0 1 0 0 0 1 0 0 0 1 2941.dat
+1 0 0 -100 0 1 0 0 0 1 0 0 0 1 2944c02.dat

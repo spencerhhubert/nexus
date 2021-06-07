@@ -1,0 +1,37 @@
+0 ~Duplo Brick  2 x  4 without Front and Back Faces
+0 Name: s\3011s01.dat
+0 Author: Takeshi Takahashi [RainbowDolphin]
+0 !LDRAW_ORG Subpart UPDATE 2020-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2020-06-28 [PTadmin] Official Update 2020-01
+
+1 16 0 4 0 1 0 0 0 -10 0 0 0 1 stug8-1x3.dat
+
+0 BFC INVERTNEXT
+1 16 0 48 0 76 0 0 0 -44 0 0 0 36 box5.dat
+4 16 80 48 40 76 48 36 -76 48 36 -80 48 40
+4 16 -80 48 40 -76 48 36 -76 48 -36 -80 48 -40
+4 16 -80 48 -40 -76 48 -36 76 48 -36 80 48 -40
+4 16 80 48 -40 76 48 -36 76 48 36 80 48 40
+
+1 16 0 48 0 0 0 80 0 -48 0 -40 0 0 box3u2p.dat
+2 24 -80 48 -40 80 48 -40 
+2 24 -80 48 40 80 48 40 
+1 16 40 0 0 1 0 0 0 2.75 0 0 0 1 stug7-2x2.dat
+1 16 -40 0 0 1 0 0 0 2.75 0 0 0 1 stug7-2x2.dat
+
+1 16 60 4 -34 1.5 0 0 0 43 0 0 0 2 box4-1.dat
+1 16 20 4 -34 1.5 0 0 0 43 0 0 0 2 box4-1.dat
+1 16 -20 4 -34 1.5 0 0 0 43 0 0 0 2 box4-1.dat
+1 16 -60 4 -34 1.5 0 0 0 43 0 0 0 2 box4-1.dat
+1 16 60 4 34 1.5 0 0 0 43 0 0 0 -2 box4-1.dat
+1 16 20 4 34 1.5 0 0 0 43 0 0 0 -2 box4-1.dat
+1 16 -20 4 34 1.5 0 0 0 43 0 0 0 -2 box4-1.dat
+1 16 -60 4 34 1.5 0 0 0 43 0 0 0 -2 box4-1.dat
+1 16 -74 4 -20 0 0 2 0 43 0 -1.5 0 0 box4-1.dat
+1 16 74 4 -20 0 0 -2 0 43 0 1.5 0 0 box4-1.dat
+1 16 -74 4 20 0 0 2 0 43 0 -1.5 0 0 box4-1.dat
+1 16 74 4 20 0 0 -2 0 43 0 1.5 0 0 box4-1.dat

@@ -1,0 +1,41 @@
+0 ~Electric Powered Up 6 Port Hub Rechargeable Battery Top
+0 Name: u9399.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2020-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Spike Prime, Mindstorms, Robot Inventor
+
+0 !HISTORY 2019-12-27 [PTadmin] Official Update 2019-03
+0 !HISTORY 2020-02-24 [cwdee] Update description
+0 !HISTORY 2020-06-28 [PTadmin] Official Update 2020-01
+0 !HISTORY 2020-12-27 [PTadmin] Update description
+0 !HISTORY 2020-12-29 [PTadmin] Official Update 2020-03
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\u9399s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\u9399s01.dat
+1 16 0 13 -90 -50 0 0 0 0 13 0 1 0 rect2p.dat
+2 24 10.761 26 96.173 -10.761 26 96.173
+4 16 46 26 -88 50 26 -90 -50 26 -90 -46 26 -88
+0 BFC INVERTNEXT
+1 16 0 21 96.173 3 0 0 0 0 3 0 -2 0 2-4cylo.dat
+1 16 0 21 96.173 3 0 0 0 0 3 0 -1 0 2-4ndis.dat
+1 16 0 21 94.173 3 0 0 0 0 3 0 -1 0 2-4chrd.dat
+1 16 0 13 91 -8 0 0 0 0 13 0 1 0 rect2p.dat
+1 16 0 0 83 8 0 0 0 0 3 0 -1 0 rect2p.dat
+1 16 0 -1.5 80 -12 0 0 0 0 1.5 0 1 0 rect2p.dat
+4 16 -12 -3 80 12 -3 80 8 -3 83 -8 -3 83
+4 16 34 0 -89 -34 0 -89 -50 0 -90 50 0 -90
+4 16 -12 0 80 -24 0 -89 24 0 -89 12 0 80
+4 16 -8 0 91 8 0 91 5 0 94.173 -5 0 94.173
+2 24 5 0 94.173 -5 0 94.173
+4 16 3 8 94.173 -3 8 94.173 -5 0 94.173 5 0 94.173
+4 16 -3 21 94.173 -3 8 94.173 3 8 94.173 3 21 94.173
+4 16 -3 24 96.173 3 24 96.173 10.761 26 96.173 -10.761 26 96.173
+4 16 -8 3 83 8 3 83 24 3 -88 -24 3 -88
+1 16 0 4.5 -88 0 0 24 -1.5 0 0 0 -1 0 rect1.dat
+4 16 -34 6 -88 34 6 -88 46 26 -88 -46 26 -88
+2 24 46 26 -88 -46 26 -88
+4 16 -10.761 26 96.173 10.761 26 96.173 8 26 91 -8 26 91

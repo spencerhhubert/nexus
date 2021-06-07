@@ -1,0 +1,16 @@
+0 Technic Shield  5 x  5 with Dual Flames
+0 Name: 44937.dat
+0 Author: Santeri Piippo [arezey]
+0 !LDRAW_ORG Part UPDATE 2013-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Bionicle, Tahnok-Kal, 8574
+
+0 !HISTORY 2013-12-23 [PTadmin] Official Update 2013-02
+
+1 16 0 -10 40 1 0 0 0 1 0 0 0 1 connhole.dat
+1 16 0 0 0 1 0 0 0 20 0 0 0 1 axle.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\44937s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\44937s01.dat

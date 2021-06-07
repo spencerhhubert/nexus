@@ -1,0 +1,29 @@
+0 Sheet Plastic 15 x 14 Curved
+0 Name: 93668.dat
+0 Author: Christian Neumann [Wesley]
+0 !LDRAW_ORG Part UPDATE 2019-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 !HELP upper hole center at 0 0 0
+0 !HELP lower hole center at 0 -193.5 0
+
+0 BFC CERTIFY CCW
+
+0 !CATEGORY Sheet Plastic
+0 !KEYWORDS Pharaoh's Quest, Cobra Hood, Set 7325
+
+0 !HISTORY 2018-12-08 [PTadmin] Official Update 2018-02
+0 !HISTORY 2019-01-25 [cwdee] Set new category
+0 !HISTORY 2019-06-28 [PTadmin] Official Update 2019-01
+
+0 BFC INVERTNEXT
+1 16 0 0 0 9 0 0 0 -0.5 0 0 0 9 4-4cyli.dat
+0 BFC INVERTNEXT
+1 16 0 0 -193.5 9 0 0 0 -0.5 0 0 0 9 4-4cyli.dat
+1 16 0 0 0 1 0 0 0 -1 0 0 0 1 s\93668s01.dat
+1 16 0 0 0 -1 0 0 0 -1 0 0 0 1 s\93668s01.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\93668s02.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\93668s02.dat
+1 16 0 -0.5 0 1 0 0 0 1 0 0 0 1 s\93668s01.dat
+1 16 0 -0.5 0 -1 0 0 0 1 0 0 0 1 s\93668s01.dat
+5 24 0 0 19 0 -0.5 19 20 0 17.5 -20 0 17.5

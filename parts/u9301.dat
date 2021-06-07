@@ -1,0 +1,11 @@
+0 ~Electric Brick  2 x  2 x  0.667 with Side Clamps Right Inside Metal Part
+0 Name: u9301.dat
+0 Author: Max Martin Richter [MMR1988]
+0 !LDRAW_ORG Part UPDATE 2015-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2015-12-30 [PTadmin] Official Update 2015-02
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 -1 u9289.dat

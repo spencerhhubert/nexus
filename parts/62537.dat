@@ -1,0 +1,19 @@
+0 Minifig Jester's Cap
+0 Name: 62537.dat
+0 Author: Andy Westrate [westrate]
+0 !LDRAW_ORG Part UPDATE 2012-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !CATEGORY Minifig Headwear
+0 !KEYWORDS coxcomb, joker, fool, Castle, court
+
+0 !HISTORY 2012-08-09 [PTadmin] Official Update 2012-02
+
+ 1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\62537s01.dat
+ 1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\62537s02.dat
+ 1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\62537s03.dat
+ 1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\62537s04.dat
+ 1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\62537s05.dat
+0

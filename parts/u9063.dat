@@ -1,0 +1,20 @@
+0 ~Motor Pull Back  4 x  9 x  2.333 Axle Bush
+0 Name: u9063.dat
+0 Author: Santeri Piippo [arezey]
+0 !LDRAW_ORG Part UPDATE 2012-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !CATEGORY Vehicle
+
+0 !HISTORY 2012-08-09 [PTadmin] Official Update 2012-02
+
+1 16 -40 0 0 0 80 0 1 0 0 0 0 -1 axlehole.dat
+1 16 40 0 0 0 -80 0 1 0 0 0 0 1 4-4ring6.dat
+1 16 -40 0 0 0 80 0 1 0 0 0 0 -1 4-4ring6.dat
+1 16 -40 0 0 0 1 0 1 0 0 0 0 -1 axlehol2.dat
+1 16 40 0 0 0 1 0 1 0 0 0 0 -1 axlehol2.dat
+1 16 40 0 0 0 1 0 7 0 0 0 0 -7 4-4edge.dat
+1 16 -40 0 0 0 1 0 7 0 0 0 0 -7 4-4edge.dat
+1 16 -40 0 0 0 80 0 7 0 0 0 0 -7 4-4cyli.dat

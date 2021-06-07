@@ -1,0 +1,23 @@
+0 Flag  6 x  4
+0 Name: 2525.dat
+0 Author: Franklin W. Cain [fwcain]
+0 !LDRAW_ORG Part UPDATE 2009-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+0 !KEYWORDS accessory, Pirates, Castle, panel, flap
+
+0 !HISTORY 2000-05-07 [PTadmin] Official Update 2000-01
+0 !HISTORY 2002-12-13 [cwdee] Corrected size, BFC compliance
+0 !HISTORY 2003-08-01 [PTadmin] Official Update 2003-02
+0 !HISTORY 2007-07-04 [PTadmin] Header formatted for Contributor Agreement
+0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01
+0 !HISTORY 2008-07-07 [PTadmin] Renamed from 43
+0 !HISTORY 2009-05-02 [PTadmin] Official Update 2009-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\2525s01.dat
+
+4 16 2 0 10 2 0 130 2 96 130 2 96 10
+4 16 -2 96 130 -2 0 130 -2 0 10 -2 96 10
+0
+

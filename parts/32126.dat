@@ -1,0 +1,49 @@
+0 Technic Connector Toggle Joint Smooth
+0 Name: 32126.dat
+0 Author: Guy Vivan [guyvivan]
+0 !LDRAW_ORG Part UPDATE 2010-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2006-09-16 [guyvivan] CA-Rewrite
+0 !HISTORY 2008-07-07 [PTadmin] Renamed from 44
+0 !HISTORY 2010-07-05 [PTadmin] Official Update 2010-02
+
+1 16 0 0 -10 1 0 0 0 -1 0 0 0 -1 bush1.dat
+1 16 0 0 -10 0 1 0 1 0 0 0 0 -1 bush1.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 bush.dat
+2 24 0 9 -10 0 9 -20
+2 24 0 -9 -10 0 -9 -20
+2 24 0 9 -10 0 -9 -10
+5 24 0 9 -10 0 9 -7 3.44 8.31 -10 -3.44 8.31 -10
+5 24 0 -9 -10 0 -9 -7 3.44 -8.31 -10 -3.44 -8.31 -10
+1 16 -10 0 -20 0 1 0 9 0 0 0 0 9 4-4edge.dat
+1 16 0 0 -20 0 1 0 -9 0 0 0 0 -9 2-4edge.dat
+1 16 0 0 -20 0 1 -9 9 0 0 0 0 9 2-4edge.dat
+1 16 0 0 -7 0 0 -9 -9 0 0 0 1 0 2-4edge.dat
+1 16 0 0 -6 0 0 7 7 0 0 0 1 0 4-4edge.dat
+1 16 0 0 -7 -1 0 0 0 0 1 0 0.5 0 1-4con8.dat
+1 16 0 0 -6.5 -1 0 0 0 0 1 0 0.5 0 1-4con7.dat
+1 16 0 0 -6.5 0 0 -1 -1 0 0 0 0.5 0 1-4con7.dat
+1 16 0 0 -7 0 0 -1 -1 0 0 0 0.5 0 1-4con8.dat
+1 16 0 0 -20 0 -1 0 1 0 0 0 0 1 peghole.dat
+1 16 -10 0 -20 0 1 0 1 0 0 0 0 1 peghole.dat
+1 16 -10 0 -20 0 1 0 1 0 0 0 0 1 4-4ring8.dat
+1 16 0 0 -20 0 -1 0 1 0 0 0 0 1 4-4ring8.dat
+0 BFC INVERTNEXT
+1 16 -2 0 -20 0 -6 0 6 0 0 0 0 6 4-4cyli.dat
+1 16 -10 0 -20 0 1 0 9 0 0 0 0 9 4-4cyli.dat
+1 16 0 0 -20 0 -1 0 9 0 0 0 0 9 2-4ndis.dat
+1 16 0 0 -10 0 0 -9 9 0 0 0 -1 0 2-4cyli.dat
+1 16 0 0 -20 0 -10 0 9 0 0 0 0 -9 2-4cyli.dat
+1 16 -9 0 -20 0 9 0 0 0 9 9 0 0 1-4cyls.dat
+1 16 -9 0 -20 0 9 0 0 0 -9 9 0 0 1-4cyls.dat
+1 16 0 0 -11 -9 0 0 0 0 9 0 -9 0 1-4cyls.dat
+1 16 0 0 -11 -9 0 0 0 0 -9 0 -9 0 1-4cyls.dat
+1 16 0 0 -10 0 0 -9 -9 0 0 0 3 0 2-4cyli.dat
+1 16 0 0 -10 0 0 -6 -6 0 0 0 -1 0 2-4disc.dat
+4 16 0 -9 -10 0 -9 -11 0 9 -11 0 9 -10
+5 24 0 -7 -6 0 -9 -7 -2.68 -6.47 -6 2.68 -6.47 -6
+5 24 0 7 -6 0 9 -7 2.68 6.47 -6 -2.68 6.47 -6
+0

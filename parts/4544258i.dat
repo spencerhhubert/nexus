@@ -1,0 +1,16 @@
+0 Sticker  1.1 x  3.9 with Gold "10194" Aligned Right
+0 Name: 4544258i.dat
+0 Author: J.C. Tchang [tchang]
+0 !LDRAW_ORG Part UPDATE 2012-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS set 10194, Train, Emerald Night
+
+0 !HISTORY 2012-12-28 [PTadmin] Official Update 2012-03
+
+1 16 0 -0.25 0 39 0 0 0 0.25 0 0 0 11 box5-12.dat
+1 16 -20 -0.25 0 1 0 0 0 1 0 0 0 1 s\4544258s02.dat
+4 16 -20 -0.25 11 -39 -0.25 11 -39 -0.25 -11 -20 -0.25 -11
+

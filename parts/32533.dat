@@ -1,0 +1,27 @@
+0 Technic Disc  5 x  5 Projectile
+0 Name: 32533.dat
+0 Author: Santeri Piippo [arezey]
+0 !LDRAW_ORG Part UPDATE 2014-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Bionicle, Weapon, Kanoka, Throwbot, Slizer, frisbee, disk
+
+0 !HISTORY 2010-12-31 [PTadmin] Official Update 2010-03
+0 !HISTORY 2014-06-14 [arezey] Description change
+0 !HISTORY 2014-06-15 [arezey] Rebuilt for optimization
+0 !HISTORY 2014-12-23 [PTadmin] Official Update 2014-02
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\32533s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\32533s01.dat
+1 16 0 0 0 -0.5 0 -0.866025 0 1 0 0.866025 0 -0.5 s\32533s01.dat
+1 16 0 0 0 0.5 0 -0.866025 0 1 0 -0.866025 0 -0.5 s\32533s01.dat
+1 16 0 0 0 -0.5 0 0.866025 0 1 0 -0.866025 0 -0.5 s\32533s01.dat
+1 16 0 0 0 0.5 0 0.866025 0 1 0 0.866025 0 -0.5 s\32533s01.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\32533s02.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\32533s02.dat
+1 16 0 0 0 -0.5 0 -0.866025 0 1 0 0.866025 0 -0.5 s\32533s02.dat
+1 16 0 0 0 0.5 0 -0.866025 0 1 0 -0.866025 0 -0.5 s\32533s02.dat
+1 16 0 0 0 -0.5 0 0.866025 0 1 0 -0.866025 0 -0.5 s\32533s02.dat
+1 16 0 0 0 0.5 0 0.866025 0 1 0 0.866025 0 -0.5 s\32533s02.dat

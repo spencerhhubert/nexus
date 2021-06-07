@@ -1,0 +1,26 @@
+0 Electric Powered Up Distance Sensor Front Assembly
+0 Name: u9467c01.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Shortcut UPDATE 2020-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Spike Prime, Mindstorms, Robot Inventor
+
+0 !HISTORY 2020-06-28 [PTadmin] Official Update 2020-01
+0 !HISTORY 2020-12-27 [PTadmin] Update description
+0 !HISTORY 2020-12-29 [PTadmin] Official Update 2020-03
+
+1 0 0 0 -9 1 0 0 0 1 0 0 0 1 u9466.dat
+1 494 -40 0 6 1 0 0 0 1 0 0 0 1 u9464.dat
+1 47 -40 0 -8 1 0 0 0 1 0 0 0 1 u9465.dat
+1 494 40 0 6 1 0 0 0 1 0 0 0 1 u9464.dat
+1 47 40 0 -8 1 0 0 0 1 0 0 0 1 u9465.dat
+1 16 0 0 -9 1 0 0 0 1 0 0 0 1 u9467.dat
+1 16 0 0 30 1 0 0 0 1 0 0 0 1 u9468.dat
+0 // See-through blockers
+0 BFC INVERTNEXT
+1 15 -40 0 -5 5 0 0 0 0 5 0 14 0 4-4con3.dat
+0 BFC INVERTNEXT
+1 15 40 0 -5 5 0 0 0 0 5 0 14 0 4-4con3.dat

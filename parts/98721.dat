@@ -1,0 +1,21 @@
+0 Minifig Bar with Bat Wings
+0 Name: 98721.dat
+0 Author: Evert-Jan Boer [ejboer]
+0 !LDRAW_ORG Part UPDATE 2019-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !CATEGORY Minifig Accessory
+0 !KEYWORDS Batman, Batarang, Weapon
+
+0 !HISTORY 2013-08-14 {LEGO Digital Designer} Original part shape
+0 !HISTORY 2017-03-13 [ejboer] File preparation for LDraw Parts Tracker
+0 !HISTORY 2019-09-09 [PTadmin] Official Update 2019-02
+
+0 // Similar design: 55707c
+0 // 55707c was part of LEGO ID 4297205, a set of accessories. Part 98721 is its replacement.
+
+1 16 -9 0 0 0 18 0 4 0 0 0 0 4 4-4cyli.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\98721s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\98721s01.dat

@@ -1,0 +1,16 @@
+0 Wheel Rim  8 x  8 Notched Hole, Reinforced Back
+0 Name: 74967.dat
+0 Author: Magnus Forsberg [MagFors]
+0 !LDRAW_ORG Part UPDATE 2018-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2018-01-30 [PTadmin] Official Update 2018-01
+
+0 // Nomenclature: width_(mm) x rim_diameter_(mm) [optional qualifier]
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\74967s01.dat
+0 // ring on rim frontside
+1 16 0 0 -10 0.5 0 0 0 0 0.5 0 1 0 4-4rin17.dat
+1 16 0 0 -10 1 0 0 0 0 1 0 1 0 4-4ring9.dat

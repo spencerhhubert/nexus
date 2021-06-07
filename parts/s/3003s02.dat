@@ -1,0 +1,21 @@
+0 ~Brick  2 x  2 without Front and Back Faces
+0 Name: s\3003s02.dat
+0 Author: Owen Burgoyne [C3POwen]
+0 !LDRAW_ORG Subpart UPDATE 2013-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2013-12-23 [PTadmin] Official Update 2013-02
+
+1 16 0 4 0 1 0 0 0 -5 0 0 0 1 stud4.dat
+0 BFC INVERTNEXT
+1 16 0 24 0 16 0 0 0 -20 0 0 0 16 box5.dat
+4 16 20 24 20 16 24 16 -16 24 16 -20 24 20
+4 16 -20 24 20 -16 24 16 -16 24 -16 -20 24 -20
+4 16 -20 24 -20 -16 24 -16 16 24 -16 20 24 -20
+4 16 20 24 -20 16 24 -16 16 24 16 20 24 20
+2 24 20 24 20 -20 24 20
+2 24 20 24 -20 -20 24 -20
+1 16 0 24 0 0 0 20 0 -24 0 -20 0 0 box3u2p.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 stug-2x2.dat

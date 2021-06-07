@@ -1,0 +1,43 @@
+0 Slope Brick 45  4 x  4 Double with Locking Hinge
+0 Name: 44571.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2019-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2007-08-25 {LEGO Universe Team} Original part shape
+0 !HISTORY 2008-02-27 [Philo]   Rebuilt from scratch for LDraw Parts Tracker
+0 !HISTORY 2008-05-09 [Philo]   Corrected non-LDraw click side slope angle
+0 !HISTORY 2012-09-29 [MagFors] Corrected click hinge position
+0 !HISTORY 2019-12-27 [PTadmin] Official Update 2019-03
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\44571s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\44571s01.dat
+1 16 -20 0 0 -1 0 0 0 1 0 0 0 -1 stug-2x2.dat
+1 16 20 0 0 -1 0 0 0 1 0 0 0 -1 stug-2x2.dat
+1 16 0 10 -10 40 0 0 0 -10 0 0 10 -20 box2-5.dat
+0 BFC INVERTNEXT
+1 16 0 5 -2 36 0 0 0 -2 0 0 2 -16 box2-5.dat
+0 BFC INVERTNEXT
+1 16 0 22 -29 -36 0 0 0 -7 -5 0 0 5 box2-5.dat
+0 BFC INVERTNEXT
+1 16 0 22 -35 36 0 0 0 -2 0 0 0 -1 box2-5.dat
+1 16 0 20 -30 1 0 0 0 -1 0 0 0 1 stud3a.dat
+1 16 0 20 -30 0 0 4 0 -4 0 -4 0 0 4-4cyls.dat
+1 16 0 16 -30 0 0 4 4 -1 0 -4 0 0 4-4edge.dat
+1 16 0 3 0 1 0 0 0 -1.25 0 0 0 1 stud4.dat
+1 16 0 7.5 -20 0 0 8 -0.5 0 0 0 -1 0 rect2p.dat
+1 16 0 16 -20 40 0 0 0 0 8 0 -1 0 rect3.dat
+1 16 0 22 -40 -40 0 0 0 0 2 0 1 0 rect3.dat
+4 16 -36 24 -36 36 24 -36 40 24 -40 -40 24 -40
+4 16 36 24 -24 -36 24 -24 -40 24 -20 40 24 -20
+2 24 -6 23.498 32.296 6 23.498 32.296
+2 24 6 19.296 32.296 -6 19.296 32.296
+4 16 6 19.296 32.296 -6 19.296 32.296 -6 23.498 32.296 6 23.498 32.296
+4 16 6 19.296 32.296 6 3 16 -6 3 16 -6 19.296 32.296
+1 16 -6 18 30 0 12 0 5.543277 0 -2.296101 2.296101 0 5.543277 5-16cyli.dat
+4 16 -8.5 10.9289 31.4142 8.5 10.9289 31.4142 8.5 13.7574 34.2426 -8.5 13.7574 34.2426
+4 16 8.5 6.84473 27.1487 8.5 10.9289 31.4142 -8.5 10.9289 31.4142 -8.5 6.84473 27.1487
+4 16 16 3.91128 24.085 11.5 6.84473 27.1487 -11.5 6.84473 27.1487 -16 3.91128 24.085
+4 16 40 0 20 24 3.91128 24.085 -24 3.91128 24.085 -40 0 20

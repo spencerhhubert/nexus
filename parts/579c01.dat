@@ -1,0 +1,13 @@
+0 Electric Train Motor  4.5V  4 x 12 x  4
+0 Name: 579c01.dat
+0 Author: Steffen [Steffen]
+0 !LDRAW_ORG Shortcut UPDATE 2020-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2020-12-29 [PTadmin] Official Update 2020-03
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 580.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 579.dat
+1 0 0 6 -20 20 0 0 0 2 0 0 0 40 box.dat

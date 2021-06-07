@@ -1,0 +1,18 @@
+0 Electric RC Receiver Unit with Auxiliary Output (Complete)
+0 Name: 6272.dat
+0 Author: Guy Vivan [guyvivan]
+0 !LDRAW_ORG Shortcut UPDATE 2010-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2010-07-05 [PTadmin] Official Update 2010-02
+
+1 16 0 0 0 0 0 -1 0 1 0 1 0 0 43447.dat
+1 16 0 0 0 0 0 -1 0 1 0 1 0 0 43446.dat
+1 16 0 0 0 0 0 -1 0 1 0 1 0 0 43457.dat
+1 16 -80 0 110 0 0 1 0 1 0 -1 0 0 u9014.dat
+1 16 80 0 110 0 0 -1 0 1 0 -1 0 0 u9014.dat
+1 16 0 0 -150 1 0 0 0 1 0 0 0 1 u9016.dat
+1 8 0 0 -150 1 0 0 0 1 0 0 0 1 u9015.dat
+0

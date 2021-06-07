@@ -1,0 +1,15 @@
+0 ~Tools and Motorcycle Pattern - Hammer Inside
+0 Name: s\30180p02s02.dat
+0 Author: Andrew Ananjev [woozle]
+0 !LDRAW_ORG Subpart UPDATE 2017-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+
+0 !HISTORY 2017-12-30 [PTadmin] Official Update 2017-01
+
+4 16 8.888 -0.704 0 4.488 -0.704 0 1.76 -4.4 0 8.888 -9.504 0
+4 16 1.76 -4.4 0 4.488 -0.704 0 4.488 9.548 0 -1.364 9.548 0
+3 16 -1.364 9.548 0 -1.364 -0.88 0 1.76 -4.4 0
+4 16 1.76 -4.4 0 -1.364 -0.88 0 -9.68 -4.796 0 -9.68 -5.94 0
+4 16 1.76 -4.4 0 -9.68 -5.94 0 -1.672 -9.504 0 8.888 -9.504 0

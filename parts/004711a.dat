@@ -1,0 +1,13 @@
+0 =Sticker Minifig Torso with White Buttons and Police Badge Plain
+0 Name: 004711a.dat
+0 Author: Alex Taylor [anathema]
+0 !LDRAW_ORG Part Alias UPDATE 2019-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS set 621-1
+
+0 !HISTORY 2019-12-27 [PTadmin] Official Update 2019-03
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 004585a.dat

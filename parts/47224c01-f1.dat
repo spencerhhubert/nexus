@@ -1,0 +1,17 @@
+0 Technic Pneumatic Cylinder  2 x  2 x  5 with Curved Base (Retracted)
+0 Name: 47224c01-f1.dat
+0 Author: Guy Vivan [guyvivan]
+0 !LDRAW_ORG Shortcut UPDATE 2018-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2009-12-24 [arezey] Updated to compensate origin changes in composing parts
+0 !HISTORY 2010-04-05 [PTadmin] Official Update 2010-01
+0 !HISTORY 2016-08-21 [PTadmin] Renamed from 47224c01
+0 !HISTORY 2017-06-25 [Philo] Added gasket
+0 !HISTORY 2018-01-30 [PTadmin] Official Update 2018-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 47224.dat
+1 0 0 -106 0 1 0 0 0 1 0 0 0 1 2795.dat
+1 0 0 -120 0 1 0 0 0 1 0 0 0 1 2796c01.dat

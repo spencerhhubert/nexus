@@ -1,0 +1,35 @@
+0 ~Electric Technic Motor 4.5V  6 x 17 x  5 Lid
+0 Name: 32290.dat
+0 Author: Guy Vivan [guyvivan]
+0 !LDRAW_ORG Part UPDATE 2010-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2010-07-05 [PTadmin] Official Update 2010-02
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\32290s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\32290s01.dat
+1 16 0 89 -180 60 0 0 0 -1 0 0 0 -80 box4-1.dat
+0 BFC INVERTNEXT
+1 16 0 92 -161 -5 0 0 0 -1 0 0 0 9 box4-4a.dat
+0 BFC INVERTNEXT
+1 16 0 96 -170 36 0 0 0 -4 0 0 0 -66 box4.dat
+1 16 -20 92 -120 1 0 0 0 -1 0 0 0 1 stud4.dat
+1 16 0 92 -120 1 0 0 0 -1 0 0 0 1 stud4.dat
+1 16 20 92 -120 1 0 0 0 -1 0 0 0 1 stud4.dat
+1 16 -20 92 -140 1 0 0 0 -1 0 0 0 1 stud4.dat
+1 16 0 92 -140 1 0 0 0 -1 0 0 0 1 stud4.dat
+1 16 20 92 -140 1 0 0 0 -1 0 0 0 1 stud4.dat
+1 16 -20 92 -160 1 0 0 0 -1 0 0 0 1 stud4.dat
+1 16 20 92 -160 1 0 0 0 -1 0 0 0 1 stud4.dat
+1 16 -20 92 -180 1 0 0 0 -1 0 0 0 1 stud4.dat
+1 16 20 92 -180 1 0 0 0 -1 0 0 0 1 stud4.dat
+1 16 -20 92 -200 1 0 0 0 -1 0 0 0 1 stud4.dat
+1 16 0 92 -200 1 0 0 0 -1 0 0 0 1 stud4.dat
+1 16 20 92 -200 1 0 0 0 -1 0 0 0 1 stud4.dat
+1 16 -20 92 -220 1 0 0 0 -1 0 0 0 1 stud4.dat
+1 16 0 92 -220 1 0 0 0 -1 0 0 0 1 stud4.dat
+1 16 20 92 -220 1 0 0 0 -1 0 0 0 1 stud4.dat
+2 24 0 91 -188 0 92 -188
+0

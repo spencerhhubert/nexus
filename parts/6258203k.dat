@@ -1,0 +1,33 @@
+0 Sticker  0.8 x  3.9 with Yellow License Plate "PEKH-0280"
+0 Name: 6258203k.dat
+0 Author: Ulrich Röder [UR]
+0 !LDRAW_ORG Part UPDATE 2019-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Ford, Mustang, Set 10265
+
+0 !HISTORY 2019-06-28 [PTadmin] Official Update 2019-01
+
+0 // Font: Registration Plate UK
+
+0 // Main
+0 // Box Rounded
+
+1 16 38.5 0 7.5 .5 0 0 0 -1 0 0 0 .5 1-4chrd.dat
+1 16 38.5 0 -7.5 .5 0 0 0 -1 0 0 0 -.5 1-4chrd.dat
+1 16 -38.5 0 7.5 -.5 0 0 0 -1 0 0 0 .5 1-4chrd.dat
+1 16 -38.5 0 -7.5 -.5 0 0 0 -1 0 0 0 -.5 1-4chrd.dat
+1 16 38.5 0 7.5 .5 0 0 0 -.25 0 0 0 .5 1-4cyli.dat
+1 16 38.5 0 -7.5 .5 0 0 0 -.25 0 0 0 -.5 1-4cyli.dat
+1 16 -38.5 0 7.5 -.5 0 0 0 -.25 0 0 0 .5 1-4cyli.dat
+1 16 -38.5 0 -7.5 -.5 0 0 0 -.25 0 0 0 -.5 1-4cyli.dat
+1 16 0 -.25 0 38.5 0 0 0 .25 0 0 0 8 box3u12.dat
+4 16 -39 -.25 -7.5 -39 -.25 7.5 -39 0 7.5 -39 0 -7.5
+4 16 39 0 7.5 39 -.25 7.5 39 -.25 -7.5 39 0 -7.5
+4 16 39 0 7.5 39 0 -7.5 38.5 0 -8 38.5 0 8
+4 16 -39 0 7.5 -38.5 0 8 -38.5 0 -8 -39 0 -7.5
+
+0 // Yellow
+1 14 0 0 0 1 0 0 0 1 0 0 0 1 s\6258203js01.dat

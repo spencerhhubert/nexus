@@ -1,0 +1,23 @@
+0 ~Glass for Window  1 x  2 x  2 without Front Surface
+0 Name: s\60601s01.dat
+0 Author: Ulrich Röder [UR]
+0 !LDRAW_ORG Subpart UPDATE 2019-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2019-06-28 [PTadmin] Official Update 2019-01
+
+1 16 9.25 21.5 -7 0 0 7.25 17.5 0 0 0 4 0 box4-4a.dat
+1 16 -9.25 21.5 -7 0 0 -7.25 17.5 0 0 0 4 0  box4-4a.dat
+1 16 0 4 -7 2 0 0 0 0 -2 0 4 0 2-4cylo.dat
+1 16 0 4 -7 2 0 0 0 0 -2 0 1 0 2-4chrd.dat
+1 16 0 4 -3 -2 0 0 0 0 -2 0 -1 0 2-4chrd.dat
+1 16 0 39 -7 -2 0 0 0 0 2 0 4 0 2-4cylo.dat
+1 16 0 39 -7 -2 0 0 0 0 2 0 1 0 2-4chrd.dat
+1 16 0 39 -3 2 0 0 0 0 2 0 -1 0 2-4chrd.dat
+4 16 -2 4 -3 2 4 -3 2 39 -3 -2 39 -3
+2 24 2 4 -3 2 4 -7
+2 24 -2 4 -3 -2 4 -7
+2 24 2 39 -3 2 39 -7
+2 24 -2 39 -3 -2 39 -7

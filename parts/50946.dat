@@ -1,0 +1,13 @@
+0 Car Grille  2 x  2.5 x  3 with Sloped Front
+0 Name: 50946.dat
+0 Author: Chris Dee [cwdee]
+0 !LDRAW_ORG Part UPDATE 2010-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2010-12-31 [PTadmin] Official Update 2010-03
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\50946s01.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\50946s02.dat
+0

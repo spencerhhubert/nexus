@@ -1,0 +1,29 @@
+0 Plant Flat Horse Chestnut Tree with Hollow Base
+0 Name: u9119.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2013-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2013-12-23 [PTadmin] Official Update 2013-02
+
+0 // Scanned from real part using David 3D laser scanner
+
+
+1 16 3 -8 0 1 0 0 0 1 0 0 0 1 s\u9119s01.dat
+1 16 3 -8 0 1 0 0 0 1 0 0 0 -1 s\u9119s01.dat
+1 16 3 -8 0 1 0 0 0 1 0 0 0 1 s\u9119s02.dat
+1 16 3 -8 0 1 0 0 0 1 0 0 0 -1 s\u9119s02.dat
+1 16 0 0 0 24 0 0 0 1 0 0 0 24 4-4edge.dat
+1 16 0 0 0 24 0 0 0 -6 0 0 0 24 4-4cyli.dat
+1 16 0 -6 0 22.1538 0 0 0 -24 0 0 0 22.1538 t04o0833.dat
+1 16 0 -6 0 0 0 -22.1538 0 -24 0 22.1538 0 0 t04o0833.dat
+1 16 0 -6 0 -22.1538 0 0 0 -24 0 0 0 -22.1538 t04o0833.dat
+1 16 0 -6 0 0 0 22.1538 0 -24 0 -22.1538 0 0 t04o0833.dat
+1 16 0 -8 0 22.1538 0 0 0 1 0 0 0 22.1538 4-4disc.dat
+0 BFC INVERTNEXT
+1 16 0 -4 0 20 0 0 0 4 0 0 0 20 4-4cylc.dat
+1 16 0 0 0 4 0 0 0 -1 0 0 0 4 4-4ring5.dat
+1 16 0 -4 0 1 0 0 0 -1 0 0 0 -1 stud4.dat
+

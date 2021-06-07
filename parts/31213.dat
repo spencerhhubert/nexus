@@ -1,0 +1,39 @@
+0 Duplo Brick  2 x  4 x  2 with Curved Top (Needs Work)
+0 Name: 31213.dat
+0 Author: Tore Eriksson [Tore_Eriksson]
+0 !LDRAW_ORG Part UPDATE 2019-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !CATEGORY Brick
+
+0 !HISTORY 2019-12-27 [PTadmin] Official Update 2019-03
+
+0 // Needs Work: Everything inside the underside is missing
+0 // Needs Work: Good For Catalog Purposes
+
+1 16  0 80 -40  80 0 0  0 0 -80  0 1 0  48\2-4disc.dat
+1 16  0 80 40  80 0 0  0 0 -80  0 -1 0  48\2-4disc.dat
+1 16  0 80 -40  80 0 0  0 0 -80  0 80 0  48\2-4cyli.dat
+1 16  0 80 -40  80 0 0  0 0 -80  0 1 0  48\2-4edge.dat
+1 16  0 80 40  80 0 0  0 0 -80  0 1 0  48\2-4edge.dat
+1 16  0 88 -40  80 0 0  0 0 8  0 1 0  rect3.dat
+1 16  0 88 40  -80 0 0  0 0 8  0 -1 0  rect3.dat
+1 16  -80 88 0  0 1 0  8 0 0  0 0 40  rect1.dat
+1 16  80 88 0  0 -1 0  8 0 0  0 0 -40  rect1.dat
+1 16  0 80 -36  76 0 0  0 0 -76  0 -1 0  48\2-4disc.dat
+1 16  0 80 36  76 0 0  0 0 -76  0 1 0  48\2-4disc.dat
+1 16  0 80 -36  76 0 0  0 0 -76  0 1 0  48\2-4edge.dat
+1 16  0 80 36  76 0 0  0 0 -76  0 1 0  48\2-4edge.dat
+1 16  0 88 36  76 0 0  0 0 8  0 1 0  rect3.dat
+1 16  0 88 -36  -76 0 0  0 0 8  0 -1 0  rect3.dat
+1 16  76 88 0  0 1 0  8 0 0  0 0 36  rect1.dat
+1 16  -76 88 0  0 -1 0  8 0 0  0 0 -36  rect1.dat
+0 BFC INVERTNEXT
+1 16  0 80 -36  76 0 0  0 0 -76  0 72 0  48\2-4cyli.dat
+4 16  -80 96 -40  -76 96 -36  76 96 -36  80 96 -40
+4 16  -80 96 40  80 96 40  76 96 36  -76 96 36
+4 16  -80 96 -40  -80 96 40  -76 96 36  -76 96 -36
+4 16  80 96 40  80 96 -40  76 96 -36  76 96 36
+0

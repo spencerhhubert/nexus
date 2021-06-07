@@ -1,0 +1,14 @@
+0 Technic Brick  4 x  6 with Open Center  2 x  4 Dual Pins on End
+0 Name: 43123.dat
+0 Author: Michael Heidemann [mikeheide]
+0 !LDRAW_ORG Shortcut UPDATE 2013-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2013-07-21 [PTadmin] Official Update 2013-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 40344.DAT
+1 16 60 10 20 1 0 0 0 1 0 0 0 1 42865.dat
+1 16 60 10 -20 1 0 0 0 1 0 0 0 1 42865.dat
+0 //

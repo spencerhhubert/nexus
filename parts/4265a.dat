@@ -1,0 +1,65 @@
+0 Technic Bush  1/2 Type 1
+0 Name: 4265a.dat
+0 Author: James Jessiman
+0 !LDRAW_ORG Part UPDATE 2019-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS small pulley, half-bushing, ring, round
+
+0 !HISTORY 1999-07-05 [PTadmin] Official Update 1999-05
+0 !HISTORY 2004-06-20 [guyvivan] Made BFC compliant, use Torus primitive
+0 !HISTORY 2005-12-28 [PTadmin] Official Update 2005-01
+0 !HISTORY 2007-07-04 [PTadmin] Header formatted for Contributor Agreement
+0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01
+0 !HISTORY 2018-10-01 [mkennedy] Moved inner edgelines from bushloc2 to main part, Used a 4-4cylo
+0 !HISTORY 2019-06-28 [PTadmin] Official Update 2019-01
+
+1 16 0 0 -5 1 0 0 0 0 1 0 8 0 axlehole.dat
+1 16 0 0 -5 1 0 0 0 0 1 0 1 0 axlehol2.dat
+1 16 0 0 -5 3 0 0 0 0 3 0 1 0 4-4ring2.dat
+1 16 0 0 -5 9 0 0 0 0 9 0 2.5 0 4-4cylo.dat
+1 16 0 0 2.5 9 0 0 0 0 9 0 1 0 4-4edge.dat
+1 16 0 0 2.5 9 0 0 0 0 9 0 0.5 0 4-4cyli.dat
+1 16 0 0 3 -1 0 0 0 0 1 0 1 0 bushloc2.dat
+
+2 24 6 0 3 5.77 1.15 3
+2 24 2.3 5.54 3 3.27 4.89 3
+2 24 4.24 4.24 3 4.89 3.27 3
+2 24 2 5.602 3 1.15 5.77 3
+2 24 5.602 2 3 5.54 2.3 3
+
+2 24 0 -6 3 1.15 -5.77 3
+2 24 5.54 -2.3 3 4.89 -3.27 3
+2 24 4.24 -4.24 3 3.27 -4.89 3
+2 24 5.602 -2 3 5.77 -1.15 3
+2 24 2 -5.602 3 2.3 -5.54 3
+
+2 24 -6 0 3 -5.77 -1.15 3
+2 24 -2.3 -5.54 3 -3.27 -4.89 3
+2 24 -4.24 -4.24 3 -4.89 -3.27 3
+2 24 -2 -5.602 3 -1.15 -5.77 3
+2 24 -5.602 -2 3 -5.54 -2.3 3
+
+2 24 0 6 3 -1.15 5.77 3
+2 24 -5.54 2.3 3 -4.89 3.27 3
+2 24 -4.24 4.24 3 -3.27 4.89 3
+2 24 -5.602 2 3 -5.77 1.15 3
+2 24 -2 5.602 3 -2.3 5.54 3
+0 BFC INVERTNEXT
+1 16 0 0 0 9 0 0 0 0 -9 0 10 0 t04i2500.dat
+0 BFC INVERTNEXT
+1 16 0 0 0 0 0 -9 -9 0 0 0 10 0 t04i2500.dat
+0 BFC INVERTNEXT
+1 16 0 0 0 -9 0 0 0 0 9 0 10 0 t04i2500.dat
+0 BFC INVERTNEXT
+1 16 0 0 0 0 0 9 9 0 0 0 10 0 t04i2500.dat
+0 BFC INVERTNEXT
+1 16 0 0 0 -9 0 0 0 0 -9 0 -10 0 t04i2500.dat
+0 BFC INVERTNEXT
+1 16 0 0 0 0 0 9 -9 0 0 0 -10 0 t04i2500.dat
+0 BFC INVERTNEXT
+1 16 0 0 0 9 0 0 0 0 9 0 -10 0 t04i2500.dat
+0 BFC INVERTNEXT
+1 16 0 0 0 0 0 -9 9 0 0 0 -10 0 t04i2500.dat

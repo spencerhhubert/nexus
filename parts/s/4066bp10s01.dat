@@ -1,0 +1,19 @@
+0 ~Duplo Brick  1 x  2 x  2 with Grill and Hot Dog Pattern - Stove
+0 Name: s\4066bp10s01.dat
+0 Author: Takeshi Takahashi [RainbowDolphin]
+0 !LDRAW_ORG Subpart UPDATE 2020-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2020-12-29 [PTadmin] Official Update 2020-03
+
+4 16 29 37 -20 -29 37 -20 -20 55 -20 20 55 -20
+4 16 -24.5 71.5 -20 -20 55 -20 -29 37 -20 -27.75 72.15 -20
+4 16 24.5 71.5 -20 29 37 -20 20 55 -20 21.25 72.15 -20
+3 16 -29 37 -20 -29 73 -20 -27.75 72.15 -20
+3 16 -20 55 -20 -24.5 71.5 -20 -21.25 72.15 -20
+3 16 -20 55 -20 -21.25 72.15 -20 -20 73 -20
+3 16 20 55 -20 20 73 -20 21.25 72.15 -20
+3 16 29 37 -20 24.5 71.5 -20 27.75 72.15 -20
+3 16 29 37 -20 27.75 72.15 -20 29 73 -20

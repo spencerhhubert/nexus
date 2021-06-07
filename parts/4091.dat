@@ -1,0 +1,39 @@
+0 ~Wheel Fabuland Wheelbarrow
+0 Name: 4091.dat
+0 Author: Niels Karsdorp [nielsk]
+0 !LDRAW_ORG Part UPDATE 2010-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+
+0 !HISTORY 2010-12-31 [PTadmin] Official Update 2010-03
+
+1 16 0 0 0 0 1 0 0 0 6 6 0 0 4-4edge.dat
+1 16 1 0 0 0 1 0 0 0 6 6 0 0 4-4edge.dat
+1 16 1 0 0 0 1 0 0 0 25 25 0 0 4-4edge.dat
+1 16 9 0 0 0 1 0 0 0 25 25 0 0 4-4edge.dat
+1 16 9 0 0 0 1 0 0 0 20 20 0 0 4-4edge.dat
+1 16 8.5 0 0 0 -1 0 0 0 20 20 0 0 4-4edge.dat
+1 16 0 0 0 0 1 0 0 0 6 6 0 0 4-4disc.dat
+1 16 0 0 0 0 1 0 0 0 6 6 0 0 4-4cyli.dat
+1 16 1 0 0 0 1 0 0 0 6 6 0 0 4-4ring1.dat
+1 16 1 0 0 0 1 0 0 0 12 12 0 0 4-4ring1.dat
+1 16 1 0 0 0 1 0 0 0 1 1 0 0 4-4rin24.dat
+1 16 1 0 0 0 8 0 0 0 25 25 0 0 4-4cyli.dat
+1 16 9 0 0 0 -1 0 0 0 5 5 0 0 4-4ring4.dat
+0 BFC INVERTNEXT
+1 16 9 0 0 0 -0.5 0 0 0 20 20 0 0 4-4cyli.dat
+1 16 8.5 0 0 0 -1 0 0 0 6.4 6.4 0 0 4-4ring1.dat
+1 16 8.5 0 0 0 -1 0 0 0 3.2 3.2 0 0 4-4ring4.dat
+1 16 8.5 0 0 0 -1 0 0 0 4 4 0 0 4-4ring4.dat
+0 BFC INVERTNEXT
+1 16 8.9 0 0 0 -6.4 0 0 0 6.4 6.4 0 0 t04i0625.dat
+0 BFC INVERTNEXT
+1 16 8.9 0 0 0 -6.4 0 6.4 0 0 0 0 -6.4 t04i0625.dat
+0 BFC INVERTNEXT
+1 16 8.9 0 0 0 -6.4 0 0 0 -6.4 -6.4 0 0 t04i0625.dat
+0 BFC INVERTNEXT
+1 16 8.9 0 0 0 -6.4 0 -6.4 0 0 0 0 6.4 t04i0625.dat
+1 16 8.9 0 0 0 0.1 0 0 0 6 6 0 0 4-4cyli.dat
+1 16 9 0 0 0 -1 0 0 0 -1 1 0 0 studa.dat
+0

@@ -1,0 +1,15 @@
+0 ~_Hinge Plate  2 x  5 with Large Hole (Complete) Light_Grey (Obsolete)
+0 Name: 7067.dat
+0 Author: Chris Dee [cwdee]
+0 !LDRAW_ORG Shortcut Physical_Colour UPDATE 2019-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2010-07-05 [PTadmin] Official Update 2010-02
+0 !HISTORY 2010-11-22 [anathema] Added 'Physical_Colour' to type & optimised
+0 !HISTORY 2010-12-31 [PTadmin] Official Update 2010-03
+0 !HISTORY 2019-08-31 [Holly-Wood] Obsoleted per decision not to include physical colour parts
+0 !HISTORY 2019-09-09 [PTadmin] Official Update 2019-02
+
+1 7 0 0 0 1 0 0 0 1 0 0 0 1 3149ec01.dat

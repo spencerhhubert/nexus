@@ -1,0 +1,17 @@
+0 Flag on Flagpole Type 5 with Tri-Coloured Shield Sticker
+0 Name: 3596d25.dat
+0 Author: J.C. Tchang [tchang]
+0 !LDRAW_ORG Shortcut UPDATE 2011-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+
+0 !HISTORY 2011-08-20 [cwdee] Use flag part instead of subpart
+0 !HISTORY 2011-12-29 [PTadmin] Official Update 2011-02
+
+0 // Flag on Flagpole
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 3596.dat
+
+1 16 2 -132 34 0 -1 0 0 0 -1 1 0 0 190315a.dat
+1 16 -2 -132 34 0 1 0 0 0 -1 -1 0 0 190315a.dat
+0

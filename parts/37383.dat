@@ -1,0 +1,20 @@
+0 Wheel Rim 42 x 62 with 10 Spokes and  3 Pins
+0 Name: 37383.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2020-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 !HELP Tyre:
+0 !HELP 1 256 0 0 26.4 1 0 0 0 1 0 0 0 1 23799.dat
+0 !HELP Logo tile:
+0 !HELP 1 16 0 0 -13.6 1 0 0 0 0 -1 0 1 0 98138pt1.dat
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Bugatti, Chiron, set 42083
+
+0 !HISTORY 2020-12-29 [PTadmin] Official Update 2020-03
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\37383s00.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\37383s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\37383s01.dat

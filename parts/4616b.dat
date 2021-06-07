@@ -1,0 +1,35 @@
+0 Brick  2 x  4 x  2 with Engine Cowling and Hole for Technic Pin
+0 Name: 4616b.dat
+0 Author: Steve Chisnall [StevieC]
+0 !LDRAW_ORG Part UPDATE 2012-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS airplane, aeroplane, plane
+
+0 !HISTORY 2012-12-28 [PTadmin] Official Update 2012-03
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\4616s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\4616s01.dat
+1 16 0 0 0 0 0 -1 0 1 0 1 0 0 stug-2x2.dat
+1 16 0 44 0 -1 0 0 0 -1 0 0 0 1 stud4.dat
+1 16 20 44 0 -1 0 0 0 -1 0 0 0 1 stud4.dat
+1 16 -20 44 0 -1 0 0 0 -1 0 0 0 1 stud4.dat
+1 16 0 24 -38 1 0 0 0 0 -1 0 1 0 4-4ring6.dat
+0 BFC INVERTNEXT
+1 16 0 24 -22 6 0 0 0 0 6 0 -16 0 4-4cyli.dat
+0 BFC INVERTNEXT
+1 16 0 24 -16 6.5 0 0 0 0 6.5 0 -6 0 4-4cyli.dat
+1 16 0 24 -38 6 0 0 0 0 6 0 -6 0 4-4edge.dat
+1 16 0 24 -22 0.5 0 0 0 0 -0.5 0 -0.5 0 4-4rin12.dat
+1 16 0 24 -16 0.5 0 0 0 0 -0.5 0 -0.5 0 4-4rin13.dat
+1 16 0 24 -22 6 0 0 0 0 -6 0 6 0 4-4edge.dat
+1 16 0 24 -22 6.5 0 0 0 0 -6.5 0 6.5 0 4-4edge.dat
+1 16 0 24 -16 6.5 0 0 0 0 -6.5 0 6.5 0 4-4edge.dat
+2 24 4 29.587 -38 2.679 30.467 -38
+2 24 -4 29.587 -38 -2.679 30.467 -38
+2 24 -4 18.413 -38 -2.679 17.533 -38
+2 24 4 18.413 -38 2.679 17.533 -38
+1 16 0 24 -38 -2.679 0 6.467 6.467 0 2.679 0 1 0 1-8edge.dat
+1 16 0 24 -38 2.679 0 -6.467 -6.467 0 -2.679 0 1 0 1-8edge.dat

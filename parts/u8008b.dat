@@ -1,0 +1,57 @@
+0 Mursten Brick  2 x 14 with 1 Slot
+0 Name: u8008b.dat
+0 Author: J.C. Tchang [tchang]
+0 !LDRAW_ORG Part UPDATE 2014-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+
+0 !CATEGORY Brick
+0 !KEYWORDS Automatic Binding Brick, Lego Mursten
+
+0 !HISTORY 2014-06-21 [PTadmin] Official Update 2014-01
+
+4 16 -140 24 -20 -136 24 -16 -136 24 16 -140 24 20
+4 16 140 24 -20 136 24 -16 -136 24 -16 -140 24 -20
+4 16 -140 24 20 -136 24 16 136 24 16 140 24 20
+0 BFC INVERTNEXT
+1 16 -89 24 0 0 0 -47 0 -20 0 16 0 0 box4-1.dat
+0 BFC INVERTNEXT
+1 16 0 24 0 -38 0 0 0 -20 0 0 0 -16 box3u2p.dat
+0 BFC INVERTNEXT
+1 16 89 24 0 -47 0 0 0 -20 0 0 0 -16 box3u2p.dat
+1 16 -40 4 0 0 0 2 0 20 0 16 0 0 box3u8p.dat
+1 16 40 4 0 0 0 2 0 20 0 16 0 0 box3u8p.dat
+1 16 140 12 0 0 -280 0 -12 0 0 0 0 20 box3u2p.dat
+4 16 -140 0 20 136 0 20 136 0 -20 -140 0 -20
+1 16 120 0 0 0 0 -1 0 1 0 1 0 0 slotm.dat
+0 
+1 16 -50 0 10 0 0 -1 0 1 0 1 0 0 stud.dat
+1 16 -50 0 -10 0 0 -1 0 1 0 1 0 0 stud.dat
+1 16 -70 0 10 0 0 -1 0 1 0 1 0 0 stud.dat
+1 16 -70 0 -10 0 0 -1 0 1 0 1 0 0 stud.dat
+1 16 -90 0 10 0 0 -1 0 1 0 1 0 0 stud.dat
+1 16 -90 0 -10 0 0 -1 0 1 0 1 0 0 stud.dat
+1 16 -110 0 10 0 0 -1 0 1 0 1 0 0 stud.dat
+1 16 -110 0 -10 0 0 -1 0 1 0 1 0 0 stud.dat
+1 16 -130 0 10 0 0 -1 0 1 0 1 0 0 stud.dat
+1 16 -130 0 -10 0 0 -1 0 1 0 1 0 0 stud.dat
+1 16 -30 0 10 0 0 -1 0 1 0 1 0 0 stud.dat
+1 16 -30 0 -10 0 0 -1 0 1 0 1 0 0 stud.dat
+1 16 -10 0 10 0 0 -1 0 1 0 1 0 0 stud.dat
+1 16 -10 0 -10 0 0 -1 0 1 0 1 0 0 stud.dat
+1 16 30 0 10 0 0 -1 0 1 0 1 0 0 stud.dat
+1 16 30 0 -10 0 0 -1 0 1 0 1 0 0 stud.dat
+1 16 10 0 10 0 0 -1 0 1 0 1 0 0 stud.dat
+1 16 10 0 -10 0 0 -1 0 1 0 1 0 0 stud.dat
+1 16 50 0 10 0 0 -1 0 1 0 1 0 0 stud.dat
+1 16 50 0 -10 0 0 -1 0 1 0 1 0 0 stud.dat
+1 16 70 0 10 0 0 -1 0 1 0 1 0 0 stud.dat
+1 16 70 0 -10 0 0 -1 0 1 0 1 0 0 stud.dat
+1 16 90 0 10 0 0 -1 0 1 0 1 0 0 stud.dat
+1 16 90 0 -10 0 0 -1 0 1 0 1 0 0 stud.dat
+1 16 110 0 10 0 0 -1 0 1 0 1 0 0 stud.dat
+1 16 110 0 -10 0 0 -1 0 1 0 1 0 0 stud.dat
+1 16 130 0 10 0 0 -1 0 1 0 1 0 0 stud.dat
+1 16 130 0 -10 0 0 -1 0 1 0 1 0 0 stud.dat
+0

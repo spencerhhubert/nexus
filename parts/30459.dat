@@ -1,0 +1,16 @@
+0 Animal Dinosaur Head Tyrannosaurus Rex
+0 Name: 30459.dat
+0 Author: Stan Isachenko [angmarec]
+0 !LDRAW_ORG Part UPDATE 2015-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Adventures, Studio
+
+0 !HISTORY 2011-11-06 {LEGO Digital Designer} Original part shape
+0 !HISTORY 2011-11-07 [angmarec] File preparation for LDraw Parts Tracker
+0 !HISTORY 2015-10-11 [PTadmin] Official Update 2015-01
+
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\30459s01.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\30459s01.dat

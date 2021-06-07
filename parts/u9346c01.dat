@@ -1,0 +1,13 @@
+0 Electric Technic Mini-Motor  9V - Body Assembly
+0 Name: u9346c01.dat
+0 Author: Magnus Forsberg [MagFors]
+0 !LDRAW_ORG Shortcut UPDATE 2019-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2019-12-27 [PTadmin] Official Update 2019-03
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 u9346.dat
+1 0 0 16 -20 1 0 0 0 1 0 0 0 1 u9347.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 u9348.dat

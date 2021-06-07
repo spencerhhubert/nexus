@@ -1,0 +1,29 @@
+0 Rubber Belt Round 33 /  1.6
+0 Name: 85546.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2014-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+0 !CATEGORY Technic
+
+0 !HISTORY 2014-12-23 [PTadmin] Official Update 2014-02
+
+0 // Nomenclature: Rubber Belt [Round|Square] belt_diameter_(mm) / belt_thickness_(mm)
+
+1 16 0 0 0 0 0 41.25 -41.25 0 0 0 -41.25 0 t04i0462.dat
+1 16 0 0 0 0 0 41.25 -41.25 0 0 0 41.25 0 t04i0462.dat
+1 16 0 0 0 0 0 41.25 -41.25 0 0 0 -41.25 0 t04o0462.dat
+1 16 0 0 0 0 0 41.25 -41.25 0 0 0 41.25 0 t04o0462.dat
+1 16 0 0 0 -41.25 0 0 0 0 -41.25 0 -41.25 0 t04i0462.dat
+1 16 0 0 0 -41.25 0 0 0 0 -41.25 0 41.25 0 t04i0462.dat
+1 16 0 0 0 -41.25 0 0 0 0 -41.25 0 -41.25 0 t04o0462.dat
+1 16 0 0 0 -41.25 0 0 0 0 -41.25 0 41.25 0 t04o0462.dat
+1 16 0 0 0 41.25 0 0 0 0 41.25 0 -41.25 0 t04i0462.dat
+1 16 0 0 0 41.25 0 0 0 0 41.25 0 41.25 0 t04i0462.dat
+1 16 0 0 0 41.25 0 0 0 0 41.25 0 -41.25 0 t04o0462.dat
+1 16 0 0 0 41.25 0 0 0 0 41.25 0 41.25 0 t04o0462.dat
+1 16 0 0 0 0 0 -41.25 41.25 0 0 0 -41.25 0 t04i0462.dat
+1 16 0 0 0 0 0 -41.25 41.25 0 0 0 41.25 0 t04i0462.dat
+1 16 0 0 0 0 0 -41.25 41.25 0 0 0 -41.25 0 t04o0462.dat
+1 16 0 0 0 0 0 -41.25 41.25 0 0 0 41.25 0 t04o0462.dat

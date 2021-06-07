@@ -1,0 +1,14 @@
+0 Wheel Rim  8 x 18 with 4 Studs and Notched Axle
+0 Name: 497c01.dat
+0 Author: Niels Karsdorp [nielsk]
+0 !LDRAW_ORG Shortcut UPDATE 2012-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+
+0 !CMDLINE -c4
+
+0 !HISTORY 2012-12-28 [PTadmin] Official Update 2012-03
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 497a.dat
+1 60 0 0 12 0.7071 0.7071 0 -0.7071 0.7071 0 0 0 1 269.dat

@@ -1,0 +1,28 @@
+0 Technic Gear  8 Tooth Reinforced
+0 Name: 10928.dat
+0 Author: Daniele Benedettelli [benedettelli]
+0 !LDRAW_ORG Part UPDATE 2012-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2012-12-28 [PTadmin] Official Update 2012-03
+
+1 16 0 0 -10 1 0 0 0 0 1 0 20 0 axlehole.dat
+1 16 0 0 -10 1 0 0 0 0 1 0 1 0 axlehol2.dat
+1 16 0 0 10 1 0 0 0 0 1 0 1 0 axlehol2.dat
+1 16 0 0 -10 1 0 0 0 0 1 0 1 0 4-4ring6.dat
+1 16 0 0 -10 0.5 0 0 0 0 0.5 0 1 0 4-4rin14.dat
+1 16 0 0 10 1 0 0 0 0 1 0 -1 0 4-4ring6.dat
+1 16 0 0 10 0.5 0 0 0 0 0.5 0 -1 0 4-4rin14.dat
+1 16 0 0 -10 7.5 0 0 0 0 7.5 0 1 0 4-4edge.dat
+1 16 0 0 10 7.5 0 0 0 0 7.5 0 1 0 4-4edge.dat
+1 16 0 0 -10 7.5 0 0 0 0 7.5 0 20 0 4-4cyli.dat
+1 16 0 -7 0 1 0 0 0 -1 0 0 0 1 tooth8a.dat
+1 16 -4.95 -4.95 0 0.707 -0.707 0 -0.707 -0.707 0 0 0 1 tooth8a.dat
+1 16 -7 0 0 0 -1 0 -1 0 0 0 0 1 tooth8a.dat
+1 16 -4.95 4.95 0 -0.707 -0.707 0 -0.707 0.707 0 0 0 1 tooth8a.dat
+1 16 0 7 0 -1 0 0 0 1 0 0 0 1 tooth8a.dat
+1 16 4.95 4.95 0 -0.707 0.707 0 0.707 0.707 0 0 0 1 tooth8a.dat
+1 16 7 0 0 0 1 0 1 0 0 0 0 1 tooth8a.dat
+1 16 4.95 -4.95 0 0.707 0.707 0 0.707 -0.707 0 0 0 1 tooth8a.dat

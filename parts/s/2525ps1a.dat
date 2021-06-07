@@ -1,0 +1,31 @@
+0 ~Flag  6 x  4 with SW Jedi Starfighter Pattern - Maroon
+0 Name: s\2525ps1a.dat
+0 Author: Chris Dee [cwdee]
+0 !LDRAW_ORG Subpart UPDATE 2009-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+
+0 !HISTORY 2003-12-19 [PTadmin] Official Update 2003-03
+0 !HISTORY 2007-09-05 [PTadmin] Header formatted for Contributor Agreement
+0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01
+0 !HISTORY 2008-07-07 [PTadmin] Renamed from 43ps1a
+0 !HISTORY 2009-02-16 [cwdee] Added BFC statement
+0 !HISTORY 2009-05-02 [PTadmin] Official Update 2009-01
+
+3 16 2 46 126 2 92 106 2 46 106
+4 16 2 46 106 2 92 106 2 92 94 2 39 94
+4 16 2 39 94 2 92 94 2 92 82 2 35 82
+4 16 2 35 82 2 92 82 2 92 67 2 32 67
+4 16 2 32 67 2 92 67 2 92 52 2 30 52
+4 16 2 30 52 2 92 52 2 92 40 2 29 40
+4 16 2 29 40 2 92 40 2 92 16 2 28 16
+
+3 16 -2 46 106 -2 92 106 -2 46 126
+4 16 -2 92 94 -2 92 106 -2 46 106 -2 39 94
+4 16 -2 92 82 -2 92 94 -2 39 94 -2 35 82
+4 16 -2 92 67 -2 92 82 -2 35 82 -2 32 67
+4 16 -2 92 52 -2 92 67 -2 32 67 -2 30 52
+4 16 -2 92 40 -2 92 52 -2 30 52 -2 29 40
+4 16 -2 92 16 -2 92 40 -2 29 40 -2 28 16
+0

@@ -1,0 +1,13 @@
+0 Electric Technic Solar Panel
+0 Name: 22578.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Shortcut UPDATE 2012-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2012-03-30 [PTadmin] Official Update 2012-01
+
+1 47 0 -16 -103 1 0 0 0 1 0 0 0 1 32340.dat
+1 0 0 -4 -103 1 0 0 0 1 0 0 0 1 u9144.dat
+1 16 0 4 -100 1 0 0 0 1 0 0 0 1 32339.dat

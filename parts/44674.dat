@@ -1,0 +1,24 @@
+0 Car Mudguard  3 x  4 Overhanging
+0 Name: 44674.dat
+0 Author: Michael Heidemann [mikeheide]
+0 !LDRAW_ORG Part UPDATE 2012-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2007-08-25 {LEGO Universe Team} Original part shape
+0 !HISTORY 2007-09-08 [mikeheide] File preparation for LDraw Parts Tracker
+0 !HISTORY 2012-08-09 [PTadmin] Official Update 2012-02
+
+1 16 0 0 0 0 0 1 0 1 0 -1 0 0 stug-2x2.dat
+1 16 0 8 0 20 0 0 0 -8 0 0 0 -20 BOX3U2P.DAT
+1 16 0 3 0 0 0 1 0 -1.25 0 1 0 0 stud4.dat
+0 BFC INVERTNEXT
+1 16 0 8 0 0 0 16 0 -5 0 16 0 0 box5.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\44674s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\44674s01.dat
+4 16 16 8 16 -16 8 16 -20 8 20 20 8 20
+4 16 16 8 -16 16 8 16 20 8 20 20 8 -20
+4 16 -16 8 -16 -20 8 -20 -20 8 20 -16 8 16
+4 16 16 8 -16 20 8 -20 -20 8 -20 -16 8 -16
+0

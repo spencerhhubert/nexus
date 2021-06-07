@@ -1,0 +1,12 @@
+0 ~Danish Railways Logo White
+0 Name: s\191915sdk.dat
+0 Author: Gerald Lasser [GeraldLasser]
+0 !LDRAW_ORG Subpart UPDATE 2015-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2015-10-11 [PTadmin] Official Update 2015-01
+
+1 15 0 0 0 1 0 0 0 1 0 0 0 1 s\191915sdka.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\191915sdkb.dat

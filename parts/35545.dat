@@ -1,0 +1,18 @@
+0 ~Electric Powered Up Remote Handset "-" Control Button
+0 Name: 35545.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2020-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2020-06-28 [PTadmin] Official Update 2020-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\35543s01.dat
+0 BFC INVERTNEXT
+1 16 0 0 0 6.5 0 0 0 1 0 0 0 1.5 box5.dat
+4 16 6.5 0 -1.5 -6.5 0 -1.5 -9.8994 0 -8 9.8994 0 -8
+4 16 6.5 0 1.5 6.5 0 -1.5 9.8994 0 -8 9.8994 0 7.3869
+4 16 -9.8994 0 7.3869 -6.5 0 1.5 6.5 0 1.5 9.8994 0 7.3869
+4 16 -6.5 0 -1.5 -6.5 0 1.5 -9.8994 0 7.3869 -9.8994 0 -8
+3 16 0 0 12 -9.8994 0 7.3869 9.8994 0 7.3869

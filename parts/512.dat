@@ -1,0 +1,24 @@
+0 Electric Train 12V Level Crossing Sign
+0 Name: 512.dat
+0 Author: Niels Karsdorp [nielsk]
+0 !LDRAW_ORG Part UPDATE 2010-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2010-07-05 [PTadmin] Official Update 2010-02
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\512s01.dat
+
+1 16 0 4 0 0 0 -8 0 -1 0 8 0 0 4-4ndis.dat
+4 16 -25.5 4 30 25.5 4 30 8 4 8 -8 4 8
+4 16 25.5 4 30 25.5 4 -30 8 4 -8 8 4 8
+4 16 -8 4 -8 8 4 -8 25.5 4 -30 -25.5 4 -30
+4 16 -8 4 8 -8 4 -8 -25.5 4 -30 -25.5 4 30
+
+4 16 49.2 4 0 33.5 4 15.7 42.3 4 24.5 58 4 8.8
+4 16 58 4 8.8 73.7 4 24.5 82.5 4 15.7 66.8 4 0
+4 16 58 4 -8.8 42.3 4 -24.5 33.5 4 -15.7 49.2 4 0
+4 16 66.8 4 0 82.5 4 -15.7 73.7 4 -24.5 58 4 -8.8
+4 16 49.2 4 0 58 4 8.8 66.8 4 0 58 4 -8.8
+0

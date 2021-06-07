@@ -1,0 +1,31 @@
+0 Minifig Baseball Cap with Button on Top
+0 Name: 93219.dat
+0 Author: Ulrich Röder [UR]
+0 !LDRAW_ORG Part UPDATE 2020-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !CATEGORY Minifig Headwear
+0 !KEYWORDS Set 6001096
+
+0 !HISTORY 2020-12-29 [PTadmin] Official Update 2020-03
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\93219s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\93219s01.dat
+1 16 0 -8.5 0 -6 0 0 0 -1 0 0 0 6 4-4disc.dat
+1 16 0 -8.5 0 6 0 0 0 1 0 0 0 6 4-4edge.dat
+0 BFC INVERTNEXT
+1 16 0 -8.5 0 6 0 0 0 4.5 0 0 0 6 4-4cyli.dat
+1 16 0 -4 0 1 0 0 0 -1 0 0 0 1 stud4a.dat
+1 16 0 -4 0 8 0 0 0 1 0 0 0 8 4-4edge.dat
+1 16 0 -4 0 -2 0 0 0 -1 0 0 0 2 4-4ring4.dat
+1 16 0 -4 0 10 0 0 0 1 0 0 0 10 4-4edge.dat
+0 BFC INVERTNEXT
+1 16 0 -.5 0 -2 0 0 0 -3.5 0 0 0 2 4-4con5.dat
+0 BFC INVERTNEXT
+1 16 0 4 0 1 0 0 0 -4.5 0 0 0 1 2-4con12.dat
+0 BFC INVERTNEXT
+1 16 0 4 0 1 0 0 0 -4.5 0 0 0 -1 3-16con12.dat
+0 BFC INVERTNEXT
+1 16 0 4 0 -1 0 0 0 -4.5 0 0 0 -1 3-16con12.dat

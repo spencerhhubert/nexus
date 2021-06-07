@@ -1,0 +1,14 @@
+0 Train Coupling Type 1 with Magnet in Coupled Position
+0 Name: 4023c01.dat
+0 Author: Steffen [Steffen]
+0 !LDRAW_ORG Shortcut UPDATE 2015-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+
+0 !CMDLINE -c0
+
+0 !HISTORY 2015-12-30 [PTadmin] Official Update 2015-02
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 4023.dat
+1 16 0 4 -36 1 0 0 0 1 0 0 0 1 2959c01.dat

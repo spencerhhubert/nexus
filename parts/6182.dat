@@ -1,0 +1,62 @@
+0 Arch  1 x  4 x  2
+0 Name: 6182.dat
+0 Author: James Jessiman
+0 !LDRAW_ORG Part UPDATE 2010-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2003-06-09 [jriley] BFC compliant
+0 !HISTORY 2003-12-19 [PTadmin] Official Update 2003-03
+0 !HISTORY 2004-03-02 [PTadmin] Official Update 2004-01
+0 !HISTORY 2007-07-16 [PTadmin] Header formatted for Contributor Agreement
+0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01
+0 !HISTORY 2010-07-08 [Philo] Corrected arch curvature
+0 !HISTORY 2010-12-31 [PTadmin] Official Update 2010-03
+
+0 BFC INVERTNEXT
+1 16 30 48 0 6 0 0 0 -44 0 0 0 6 box5.dat
+0 BFC INVERTNEXT
+1 16 -30 48 0 6 0 0 0 -44 0 0 0 6 box5.dat
+4 16 40 48 10 36 48 6 24 48 6 20 48 10
+4 16 20 48 10 24 48 6 24 48 -6 20 48 -10
+4 16 20 48 -10 24 48 -6 36 48 -6 40 48 -10
+4 16 40 48 -10 36 48 -6 36 48 6 40 48 10
+4 16 -20 48 10 -24 48 6 -36 48 6 -40 48 10
+4 16 -20 48 -10 -24 48 -6 -24 48 6 -20 48 10
+4 16 -40 48 -10 -36 48 -6 -24 48 -6 -20 48 -10
+4 16 -40 48 10 -36 48 6 -36 48 -6 -40 48 -10
+2 24 20 48 10 40 48 10
+2 24 40 48 -10 20 48 -10
+2 24 -20 48 10 -40 48 10
+2 24 -40 48 -10 -20 48 -10
+4 16 20 8 6 20 4 6 -20 4 6 -20 8 6
+4 16 -20 8 -6 -20 4 -6 20 4 -6 20 8 -6
+4 16 -40 0 10 -20 8 10 -20 48 10 -40 48 10
+4 16 40 0 10 40 48 10 20 48 10 20 8 10
+4 16 -40 0 -10 -40 48 -10 -20 48 -10 -20 8 -10
+4 16 40 0 -10 20 8 -10 20 48 -10 40 48 -10
+4 16 40 0 10 20 8 10 -20 8 10 -40 0 10
+4 16 -40 0 -10 -20 8 -10 20 8 -10 40 0 -10
+1 16 -30 0 0 0 0 1 0 1 0 -1 0 0 stud.dat
+1 16 -10 0 0 0 0 1 0 1 0 -1 0 0 stud.dat
+1 16 10 0 0 0 0 1 0 1 0 -1 0 0 stud.dat
+1 16 30 0 0 0 0 1 0 1 0 -1 0 0 stud.dat
+1 16 0 28 10 20 0 0 0 0 -20 0 1 0 2-4edge.dat
+1 16 0 28 10 20 0 0 0 0 -20 0 -1 0 2-4ndis.dat
+1 16 0 28 6 -20 0 0 0 0 -20 0 -1 0 2-4edge.dat
+0 BFC INVERTNEXT
+1 16 0 28 6 -20 0 0 0 0 -20 0 4 0 2-4cyli.dat
+1 16 0 28 6 -20 0 0 0 0 -20 0 1 0 2-4ndis.dat
+1 16 0 28 -6 20 0 0 0 0 -20 0 1 0 2-4edge.dat
+1 16 0 28 -6 20 0 0 0 0 -20 0 -1 0 2-4ndis.dat
+1 16 0 28 -10 -20 0 0 0 0 -20 0 -1 0 2-4edge.dat
+0 BFC INVERTNEXT
+1 16 0 28 -10 -20 0 0 0 0 -20 0 4 0 2-4cyli.dat
+1 16 0 28 -10 -20 0 0 0 0 -20 0 1 0 2-4ndis.dat
+1 16 0 48 0 0 0 40 0 -48 0 10 0 0 box3u2p.dat
+0 BFC INVERTNEXT
+1 16 0 28 0 0 0 20 0 -24 0 6 0 0 box3u4a.dat
+1 16 -20 38 0 0 -1 0 0 0 10 -10 0 0 rect3.dat
+1 16 20 38 0 0 1 0 0 0 10 10 0 0 rect3.dat
+

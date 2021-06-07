@@ -1,0 +1,16 @@
+0 Minifig Baby Body
+0 Name: 25126.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2018-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Toddler
+
+0 !HISTORY 2018-12-08 [PTadmin] Official Update 2018-02
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\25126s01.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\25126s02.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\25126s02.dat
+4 16 9.884 -12.532 -7.892 7.909 -24 -6.471 -7.909 -24 -6.471 -9.884 -12.532 -7.892

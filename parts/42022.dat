@@ -1,0 +1,23 @@
+0 Slope Brick Curved  6 x  1
+0 Name: 42022.dat
+0 Author: Franklin W. Cain [fwcain]
+0 !LDRAW_ORG Part UPDATE 2010-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+0 !KEYWORDS rounded, Alpha Team, Racers
+
+0 !HISTORY 2004-04-22 [PTadmin] Official Update 2004-02
+0 !HISTORY 2004-09-15 [PTadmin] Official Update 2004-03
+0 !HISTORY 2007-07-08 [PTadmin] Header formatted for Contributor Agreement
+0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01
+0 !HISTORY 2008-07-07 [PTadmin] Renamed from 464
+0 !HISTORY 2009-05-02 [PTadmin] Official Update 2009-01
+0 !HISTORY 2010-01-19 [Eldar] Add BFC
+0 !HISTORY 2010-07-05 [PTadmin] Official Update 2010-02
+
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\464s01.dat
+4 16 -10  0 -20 -10  2  -40 10  2  -40 10  0 -20
+4 16 -10  2 -40 -10  6  -60 10  6  -60 10  2 -40
+4 16 -10  6 -60 -10 12  -80 10 12  -80 10  6 -60
+4 16 -10 12 -80 -10 20 -100 10 20 -100 10 12 -80

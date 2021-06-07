@@ -1,0 +1,20 @@
+0 ~Minifig Headdress Nemes Type 2 Half without Front Surface
+0 Name: s\90462bs01.dat
+0 Author: Stan Isachenko [angmarec]
+0 !LDRAW_ORG Subpart UPDATE 2020-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2011-10-14 {LEGO Digital Designer} Original part shape
+0 !HISTORY 2011-10-16 [angmarec] File preparation for LDraw Parts Tracker
+0 !HISTORY 2011-11-01 [MagFors] Added edge lines, subparted for patterned surface
+0 !HISTORY 2011-12-29 [PTadmin] Official Update 2011-02
+0 !HISTORY 2016-01-18 [MagFors] Copied from s\90462as01 and moved all surfaces 2 ldu up without changing origin
+0 !HISTORY 2016-12-31 [PTadmin] Official Update 2016-01
+0 !HISTORY 2019-02-05 [MagFors] Subfiled for more patterns
+0 !HISTORY 2020-12-29 [PTadmin] Official Update 2020-03
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\90462bs03.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\90462bs04.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\90462bs05.dat

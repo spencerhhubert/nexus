@@ -1,0 +1,52 @@
+0 Hinge Plate  1 x  2 with 3 Fingers On Side
+0 Name: 2452.dat
+0 Author: James Jessiman
+0 !LDRAW_ORG Part UPDATE 2003-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 1999-02-01 [PTadmin] Official Update 1999-01
+0 !HISTORY 2003-01-20 [sbliss] Completed header, BFC'ed, removed excess data
+0 !HISTORY 2003-08-01 [PTadmin] Official Update 2003-02
+0 !HISTORY 2007-05-13 [PTadmin] Header formatted for Contributor Agreement
+0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01
+
+ 1 16 0 4 0 1 0 0 0 -1 0 0 0 1 stud3.dat
+0 BFC INVERTNEXT
+ 1 16 0 8 0 16 0 0 0 -4 0 0 0 6 box5.dat
+
+ 4 16 20 8 10 16 8 6 -16 8 6 -20 8 10
+ 4 16 -20 8 10 -16 8 6 -16 8 -6 -20 8 -10
+ 4 16 -20 8 -10 -16 8 -6 16 8 -6 20 8 -10
+ 4 16 20 8 -10 16 8 -6 16 8 6 20 8 10
+
+2 24 20 8 -10 10 8 -10
+2 24 -10 8 -10 -20 8 -10
+2 24 20 8 -10 20 8 10
+2 24 -20 8 -10 -20 8 10
+2 24 20 8 10 -20 8 10
+2 24 10 0 -10 10 8 -10
+2 24 -10 0 -10 -10 8 -10
+2 24 20 0 -10 20 8 -10
+2 24 -20 0 -10 -20 8 -10
+2 24 20 0 10 20 8 10
+2 24 -20 0 10 -20 8 10
+2 24 20 0 -10 10 0 -10
+2 24 -10 0 -10 -20 0 -10
+2 24 20 0 -10 20 0 10
+2 24 -20 0 -10 -20 0 10
+2 24 20 0 10 -20 0 10
+
+4 16 -20 0 10 -20 0 -10 20 0 -10 20 0 10
+4 16 20 8 -10 20 0 -10 10 0 -10 10 8 -10
+4 16 -10 8 -10 -10 0 -10 -20 0 -10 -20 8 -10
+4 16 20 0 10 20 0 -10 20 8 -10 20 8 10
+4 16 -20 8 -10 -20 0 -10 -20 0 10 -20 8 10
+4 16 -20 0 10 20 0 10 20 8 10 -20 8 10
+
+1 16 0 4 -10 0 0 1 1 0 0 0 -1 0 h2.dat
+
+1 16 -10 0 0 0 0 1 0 1 0 -1 0 0 stud.dat
+1 16 10 0 0 0 0 1 0 1 0 -1 0 0 stud.dat
+0

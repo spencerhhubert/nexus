@@ -1,0 +1,14 @@
+0 ~Turntable  4 x  4 Dimpled Top with Connector with Red Inside
+0 Name: 3404bc02.dat
+0 Author: Max Martin Richter [MMR1988]
+0 !LDRAW_ORG Shortcut UPDATE 2017-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2017-12-30 [PTadmin] Official Update 2017-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 3404b.dat
+
+1 4 0 3 0 1 0 0 0 1 0 0 0 1 u9260.dat
+1 15 0 24 0 1 0 0 0 1 0 0 0 1 u9261.dat

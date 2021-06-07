@@ -1,0 +1,19 @@
+0 ~Wing Insectoid Large with Arm Hinge Shiny Patternable Surface
+0 Name: s\30230s02.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Subpart UPDATE 2019-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2019-06-28 [PTadmin] Official Update 2019-01
+
+4 16 -40.2 -1 320.1 -41.5 -1 321.1667 -44.6 -1 136.3 -13.4 -1 283.8
+3 16 -43.9 -1 320.8667 -44.7 -1 319.7 -44.6 -1 136.3
+4 16 -41.5 -1 321.1667 -42.6 -1 321.2333 -43.9 -1 320.8667 -44.6 -1 136.3
+4 16 -44.6 -1 136.3 7 -1 159 7 -1 175 -13.4 -1 283.8
+4 16 3.1 -1 38.5 8.2 -1 37.1 15.5 -1 56.5 15 -1 159
+4 16 3.1 -1 38.5 15 -1 159 7 -1 159 -4.7 -1 38.6
+4 16 -4.7 -1 38.6 7 -1 159 -44.6 -1 136.3 -10.2 -1 37.2
+1 16 15 -1 167 0 0 -8 0 1 0 8 0 0 2-4ndis.dat
+3 16 7 -1 175 15 -1 175 -13.4 -1 283.8

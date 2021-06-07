@@ -1,0 +1,28 @@
+0 Technic Steering Wheel Yoke with Reduced Axle Hole and Open Stud
+0 Name: 40001.dat
+0 Author: Santeri Piippo [arezey]
+0 !LDRAW_ORG Part UPDATE 2014-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2009-10-13 {LEGO Universe Team} Original part shape
+0 !HISTORY 2010-05-06 [arezey] File preparation for LDraw Parts Tracker
+0 !HISTORY 2014-12-23 [PTadmin] Official Update 2014-02
+
+1 16 0 2 0 1 0 0 0 17 0 0 0 -1 axl2hol8.dat
+1 16 0 2 0 1 0 0 0 1 0 0 0 -1 axl2ho10.dat
+1 16 0 19 0 1 0 0 0 -1 0 0 0 -1 axl2hol3.dat
+1 16 0 19 0 1 0 0 0 -1 0 0 0 -1 axl2hol9.dat
+1 16 0 19 0 1 0 0 0 -1 0 0 0 -1 axl2ho10.dat
+1 16 0 2 0 1 0 0 0 -1 0 0 0 -1 axl2hol9.dat
+1 16 0 2 0 2 0 0 0 -1 0 0 0 -2 4-4ring2.dat
+0 BFC INVERTNEXT
+1 16 0 0 0 4 0 0 0 2 0 0 0 -4 4-4cyli.dat
+1 16 0 2 0 4 0 0 0 1 0 0 0 -4 4-4edge.dat
+1 16 0 2 0 6 0 0 0 1 0 0 0 -6 4-4edge.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\40001s02.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 -1 stud2a.dat
+1 16 0 0 0 -6 0 0 0 1 0 0 0 -6 4-4edge.dat
+1 16 0 24 0 -1 0 0 0 1 0 0 0 -1 s\40001s01.dat
+1 16 0 24 0 1 0 0 0 1 0 0 0 -1 s\40001s01.dat

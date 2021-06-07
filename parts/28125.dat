@@ -1,0 +1,27 @@
+0 Minifig Headdress Bald Head High
+0 Name: 28125.dat
+0 Author: Gerald Lasser [GeraldLasser]
+0 !LDRAW_ORG Part UPDATE 2020-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !CATEGORY Minifig Headwear
+0 !KEYWORDS The LEGO Batman Movie, Egghead
+
+0 !HISTORY 2020-12-29 [PTadmin] Official Update 2020-03
+
+1 16 0 -8 0 1 0 0 0 -2 0 0 0 1 stud16.dat
+0 BFC INVERTNEXT
+1 16 0 2 0 10 0 0 0 -8 0 0 0 10 t01o2500.dat
+1 16 0 2 0 12.5 0 0 0 1 0 0 0 12.5 4-4edge.dat
+1 16 0 2 0 .5 0 0 0 -1 0 0 0 .5 4-4rin25.dat
+1 16 0 2 0 13 0 0 0 1 0 0 0 13 4-4edge.dat
+0 BFC INVERTNEXT
+1 16 0 -8 0 10 0 0 0 8 0 0 0 10 4-4cylc.dat
+1 16 0 2 0 13 0 0 0 -4 0 0 0 13 4-4cyli.dat
+1 16 0 -2 0 3.25 0 0 0 -4.5 0 0 0 3.25 r04o3000.dat
+1 16 0 -2 0 3.25 0 0 0 -4.5 0 0 0 -3.25 r04o3000.dat
+1 16 0 -2 0 -3.25 0 0 0 -4.5 0 0 0 3.25 r04o3000.dat
+1 16 0 -2 0 -3.25 0 0 0 -4.5 0 0 0 -3.25 r04o3000.dat
+1 16 0 -15.5 0 -3.25 0 0 0 1 0 0 0 -3.25 4-4disc.dat

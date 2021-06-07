@@ -1,0 +1,65 @@
+0 ~Electric Technic Motor  9V Shaft (with Fake Metal Axle)
+0 Name: 2839a.dat
+0 Author: James Jessiman
+0 !LDRAW_ORG Part UPDATE 2016-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 1999-02-01 [PTadmin] Official Update 1999-01
+0 !HISTORY 1999-05-17 [PTadmin] Official Update 1999-03
+0 !HISTORY 2003-01-21 [sbliss] Completed header, BFC'ed
+0 !HISTORY 2003-12-19 [PTadmin] Official Update 2003-03
+0 !HISTORY 2007-05-18 [PTadmin] Header formatted for Contributor Agreement
+0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01
+0 !HISTORY 2009-04-29 [PTadmin] Renamed from 2837
+0 !HISTORY 2013-10-07 [MMR1988] Reworked
+0 !HISTORY 2016-12-31 [PTadmin] Official Update 2016-01
+
+1 16 0 0 0 1 0 0 0 0 1 0 -20 0 axlehol8.dat
+1 16 0 0 0 1 0 0 0 0 1 0 -20 0 axlehol2.dat
+1 16 0 0 0 1 0 0 0 0 1 0 -20 0 axlehol9.dat
+1 16 0 0 -20 1 0 0 0 0 1 0 -20 0 axlehol2.dat
+1 16 0 0 -20 1 0 0 0 0 1 0 -20 0 axlehol9.dat
+
+1 16 0 0 2 10 0 0 0 0 10 0 2 0 4-4edge.dat
+1 16 0 0 0 2.5 0 0 0 0 2.5 0 2 0 4-4con4.dat
+1 16 0 0 0 12.5 0 0 0 0 12.5 0 2 0 4-4edge.dat
+
+1 16 0 0 2 0 0 2.25 2.25 0 0 0 -1 0 4-4ring1.dat
+1 16 0 0 2 0 0 4.5 4.5 0 0 0 -1 0 4-4ring1.dat
+1 16 0 0 2 0 0 1 1 0 0 0 -1 0 4-4ring9.dat
+
+1 16 0 0 0 0 0 2.5 2.5 0 0 0 1 0 4-4ring1.dat
+1 16 0 0 0 0 0 5 5 0 0 0 1 0 4-4ring1.dat
+1 16 0 0 0 0 0 2.5 2.5 0 0 0 1 0 4-4ring4.dat
+
+0 BFC INVERTNEXT
+1 16 0 0 2 2.25 0 0 0 0 2.25 0 -22 0 4-4cylo.dat
+
+1 16 0 0 -20 1.59099 0 -1.59099 1.59099 0 1.59099 0 1 0 4-4ndis.dat
+
+3 16 2 2 -20 3.18198 0 -20 1.59099 1.59099 -20
+4 16 5.602 2 -20 6 0 -20 3.18198 0 -20 2 2 -20
+3 16 1.59099 -1.59099 -20 3.18198 0 -20 2 -2 -20
+4 16 2 -2 -20 3.18198 0 -20 6 0 -20 5.602 -2 -20
+
+3 16 -2 2 -20 0 3.18198 -20 -1.59099 1.59099 -20
+4 16 -2 5.602 -20 0 6 -20 0 3.18198 -20 -2 2 -20
+3 16 1.59099 1.59099 -20 0 3.18198 -20 2 2 -20
+4 16 2 2 -20 0 3.18198 -20 0 6 -20 2 5.602 -20
+
+3 16 -2 -2 -20 -3.18198 0 -20 -1.59099 -1.59099 -20
+4 16 -5.602 -2 -20 -6 0 -20 -3.18198 0 -20 -2 -2 -20
+3 16 -1.59099 1.59099 -20 -3.18198 0 -20 -2 2 -20
+4 16 -2 2 -20 -3.18198 0 -20 -6 0 -20 -5.602 2 -20
+
+3 16 2 -2 -20 0 -3.18198 -20 1.59099 -1.59099 -20
+4 16 2 -5.602 -20 0 -6 -20 0 -3.18198 -20 2 -2 -20
+3 16 -1.59099 -1.59099 -20 0 -3.18198 -20 -2 -2 -20
+4 16 -2 -2 -20 0 -3.18198 -20 0 -6 -20 -2 -5.602 -20
+
+
+
+1 494 0 0 -20 2.25 0 0 0 0 2.25 0 56 0 4-4cylc.dat
+1 494 0 0 36 2.25 0 0 0 0 2.25 0 -1 0 4-4disc.dat

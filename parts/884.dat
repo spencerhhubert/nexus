@@ -1,0 +1,13 @@
+0 Electric Mindstorms RCX (Complete Assembly Shortcut)
+0 Name: 884.dat
+0 Author: John Van Zwieten [jvan]
+0 !LDRAW_ORG Part UPDATE 1999-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 !HISTORY 1999-03-26 [PTadmin] Official Update 1999-02
+0 !HISTORY 2007-07-23 [PTadmin] Header formatted for Contributor Agreement
+0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01
+
+ 1 14 0 0 0 1 0 0 0 1 0 0 0 1 883.DAT
+ 1 8 0 48.50 0 1 0 0 0 1 0 0 0 1 32109.DAT
+0

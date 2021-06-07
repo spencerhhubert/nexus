@@ -1,0 +1,26 @@
+0 ~Brick  1 x  2 x  5 with Blocked Open Studs and Symmetric Inner Ridges without Front Face
+0 Name: s\2454bs01.dat
+0 Author: Vincent Messenet [Cheenzo]
+0 !LDRAW_ORG Subpart UPDATE 2020-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2020-12-29 [PTadmin] Official Update 2020-03
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\2454s02.dat
+
+1 16 -5 4 -3.5 -2 0 2 0 116 0 -2.5 0 -2.5 tri3a4.dat
+1 16 5 4 -3.5 -2 0 2 0 116 0 -2.5 0 -2.5 tri3a4.dat
+1 16 -5 4 3.5 2 0 -2 0 116 0 2.5 0 2.5 tri3a4.dat
+1 16 5 4 3.5 2 0 -2 0 116 0 2.5 0 2.5 tri3a4.dat
+1 16 0 62 -6 -3 0 0 0 0 58 0 -1 0 rect.dat
+1 16 0 62 6 -3 0 0 0 0 -58 0 1 0 rect.dat
+1 16 10 0 0 0 0 1 0 1 0 -1 0 0 stud2.dat
+1 16 -10 0 0 0 0 1 0 1 0 -1 0 0 stud2.dat
+4 16 -16 4 -6 -16 4 6 16 4 6 16 4 -6
+4 16 20 0 10 -20 0 10 -20 0 -10 20 0 -10
+2 24 -7 4 -6 -7 120 -6
+2 24 7 4 -6 7 120 -6
+2 24 7 4 6 7 120 6
+2 24 -7 4 6 -7 120 6

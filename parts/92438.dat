@@ -1,0 +1,23 @@
+0 Plate  8 x 16
+0 Name: 92438.dat
+0 Author: Rolf Osterthun [Rolf]
+0 !LDRAW_ORG Part UPDATE 2011-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2011-07-25 [PTadmin] Official Update 2011-01
+
+4 16 160 8 80 156 8 76 -156 8 76 -160 8 80
+4 16 -160 8 80 -156 8 76 -156 8 -76 -160 8 -80
+4 16 -160 8 -80 -156 8 -76 156 8 -76 160 8 -80
+4 16 160 8 -80 156 8 -76 156 8 76 160 8 80
+1 16 -80 4 0 1 0 0 0 -1 0 0 0 1 stug4-7x7.dat
+1 16 0 4 0 0 0 -1 0 -1 0 1 0 0 stug4-1x7.dat
+1 16 80 4 0 1 0 0 0 -1 0 0 0 1 stug4-7x7.dat
+0 BFC INVERTNEXT
+1 16 0 8 0 156 0 0 0 -4 0 0 0 76 box5.dat
+1 16 0 8 0 160 0 0 0 -8 0 0 0 80 box5.dat
+1 16 -80 0 0 1 0 0 0 1 0 0 0 1 stug-8x8.dat
+1 16 80 0 0 1 0 0 0 1 0 0 0 1 stug-8x8.dat
+0 //

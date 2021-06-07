@@ -1,0 +1,40 @@
+0 Technic Gear 24 Tooth with 3 Axleholes
+0 Name: 3648a.dat
+0 Author: Lance Hopenwasser [cavehop]
+0 !LDRAW_ORG Part UPDATE 2009-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2009-05-02 [PTadmin] Official Update 2009-01
+
+0 // Teeth and outer ring
+
+
+
+
+
+ 1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\3648s01.dat
+0
+0 Center axleholes
+0
+ 1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\3648s02.dat
+ 1 16 0 0 0 1 0 0 0 1 0 0 0 -1 s\3648s02.dat
+ 1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\3648s02.dat
+ 1 16 0 0 0 -1 0 0 0 1 0 0 0 -1 s\3648s02.dat
+ 1 16 0 0 0 1 0 0 0 -1 0 0 0 1 s\3648s02.dat
+ 1 16 0 0 0 1 0 0 0 -1 0 0 0 -1 s\3648s02.dat
+ 1 16 0 0 0 -1 0 0 0 -1 0 0 0 1 s\3648s02.dat
+ 1 16 0 0 0 -1 0 0 0 -1 0 0 0 -1 s\3648s02.dat
+0
+0 Pin Holes
+0
+ 1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\3648as01.dat
+ 1 16 0 0 0 1 0 0 0 1 0 0 0 -1 s\3648as01.dat
+ 1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\3648as01.dat
+ 1 16 0 0 0 -1 0 0 0 1 0 0 0 -1 s\3648as01.dat
+ 1 16 0 0 0 1 0 0 0 -1 0 0 0 1 s\3648as01.dat
+ 1 16 0 0 0 1 0 0 0 -1 0 0 0 -1 s\3648as01.dat
+ 1 16 0 0 0 -1 0 0 0 -1 0 0 0 1 s\3648as01.dat
+ 1 16 0 0 0 -1 0 0 0 -1 0 0 0 -1 s\3648as01.dat
+0

@@ -1,0 +1,44 @@
+0 Technic Beam 11 x  7 with Open Center  9 x  5
+0 Name: 39794.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2020-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Frame, Spike Prime
+
+0 !HISTORY 2020-06-28 [PTadmin] Official Update 2020-01
+
+1 16 60 0 20 1 0 0 0 1 0 0 0 1 s\39790s01.dat
+1 16 60 0 60 1 0 0 0 1 0 0 0 1 s\39790s01.dat
+1 16 60 0 -20 1 0 0 0 1 0 0 0 -1 s\39790s01.dat
+1 16 60 0 -60 1 0 0 0 1 0 0 0 -1 s\39790s01.dat
+1 16 70 0 0 0 -1 0 -1 0 0 0 0 1 peghole.dat
+1 16 50 0 0 0 1 0 0 0 -1 1 0 0 peghole5.dat
+0 BFC INVERTNEXT
+1 16 68 0 0 0 -16 0 -6 0 0 0 0 6 4-4cyli.dat
+1 16 20 0 -100 0 0 1 0 1 0 -1 0 0 s\39790s01.dat
+1 16 -20 0 -100 0 0 -1 0 1 0 -1 0 0 s\39790s01.dat
+1 16 0 0 -110 0 0 1 -1 0 0 0 1 0 peghole.dat
+1 16 0 0 -90 1 0 0 0 0 -1 0 -1 0 peghole5.dat
+0 BFC INVERTNEXT
+1 16 0 0 -108 0 0 6 -6 0 0 0 16 0 4-4cyli.dat
+1 16 -60 0 -20 -1 0 0 0 1 0 0 0 -1 s\39790s01.dat
+1 16 -60 0 -60 -1 0 0 0 1 0 0 0 -1 s\39790s01.dat
+1 16 -60 0 20 -1 0 0 0 1 0 0 0 1 s\39790s01.dat
+1 16 -60 0 60 -1 0 0 0 1 0 0 0 1 s\39790s01.dat
+1 16 -70 0 0 0 1 0 -1 0 0 0 0 -1 peghole.dat
+1 16 -50 0 0 0 -1 0 0 0 -1 -1 0 0 peghole5.dat
+0 BFC INVERTNEXT
+1 16 -68 0 0 0 16 0 -6 0 0 0 0 -6 4-4cyli.dat
+1 16 -20 0 100 0 0 -1 0 1 0 1 0 0 s\39790s01.dat
+1 16 20 0 100 0 0 1 0 1 0 1 0 0 s\39790s01.dat
+1 16 0 0 110 0 0 -1 -1 0 0 0 -1 0 peghole.dat
+1 16 0 0 90 -1 0 0 0 0 -1 0 1 0 peghole5.dat
+0 BFC INVERTNEXT
+1 16 0 0 108 0 0 -6 -6 0 0 0 -16 0 4-4cyli.dat
+1 16 60 0 100 1 0 0 0 1 0 0 0 1 s\39790s02.dat
+1 16 60 0 -100 1 0 0 0 1 0 0 0 -1 s\39790s02.dat
+1 16 -60 0 100 -1 0 0 0 1 0 0 0 1 s\39790s02.dat
+1 16 -60 0 -100 -1 0 0 0 1 0 0 0 -1 s\39790s02.dat

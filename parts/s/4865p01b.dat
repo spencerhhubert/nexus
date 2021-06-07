@@ -1,0 +1,37 @@
+0 ~Pattern Train Logo - Background
+0 Name: s\4865p01b.dat
+0 Author: Steffen [Steffen]
+0 !LDRAW_ORG Subpart UPDATE 2013-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2003-07-03 [Steffen] Took pattern from 4865p01.dat into separate file
+0 !HISTORY 2004-03-31 [fwcain] Separated "background" and "coloured" code...  
+0 !HISTORY 2004-11-06 [PTadmin] Official Update 2004-04
+0 !HISTORY 2007-09-10 [PTadmin] Header formatted for Contributor Agreement
+0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01
+0 !HISTORY 2008-07-07 [DeannaEarley] BFC'd and tidied (2005-11-15)
+0 !HISTORY 2011-12-29 [PTadmin] Official Update 2011-02
+0 !HISTORY 2012-06-30 [MMR1988] Redesigned
+0 !HISTORY 2013-07-21 [PTadmin] Official Update 2013-01
+
+1 16 0 0 0 0.8 0 0 0 0 -0.8 0 1 0 4-4ring1.dat
+1 16 0 0 0 0.4 0 0 0 0 -0.4 0 1 0 4-4ring4.dat
+1 16 0 0 0 0.25 0 0 0 0 -0.25 0 1 0 4-4ring8.dat
+
+1 16 0 0 0 0 0 4 4 0 0 0 1 0 3-16ndis.dat
+4 16 4 4 0 7 0.9 0 3.821 0.9 0 3.6956 1.5308 0
+3 16 10 4 0 10 0 0 6 4 0
+
+1 16 0 0 0 0 0 -4 4 0 0 0 1 0 3-16ndis.dat
+4 16 3.6956 -1.5308 0 3.821 -0.9 0 7 -0.9 0 4 -4 0
+3 16 6 -4 0 10 0 0 10 -4 0
+
+1 16 0 0 0 0 0 4 -4 0 0 0 1 0 3-16ndis.dat
+4 16 -3.6956 1.5308 0 -3.821 0.9 0 -7 0.9 0 -4 4 0
+3 16 -6 4 0 -10 0 0 -10 4 0
+
+1 16 0 0 0 0 0 -4 -4 0 0 0 1 0 3-16ndis.dat
+4 16 -4 -4 0 -7 -0.9 0 -3.821 -0.9 0 -3.6956 -1.5308 0
+3 16 -10 -4 0 -10 0 0 -6 -4 0

@@ -1,0 +1,17 @@
+0 Animal Dinosaur Tail/Neck S Curve with Black Pin
+0 Name: 40396.dat
+0 Author: Andy Westrate [westrate]
+0 !LDRAW_ORG Shortcut UPDATE 2011-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 !HELP Peg hole at tip located at <48 0 59.5>
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS elephant, trunk
+
+0 !HISTORY 2011-12-29 [PTadmin] Official Update 2011-02
+
+1 0 0 0 -16 1 0 0 0 1 0 0 0 1 40394.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 40391.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 40392.dat

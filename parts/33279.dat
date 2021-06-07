@@ -1,0 +1,21 @@
+0 Scala Ski Pole 13L
+0 Name: 33279.dat
+0 Author: Ulrich Röder [UR]
+0 !LDRAW_ORG Part UPDATE 2018-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2018-12-08 [PTadmin] Official Update 2018-02
+
+1 16 0 0 0 -4 0 0 0 24 0 0 0 4 4-4cylc.dat
+1 16 0 24 0 -10 0 0 0 3.75 0 0 0 10 4-4cylc.dat
+1 16 0 27.75 0 -2 0 0 0 225.5 0 0 0 2 4-4con1.dat
+1 16 0 27.8 0 -10 0 0 0 -1 0 0 0 10 4-4disc.dat
+1 16 0 253.25 0 -6 0 0 0 3.75 0 0 0 6 4-4cylc.dat
+1 16 0 257 0 -6 0 0 0 -1 0 0 0 6 4-4disc.dat
+1 16 0 257 0 -.094 0 0 0 6.125 0 0 0 .094 4-4con20.dat
+1 16 0 263.125 0 -1.88 0 0 0 1.88 0 0 0 1.88 4-8sphe.dat
+1 16 0 27.75 0 -4 0 0 0 -1 0 0 0 4 4-4edge.dat
+1 16 0 253.25 0 -2 0 0 0 -1 0 0 0 2 4-4edge.dat
+1 16 0 257 0 -2 0 0 0 -1 0 0 0 2 4-4edge.dat

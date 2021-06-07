@@ -1,0 +1,29 @@
+0 ~Electric Mindstorms EV3 Medium Motor Front Washer
+0 Name: 99542.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2013-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2012-05-20 {LEGO MINDSTORMS Team} Original part shape
+0 !HISTORY 2012-07-04 [Philo] File preparation for LDraw Parts Tracker
+0 !HISTORY 2013-12-23 [PTadmin] Official Update 2013-02
+
+1 16 0 0 4 26 0 0 0 0 26 0 -2 0 4-4cylo.dat
+0 BFC INVERTNEXT
+1 16 0 0 4 9 0 0 0 0 9 0 -2 0 4-4cylo.dat
+0 BFC INVERTNEXT
+1 16 0 0 2 11 0 0 0 0 11 0 -2 0 4-4cylo.dat
+1 16 0 0 2 13.2 0 0 0 0 13.2 0 -2 0 4-4cylo.dat
+1 16 0 0 6 23 0 0 0 0 23 0 -2 0 4-4cylo.dat
+0 BFC INVERTNEXT
+1 16 0 0 6 22 0 0 0 0 22 0 -2 0 4-4cylo.dat
+1 16 0 0 6 1 0 0 0 0 1 0 -2 0 4-4rin22.dat
+1 16 0 0 4 3 0 0 0 0 3 0 -2 0 4-4ring3.dat
+1 16 0 0 0 2.2 0 0 0 0 2.2 0 1 0 4-4ring5.dat
+1 16 0 0 4 12 0 0 0 0 12 0 -2 0 4-4ring1.dat
+1 16 0 0 4 2 0 0 0 0 2 0 -2 0 4-4rin12.dat
+1 16 0 0 2 3 0 0 0 0 3 0 2 0 4-4ring3.dat
+1 16 0 0 2 12 0 0 0 0 12 0 2 0 4-4ring1.dat
+1 16 0 0 2 2 0 0 0 0 2 0 2 0 4-4rin12.dat

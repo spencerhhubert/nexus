@@ -1,0 +1,28 @@
+0 ~Brick 12 x 24 Underside Edge Fillet
+0 Name: s\30072s02.dat
+0 Author: William Howard [WilliamH]
+0 !LDRAW_ORG Subpart UPDATE 2013-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+
+0 !HISTORY 2013-07-21 [PTadmin] Official Update 2013-01
+
+1 16 -2 -8 -1 2 0 0 0 0 -2 0 1 0 1-4disc.dat
+1 16 -2 -8 -1 2 0 0 0 0 -2 0 2 0 1-4cyli.dat
+1 16 -5 -10 0 3 0 0 0 2 0 0 0 1 rect2p.dat
+1 16 4 2 0 4 0 0 0 2 0 0 0 1 rect.dat
+1 16 0 -3 0 0 -2 0 5 0 0 0 0 1 rect2p.dat
+1 16 -2 -8 1 0 0 2 -2 0 0 0 -1 0 1-4disc.dat
+4 16 -8 -10 1 -8 10 1 -2 -8 1 -2 -10 1
+4 16 -8 10 1 0 2 1 0 -8 1 -2 -8 1
+4 16 -8 10 1 8 10 1 8 2 1 0 2 1
+4 16 -8 -10 -1 -2 -10 -1 -2 -8 -1 -8 10 -1
+4 16 -8 10 -1 -2 -8 -1 0 -8 -1 0 2 -1
+4 16 -8 10 -1 0 2 -1 8 2 -1 8 10 -1
+1 16 -2 -8 -1 2 0 0 0 0 -2 0 1 0 1-4edge.dat
+1 16 -2 -8 1 2 0 0 0 0 -2 0 1 0 1-4edge.dat
+2 24 -8 10 -1 8 10 -1
+2 24 8 2 -1 8 10 -1
+2 24 8 2 1 8 10 1
+2 24 -8 10 1 8 10 1

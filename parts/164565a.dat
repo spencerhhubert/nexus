@@ -1,0 +1,26 @@
+0 Sticker  1.2 x  2.9 with 3 Stripes Red/White/Blue and Sloped End Left
+0 Name: 164565a.dat
+0 Author: Ulrich Röder [UR]
+0 !LDRAW_ORG Part UPDATE 2019-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Set 4558, Train, Metroliner
+
+0 !HISTORY 2019-06-28 [PTadmin] Official Update 2019-01
+
+0 // Main
+1 16 0 -.25 0 0 0 -20 0 .25 0 12 0 0 box4-12.dat
+4 16 20 -.25 -12 20 0 -12 37.77778 0 -12 37.77778 -.25 -12
+4 16 20 0 12 20 -.25 12 37.77778 -.25 -12 37.77778 0 -12
+3 16 20 0 -12 20 0 12 37.77778 0 -12
+ 
+0 // Red
+4 4 25.92593 -.25 4 20 -.25 12 -20 -.25 12 -20 -.25 4
+
+0 // White
+4 15 31.85185 -.25 -4 25.92593 -.25 4 -20 -.25 4 -20 -.25 -4
+
+0 // Blue
+4 1 -20 -.25 -4 -20 -.25 -12 37.77778 -.25 -12 31.85185 -.25 -4

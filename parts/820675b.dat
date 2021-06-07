@@ -1,0 +1,29 @@
+0 Sticker  1.2 x  8 Triangle Yellow with Transparent Border Left
+0 Name: 820675b.dat
+0 Author: Miklos Hosszu [hmick]
+0 !LDRAW_ORG Part UPDATE 2014-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS set 6679, Nautica, Dark Shark
+0 !HISTORY 2006-08-29 [WilliamH] Swapped colour 16 to colour 0
+0 !HISTORY 2014-01-25 [MagFors]  Unswapped colours
+0 !HISTORY 2014-06-21 [PTadmin] Official Update 2014-01
+
+4 14 -78 -0.25 -2 78 -0.25 -22 78 -0.25 -20 40 -0.25 -2
+4 16 -78 -0.25 -2 40 -0.25 -2 40 -0.25 0 -80 -0.25 0
+4 16 40 -0.25 0 40 -0.25 -2 78 -0.25 -20 80 -0.25 -18.9474
+4 16 80 -0.25 -18.9474 78 -0.25 -20 78 -0.25 -22 80 -0.25 -24
+4 16 80 -0.25 -24 78 -0.25 -22 -78 -0.25 -2 -80 -0.25 -4
+3 16 -80 -0.25 -4 -78 -0.25 -2 -80 -0.25 0
+
+4 16 -80 0 0 40 0 0 80 0 -18.9474 80 0 -24
+3 16 -80 0 0 80 0 -24 -80 0 -4
+
+4 16 -80 0 0 -80 -0.25 0 40 -0.25 0 40 0 0
+4 16 40 0 0 40 -0.25 0 80 -0.25 -18.9474 80 0 -18.9474
+4 16 80 0 -18.9474 80 -0.25 -18.9474 80 -0.25 -24 80 0 -24
+4 16 80 0 -24 80 -0.25 -24 -80 -0.25 -4 -80 0 -4
+4 16 -80 0 -4 -80 -0.25 -4 -80 -0.25 0 -80 0 0
+

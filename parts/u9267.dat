@@ -1,0 +1,25 @@
+0 ~Screw 30 x  7.5 Dome Cruciform
+0 Name: u9267.dat
+0 Author: Max Martin Richter [MMR1988]
+0 !LDRAW_ORG Part UPDATE 2013-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+0 !KEYWORDS Pozidriv
+
+0 !HISTORY 2013-09-01 [MMR1988] Creation
+0 !HISTORY 2013-12-23 [PTadmin] Official Update 2013-02
+
+0 // Nomenclature: Screw length_(LDu) x thread_diameter_(LDu) {head type} {slot type}
+
+1 16 0 30.5 0 4 0 0 0 -30.5 0 0 0 4 4-4cylc.dat
+1 16 0 0 0 2 0 0 0 -1 0 0 0 2 4-4ring2.dat
+1 16 0 0 0 1 0 0 0 -1 0 0 0 1 4-4ring6.dat
+
+1 16 0 0 0 7 0 0 0 -4 0 0 0 7 4-4cyli.dat
+1 16 0 0 0 7 0 0 0 1 0 0 0 7 4-4edge.dat
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\u9267s01.dat
+1 16 0 0 0 0 0 1 0 1 0 -1 0 0 s\u9267s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 -1 s\u9267s01.dat
+1 16 0 0 0 0 0 -1 0 1 0 1 0 0 s\u9267s01.dat

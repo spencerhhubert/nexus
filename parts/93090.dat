@@ -1,0 +1,21 @@
+0 Figure Friends Accessories Bag Round with Ruffle
+0 Name: 93090.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2014-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 !HELP Handle Y = -28.4
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2013-08-14 {LEGO Digital Designer} Original part shape
+0 !HISTORY 2014-11-10 [Philo] File preparation for LDraw Parts Tracker
+0 !HISTORY 2014-12-23 [PTadmin] Official Update 2014-02
+
+1 16 -9.1 -28.4 0 0 18.2 0 -4 0 0 0 0 4 4-4cyli.dat
+0 BFC INVERTNEXT
+1 16 0 -7 0 0 0 6 0 7 0 -6 0 0 4-4cylc.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\93090s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\93090s01.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\93090s02.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\93090s02.dat

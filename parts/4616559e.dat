@@ -1,0 +1,16 @@
+0 Sticker  3.8 x  4.4 with Maersk Logo
+0 Name: 4616559e.dat
+0 Author: J.C. Tchang [tchang]
+0 !LDRAW_ORG Part UPDATE 2012-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Set 10219
+
+0 !HISTORY 2012-12-28 [PTadmin] Official Update 2012-03
+
+1 16 0 -0.25 0 44 0 0 0 0.25 0 0 0 38 box5-12.dat
+0 //
+1 16 0 -0.25 0 1 0 0 0 1 0 0 0 1 s\4616559ps5.dat
+1 16 0 -0.25 0 -1 0 0 0 1 0 0 0 1 s\4616559ps5.dat

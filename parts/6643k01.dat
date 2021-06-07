@@ -1,0 +1,28 @@
+0 ~Technic Flex-System Pin Connector Single Bottom
+0 Name: 6643k01.dat
+0 Author: Magnus Forsberg [MagFors]
+0 !LDRAW_ORG Part Flexible_Section UPDATE 2020-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2020-12-29 [PTadmin] Official Update 2020-03
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\6642s01.dat
+
+1 16 9 0 -5 0 -1 0 0 0 -5 5 0 0 rect2p.dat
+1 16 -9 0 -5 0 1 0 0 0 -5 -5 0 0 rect2p.dat
+1 16 0 -5 0 9 0 0 0 1 0 0 0 -9 2-4ndis.dat
+1 16 0 5 0 9 0 0 0 -1 0 0 0 -9 2-4ndis.dat
+4 16 -9 5 -10 -9 5 -9 9 5 -9 9 5 -10
+4 16 -9 -5 -10 9 -5 -10 9 -5 -9 -9 -5 -9
+
+1 16 0 5 0 9 0 0 0 -10 0 0 0 9 2-4cyli.dat
+1 16 0 -5 0 0 0 -1 0 1 0 1 0 0 peghole.dat
+1 16 0 5 0 0 0 -1 0 -1 0 -1 0 0 peghole.dat
+0 BFC INVERTNEXT
+1 16 0 3 0 6 0 0 0 -6 0 0 0 -6 4-4cyli.dat
+1 16 0 -5 0 9 0 0 0 -1 0 0 0 9 2-4edge.dat
+1 16 0 5 0 9 0 0 0 -1 0 0 0 9 2-4edge.dat
+1 16 0 -5 0 0 0 -1 0 1 0 1 0 0 4-4ring8.dat
+1 16 0 5 0 0 0 -1 0 -1 0 -1 0 0 4-4ring8.dat

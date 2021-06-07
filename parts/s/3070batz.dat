@@ -1,0 +1,16 @@
+0 ~Tile  1 x  1 with "Z" Pattern
+0 Name: s\3070batz.dat
+0 Author: Chris Dee [cwdee]
+0 !LDRAW_ORG Subpart UPDATE 2009-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+
+0 !HISTORY 2009-05-02 [PTadmin] Official Update 2009-01
+
+4 16 -6 0 5.5 -6 0 7.5 6 0 7.5 3.372 0 5.5
+3 16 6 0 7.5 6 0 5.5 3.372 0 5.5
+4 16 -6 0 -7.5 -3.372 0 -5.5 6 0 -5.5 6 0 -7.5
+3 16 -6 0 -7.5 -6 0 -5.5 -3.372 0 -5.5
+4 16 -3.372 0 -5.5 -6 0 -5.5 3.372 0 5.5 6 0 5.5
+0

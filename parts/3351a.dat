@@ -1,0 +1,32 @@
+0 Roadsign Triangular Type 1
+0 Name: 3351a.dat
+0 Author: Chris Dee [cwdee]
+0 !LDRAW_ORG Part UPDATE 2010-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+
+0 !HISTORY 1998-07-15 [PTadmin] Official Update 1998-07
+0 !HISTORY 2003-08-01 [Steffen] BFCed, made use of primitives and subfiles
+0 !HISTORY 2005-12-28 [PTadmin] Official Update 2005-01
+0 !HISTORY 2007-07-16 [PTadmin] Header formatted for Contributor Agreement
+0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01
+0 !HISTORY 2008-07-07 [Steffen] BFCed, made use of primitives and subfiles (2003-08-01)
+0 !HISTORY 2010-04-21 [PTadmin] Renamed from 649
+0 !HISTORY 2010-07-05 [PTadmin] Official Update 2010-02
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\3351as01.dat
+4 16 0 -68 -2 -22 -68 -2 -22 -70 -2 0 -82.7 -2
+4 16 22 -70 -2 22 -68 -2 0 -68 -2 0 -82.7 -2
+4 16 12.73 -90.05 -2 23.73 -71 -2 22 -70 -2 0 -82.7 -2
+4 16 0 -108.1 -2 1.73 -109.1 -2 12.73 -90.05 -2 0 -82.7 -2
+4 16 -12.73 -90.05 -2 -1.73 -109.1 -2 0 -108.1 -2 0 -82.7 -2
+4 16 -22 -70 -2 -23.73 -71 -2 -12.73 -90.05 -2 0 -82.7 -2
+1 16 0 -108.1 -2 1 0 -1.732 -1.732 0 -1 0 4 0 1-4disc.dat
+1 16 0 -108.1 -2 1.732 0 -1 -1 0 -1.732 0 4 0 1-4disc.dat
+1 16 21.997 -70 -2 1 0 1.732 1.732 0 -1 0 4 0 1-4disc.dat
+1 16 21.997 -70 -2 0 0 2 2 0 0 0 4 0 1-4disc.dat
+1 16 -21.997 -70 -2 -2 0 0 0 0 2 0 4 0 1-4disc.dat
+1 16 -21.997 -70 -2 -1.732 0 -1 -1 0 1.732 0 4 0 1-4disc.dat
+0
+

@@ -1,0 +1,15 @@
+0 Train Wheel Spoked with Conical Rim with Stub Axle
+0 Name: 244c01.dat
+0 Author: Niels Karsdorp [nielsk]
+0 !LDRAW_ORG Shortcut UPDATE 2019-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Motor
+
+0 !HISTORY 2018-03-14 [Holly-Wood] Changed description, changed winding
+0 !HISTORY 2019-12-27 [PTadmin] Official Update 2019-03
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 244.dat
+1 60 0 0 12 1 0 0 0 1 0 0 0 1 35b.dat

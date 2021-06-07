@@ -1,0 +1,19 @@
+0 Wheelbarrow with 1 Wheel (Complete)
+0 Name: 4003c01.dat
+0 Author: Niels Karsdorp [nielsk]
+0 !LDRAW_ORG Shortcut UPDATE 2010-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+0 !CATEGORY Minifig Accessory
+0 !KEYWORDS Fabuland
+0 !CMDLINE -c4
+
+0 !HISTORY 2009-05-02 [PTadmin] Official Update 2009-01
+0 !HISTORY 2010-10-19 [PTadmin] Renamed from 503c01
+0 !HISTORY 2010-12-31 [PTadmin] Official Update 2010-03
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 4003.dat
+1 4 0 4 -52.5 1 0 0 0 1 0 0 0 1 3464.dat
+1 256 0 4 -52.5 1 0 0 0 1 0 0 0 1 7.dat
+0

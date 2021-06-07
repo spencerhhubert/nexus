@@ -1,0 +1,14 @@
+0 Boat Stern 16 x 14 x  5.333 with Red Bottom
+0 Name: 2559c02.dat
+0 Author: Magnus Forsberg [MagFors]
+0 !LDRAW_ORG Shortcut UPDATE 2019-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+0 !KEYWORDS pirate, pirates, ship, skull, Armada
+0 !KEYWORDS set 6289, set 6290, Red Beard Runner
+
+0 !HISTORY 2019-06-28 [PTadmin] Official Update 2019-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 2559.dat
+1  4 0 0 0 1 0 0 0 1 0 0 0 1 2558.dat

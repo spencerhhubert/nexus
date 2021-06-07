@@ -1,0 +1,31 @@
+0 ~Electric Power Functions AAA Battery Box Direction Switch
+0 Name: 87520.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2015-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2015-10-11 [PTadmin] Official Update 2015-01
+
+1 16 3.5 0 8 1 0 0 0 3 0 0 0 1 1-4cylc.dat
+1 16 3.5 0 -8 0 0 1 0 3 0 -1 0 0 1-4cylc.dat
+2 24 3.5 3 -9 -3.5 3 -9
+1 16 2.5 0 0 0 0 -1 0 1 0 9 0 0 rect3.dat
+1 16 4 0 0 0.5 0 0 0 1 0 0 0 8 rect1.dat
+1 16 4.5 1.5 0 0 -1 0 1.5 0 0 0 0 8 rect1.dat
+4 16 3.5 3 -9 3.5 0 -9 1.5 0 -9 1.5 2 -9
+4 16 1.5 2 -9 -1.5 2 -9 -3.5 3 -9 3.5 3 -9
+2 24 3.5 3 9 -3.5 3 9
+4 16 3.5 3 9 -3.5 3 9 -1.5 2 9 1.5 2 9
+1 0 0 3.2 0 14 0 0 0 0.2 0 0 0 9.5 box.dat
+4 16 1.5 2 9 1.5 0 9 3.5 0 9 3.5 3 9
+1 16 -3.5 0 -8 -1 0 0 0 3 0 0 0 -1 1-4cylc.dat
+1 16 -3.5 0 8 0 0 -1 0 3 0 1 0 0 1-4cylc.dat
+1 16 -2.5 0 0 0 0 1 0 1 0 -9 0 0 rect3.dat
+1 16 -4 0 0 -0.5 0 0 0 1 0 0 0 -8 rect1.dat
+1 16 -4.5 1.5 0 0 1 0 1.5 0 0 0 0 -8 rect1.dat
+4 16 -3.5 3 9 -3.5 0 9 -1.5 0 9 -1.5 2 9
+4 16 -1.5 2 -9 -1.5 0 -9 -3.5 0 -9 -3.5 3 -9
+0 BFC INVERTNEXT
+1 16 0 0 0 0 0 1.5 0 2 0 9 0 0 box3u2p.dat

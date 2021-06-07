@@ -1,0 +1,24 @@
+0 Hinge Plate  2 x  2 Locking with Single Finger On Top
+0 Name: 92582.dat
+0 Author: Magnus Forsberg [MagFors]
+0 !LDRAW_ORG Part UPDATE 2020-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2020-12-29 [PTadmin] Official Update 2020-03
+
+1 16 0 4 0 1 0 0 0 -1 0 0 0 1 stud4.dat
+0 BFC INVERTNEXT
+1 16 0 8 0 16 0 0 0 -4 0 0 0 16 box5.dat
+4 16 20 8 20 16 8 16 -16 8 16 -20 8 20
+4 16 20 8 -20 16 8 -16 16 8 16 20 8 20
+4 16 -20 8 -20 -16 8 -16 16 8 -16 20 8 -20
+4 16 -20 8 20 -16 8 16 -16 8 -16 -20 8 -20
+1 16 -10 8 0 0 0 -10 0 -8 0 20 0 0 box4-4a.dat
+1 16 10 1 0 0 0 -1 0 1 0 1 0 0 clh13.dat
+1 16 20 0.5 0 0 -1 0 0 0 -0.5 20 0 0 rect3.dat
+1 16 0 4.5 0 0 20 0 -3.5 0 0 0 0 -20 box3u7a.dat
+1 16 -10 0 10 -1 0 0 0 1 0 0 0 -1 stud.dat
+1 16 -10 0 -10 -1 0 0 0 1 0 0 0 -1 stud.dat
+

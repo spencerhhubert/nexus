@@ -1,0 +1,80 @@
+0 Minifig Sword with Angular Hilt
+0 Name: 48495.dat
+0 Author: Andy Westrate [westrate]
+0 !LDRAW_ORG Part UPDATE 2012-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !CATEGORY Minifig Accessory
+
+0 !HISTORY 2009-10-13 {LEGO Universe Team} Original part shape
+0 !HISTORY 2009-12-01 [westrate] File preparation for LDraw Parts Tracker
+0 !HISTORY 2012-12-28 [PTadmin] Official Update 2012-03
+
+1 16 0 0 0 0 0 1 0 1 0 -1 0 0 s\48495s01.dat
+1 16 0 0 0 0 0 -1 0 1 0 -1 0 0 s\48495s01.dat
+1 16 0 0 0 0 0 1 0 1 0 1 0 0 s\48495s01.dat
+1 16 0 0 0 0 0 -1 0 1 0 1 0 0 s\48495s01.dat
+1 16 0 0 0 0 0 4 0 -1 0 -4 0 0 4-4ndis.dat
+1 16 0 0 0 0 0 4 0 1.5 0 -4 0 0 4-4cyli.dat
+1 16 0 0 0 0 0 4 0 1.5 0 -4 0 0 4-4edge.dat
+1 16 0 1.5 0 0 0 1 0 0.5 0 -1 0 0 4-4con3.dat
+1 16 0 1.5 0 0 0 4 0 1 0 -4 0 0 4-4edge.dat
+1 16 0 2 0 0 0 3 0 1 0 -3 0 0 4-4edge.dat
+1 16 0 2 0 0 0 3 0 0.5 0 -3 0 0 4-4cyli.dat
+1 16 0 2.5 0 0 0 3 0 1 0 -3 0 0 4-4edge.dat
+1 16 0 2.5 0 0 0 4 0 1 0 -4 0 0 4-4cyli.dat
+1 16 0 2.5 0 0 0 4 0 1 0 -4 0 0 4-4edge.dat
+1 16 0 2.5 0 0 0 1 0 1 0 -1 0 0 4-4ring3.dat
+1 16 0 3.5 0 0 0 3 0 1 0 -3 0 0 4-4cyli.dat
+1 16 0 3.5 0 0 0 4 0 1 0 -4 0 0 4-4edge.dat
+1 16 0 3.5 0 0 0 3 0 1 0 -3 0 0 4-4edge.dat
+1 16 0 3.5 0 0 0 1 0 -1 0 -1 0 0 4-4ring3.dat
+1 16 0 4.5 0 0 0 4 0 1 0 -4 0 0 4-4cyli.dat
+1 16 0 4.5 0 0 0 4 0 1 0 -4 0 0 4-4edge.dat
+1 16 0 4.5 0 0 0 3 0 1 0 -3 0 0 4-4edge.dat
+1 16 0 4.5 0 0 0 1 0 1 0 -1 0 0 4-4ring3.dat
+1 16 0 5.5 0 0 0 3 0 1 0 -3 0 0 4-4cyli.dat
+1 16 0 5.5 0 0 0 4 0 1 0 -4 0 0 4-4edge.dat
+1 16 0 5.5 0 0 0 3 0 1 0 -3 0 0 4-4edge.dat
+1 16 0 5.5 0 0 0 1 0 -1 0 -1 0 0 4-4ring3.dat
+1 16 0 6.5 0 0 0 4 0 1 0 -4 0 0 4-4cyli.dat
+1 16 0 6.5 0 0 0 4 0 1 0 -4 0 0 4-4edge.dat
+1 16 0 6.5 0 0 0 3 0 1 0 -3 0 0 4-4edge.dat
+1 16 0 6.5 0 0 0 1 0 1 0 -1 0 0 4-4ring3.dat
+1 16 0 7.5 0 0 0 3 0 1 0 -3 0 0 4-4cyli.dat
+1 16 0 7.5 0 0 0 4 0 1 0 -4 0 0 4-4edge.dat
+1 16 0 7.5 0 0 0 3 0 1 0 -3 0 0 4-4edge.dat
+1 16 0 7.5 0 0 0 1 0 -1 0 -1 0 0 4-4ring3.dat
+1 16 0 8.5 0 0 0 4 0 1 0 -4 0 0 4-4cyli.dat
+1 16 0 8.5 0 0 0 4 0 1 0 -4 0 0 4-4edge.dat
+1 16 0 8.5 0 0 0 3 0 1 0 -3 0 0 4-4edge.dat
+1 16 0 8.5 0 0 0 1 0 1 0 -1 0 0 4-4ring3.dat
+1 16 0 9.5 0 0 0 3 0 1 0 -3 0 0 4-4cyli.dat
+1 16 0 9.5 0 0 0 4 0 1 0 -4 0 0 4-4edge.dat
+1 16 0 9.5 0 0 0 3 0 1 0 -3 0 0 4-4edge.dat
+1 16 0 9.5 0 0 0 1 0 -1 0 -1 0 0 4-4ring3.dat
+1 16 0 10.5 0 0 0 4 0 1 0 -4 0 0 4-4cyli.dat
+1 16 0 10.5 0 0 0 4 0 1 0 -4 0 0 4-4edge.dat
+1 16 0 10.5 0 0 0 3 0 1 0 -3 0 0 4-4edge.dat
+1 16 0 10.5 0 0 0 1 0 1 0 -1 0 0 4-4ring3.dat
+1 16 0 11.5 0 0 0 3 0 1 0 -3 0 0 4-4cyli.dat
+1 16 0 11.5 0 0 0 4 0 1 0 -4 0 0 4-4edge.dat
+1 16 0 11.5 0 0 0 3 0 1 0 -3 0 0 4-4edge.dat
+1 16 0 11.5 0 0 0 1 0 -1 0 -1 0 0 4-4ring3.dat
+1 16 0 12.5 0 0 0 4 0 1 0 -4 0 0 4-4cyli.dat
+1 16 0 12.5 0 0 0 4 0 1 0 -4 0 0 4-4edge.dat
+1 16 0 12.5 0 0 0 3 0 1 0 -3 0 0 4-4edge.dat
+1 16 0 12.5 0 0 0 1 0 1 0 -1 0 0 4-4ring3.dat
+1 16 0 13.5 0 0 0 3 0 1 0 -3 0 0 4-4cyli.dat
+1 16 0 13.5 0 0 0 4 0 1 0 -4 0 0 4-4edge.dat
+1 16 0 13.5 0 0 0 3 0 1 0 -3 0 0 4-4edge.dat
+1 16 0 13.5 0 0 0 1 0 -1 0 -1 0 0 4-4ring3.dat
+1 16 0 14.5 0 0 0 4 0 1.5 0 -4 0 0 4-4cyli.dat
+1 16 0 14.5 0 0 0 4 0 1 0 -4 0 0 4-4edge.dat
+1 16 0 14.5 0 0 0 3 0 1 0 -3 0 0 4-4edge.dat
+1 16 0 14.5 0 0 0 1 0 1 0 -1 0 0 4-4ring3.dat
+1 16 0 16 0 0 0 4 0 1 0 -4 0 0 4-4ndis.dat
+1 16 0 16 0 0 0 4 0 1 0 -4 0 0 4-4edge.dat
+0 //

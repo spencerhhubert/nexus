@@ -1,0 +1,15 @@
+0 Electric Power Functions 2.0 Medium Motor with Coiled Cable
+0 Name: 21980c01.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Shortcut UPDATE 2019-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS WeDo 2.0
+
+0 !HISTORY 2019-09-09 [PTadmin] Official Update 2019-02
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 u9327c01.dat
+1 4 0 26 -20 1 0 0 0 1 0 0 0 1 47157.dat
+1 256 0 -1.0913 96.6306 1 0 0 0 1 0 0 0 1 u9218c01.dat

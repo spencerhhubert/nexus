@@ -1,0 +1,48 @@
+0 Minifig Saucepan
+0 Name: 4529.dat
+0 Author: James Jessiman
+0 !LDRAW_ORG Part UPDATE 2003-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+0 !CATEGORY Minifig Accessory
+0 !KEYWORDS Town, utensil, cooking, cookware, kitchen
+0 !KEYWORDS homemaker, pot, pan, kettle
+0 !CMDLINE -c0
+
+0 !HISTORY 1998-06-20 [PTadmin] Official Update 1998-06
+0 !HISTORY 2001-10-26 [PTadmin] Official Update 2001-01
+0 !HISTORY 2003-06-08 [jriley] ring subsitutions
+0 !HISTORY 2003-10-02 [fwcain] tweaked meta-statements, fixed "join" (where handle meets body)
+0 !HISTORY 2003-10-02 [OrionP] BFC'd
+0 !HISTORY 2003-12-19 [PTadmin] Official Update 2003-03
+0 !HISTORY 2007-07-08 [PTadmin] Header formatted for Contributor Agreement
+0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01
+
+ 1 16 0 20 0 1 0 0 0 -1 0 0 0 1 stud4.dat
+
+ 1 16 0 0 0 13 0 0 0 20 0 0 0 13 4-4cyli.dat
+0 BFC INVERTNEXT
+ 1 16 0 0 0 11 0 0 0 18 0 0 0 11 4-4cyli.dat
+ 1 16 0 20 0 13 0 0 0 -1 0 0 0 13 4-4disc.dat
+ 1 16 0 18 0 11 0 0 0 1 0 0 0 11 4-4disc.dat
+ 1 16 0 0 0 1 0 0 0 1 0 0 0 1 4-4rin11.dat
+ 1 16 0 0 0 1 0 0 0 1 0 0 0 1 4-4rin12.dat
+
+ 1 16 0 20 0 13 0 0 0 1 0 0 0 13 4-4edge.dat
+ 1 16 0 0 0 13 0 0 0 1 0 0 0 13 4-4edge.dat
+ 1 16 0 18 0 11 0 0 0 1 0 0 0 11 4-4edge.dat
+ 1 16 0 0 0 11 0 0 0 1 0 0 0 11 4-4edge.dat
+
+ 1 16 0 6 13 -4 0 0 0 0 -4 0 -0.8 0 1-4cyls2.dat
+ 1 16 0 6 13 4 0 0 0 0 -4 0 -0.8 0 1-4cyls2.dat
+ 1 16 0 6 13 -4 0 0 0 0 4 0 -0.8 0 1-4cyls2.dat
+ 1 16 0 6 13 4 0 0 0 0 4 0 -0.8 0 1-4cyls2.dat
+
+ 1 16 0 6 13 0 0 -4 4 0 0 0 1 -0.8 2-4edge.dat
+ 1 16 0 6 13 0 0 4 4 0 0 0 1 -0.8 2-4edge.dat
+
+ 1 16 0 6 13 4 0 0 0 0 4 0 17 0 4-4cyli.dat
+ 1 16 0 6 30 4 0 0 0 0 4 0 -1 0 4-4disc.dat
+ 1 16 0 6 30 4 0 0 0 0 4 0 1 0 4-4edge.dat
+0

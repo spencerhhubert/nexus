@@ -1,0 +1,18 @@
+0 Figure Friends Hair with Top Knot Bun and Hair Band
+0 Name: 15673.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2014-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 !HELP Top accessory position: Y = -9, Z = 2.3
+
+0 BFC CERTIFY CCW
+
+0 !CATEGORY Minifig Headwear
+
+0 !HISTORY 2014-05-16 {LEGO Digital Designer} Original part shape
+0 !HISTORY 2014-09-04 [Philo] File preparation for LDraw Parts Tracker
+0 !HISTORY 2014-12-23 [PTadmin] Official Update 2014-02
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\15673s01.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\15673s02.dat

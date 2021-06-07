@@ -1,0 +1,55 @@
+0 Brick  3 x  3 x  2 Facet Bottom
+0 Name: 2464.dat
+0 Author: Luis E. Fernandez [lfernand]
+0 !LDRAW_ORG Part UPDATE 2010-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 1998-02-12 [PTadmin] Official Update 1998-02
+0 !HISTORY 2007-05-10 [PTadmin] Header formatted for Contributor Agreement
+0 !HISTORY 2007-05-22 [dulcaoin] Fixed and add some edge lines (still needs further work)
+0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01
+0 !HISTORY 2010-07-11 [MagFors] Completed the design, BFC'ed, subfiled
+0 !HISTORY 2010-12-31 [PTadmin] Official Update 2010-03
+
+2 24 10 24 18 18 24 10
+2 24 -11 12 13 13 12 -11
+2 24 30 0 30 30 24 30
+2 24 -4.25 10 8 8 10 -4.25
+2 24 8 -24 8 8 15.5 8
+2 24 10 0 10 10 -24 10
+2 24 26 24 26 26 4 26
+0 // surface
+1 16 -10 -22 -10 -20 1 0 0 0 2 20 1 0 rect2p.dat
+4 16 -30 -20 10 -11 12 13 13 12 -11 10 -20 -30
+4 16 -11 12 13 3.843 20 15.4903 15.4903 20 3.843 13 12 -11
+4 16 3.843 20 15.4903 4.2426 20.3077 15.7574 15.7574 20.3077 4.2426 15.4903 20 3.843
+4 16 4.2426 20.3077 15.7574 10 24 18 18 24 10 15.7574 20.3077 4.2426
+4 16 10 -24 -30 11 -24 -28 -28 -24 11 -30 -24 10
+1 16 -8.5 -22 -8.5 -19.5 -1 0 0 0 -2 19.5 -1 0 rect2p.dat
+4 16 11 -20 -28 8 -1 -12 -12 -1 8 -28 -20 11
+4 16 -12 -1 8 8 -1 -12 8 10 -4.25 -4.25 10 8
+5 24 8 -1 -12 -12 -1 8 11 -20 -28 8 10 -4.25
+3 16 8 15.5 8 -4.25 10 8 8 10 -4.25
+1 16 19 8.75 19 0 -9 0 -8.75 0 0 0 0 -9 box2-5.dat
+1 16 20 24 20 0 0 -6 0 -1 0 -6 0 0 1-4ndis.dat
+0 BFC INVERTNEXT
+1 16 20 4 20 -6 0 0 0 20 0 0 0 -6 1-4cylc.dat
+4 16 10 0 28 10 0 10 28 0 10 30 0 30
+0 //
+1 16 20 -24 20 0 0 1 0 1 0 1 0 0 s\2464s01.dat
+1 16 20 -24 20 1 0 0 0 1 0 0 0 1 s\2464s01.dat
+0 // studs
+1 16 -20 -24 20 1 0 0 0 1 0 0 0 1 stud2a.dat
+1 16 20 -24 -20 1 0 0 0 1 0 0 0 1 stud2a.dat
+1 16 0 0 20 1 0 0 0 1 0 0 0 1 stud2a.dat
+1 16 20 0 0 1 0 0 0 1 0 0 0 1 stud2a.dat
+1 16 20 0 20 0 0 -1 0 1 0 1 0 0 stud.dat
+0 BFC INVERTNEXT
+1 16 0 -3 0 -2.84 0 2.84 0 8 0 -2.84 0 -2.84 4-4cyls.dat
+0 BFC INVERTNEXT
+1 16 0 -24 0 -2.84 0 2.84 0 21 0 2.84 0 2.84 4-4cyli.dat
+1 16 0 -7 0 0 0 6.02455 0 20.5 0 6.02455 0 0 1-4cyli.dat
+1 16 0 -24 0 6 0 0 0 17.5 0 0 0 6 4-4cyli.dat
+1 16 0 -24 0 1 0 0 0 1 0 0 0 1 stud2a.dat

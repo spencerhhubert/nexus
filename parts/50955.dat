@@ -1,0 +1,13 @@
+0 Wedge 10 x  3 x  1 Double Rounded Left
+0 Name: 50955.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2011-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2011-07-30 [BlackBrick89] Minor cleanup
+0 !HISTORY 2011-12-29 [PTadmin] Official Update 2011-02
+
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\50956s01.dat
+1 16 0 0 -10 0 0 -1 0 1 0 1 0 0 stug-1x2.dat

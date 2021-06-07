@@ -1,0 +1,12 @@
+0 Door  1 x  3 x  2 Left with Hollow Hinge
+0 Name: 92262.dat
+0 Author: Rolf Osterthun [Rolf]
+0 !LDRAW_ORG Part UPDATE 2011-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2011-12-29 [PTadmin] Official Update 2011-02
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\92262s01.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 stud2.dat

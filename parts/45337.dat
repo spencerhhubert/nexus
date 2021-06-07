@@ -1,0 +1,15 @@
+0 Technic Gearbox  3 x  4 x  1.667 T-shaped (Complete)
+0 Name: 45337.dat
+0 Author: Guy Vivan [guyvivan]
+0 !LDRAW_ORG Shortcut UPDATE 2010-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2010-07-05 [PTadmin] Official Update 2010-02
+
+1 8 0 0 0 1 0 0 0 1 0 0 0 1 46217.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 46218.dat
+1 15 0 18 -19 1 0 0 0 1 0 0 0 1 46219.dat
+1 15 19 18 0 0 0 -1 0 1 0 1 0 0 46220.dat
+0

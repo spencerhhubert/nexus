@@ -1,0 +1,46 @@
+0 Tyre  6/ 50 x  8 Offset Tread with Centre Band
+0 Name: 87414.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2014-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2013-08-14 {LEGO Digital Designer} Original part shape
+0 !HISTORY 2014-10-30 [Philo] File preparation for LDraw Parts Tracker
+0 !HISTORY 2014-12-23 [PTadmin] Official Update 2014-02
+
+0 // Nomenclature: width_(mm)/profile_as_percentage_of_width x rim_diameter_(mm)
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\87414s01.dat
+1 16 0 0 0 0.92388 0.38268 0 -0.38268 0.92388 0 0 0 1 s\87414s01.dat
+1 16 0 0 0 0.70711 0.70711 0 -0.70711 0.70711 0 0 0 1 s\87414s01.dat
+1 16 0 0 0 0.38268 0.92388 0 -0.92388 0.38268 0 0 0 1 s\87414s01.dat
+1 16 0 0 0 0 1 0 -1 0 0 0 0 1 s\87414s01.dat
+1 16 0 0 0 -0.38268 0.92388 0 -0.92388 -0.38268 0 0 0 1 s\87414s01.dat
+1 16 0 0 0 -0.70711 0.70711 0 -0.70711 -0.70711 0 0 0 1 s\87414s01.dat
+1 16 0 0 0 -0.92388 0.38268 0 -0.38268 -0.92388 0 0 0 1 s\87414s01.dat
+1 16 0 0 0 0 -1 0 1 0 0 0 0 1 s\87414s01.dat
+1 16 0 0 0 0.38268 -0.92388 0 0.92388 0.38268 0 0 0 1 s\87414s01.dat
+1 16 0 0 0 0.70711 -0.70711 0 0.70711 0.70711 0 0 0 1 s\87414s01.dat
+1 16 0 0 0 0.92388 -0.38268 0 0.38268 0.92388 0 0 0 1 s\87414s01.dat
+1 16 0 0 0 -1 0 0 0 -1 0 0 0 1 s\87414s01.dat
+1 16 0 0 0 -0.92388 -0.38268 0 0.38268 -0.92388 0 0 0 1 s\87414s01.dat
+1 16 0 0 0 -0.70711 -0.70711 0 0.70711 -0.70711 0 0 0 1 s\87414s01.dat
+1 16 0 0 0 -0.38268 -0.92388 0 0.92388 -0.38268 0 0 0 1 s\87414s01.dat
+0 BFC INVERTNEXT
+1 16 0 0 4 10 0 0 0 0 -10 0 4 0 4-4cylo.dat
+0 BFC INVERTNEXT
+1 16 0 0 -8 10 0 0 0 0 -10 0 4 0 4-4cylo.dat
+0 BFC INVERTNEXT
+1 16 0 0 -0.5 9.29688 0 0 0 0 9.29688 0 1 0 4-4cylo.dat
+0 BFC INVERTNEXT
+1 16 0 0 -4 1.25 0 0 0 0 1.25 0 1 0 4-4con7.dat
+0 BFC INVERTNEXT
+1 16 0 0 -3 8.75 0 0 0 0 8.75 0 2.5 0 4-4cylo.dat
+0 BFC INVERTNEXT
+1 16 0 0 4 1.25 0 0 0 0 1.25 0 -1 0 4-4con7.dat
+0 BFC INVERTNEXT
+1 16 0 0 3 8.75 0 0 0 0 8.75 0 -2.5 0 4-4cylo.dat
+1 16 0 0 0.5 0.54688 0 0 0 0 0.54688 0 1 0 4-4rin16.dat
+1 16 0 0 -0.5 0.54688 0 0 0 0 0.54688 0 -1 0 4-4rin16.dat

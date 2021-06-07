@@ -1,0 +1,15 @@
+0 Tail Plane  2 x 14 x  8
+0 Name: 54094.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2014-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2010-09-10 {LEGO Universe Team} Original part shape
+0 !HISTORY 2010-09-17 [Philo] File preparation for LDraw Parts Tracker
+0 !HISTORY 2014-06-21 [PTadmin] Official Update 2014-01
+
+1 16 0 184 -140 0 0 -1 0 1 0 1 0 0 s\54094s01.dat
+1 16 0 184 -140 0 0 1 0 1 0 1 0 0 s\54094s01.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\54094s02.dat

@@ -1,0 +1,47 @@
+0 Baseplate 16 x 18
+0 Name: 6850.dat
+0 Author: Peter Watts [FrozenPea]
+0 !LDRAW_ORG Part UPDATE 2018-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2004-11-06 [PTadmin] Official Update 2004-04
+0 !HISTORY 2007-05-04 [PTadmin] Header formatted for Contributor Agreement
+0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01
+0 !HISTORY 2018-10-27 [PTadmin] Renamed from 184
+0 !HISTORY 2018-10-27 [MagFors] Used stud groups
+0 !HISTORY 2018-12-08 [PTadmin] Official Update 2018-02
+
+1 16 80 0 -80 1 0 0 0 1 0 0 0 1 stug-8x8.dat
+1 16 80 0 80 1 0 0 0 1 0 0 0 1 stug-8x8.dat
+1 16 -80 0 -80 1 0 0 0 1 0 0 0 1 stug-8x8.dat
+1 16 -80 0 80 1 0 0 0 1 0 0 0 1 stug-8x8.dat
+
+1 16 170 0 -80 1 0 0 0 1 0 0 0 1 stug-8x1.dat
+1 16 170 0 80 1 0 0 0 1 0 0 0 1 stug-8x1.dat
+1 16 -170 0 -80 1 0 0 0 1 0 0 0 1 stug-8x1.dat
+1 16 -170 0 80 1 0 0 0 1 0 0 0 1 stug-8x1.dat
+
+1 16 176 0 156 4 0 0 0 4 0 0 0 4 1-4cylo.dat
+1 16 -176 0 156 -4 0 0 0 4 0 0 0 4 1-4cylo.dat
+1 16 -176 0 -156 -4 0 0 0 4 0 0 0 -4 1-4cylo.dat
+1 16 176 0 -156 4 0 0 0 4 0 0 0 -4 1-4cylo.dat
+
+1 16 176 0 156 4 0 0 0 1 0 0 0 4 1-4chrd.dat
+1 16 -176 0 156 -4 0 0 0 1 0 0 0 4 1-4chrd.dat
+1 16 -176 0 -156 -4 0 0 0 1 0 0 0 -4 1-4chrd.dat
+1 16 176 0 -156 4 0 0 0 1 0 0 0 -4 1-4chrd.dat
+
+1 16 176 4 156 4 0 0 0 -1 0 0 0 4 1-4chrd.dat
+1 16 -176 4 156 -4 0 0 0 -1 0 0 0 4 1-4chrd.dat
+1 16 -176 4 -156 -4 0 0 0 -1 0 0 0 -4 1-4chrd.dat
+1 16 176 4 -156 4 0 0 0 -1 0 0 0 -4 1-4chrd.dat
+
+1 16 176 2 0 0 -352 0 2 0 0 0 0 160 box4o8a.dat
+4 16 -176 4 -160 -180 4 -156 -180 4 156 -176 4 160
+4 16 176 4 160 180 4 156 180 4 -156 176 4 -160
+4 16 -176 0 160 -180 0 156 -180 0 -156 -176 0 -160
+4 16 176 0 -160 180 0 -156 180 0 156 176 0 160
+1 16 -180 2 0 0 1 0 0 0 2 156 0 0 rect2p.dat
+1 16 180 2 0 0 -1 0 0 0 2 -156 0 0 rect2p.dat

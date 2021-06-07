@@ -1,0 +1,16 @@
+0 Minifig Shield Octagonal without Stud
+0 Name: 61856.dat
+0 Author: El'dar Ismagilov [Eldar]
+0 !LDRAW_ORG Part UPDATE 2010-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+0 !CATEGORY Minifig Accessory
+0 !KEYWORDS Castle, Troll, Protection
+
+0 !HISTORY 2010-04-05 [PTadmin] Official Update 2010-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\61856s01.dat
+4 16 -18.75 -24.218 -12 18.75 -24.218 -12 9.655 -35 -12 -9.655 -35 -12
+4 16 -18.75 24.218 -12 18.75 24.218 -12 18.75 -24.218 -12 -18.75 -24.218 -12
+4 16 -9.655 35 -12 9.655 35 -12 18.75 24.218 -12 -18.75 24.218 -12

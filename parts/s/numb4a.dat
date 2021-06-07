@@ -1,0 +1,16 @@
+0 ~Mindstorms RCX Number "4"
+0 Name: s\numb4a.dat
+0 Author: John Van Zwieten [jvan]
+0 !LDRAW_ORG Subpart UPDATE 1999-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 !HISTORY 1999-03-26 [PTadmin] Official Update 1999-02
+0 !HISTORY 2007-10-08 [PTadmin] Header formatted for Contributor Agreement
+0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01
+
+ 4 16 -6 16 -10 -6 14 -10 6 14 -10 6 16 -10
+ 4 16 4 18.5 -10 2 18.5 -10 2 16 -10 4 16 -10
+ 4 16 2 14 -10 2 7.5 -10 4 5 -10 4 14 -10
+ 4 16 -3.5 14 -10 2 7.5 -10 4 5 -10 1.5 5 -10
+ 3 16 -3.5 14 -10 1.5 5 -10 -6 14 -10
+0

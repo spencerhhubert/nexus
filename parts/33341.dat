@@ -1,0 +1,14 @@
+0 =Container  4 x  6 x  1.667 Lid
+0 Name: 33341.dat
+0 Author: Rolf Osterthun [Rolf]
+0 !LDRAW_ORG Part Alias UPDATE 2013-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2013-12-23 [PTadmin] Official Update 2013-02
+
+0 // Alias of 4238
+0 // Part 33341 is the opaque counterpart of 4238
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 4238.dat

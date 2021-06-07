@@ -1,0 +1,15 @@
+0 Technic Flex-System Hose  6L (120LDU)
+0 Name: 76279.dat
+0 Author: William Howard [WilliamH]
+0 !LDRAW_ORG Part UPDATE 2011-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+0 !KEYWORDS bar, tube
+
+0 !HISTORY 2011-12-21 [cwdee] Reworked subparting technique
+0 !HISTORY 2011-12-29 [PTadmin] Official Update 2011-02
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 u9053.dat
+1 16 0 1 0 1 0 0 0 118 0 0 0 1 77.dat
+1 16 0 120 0 1 0 0 0 -1 0 0 0 1 u9053.dat

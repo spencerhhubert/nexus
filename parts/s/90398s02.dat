@@ -1,0 +1,18 @@
+0 ~Minifig Statuette Head without Face
+0 Name: s\90398s02.dat
+0 Author: Magnus Forsberg [MagFors]
+0 !LDRAW_ORG Subpart UPDATE 2020-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2020-06-28 [PTadmin] Official Update 2020-01
+
+0 // head
+1 16 0 -38.2861 .3 1.83927 0 0 0 1.22617 0 0 0 1.83927 4-4cylc.dat
+1 16 0 -37.0595 .3 .61309 0 0 0 1 0 0 0 .61309 4-4ring3.dat
+1 16 0 -35.833 .3 0 0 2.45234 0 -1.96187 0 2.45234 0 0 t04o6250.dat
+1 16 0 -35.833 .3 -2.45234 0 0 0 -1.96187 0 0 0 2.45234 t04o6250.dat
+1 16 0 -35.833 .3 3.98506 0 0 0 3.98506 0 0 0 3.98506 2-4cyli.dat
+1 16 0 -31.8486 .3 0 0 -2.45234 0 1.96187 0 2.45234 0 0 t04o6250.dat
+1 16 0 -31.8486 .3 2.45234 0 0 0 1.96187 0 0 0 2.45234 t04o6250.dat

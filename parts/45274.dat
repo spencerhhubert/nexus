@@ -1,0 +1,17 @@
+0 Technic Shield  5 x  5 with Carved Metal Blade
+0 Name: 45274.dat
+0 Author: Santeri Piippo [arezey]
+0 !LDRAW_ORG Part UPDATE 2014-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Bionicle, Gahlok-Kal, 8578
+
+0 !HISTORY 2014-12-23 [PTadmin] Official Update 2014-02
+
+1 16 0 -10 40 1 0 0 0 1 0 0 0 1 connhole.dat
+1 16 0 -20 40 9 0 0 0 17 0 0 0 9 2-4cylo.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\45274s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\45274s01.dat
+1 16 0 0 0 1 0 0 0 20 0 0 0 1 axle.dat

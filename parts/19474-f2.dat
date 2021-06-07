@@ -1,0 +1,14 @@
+0 Technic Pneumatic Valve with Axle Hole (Down Position)
+0 Name: 19474-f2.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Shortcut UPDATE 2019-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2019-12-27 [PTadmin] Official Update 2019-03
+
+1 16 0 0 0 1 0 0 0 0 -1 0 1 0 u9417.dat
+1 16 10 0 0 1 0 0 0 0 -1 0 1 0 u9416.dat
+1 72 -10 0 0 1 0 0 0 0 -1 0 1 0 u9418.dat
+1 0 0 0 0 -1 0 0 0 -0.5 0.86603 0 0.86603 0.5 u9419.dat

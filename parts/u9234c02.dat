@@ -1,0 +1,14 @@
+0 Train Track 12V Tapered Point Right Electric (Branching)
+0 Name: u9234c02.dat
+0 Author: Steffen [Steffen]
+0 !LDRAW_ORG Shortcut UPDATE 2012-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+
+0 !CMDLINE -c1
+
+0 !HISTORY 2012-03-30 [PTadmin] Official Update 2012-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 u9234c00.dat
+1 15 -240 -56 -180 0 0 1 0 1 0 -1 0 0 3245ap01.dat

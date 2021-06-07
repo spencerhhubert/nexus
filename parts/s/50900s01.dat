@@ -1,0 +1,24 @@
+0 ~Technic Bionicle Rhotuka Spinner Ripcord 12L Tooth
+0 Name: s\50900s01.dat
+0 Author: Michael Heidemann [mikeheide]
+0 !LDRAW_ORG Subpart UPDATE 2013-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2013-07-21 [PTadmin] Official Update 2013-01
+
+2 24 0 0 0 6.5 0 0
+2 24 0 0 2.5 6.5 0 2.5
+2 24 0 -3 1.25 6.5 -3 1.25
+2 24 0 -3 1.25 0 0 2.5
+2 24 0 -3 1.25 0 0 0
+2 24 6.5 -3 1.25 6.5 0 2.5
+2 24 6.5 -3 1.25 6.5 0 0
+2 24 0 0 0 0 0 2.5
+2 24 6.5 0 0 6.5 0 2.5
+3 16 6.5 -3 1.25 6.5 0 0 6.5 0 2.5
+3 16 0 0 2.5 0 0 0 0 -3 1.25
+4 16 6.5 -3 1.25 6.5 0 2.5 0 0 2.5 0 -3 1.25
+4 16 0 -3 1.25 0 0 0 6.5 0 0 6.5 -3 1.25
+0

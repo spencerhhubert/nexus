@@ -1,0 +1,20 @@
+0 ~Electric Mindstorms EV3 Rechargeable Battery Positive Terminal
+0 Name: 56554.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2013-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2013-12-23 [PTadmin] Official Update 2013-02
+
+1 16 0 0 -3.3 -2.5 0 0 0 0 -2.5 0 -1.8 0 4-4cylc.dat
+1 16 0 0 -5.1 -7 0 0 0 0 7 0 -1.5 0 4-4cylc.dat
+1 16 0 0 -6.6 -7 0 0 0 0 7 0 1 0 4-4disc.dat
+1 16 0 0 -6.6 -5 0 0 0 0 5 0 -8 0 4-4cyli.dat
+1 16 0 0 -6.6 -5 0 0 0 0 5 0 -1 0 4-4edge.dat
+1 16 0 0 -14.6 -2.5 0 0 0 0 2.5 0 -2.5 0 r04o1000.dat
+1 16 0 0 -14.6 0 0 2.5 2.5 0 0 0 -2.5 0 r04o1000.dat
+1 16 0 0 -14.6 2.5 0 0 0 0 -2.5 0 -2.5 0 r04o1000.dat
+1 16 0 0 -14.6 0 0 -2.5 -2.5 0 0 0 -2.5 0 r04o1000.dat
+1 16 0 0 -17.1 -2.5 0 0 0 0 2.5 0 1 0 4-4disc.dat

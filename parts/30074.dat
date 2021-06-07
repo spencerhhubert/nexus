@@ -1,0 +1,29 @@
+0 Door  1 x  6 x  8 Right with Window
+0 Name: 30074.dat
+0 Author: Shimpei Ohsumi [Shimpei-Ohsumi]
+0 !LDRAW_ORG Part UPDATE 2020-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2010-03-28 [mikeheide] used subpart to avoid stud logo mirrored
+0 !HISTORY 2010-12-31 [PTadmin] Official Update 2010-03
+0 !HISTORY 2020-10-03 [UR] Open Stud,Stud Orientation, T-Junctions
+0 !HISTORY 2020-12-29 [PTadmin] Official Update 2020-03
+
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\30073s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 -1 stud2.dat
+4 16 -10 8 102 -10 8 3 -10 0 0 -10 0 110
+3 16 -10 8 3 -10 8 0 -10 0 0
+3 16 -10 0 110 -10 8 105 -10 8 102
+4 16 -10 192 0 -10 126 99 -10 126 102 -10 192 110
+4 16 -10 96 0 -10 102 99 -10 126 99 -10 192 0
+3 16 -10 102 102 -10 102 99 -10 96 102
+4 16 -10 96 102 -10 96 105 -10 102 105 -10 102 102
+3 16 -10 102 99 -10 96 0 -10 96 102
+3 16 -10 126 102 -10 126 105 -10 192 110
+4 16 -10 192 110 -10 126 105 -10 11 105 -10 0 110
+3 16 -10 8 105 -10 0 110 -10 11 105
+
+
+

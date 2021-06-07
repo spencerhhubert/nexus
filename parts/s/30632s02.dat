@@ -1,0 +1,33 @@
+0 ~Technic Grille  6 x  4 x  3 with  2 Pins and  2 Pin Holes - Inner Bar
+0 Name: s\30632s02.dat
+0 Author: Kevin Roach [KROACH]
+0 !LDRAW_ORG Subpart UPDATE 2020-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2018-01-07 [MagFors] reduced resolution, reoriented
+0 !HISTORY 2020-06-28 [PTadmin] Official Update 2020-01
+
+1 16 -14 0 0 0 28 0 -1.53073 0 -3.69552 3.69552 0 -1.53073 7-8cyli.dat
+1 16 -3.4 0 0 0 6.8 0 -1.53073 0 3.69552 3.69552 0 1.53073 1-8cyli.dat
+1 16 3.4 0 0 0 1 0 1.531 0 -3.695 3.695 0 1.531 1-8edge.dat
+1 16 3.4 0 0 0 -1 0 -1.531 0 3.695 3.695 0 1.531 1-8chrd.dat
+1 16 3.4 0 1.848 0 -1 0 0 0 1.531 1.848 0 0 rect2p.dat
+1 16 3.4 0 0 0 -1 0 1.531 0 0 0 0 -1.531 2-4chrd.dat
+1 16 3.4 0 0 0 1 0 -1.531 0 0 0 0 -1.531 2-4edge.dat
+1 16 -3.4 0 0 0 1 0 1.531 0 -3.695 3.695 0 1.531 1-8edge.dat
+1 16 -3.4 0 0 0 1 0 1.531 0 -3.695 3.695 0 1.531 1-8chrd.dat
+1 16 -3.4 0 1.848 0 1 0 0 0 -1.531 1.848 0 0 rect2p.dat
+1 16 -3.4 0 0 0 1 0 -1.531 0 0 0 0 -1.531 2-4chrd.dat
+1 16 -3.4 0 0 0 1 0 -1.531 0 0 0 0 -1.531 2-4edge.dat
+0 BFC INVERTNEXT
+1 16 14 0 0 0 -10.6 0 -1.53125 0 0 0 0 -1.53125 2-4cyli.dat
+0 BFC INVERTNEXT
+1 16 -14 0 0 0 10.6 0 1.53125 0 0 0 0 -1.53125 2-4cyli.dat
+1 16 8.7 -1.531 1.848 0 0 5.3 0 -1 0 1.848 0 0 rect1.dat
+1 16 8.7 0 -1.4147 0 0 -5.3 0.5859 0 0 0 -1 0 rect3.dat
+1 16 8.7 1.5313 1.848 0 0 -5.3 0 1 0 1.848 0 0 rect1.dat
+1 16 -8.7 -1.531 1.848 0 0 -5.3 0 -1 0 1.848 0 0 rect1.dat
+1 16 -8.7 0 -1.4147 0 0 5.3 0.5859 0 0 0 -1 0 rect3.dat
+1 16 -8.7 1.5313 1.848 0 0 5.3 0 1 0 1.848 0 0 rect1.dat

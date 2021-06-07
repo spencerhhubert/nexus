@@ -1,0 +1,15 @@
+0 Tap  1 x  2 with Light Grey Spout
+0 Name: 3496c01.dat
+0 Author: Tore Eriksson [Tore_Eriksson]
+0 !LDRAW_ORG Part UPDATE 2016-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+
+0 !KEYWORDS faucet, spigot, sink, town, belville, minifig, kitchen, bathroom
+
+0 !HISTORY 2016-09-22 [Holly-Wood] Moved origin of 3278.dat
+0 !HISTORY 2016-12-31 [PTadmin] Official Update 2016-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 3496.dat
+1  7 0 0 0 1 0 0 0 1 0 0 0 1 3278.dat

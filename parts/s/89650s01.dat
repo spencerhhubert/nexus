@@ -1,0 +1,51 @@
+0 ~Constraction Ball Joint Socket with Open Axle Holes and Narrow Tip
+0 Name: s\89650s01.dat
+0 Author: Magnus Forsberg [MagFors]
+0 !LDRAW_ORG Subpart UPDATE 2018-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2016-04-16 {LEGO Digital Designer} Original part shape
+0 !HISTORY 2016-04-16 [MagFors] File preparation for LDraw Parts Tracker
+0 !HISTORY 2018-12-08 [PTadmin] Official Update 2018-02
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\89650s02.dat
+1 16 0 0 0 1 0 0 0 -1 0 0 0 1 s\89650s02.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\89650s02.dat
+1 16 0 0 0 -1 0 0 0 -1 0 0 0 1 s\89650s02.dat
+
+1 16 10.85 0 0 0 1 0 0 0 -6 -6 0 0 4-4edge.dat
+0 BFC INVERTNEXT
+1 16 10.85 0 0 0 2.675 0 0 0 -6 -6 0 0 4-4cyli.dat
+1 16 13.525 0 0 0 1 0 6 0 0 0 0 -6 2-4edge.dat
+0 BFC INVERTNEXT
+1 16 13.525 0 0 0 3.15 0 -6 0 0 0 0 6 2-4cyli.dat
+1 16 16.675 0 0 0 1 0 -4.24264 0 4.24264 4.24264 0 4.24264 1-4edge.dat
+0 BFC INVERTNEXT
+1 16 16.675 0 0 0 .85 0 4.24264 0 -4.24264 4.24264 0 4.24264 1-8cyls2.dat
+1 16 16.675 0 0 0 1 .85 -4.24264 0 -4.24264 4.24264 0 -4.24264 1-8edge.dat
+0 BFC INVERTNEXT
+1 16 16.675 0 0 0 .85 0 -4.24264 0 4.24264 4.24264 0 4.24264 1-8cyls2.dat
+1 16 16.675 0 0 0 1 .85 4.24264 0 4.24264 4.24264 0 -4.24264 1-8edge.dat
+
+1 16 -10.85 0 0 0 -1 0 0 0 6 -6 0 0 4-4edge.dat
+0 BFC INVERTNEXT
+1 16 -10.85 0 0 0 -2.675 0 0 0 6 -6 0 0 4-4cyli.dat
+1 16 -13.525 0 0 0 1 0 6 0 0 0 0 -6 2-4edge.dat
+0 BFC INVERTNEXT
+1 16 -13.525 0 0 0 -3.15 0 6 0 0 0 0 6 2-4cyli.dat
+1 16 -16.675 0 0 0 -1 0 4.24264 0 -4.24264 4.24264 0 4.24264 1-4edge.dat
+0 BFC INVERTNEXT
+1 16 -16.675 0 0 0 -.85 0 -4.24264 0 4.24264 4.24264 0 4.24264 1-8cyls2.dat
+1 16 -16.675 0 0 0 -1 -.85 4.24264 0 4.24264 4.24264 0 -4.24264 1-8edge.dat
+0 BFC INVERTNEXT
+1 16 -16.675 0 0 0 -.85 0 4.24264 0 -4.24264 4.24264 0 4.24264 1-8cyls2.dat
+1 16 -16.675 0 0 0 -1 -.85 -4.24264 0 -4.24264 4.24264 0 -4.24264 1-8edge.dat
+
+1 16 20 0 -20 0 -19.5 0 1 0 0 0 0 1 axlehol4.dat
+1 16 .5 0 -20 0 -1 0 0 0 -2 2 0 0 4-4ring2.dat
+0 BFC INVERTNEXT
+1 16 .5 0 -20 0 -1 0 4 0 0 0 0 4 4-4cylo.dat
+1 16 -.5 0 -20 0 1 0 0 0 -2 2 0 0 4-4ring2.dat
+1 16 -20 0 -20 0 19.5 0 -1 0 0 0 0 1 axlehol4.dat

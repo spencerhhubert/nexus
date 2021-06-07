@@ -1,0 +1,33 @@
+0 Minifig Paint Roller Brush Handle
+0 Name: 12885.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2013-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 !HELP Roller position:
+0 !HELP 1 1 9 -45 0 0 -1 0 -1 0 0 0 0 -1 3062b.dat
+
+0 BFC CERTIFY CCW
+
+0 !CATEGORY Minifig Accessory
+0 !KEYWORDS Decorator, Series 10
+
+0 !HISTORY 2013-12-23 [PTadmin] Official Update 2013-02
+
+1 16 0 0 0 4 0 0 0 -21 0 0 0 4 4-4cylc.dat
+1 16 0 -21 0 1 0 0 0 -2 0 0 0 1 4-4con3.dat
+1 16 0 -23 0 0.5 0 0 0 -1 0 0 0 0.5 4-4con5.dat
+1 16 0 -24 0 2.5 0 0 0 1 0 0 0 2.5 4-4edge.dat
+1 16 0 -24.5 0 2.5 0 0 0 0.5 0 0 0 2.5 4-4cyli.dat
+1 16 3.333 -24.5 0 -3.33333 0 0 0 0 -2.9 0 -3.33333 0 t08q7500.dat
+1 16 3.333 -24.5 0 -2.35702 0 2.35702 -2.05061 0 -2.05061 0 -3.33333 0 t16q7500.dat
+1 16 19.149 -33.338 0 0.95671 -17.0918 0 2.00944 6.15929 0 0 0 2.5 4-4cyli.dat
+1 16 17.873 -36.019 0 1.27561 0 3.0796 2.67925 0 -1.10978 0 3.33333 0 t08q7500.dat
+1 16 17.873 -36.019 0 3.0796 0 1.27561 1.10978 0 -2.67925 0 3.33333 0 t16q7500.dat
+1 16 21.2063 -41.6667 0 2.5 0 0 0 5.64767 0 0 0 2.5 4-4cyli.dat
+1 16 17.873 -41.6667 0 3.33333 0 0 0 0 -3.33333 0 3.33333 0 t04q7500.dat
+1 16 16 -45 0 0 1.873 0 2.5 0 0 0 0 2.5 4-4cyli.dat
+1 16 16 -45 0 0 1 0 2.5 0 0 0 0 2.5 4-4edge.dat
+1 16 16 -45 0 0 -3 0 7 0 0 0 0 7 4-4cylc.dat
+1 16 13 -45 0 0 3 0 -7 0 0 0 0 7 4-4disc.dat
+1 16 -15.5 -45 0 0 28.5 0 4 0 0 0 0 4 4-4cylc.dat

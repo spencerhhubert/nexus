@@ -1,0 +1,16 @@
+0 ~_Minifig Feathers with Pin and Black Tip Pattern White (Obsolete)
+0 Name: 4107630.dat
+0 Author: [PTadmin]
+0 !LDRAW_ORG Part Physical_Colour UPDATE 2019-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2011-12-29 [PTadmin] Official Update 2011-02
+0 !HISTORY 2019-07-26 [Holly-Wood] Obsoleted per decision not to include physical colour parts
+0 !HISTORY 2019-09-09 [PTadmin] Official Update 2019-02
+
+0 // This file is a "shortcut" with the correct number for the actual
+0 // colouring of the part (White).
+
+1 15 0 0 0 1 0 0 0 1 0 0 0 1 30126p01.dat

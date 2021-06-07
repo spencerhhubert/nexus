@@ -1,0 +1,19 @@
+0 Figure Elves Hair Long Wavy with Ears
+0 Name: 19204.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2017-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 !HELP Top accessory position: Y = -10.5 Z = 1
+
+0 BFC CERTIFY CCW
+
+0 !CATEGORY Minifig Headwear
+0 !KEYWORDS Friends, Azari Firedancer
+
+0 !HISTORY 2017-12-30 [PTadmin] Official Update 2017-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\19204s01.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\19204s02.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\19204s03.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\19204s04.dat

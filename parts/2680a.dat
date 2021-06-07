@@ -1,0 +1,23 @@
+0 Support  4 x  4 x  5 Stanchion with Tall Studs
+0 Name: 2680a.dat
+0 Author: Steve Bliss [sbliss]
+0 !LDRAW_ORG Part UPDATE 2020-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS monorail, girder, stand, space, leg
+
+0 !HISTORY 1998-10-15 [PTadmin] Official Update 1998-09
+0 !HISTORY 1999-07-05 [PTadmin] Official Update 1999-05
+0 !HISTORY 2007-05-17 [PTadmin] Header formatted for Contributor Agreement
+0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01
+0 !HISTORY 2014-11-21 [roland]  Auto-corrected with libfix version of LDCad 1.4
+0 !HISTORY 2016-09-02 [theJudeAbides] BFC'd, reduced t-junctions, used more primitives
+0 !HISTORY 2017-01-02 [MagFors] Simplified bottom surface, used stud primitives
+0 !HISTORY 2017-12-30 [PTadmin] Official Update 2017-01
+0 !HISTORY 2019-02-10 [Gargan] Renamed from 2680 and subfiled for a and b versions
+0 !HISTORY 2020-06-28 [PTadmin] Official Update 2020-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\2680s01.dat
+1 16 0 0 0 1 0 0 0 2.25 0 0 0 1 stug2-2x2.dat

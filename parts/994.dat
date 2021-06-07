@@ -1,0 +1,27 @@
+0 ~Electric Cable 3LDU Twin End for Plug Twin
+0 Name: 994.dat
+0 Author: Michael Heidemann [mikeheide]
+0 !LDRAW_ORG Subpart UPDATE 2013-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2011-12-16 [Steffen] adjusted to modified origin of x993.dat
+0 !HISTORY 2013-07-21 [PTadmin] Official Update 2013-01
+0 !HISTORY 2013-09-16 [MMR1988] Added edges at tubes meeting area, adapted to new 993.dat
+0 !HISTORY 2013-12-23 [PTadmin] Official Update 2013-02
+
+1 16 0 -1 0 1 0 0 0 1 0 0 0 1 993.dat
+
+1 16 0 -1 -5.6352 0 4.25 0 -4.25 0 0 0 0 4.25 t04q3529.dat
+1 16 0 -5.25 -5.6352 1.5 0 0 0 -0.002944 1.5 0 -0.0148 0 4-4cyli.dat
+1 16 0 -9.502944 -5.65 0 -4.25 0 0 0 4.25 -4.25 0 0 t04q3529.dat
+1 16 0 -9.502944 -9.9 1.5 0 0 0 -3.997056 0 0 0 -1.5 4-4cyli.dat
+
+1 16 0 -1 5.6352 0 4.25 0 -4.25 0 0 0 0 -4.25 t04q3529.dat
+1 16 0 -5.25 5.6352 1.5 0 0 0 -0.002944 1.5 0 0.0148 0 4-4cyli.dat
+1 16 0 -9.502944 5.65 0 -4.25 0 0 0 4.25 4.25 0 0 t04q3529.dat
+1 16 0 -9.502944 9.9 1.5 0 0 0 -3.997056 0 0 0 1.5 4-4cyli.dat
+
+2 24 -0.57403 -1 0 0 -1.57714 0
+2 24 0 -1.57714 0 0.57403 -1 0

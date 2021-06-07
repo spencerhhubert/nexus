@@ -1,0 +1,35 @@
+0 Electric Mindstorms NXT (Complete)
+0 Name: 53788.dat
+0 Author: Kevin Clague [kclague]
+0 !LDRAW_ORG Shortcut UPDATE 2011-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2007-12-30 [Philo] Complete redesign, use stone colors
+0 !HISTORY 2009-05-21 [Philo] Changed cover to main color
+0 !HISTORY 2011-07-25 [PTadmin] Official Update 2011-01
+
+0 // Battery Lid - Dark Stone
+
+
+
+1 72 0 0 0 1 0 0 0 1 0 0 0 1 54708.dat
+0 // Battery Case - Dark Stone
+1 72 0 0 0 1 0 0 0 1 0 0 0 1 53791.dat
+0 // Sensor Sockets Cover - Dark Stone
+1 72 0 0 0 1 0 0 0 1 0 0 0 1 54713.dat
+0 // Motor Sockets / USB Cover - Dark Stone
+1 72 0 0 0 1 0 0 0 1 0 0 0 1 54712.dat
+0 // Top Cover - Main Color
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 53790.dat
+0 // RJ Style Sockets - Grey
+1 7 57 -60 -121 -1 0 0 0 -1 0 0 0 1 54732.dat
+1 7 19 -60 -121 -1 0 0 0 -1 0 0 0 1 54732.dat
+1 7 -19 -60 -121 -1 0 0 0 -1 0 0 0 1 54732.dat
+1 7 -57 -60 -121 -1 0 0 0 -1 0 0 0 1 54732.dat
+1 7 -57 -60 121 1 0 0 0 -1 0 0 0 -1 54732.dat
+1 7 -19 -60 121 1 0 0 0 -1 0 0 0 -1 54732.dat
+1 7 19 -60 121 1 0 0 0 -1 0 0 0 -1 54732.dat
+0 // USB Socket - Black
+1 0 57 -56 139 1 0 0 0 -1 0 0 0 -1 935.dat

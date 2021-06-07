@@ -1,0 +1,33 @@
+0 Brick  2 x  4 x  2 with Tail
+0 Name: 4612.dat
+0 Author: Alex Taylor [anathema]
+0 !LDRAW_ORG Part UPDATE 2012-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Fabuland, aeroplane, airplane, plane
+
+0 !HISTORY 2012-12-28 [PTadmin] Official Update 2012-03
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\4612s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\4612s01.dat
+1 16 0 4 0 1 0 0 0 -11 0 0 0 -1 stud4.dat
+1 16 0 4 -8 0 0 -1 0 34 0 1 0 0 boxjcyl4.dat
+1 16 0 4 8 0 0 1 0 34 0 -1 0 0 boxjcyl4.dat
+1 16 0 4 12 0 0 1 0 34 0 -4 0 0 box3u5p.dat
+1 16 0 4 -12 0 0 -1 0 34 0 4 0 0 box3u5p.dat
+1 16 0 0 0 0 0 -1 0 1 0 1 0 0 stug-2x2.dat
+1 16 40 16 80 0 0 -1 0 1 0 1 0 0 stug-2x2.dat
+1 16 -40 16 80 0 0 -1 0 1 0 1 0 0 stug-2x2.dat
+1 16 -10 0 28 0 0 -1 0 1 0 1 0 0 stud.dat
+1 16 10 0 28 0 0 -1 0 1 0 1 0 0 stud.dat
+1 16 -2.5 -14 88 0 5 0 0 0 -30 24 0 0 48\3-8cyli.dat
+1 16 2.5 20 88 0 -5 0 0 0 34 24 0 0 48\7-24cyli.dat
+0 BFC INVERTNEXT
+1 16 -2.5 -36 40 0 5 0 36 0 0 0 0 22 48\5-48cyli.dat
+4 16 2.5 -7.43928 53.3927 2.5 -35.2132 71.0294 -2.5 -35.2132 71.0294 -2.5 -7.43928 53.3927
+4 16 2.5 -14 112 2.5 20 112 -2.5 20 112 -2.5 -14 112
+4 16 -2.5 52.8415 81.7883 2.5 52.8415 81.7883 2.5 36 40 -2.5 36 40
+2 24 2.5 36 40 -2.5 36 40
+4 16 2.5 36 40 2.5 36 20 -2.5 36 20 -2.5 36 40

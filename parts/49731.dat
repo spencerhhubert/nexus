@@ -1,0 +1,19 @@
+0 Technic Pin 1/2 with Button
+0 Name: 49731.dat
+0 Author: Magnus Forsberg [MagFors]
+0 !LDRAW_ORG Part UPDATE 2019-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2019-09-09 [PTadmin] Official Update 2019-02
+
+1 16 0 0 0 0 1 0 0 0 -1 -1 0 0 connect8.dat
+1 16 0 0 0 0 1 0 0 0 -8 -8 0 0 4-4cyli.dat
+1 16 1 0 0 0 1 0 0 0 -8 -8 0 0 4-4edge.dat
+1 16 1 0 0 0 -1 0 0 0 -2 -2 0 0 4-4ring3.dat
+1 16 1 0 0 0 5 0 0 0 -6 -6 0 0 4-4cylo.dat
+1 16 6 0 0 0 1 0 0 0 -2 -2 0 0 4-4ring3.dat
+1 16 6 0 0 0 1 0 0 0 -2 -2 0 0 4-4ring4.dat
+1 16 6 0 0 0 2 0 0 0 -10 -10 0 0 4-4cylo.dat
+1 16 8 0 0 0 -4 0 0 0 -10 -10 0 0 bump5000.dat 

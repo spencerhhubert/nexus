@@ -1,0 +1,51 @@
+0 Baseplate 16 x 16 Driveway
+0 Name: 51595.dat
+0 Author: Ross Crawford [rosco]
+0 !LDRAW_ORG Part UPDATE 2010-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+
+0 !HISTORY 2002-08-18 [PTadmin] Official Update 2002-04
+0 !HISTORY 2004-09-15 [PTadmin] Official Update 2004-03
+0 !HISTORY 2007-06-07 [PTadmin] Header formatted for Contributor Agreement
+0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01
+0 !HISTORY 2010-09-12 [PTadmin] Renamed from 30225
+0 !HISTORY 2010-11-22 [Steffen] BFCed, subfiled, used stug
+0 !HISTORY 2010-12-31 [PTadmin] Official Update 2010-03
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\51595s01.dat
+
+1 16 156 0 156 4 0 0 0 1 0 0 0 4 1-4disc.dat
+4 16 156 0 160 156 0 156 -156 0 156 -156 0 160
+1 16 -156 0 156 -4 0 0 0 1 0 0 0 4 1-4disc.dat
+4 16 -156 0 -156 -160 0 -156 -160 0 156 -156 0 156
+1 16 -156 0 -156 -4 0 0 0 1 0 0 0 -4 1-4disc.dat
+4 16 -156 0 -160 -156 0 -156 156 0 -156 156 0 -160
+1 16 156 0 -156 4 0 0 0 1 0 0 0 -4 1-4disc.dat
+4 16 160 0 -156 156 0 -156 156 0 156 160 0 156
+4 16 156 0 -156 -156 0 -156 -156 0 156 156 0 156
+1 16 -90 0 -90 1 0 0 0 1 0 0 0 1 stug7.dat
+1 16 50 0 -90 1 0 0 0 1 0 0 0 1 stug7.dat
+1 16 140 0 -140 1 0 0 0 1 0 0 0 1 stug2.dat
+1 16 140 0 -100 1 0 0 0 1 0 0 0 1 stug2.dat
+1 16 140 0 -60 1 0 0 0 1 0 0 0 1 stug2.dat
+1 16 130 0 -30 1 0 0 0 1 0 0 0 1 stud.dat
+1 16 150 0 -30 1 0 0 0 1 0 0 0 1 stud.dat
+1 16 150 0 150 1 0 0 0 1 0 0 0 1 stud.dat
+1 16 130 0 150 1 0 0 0 1 0 0 0 1 stud.dat
+1 16 110 0 150 1 0 0 0 1 0 0 0 1 stud.dat
+1 16 90 0 150 1 0 0 0 1 0 0 0 1 stud.dat
+1 16 70 0 150 1 0 0 0 1 0 0 0 1 stud.dat
+1 16 50 0 150 1 0 0 0 1 0 0 0 1 stud.dat
+1 16 30 0 150 1 0 0 0 1 0 0 0 1 stud.dat
+1 16 10 0 150 1 0 0 0 1 0 0 0 1 stud.dat
+1 16 -10 0 150 1 0 0 0 1 0 0 0 1 stud.dat
+1 16 -30 0 150 1 0 0 0 1 0 0 0 1 stud.dat
+1 16 -50 0 150 1 0 0 0 1 0 0 0 1 stud.dat
+1 16 -70 0 150 1 0 0 0 1 0 0 0 1 stud.dat
+1 16 -90 0 150 1 0 0 0 1 0 0 0 1 stud.dat
+1 16 -110 0 150 1 0 0 0 1 0 0 0 1 stud.dat
+1 16 -130 0 150 1 0 0 0 1 0 0 0 1 stud.dat
+1 16 -150 0 150 1 0 0 0 1 0 0 0 1 stud.dat
+

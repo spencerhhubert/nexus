@@ -1,0 +1,20 @@
+0 Technic Gear Rack  1 x  7 with Pegholes and Axleholes
+0 Name: 87761.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2010-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2010-03-28 [arezey] Fixed intersections
+0 !HISTORY 2010-04-05 [PTadmin] Official Update 2010-01
+
+1 16 0 0 0 0 0 1 0 1 0 -1 0 0 s\64781s02.dat
+1 16 -8 0 0 0 0 1 0 1 0 -1 0 0 s\64781s02.dat
+1 16 -16 0 0 0 0 1 0 1 0 -1 0 0 s\64781s02.dat
+1 16 24 0 0 0 0 1 0 1 0 -1 0 0 s\64781s02.dat
+1 16 16 0 0 0 0 1 0 1 0 -1 0 0 s\64781s02.dat
+1 16 8 0 0 0 0 1 0 1 0 -1 0 0 s\64781s02.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\87761s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\87761s01.dat
+0 //

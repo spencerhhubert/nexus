@@ -1,0 +1,24 @@
+0 ~Electric Powered Up Colour Sensor Inner Ring
+0 Name: u9404.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2020-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Spike Prime, Mindstorms, Robot Inventor
+
+0 !HISTORY 2019-06-28 [PTadmin] Official Update 2019-01
+0 !HISTORY 2020-12-27 [PTadmin] Update description
+0 !HISTORY 2020-12-29 [PTadmin] Official Update 2020-03
+
+0 BFC INVERTNEXT
+1 16 0 0 0 7.8 0 0 0 0 7.8 0 -6 0 4-4cylo.dat
+1 16 0 0 -6 0.975 0 0 0 0 0.975 0 6 0 4-4ring8.dat
+0 BFC INVERTNEXT
+1 16 0 0 -8 2.19375 0 0 0 0 2.19375 0 1 0 4-4con4.dat
+1 16 0 0 0 10.96875 0 0 0 0 10.96875 0 -8 0 4-4cylo.dat
+0 BFC INVERTNEXT
+1 16 0 0 -7 8.775 0 0 0 0 8.775 0 1 0 4-4cylo.dat
+1 16 0 0 0 0.975 0 0 0 0 0.975 0 -6 0 4-4ring8.dat
+1 16 0 0 0 2.19375 0 0 0 0 2.19375 0 -1 0 4-4ring4.dat

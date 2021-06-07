@@ -1,0 +1,18 @@
+0 ~Electric Technic Motor Back
+0 Name: u9376.dat
+0 Author: Jens Bauer [rockford]
+0 !LDRAW_ORG Part UPDATE 2020-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2020-12-29 [PTadmin] Official Update 2020-03
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\u9373s01.dat
+4 16 4 16 40 4 16 56 -4 16 56 -4 16 40
+2 24 -4 16 40 4 16 40
+4 16 -6 19 46 -6 19 54 6 19 54 6 19 46
+4 16 -4 19 40 -6 19 46 6 19 46 4 19 40
+4 16 -4 29 56 4 29 56 4 21 56 -4 21 56
+4 16 4 29 60 -4 29 60 -4 21 60 4 21 60
+0

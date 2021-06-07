@@ -1,0 +1,31 @@
+0 Wedge  2 x  6 Double Inverted Right
+0 Name: 41764.dat
+0 Author: Franklin W. Cain [fwcain]
+0 !LDRAW_ORG Part UPDATE 2014-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+0 !KEYWORDS curved, rounded, slope, Star Wars, Alpha Team
+
+0 !HISTORY 2004-04-22 [PTadmin] Official Update 2004-02
+0 !HISTORY 2007-07-04 [PTadmin] Header formatted for Contributor Agreement
+0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01
+0 !HISTORY 2010-01-16 [Eldar] Add BFC
+0 !HISTORY 2010-08-04 [Steffen] moved studs to parent part
+0 !HISTORY 2014-06-21 [PTadmin] Official Update 2014-01
+
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\41765s01.dat
+1 16 10 0 -10 1 0 0 0 1 0 0 0 1 stud.dat
+1 16 10 0 10 1 0 0 0 1 0 0 0 1 stud.dat
+1 16 10 0 30 1 0 0 0 1 0 0 0 1 stud.dat
+1 16 10 0 50 1 0 0 0 1 0 0 0 1 stud.dat
+4 16 0 24 20 -20 4 20 -20 4 60 0 24 60
+3 16 -15 4 0 -20 4 20 0 24 20
+3 16 -10 4 -20 -15 4 0 0 22 0
+3 16 -5 4 -40 -10 4 -20 0 18 -20
+3 16 0 4 -60 -5 4 -40 0 12 -40
+3 16 0 24 20 0 22 0 -15 4 0
+3 16 0 22 0 0 18 -20 -10 4 -20
+3 16 0 18 -20 0 12 -40 -5 4 -40
+4 16 20 18 -20 20 12 -40 0 12 -40 0 18 -20
+4 16 20 12 -40 20 4 -60 0 4 -60 0 12 -40

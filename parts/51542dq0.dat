@@ -1,0 +1,19 @@
+0 Baseplate 32 x 48 Raised with Level Front with Wall and Hieroglyphs, Horus and Anubis Stickers
+0 Name: 51542dq0.dat
+0 Author: Christian Neumann [Wesley]
+0 !LDRAW_ORG Part UPDATE 2016-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Pharaoh's Quest, Set 7327
+0 !CMDLINE -c28
+
+0 !HISTORY 2016-12-31 [PTadmin] Official Update 2016-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 51542.dat
+1 16 -400 -35.65 -268.986 1 0 0 0 0.26764 -0.96352 0 0.96352 0.26764 4613908a.dat
+1 16 428.986 -35.65 -158.82 0 -0.96352 -0.26764 0 0.26764 -0.96352 1 0 0 4613908b.dat
+1 16 280 -35.65 -268.986 1 0 0 0 0.26764 -0.96352 0 0.96352 0.26764 4613908c.dat
+1 16 -300 -56.37 -63.23 1 0 0 0 0.26764 -0.96352 0 0.96352 0.26764 4613908d.dat
+1 16 -220 -56.37 -63.23 1 0 0 0 0.26764 -0.96352 0 0.96352 0.26764 4613908e.dat

@@ -1,0 +1,24 @@
+0 ~Train Track Rail Straight 4 Teeth
+0 Name: s\3228s01.dat
+0 Author: Tore Eriksson [Tore_Eriksson]
+0 !LDRAW_ORG Subpart UPDATE 2010-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+
+0 !HISTORY 2003-07-31 [Steffen] Made use of primitives, subfiled for file size reduction
+0 !HISTORY 2010-04-05 [PTadmin] Official Update 2010-01
+
+1 16 -3.75 1.001 0 0 -0.625 0.625 0 -0.5 -0.5 2 0 0 box2-5.dat
+1 16 -1.25 1.001 0 0 -0.625 0.625 0 -0.5 -0.5 2 0 0 box2-5.dat
+1 16 1.25 1.001 0 0 -0.625 0.625 0 -0.5 -0.5 2 0 0 box2-5.dat
+1 16 3.75 1.001 0 0 -0.625 0.625 0 -0.5 -0.5 2 0 0 box2-5.dat
+3 16 0 1 2 2.5 1 2 1.25 0 2
+3 16 2.5 1 2 5 1 2 3.75 0 2
+3 16 2.5 1 -2 0 1 -2 1.25 0 -2
+3 16 5 1 -2 2.5 1 -2 3.75 0 -2
+3 16 -2.5 1 2 0 1 2 -1.25 0 2
+3 16 0 1 -2 -2.5 1 -2 -1.25 0 -2
+3 16 -5 1 2 -2.5 1 2 -3.75 0 2
+3 16 -2.5 1 -2 -5 1 -2 -3.75 0 -2
+0

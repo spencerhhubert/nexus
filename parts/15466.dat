@@ -1,0 +1,16 @@
+0 ~Electric Brick  2 x  4 with USB Flash Drive - Bottom Plate
+0 Name: 15466.dat
+0 Author: Santeri Piippo [arezey]
+0 !LDRAW_ORG Part UPDATE 2016-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2016-12-31 [PTadmin] Official Update 2016-01
+
+0 // Interior is guesstimated
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\15466s01.dat
+3 16 -4 4 -27 -16 4 -36 -4 4 -23
+3 16 -16 4 36 -4 4 26 -4 4 22
+4 16 -16 4 -36 -16 4 36 -4 4 22 -4 4 -23

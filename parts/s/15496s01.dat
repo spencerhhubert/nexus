@@ -1,0 +1,22 @@
+0 ~Minifig Cup Takeaway Lid Structure
+0 Name: s\15496s01.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Subpart UPDATE 2019-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2019-06-28 [PTadmin] Official Update 2019-01
+
+1 16 0 -5 0 -1 0 0 0 -1.25 0 0 0 1 stud4a.dat
+0 BFC INVERTNEXT
+1 16 0 -5 0 6 0 0 0 -17 0 0 0 6 4-4cyli.dat
+1 16 0 -5 0 8 0 0 0 -1 0 0 0 8 4-4edge.dat
+1 16 0 -22 0 6 0 0 0 -1 0 0 0 6 4-4edge.dat
+1 16 0 -22 0 6 0 0 0 -1 0 0 0 6 4-4disc.dat
+1 16 0 -5 0 1 0 0 0 -1 0 0 0 1 4-4ring8.dat
+1 16 0 -5 0 9 0 0 0 1 0 0 0 9 4-4edge.dat
+
+1 16 0 -22 0 9.5 0 0 0 1 0 0 0 9.5 4-4edge.dat
+1 16 0 -22 0 0.25 0 0 0 -1 0 0 0 0.25 4-4rin38.dat
+1 16 0 -22 0 9.75 0 0 0 1 0 0 0 9.75 4-4edge.dat

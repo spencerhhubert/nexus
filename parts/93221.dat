@@ -1,0 +1,29 @@
+0 Minifig Boombox  1 x  3 x  1
+0 Name: 93221.dat
+0 Author: Massimo Maso [Sirio]
+0 !LDRAW_ORG Part UPDATE 2020-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !CATEGORY Minifig Accessory
+0 !KEYWORDS Ghetto Blaster
+
+0 !HISTORY 2013-08-14 {LEGO Digital Designer} Original part shape
+0 !HISTORY 2018-08-04 [Sirio] File preparation for LDraw Parts Tracker
+0 !HISTORY 2020-06-28 [PTadmin] Official Update 2020-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\93221s01.dat
+
+0 // Front face
+4 16 -30 2.5 -10 -9.375 4.75 -10 9.375 4.75 -10 30 2.5 -10
+3 16 -30 2.5 -10 -26.375 4.75 -10 -9.375 4.75 -10
+3 16 9.375 4.75 -10 26.375 4.75 -10 30 2.5 -10
+4 16 -30 24 -10 -26.375 21.75 -10 -26.375 4.75 -10 -30 2.5 -10
+1 16 -17.875 13.25 -10 8.5 0 0 0 0 -8.5 0 1 0 48\4-4ndis.dat
+4 16 9.375 21.75 -10 9.375 4.75 -10 -9.375 4.75 -10 -9.375 21.75 -10
+1 16 17.875 13.25 -10 8.5 0 0 0 0 -8.5 0 1 0 48\4-4ndis.dat
+4 16 30 2.5 -10 26.375 4.75 -10 26.375 21.75 -10 30 24 -10
+3 16 -9.375 21.75 -10 -26.375 21.75 -10 -30 24 -10
+3 16 30 24 -10 26.375 21.75 -10 9.375 21.75 -10
+4 16 30 24 -10 9.375 21.75 -10 -9.375 21.75 -10 -30 24 -10

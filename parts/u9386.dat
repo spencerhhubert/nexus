@@ -1,0 +1,15 @@
+0 Electric Technic Micromotor Axle
+0 Name: u9386.dat
+0 Author: Magnus Forsberg [MagFors]
+0 !LDRAW_ORG Part UPDATE 2019-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2019-12-27 [PTadmin] Official Update 2019-03
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 stud2.dat
+1 16 0 0 0 13.3333 0 0 0 1 0 0 0 13.3333 4-4disc.dat
+
+0 // assumed inside structure
+1 16 0 4 0 13.3333 0 0 0 -4 0 0 0 13.3333 4-4cylc.dat

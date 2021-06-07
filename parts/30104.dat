@@ -1,0 +1,45 @@
+0 Minifig Chain 17L with  17L Span Straight
+0 Name: 30104.dat
+0 Author: Matt Schild [mschild]
+0 !LDRAW_ORG Shortcut UPDATE 2018-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !CATEGORY Minifig Accessory
+0 !KEYWORDS 21 links
+
+0 !HISTORY 2003-11-29 [Steffen] BFCed
+0 !HISTORY 2003-12-19 [PTadmin] Official Update 2003-03
+0 !HISTORY 2007-05-04 [PTadmin] Header formatted for Contributor Agreement
+0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01
+0 !HISTORY 2008-07-07 [Steffen] BFCed (2003-11-29)
+0 !HISTORY 2008-07-08 [sbliss] Corrected overall size, number (21) and positions of links (2005-03-17)
+0 !HISTORY 2008-07-09 [PTadmin] Renamed from 208c01 (2007-10-10)
+0 !HISTORY 2010-07-05 [PTadmin] Official Update 2010-02
+0 !HISTORY 2017-09-15 [Philo] Added keyword, updated for a 16L version
+0 !HISTORY 2018-12-08 [PTadmin] Official Update 2018-02
+
+1 16 0 0 320 -1 0 0 0 1 0 0 0 -1 30104k01.dat
+1 16 0 1.5 300.84 0 0 1 1 0 0 0 1 0 30104k02.dat
+1 16 0 1.5 287.207 -1 0 0 0 0 1 0 1 0 30104k02.dat
+1 16 0 1.5 273.574 0 0 1 1 0 0 0 1 0 30104k02.dat
+1 16 0 1.5 259.941 -1 0 0 0 0 1 0 1 0 30104k02.dat
+1 16 0 1.5 246.308 0 0 1 1 0 0 0 1 0 30104k02.dat
+1 16 0 1.5 232.675 -1 0 0 0 0 1 0 1 0 30104k02.dat
+1 16 0 1.5 219.042 0 0 1 1 0 0 0 1 0 30104k02.dat
+1 16 0 1.5 205.409 -1 0 0 0 0 1 0 1 0 30104k02.dat
+1 16 0 1.5 191.776 0 0 1 1 0 0 0 1 0 30104k02.dat
+1 16 0 1.5 178.143 -1 0 0 0 0 1 0 1 0 30104k02.dat
+1 16 0 1.5 164.51 0 0 1 1 0 0 0 1 0 30104k02.dat
+1 16 0 1.5 150.877 -1 0 0 0 0 1 0 1 0 30104k02.dat
+1 16 0 1.5 137.244 0 0 1 1 0 0 0 1 0 30104k02.dat
+1 16 0 1.5 123.611 -1 0 0 0 0 1 0 1 0 30104k02.dat
+1 16 0 1.5 109.978 0 0 1 1 0 0 0 1 0 30104k02.dat
+1 16 0 1.5 96.345 -1 0 0 0 0 1 0 1 0 30104k02.dat
+1 16 0 1.5 82.712 0 0 1 1 0 0 0 1 0 30104k02.dat
+1 16 0 1.5 69.079 -1 0 0 0 0 1 0 1 0 30104k02.dat
+1 16 0 1.5 55.446 0 0 1 1 0 0 0 1 0 30104k02.dat
+1 16 0 1.5 41.813 -1 0 0 0 0 1 0 1 0 30104k02.dat
+1 16 0 1.5 28.18 0 0 1 1 0 0 0 1 0 30104k02.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 30104k01.dat

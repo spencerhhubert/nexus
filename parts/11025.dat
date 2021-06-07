@@ -1,0 +1,20 @@
+0 ~Electric Mindstorms EV3 Bottom Shell
+0 Name: 11025.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2013-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2012-05-20 {LEGO MINDSTORMS Team} Original part shape
+0 !HISTORY 2012-07-05 [Philo] Complete rebuild for LDraw Parts Tracker
+0 !HISTORY 2013-12-23 [PTadmin] Official Update 2013-02
+
+1 71 0 0 0 1 0 0 0 1 0 0 0 1 s\11025s01.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\11025s02.dat
+4 16 -89.5 -31 70 -89.5 -31 -70 -89.5 -41 -71 -89.5 -41 71
+4 16 -89.5 -48.2 1.906 -89.5 -41 71 -89.5 -41 -71 -89.5 -48.2 -21.906
+3 16 -89.5 -50 71 -89.5 -41 71 -89.5 -48.2 1.906
+3 16 -89.5 -50 -71 -89.5 -48.2 -21.906 -89.5 -41 -71
+4 71 -72 -41 -139 72 -41 -139 72 -55 -139 -72 -55 -139
+4 71 72 -41 139 -72 -41 139 -72 -55 139 72 -55 139

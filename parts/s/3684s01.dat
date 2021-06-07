@@ -1,0 +1,84 @@
+0 ~Slope Brick 75  2 x  2 x  3 without Front and Back Surfaces and Studs
+0 Name: s\3684s01.dat
+0 Author: Franklin W. Cain [fwcain]
+0 !LDRAW_ORG Subpart UPDATE 2016-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HELP un-comment for front and back faces...
+0 !HELP 4 16 20 72 10 -20 72 10 -20 0 10 20 0 10
+0 !HELP 4 16 20 0 -10 -20 0 -10 -20 68 -30 20 68 -30
+
+0 !HISTORY 2004-01-31 [OrionP] Fixed error in BFC, Fixed L3P errors
+0 !HISTORY 2004-09-15 [PTadmin] Official Update 2004-03
+0 !HISTORY 2007-08-31 [PTadmin] Header formatted for Contributor Agreement
+0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01
+0 !HISTORY 2016-12-27 [RabbiT_CZ] Fixed overlapping primitives, used more primitives
+0 !HISTORY 2016-12-31 [PTadmin] Official Update 2016-01
+
+1 16 0 11 -10 6 0 0 0 1 21 0 0 -6 2-4edge.dat
+1 16 0 11 -10 8 0 0 0 1 28 0 0 -8 2-4edge.dat
+
+1 16 0 39 -10 0 0 -8 0 -28 0 -8 0 0 1-4cyls.dat
+1 16 0 39 -10 0 0 8 0 -28 0 -8 0 0 1-4cyls.dat
+
+0 BFC INVERTNEXT
+1 16 0 32 -10 0 0 -6 0 -21 0 -6 0 0 1-4cyls.dat
+0 BFC INVERTNEXT
+1 16 0 32 -10 0 0 6 0 -21 0 -6 0 0 1-4cyls.dat
+0 BFC INVERTNEXT
+1 16 0 32 -10 6 0 0 0 7 0 0 0 -6 4-4cyli.dat
+
+1 16 0 4 -10 8 0 0 0 35 0 0 0 8 2-4cyli.dat
+
+0 BFC INVERTNEXT
+1 16 0 4 -10 6 0 0 0 28 0 0 0 6 2-4cyli.dat
+
+1 16 0 4 -10 6 0 0 0 1 0 0 0 6 2-4edge.dat
+1 16 0 4 -10 8 0 0 0 1 0 0 0 8 2-4edge.dat
+
+2 24 8 11 -10 7.6023 4 -8
+2 24 -8 11 -10 -7.6023 4 -8
+
+2 24 6 11 -10 5.6 4 -8
+2 24 -6 11 -10 -5.6 4 -8
+
+1 16 0 39 -10 1 0 0 0 -8.25 0 0 0 1 stud4a.dat
+
+2 24 -16 72 6 -16 72 -26
+2 24 16 72 -26 16 72 6
+2 24 20 72 10 -20 72 10
+2 24 -20 72 10 -20 72 -30
+2 24 20 72 -30 20 72 10
+
+2 24 20 0 -10 20 68 -30
+2 24 20 0 10 20 72 10
+2 24 -20 0 -10 -20 68 -30
+2 24 -20 0 10 -20 72 10
+
+4 16 20 72 10 16 72 6 -16 72 6 -20 72 10
+4 16 -20 72 -30 -16 72 -26 16 72 -26 20 72 -30
+
+4 16 -16 72 -26 -20 72 -30 -20 72 10 -16 72 6
+4 16 20 72 10 20 72 -30 16 72 -26 16 72 6
+
+
+1 16 0 38 6 -16 0 0 0 0 34 0 1 0 rect.dat
+1 16 0 69.5 -26 16 0 0 0 0 2.5 0 -1 0 rect.dat
+1 16 0 70 -30 0 0 -20 -2 0 0 0 1 0 rect.dat
+1 16 0 0 0 -20 0 0 0 1 0 0 0 -10 rect.dat
+1 16 0 35.5 -17 16 0 0 0 -1 -31.5 0 0 9 rect3.dat
+1 16 0 4 -1 0 0 16 0 -1 0 7 0 0 rect2p.dat
+
+3 16 -16 4 6 -16 4 -8 -16 72 6
+4 16 -16 4 -8 -16 67 -26 -16 72 -26 -16 72 6
+4 16 16 67 -26 16 4 -8 16 72 6 16 72 -26
+3 16 16 4 -8 16 4 6 16 72 6
+
+4 16 20 72 10 20 0 10 20 0 -10 20 68 -30
+3 16 20 72 -30 20 72 10 20 68 -30
+
+4 16 -20 0 -10 -20 0 10 -20 72 10 -20 68 -30
+3 16 -20 68 -30 -20 72 10 -20 72 -30
+

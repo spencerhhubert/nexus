@@ -1,0 +1,15 @@
+0 ~Axle Steel  4 x  72 LDU with Two Wheels  4 x  8 with Tyres  6/ 50 x  8 Offset Tread
+0 Name: u9132c05.dat
+0 Author: Alex Taylor [anathema]
+0 !LDRAW_ORG Shortcut UPDATE 2020-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !CATEGORY Wheel
+
+0 !HISTORY 2020-12-29 [PTadmin] Official Update 2020-03
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 u9132c01.dat
+1 256 -31 0 0 0 0 -1 0 1 0 1 0 0 3641.dat
+1 256 31 0 0 0 0 1 0 1 0 -1 0 0 3641.dat

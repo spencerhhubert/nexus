@@ -1,0 +1,23 @@
+0 Animal Horse Head
+0 Name: 4492.dat
+0 Author: Sascha Broich
+0 !LDRAW_ORG Part UPDATE 2015-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2002-04-25 [PTadmin] Official Update 2002-02
+0 !HISTORY 2007-07-04 [PTadmin] Header formatted for Contributor Agreement
+0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01
+0 !HISTORY 2014-12-07 [MagFors] Made BFC compliant
+0 !HISTORY 2014-12-19 [MagFors] Used new subfiles for more pattern
+0 !HISTORY 2015-10-11 [PTadmin] Official Update 2015-01
+
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\4492s01.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\4492s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\4492s00.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\4492s00.dat
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\4492m.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\4492m.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\4492h.dat

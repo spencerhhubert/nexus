@@ -1,0 +1,16 @@
+0 ~Technic Control Centre - Rubber Foot
+0 Name: 70591.dat
+0 Author: Steffen [Steffen]
+0 !LDRAW_ORG Part UPDATE 2019-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+
+0 !CATEGORY Electric
+0 !CMDLINE -c511
+
+0 !HISTORY 2012-03-30 [PTadmin] Official Update 2012-01
+0 !HISTORY 2018-10-27 [PTadmin] Renamed from u9227
+0 !HISTORY 2019-09-09 [PTadmin] Official Update 2019-02
+
+1 16 0 3.8 0 -11.4 0 0 0 -3.8 0 0 0 11.4 box.dat

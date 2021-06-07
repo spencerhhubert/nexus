@@ -1,0 +1,14 @@
+0 Sticker  0.8 x  3.7 with "R682 AHS" on White Background
+0 Name: 6062886d.dat
+0 Author: Magnus Forsberg [MagFors]
+0 !LDRAW_ORG Part UPDATE 2019-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS set 10242, Mini Cooper MK VII, Mini, Cooper
+
+0 !HISTORY 2019-12-27 [PTadmin] Official Update 2019-03
+
+1 16 0 -0.25 0 37.5 0 0 0 0.25 0 0 0 8 box5-12.dat
+1 15 0 0 0 1 0 0 0 1 0 0 0 1 s\6062886cs01.dat

@@ -1,0 +1,28 @@
+0 Hemisphere  3 x  3 Ball Turret
+0 Name: 44359.dat
+0 Author: Greg Teft [gregteft]
+0 !LDRAW_ORG Part UPDATE 2013-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 !HELP origin is coincident with center of sphere, outside radius 29.75 LDU
+0 !HELP flat at y=-28, center of pin at y=-30, bottom of hole at y=-10
+
+0 BFC CERTIFY CCW
+
+0 !CATEGORY Cylinder
+
+0 !HISTORY 2013-12-23 [PTadmin] Official Update 2013-02
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\44359s01.dat
+1 16 0 0 0 0 0 1 0 1 0 1 0 0 s\44359s01.dat
+1 16 0 0 0 0 0 -1 0 1 0 1 0 0 s\44359s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\44359s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 -1 s\44359s01.dat
+1 16 0 0 0 0 0 -1 0 1 0 -1 0 0 s\44359s01.dat
+1 16 0 0 0 0 0 1 0 1 0 -1 0 0 s\44359s01.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 -1 s\44359s01.dat
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\44359s02.dat
+1 16 0 0 0 0 0 -1 0 1 0 1 0 0 s\44359s02.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 -1 s\44359s02.dat
+1 16 0 0 0 0 0 1 0 1 0 -1 0 0 s\44359s02.dat

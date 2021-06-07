@@ -1,0 +1,14 @@
+0 ~Plate Gear 14 Tooth  6 x  6 Tooth
+0 Name: s\35446s01.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Subpart UPDATE 2019-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2019-09-09 [PTadmin] Official Update 2019-02
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\35446s02.dat
+1 16 0 0.5 70 5.625 0 0 0 1 0 0 0 5.625 2-4chrd.dat
+4 16 -5.625 0.5 70 -6.0229 0.5 66.2468 6.0229 0.5 66.2468 5.625 0.5 70
+4 16 3.9919 0.5 60.6319 6.0229 0.5 66.2468 -6.0229 0.5 66.2468 -3.9919 0.5 60.6319

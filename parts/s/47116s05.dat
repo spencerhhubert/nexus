@@ -1,0 +1,33 @@
+0 ~Brick 12 x 24 with Pegs - Double Stud Tubes and Flush H-Ribs
+0 Name: s\47116s05.dat
+0 Author: Greg Teft [gregteft]
+0 !LDRAW_ORG Subpart UPDATE 2013-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2013-07-21 [PTadmin] Official Update 2013-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 stud4f4n.dat
+1 16 0 0 0 6 0 0 0 1 0 0 0 6 4-4edge.dat
+1 16 20 0 20 1 0 0 0 1 0 0 0 1 stud4.dat
+0 // rib to stud4f4n +x
+1 16 8.5 0 0 0.5 0 0 0 -4 0 0 0 1 box3u6.dat
+1 16 31.5 0 0 -0.5 0 0 0 -4 0 0 0 -1 box3u6.dat
+1 16 30 0 2.5 -1 0 0 0 -4 0 0 0 1.5 box4-4a.dat
+1 16 30 0 -2.5 1 0 0 0 -4 0 0 0 -1.5 box4-4a.dat
+1 16 20 0 0 -9 0 0 0 -4 0 0 0 1 box3u4p.dat
+1 16 10 0 2.5 -1 0 0 0 -4 0 0 0 1.5 box4-4a.dat
+1 16 10 0 -2.5 1 0 0 0 -4 0 0 0 -1.5 box4-4a.dat
+4 16 9 -4 1 9 -4 -1 11 -4 -1 11 -4 1
+4 16 29 -4 1 29 -4 -1 31 -4 -1 31 -4 1
+0 // rib to stud4f4n +y
+1 16 0 0 8.5 0 0 -1 0 -4 0 0.5 0 0 box3u6.dat
+1 16 0 0 31.5 0 0 1 0 -4 0 -0.5 0 0 box3u6.dat
+1 16 -2.5 0 30 0 0 -1.5 0 -4 0 -1 0 0 box4-4a.dat
+1 16 2.5 0 30 0 0 1.5 0 -4 0 1 0 0 box4-4a.dat
+1 16 0 0 20 0 0 -1 0 -4 0 -9 0 0 box3u4p.dat
+1 16 -2.5 0 10 0 0 -1.5 0 -4 0 -1 0 0 box4-4a.dat
+1 16 2.5 0 10 0 0 1.5 0 -4 0 1 0 0 box4-4a.dat
+4 16 -1 -4 9 1 -4 9 1 -4 11 -1 -4 11
+4 16 -1 -4 29 1 -4 29 1 -4 31 -1 -4 31

@@ -1,0 +1,28 @@
+0 ~Electric Technic Motor 4.5V  6 x 17 x  5 Axle Type 1
+0 Name: 914.dat
+0 Author: Guy Vivan [guyvivan]
+0 !LDRAW_ORG Part UPDATE 2013-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2013-07-21 [PTadmin] Official Update 2013-01
+
+1 16 -40 0 0 0 80 0 1 0 0 0 0 1 axlehole.dat
+1 16 -40 0 0 0 1 0 1 0 0 0 0 1 axlehol2.dat
+1 16 40 0 0 0 1 0 1 0 0 0 0 1 axlehol2.dat
+1 16 40 0 0 0 -1 0 9 0 0 0 0 9 4-4edge.dat
+1 16 40 0 0 0 -1 0 3 0 0 0 0 3 4-4ring2.dat
+1 16 -40 0 0 0 -1 0 9 0 0 0 0 9 4-4edge.dat
+1 16 -40 0 0 0 1 0 3 0 0 0 0 3 4-4ring2.dat
+1 16 -18 0 0 0 58 0 9 0 0 0 0 9 4-4cyli.dat
+1 16 -40 0 0 0 10 0 9 0 0 0 0 9 4-4cyli.dat
+1 16 -18 0 0 0 -1 0 9 0 0 0 0 9 4-4edge.dat
+1 16 -30 0 0 0 -1 0 9 0 0 0 0 9 4-4edge.dat
+1 16 -18 0 0 0 -1 0 14 0 0 0 0 14 4-4edge.dat
+1 16 -30 0 0 0 -1 0 14 0 0 0 0 14 4-4edge.dat
+1 16 -18 0 0 0 -12 0 14 0 0 0 0 14 4-4cyli.dat
+1 16 -18 0 0 0 -1 0 3 0 0 0 0 3 4-4ring3.dat
+1 16 -18 0 0 0 -1 0 2 0 0 0 0 2 4-4ring6.dat
+1 16 -30 0 0 0 1 0 3 0 0 0 0 3 4-4ring3.dat
+1 16 -30 0 0 0 1 0 2 0 0 0 0 2 4-4ring6.dat

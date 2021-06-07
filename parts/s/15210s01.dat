@@ -1,0 +1,13 @@
+0 ~Roadsign Clip-on  2 x  2 Square with C-Clip without Front
+0 Name: s\15210s01.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Subpart UPDATE 2018-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2018-12-08 [PTadmin] Official Update 2018-02
+
+1 16 0 0 -13 20 0 0 0 0 20 0 3 0 box5.dat
+1 16 0 0 -10 -1 0 0 0 1 0 0 0 -1 clip9.dat
+1 16 0 0 -10 4 0 0 0 0 4 0 1 0 recte4.dat

@@ -1,0 +1,47 @@
+0 Tractor Trailer Chassis Hitching Ball
+0 Name: 779.dat
+0 Author: Chris Dee [cwdee]
+0 !LDRAW_ORG Part UPDATE 2009-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+
+0 !HELP Position at 0 0 -210 relative to chassis part
+
+0 !HISTORY 2004-09-15 [PTadmin] Official Update 2004-03
+0 !HISTORY 2007-07-22 [PTadmin] Header formatted for Contributor Agreement
+0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01
+0 !HISTORY 2008-11-02 [tchang] Add BFC, primitives
+0 !HISTORY 2009-12-29 [PTadmin] Official Update 2009-03
+
+1 16 0 0 0 4 0 0 0 1 0 0 0 4 4-4edge.dat
+1 16 0 0 0 4 0 0 0 -12 0 0 0 4 4-4cyli.dat
+1 16 0 -12 0 4 0 0 0 1 0 0 0 4 4-4edge.dat
+1 16 0 -12 0 2 0 0 0 -1 0 0 0 2 4-4ring2.dat
+1 16 0 -12 0 6 0 0 0 1 0 0 0 6 4-4edge.dat
+1 16 0 -12 0 6 0 0 0 -4 0 0 0 6 4-4cyli.dat
+1 16 0 -16 0 6 0 0 0 1 0 0 0 6 4-4edge.dat
+1 16 0 -16 0 2 0 0 0 -2 0 0 0 2 4-4con2.dat
+1 16 0 -18 0 4 0 0 0 1 0 0 0 4 4-4edge.dat
+1 16 0 -18 0 4 0 0 0 1 0 0 0 4 4-4disc.dat
+0
+1 16 0 2 0 -10 0 0 0 -2 0 0 0 10 box2-5.dat
+1 16 0 10 -8 10 0 0 0 0 10 0 -2 0 box2-7.dat
+2 24 10 20 -6 -10 20 -6
+0 BFC INVERTNEXT
+1 16 -6 12 2 4 0 0 0 -8 0 0 0 -8 box2-7.dat
+0 BFC INVERTNEXT
+1 16 6 12 2 4 0 0 0 -8 0 0 0 -8 box2-7.dat
+1 16 0 12 2 0 0 -2 8 -8 0 -8 0 0 rect2p.dat
+4 16 10 0 -10 10 0 10 10 4 10 10 4 -6
+4 16 10 4 -6 10 20 -6 10 20 -10 10 0 -10
+4 16 -10 4 -6 -10 4 10 -10 0 10 -10 0 -10
+4 16 -10 0 -10 -10 20 -10 -10 20 -6 -10 4 -6
+3 16 -2 20 -6 -2 4 10 -2 4 -6
+3 16 2 4 -6 2 4 10 2 20 -6
+0
+1 16 0 12 -10 0 0 3 3 0 0 0 1 0 4-4edge.dat
+1 16 0 12 -11.326 0 0 3 3 0 0 0 1 0 4-4edge.dat
+1 16 0 12 -10 0 0 3 3 0 0 0 -1.326 0 4-4cyli.dat
+1 16 0 12 -18 7.5 0 0 0 7.5 0 0 0 7.5 8-8sphe.dat
+0

@@ -1,0 +1,35 @@
+0 Fabuland Merry-Go-Round Roof
+0 Name: 4841.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2018-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !CATEGORY Cone
+
+0 !HISTORY 2018-01-30 [PTadmin] Official Update 2018-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\4841s01.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\4841s02.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\4841s02.dat
+
+1 16 0 0 0 0.5 0 0.86603 0 1 0 -0.86603 0 0.5 s\4841s01.dat
+1 16 0 0 0 -0.5 0 0.86603 0 1 0 -0.86603 0 -0.5 s\4841s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 -1 s\4841s01.dat
+1 16 0 0 0 -0.5 0 -0.86603 0 1 0 0.86603 0 -0.5 s\4841s01.dat
+1 16 0 0 0 0.5 0 -0.86603 0 1 0 0.86603 0 0.5 s\4841s01.dat
+1 16 0 -112 0 18.8888 0 0 0 1 0 0 0 18.8888 48\4-4aring.dat
+1 16 0 -112 0 9.4444 0 0 0 1 0 0 0 9.4444 4-4ring1.dat
+0 BFC INVERTNEXT
+1 16 0 -112 0 9.4444 0 0 0 -4 0 0 0 9.4444 bump5000.dat
+0 BFC INVERTNEXT
+1 16 0 -105 0 12 0 0 0 123 0 0 0 12 4-4cylc.dat
+1 16 0 18 0 4 0 0 0 -1 0 0 0 4 4-4ring3.dat
+1 16 0 8 0 4 0 0 0 -1 0 0 0 4 4-4ring4.dat
+1 16 0 8 0 16 0 0 0 10 0 0 0 16 4-4cylo.dat
+1 16 0 8 0 20 0 0 0 -1 0 0 0 20 48\4-4aring.dat
+1 16 0 0 0 -0.5 0 0.86603 0 1 0 -0.86603 0 -0.5 s\4841s02.dat
+1 16 0 0 0 0.5 0 0.86603 0 1 0 0.86603 0 -0.5 s\4841s02.dat
+1 16 0 0 0 -0.5 0 -0.86603 0 1 0 0.86603 0 -0.5 s\4841s02.dat
+1 16 0 0 0 0.5 0 -0.86603 0 1 0 -0.86603 0 -0.5 s\4841s02.dat

@@ -1,0 +1,58 @@
+0 Turntable  4 x  4 Base
+0 Name: 3403.dat
+0 Author: James Jessiman
+0 !LDRAW_ORG Part UPDATE 2018-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2002-11-04 [BrickCaster] Added groove
+0 !HISTORY 2002-12-31 [PTadmin] Official Update 2002-06
+0 !HISTORY 2007-06-25 [PTadmin] Header formatted for Contributor Agreement
+0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01
+0 !HISTORY 2008-07-07 [guyvivan] Made BFC Compliant (2005-05-16)
+0 !HISTORY 2010-12-31 [PTadmin] Official Update 2010-03
+0 !HISTORY 2017-12-10 [Philo] Deepened bottom dip to fit snapping top, removed ~
+0 !HISTORY 2018-01-30 [PTadmin] Official Update 2018-01
+
+1 16 10 20 20 1 0 0 0 -1 0 0 0 1 stug4-1x2.dat
+1 16 20 20 -10 0 0 1 0 -1 0 -1 0 0 stug4-1x2.dat
+1 16 -10 20 -20 -1 0 0 0 -1 0 0 0 -1 stug4-1x2.dat
+1 16 -20 20 10 0 0 -1 0 -1 0 1 0 0 stug4-1x2.dat
+4 16 39 24 39 36 24 36 -36 24 36 -39 24 39
+4 16 -39 24 39 -36 24 36 -36 24 -36 -39 24 -39
+4 16 -39 24 -39 -36 24 -36 36 24 -36 39 24 -39
+4 16 39 24 -39 36 24 -36 36 24 36 39 24 39
+4 16 40 23 40 39 23 39 -39 23 39 -40 23 40
+4 16 -40 23 40 -39 23 39 -39 23 -39 -40 23 -40
+4 16 -40 23 -40 -39 23 -39 39 23 -39 40 23 -40
+4 16 40 23 -40 39 23 -39 39 23 39 40 23 40
+1 16 0 24 0 39 0 0 0 -1 0 0 0 39 box4.dat
+0 BFC INVERTNEXT
+1 16 0 20 0 36 0 0 0 4 0 0 0 36 box4.dat
+1 16 0 16 0 40 0 0 0 7 0 0 0 40 box4.dat
+1 16 0 20 0 12 0 0 0 -1 0 0 0 12 4-4ndis.dat
+4 16 36 20 36 12 20 12 -12 20 12 -36 20 36
+4 16 -36 20 36 -12 20 12 -12 20 -12 -36 20 -36
+4 16 -36 20 -36 -12 20 -12 12 20 -12 36 20 -36
+4 16 36 20 -36 12 20 -12 12 20 12 36 20 36
+1 16 0 16 0 14 0 0 0 1 0 0 0 14 4-4ndis.dat
+4 16 40 16 -40 14 16 -14 -14 16 -14 -40 16 -40
+4 16 -40 16 -40 -14 16 -14 -14 16 14 -40 16 40
+4 16 -40 16 40 -14 16 14 14 16 14 40 16 40
+4 16 40 16 40 14 16 14 14 16 -14 40 16 -40
+0 BFC INVERTNEXT
+1 16 0 14 0 12 0 0 0 6 0 0 0 12 4-4cylo.dat
+1 16 0 4 0 14 0 0 0 12 0 0 0 14 4-4cylo.dat
+1 16 0 4 0 12 0 0 0 1 0 0 0 12 4-4edge.dat
+0 BFC INVERTNEXT
+1 16 0 8 0 10 0 0 0 6 0 0 0 10 4-4cylo.dat
+1 16 0 4 0 2 0 0 0 1 0 0 0 2 4-4ring6.dat
+1 16 0 14 0 2 0 0 0 -1 0 0 0 2 4-4ring5.dat
+0 BFC INVERTNEXT
+1 16 0 4 0 2 0 0 0 4 0 0 0 2 4-4con5.dat
+1 16 0 6 0 34 0 0 0 10 0 0 0 34 48\4-4cylo.dat
+1 16 0 6 0 2 0 0 0 1 0 0 0 2 48\4-4rin15.dat
+1 16 0 6 0 2 0 0 0 1 0 0 0 2 48\4-4rin16.dat
+0 BFC INVERTNEXT
+1 16 0 6 0 30 0 0 0 10 0 0 0 30 48\4-4cylo.dat

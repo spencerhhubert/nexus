@@ -1,0 +1,18 @@
+0 Cone  2 x  2 x  3 Jagged
+0 Name: 28598.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2018-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Step Drill, Spiral
+
+0 !HISTORY 2018-01-28 {LEGO Digital Designer} Original part shape
+0 !HISTORY 2018-02-25 [Philo] File preparation for LDraw Parts Tracker
+0 !HISTORY 2018-12-08 [PTadmin] Official Update 2018-02
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\28598s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 -1 s\28598s01.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 stud2a.dat
+1 16 0 28 0 -1 0 0 0 -11 0 0 0 1 stud4a.dat

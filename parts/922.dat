@@ -1,0 +1,40 @@
+0 ~Electric  9V Battery Box with Pegholes Switch
+0 Name: 922.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2011-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+
+0 !HISTORY 2011-07-25 [PTadmin] Official Update 2011-01
+
+1 16 0 0.8 -28 -10 0 0 0 0 0.8 0 56 0 box4o8a.dat
+1 16 0 0 -10 0 0 -1 0 1 0 1 0 0 stud.dat
+1 16 0 0 10 0 0 -1 0 1 0 1 0 0 stud.dat
+1 16 0 0.8 29 -8 0 0 0 -0.8 0 0 0 1 box2-11.dat
+1 16 0 0.8 -29 8 0 0 0 -0.8 0 0 0 -1 box2-11.dat
+4 16 8 1.6 28 8 1.6 30 -8 1.6 30 -8 1.6 28
+2 24 -8 1.6 30 8 1.6 30
+1 16 -8 1.6 28 -2 0 0 0 -0.8 0 0 0 2 1-4disc.dat
+1 16 -8 0 28 0 0 -2 0 0.8 0 2 0 0 1-4disc.dat
+1 16 -8 0 28 0 0 -2 0 0.8 0 2 0 0 1-4edge.dat
+1 16 -8 0 28 0 0 -2 0 1.6 0 2 0 0 1-4cyli.dat
+1 16 -8 1.6 28 0 0 -2 0 0.8 0 2 0 0 1-4edge.dat
+1 16 8 1.6 28 0 0 2 0 -0.8 0 2 0 0 1-4disc.dat
+1 16 8 0 28 2 0 0 0 0.8 0 0 0 2 1-4disc.dat
+1 16 8 0 28 2 0 0 0 0.8 0 0 0 2 1-4edge.dat
+1 16 8 0 28 2 0 0 0 1.6 0 0 0 2 1-4cyli.dat
+1 16 8 1.6 28 2 0 0 0 0.8 0 0 0 2 1-4edge.dat
+4 16 -8 1.6 -28 -8 1.6 -30 8 1.6 -30 8 1.6 -28
+2 24 8 1.6 -30 -8 1.6 -30
+1 16 8 1.6 -28 2 0 0 0 -0.8 0 0 0 -2 1-4disc.dat
+1 16 8 0 -28 0 0 2 0 0.8 0 -2 0 0 1-4disc.dat
+1 16 8 0 -28 0 0 2 0 0.8 0 -2 0 0 1-4edge.dat
+1 16 8 0 -28 0 0 2 0 1.6 0 -2 0 0 1-4cyli.dat
+1 16 8 1.6 -28 0 0 2 0 0.8 0 -2 0 0 1-4edge.dat
+1 16 -8 1.6 -28 0 0 -2 0 -0.8 0 -2 0 0 1-4disc.dat
+1 16 -8 0 -28 -2 0 0 0 0.8 0 0 0 -2 1-4disc.dat
+1 16 -8 0 -28 -2 0 0 0 0.8 0 0 0 -2 1-4edge.dat
+1 16 -8 0 -28 -2 0 0 0 1.6 0 0 0 -2 1-4cyli.dat
+1 16 -8 1.6 -28 -2 0 0 0 0.8 0 0 0 -2 1-4edge.dat
+0

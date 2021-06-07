@@ -1,0 +1,24 @@
+0 Glass for Window  1 x  4 x  3 with Handle
+0 Name: 3855a.dat
+0 Author: Alex Taylor [anathema]
+0 !LDRAW_ORG Part UPDATE 2016-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2016-06-07 [Holly-Wood] Changed origin, fixed scaled flat prims
+0 !HISTORY 2016-12-31 [PTadmin] Official Update 2016-01
+
+1 16 0 0 -2 36 0 0 0 0 -30 0 4 0 box5.dat
+1 16 -36 0 0 0 -1.5 0 2.25 0 0 0 0 2 4-8sphe.dat
+1 16 -36 0 0 0 -1 0 2.25 0 0 0 0 2 4-4edge.dat
+1 16 36 0 0 0 -1 0 2.25 0 0 0 0 2 4-4edge.dat
+1 16 36 0 0 0 1.5 0 2.25 0 0 0 0 -2 4-8sphe.dat
+0 BFC INVERTNEXT
+1 16 0 24 -2 0 0 -4 -4 0 0 0 2 0 4-8sphe.dat
+1 16 0 24 -2 0 0 -4 -4 0 0 0 1 0 4-4edge.dat
+1 16 0 24 -2 0 0 -4 -4 0 0 0 1 0 4-4ndis.dat
+4 16 -36 30 -2 -4 28 -2 -4 20 -2 -36 -30 -2
+4 16 36 30 -2 4 28 -2 -4 28 -2 -36 30 -2
+4 16 36 -30 -2 4 20 -2 4 28 -2 36 30 -2
+4 16 -36 -30 -2 -4 20 -2 4 20 -2 36 -30 -2

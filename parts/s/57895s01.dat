@@ -1,0 +1,28 @@
+0 ~Glass for Window  1 x  4 x  6 without Front
+0 Name: s\57895s01.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Subpart UPDATE 2012-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2012-10-06 [Philo] Subparted from mikeheide's original file
+0 !HISTORY 2012-12-28 [PTadmin] Official Update 2012-03
+
+1 16 32.5 0 0 2 0 0 0 2 0 0 0 2 bump5000.dat
+1 16 -32.5 0 0 2 0 0 0 2 0 0 0 2 bump5000.dat
+1 16 32.5 131.5 0 2 0 0 0 -2 0 0 0 2 bump5000.dat
+1 16 -32.5 131.5 0 2 0 0 0 -2 0 0 0 2 bump5000.dat
+1 16 32.5 0 0 2 0 0 0 1 0 0 0 2 4-4ndis.dat
+1 16 -32.5 0 0 2 0 0 0 1 0 0 0 2 4-4ndis.dat
+1 16 32.5 131.5 0 2 0 0 0 -1 0 0 0 -2 4-4ndis.dat
+1 16 -32.5 131.5 0 2 0 0 0 -1 0 0 0 -2 4-4ndis.dat
+4 16 -34.5 0 -2 -34.5 0 2 -36.25 0 2 -36.25 0 -2
+4 16 -30.5 0 2 -30.5 0 -2 30.5 0 -2 30.5 0 2
+4 16 34.5 0 2 34.5 0 -2 36.25 0 -2 36.25 0 2
+4 16 -34.5 131.5 2 -34.5 131.5 -2 -36.25 131.5 -2 -36.25 131.5 2
+4 16 -30.5 131.5 -2 -30.5 131.5 2 30.5 131.5 2 30.5 131.5 -2
+4 16 34.5 131.5 -2 34.5 131.5 2 36.25 131.5 2 36.25 131.5 -2
+1 16 0 65.75 -2 0 0 36.25 65.75 0 0 0 4 0 box3u2p.dat
+2 24 36.25 0 -2 -36.25 0 -2
+2 24 36.25 131.5 -2 -36.25 131.5 -2

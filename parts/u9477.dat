@@ -1,0 +1,22 @@
+0 Technic Steering Wheel Bearing with Planetary Gear Reduction Driving Shaft
+0 Name: u9477.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2020-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2020-09-05 [PTadmin] Official Update 2020-02
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\52730s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\52730s01.dat
+1 16 0 0 0 1 0 0 0 -1 0 0 0 1 s\52730s01.dat
+1 16 0 0 0 -1 0 0 0 -1 0 0 0 1 s\52730s01.dat
+0 BFC INVERTNEXT
+1 16 0 0 -16 2 0 0 0 0 2 0 6 0 4-4cylc.dat
+1 16 0 0 -9.6 3 0 0 0 0 3 0 1 0 4-4edge.dat
+0 BFC INVERTNEXT
+1 16 0 0 -9.6 1 0 0 0 0 1 0 -.4 0 4-4con2.dat
+1 16 0 0 -10 13.5 0 0 0 0 13.5 0 1 0 4-4edge.dat
+1 16 0 0 -10 6.75 0 0 0 0 6.75 0 1 0 4-4ring1.dat
+1 16 0 0 -18 6.75 0 0 0 0 6.75 0 8 0 4-4cylc.dat

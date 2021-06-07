@@ -1,0 +1,17 @@
+0 Electric Technic Motor 12V
+0 Name: 6228a.dat
+0 Author: Steffen [Steffen]
+0 !LDRAW_ORG Part UPDATE 2011-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+0 !CMDLINE -c0
+
+0 !HISTORY 2011-12-29 [PTadmin] Official Update 2011-02
+
+0 // 6228 is the correct LEGO Design ID for this, although that number 
+0 // was later re-used for the Dolphin, hence this file is numbered 6228a
+
+
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 6216m.dat

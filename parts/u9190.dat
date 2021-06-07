@@ -1,0 +1,22 @@
+0 ~Electric Power Functions 4-Wire Ribbon Cable Segment
+0 Name: u9190.dat
+0 Author: Joerg Sommerer [Brickaneer]
+0 !LDRAW_ORG Part UPDATE 2012-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2012-03-30 [PTadmin] Official Update 2012-01
+
+1 16 0 0 3.712 1.2374 0 1.2374 0 1 0 -1.2374 0 1.2374 3-4cyli.dat
+1 16 0 0 1.237 1.2374 0 1.2374 0 1 0 -1.2374 0 1.2374 1-4cyli.dat
+1 16 0 0 1.237 -1.2374 0 -1.2374 0 1 0 1.2374 0 -1.2374 1-4cyli.dat
+1 16 0 0 -1.237 1.2374 0 1.2374 0 1 0 -1.2374 0 1.2374 1-4cyli.dat
+1 16 0 0 -1.237 -1.2374 0 -1.2374 0 1 0 1.2374 0 -1.2374 1-4cyli.dat
+1 16 0 0 -3.712 -1.2374 0 -1.2374 0 1 0 1.2374 0 -1.2374 3-4cyli.dat
+2 24 -1.237 0 0 -1.237 1 0
+2 24 1.238 0 0 1.238 1 0
+2 24 -1.237 0 -2.475 -1.237 1 -2.475
+2 24 1.238 0 -2.475 1.238 1 -2.475
+2 24 -1.237 0 2.475 -1.237 1 2.475
+2 24 1.238 0 2.475 1.238 1 2.475

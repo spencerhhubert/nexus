@@ -1,0 +1,15 @@
+0 Crane Arm Outside Wide with White Diagonal Stripes Sticker
+0 Name: 2350cd01.dat
+0 Author: Gerald Lasser [GeraldLasser]
+0 !LDRAW_ORG Shortcut UPDATE 2015-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Set 4552
+
+0 !HISTORY 2015-10-11 [PTadmin] Official Update 2015-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 2350c.dat
+1 16 14 12 -142 0 -1 0 0 0 1 -1 0 0 169685c.dat
+1 16 -14 12 -142 0 1 0 0 0 -1 -1 0 0 169685d.dat

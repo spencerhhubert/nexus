@@ -1,0 +1,22 @@
+0 ~Technic Tread Frame 5-point Base Node
+0 Name: s\32090s02.dat
+0 Author: J.C. Tchang [tchang]
+0 !LDRAW_ORG Subpart UPDATE 2012-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2012-08-09 [PTadmin] Official Update 2012-02
+
+1 16 0 0 0 1 0 0 0 0 -1 0 -1 0 connhole.dat
+1 16 0 0 -10 9 0 0 0 0 -9 0 -1 0 4-4edge.dat
+1 16 0 0 -4 9 0 0 0 0 -9 0 -1 0 4-4edge.dat
+1 16 0 0 -4 9 0 0 0 0 -9 0 -6 0 4-4cyli.dat
+1 16 0 0 -4 3 0 0 0 0 -3 0 1 0 4-4ring3.dat
+1 16 0 0 -4 4 0 0 0 0 -4 0 1 0 4-4ring3.dat
+1 16 0 0 10 9 0 0 0 0 9 0 1 0 4-4edge.dat
+1 16 0 0 4 9 0 0 0 0 9 0 1 0 4-4edge.dat
+1 16 0 0 4 9 0 0 0 0 9 0 6 0 4-4cyli.dat
+1 16 0 0 4 3 0 0 0 0 3 0 -1 0 4-4ring3.dat
+1 16 0 0 4 4 0 0 0 0 4 0 -1 0 4-4ring3.dat
+

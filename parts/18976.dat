@@ -1,0 +1,49 @@
+0 Wheel Rim 11 x 18 with Vented Disc Brake
+0 Name: 18976.dat
+0 Author: Magnus Forsberg [MagFors]
+0 !LDRAW_ORG Part UPDATE 2017-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2017-12-30 [PTadmin] Official Update 2017-01
+
+1 16 0 0 10 1 0 0 0 0 1 0 -20 0 axl3hole.dat
+1 16 0 0 10 6 0 0 0 0 6 0 -1 0 4-4ering.dat
+1 16 0 0 10 9.25 0 0 0 0 9.25 0 -10 0 4-4cylo.dat
+1 16 0 0 10 3 0 0 0 0 3 0 -1 0 4-4ring2.dat
+1 16 0 0 10 0.25 0 0 0 0 0.25 0 -1 0 4-4rin36.dat
+0 BFC INVERTNEXT
+1 16 0 0 8 18.75 0 0 0 0 18.75 0 -8 0 4-4cylo.dat
+1 16 0 0 0 9 0 0 0 0 9 0 -1 0 4-4ring1.dat
+1 16 0 0 0 0.75 0 0 0 0 0.75 0 -1 0 4-4rin24.dat
+1 16 0 0 8 1.25 0 0 0 0 1.25 0 -1 0 4-4rin15.dat
+1 16 0 0 8 2 0 0 0 0 2 0 -1 0 4-4rin10.dat
+1 16 0 0 8 22 0 0 0 0 22 0 -10 0 4-4cylo.dat
+1 16 0 0 -4 19 0 0 0 0 19 0 -1 0 4-4edge.dat
+1 16 0 0 -2 2 0 0 0 0 2 0 -1.3333 0 4-4con10.dat
+1 16 0 0 -3.3333 1 0 0 0 0 1 0 -0.6667 0 4-4con19.dat
+1 16 0 0 -4 -9.5 0 0 0 0 9.5 0 1 0 4-4ring1.dat
+1 16 0 0 -4 9.5 0 0 0 0 9.5 0 -4 0 4-4cylo.dat
+1 16 0 0 -8 -9.5 0 0 0 0 -9.5 0 -1 0 4-4ring1.dat
+1 16 0 0 -8 19 0 0 0 0 -19 0 1 0 4-4edge.dat
+1 16 0 0 -8.6667 1 0 0 0 0 -1 0 0.6667 0 4-4con19.dat
+1 16 0 0 -10 2 0 0 0 0 -2 0 1.3333 0 4-4con10.dat
+1 16 0 0 -10 4 0 0 0 0 4 0 -1 0 4-4edge.dat
+1 16 0 0 -10 2 0 0 0 0 2 0 -1 0 4-4ring2.dat
+0 BFC INVERTNEXT
+1 16 0 0 -10 4 0 0 0 0 4 0 -2 0 4-4cyli.dat
+1 16 0 0 -12 6 0 0 0 0 6 0 -1 0 4-4edge.dat
+1 16 0 0 -12 -1 0 0 0 0 1 0 1 0 stud2a.dat
+1 16 0 0 -12 -1 0 0 0 0 1 0 1 0 s\18976s01.dat
+1 16 0 0 -12 0 0 -1 -1 0 0 0 1 0 s\18976s01.dat
+1 16 0 0 -12 1 0 0 0 0 -1 0 1 0 s\18976s01.dat
+1 16 0 0 -12 0 0 1 1 0 0 0 1 0 s\18976s01.dat
+1 16 0 0 -12 -15 0 0 0 0 15 0 1 0 4-4ering.dat
+1 16 0 0 -11.9 15 0 0 0 0 15 0 -0.1 0 4-4cylo.dat
+1 16 0 0 -11.9 -3.75 0 0 0 0 3.75 0 1 0 4-4ring4.dat
+0 BFC INVERTNEXT
+1 16 0 0 -11.9 18.75 0 0 0 0 18.75 0 -8.1 0 4-4cylo.dat
+1 16 0 0 -20 -1.25 0 0 0 0 1.25 0 1 0 4-4rin15.dat
+1 16 0 0 -20 -2 0 0 0 0 2 0 1 0 4-4rin10.dat
+1 16 0 0 -10 22 0 0 0 0 22 0 -10 0 4-4cylo.dat

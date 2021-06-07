@@ -1,0 +1,22 @@
+0 ~Technic Pneumatic Valve Side Cover
+0 Name: 4713.dat
+0 Author: Marc Klein [marckl]
+0 !LDRAW_ORG Part UPDATE 2009-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2006-08-20 [WilliamH] Added inverted dimple; used primitives
+0 !HISTORY 2009-12-15 [arezey] Fixed origin
+0 !HISTORY 2009-12-29 [PTadmin] Official Update 2009-03
+
+1 16 0 26 1 0 3 0 24 0 0 0 0 19 box5.dat
+0 BFC INVERTNEXT
+1 16 0 26 -5 0 1 0 4 0 0 0 0 4 4-8sphe.dat
+1 16 0 26 -5 0 1 0 4 0 0 0 0 4 4-4ndis.dat
+1 16 0 26 -5 0 1 0 4 0 0 0 0 4 4-4edge.dat
+4 16 0 2 20 0 22 -1 0 22 -9 0 2 -18
+4 16 0 50 20 0 30 -1 0 22 -1 0 2 20
+4 16 0 50 -18 0 30 -9 0 30 -1 0 50 20
+4 16 0 2 -18 0 22 -9 0 30 -9 0 50 -18
+0 //

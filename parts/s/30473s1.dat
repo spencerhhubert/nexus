@@ -1,0 +1,30 @@
+0 ~Baseplate 32 x 32 Canyon without Island without Top Surface
+0 Name: s\30473s1.dat
+0 Author: Mark Kennedy [mkennedy]
+0 !LDRAW_ORG Subpart UPDATE 2010-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+
+0 !HISTORY 2010-07-05 [PTadmin] Official Update 2010-02
+
+4 16 300 4 -300 316 4 -316 316 4 316 300 4 300
+4 16 300 4 300 316 4 316 -316 4 316 -300 4 300
+3 16 300 4 300 -140 4 300 300 4 -140
+0
+1 16 316 4 316 4 0 0 0 -4 0 0 0 4 1-4cylc.dat
+1 16 -316 4 316 -4 0 0 0 -4 0 0 0 4 1-4cylc.dat
+1 16 -316 4 -316 -4 0 0 0 -4 0 0 0 -4 1-4cylc.dat
+1 16 316 4 -316 4 0 0 0 -4 0 0 0 -4 1-4cylc.dat
+0 BFC INVERTNEXT
+1 16 0 4 0 1 0 0 0 1 0 0 0 1 s\30473s2.dat
+0
+2 24 316 0 320 -316 0 320
+2 24 316 0 -320 -316 0 -320
+2 24 320 0 316 320 0 -316
+2 24 -320 0 316 -320 0 -316
+1 16 0 2 318 316 0 0 0 2 0 0 0 2 box2-11.dat
+1 16 0 2 -318 316 0 0 0 2 0 0 0 -2 box2-11.dat
+1 16 318 2 0 0 0 2 0 2 0 316 0 0 box2-11.dat
+1 16 -318 2 0 0 0 -2 0 2 0 316 0 0 box2-11.dat
+0

@@ -1,0 +1,45 @@
+0 Window  1 x  4 x  4
+0 Name: 6154.dat
+0 Author: Leonardo Zide
+0 !LDRAW_ORG Part UPDATE 2018-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 1998-02-12 [PTadmin] Official Update 1998-02
+0 !HISTORY 2007-07-16 [PTadmin] Header formatted for Contributor Agreement
+0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01
+0 !HISTORY 2017-09-03 [MagFors] bfc'd, used primitives
+0 !HISTORY 2018-01-30 [PTadmin] Official Update 2018-01
+
+1 16 0 92 0 1 0 0 0 -1 0 0 0 1 stud3.dat
+0 BFC INVERTNEXT
+1 16 0 96 0 36 0 0 0 -4 0 0 0 6 box5.dat
+4 16 40 96 10 36 96 6 -36 96 6 -40 96 10
+4 16 -40 96 10 -36 96 6 -36 96 -6 -40 96 -10
+4 16 -40 96 -10 -36 96 -6 36 96 -6 40 96 -10
+4 16 40 96 -10 36 96 -6 36 96 6 40 96 10
+1 16 0 96 0 40 0 0 0 1 0 0 0 10 recte4.dat
+
+0 BFC INVERTNEXT
+1 16 0 46 -10 32 0 0 0 0 -38 0 4 0 box4.dat
+0 BFC INVERTNEXT
+1 16 0 46 -6 36 0 0 0 0 -42 0 16 0 box4.dat
+
+4 16 -32 8 -6 -36 4 -6 36 4 -6 32 8 -6
+4 16 -32 84 -6 -36 88 -6 -36 4 -6 -32 8 -6
+4 16 36 88 -6 -36 88 -6 -32 84 -6 32 84 -6
+4 16 36 4 -6 36 88 -6 32 84 -6 32 8 -6
+
+4 16 -36 4 10 -40 0 10 40 0 10 36 4 10
+4 16 -36 88 10 -40 96 10 -40 0 10 -36 4 10
+4 16 -36 88 10 36 88 10 40 96 10 -40 96 10
+4 16 40 0 10 40 96 10 36 88 10 36 4 10
+
+4 16 40 0 -10 -40 0 -10 -32 8 -10 32 8 -10
+4 16 -40 0 -10 -40 96 -10 -32 84 -10 -32 8 -10
+4 16 40 96 -10 32 84 -10 -32 84 -10 -40 96 -10
+4 16 32 84 -10 40 96 -10 40 0 -10 32 8 -10
+
+1 16 0 96 0 0 0 -40 0 -96 0 10 0 0 box3u4a.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 stug2-1x4.dat

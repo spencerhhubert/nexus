@@ -1,0 +1,17 @@
+0 Figure Feet  2 x  3 x  0.667
+0 Name: 66859.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2020-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Super Mario, Bowser Jr., Shy Guy
+
+0 !HISTORY 2020-12-29 [PTadmin] Official Update 2020-03
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\66859s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\66859s01.dat
+1 16 10 2 0 0 -20 0 2 0 0 0 0 20 box4o8a.dat
+1 16 0 4 0 1.5 0 0 0 2 0 0 0 7 box5.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 stug2-2x1.dat

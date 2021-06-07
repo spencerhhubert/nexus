@@ -1,0 +1,29 @@
+0 Windscreen  3 x  4 x  1.333
+0 Name: 57783.dat
+0 Author: Willy Tschager [Holly-Wood]
+0 !LDRAW_ORG Part UPDATE 2010-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+0 !KEYWORDS deflector, wind shield, wind blocker, rounded
+
+0 !HISTORY 2008-07-28 [Holly-Wood] Rewrote from scratch taking the LEGO Universe part shape for reference
+0 !HISTORY 2010-12-31 [PTadmin] Official Update 2010-03
+
+0 // Subpart Windscreen  3 x  4 x  1 &  1/3 Without Front
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\57783s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\57783s01.dat
+
+0 // Subpart Windscreen  3 x  4 x  1 &  1/3 Front
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\57783s02.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\57783s02.dat
+
+0 // Studs
+1 16 -30 0 20 1 0 0 0 1 0 0 0 1 stud2.dat
+1 16 30 0 20 1 0 0 0 1 0 0 0 1 stud2.dat
+1 16 -20 28 -20 1 0 0 0 -1 0 0 0 1 stud3.dat
+0 // www.holly-wood.it
+1 16 0 28 -20 1 0 0 0 -1 0 0 0 1 stud3.dat
+1 16 20 28 -20 1 0 0 0 -1 0 0 0 1 stud3.dat
+0

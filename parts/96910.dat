@@ -1,0 +1,57 @@
+0 Tile  1 x  2 Chamfered with 2 Top Indentations
+0 Name: 96910.dat
+0 Author: Stan Isachenko [angmarec]
+0 !LDRAW_ORG Part UPDATE 2019-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Pirates of the Caribbean, Gold Ingot
+0 !KEYWORDS gold bar, treasure, bullion, Fort Knox
+
+0 !CMDLINE -c334
+
+0 !HISTORY 2012-01-18 {LEGO Digital Designer} Original part shape
+0 !HISTORY 2012-01-19 [angmarec] File preparation for LDraw Parts Tracker
+0 !HISTORY 2012-04-22 [Steffen] added top dents, removed condlines, changed bottom groove, changed origin
+0 !HISTORY 2012-12-28 [PTadmin] Official Update 2012-03
+0 !HISTORY 2018-12-29 [cwdee] Retitled
+0 !HISTORY 2019-06-28 [PTadmin] Official Update 2019-01
+
+4 16 -17.5 0 -7.5 -14 0 -6 -14 0 6 -17.5 0 7.5
+3 16 -14 0 6 -8 0 6 -17.5 0 7.5
+3 16 14 0 -6 8 0 -6 17.5 0 -7.5
+3 16 -17.5 0 -7.5 -8 0 -6 -14 0 -6
+3 16 17.5 0 7.5 8 0 6 14 0 6
+4 16 17.5 0 7.5 14 0 6 14 0 -6 17.5 0 -7.5
+4 16 -17.5 0 7.5 -8 0 6 8 0 6 17.5 0 7.5
+4 16 17.5 0 -7.5 8 0 -6 -8 0 -6 -17.5 0 -7.5
+4 16 -8 0 6 -8 0 -6 8 0 -6 8 0 6
+0 BFC INVERTNEXT
+1 16 -11 0 0 3 0 0 0 0.5 0 0 0 6 box5.dat
+0 BFC INVERTNEXT
+1 16 11 0 0 3 0 0 0 0.5 0 0 0 6 box5.dat
+1 16 0 5 0 20 0 0 0 2 0 0 0 10 box4.dat
+1 16 0 7 0 19 0 0 0 1 0 0 0 9 box4.dat
+4 16 -20 5 -10 20 5 -10 17.5 0 -7.5 -17.5 0 -7.5
+4 16 20 5 -10 20 5 10 17.5 0 7.5 17.5 0 -7.5
+4 16 -20 5 10 -20 5 -10 -17.5 0 -7.5 -17.5 0 7.5
+4 16 20 5 10 -20 5 10 -17.5 0 7.5 17.5 0 7.5
+4 16 -19 7 -9 -20 7 -10 -20 7 10 -19 7 9
+4 16 -19 7 9 -20 7 10 20 7 10 19 7 9
+4 16 19 7 -9 20 7 -10 -20 7 -10 -19 7 -9
+4 16 19 7 9 20 7 10 20 7 -10 19 7 -9
+4 16 16 8 -6 19 8 -9 -19 8 -9 -16 8 -6
+4 16 16 8 6 19 8 9 19 8 -9 16 8 -6
+4 16 -16 8 -6 -19 8 -9 -19 8 9 -16 8 6
+4 16 -16 8 6 -19 8 9 19 8 9 16 8 6
+2 24 -17.5 0 -7.5 17.5 0 -7.5
+2 24 17.5 0 -7.5 17.5 0 7.5
+2 24 20 5 -10 17.5 0 -7.5
+2 24 -17.5 0 -7.5 -20 5 -10
+2 24 20 5 10 17.5 0 7.5
+2 24 -17.5 0 7.5 -17.5 0 -7.5
+2 24 17.5 0 7.5 -17.5 0 7.5
+2 24 -17.5 0 7.5 -20 5 10
+0 BFC INVERTNEXT
+1 16 0 8 0 16 0 0 0 -5.25 0 0 0 6 box5.dat

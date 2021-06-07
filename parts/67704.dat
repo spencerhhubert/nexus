@@ -1,0 +1,15 @@
+0 =Electric Powered Up 6 Port Hub Rechargeable Battery
+0 Name: 67704.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part Alias UPDATE 2020-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Mindstorms, Set 51515, Robot Inventor
+
+0 !HISTORY 2020-12-29 [PTadmin] Official Update 2020-03
+
+0 // Alias of 45610
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 45610.dat

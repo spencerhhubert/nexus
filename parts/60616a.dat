@@ -1,0 +1,54 @@
+0 Door  1 x  4 x  6 Smooth with Square Handle Plinth
+0 Name: 60616a.dat
+0 Author: Max Martin Richter [MMR1988]
+0 !LDRAW_ORG Part UPDATE 2017-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 !HELP To place the glass on 30179.dat, have it +/-32LDU on the X-axis
+0 !HELP and +/-6 LDU on the Z-axis relative to the door to place it correctly.
+
+0 !HELP To place the glass on 60596.dat, have it +/-32LDU on the X-axis
+0 !HELP and 5 LDU on the Z-axis relative to the door to place it correctly.
+
+0 !HELP Stud is at 57,70,3.75/-3.75
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS glass
+
+0 !HISTORY 2013-04-17 [MMR1988] Created by using the data of 60616b
+0 !HISTORY 2014-01-05 [bsupnik] corrected HELP comment on correct placement
+0 !HISTORY 2014-07-05 [MagFors] corrected HELP comment on correct placement
+0 !HISTORY 2017-12-30 [PTadmin] Official Update 2017-01
+
+1 16 0 4 0 1 0 0 0 1 0 0 0 1 s\60616s01.dat
+1 16 0 136 0 1 0 0 0 -1 0 0 0 1 s\60616s01.dat
+
+1 16 3.0871 70 0 0 -6.1742 0 60.75 0 0 0 0 2 box3u4a.dat
+
+1 16 37.25 32 0 0 0 29.75 0 -28 0 2 0 0 box2-7.dat
+4 16 67 60 2 67 60 -2 67 80 -2 67 80 2
+1 16 37.25 108 0 0 0 29.75 0 28 0 2 0 0 box2-7.dat
+1 16 57 70 2 10 0 0 0 0 -10 0 1.75 0 box5-4a.dat
+1 16 57 70 -2 10 0 0 0 0 -10 0 -1.75 0 box5-4a.dat
+1 16 57 70 2 0 0 -10 10 0 0 0 1 0 recte3.dat
+1 16 57 70 -2 0 0 -10 10 0 0 0 1 0 recte3.dat
+
+4 16 67 80 2 67 136 2 7.5 136 2 7.5 133.5 2
+3 16 7.5 133.5 2 47 80 2 67 80 2
+4 16 47 80 2 7.5 133.5 2 3.0871 133.5 2 3.0871 130.75 2
+4 16 3.0871 130.75 2 3.0871 9.25 2 47 60 2 47 80 2
+4 16 3.0871 9.25 2 3.0871 6.5 2 7.5 6.5 2 47 60 2
+3 16 67 60 2 47 60 2 7.5 6.5 2
+4 16 7.5 6.5 2 7.5 4 2 67 4 2 67 60 2
+
+4 16 7.5 133.5 -2 7.5 136 -2 67 136 -2 67 80 -2
+3 16 67 80 -2 47 80 -2 7.5 133.5 -2
+4 16 3.0871 130.75 -2 3.0871 133.5 -2 7.5 133.5 -2 47 80 -2
+4 16 47 80 -2 47 60 -2 3.0871 9.25 -2 3.0871 130.75 -2
+4 16 47 60 -2 7.5 6.5 -2 3.0871 6.5 -2 3.0871 9.25 -2
+3 16 7.5 6.5 -2 47 60 -2 67 60 -2
+4 16 67 60 -2 67 4 -2 7.5 4 -2 7.5 6.5 -2
+
+1 16 57 70 -3.75 0 0 1 1 0 0 0 1 0 stud2.dat
+1 16 57 70 3.75 0 0 -1 1 0 0 0 -1 0 stud2.dat

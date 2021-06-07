@@ -1,0 +1,22 @@
+0 Train Track 12V Tapered Crossing
+0 Name: u9137.dat
+0 Author: Steffen [Steffen]
+0 !LDRAW_ORG Part UPDATE 2012-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+
+0 !CMDLINE -c1
+
+0 !HISTORY 2012-03-30 [PTadmin] Official Update 2012-01
+
+4 16 -60 8 60 60 8 60 60 8 -60 -60 8 -60
+4 16 -56 12 -56 56 12 -56 56 12 56 -56 12 56
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\u9137s01.dat
+1 16 0 0 0 0 0 1 0 1 0 -1 0 0 s\u9137s01.dat
+1 16 0 0 0 0 0 -1 0 1 0 1 0 0 s\u9137s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 -1 s\u9137s01.dat
+1 16 0 13 0 1 0 0 0 1 0 0 0 20 box.dat
+1 16 17 13 0 1 0 0 0 1 0 0 0 20 box.dat
+1 16 -17 13 0 1 0 0 0 1 0 0 0 20 box.dat
+1 494 0 12 0 1 0 0 0 1 0 0 0 1 s\u9137s03.dat

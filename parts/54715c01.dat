@@ -1,0 +1,15 @@
+0 ~Electric Mindstorms NXT Motor Case
+0 Name: 54715c01.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Shortcut UPDATE 2012-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2012-03-30 [PTadmin] Official Update 2012-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 54714.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 54715.dat
+1 72 0 0 0 1 0 0 0 1 0 0 0 1 54716.dat
+1 72 0 0 0 1 0 0 0 1 0 0 0 1 54717.dat
+1 7 0 28 -223 1 0 0 0 1 0 0 0 1 54732.dat

@@ -1,0 +1,26 @@
+0 ~Plate  6 x 12 with 22 Studs on Three Edges without Top
+0 Name: s\6178s01.dat
+0 Author: Massimo Maso [Sirio]
+0 !LDRAW_ORG Subpart UPDATE 2020-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+
+0 !HISTORY 2020-09-05 [PTadmin] Official Update 2020-02
+
+0 BFC INVERTNEXT
+1 16 0 8 0 116 0 0 0 -4 0 0 0 56 box5.dat
+4 16 -116 8 56 116 8 56 120 8 60 -120 8 60
+4 16 -116 8 -56 -116 8 56 -120 8 60 -120 8 -60
+4 16 116 8 -56 -116 8 -56 -120 8 -60 120 8 -60
+4 16 116 8 56 116 8 -56 120 8 -60 120 8 60
+1 16 0 8 0 120 0 0 0 -8 0 0 0 60 box4.dat
+0 // Underside studs
+1 16 -60 4 0 1 0 0 0 -1 0 0 0 1 stug4-5x5.dat
+1 16 0 4 0 0 0 1 0 -1 0 -1 0 0 stug4-1x5.dat
+1 16 60 4 0 1 0 0 0 -1 0 0 0 1 stug4-5x5.dat
+0 // Studs
+1 16 -50 0 50 1 0 0 0 1 0 0 0 1 stug-1x5.dat
+1 16 50 0 50 1 0 0 0 1 0 0 0 1 stug-1x5.dat
+1 16 -110 0 0 1 0 0 0 1 0 0 0 1 stug-6x1.dat
+1 16 110 0 0 1 0 0 0 1 0 0 0 1 stug-6x1.dat

@@ -1,0 +1,30 @@
+0 ~Tyre  7/ 22 x 26 Racing Slick
+0 Name: u9081.dat
+0 Author: Ingolf Weisheit [stahlwollschaf]
+0 !LDRAW_ORG Part UPDATE 2014-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Chima, Speedorz
+
+0 !HISTORY 2014-12-23 [PTadmin] Official Update 2014-02
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\u9081s01.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 -1 s\u9081s01.dat
+
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\u9081s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 -1 s\u9081s01.dat
+
+1 16 0 0 0 -0.5 -0.86602 0 0.86602 -0.5 0 0 0 1 s\u9081s01.dat
+1 16 0 0 0 -0.5 -0.86602 0 0.86602 -0.5 0 0 0 -1 s\u9081s01.dat
+
+1 16 0 0 0 0.5 -0.86602 0 -0.86602 -0.5 0 0 0 1 s\u9081s01.dat
+1 16 0 0 0 0.5 -0.86602 0 -0.86602 -0.5 0 0 0 -1 s\u9081s01.dat
+
+1 16 0 0 0 -0.5 0.86602 0 -0.86602 -0.5 0 0 0 1 s\u9081s01.dat
+1 16 0 0 0 -0.5 0.86602 0 -0.86602 -0.5 0 0 0 -1 s\u9081s01.dat
+
+1 16 0 0 0 0.5 0.86602 0 0.86602 -0.5 0 0 0 1 s\u9081s01.dat
+1 16 0 0 0 0.5 0.86602 0 0.86602 -0.5 0 0 0 -1 s\u9081s01.dat
+

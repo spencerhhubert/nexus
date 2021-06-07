@@ -1,0 +1,26 @@
+0 Wheel 22 x 172 with Fins and Inner 168 Tooth Gear
+0 Name: 44556.dat
+0 Author: Amnon Silverstein [Amnon]
+0 !LDRAW_ORG Part UPDATE 2012-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Hailfire Droid, Technic, Annulus
+
+0 !HISTORY 2012-12-28 [PTadmin] Official Update 2012-03
+
+0 // Nomenclature: width_(mm) x rim_diameter_(mm) [optional qualifier]
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\44556s02.dat
+1 16 0 0 0 0.866 -0.5 0 0.5 0.866 0 0 0 1 s\44556s02.dat
+1 16 0 0 0 0.5 -0.866 0 0.866 0.5 0 0 0 1 s\44556s02.dat
+1 16 0 0 0 0 -1 0 1 0 0 0 0 1 s\44556s02.dat
+1 16 0 0 0 -0.5 -0.866 0 0.866 -0.5 0 0 0 1 s\44556s02.dat
+1 16 0 0 0 -0.866 -0.5 0 0.5 -0.866 0 0 0 1 s\44556s02.dat
+1 16 0 0 0 -1 0 0 0 -1 0 0 0 1 s\44556s02.dat
+1 16 0 0 0 -0.866 0.5 0 -0.5 -0.866 0 0 0 1 s\44556s02.dat
+1 16 0 0 0 -0.5 0.866 0 -0.866 -0.5 0 0 0 1 s\44556s02.dat
+1 16 0 0 0 0 1 0 -1 0 0 0 0 1 s\44556s02.dat
+1 16 0 0 0 0.5 0.866 0 -0.866 0.5 0 0 0 1 s\44556s02.dat
+1 16 0 0 0 0.866 0.5 0 -0.5 0.866 0 0 0 1 s\44556s02.dat

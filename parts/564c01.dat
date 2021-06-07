@@ -1,0 +1,20 @@
+0 Electric Motor  4 x 12 x  3.333 Type 1  4.5V
+0 Name: 564c01.dat
+0 Author: Guy Vivan [guyvivan]
+0 !LDRAW_ORG Shortcut UPDATE 2014-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2012-01-07 [Steffen] replaced color 383 by 494
+0 !HISTORY 2014-06-21 [PTadmin] Official Update 2014-01
+
+1 494 -20 0 20 1.06066 0 -1.06066 0 1 0 1.06066 0 1.06066 u9020.dat
+1 494 20 0 20 1.06066 0 -1.06066 0 1 0 1.06066 0 1.06066 u9020.dat
+1 494 -20 78 0 1.06066 0 -1.06066 0 -1 0 -1.06066 0 -1.06066 u9020.dat
+1 494 20 78 0 1.06066 0 -1.06066 0 -1 0 -1.06066 0 -1.06066 u9020.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 564.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 565.dat
+1 15 0 66 -60 1 0 0 0 1 0 0 0 1 566.dat
+1 15 0 66 60 1 0 0 0 1 0 0 0 1 566.dat
+1 16 0 4 -39.75 0.35 0 0 0 0 1 0 -0.35 0 s\564s02.dat

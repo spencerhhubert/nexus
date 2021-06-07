@@ -1,0 +1,12 @@
+0 Train Wheel Spoked with Conical Rim with Stub Axle and Light Grey Tyre
+0 Name: 244c03.dat
+0 Author: Alex Taylor [anathema]
+0 !LDRAW_ORG Shortcut UPDATE 2020-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2020-06-28 [PTadmin] Official Update 2020-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 244c01.dat
+1 375 0 0 -1 1 0 0 0 1 0 0 0 1 458c01.dat

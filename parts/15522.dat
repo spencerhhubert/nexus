@@ -1,0 +1,20 @@
+0 Minifig Head Simpsons Marge Simpson
+0 Name: 15522.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2015-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2015-10-11 [PTadmin] Official Update 2015-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\15522s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\15522s01.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\15522s02.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\15522s02.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\15522s03.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\15522s03.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\15522s04.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\15522s04.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\15522s05.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\15522s05.dat

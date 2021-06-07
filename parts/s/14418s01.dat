@@ -1,0 +1,43 @@
+0 ~Plate  1 x  2 with Socket Joint-8 with Friction
+0 Name: s\14418s01.dat
+0 Author: Tim Gould [timgould]
+0 !LDRAW_ORG Subpart UPDATE 2017-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+0 !CATEGORY Hinge
+
+0 !HISTORY 2014-01-06 [MMR1988] Creation based on reworked 14418.dat
+0 !HISTORY 2014-03-22 [MagFors] adapted to updated socket primitive
+0 !HISTORY 2017-12-30 [PTadmin] Official Update 2017-01
+
+1 16 0 4 0 1 0 0 0 -1 0 0 0 1 stud3.dat
+0 BFC INVERTNEXT
+1 16 16 6 0 0 -32 0 2 0 0 0 0 6 box3u2p.dat
+
+4 16 19 4 6 19 4 -6 -16 4 -6 -16 4 6
+3 16 -20 8 -10 -16 8 -6 16 8 -6
+4 16 -20 8 -10 16 8 -6 17 8 -6 20 8 -10
+3 16 16 8 6 -16 8 6 -20 8 10
+4 16 20 8 10 17 8 6 16 8 6 -20 8 10
+4 16 -20 8 10 -16 8 6 -16 8 -6 -20 8 -10
+
+0 BFC INVERTNEXT
+1 16 17 6 -3.25 0 2 0 2 0 0 0 0 1.75 box3u4a.dat
+0 BFC INVERTNEXT
+1 16 17 6 3.25 0 2 0 2 0 0 0 0 1.75 box3u4a.dat
+
+1 16 17 8 -6 0 0 -1 0 -4 0 1 0 0 1-4cylc.dat
+1 16 17 8 6 -1 0 0 0 -4 0 0 0 -1 1-4cylc.dat
+1 16 17 8 0 0 0 -1 0 -4 0 1.5 0 0 2-4cylc.dat
+
+3 16 19 8 1.5 19 8 5 20 8 10
+4 16 19 8 -1.5 19 8 1.5 20 8 10 20 8 -10
+3 16 20 8 -10 19 8 -5 19 8 -1.5
+4 16 19 8 -5 20 8 -10 17 8 -6 17 8 -5
+4 16 17 8 -1.5 17 8 1.5 19 8 1.5 19 8 -1.5
+4 16 17 8 5 17 8 6 20 8 10 19 8 5
+
+1 16 0 8 0 0 0 -20 0 -8 0 10 0 0 box4-4a.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 stug2-1x2.dat
+

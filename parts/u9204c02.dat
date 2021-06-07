@@ -1,0 +1,23 @@
+0 Fabuland Scooter with Raccoon Figure
+0 Name: u9204c02.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Shortcut UPDATE 2012-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 !HELP This file is a template for Fabuland figure posing
+
+0 BFC CERTIFY CCW
+
+0 !CATEGORY Vehicle
+0 !KEYWORDS Set 324, Set 3605
+
+0 !HISTORY 2012-12-28 [PTadmin] Official Update 2012-03
+
+1 4 0 0 0 1 0 0 0 1 0 0 0 1 u9204c01.dat
+1 84 0 -67 4 1 0 0 0 1 0 0 0 1 u9107p04c01.dat
+1 0 0 -37 4 1 0 0 0 1 0 0 0 1 u9102.dat
+1 14 23 -63 4 1 0 0 0 0.70711 0.70711 0 -0.70711 0.70711 u9101.dat
+1 14 -23 -63 4 -1 0 0 0 0.70711 -0.70711 0 -0.70711 -0.70711 u9101.dat
+1 1 -10 -37 4 1 0 0 0 1 0 0 0 1 u9100.dat
+1 1 10 -37 4 1 0 0 0 1 0 0 0 1 u9100.dat
+1 4 0 -37 4 1 0 0 0 1 0 0 0 1 u9103.dat

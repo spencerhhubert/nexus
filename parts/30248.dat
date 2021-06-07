@@ -1,0 +1,59 @@
+0 Landing Skids
+0 Name: 30248.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2010-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !CATEGORY Plane
+0 !KEYWORDS helicopter, skid, rail, Arctic, sled, ski, sleigh, skids
+0 !KEYWORDS Belville, Town
+
+0 !HISTORY 2010-12-31 [PTadmin] Official Update 2010-03
+
+1 16 0 4 0 1 0 0 0 -1 0 0 0 1 stud3.dat
+0 BFC INVERTNEXT
+1 16 0 8 0 16 0 0 0 -4 0 0 0 6 box5.dat
+4 16 -20 8 6 -20 8 10 20 8 10 20 8 6
+4 16 20 8 -6 20 8 -10 -20 8 -10 -20 8 -6
+1 16 0 0 0 40 0 0 0 1 0 0 0 10 rect.dat
+1 16 0 0 60 40 0 0 0 1 0 0 0 10 rect.dat
+1 16 10 0 0 0 0 -1 0 1 0 1 0 0 stud.dat
+1 16 30 0 0 0 0 -1 0 1 0 1 0 0 stud.dat
+1 16 -30 0 0 0 0 -1 0 1 0 1 0 0 stud.dat
+1 16 -10 0 0 0 0 -1 0 1 0 1 0 0 stud.dat
+4 16 40 0 -10 -40 0 -10 -20 8 -10 20 8 -10
+4 16 -40 0 10 40 0 10 20 8 10 -20 8 10
+2 24 -20 8 10 20 8 10
+2 24 20 8 -10 -20 8 -10
+1 16 0 4 60 1 0 0 0 -1 0 0 0 1 stud3.dat
+0 BFC INVERTNEXT
+1 16 0 8 60 16 0 0 0 -4 0 0 0 6 box5.dat
+4 16 -20 8 66 -20 8 70 20 8 70 20 8 66
+4 16 20 8 54 20 8 50 -20 8 50 -20 8 54
+1 16 10 0 60 0 0 -1 0 1 0 1 0 0 stud.dat
+1 16 30 0 60 0 0 -1 0 1 0 1 0 0 stud.dat
+4 16 40 0 50 -40 0 50 -20 8 50 20 8 50
+1 16 -10 0 60 0 0 -1 0 1 0 1 0 0 stud.dat
+1 16 -30 0 60 0 0 -1 0 1 0 1 0 0 stud.dat
+4 16 -40 0 70 40 0 70 20 8 70 -20 8 70
+2 24 -20 8 70 20 8 70
+2 24 20 8 50 -20 8 50
+1 16 50 24 100 0 0 -1 0 1 0 1 0 0 stud.dat
+1 16 50 24 80 0 0 -1 0 1 0 1 0 0 stud.dat
+1 16 50 24 40 0 0 -1 0 1 0 1 0 0 stud.dat
+1 16 50 24 20 0 0 -1 0 1 0 1 0 0 stud.dat
+1 16 50 24 -40 0 0 -1 0 1 0 1 0 0 stud.dat
+1 16 50 24 -60 0 0 -1 0 1 0 1 0 0 stud.dat
+1 16 50 24 -80 0 0 -1 0 1 0 1 0 0 stud.dat
+1 16 -50 24 100 0 0 -1 0 1 0 1 0 0 stud.dat
+1 16 -50 24 80 0 0 -1 0 1 0 1 0 0 stud.dat
+1 16 -50 24 40 0 0 -1 0 1 0 1 0 0 stud.dat
+1 16 -50 24 20 0 0 -1 0 1 0 1 0 0 stud.dat
+1 16 -50 24 -40 0 0 -1 0 1 0 1 0 0 stud.dat
+1 16 -50 24 -60 0 0 -1 0 1 0 1 0 0 stud.dat
+1 16 -50 24 -80 0 0 -1 0 1 0 1 0 0 stud.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\30248s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\30248s01.dat
+0

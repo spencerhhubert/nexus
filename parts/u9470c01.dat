@@ -1,0 +1,20 @@
+0 Electric Powered Up Distance Sensor Back Assembly
+0 Name: u9470c01.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Shortcut UPDATE 2020-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Spike Prime, Mindstorms, Robot Inventor
+
+0 !HISTORY 2020-06-28 [PTadmin] Official Update 2020-01
+0 !HISTORY 2020-12-27 [PTadmin] Update description
+0 !HISTORY 2020-12-29 [PTadmin] Official Update 2020-03
+
+1 16 0 0 -70 1 0 0 0 1 0 0 0 1 u9469.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 u9470.dat
+0 // Cable Stub
+1 511 0 14 3 0 0 1 -1 0 0 0 -1 0 s\23816s01.dat
+0 // See-through blocker
+4 511 10 11.5 2 10 16.4998 2 -10 16.4998 2 -10 11.5 2

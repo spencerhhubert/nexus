@@ -1,0 +1,17 @@
+0 Wedge 12 x  3 x  1 Double Rounded Left
+0 Name: 42061.dat
+0 Author: Marc Schickele [samrotule]
+0 !LDRAW_ORG Part UPDATE 2011-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2004-11-18 [OrionP] Used subfile
+0 !HISTORY 2008-04-16 [Philo] Added BFC statement, corrected stud orientation
+0 !HISTORY 2011-12-29 [PTadmin] Official Update 2011-02
+
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\42060s01.dat
+1 16 0 0 0 0 0 1 0 1 0 -1 0 0 stud.dat
+1 16 0 0 -20 0 0 1 0 1 0 -1 0 0 stud.dat
+1 16 0 0 -40 0 0 1 0 1 0 -1 0 0 stud.dat
+1 16 0 0 -60 0 0 1 0 1 0 -1 0 0 stud.dat

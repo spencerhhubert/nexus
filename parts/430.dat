@@ -1,0 +1,13 @@
+0 ~Train Brick  2 x  4 Holder Bottom Solid
+0 Name: 430.dat
+0 Author: Niels Karsdorp [nielsk]
+0 !LDRAW_ORG Part UPDATE 2011-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+0 !CMDLINE -c0
+
+0 !HISTORY 2011-07-25 [PTadmin] Official Update 2011-01
+
+1 16 0 2 0 38 0 0 0 -2 0 0 0 18 box.dat
+0 //

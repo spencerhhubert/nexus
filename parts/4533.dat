@@ -1,0 +1,63 @@
+0 Container Cupboard  2 x  3 x  2 Door
+0 Name: 4533.dat
+0 Author: James Jessiman
+0 !LDRAW_ORG Part UPDATE 2009-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 1999-02-01 [PTadmin] Official Update 1999-01
+0 !HISTORY 2007-07-08 [PTadmin] Header formatted for Contributor Agreement
+0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01
+0 !HISTORY 2009-02-20 [anathema] Added missing detail; rebuilt using primitives; BFC'd
+0 !HISTORY 2009-09-03 [PTadmin] Official Update 2009-02
+
+1 16 0 36 0 2 0 0 0 1 0 0 0 -2 4-4edge.dat
+1 16 0 0 0 2 0 0 0 1 0 0 0 -2 4-4edge.dat
+1 16 2 14 44 0 1 0 0 0 -2 2 0 0 2-4edge.dat
+1 16 2 22 44 0 1 0 0 0 2 2 0 0 2-4edge.dat
+1 16 -2 14 44 0 1 0 2 0 0 0 0 2 4-4edge.dat
+1 16 -2 22 44 0 1 0 2 0 0 0 0 2 4-4edge.dat
+1 16 4 14 44 0 1 0 2 0 0 0 0 2 4-4disc.dat
+1 16 4 14 44 0 1 0 0 0 2 -2 0 0 2-4edge.dat
+1 16 4 22 44 0 1 0 2 0 0 0 0 2 4-4disc.dat
+1 16 4 22 44 0 1 0 0 0 -2 2 0 0 2-4edge.dat
+1 16 2 14 44 0 -1 0 0 0 -2 -2 0 0 2-4ndis.dat
+1 16 2 22 44 0 -1 0 0 0 2 2 0 0 2-4ndis.dat
+1 16 -2 14 44 0 1 0 2 0 0 0 0 2 4-4ndis.dat
+1 16 -2 22 44 0 1 0 2 0 0 0 0 2 4-4ndis.dat
+0 BFC INVERTNEXT
+1 16 4 14 44 0 -6 0 0 0 2 2 0 0 2-4cyli.dat
+0 BFC INVERTNEXT
+1 16 4 22 44 0 -6 0 0 0 -2 2 0 0 2-4cyli.dat
+0 BFC INVERTNEXT
+1 16 2 14 44 0 -4 0 0 0 -2 2 0 0 2-4cyli.dat
+0 BFC INVERTNEXT
+1 16 2 22 44 0 -4 0 0 0 2 2 0 0 2-4cyli.dat
+4 16 -2 16 46 -2 20 46 -2 20 42 -2 16 42
+4 16 2 36 50 2 24 46 2 24 42 2 36 0
+4 16 2 36 0 2 24 42 2 12 42 2 0 0
+4 16 2 0 0 2 12 42 2 12 46 2 0 50
+4 16 2 0 50 2 12 46 2 24 46 2 36 50
+4 16 -2 36 0 -2 24 42 -2 24 46 -2 36 50
+4 16 -2 0 0 -2 12 42 -2 24 42 -2 36 0
+4 16 -2 0 50 -2 12 46 -2 12 42 -2 0 0
+4 16 -2 36 50 -2 24 46 -2 12 46 -2 0 50
+1 16 0 36 0 2 0 0 0 -1 0 0 0 2 2-4ndis.dat
+1 16 0 0 0 -2 0 0 0 -1 0 0 0 -2 4-8sphe.dat
+1 16 0 36 0 -2 0 0 0 1 0 0 0 2 4-8sphe.dat
+1 16 0 0 0 -2 0 0 0 1 0 0 0 2 2-4ndis.dat
+1 16 0 0 0 2 0 0 0 36 0 0 0 -2 2-4cyli.dat
+1 16 2 18 44 0 4 0 -4 0 0 0 0 2 box3u8p.dat
+2 24 2 14 42 4 14 42
+2 24 2 14 46 4 14 46
+2 24 2 22 46 4 22 46
+2 24 2 22 42 4 22 42
+1 16 6 14 44 0 -2 0 0 0 -2 2 0 0 2-4cylc.dat
+1 16 6 22 44 0 -2 0 0 0 2 -2 0 0 2-4cylc.dat
+1 16 0 18 2 -2 0 0 0 0 18 0 48 0 box3u4a.dat
+2 24 2 0 0 2 0 2
+2 24 -2 0 0 -2 0 2
+2 24 -2 36 0 -2 36 2
+2 24 2 36 0 2 36 2
+0

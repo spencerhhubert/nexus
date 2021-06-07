@@ -1,0 +1,15 @@
+0 Train Front  2 x  2 x  6 with  2 x  4 Cutout with White Stripe Stickers
+0 Name: 2924bd01.dat
+0 Author: Max Martin Richter [MMR1988]
+0 !LDRAW_ORG Shortcut UPDATE 2015-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+0 !KEYWORDS Freight, Locomotive, Railroad, Engine, set 4563, set 4551
+0 !CMDLINE -c4
+
+0 !HISTORY 2015-10-11 [PTadmin] Official Update 2015-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 2924b.dat
+1 16 -60 -12 0 0 1 0 0 0 -1 -1 0 0 164575bc01.dat
+1 16 60 -12 0 0 -1 0 0 0 1 -1 0 0 164575cc01.dat

@@ -1,0 +1,21 @@
+0 Sticker  2.0 x  1.8 with Black Jerrican Outline
+0 Name: 4107582e.dat
+0 Author: Damien Roux [Darats]
+0 !LDRAW_ORG Part UPDATE 2014-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Set 5561, Jerry Can, jerrycan
+
+0 !HISTORY 2014-12-23 [PTadmin] Official Update 2014-02
+
+1 16 0 -0.25 0 1 0 0 0 1 0 0 0 1 s\4107582es01.dat
+1 16 0 -0.25 0 -1 0 0 0 1 0 0 0 1 s\4107582es01.dat
+1 16 0 -0.25 0 -1 0 0 0 1 0 0 0 -1 s\4107582es01.dat
+1 16 0 -0.25 0 1 0 0 0 1 0 0 0 -1 s\4107582es01.dat
+
+1 16 9 -0.125 9.75 0 0 9 0 0.125 0 9.75 0 0 box3-12.dat
+1 16 9 -0.125 -9.75 0 0 9 0 0.125 0 -9.75 0 0 box3-12.dat
+1 16 -9 -0.125 9.75 0 0 -9 0 0.125 0 9.75 0 0 box3-12.dat
+1 16 -9 -0.125 -9.75 0 0 -9 0 0.125 0 -9.75 0 0 box3-12.dat

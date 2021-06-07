@@ -1,0 +1,46 @@
+0 Minifig Axe with Twin-Blade
+0 Name: 95052.dat
+0 Author: Christian Neumann [Wesley]
+0 !LDRAW_ORG Part UPDATE 2014-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !CATEGORY Minifig Accessory
+0 !KEYWORDS 94158, Weapon
+
+0 !HISTORY 2014-02-09 {LEGO Digital Designer} Original part shape
+0 !HISTORY 2014-02-09 [Wesley] File preparation for LDraw Parts Tracker
+0 !HISTORY 2014-06-21 [PTadmin] Official Update 2014-01
+
+1 16 0 16.5 0 4 0 0 0 -11 0 0 0 4 4-4cylc.dat
+1 16 0 5.5 0 0.25 0 0 0 -0.5 0 0 0 0.25 4-4con15.dat
+1 16 0 5 0 3.75 0 0 0 1 0 0 0 3.75 4-4edge.dat
+1 16 0 4.5 0 0.25 0 0 0 0.5 0 0 0 0.25 4-4con15.dat
+1 16 0 4.5 0 4 0 0 0 -1 0 0 0 4 4-4cylo.dat
+1 16 0 3.5 0 0.25 0 0 0 -0.5 0 0 0 0.25 4-4con15.dat
+1 16 0 3 0 3.75 0 0 0 1 0 0 0 3.75 4-4edge.dat
+1 16 0 2.5 0 0.25 0 0 0 0.5 0 0 0 0.25 4-4con15.dat
+1 16 0 2.5 0 4 0 0 0 -1 0 0 0 4 4-4cylo.dat
+1 16 0 1.5 0 0.25 0 0 0 -0.5 0 0 0 0.25 4-4con15.dat
+1 16 0 1 0 3.75 0 0 0 1 0 0 0 3.75 4-4edge.dat
+1 16 0 0.5 0 0.25 0 0 0 0.5 0 0 0 0.25 4-4con15.dat
+1 16 0 0.5 0 4 0 0 0 -1 0 0 0 4 4-4cylo.dat
+1 16 0 -0.5 0 0.25 0 0 0 -0.5 0 0 0 0.25 4-4con15.dat
+1 16 0 -1 0 3.75 0 0 0 1 0 0 0 3.75 4-4edge.dat
+1 16 0 -1.5 0 0.25 0 0 0 0.5 0 0 0 0.25 4-4con15.dat
+1 16 0 -1.5 0 4 0 0 0 -1 0 0 0 4 4-4cylo.dat
+1 16 0 -2.5 0 0.25 0 0 0 -0.5 0 0 0 0.25 4-4con15.dat
+1 16 0 -3 0 3.75 0 0 0 1 0 0 0 3.75 4-4edge.dat
+1 16 0 -3.5 0 0.25 0 0 0 0.5 0 0 0 0.25 4-4con15.dat
+1 16 0 -3.5 0 4 0 0 0 -1 0 0 0 4 4-4cylo.dat
+1 16 0 -4.5 0 0.25 0 0 0 -0.5 0 0 0 0.25 4-4con15.dat
+1 16 0 -5 0 3.75 0 0 0 1 0 0 0 3.75 4-4edge.dat
+1 16 0 -5.5 0 0.25 0 0 0 0.5 0 0 0 0.25 4-4con15.dat
+1 16 0 -5.5 0 4 0 0 0 -13 0 0 0 4 4-4cylo.dat
+1 16 0 -18.5 0 1 0 0 0 -1 0 0 0 1 4-4ring4.dat
+1 16 0 -18.5 0 5 0 0 0 -18.5 0 0 0 5 4-4cylo.dat
+1 16 0 -37 0 1 0 0 0 1 0 0 0 1 4-4ring4.dat
+1 16 0 -43.5 0 4 0 0 0 6.5 0 0 0 4 4-4cylc.dat
+1 16 0 -27.5 0 1 0 0 0 1 0 0 0 1 s\95052s01.dat
+1 16 0 -27.5 0 1 0 0 0 1 0 0 0 -1 s\95052s01.dat

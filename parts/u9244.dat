@@ -1,0 +1,11 @@
+0 ~Glass for Homemaker Stove Door
+0 Name: u9244.dat
+0 Author: Steffen [Steffen]
+0 !LDRAW_ORG Part UPDATE 2016-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2016-12-31 [PTadmin] Official Update 2016-01
+
+1 16 0 15 0 30.75 0 0 0 15 0 0 0 1.25 box.dat

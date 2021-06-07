@@ -1,0 +1,22 @@
+0 ~Electric Mindstorms EV3 US Sensor Transducer Rubber Holder
+0 Name: 99401.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2013-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2012-05-20 {LEGO MINDSTORMS Team} Original part shape
+0 !HISTORY 2012-06-18 [Philo] File preparation for LDraw Parts Tracker
+0 !HISTORY 2013-12-23 [PTadmin] Official Update 2013-02
+
+1 16 0 0 -2 -19 0 0 0 0 19 0 24 0 4-4cylo.dat
+0 BFC INVERTNEXT
+1 16 0 0 0 -16 0 0 0 0 16 0 22 0 4-4cylo.dat
+1 16 0 0 22 2 0 0 0 0 2 0 -1 0 4-4ring8.dat
+1 16 0 0 -2 -6 0 0 0 0 6 0 1 0 4-4ring2.dat
+1 16 0 0 0 -4 0 0 0 0 4 0 -1 0 4-4ring3.dat
+1 16 0 0 22 1 0 0 0 0 1 0 -1 0 4-4rin18.dat
+1 16 0 0 -2 -1 0 0 0 0 1 0 1 0 4-4rin18.dat
+0 BFC INVERTNEXT
+1 16 0 0 -2 -12 0 0 0 0 12 0 2 0 4-4cylo.dat

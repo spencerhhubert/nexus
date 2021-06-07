@@ -1,0 +1,33 @@
+0 ~Duplo Brick  2 x  4 x  2 without Front
+0 Name: s\31111s01.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Subpart UPDATE 2019-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2019-12-27 [PTadmin] Official Update 2019-03
+
+1 16 0 96 0 80 0 0 0 -96 0 0 0 40 box4-1.dat
+0 BFC INVERTNEXT
+1 16 0 96 0 76 0 0 0 -92 0 0 0 36 box5.dat
+4 16 80 96 40 76 96 36 -76 96 36 -80 96 40
+4 16 -80 96 40 -76 96 36 -76 96 -36 -80 96 -40
+4 16 -80 96 -40 -76 96 -36 76 96 -36 80 96 -40
+4 16 80 96 -40 76 96 -36 76 96 36 80 96 40
+1 16 40 0 0 1 0 0 0 2.75 0 0 0 1 stug7-2x2.dat
+1 16 -40 0 0 1 0 0 0 2.75 0 0 0 1 stug7-2x2.dat
+1 16 0 4 0 1 0 0 0 -22 0 0 0 1 stug8-1x3.dat
+1 16 60 4 -34 1.5 0 0 0 91 0 0 0 2 box4-1.dat
+1 16 20 4 -34 1.5 0 0 0 91 0 0 0 2 box4-1.dat
+1 16 -20 4 -34 1.5 0 0 0 91 0 0 0 2 box4-1.dat
+1 16 -60 4 -34 1.5 0 0 0 91 0 0 0 2 box4-1.dat
+1 16 60 4 34 1.5 0 0 0 91 0 0 0 -2 box4-1.dat
+1 16 20 4 34 1.5 0 0 0 91 0 0 0 -2 box4-1.dat
+1 16 -20 4 34 1.5 0 0 0 91 0 0 0 -2 box4-1.dat
+1 16 -60 4 34 1.5 0 0 0 91 0 0 0 -2 box4-1.dat
+1 16 -74 4 -20 0 0 2 0 91 0 -1.5 0 0 box4-1.dat
+1 16 74 4 -20 0 0 -2 0 91 0 1.5 0 0 box4-1.dat
+1 16 -74 4 20 0 0 2 0 91 0 -1.5 0 0 box4-1.dat
+1 16 74 4 20 0 0 -2 0 91 0 1.5 0 0 box4-1.dat
+2 24 -80 96 -40 80 96 -40

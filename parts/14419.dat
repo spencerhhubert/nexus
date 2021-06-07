@@ -1,0 +1,18 @@
+0 Plate  1 x  2 with Socket Joint-8 with Friction and Ball Joint-8
+0 Name: 14419.dat
+0 Author: Tim Gould [timgould]
+0 !LDRAW_ORG Part UPDATE 2017-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !CATEGORY Hinge
+
+0 !HISTORY 2017-12-30 [PTadmin] Official Update 2017-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\14418s01.dat
+1 16 -20 4 0 0 -1 0 0 0 4 -4 0 0 4-4edge.dat
+1 16 -20 4 0 0 -2 0 0 0 -4 -4 0 0 4-4cyli.dat
+1 16 -30 4 0 0 -4 0 0 0 4 -4 0 0 4-4cyl1sph2.dat
+1 16 -30 4 0 0 0 8 0 8 0 -8 0 0 8-8sphe.dat
+1 16 30 4 0 0 0 -1 0 1 0 1 0 0 joint8socket1.dat

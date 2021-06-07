@@ -1,0 +1,21 @@
+0 Technic Ball Joint with Axlehole Open
+0 Name: 53585.dat
+0 Author: Santeri Piippo [arezey]
+0 !LDRAW_ORG Part UPDATE 2013-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Bionicle, sphere
+
+0 !HISTORY 2013-07-21 [PTadmin] Official Update 2013-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\53585s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 -1 s\53585s01.dat
+1 16 0 0 0 1 0 0 0 -1 0 0 0 1 s\53585s01.dat
+1 16 0 0 0 -1 0 0 0 -1 0 0 0 -1 s\53585s01.dat
+1 16 0 -7.527 0 1 0 0 0 6.843 0 0 0 1 axlehol2.dat
+1 16 0 7.527 0 1 0 0 0 6.843 0 0 0 1 axlehol2.dat
+0 BFC INVERTNEXT
+1 16 0 -6.843 0 1 0 0 0 13.686 0 0 0 1 axlehol8.dat
+0

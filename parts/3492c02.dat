@@ -1,0 +1,22 @@
+0 Crane Grab Jaws Open (Shortcut)
+0 Name: 3492c02.dat
+0 Author: Paul Easter [pneaster]
+0 !LDRAW_ORG Shortcut UPDATE 2013-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+0 !KEYWORDS aquazone, digger, claw
+
+0 !HISTORY 2002-11-30 [PTadmin] Official Update 2002-05
+0 !HISTORY 2007-06-25 [PTadmin] Header formatted for Contributor Agreement
+0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01
+0 !HISTORY 2013-03-16 [MagFors] Changed colour 383 to 494 (real metal)
+0 !HISTORY 2013-07-21 [PTadmin] Official Update 2013-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 3492.dat
+0 // rotated -40 degrees around x
+1 16 0 0 0 1 0 0 0 .766 .643 0 -.643 .766 3493.dat
+0 // rotated 40 degrees around x
+1 16 0 0 0 -1 0 0 0 .766 .643 0 .643 -.766 3493.dat
+0 // spring
+1 494 0 13 -27 0 0 1 -1 0 0 0 1 0 519o.dat

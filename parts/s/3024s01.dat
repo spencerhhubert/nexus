@@ -1,0 +1,18 @@
+0 ~Plate  1 x  1 without Front Face
+0 Name: s\3024s01.dat
+0 Author: Tore Eriksson [Tore_Eriksson]
+0 !LDRAW_ORG Subpart UPDATE 2012-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2012-12-28 [PTadmin] Official Update 2012-03
+
+0 BFC INVERTNEXT
+1 16 0 8 0 0 0 6 0 -4 0 -6 0 0 box5.dat
+4 16 10 8 -10 6 8 -6 6 8 6 10 8 10
+4 16 10 8 10 6 8 6 -6 8 6 -10 8 10
+4 16 -10 8 10 -6 8 6 -6 8 -6 -10 8 -10
+4 16 -10 8 -10 -6 8 -6 6 8 -6 10 8 -10
+1 16 0 8 0 10 0 0 0 -8 0 0 0 10 box4t.dat
+1 16 0 0 0 0 0 1 0 1 0 -1 0 0 stud.dat

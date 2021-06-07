@@ -1,0 +1,28 @@
+0 ~Electric Power Functions 2.0 Tilt Sensor Bottom
+0 Name: u9321.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2016-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS WeDo 2.0
+
+0 !HISTORY 2016-12-31 [PTadmin] Official Update 2016-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\64051s01.dat
+4 16 -40 8 -10 -40 8 -20 -38 8 -18 -38 8 -12
+4 16 -38 8 -12 -32 8 -12 -34 8 -10 -40 8 -10
+4 16 -34 8 10 -34 8 -10 -32 8 -12 -32 8 12
+2 24 -40 8 -10 -40 8 -20
+4 16 -40 8 -10 -40 12 -10 -40 24 -20 -40 8 -20
+4 16 -40 24 20 -40 24 -20 -40 12 -10 -40 12 10
+4 16 -38 8 12 -38 8 18 -40 8 20 -40 8 10
+4 16 -40 8 10 -34 8 10 -32 8 12 -38 8 12
+2 24 -40 8 10 -40 8 20
+4 16 -40 8 20 -40 24 20 -40 12 10 -40 8 10
+0 BFC INVERTNEXT
+1 16 -40 10 0 0 6 0 0 0 2 10 0 0 box4-1.dat
+1 16 -38 12 0 0 6 0 -4 0 0 0 0 12 box3u2p.dat
+1 16 -38 12 -15 0 -1 0 -4 0 0 0 0 -3 rect3.dat
+1 16 -38 12 15 0 -1 0 4 0 0 0 0 3 rect3.dat

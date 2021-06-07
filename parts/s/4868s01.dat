@@ -1,0 +1,50 @@
+0 ~Plane Jet Engine without Top Plate
+0 Name: s\4868s01.dat
+0 Author: James Jessiman
+0 !LDRAW_ORG Subpart UPDATE 2015-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2014-12-31 [Steffen] substituted primitives, BFCed, subfiled
+0 !HISTORY 2015-02-25 [MMR1988] Used cylo primitives
+0 !HISTORY 2015-10-11 [PTadmin] Official Update 2015-01
+
+1 16 0 0 40 6 0 0 0 0 6 0 -1 0 4-4edge.dat
+1 16 0 0 40 10 0 0 0 0 10 0 -1 0 4-4edge.dat
+1 16 0 0 40 2 0 0 0 0 2 0 -1 0 4-4ring3.dat
+1 16 0 0 40 2 0 0 0 0 2 0 -1 0 4-4ring4.dat
+1 16 0 0 -4 -2 0 0 0 0 2 0 1 0 4-4ring3.dat
+1 16 0 0 -4 -2 0 0 0 0 2 0 1 0 4-4ring4.dat
+1 16 0 0 -60 -4 0 0 0 0 4 0 1 0 4-4ring4.dat
+0 BFC INVERTNEXT
+1 16 0 0 40 6 0 0 0 0 6 0 -10 0 4-4cyli.dat
+1 16 0 0 30 1 0 0 0 0 1 0 -34 0 axlehole.dat
+1 16 0 0 -4 1 0 0 0 0 1 0 -1 0 axlehol2.dat
+1 16 0 0 30 1 0 0 0 0 1 0 -1 0 axlehol3.dat
+1 16 0 0 24 10 0 0 0 0 10 0 -28 0 4-4cylo.dat
+0 BFC INVERTNEXT
+1 16 0 0 0 16 0 0 0 0 16 0 -60 0 4-4cylo.dat
+1 16 0 0 0 20 0 0 0 0 20 0 -60 0 4-4cylo.dat
+1 16 0 0 0 -10 0 0 0 0 10 0 40 0 4-4con1.dat
+0 BFC INVERTNEXT
+1 16 0 0 0 -4 0 0 0 0 4 0 16 0 4-4con3.dat
+0 BFC INVERTNEXT
+1 16 0 0 16 -2 0 0 0 0 2 0 8 0 4-4con5.dat
+2 24 2 -19.58 -20 2 -19.58 0
+2 24 2 -19.58 0 2 -14.58 20
+2 24 2 -14.58 20 0 -15 20
+2 24 -2 -19.58 -20 -2 -19.58 0
+2 24 -2 -19.58 0 -2 -14.58 20
+2 24 -2 -14.58 20 0 -15 20
+2 24 2 -19.58 -20 2 -22 -20
+2 24 -2 -19.58 -20 -2 -22 -20
+2 24 2 -14.58 20 2 -22 20
+2 24 -2 -14.58 20 -2 -22 20
+4 16 2 -14.58 20 2 -22 20 2 -22 -20 2 -19.58 -20
+4 16 -2 -14.58 20 -2 -22 20 2 -22 20 2 -14.58 20
+4 16 -2 -19.58 -20 -2 -22 -20 -2 -22 20 -2 -14.58 20
+2 24 0 -20 -20 -2 -19.58 -20
+2 24 0 -20 -20 2 -19.58 -20
+4 16 -2 -19.58 -20 0 -20 -20 2 -22 -20 -2 -22 -20
+3 16 0 -20 -20 2 -19.58 -20 2 -22 -20

@@ -1,0 +1,42 @@
+0 Brick  1 x  4 x  2 with Centre Stud Top with Underside Reinforcement
+0 Name: 4088b.dat
+0 Author: Chris Dee [cwdee]
+0 !LDRAW_ORG Part UPDATE 2018-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2000-05-07 [PTadmin] Official Update 2000-01
+0 !HISTORY 2007-07-01 [PTadmin] Header formatted for Contributor Agreement
+0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01
+0 !HISTORY 2008-07-07 [guyvivan] Made BFC compliant and add underside detail (2005-02-21)
+0 !HISTORY 2009-05-02 [PTadmin] Official Update 2009-01
+0 !HISTORY 2017-11-23 [PTadmin] Renamed from 4088
+0 !HISTORY 2018-01-30 [PTadmin] Official Update 2018-01
+
+0 // Front Surface
+
+1 16 17 3 -10 3 0 0 0 0 -3 0 1 0 1-4disc.dat
+1 16 -17 3 -10 -3 0 0 0 0 -3 0 1 0 1-4disc.dat
+4 16 17 0 -10 -17 0 -10 -17 3 -10 17 3 -10
+4 16 20 3 -10 -20 3 -10 -20 48 -10 20 48 -10
+4 16 -20 48 -10 -20 31 -10 -40 31 -10 -40 48 -10
+4 16 40 48 -10 40 31 -10 20 31 -10 20 48 -10
+1 16 30 31 -10 10 0 0 0 0 -10 0 1 0 3-8disc.dat
+1 16 21.5 24 -10 -1.5 0 0 0 0 1.5 0 1 0 1-4ndis.dat
+4 16 21.5 25.5 -10 20 25.5 -10 20 31 -10 21.5 31 -10
+3 16 21.5 31 -10 30 31 -10 21.5 25.5 -10
+3 16 21.5 25.5 -10 30 31 -10 22.074 25.386 -10
+3 16 22.074 25.386 -10 30 31 -10 22.561 25.061 -10
+3 16 22.561 25.061 -10 30 31 -10 22.929 23.929 -10
+1 16 -30 31 -10 -10 0 0 0 0 -10 0 1 0 3-8disc.dat
+1 16 -21.5 24 -10 1.5 0 0 0 0 1.5 0 1 0 1-4ndis.dat
+4 16 -20 25.5 -10 -21.5 25.5 -10 -21.5 31 -10 -20 31 -10
+3 16 -30 31 -10 -21.5 31 -10 -21.5 25.5 -10
+3 16 -30 31 -10 -21.5 25.5 -10 -22.074 25.386 -10
+3 16 -30 31 -10 -22.074 25.386 -10 -22.561 25.061 -10
+3 16 -30 31 -10 -22.561 25.061 -10 -22.929 23.929 -10
+0 // Main structure
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\4088s01.dat
+0 // Underside reinforcement
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\4088s02.dat

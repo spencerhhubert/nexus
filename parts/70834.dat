@@ -1,0 +1,28 @@
+0 ~Technic Pneumatic Pump  1 x  1 Gasket
+0 Name: 70834.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2018-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2018-01-30 [PTadmin] Official Update 2018-01
+
+0 BFC INVERTNEXT
+1 16 0 0 0 2 0 0 0 8 0 0 0 2 4-4cylo.dat
+1 16 0 0 0 6 0 0 0 8 0 0 0 6 4-4cylo.dat
+1 16 0 0 0 4.24264 0 -4.24264 0 1 0 4.24264 0 4.24264 1-4chrd.dat
+1 16 0 0 0 2 0 0 0 1 0 0 0 2 4-4ndis.dat
+1 16 0 0 0 4.24264 0 4.24264 0 1 0 -4.24264 0 4.24264 1-4chrd.dat
+1 16 0 0 0 -4.24264 0 4.24264 0 1 0 -4.24264 0 -4.24264 1-4chrd.dat
+1 16 0 0 0 -4.24264 0 -4.24264 0 1 0 4.24264 0 -4.24264 1-4chrd.dat
+4 16 4.2426 0 4.2426 2 0 2 2 0 -2 4.2426 0 -4.2426
+4 16 -4.2426 0 -4.2426 4.2426 0 -4.2426 2 0 -2 -2 0 -2
+4 16 -4.2426 0 4.2426 -4.2426 0 -4.2426 -2 0 -2 -2 0 2
+4 16 4.2426 0 4.2426 -4.2426 0 4.2426 -2 0 2 2 0 2
+1 16 0 10 0 8 0 0 0 -2 0 0 0 8 4-4cylo.dat
+1 16 0 8 0 2 0 0 0 1 0 0 0 2 4-4ring3.dat
+1 16 0 10 0 4 0 0 0 -1 0 0 0 4 4-4ring1.dat
+0 BFC INVERTNEXT
+1 16 0 8 0 4 0 0 0 2 0 0 0 4 4-4cylo.dat
+1 16 0 8 0 2 0 0 0 -1 0 0 0 2 4-4ring1.dat

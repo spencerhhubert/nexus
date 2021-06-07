@@ -1,0 +1,33 @@
+0 Wedge  4 x  2 Sloped Left
+0 Name: 43721.dat
+0 Author: Donald Sutter [technog]
+0 !LDRAW_ORG Part UPDATE 2004-04
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+
+0 !HISTORY 2004-11-06 [PTadmin] Official Update 2004-04
+0 !HISTORY 2007-07-04 [PTadmin] Header formatted for Contributor Agreement
+0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01
+
+1 16 -10 0 30 0 0 1 0 1 0 -1 0 0 stud.dat
+1 16 -10 0 10 0 0 1 0 1 0 -1 0 0 stud.dat
+1 16 -10 0 -10 0 0 1 0 1 0 -1 0 0 stud.dat
+1 16 -10 0 -30 0 0 1 0 1 0 -1 0 0 stud.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\43720s01.dat
+3 16 0 0 -20 0 20 -40 0 0 -40
+3 16 0 0 -20 5 20 -20 0 20 -40
+3 16 0 0 -20 0 0 0 5 20 -20
+3 16 0 0 0 10 20 0 5 20 -20
+3 16 0 0 0 0 0 20 10 20 0
+3 16 10 20 0 0 0 20 15 20 20
+3 16 15 20 20 0 0 20 0 0 40
+3 16 0 0 40 20 20 40 15 20 20
+5 24 5 20 -20 0 0 -20 0 0 0 0 20 -40
+5 24 10 20 0 0 0 0 0 0 20 5 20 -20
+5 24 15 20 20 0 0 20 0 0 40 10 20 0
+5 24 0 20 -40 0 0 -20 5 20 -20 0 0 -40
+5 24 5 20 -20 0 0 0 10 20 0 0 0 -20
+5 24 10 20 0 0 0 20 15 20 20 0 0 0
+5 24 15 20 20 0 0 40 20 20 40 0 0 20
+0

@@ -1,0 +1,16 @@
+0 ~Space Nose with Classic Space Logo Pattern - Gold
+0 Name: s\2336p90a.dat
+0 Author: Chris Dee [cwdee]
+0 !LDRAW_ORG Subpart UPDATE 2000-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 !HISTORY 2000-05-07 [PTadmin] Official Update 2000-01
+0 !HISTORY 2007-08-28 [PTadmin] Header formatted for Contributor Agreement
+0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01
+
+1 16 -2.2 -14.152 -26.978 5.843 0 -2.421 -0.995 0.919 -2.402 2.322 0.394 5.604 2-4disc.dat
+3 16 0.221 -11.75 -32.582 2.272 -12.313 -31.268 -2.2 -11.552 -33.045
+4 16 -2.2 -11.552 -33.045 2.272 -12.313 -31.268 3.643 -13.157 -29.3 -4.621 -11.75 -32.582
+4 16 -4.621 -11.75 -32.582 3.643 -13.157 -29.3 4.125 -14.152 -26.978 -6.672 -12.313 -31.268
+4 16 -6.672 -12.313 -31.268 4.125 -14.152 -26.978 4.101 -14.202 -26.862 -6.74 -12.356 -31.169
+0

@@ -1,0 +1,17 @@
+0 Sticker  0.8 x  2 with White "7730"
+0 Name: 191905b.dat
+0 Author: Steffen [Steffen]
+0 !LDRAW_ORG Part UPDATE 2012-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2012-03-30 [PTadmin] Official Update 2012-01
+
+1 16 0 -0.25 0 20 0 0 0 0.25 0 0 0 -8 box5-12.dat
+1 16 0 -0.25 -4.5 0.415 0 0 0 1 0 0 0 0.415 s\191905s01.dat
+4 16 -20 -0.25 8 -16.6 -0.25 5.46 16.6 -0.25 5.46 20 -0.25 8
+4 16 -16.6 -0.25 5.46 -20 -0.25 8 -20 -0.25 -8 -16.6 -0.25 -7.82
+4 16 -16.6 -0.25 -7.82 -20 -0.25 -8 20 -0.25 -8 16.6 -0.25 -7.82
+4 16 20 -0.25 8 16.6 -0.25 5.46 16.6 -0.25 -7.82 20 -0.25 -8
+0

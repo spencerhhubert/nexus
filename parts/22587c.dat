@@ -1,0 +1,27 @@
+0 Sticker Minifig Torso with Large "TINE" Logo
+0 Name: 22587c.dat
+0 Author: J.C. Tchang [tchang]
+0 !LDRAW_ORG Part UPDATE 2013-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Milk, set 1029
+
+0 !HISTORY 2007-12-10 [tchang] Used subpart and replace 4125514c
+0 !HISTORY 2011-08-01 [tchang] Change title, used main color in back, suppress Category
+0 !HISTORY 2013-08-07 [MMR1988] Adjusted Subpart Origin, Updated Description and Keywords
+0 !HISTORY 2013-12-23 [PTadmin] Official Update 2013-02
+
+4 16 17 0 -14 -17 0 -14 -12 0 14 12 0 14
+4 16 12 0 14 -12 0 14 -12 -0.25 14 12 -0.25 14
+4 16 17 -0.25 -14 -17 -0.25 -14 -17 0 -14 17 0 -14
+4 16 17 0 -14 12 0 14 12 -0.25 14 17 -0.25 -14
+4 16 -17 -0.25 -14 -12 -0.25 14 -12 0 14 -17 0 -14
+0 //
+1 1 0 -0.25 -3.35 1 0 0 0 1 0 0 0 1 s\22587s01.dat
+0 //
+4 1 -11.7 -0.25 4 -12 -0.25 14 -17 -0.25 -14 -11.7 -0.25 -10.7
+4 1 11.7 -0.25 4 12 -0.25 14 -12 -0.25 14 -11.7 -0.25 4
+4 1 11.7 -0.25 -10.7 17 -0.25 -14 12 -0.25 14 11.7 -0.25 4
+4 1 -11.7 -0.25 -10.7 -17 -0.25 -14 17 -0.25 -14 11.7 -0.25 -10.7

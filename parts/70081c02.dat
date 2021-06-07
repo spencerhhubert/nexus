@@ -1,0 +1,17 @@
+0 ~Axle Steel  6 x 108 with Two Wheels  5.5 x 20 with 10 Spokes
+0 Name: 70081c02.dat
+0 Author: Magnus Forsberg [MagFors]
+0 !LDRAW_ORG Shortcut UPDATE 2016-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !CATEGORY Vehicle
+0 !KEYWORDS Fabuland
+
+0 !HISTORY 2015-03-08 [Philo] Changed wheel pitch
+0 !HISTORY 2016-12-31 [PTadmin] Official Update 2016-01
+
+1 494 0 0 0 1 0 0 0 1 0 0 0 1 70081.dat
+1 16 46 0 0 1 0 0 0 1 0 0 0 1 683.dat
+1 16 -46 0 0 -1 0 0 0 1 0 0 0 -1 683.dat

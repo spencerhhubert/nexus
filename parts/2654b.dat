@@ -1,0 +1,33 @@
+0 Dish  2 x  2 without Rim
+0 Name: 2654b.dat
+0 Author: Evert-Jan Boer [ejboer]
+0 !LDRAW_ORG Part UPDATE 2020-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS boat stud 2 x 2, spherical, smooth bottom, skid plate, inverted tile
+0 !KEYWORDS round
+
+0 !HISTORY 2020-06-09 [ejboer] Build from LDD data, modified rim
+0 !HISTORY 2020-12-29 [PTadmin] Official Update 2020-03
+
+1 16 0 2.25 0 20 0 0 0 -11.5 0 0 0 -20 bump5000.dat
+1 16 0 1.125 0 20 0 0 0 1.125 0 0 0 20 4-4cyli.dat
+
+0 BFC INVERTNEXT
+1 16 0 0.5286 0 6 0 0 0 3.17143 0 0 0 6 4-4con2.dat
+0 BFC INVERTNEXT
+1 16 0 0 0 1 0 0 0 0.52857 0 0 0 1 4-4con18.dat
+
+
+0 BFC INVERTNEXT
+1 16 0 3.7 0 -6 0 0 0 1 0 0 0 -6 4-4con1.dat
+1 16 0 4.7 0 6 0 0 0 1 0 0 0 6 4-4disc.dat
+1 16 0 4.7 0 6 0 0 0 1 0 0 0 6 4-4edge.dat
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\2654bs01.dat
+1 16 0 0 0 0 0 1 0 1 0 -1 0 0 s\2654bs01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 -1 s\2654bs01.dat
+1 16 0 0 0 0 0 -1 0 1 0 1 0 0 s\2654bs01.dat
+

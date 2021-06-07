@@ -1,0 +1,15 @@
+0 Animal Crocodile (Complete)
+0 Name: 6026c01.dat
+0 Author: Andy Westrate [westrate]
+0 !LDRAW_ORG Shortcut UPDATE 2010-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+0 !KEYWORDS Alligator
+
+0 !HISTORY 2010-04-05 [PTadmin] Official Update 2010-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 6026.dat
+1 16 0 14 -40 1 0 0 0 0.999048 0.0436194 0 -0.0436194 0.999048 6027.DAT
+1 16 0 5 55 1 0 0 0 1 0 0 0 1 6028.DAT
+0

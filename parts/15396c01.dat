@@ -1,0 +1,20 @@
+0 Minifig Scooter
+0 Name: 15396c01.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Shortcut UPDATE 2018-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !CATEGORY Vehicle
+
+0 !HISTORY 2018-12-08 [PTadmin] Official Update 2018-02
+
+1 16 0 -48 0 1 0 0 0 1 0 0 0 1 15396.dat
+1 47 0 -62 -74 0 0 1 1 0 0 0 1 0 6141.dat
+1 0 0 -62 -51 1 0 0 0 0.99 -0.139 0 0.139 0.99 30031.dat
+1 15 0 -18 15 1 0 0 0 1 0 0 0 1 3464.dat
+1 15 0 -18 -70 1 0 0 0 1 0 0 0 1 3464.dat
+1 256 0 -18 15 0 0 1 0 1 0 -1 0 0 59895.dat
+1 256 0 -18 -70 0 0 1 0 1 0 -1 0 0 59895.dat
+1 28 0 -3.714 -15.842 1 0 0 0 0.588 -0.809 0 0.809 0.588 95344.dat

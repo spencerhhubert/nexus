@@ -1,0 +1,52 @@
+0 Plate  2 x  2 x  0.667 with Two Studs On Side and Two Raised
+0 Name: 99206.dat
+0 Author: J.C. Tchang [tchang]
+0 !LDRAW_ORG Part UPDATE 2013-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2013-07-21 [PTadmin] Official Update 2013-01
+
+0 // Underside Stud
+
+1 16 0 12 10 -7.391 0 3.0615 0 -8 0 -3.0615 0 -7.391 3-8cyli.dat
+1 16 0 4 10 -7.391 0 3.0615 0 -1 0 -3.0615 0 -7.391 3-8edge.dat
+1 16 0 12 10 7.391 0 3.0615 0 -1 0 -3.0615 0 7.391 5-8edge.dat
+1 16 0 12 10 6 0 0 0 1 0 0 0 6 4-4edge.dat
+1 16 0 12 10 1 0 0 0 -1 0 0 0 1 STUD4A.dat
+0 // Underside box
+2 24 -6.76 12 6 -7.39 12 6.94
+2 24 6.76 12 6 7.39 12 6.94
+1 16 -11.38 8 6 -4.62 0 0 0 0 4 0 1 0 rect.dat
+1 16 11.38 8 6 -4.62 0 0 0 0 4 0 1 0 rect.dat
+1 16 16 8 0 0 1 0 -4 0 0 0 0 -6 rect2a.dat
+1 16 -16 8 0 0 -1 0 -4 0 0 0 0 -6 rect2a.dat
+0 BFC INVERTNEXT
+1 16 0 8 0 16 0 0 0 0 -4 0 -6 0 box2-11.dat
+0 BFC INVERTNEXT
+1 16 0 14 -6 0 0 -16 -2 0 0 0 32 0 box3u5p.dat
+1 16 0 12 16 -16 0 0 0 -1 0 0 0 10 rect3.dat
+1 16 0 12 10 -4.24264 0 4.24264 0 -1 0 -4.24264 0 -4.24264 1-4chrd.dat
+4 16 -4.4 12 6 4.4 12 6 4.243 12 5.757 -4.243 12 5.757
+1 16 0 14 -6 0 0 -16 2 0 0 0 -1 0 rect1.dat
+0 // Underside Face
+4 16 -20 16 -10 -16 16 -6 16 16 -6 20 16 -10
+4 16 -20 16 30 -16 16 26 -16 16 -6 -20 16 -10
+4 16 20 16 30 16 16 26 -16 16 26 -20 16 30
+4 16 20 16 -10 16 16 -6 16 16 26 20 16 30
+0 // Outside Box
+1 16 20 12 10 0 -1 0 0 0 4 -20 0 0 rect3.dat
+1 16 -20 12 10 0 1 0 0 0 4 20 0 0 rect3.dat
+1 16 0 12 30 20 0 0 0 0 4 0 -1 0 rect2p.dat
+1 16 0 8 20 -20 0 0 0 1 0 0 0 -10 rect3.dat
+1 16 0 8 0 20 0 0 0 -8 0 0 0 10 box4-5a.dat
+1 16 0 12 -10 0 0 20 4 0 0 0 1 0 rect1.dat
+1 16 0 4 -10 0 0 -20 -4 0 0 0 1 0 rect1.dat
+0 // Studs
+1 16 10 0 0 1 0 0 0 1 0 0 0 1 stud.dat
+1 16 -10 0 0 1 0 0 0 1 0 0 0 1 stud.dat
+1 16 -10 8 20 1 0 0 0 1 0 0 0 1 stud.dat
+1 16 10 8 20 1 0 0 0 1 0 0 0 1 stud.dat
+1 16 10 6 -10 0 0 1 1 0 0 0 1 0 stud2.dat
+1 16 -10 6 -10 0 0 1 1 0 0 0 1 0 stud2.dat

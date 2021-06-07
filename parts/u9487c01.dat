@@ -1,0 +1,14 @@
+0 Technic Linear Actuator 12 x  2 x  2 Body Assembly
+0 Name: u9487c01.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Shortcut UPDATE 2020-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Power Functions
+
+0 !HISTORY 2020-09-05 [PTadmin] Official Update 2020-02
+
+1 72 0 20 10 1 0 0 0 1 0 0 0 1 u9489.DAT
+1 16 0 0 40 1 0 0 0 1 0 0 0 1 u9487.DAT

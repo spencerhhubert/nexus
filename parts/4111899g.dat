@@ -1,0 +1,21 @@
+0 Sticker  0.8 x  3 Yellow
+0 Name: 4111899g.dat
+0 Author: Ulrich Röder [UR]
+0 !LDRAW_ORG Part UPDATE 2020-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Set 5542, Helicopter, Black Thunder
+
+0 !HISTORY 2020-12-29 [PTadmin] Official Update 2020-03
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\4111899hs02.dat
+
+1 14 29 -.25 7 1 0 0 0 1 0 0 0 1 1-4chrd.dat
+1 14 -29 -.25 7 0 0 -1 0 1 0 1 0 0 1-4chrd.dat
+1 14 -29 -.25 -7 0 0 -1 0 1 0 -1 0 0 1-4chrd.dat
+1 14 29 -.25 -7 0 0 1 0 1 0 -1 0 0 1-4chrd.dat
+4 14 30 -.25 -7 30 -.25 7 29 -.25 8 29 -.25 -8
+4 14 -30 -.25 7 -30 -.25 -7 -29 -.25 -8 -29 -.25 8
+4 14 29 -.25 8 -29 -.25 8 -29 -.25 -8 29 -.25 -8

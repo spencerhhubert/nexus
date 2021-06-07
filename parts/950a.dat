@@ -1,0 +1,13 @@
+0 ~Train Track  4.5V Point Type 1 Left - Switch Rails
+0 Name: 950a.dat
+0 Author: Alex Taylor [anathema]
+0 !LDRAW_ORG Part UPDATE 2010-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2010-12-31 [PTadmin] Official Update 2010-03
+
+1 16 -177.847 16 76.754 0.965926 0 -0.258819 0 1 0 0.258819 0 0.965926 stud.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\950as01.dat
+0

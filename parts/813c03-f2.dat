@@ -1,0 +1,20 @@
+0 Train Track 12V Tapered Straight with Blue/Red/White Level Crossing Gate Type 1 (Open)
+0 Name: 813c03-f2.dat
+0 Author: Steffen [Steffen]
+0 !LDRAW_ORG Shortcut UPDATE 2020-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !CMDLINE -c1
+
+0 !HISTORY 2020-12-29 [PTadmin] Official Update 2020-03
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 861c02.dat
+1 7 0 24 0 0 0 1 0 1 0 -1 0 0 813.dat
+1 1 150 8 -120 0 0 1 0 1 0 -1 0 0 814c01-f2.dat
+1 1 -150 -8 -120 0 0 1 0 1 0 -1 0 0 3004.dat
+1 1 -150 -32 -120 0 0 1 0 1 0 -1 0 0 3004.dat
+1 1 150 8 120 0 0 1 0 1 0 -1 0 0 814c02-f2.dat
+1 1 -150 -8 120 0 0 1 0 1 0 -1 0 0 3004.dat
+1 1 -150 -32 120 0 0 1 0 1 0 -1 0 0 3004.dat

@@ -1,0 +1,20 @@
+0 Minifig Toolbox  1 x  3 with Handle
+0 Name: 98368.dat
+0 Author: Magnus Forsberg [MagFors]
+0 !LDRAW_ORG Part UPDATE 2020-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+0 !CATEGORY Minifig Accessory
+
+0 !HISTORY 2013-12-23 [PTadmin] Official Update 2013-02
+0 !HISTORY 2019-06-27 [GeraldLasser] Using subfile
+0 !HISTORY 2020-09-05 [PTadmin] Official Update 2020-02
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\98368s01.dat
+4 16 30 30 10 24 20 10 24 18.5 10 30 18.5 10
+3 16 24 20 10 30 30 10 16 20 10
+3 16 -16 20 10 -30 30 10 -24 20 10
+4 16 -30 18.5 10 -24 18.5 10 -24 20 10 -30 30 10
+4 16 16 20 10 30 30 10 -30 30 10 -16 20 10
+4 16 -16 20 10 -16 18.5 10 16 18.5 10 16 20 10

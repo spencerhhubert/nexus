@@ -1,0 +1,28 @@
+0 ~Electric Power Functions Pole Reverser Slider
+0 Name: 62875.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2012-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2012-03-30 [PTadmin] Official Update 2012-01
+
+1 16 0 1 0 4 0 0 0 1 0 0 0 9 box.dat
+1 16 0 0 0 3 0 0 0 -8 0 0 0 -2 box4o4a.dat
+1 16 0 -8 -2 3 0 0 0 0 -2 0 1.5 0 2-4cyli.dat
+1 16 0 -8 -2 3 0 0 0 0 -2 0 1.5 0 2-4edge.dat
+1 16 0 -8 -2 3 0 0 0 0 -2 0 1.5 0 2-4disc.dat
+1 16 0 -8 2 -3 0 0 0 0 -2 0 -1.5 0 2-4disc.dat
+1 16 0 -8 -0.5 -3 0 0 0 0 -2 0 -1.5 0 2-4disc.dat
+1 16 0 -8 0.5 3 0 0 0 0 -2 0 1.5 0 2-4disc.dat
+1 16 0 -8 2 3 0 0 0 0 -2 0 1.5 0 2-4edge.dat
+1 16 0 -8 2 -3 0 0 0 0 -2 0 -1.5 0 2-4cyli.dat
+1 16 0 -8 0.5 -2 0 0 0 0 -1 0 -1 0 2-4cyli.dat
+1 16 0 -8 0.5 -2 0 0 0 0 -1 0 -1 0 2-4edge.dat
+1 16 0 -8 -0.5 -2 0 0 0 0 -1 0 -1 0 2-4edge.dat
+1 16 0 -8 -0.5 -3 0 0 0 0 -2 0 -1 0 2-4edge.dat
+1 16 0 -8 0.5 -3 0 0 0 0 -2 0 -1 0 2-4edge.dat
+1 16 2.5 -8 0 -0.5 0 0 0 1 0 0 0 -0.5 rect.dat
+1 16 -2.5 -8 0 -0.5 0 0 0 1 0 0 0 -0.5 rect.dat
+

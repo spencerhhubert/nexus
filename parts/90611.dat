@@ -1,0 +1,18 @@
+0 Constraction Limb  4 Straight
+0 Name: 90611.dat
+0 Author: Magnus Forsberg [MagFors]
+0 !LDRAW_ORG Part UPDATE 2018-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2013-08-14 {LEGO Digital Designer} Original part shape
+0 !HISTORY 2016-03-26 [MagFors] File preparation for LDraw Parts Tracker
+0 !HISTORY 2018-12-08 [PTadmin] Official Update 2018-02
+
+1 16 0 0 30 1 0 0 0 1 0 0 0 1 s\90617s03.dat
+1 16 0 0 -30 12.81 0 0 0 0 12.81 0 -12.81 0 8-8sphe.dat
+1 16 0 0 -30 1 0 0 0 0 1 0 -1 0 axlesphe.dat
+1 16 0 0 0 1 0 0 0 0 1 0 -1 0 axlehol2.dat
+1 16 0 0 0 1 0 0 0 0 1 0 -1 0 axlehol9.dat
+1 16 0 0 0 1 0 0 0 0 1 0 -17.19 0 axlehol8.dat

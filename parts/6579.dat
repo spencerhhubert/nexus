@@ -1,0 +1,30 @@
+0 Tyre 26/ 36 x 22 Off Road
+0 Name: 6579.dat
+0 Author: Jeff Boen [onyx]
+0 !LDRAW_ORG Part UPDATE 2017-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Balloon, Small, 43.2 x 28
+
+0 !HISTORY 1999-05-24 [PTadmin] Official Update 1999-04
+0 !HISTORY 2007-07-18 [PTadmin] Header formatted for Contributor Agreement
+0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01
+0 !HISTORY 2017-01-03 [Philo] BFCed, more precision
+0 !HISTORY 2017-12-30 [PTadmin] Official Update 2017-01
+
+1 16 0 0 0 0 0 -1 0 1 0 1 0 0 s\6579a.dat
+1 16 0 0 0 0 -0.43388 -0.90097 0 0.90097 -0.43388 1 0 0 s\6579a.dat
+1 16 0 0 0 0 -0.78183 -0.62349 0 0.62349 -0.78183 1 0 0 s\6579a.dat
+1 16 0 0 0 0 -0.97493 -0.22252 0 0.22252 -0.97493 1 0 0 s\6579a.dat
+1 16 0 0 0 0 0.78183 -0.62349 0 0.62349 0.78183 1 0 0 s\6579a.dat
+1 16 0 0 0 0 0.43388 -0.90097 0 0.90097 0.43388 1 0 0 s\6579a.dat
+1 16 0 0 0 0 -0.43388 0.90097 0 -0.90097 -0.43388 1 0 0 s\6579a.dat
+1 16 0 0 0 0 0 1 0 -1 0 1 0 0 s\6579a.dat
+1 16 0 0 0 0 0.43388 0.90097 0 -0.90097 0.43388 1 0 0 s\6579a.dat
+1 16 0 0 0 0 0.78183 0.62349 0 -0.62349 0.78183 1 0 0 s\6579a.dat
+1 16 0 0 0 0 -0.97493 0.22252 0 -0.22252 -0.97493 1 0 0 s\6579a.dat
+1 16 0 0 0 0 -0.78183 0.62349 0 -0.62349 -0.78183 1 0 0 s\6579a.dat
+1 16 0 0 0 0 0.97493 0.22252 0 -0.22252 0.97493 1 0 0 s\6579a.dat
+1 16 0 0 0 0 0.97493 -0.22252 0 0.22252 0.97493 1 0 0 s\6579a.dat

@@ -1,0 +1,26 @@
+0 Bike  3 Wheel Motorcycle with Light_Grey Motor and White Wheels
+0 Name: 30187c01.dat
+0 Author: Paul Easter [pneaster]
+0 !LDRAW_ORG Shortcut UPDATE 2016-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+
+0 !CATEGORY Vehicle
+
+0 !KEYWORDS minifig, tricycle, motorbike, cycle, ATV, chopper
+0 !KEYWORDS Town, City Centre, three
+
+0 !HISTORY 2001-11-23 [pneaster] added BFC to speed up render time.
+0 !HISTORY 2001-11-30 [PTadmin]  Official Update 2001-02
+0 !HISTORY 2002-04-25 [PTadmin]  Official Update 2002-02
+0 !HISTORY 2007-06-07 [PTadmin]  Header formatted for Contributor Agreement
+0 !HISTORY 2008-07-01 [PTadmin]  Official Update 2008-01
+0 !HISTORY 2010-11-22 [anathema] Changed !CATEGORY
+0 !HISTORY 2016-12-31 [PTadmin] Official Update 2016-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 30187.dat
+1 7 0 30 0 1 0 0 0 1 0 0 0 1 30188.dat
+1 16 0 0 -84 1 0 0 0 1 0 0 0 1 30189c01.dat
+1 15 36 30 0 0 0 -1 0 1 0 -1 0 0 6014c01.dat
+1 15 -36 30 0 0 0 1 0 1 0 -1 0 0 6014c01.dat

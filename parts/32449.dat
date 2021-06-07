@@ -1,0 +1,34 @@
+0 Technic Beam  4 x  0.5 Liftarm
+0 Name: 32449.dat
+0 Author: Guy Vivan [guyvivan]
+0 !LDRAW_ORG Part UPDATE 2009-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2009-05-02 [PTadmin] Official Update 2009-01
+
+1 16 0 5 -30 9 0 0 0 1 0 0 0 -9 2-4edge.DAT
+1 16 0 -5 -30 9 0 0 0 1 0 0 0 -9 2-4edge.DAT
+1 16 0 -5 -30 9 0 0 0 10 0 0 0 -9 2-4cyli.DAT
+1 16 0 -5 -30 1 0 0 0 10 0 0 0 1 axlehol4.dat
+1 16 0 -5 30 9 0 0 0 1 0 0 0 9 2-4edge.DAT
+1 16 0 5 30 9 0 0 0 1 0 0 0 9 2-4edge.DAT
+1 16 0 -5 30 9 0 0 0 10 0 0 0 9 2-4cyli.DAT
+1 16 0 -5 30 1 0 0 0 10 0 0 0 -1 axlehol4.dat
+1 16 0 -5 -10 1 0 0 0 1 0 0 0 1 peghole.dat
+1 16 0 5 -10 1 0 0 0 -1 0 0 0 1 peghole.dat
+1 16 0 5 -10 1 0 0 0 -1 0 0 0 1 4-4ring8.dat
+1 16 0 -5 -10 -1 0 0 0 1 0 0 0 1 4-4ring8.dat
+0 BFC INVERTNEXT
+1 16 0 -3 -10 6 0 0 0 6 0 0 0 6 4-4cyli.dat
+1 16 0 5 -30 3 0 0 0 -3 0 0 0 -3 2-4ring2.dat
+1 16 0 -5 -30 -3 0 0 0 3 0 0 0 -3 2-4ring2.dat
+1 16 0 5 30 -3 0 0 0 -3 0 0 0 3 2-4ring2.dat
+1 16 0 -5 30 3 0 0 0 3 0 0 0 3 2-4ring2.dat
+1 16 0 0 10 -1 0 0 0 1 0 0 0 -1 beamhol2.dat
+1 16 0 -5 20 -1 0 0 0 10 0 0 0 -1 npeghol4.dat
+1 16 0 -5 -20 1 0 0 0 10 0 0 0 1 npeghol4.dat
+1 16 9 0 0 0 -1 0 0 0 -5 30 0 0 rect2p.dat
+1 16 -9 0 0 0 1 0 0 0 -5 -30 0 0 rect2p.dat
+0

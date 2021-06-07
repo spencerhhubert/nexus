@@ -1,0 +1,40 @@
+0 Minifig Helmet Castle with Fixed Face Grille
+0 Name: 4503.dat
+0 Author: J.C. Tchang [tchang]
+0 !LDRAW_ORG Part UPDATE 2015-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !CATEGORY Minifig Headwear
+
+0 !HISTORY 2010-12-31 [PTadmin] Official Update 2010-03
+0 !HISTORY 2012-12-24 [cwdee] Update category
+0 !HISTORY 2012-12-28 [PTadmin] Official Update 2012-03
+0 !HISTORY 2015-02-19 [MMR1988] Used updated subpart
+0 !HISTORY 2015-10-11 [PTadmin] Official Update 2015-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\4503s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\4503s01.dat
+
+1 16 0 -4 0 0 0 1 0 -1 0 1 0 0 stud4o.dat
+1 16 0 0 0 4 0 0 0 -1 0 0 0 4 4-4ring2.dat
+1 16 0 0 0 1 0 0 0 -1 0 0 0 1 4-4rin12.dat
+1 16 0 0 0 0 0 13 0 1 0 13 0 0 4-4edge.dat
+0 BFC INVERTNEXT
+1 16 0 -4.2 7 0 0 2 0 -7.8 0 2 0 0 4-4cylc.dat
+
+4 16 -3 -12 11 0 -12 9 0.7654 -12 8.8478 3 -12 11
+3 16 -3 -12 11 -0.7654 -12 8.8478 0 -12 9
+3 16 2.4 -12 -2.9 0 -12 5 -2.4 -12 -2.9
+
+1 16 0 20.8 15.5 3 0 0 0 -1 0 0 0 0.5 rect3.dat
+1 16 0 15.4135 18.1195 0 0 -3 -5.3865 0 0 2.1195 -1 0 rect2p.dat
+1 16 0 8.1135 20.6195 0 0 -3 -1.9135 0 0 0.3805 -1 0 rect2p.dat
+1 16 0 2.1 21 0 0 3 4.1 0 0 0 -1 0 rect2p.dat
+5 24 -3 10.027 20.239 3 10.027 20.239 3 20.8 16 3 6.2 21
+5 24 -3 6.2 21 3 6.2 21 3 10.027 20.239 3 -2 21
+1 16 3 -2 11 0 -6 0 -10 0 0 0 0 10 1-4cylo.dat
+1 16 -2.4 0 -2.9 0 4.8 0 -12 0 0 0 0 -12 1-4cylo.dat
+
+5 24 0 -2.467 -16 0 -2.467 -14 1.75 -2.317 -13.881 -1.75 -2.317 -13.881

@@ -1,0 +1,41 @@
+0 Plate  1 x 12
+0 Name: 60479.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2009-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2009-09-03 [PTadmin] Official Update 2009-02
+
+1 16 100 4 0 1 0 0 0 -1 0 0 0 1 stud3.dat
+1 16 80 4 0 1 0 0 0 -1 0 0 0 1 stud3.dat
+1 16 60 4 0 1 0 0 0 -1 0 0 0 1 stud3.dat
+1 16 40 4 0 1 0 0 0 -1 0 0 0 1 stud3.dat
+1 16 20 4 0 1 0 0 0 -1 0 0 0 1 stud3.dat
+1 16 0 4 0 1 0 0 0 -1 0 0 0 1 stud3.dat
+1 16 -20 4 0 1 0 0 0 -1 0 0 0 1 stud3.dat
+1 16 -40 4 0 1 0 0 0 -1 0 0 0 1 stud3.dat
+1 16 -60 4 0 1 0 0 0 -1 0 0 0 1 stud3.dat
+1 16 -80 4 0 1 0 0 0 -1 0 0 0 1 stud3.dat
+1 16 -100 4 0 1 0 0 0 -1 0 0 0 1 stud3.dat
+0 BFC INVERTNEXT
+1 16 0 8 0 116 0 0 0 -4 0 0 0 6 box5.dat
+4 16 120 8 10 116 8 6 -116 8 6 -120 8 10
+4 16 -120 8 10 -116 8 6 -116 8 -6 -120 8 -10
+4 16 -120 8 -10 -116 8 -6 116 8 -6 120 8 -10
+4 16 120 8 -10 116 8 -6 116 8 6 120 8 10
+1 16 0 8 0 120 0 0 0 -8 0 0 0 10 box5.dat
+1 16 110 0 0 1 0 0 0 1 0 0 0 1 stud.dat
+1 16 90 0 0 1 0 0 0 1 0 0 0 1 stud.dat
+1 16 70 0 0 1 0 0 0 1 0 0 0 1 stud.dat
+1 16 50 0 0 1 0 0 0 1 0 0 0 1 stud.dat
+1 16 30 0 0 1 0 0 0 1 0 0 0 1 stud.dat
+1 16 10 0 0 1 0 0 0 1 0 0 0 1 stud.dat
+1 16 -10 0 0 1 0 0 0 1 0 0 0 1 stud.dat
+1 16 -30 0 0 1 0 0 0 1 0 0 0 1 stud.dat
+1 16 -50 0 0 1 0 0 0 1 0 0 0 1 stud.dat
+1 16 -70 0 0 1 0 0 0 1 0 0 0 1 stud.dat
+1 16 -90 0 0 1 0 0 0 1 0 0 0 1 stud.dat
+1 16 -110 0 0 1 0 0 0 1 0 0 0 1 stud.dat
+0

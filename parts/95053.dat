@@ -1,0 +1,53 @@
+0 Minifig Sword Small with Angular Guard
+0 Name: 95053.dat
+0 Author: Christian Neumann [Wesley]
+0 !LDRAW_ORG Part UPDATE 2014-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !CATEGORY Minifig Accessory
+0 !KEYWORDS 94158, Weapon
+
+0 !HISTORY 2014-02-10 {LEGO Digital Designer} Original part shape
+0 !HISTORY 2014-02-10 [Wesley] File preparation for LDraw Parts Tracker
+0 !HISTORY 2014-06-21 [PTadmin] Official Update 2014-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\95053s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 -1 s\95053s01.dat
+0 // grip
+1 16 0 10.5 0 4 0 0 0 -5 0 0 0 4 4-4cylc.dat
+1 16 0 5.5 0 0.25 0 0 0 -0.5 0 0 0 0.25 4-4con15.dat
+1 16 0 5 0 3.75 0 0 0 1 0 0 0 3.75 4-4edge.dat
+1 16 0 4.5 0 0.25 0 0 0 0.5 0 0 0 0.25 4-4con15.dat
+1 16 0 4.5 0 4 0 0 0 -1 0 0 0 4 4-4cylo.dat
+1 16 0 3.5 0 0.25 0 0 0 -0.5 0 0 0 0.25 4-4con15.dat
+1 16 0 3 0 3.75 0 0 0 1 0 0 0 3.75 4-4edge.dat
+1 16 0 2.5 0 0.25 0 0 0 0.5 0 0 0 0.25 4-4con15.dat
+1 16 0 2.5 0 4 0 0 0 -1 0 0 0 4 4-4cylo.dat
+1 16 0 1.5 0 0.25 0 0 0 -0.5 0 0 0 0.25 4-4con15.dat
+1 16 0 1 0 3.75 0 0 0 1 0 0 0 3.75 4-4edge.dat
+1 16 0 0.5 0 0.25 0 0 0 0.5 0 0 0 0.25 4-4con15.dat
+1 16 0 0.5 0 4 0 0 0 -1 0 0 0 4 4-4cylo.dat
+1 16 0 -0.5 0 0.25 0 0 0 -0.5 0 0 0 0.25 4-4con15.dat
+1 16 0 -1 0 3.75 0 0 0 1 0 0 0 3.75 4-4edge.dat
+1 16 0 -1.5 0 0.25 0 0 0 0.5 0 0 0 0.25 4-4con15.dat
+1 16 0 -1.5 0 4 0 0 0 -1 0 0 0 4 4-4cylo.dat
+1 16 0 -2.5 0 0.25 0 0 0 -0.5 0 0 0 0.25 4-4con15.dat
+1 16 0 -3 0 3.75 0 0 0 1 0 0 0 3.75 4-4edge.dat
+1 16 0 -3.5 0 0.25 0 0 0 0.5 0 0 0 0.25 4-4con15.dat
+1 16 0 -3.5 0 4 0 0 0 -1 0 0 0 4 4-4cylo.dat
+1 16 0 -4.5 0 0.25 0 0 0 -0.5 0 0 0 0.25 4-4con15.dat
+1 16 0 -5 0 3.75 0 0 0 1 0 0 0 3.75 4-4edge.dat
+1 16 0 -5.5 0 0.25 0 0 0 0.5 0 0 0 0.25 4-4con15.dat
+1 16 0 -5.5 0 4 0 0 0 1 0 0 0 4 4-4edge.dat
+1 16 4.25 -10 0 0 -8.5 0 -4.5 0 0 0 0 4.5 4-4cylc.dat
+1 16 -4.25 -10 0 0 1 0 3.25 0 0 0 0 3.25 4-4edge.dat
+1 16 -4.25 -10 0 0 1 0 0.125 0 0 0 0 0.125 4-4rin26.dat
+1 16 -4.25 -10 0 0 1 0 1.125 0 0 0 0 1.125 4-4ring3.dat
+1 16 -3.5 -10 0 0 1 0 -2.5 0 0 0 0 2.5 4-4disc.dat
+1 16 -3.5 -10 0 0 1 0 -2.5 0 0 0 0 2.5 4-4edge.dat
+0 BFC INVERTNEXT
+1 16 -4.125 -10 0 0 0.625 0 0.625 0 0 0 0 0.625 4-4con4.dat
+0 BFC INVERTNEXT
+1 16 -4.25 -10 0 0 0.125 0 0.125 0 0 0 0 0.125 4-4con25.dat

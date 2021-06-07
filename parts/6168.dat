@@ -1,0 +1,56 @@
+0 ~Support  2 x  2 x 11 Solid Pillar Base
+0 Name: 6168.dat
+0 Author: James Jessiman
+0 !LDRAW_ORG Part UPDATE 2013-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+
+0 !HISTORY 1998-09-15 [PTadmin] Official Update 1998-08
+0 !HISTORY 2007-07-16 [PTadmin] Header formatted for Contributor Agreement
+0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01
+0 !HISTORY 2013-12-15 [mikeheide] BFC'ed, used more primitives
+0 !HISTORY 2013-12-23 [PTadmin] Official Update 2013-02
+
+1 16 0 244 0 8 0 0 0 1 0 0 0 8 4-4edge.dat
+1 16 0 236 0 2 0 0 0 2.667 0 0 0 2 4-4con6.dat
+1 16 0 238.667 0 4 0 0 0 5.333 0 0 0 4 4-4con2.dat
+0 BFC INVERTNEXT
+1 16 0 232 0 2 0 0 0 2.667 0 0 0 2 4-4con6.dat
+0 BFC INVERTNEXT
+1 16 0 234.667 0 4 0 0 0 5.333 0 0 0 4 4-4con2.dat
+1 16 0 244 0 1 0 0 0 -5 0 0 0 1 STUD4A.dat
+0 BFC INVERTNEXT
+1 16 0 244 0 16 0 0 0 20 0 0 0 16 box4.dat
+1 16 0 240 0 20 0 0 0 24 0 0 0 20 box4.dat
+1 16 0 244 0 14 0 0 0 1 0 0 0 14 4-4edge.dat
+1 16 0 244 0 14 0 0 0 -1 0 0 0 14 4-4ndis.dat
+0 BFC INVERTNEXT
+1 16 0 240 0 6 0 0 0 4 0 0 0 6 4-4cyli.dat
+1 16 0 240 0 6 0 0 0 1 0 0 0 6 4-4edge.dat
+1 16 0 240 0 8 0 0 0 1 0 0 0 8 4-4edge.dat
+1 16 0 240 0 16 0 0 0 1 0 0 0 16 4-4edge.dat
+1 16 0 240 0 16 0 0 0 1 0 0 0 16 4-4ndis.dat
+1 16 0 240 0 2 0 0 0 1 0 0 0 2 4-4ring3.dat
+1 16 0 236 0 14 0 0 0 1 0 0 0 14 4-4edge.dat
+0 BFC INVERTNEXT
+1 16 0 236 0 14 0 0 0 8 0 0 0 14 4-4cyli.dat
+1 16 0 232 0 14 0 0 0 1 0 0 0 14 4-4edge.dat
+1 16 0 232 0 2 0 0 0 1 0 0 0 2 4-4ring7.dat
+1 16 0 232 0 16 0 0 0 1 0 0 0 16 4-4edge.dat
+1 16 0 232 0 16 0 0 0 8 0 0 0 16 4-4cyli.dat
+
+4 16 -20 264 20 -16 264 16 16 264 16 20 264 20
+4 16 -20 264 -20 -16 264 -16 -16 264 16 -20 264 20
+4 16 20 264 -20 16 264 -16 -16 264 -16 -20 264 -20
+4 16 20 264 20 16 264 16 16 264 -16 20 264 -20
+
+4 16 -16 244 16 -14 244 14 14 244 14 16 244 16
+4 16 -16 244 -16 -14 244 -14 -14 244 14 -16 244 16
+4 16 16 244 -16 14 244 -14 -14 244 -14 -16 244 -16
+4 16 16 244 16 14 244 14 14 244 -14 16 244 -16
+
+4 16 20 240 20 16 240 16 -16 240 16 -20 240 20
+4 16 -20 240 20 -16 240 16 -16 240 -16 -20 240 -20
+4 16 -20 240 -20 -16 240 -16 16 240 -16 20 240 -20
+4 16 20 240 -20 16 240 -16 16 240 16 20 240 20

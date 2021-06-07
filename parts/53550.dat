@@ -1,0 +1,19 @@
+0 Technic Bionicle Weapon Ball Shooter Magazine
+0 Name: 53550.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2012-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Zamor, Sphere, Launcher
+
+0 !HISTORY 2012-03-30 [PTadmin] Official Update 2012-01
+
+1 16 0 0 0 0 -1 0 0 0 -1 1 0 0 connhole.dat
+1 16 10 0 0 0 -1 0 0 0 -9 9 0 0 4-4edge.dat
+1 16 10 0 0 0 -20 0 0 0 -9 9 0 0 4-4cyli.dat
+1 16 -10 0 0 0 -1 0 0 0 -9 9 0 0 4-4edge.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\53550s01.dat
+1 16 0 0 0 -1 0 0 0 -0.924 0.383 0 0.383 0.924 s\53550s01.dat
+0 //

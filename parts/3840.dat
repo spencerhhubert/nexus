@@ -1,0 +1,32 @@
+0 Minifig Vest
+0 Name: 3840.dat
+0 Author: Tore Eriksson [Tore_Eriksson]
+0 !LDRAW_ORG Part UPDATE 2020-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !CATEGORY Minifig Neckwear
+
+0 !HISTORY 1999-02-01 [PTadmin] Official Update 1999-01
+0 !HISTORY 2007-06-30 [PTadmin] Header formatted for Contributor Agreement
+0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01
+0 !HISTORY 2012-07-31 [MMR1988] BFC'd, used more primitives, corrected t-junctions.
+0 !HISTORY 2012-08-09 [PTadmin] Official Update 2012-02
+0 !HISTORY 2020-10-02 [Holly-Wood] Subfiled for pattern version
+0 !HISTORY 2020-12-29 [PTadmin] Official Update 2020-03
+
+0 // Front
+1 16 11 30 -13 2 0 0 0 0 2 0 1 0 1-4chrd.dat
+1 16 -11 30 -13 -2 0 0 0 0 2 0 1 0 1-4chrd.dat
+4 16 -13 -3 -13 -13 30 -13 13 30 -13 13 -3 -13
+4 16 13 30 -13 -13 30 -13 -11 32 -13 11 32 -13
+
+0 // Back
+1 16 -11 30 13 -2 0 0 0 0 2 0 -1 0 1-4chrd.dat
+1 16 11 30 13 2 0 0 0 0 2 0 -1 0 1-4chrd.dat
+4 16 13 -3 13 13 30 13 -13 30 13 -13 -3 13
+4 16 -13 30 13 13 30 13 11 32 13 -11 32 13
+
+0 // Subfile
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\3840s01.dat

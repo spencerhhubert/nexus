@@ -1,0 +1,35 @@
+0 Baseplate 24 x 32 with Square Corners
+0 Name: 10b.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2015-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2015-10-11 [PTadmin] Official Update 2015-01
+
+1 16 -240 0 -160 1 0 0 0 1 0 0 0 1 stug-8x8.dat
+1 16 -80 0 -160 1 0 0 0 1 0 0 0 1 stug-8x8.dat
+1 16 240 0 -160 1 0 0 0 1 0 0 0 1 stug-8x8.dat
+1 16 80 0 -160 1 0 0 0 1 0 0 0 1 stug-8x8.dat
+1 16 -160 0 80 1 0 0 0 1 0 0 0 1 stug-16x16.dat
+1 16 160 0 80 1 0 0 0 1 0 0 0 1 stug-16x16.dat
+1 16 0 2 236 0 0 320 2 0 0 0 -472 0 box4o8a.dat
+4 16 -320 0 -236 -316 0 -240 316 0 -240 320 0 -236
+4 16 320 4 -236 316 4 -240 -316 4 -240 -320 4 -236
+4 16 320 0 236 316 0 240 -316 0 240 -320 0 236
+4 16 -320 4 236 -316 4 240 316 4 240 320 4 236
+1 16 0 2 -240 316 0 0 0 0 2 0 1 0 rect2p.dat
+1 16 0 2 240 316 0 0 0 0 2 0 -1 0 rect2p.dat
+1 16 316 4 -236 0 0 4 0 -1 0 -4 0 0 1-4chrd.dat
+1 16 316 4 236 0 0 4 0 -1 0 4 0 0 1-4chrd.dat
+1 16 -316 4 236 0 0 -4 0 -1 0 4 0 0 1-4chrd.dat
+1 16 -316 4 -236 0 0 -4 0 -1 0 -4 0 0 1-4chrd.dat
+1 16 316 0 -236 0 0 4 0 1 0 -4 0 0 1-4chrd.dat
+1 16 316 0 236 0 0 4 0 1 0 4 0 0 1-4chrd.dat
+1 16 -316 0 236 0 0 -4 0 1 0 4 0 0 1-4chrd.dat
+1 16 -316 0 -236 0 0 -4 0 1 0 -4 0 0 1-4chrd.dat
+1 16 316 0 -236 0 0 4 0 4 0 -4 0 0 1-4cylo.dat
+1 16 316 0 236 0 0 4 0 4 0 4 0 0 1-4cylo.dat
+1 16 -316 0 236 0 0 -4 0 4 0 4 0 0 1-4cylo.dat
+1 16 -316 0 -236 0 0 -4 0 4 0 -4 0 0 1-4cylo.dat

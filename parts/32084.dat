@@ -1,0 +1,58 @@
+0 Wedge  6 x  8 Triple with Cutout  4 x  4
+0 Name: 32084.dat
+0 Author: Greg Teft [gregteft]
+0 !LDRAW_ORG Part UPDATE 2012-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Star Wars, Windscreen, Slope, Train
+
+0 !HELP To locate sticker centered on front face...
+0 !HELP 1 16 0 10 -60 1 0 0 0 .894427 -.447214 0 .447214 .894427 sticker.dat
+
+0 !HISTORY 2012-08-09 [PTadmin] Official Update 2012-02
+
+1 16 -50 0 40 0 0 -1 0 1 0 1 0 0 stug-1x4.dat
+1 16 50 0 40 0 0 -1 0 1 0 1 0 0 stug-1x4.dat
+1 16 0 0 -10 0 0 -1 0 1 0 1 0 0 stug-4x1.dat
+1 16 0 0 -30 0 0 -1 0 1 0 1 0 0 stug-4x1.dat
+1 16 0 4 -20 1 0 0 0 -5 0 0 0 1 stug4-1x3.dat
+
+0 // stud-tubes in nose
+1 16 0 8 -40 0 0 1 0 4 0 -1 0 0 stud4s2.dat
+1 16 0 18 -60 0 0 1 0 4 0 -1 0 0 stud4s.dat
+1 16 0 8 -40 1 0 0 0 -4 0 0 0 1 stud4a.dat
+1 16 0 18 -60 1 0 0 0 -1.5 0 0 0 1 stud4a.dat
+
+0 // sides
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\32084s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\32084s01.dat
+
+0 // outside
+1 16 0 12 0 40 0 0 0 0 12 0 -1 0 rect.dat
+1 16 0 22 -80 40 0 0 0 0 2 0 1 0 rect2p.dat
+1 16 0 10 -60 40 0 0 0 2 -10 0 1 20 rect3.dat
+4 16 -40 0 0 -40 0 -40 40 0 -40 40 0 0
+
+0 // inside
+0 BFC INVERTNEXT
+1 16 0 24 -20 40 0 0 0 -20 0 0 0 16 box4-4a.dat
+1 16 0 9 -50 0 0 36 -.75 -2 0 1.5 -1 0 rect2p.dat
+1 16 0 18.625 -69.25 0 0 36 -.375 -2 0 .75 -1 0 rect2p.dat
+1 16 0 19.5 -70 36 0 0 0 0 .5 0 -1 0 rect.dat
+1 16 0 20 -70.75 0 0 36 0 -1 0 .75 0 0 rect2p.dat
+1 16 0 20 -74 0 0 36 0 -1 0 2 0 0 rect2p.dat
+1 16 0 21 -76 -36 0 0 0 0 -1 0 -1 0 rect3.dat
+2 24 38 4 -40 -38 4 -40
+2 24 37.5 24 -76 -37.5 24 -76
+4 16 40 4 -36 38 4 -40 -38 4 -40 -40 4 -36
+4 16 38 4 -40 36 8.25 -48.5 -36 8.25 -48.5 -38 4 -40
+4 16 36 9.75 -51.5 36 18.25 -68.5 -36 18.25 -68.5 -36 9.75 -51.5
+4 16 36 20 -71.5 36 20 -72 -36 20 -72 -36 20 -71.5
+4 16 36 22 -76 37.5 24 -76 -37.5 24 -76 -36 22 -76
+
+0 // bottom
+4 16 40 24 0 40 24 -4 -40 24 -4 -40 24 0
+4 16 37.5 24 -76 40 24 -80 -40 24 -80 -37.5 24 -76
+0

@@ -1,0 +1,15 @@
+0 Wedge  3 x  4 with  2 Grille Stickers
+0 Name: 2399dt0.dat
+0 Author: Ulrich Röder [UR]
+0 !LDRAW_ORG Shortcut UPDATE 2019-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Set 5591
+
+0 !HISTORY 2019-06-28 [PTadmin] Official Update 2019-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 2399.dat
+1 16 -31.357 12 -36 0.315649 0.948876 0 0 0 -1 -0.948876 0.315649 0 168335q.dat
+1 16 31.357 12 -36 0.315649 -0.948876 0 0 0 -1 0.948876 0.315649 0 168335q.dat

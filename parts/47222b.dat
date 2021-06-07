@@ -1,0 +1,35 @@
+0 ~Technic Pneumatic Valve with Pegholes and Stepped Outlets Casing
+0 Name: 47222b.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2018-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2018-01-30 [PTadmin] Official Update 2018-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\47222s01.dat
+1 16 21 11 -30 0 4 0 0 0 3.2 3.2 0 0 4-4cylo.dat
+1 16 10 11 -30 0 10 0 0 0 4 4 0 0 4-4cylo.dat
+1 16 26 11 -30 0 1 0 0 0 2.4 2.4 0 0 4-4edge.dat
+1 16 20 11 -30 0 1 0 0 0 0.8 0.8 0 0 4-4con4.dat
+1 16 25 11 -30 0 1 0 0 0 0.8 0.8 0 0 4-4con3.dat
+1 16 26 11 -30 0 -1 0 0 0 0.4 0.4 0 0 4-4ring5.dat
+0 BFC INVERTNEXT
+1 16 7 11 -30 0 19 0 0 0 2 2 0 0 4-4cylo.dat
+1 16 21 0 -24 0 4 0 0 0 3.2 3.2 0 0 4-4cylo.dat
+1 16 10 0 -24 0 10 0 0 0 4 4 0 0 4-4cylo.dat
+1 16 26 0 -24 0 1 0 0 0 2.4 2.4 0 0 4-4edge.dat
+1 16 20 0 -24 0 1 0 0 0 0.8 0.8 0 0 4-4con4.dat
+1 16 25 0 -24 0 1 0 0 0 0.8 0.8 0 0 4-4con3.dat
+1 16 26 0 -24 0 -1 0 0 0 0.4 0.4 0 0 4-4ring5.dat
+0 BFC INVERTNEXT
+1 16 7 0 -24 0 19 0 0 0 2 2 0 0 4-4cylo.dat
+1 16 21 -11 -30 0 4 0 0 0 3.2 3.2 0 0 4-4cylo.dat
+1 16 10 -11 -30 0 10 0 0 0 4 4 0 0 4-4cylo.dat
+1 16 26 -11 -30 0 1 0 0 0 2.4 2.4 0 0 4-4edge.dat
+1 16 20 -11 -30 0 1 0 0 0 0.8 0.8 0 0 4-4con4.dat
+1 16 25 -11 -30 0 1 0 0 0 0.8 0.8 0 0 4-4con3.dat
+1 16 26 -11 -30 0 -1 0 0 0 0.4 0.4 0 0 4-4ring5.dat
+0 BFC INVERTNEXT
+1 16 7 -11 -30 0 19 0 0 0 2 2 0 0 4-4cylo.dat

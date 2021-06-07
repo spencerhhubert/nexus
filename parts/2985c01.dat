@@ -1,0 +1,16 @@
+0 Electric Technic Micromotor with Top and Bottom Holder and Grey Pulley
+0 Name: 2985c01.dat
+0 Author: Magnus Forsberg [MagFors]
+0 !LDRAW_ORG Shortcut UPDATE 2019-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS service pack 5119, motor
+
+0 !HISTORY 2019-12-27 [PTadmin] Official Update 2019-03
+
+1 16 0 46 0 1 0 0 0 1 0 0 0 1 2985.dat
+1 16 0 26 -20 1 0 0 0 0 -1 0 1 0 u9384c01.dat
+1 16 0 10 0 1 0 0 0 1 0 0 0 1 2984.dat
+1 7 0 26 -20 1 0 0 0 0 -1 0 1 0 2986ac01.dat

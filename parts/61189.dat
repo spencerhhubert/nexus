@@ -1,0 +1,22 @@
+0 Minifig Helmet SW Clone Trooper Phase I
+0 Name: 61189.dat
+0 Author: Magnus Forsberg [MagFors]
+0 !LDRAW_ORG Part UPDATE 2020-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+0 !CATEGORY Minifig Headwear
+
+0 !HISTORY 2013-08-14 {LEGO Digital Designer} Original part shape
+0 !HISTORY 2018-12-29 [MagFors] File preparation for LDraw Parts Tracker
+0 !HISTORY 2020-12-29 [PTadmin] Official Update 2020-03
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\61189s01.dat
+0 // patterned surface
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\61189s00.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\61189s00.dat
+3 16 0 -1.85 -16.557 1.875 -3.652 -15.771 -1.875 -3.652 -15.771
+4 16 1.875 -7.57 -14.532 -1.875 -7.57 -14.532 -1.875 -3.652 -15.771 1.875 -3.652 -15.771
+4 16 -1.875 -12.022 -10.726 -1.875 -7.57 -14.532 1.875 -7.57 -14.532 1.875 -12.022 -10.726
+4 16 -1.875 -14.206 -6.245 -1.875 -12.022 -10.726 1.875 -12.022 -10.726 1.875 -14.206 -6.245
+4 16 1.875 -14.522 20.554 -1.875 -14.522 20.554 -1.875 -14.206 -6.245 1.875 -14.206 -6.245

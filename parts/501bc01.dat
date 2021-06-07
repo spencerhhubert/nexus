@@ -1,0 +1,21 @@
+0 Electric Train Motor 12V Unslotted w/ 3-Hole Sockets (Complete)
+0 Name: 501bc01.dat
+0 Author: Steffen [Steffen]
+0 !LDRAW_ORG Shortcut UPDATE 2010-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+0 !CMDLINE -c0
+
+0 !HISTORY 2010-12-31 [PTadmin] Official Update 2010-03
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 501b.dat
+1 16 38 40 0 0 0 -1 1 0 0 0 -1 0 867.dat
+1 16 -38 40 0 0 0 1 0 1 0 -1 0 0 867.dat
+1 375 -54 40 0 0 0 1 0 1 0 -1 0 0 458.dat
+1 375 54 40 0 0 0 -1 0 1 0 1 0 0 458.dat
+1 375 -54 40 60 0 0 1 0 1 0 -1 0 0 458.dat
+1 375 -54 40 -60 0 0 1 0 1 0 -1 0 0 458.dat
+1 375 54 40 -60 0 0 -1 0 1 0 1 0 0 458.dat
+1 375 54 40 60 0 0 -1 0 1 0 1 0 0 458.dat
+0

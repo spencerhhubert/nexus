@@ -1,0 +1,18 @@
+0 Technic Pneumatic Cylinder  2 x  2 x  5 with 1 Port (Retracted)
+0 Name: 127c01-f1.dat
+0 Author: Marc Klein [marckl]
+0 !LDRAW_ORG Shortcut UPDATE 2017-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2009-12-18 [cwdee] Re-work for part split
+0 !HISTORY 2009-12-29 [PTadmin] Official Update 2009-03
+0 !HISTORY 2016-08-21 [PTadmin] Renamed from 127c01
+0 !HISTORY 2017-12-30 [PTadmin] Official Update 2017-01
+
+1 0 0 -120 0 1 0 0 0 1 0 0 0 1 337.dat
+1 16 0 -105 0 1 0 0 0 1 0 0 0 1 128.dat
+1 16 0 -96 0 1 0 0 0 1 0 0 0 1 127.dat
+1 16 0 -14 0 1 0 0 0 1 0 0 0 1 4701.dat
+0

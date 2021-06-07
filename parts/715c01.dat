@@ -1,0 +1,14 @@
+0 Wheel Rim  8 x 35 with 12 Studs with Axle and LtGrey Tyre
+0 Name: 715c01.dat
+0 Author: Steffen [Steffen]
+0 !LDRAW_ORG Shortcut UPDATE 2020-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !CMDLINE -c4
+
+0 !HISTORY 2020-12-29 [PTadmin] Official Update 2020-03
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 715.dat
+1 375 0 0 -2 1 0 0 0 1 0 0 0 1 36.dat

@@ -1,0 +1,16 @@
+0 Mursten Window  1 x  3 x  3 with Glass
+0 Name: u8025c01.dat
+0 Author: J.C. Tchang [tchang]
+0 !LDRAW_ORG Shortcut UPDATE 2019-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !CATEGORY Window
+0 !KEYWORDS Automatic Binding Brick
+
+0 !HISTORY 2019-06-03 [Holly-Wood] Separated glass in separate file
+0 !HISTORY 2019-09-09 [PTadmin] Official Update 2019-02
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 u8025.dat
+1 47 0 0 0 1 0 0 0 1 0 0 0 1 u8036.dat

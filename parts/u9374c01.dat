@@ -1,0 +1,12 @@
+0 ~Electric Technic Motor  4.5V / 12V - Axle Assembly
+0 Name: u9374c01.dat
+0 Author: Chris Dee [cwdee]
+0 !LDRAW_ORG Shortcut UPDATE 2020-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2020-09-05 [PTadmin] Official Update 2020-02
+
+1 0   0 0 0 1 0 0 0 1 0 0 0 1 u9374.dat
+1 494 0 0 0 1 0 0 0 1 0 0 0 1 u9375.dat

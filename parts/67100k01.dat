@@ -1,0 +1,16 @@
+0 Minifig Weapon Nunchaku Handle
+0 Name: 67100k01.dat
+0 Author: Gerald Lasser [GeraldLasser]
+0 !LDRAW_ORG Part Flexible_Section UPDATE 2020-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !CATEGORY Minifig Accessory
+0 !KEYWORDS Nunchuck
+
+0 !HISTORY 2020-09-05 [PTadmin] Official Update 2020-02
+
+1 16 0 -15 0 1 0 0 0 1 0 0 0 1 s\67100s01.dat
+
+1 16 0 15 0 4 0 0 0 -30 0 0 0 4 4-4cylc.dat

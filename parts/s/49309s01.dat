@@ -1,0 +1,36 @@
+0 ~Cone  2 x  2 x  2 Inverted without Conical Surface
+0 Name: s\49309s01.dat
+0 Author: Chris Dee [cwdee]
+0 !LDRAW_ORG Subpart UPDATE 2019-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2019-12-27 [PTadmin] Official Update 2019-03
+
+0 // Uncomment for outer surface
+0 // 1 14 0 4 0 10 0 0 0 39 0 0 0 10 4-4con1.dat
+
+1 16 0 0 0 20 0 0 0 4 0 0 0 20 4-4cyli.dat
+1 16 0 4 0 20 0 0 0 1 0 0 0 20 4-4edge.dat
+
+1 16 0 44 0 1 0 0 0 -1 0 0 0 1 stud4a.dat
+1 16 0 44 0 8 0 0 0 -1 0 0 0 8 4-4cyli.dat
+1 16 0 43 0 8 0 0 0 1 0 0 0 8 4-4edge.dat
+1 16 0 43 0 2 0 0 0 -1 0 0 0 2 4-4ring4.dat
+1 16 0 43 0 10 0 0 0 1 0 0 0 10 4-4edge.dat
+0 BFC INVERTNEXT
+1 16 0 44 0 6 0 0 0 -1 0 0 0 6 4-4cyli.dat
+1 16 0 43 0 6 0 0 0 -1 0 0 0 6 4-4edge.dat
+1 16 0 43 0 2 0 0 0 -1 0 0 0 2 4-4ring2.dat
+1 16 0 43 0 4 0 0 0 -1 0 0 0 4 4-4edge.dat
+0 BFC INVERTNEXT
+1 16 0 43 0 4 0 0 0 -3 0 0 0 4 4-4cyli.dat
+1 16 0 40 0 4 0 0 0 -1 0 0 0 4 4-4edge.dat
+1 16 0 40 0 4 0 0 0 1 0 0 0 4 4-4ring1.dat
+1 16 0 40 0 8 0 0 0 1 0 0 0 8 4-4edge.dat
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\49309s02.dat
+1 16 0 0 0 0 0 -1 0 1 0 1 0 0 s\49309s02.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 -1 s\49309s02.dat
+1 16 0 0 0 0 0 1 0 1 0 -1 0 0 s\49309s02.dat

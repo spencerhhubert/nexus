@@ -1,0 +1,50 @@
+0 ~Brick 12 x 12 - Side Pin Hole
+0 Name: s\52040s02.dat
+0 Author: Alex Taylor [anathema]
+0 !LDRAW_ORG Subpart UPDATE 2013-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2013-04-01 [MMR1988] Added some faces, substitute some quads by a chrd
+0 !HISTORY 2013-07-21 [PTadmin] Official Update 2013-01
+
+1 16 0 0 0 1 0 0 0 0 -1 0 1 0 peghole.dat
+1 16 0 0 0 8 0 0 0 0 -8 0 1 0 4-4ndis.dat
+0 BFC INVERTNEXT
+1 16 0 0 2 6 0 0 0 0 -6 0 16 0 4-4cyli.dat
+1 16 0 0 4 8 0 0 0 0 8 0 -1 0 2-4ndis.dat
+1 16 0 0 4 -8 0 0 0 0 8 0 8 0 2-4cyli.dat
+1 16 0 0 18 6 0 0 0 0 6 0 -1 0 4-4ndis.dat
+1 16 0 0 18 6 0 0 0 0 6 0 -1 0 4-4edge.dat
+1 16 0 0 4 8 0 0 0 0 8 0 -1 0 2-4edge.dat
+4 16 -6 6 18 6 6 18 6 10 18 -6 10 18
+1 16 -8 -3 12 0 1 0 -3 0 0 0 0 -8 rect2a.dat
+1 16 8 -3 12 0 -1 0 -3 0 0 0 0 -8 rect2a.dat
+1 16 -6 2 19 0 -1 0 -8 0 0 0 0 -1 rect2a.dat
+1 16 6 2 19 0 1 0 -8 0 0 0 0 -1 rect2a.dat
+0 BFC INVERTNEXT
+1 16 0 -6 20 6 0 0 0 16 0 0 0 6 2-4cyli.dat
+1 16 0 8 20 0 0 -8 0 -8 0 -8 0 0 1-4cyls.dat
+1 16 0 8 20 0 0 8 0 -8 0 -8 0 0 1-4cyls.dat
+1 16 0 0 12 0 0 -8 8 0 0 0 8 0 1-4cyls.dat
+1 16 0 0 12 0 0 8 8 0 0 0 8 0 1-4cyls.dat
+1 16 0 -6 20 8 0 0 0 16 0 0 0 8 2-4cyli.dat
+1 16 0 8 20 -8 0 0 0 2 0 0 0 -8 2-4cyli.dat
+1 16 0 10 20 1 0 0 0 -1 0 0 0 -1 stud4a.dat
+1 16 0 -6 20 8 0 0 0 1 0 0 0 8 2-4edge.dat
+2 24 -6 -6 18 6 -6 18
+2 24 -6 10 18 6 10 18
+1 16 0 0 20 -8 0 0 0 0.7071 7.9974 0 0.7071 -7.9974 2-4edge.dat
+1 16 0 -6 20 6 0 0 0 1 0 0 0 6 2-4edge.dat
+1 16 0 10 20 -6 0 0 0 1 0 0 0 -6 2-4edge.dat
+3 16 5.6023 10 18 6 10 18 6 10 20
+2 24 -6 10 18 -6 10 20
+2 24 6 10 18 6 10 20
+3 16 -6 10 20 -6 10 18 -5.6023 10 18
+1 16 0 10 20 -5.5433 0 2.2961 0 -1 0 -2.2961 0 -5.5433 3-8chrd.dat
+4 16 -5.5434 10 17.7038 -5.6023 10 18 5.6023 10 18 5.5434 10 17.7038
+1 16 0 -6 20 8 0 0 0 -1 0 0 0 8 2-4ndis.dat
+1 16 0 -6 20 6 0 0 0 -1 0 0 0 6 2-4disc.dat
+4 16 6 -6 20 6 -6 18 -6 -6 18 0 -6 20
+3 16 0 -6 20 -6 -6 18 -6 -6 20

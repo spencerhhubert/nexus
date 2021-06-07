@@ -1,0 +1,41 @@
+0 Sheet Fabric Curtain for Window  1 x  4 x  3 with Red/Green/Medium Brown Plaid Pattern
+0 Name: 97122.dat
+0 Author: Max Martin Richter [MMR1988]
+0 !LDRAW_ORG Part UPDATE 2020-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !CATEGORY Sheet Fabric
+0 !KEYWORDS VW Camper, Camper Van, Van, T1, VW, Volkswagen, Transporter
+
+0 !HISTORY 2018-12-08 [PTadmin] Official Update 2018-02
+0 !HISTORY 2019-01-25 [cwdee] Update category
+0 !HISTORY 2019-06-28 [PTadmin] Official Update 2019-01
+0 !HISTORY 2020-05-10 [cwdee] Update colour name in description
+0 !HISTORY 2020-06-28 [PTadmin] Official Update 2020-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\97122s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\97122s01.dat
+1 16 0 0.625 0 1 0 0 0 -1 0 0 0 1 s\97122s01.dat
+1 16 0 0.625 0 -1 0 0 0 -1 0 0 0 1 s\97122s01.dat
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\97122s02.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\97122s02.dat
+
+4 4 -2.25 0.625 -18.5 2.25 0.625 -18.5 2.25 0.625 -23 -2.25 0.625 -23
+4 4 -2.25 0.625 -1.5 2.25 0.625 -1.5 2.25 0.625 -6 -2.25 0.625 -6
+4 16 2.25 0.625 -25 -2.25 0.625 -25 -2.25 0.625 -23 2.25 0.625 -23
+4 16 -2.25 0.625 -16 2.25 0.625 -16 2.25 0.625 -18.5 -2.25 0.625 -18.5
+4 16 -2.25 0.625 0 2.25 0.625 0 2.25 0.625 -1.5 -2.25 0.625 -1.5
+
+4 4 -2.25 0 -23 2.25 0 -23 2.25 0 -18.5 -2.25 0 -18.5
+4 4 -2.25 0 -6 2.25 0 -6 2.25 0 -1.5 -2.25 0 -1.5
+4 16 2.25 0 -23 -2.25 0 -23 -2.25 0 -25 2.25 0 -25
+4 16 -2.25 0 -18.5 2.25 0 -18.5 2.25 0 -16 -2.25 0 -16
+4 16 -2.25 0 -1.5 2.25 0 -1.5 2.25 0 0 -2.25 0 0
+
+1 4 0 0.3125 -6 -2.25 0 0 0 0 0.3125 0 1 0 rect2p.dat
+1 16 0 0.3125 -25 -2.25 0 0 0 0 0.3125 0 1 0 rect2p.dat
+1 16 0 0.3125 -16 2.25 0 0 0 0 0.3125 0 -1 0 rect2p.dat
+1 16 0 0.3125 0 2.25 0 0 0 0 0.3125 0 -1 0 rect2p.dat

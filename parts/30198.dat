@@ -1,0 +1,75 @@
+0 Arm Piece Grab Jaw Holder with Handle
+0 Name: 30198.dat
+0 Author: Martyn Boogaarts
+0 !LDRAW_ORG Part UPDATE 2012-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 1998-10-15 [PTadmin] Official Update 1998-09
+0 !HISTORY 2007-06-07 [PTadmin] Header formatted for Contributor Agreement
+0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01
+0 !HISTORY 2008-07-07 [cwdee] Emergency fix to orientation (2004-06-20)
+0 !HISTORY 2008-07-08 [mikeheide] fixed matrix 0, BFC'ed (2007-08-10)
+0 !HISTORY 2009-09-19 [Eldar] fix double lines, rect quads, correct edge
+0 !HISTORY 2010-07-05 [PTadmin] Official Update 2010-02
+0 !HISTORY 2012-05-29 [cwdee] Align title with other arm parts
+0 !HISTORY 2012-08-09 [PTadmin] Official Update 2012-02
+
+1 16 0 0 7 -10 0 0 0 0 10 0 1 0 rect2p.dat
+2 24 10 5 7 10 10 7
+2 24 -10 10 7 -10 5 7
+2 24 10 -5 7 10 -10 7
+2 24 -10 -10 7 -10 -5 7
+1 16 0 0 10 10 0 0 0 0 -10 0 -1 0 rect.dat
+1 16 10 0 8.5 0 -1 0 0 0 10 -1.5 0 0 rect2p.dat
+1 16 -10 0 8.5 0 1 0 0 0 10 1.5 0 0 rect2p.dat
+4 16 10 10 7 -10 10 7 -10 10 10 10 10 10
+4 16 10 -10 10 -10 -10 10 -10 -10 7 10 -10 7
+1 16 0 0 10 0 0 4 4 0 0 0 1 0 4-4edge.dat
+1 16 7.14 0 0 0 -14.28 0 3 0 0 0 0 3 4-4cyli.dat
+1 16 7.14 0 0 0 1 0 3 0 0 0 0 3 4-4edge.dat
+1 16 1.42 0 0 0 1 0 3 0 0 0 0 3 4-4edge.dat
+1 16 -1.42 0 0 0 1 0 3 0 0 0 0 3 4-4edge.dat
+1 16 -7.14 0 0 0 1 0 3 0 0 0 0 3 4-4edge.dat
+1 16 10 0 0 0 -2.84 0 5 0 0 0 0 -5 2-4cyli.dat
+1 16 1.42 0 0 0 -2.84 0 5 0 0 0 0 -5 2-4cyli.dat
+1 16 -7.14 0 0 0 -2.84 0 5 0 0 0 0 -5 2-4cyli.dat
+1 16 10 0 0 0 -1 0 -5 0 0 0 0 -5 2-4disc.dat
+1 16 7.14 0 0 0 1 0 5 0 0 0 0 -5 2-4disc.dat
+1 16 1.42 0 0 0 -1 0 -5 0 0 0 0 -5 2-4disc.dat
+1 16 -1.42 0 0 0 1 0 5 0 0 0 0 -5 2-4disc.dat
+1 16 -7.14 0 0 0 -1 0 -5 0 0 0 0 -5 2-4disc.dat
+1 16 -10 0 0 0 1 0 5 0 0 0 0 -5 2-4disc.dat
+1 16 10 0 0 0 1 0 5 0 0 0 0 -5 2-4edge.dat
+1 16 7.14 0 0 0 1 0 5 0 0 0 0 -5 2-4edge.dat
+1 16 1.42 0 0 0 1 0 5 0 0 0 0 -5 2-4edge.dat
+1 16 -1.42 0 0 0 1 0 5 0 0 0 0 -5 2-4edge.dat
+1 16 -7.14 0 0 0 1 0 5 0 0 0 0 -5 2-4edge.dat
+1 16 -10 0 0 0 1 0 5 0 0 0 0 -5 2-4edge.dat
+4 16 10 -5 0 10 5 0 10 5 7 10 -5 7
+1 16 7.14 0 3.5 0 1 0 0 0 5 3.5 0 0 rect1.dat
+1 16 1.42 0 3.5 0 -1 0 0 0 -5 3.5 0 0 rect1.dat
+1 16 -1.42 0 3.5 0 1 0 0 0 5 3.5 0 0 rect1.dat
+1 16 -7.14 0 3.5 0 -1 0 0 0 -5 3.5 0 0 rect1.dat
+4 16 -10 -5 7 -10 5 7 -10 5 0 -10 -5 0
+1 16 8.57 -5 3.5 1.43 0 0 0 1 0 0 0 3.5 rect3.dat
+1 16 8.57 5 3.5 -1.43 0 0 0 -1 0 0 0 3.5 rect3.dat
+1 16 0 -5 3.5 1.42 0 0 0 1 0 0 0 3.5 rect3.dat
+1 16 0 5 3.5 -1.42 0 0 0 -1 0 0 0 3.5 rect3.dat
+1 16 -8.57 -5 3.5 1.43 0 0 0 1 0 0 0 3.5 rect3.dat
+1 16 -8.57 5 3.5 -1.43 0 0 0 -1 0 0 0 3.5 rect3.dat
+1 16 16 0 20 0 1 0 -4 0 0 0 0 4 4-4edge.dat
+1 16 0 0 20 0 0 4 -4 0 0 0 1 4 2-4edge.dat
+1 16 0 0 20 0 0 4 -4 0 0 0 1 -4 2-4edge.dat
+1 16 0 0 38 0 0 4 -4 0 0 0 1 0 4-4edge.dat
+1 16 0 0 30 0 0 4 -4 0 0 0 1 0 4-4edge.dat
+1 16 0 0 28 0 0 4 -4 0 0 0 1 0 4-4edge.dat
+1 16 0 0 26 0 0 4 -4 0 0 0 1 0 4-4edge.dat
+1 16 0 0 24 0 0 4 -4 0 0 0 1 0 4-4edge.dat
+1 16 0 0 22 0 0 4 -4 0 0 0 1 0 4-4edge.dat
+1 16 0 0 12 0 0 4 -4 0 0 0 1 0 4-4edge.dat
+1 16 16 0 20 0 -1 0 -4 0 0 0 0 -4 4-4disc.dat
+1 16 0 0 38 0 0 4 4 0 0 0 -1 0 4-4disc.dat
+1 16 0 0 20 0 16 0 -4 0 0 0 0 4 4-4cyli.dat
+1 16 0 0 10 0 0 4 -4 0 0 0 28 0 4-4cyli.dat

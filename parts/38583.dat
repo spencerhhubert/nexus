@@ -1,0 +1,29 @@
+0 Brick  1 x  1 with Half Arch on Opposite Sides
+0 Name: 38583.dat
+0 Author: Gerald Lasser [GeraldLasser]
+0 !LDRAW_ORG Part UPDATE 2019-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2019-06-28 [PTadmin] Official Update 2019-01
+
+1 16 0 24 0 10 0 0 0 1 0 0 0 10 recte4.dat
+4 16 10 24 10 6 24 6 -6 24 6 -10 24 10
+4 16 -10 24 10 -6 24 6 -6 24 -6 -10 24 -10
+4 16 -10 24 -10 -6 24 -6 6 24 -6 10 24 -10
+4 16 10 24 -10 6 24 -6 6 24 6 10 24 10
+0 BFC INVERTNEXT
+1 16 0 24 0 6 0 0 0 -20 0 0 0 6 box5.dat
+
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\38585s01.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\38585s01.dat
+
+1 16 0 21 -10 0 0 10 3 0 0 0 1 0 rect2p.dat
+4 16 10 18 -10 10 8 -10 -10 8 -10 -10 18 -10
+1 16 0 21 10 0 0 -10 3 0 0 0 -1 0 rect2p.dat
+4 16 -10 18 10 -10 8 10 10 8 10 10 18 10
+4 16 20 0 10 10 8 10 -10 8 10 -20 0 10
+4 16 -20 0 -10 -10 8 -10 10 8 -10 20 0 -10
+1 16 0 8 0 0 0 20 0 -8 0 -10 0 0 box3u2p.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 stud2.dat

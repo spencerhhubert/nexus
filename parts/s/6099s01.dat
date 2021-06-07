@@ -1,0 +1,48 @@
+0 ~Baseplate 32 x 32 Road 9-Stud Landing Pad without Top Surface
+0 Name: s\6099s01.dat
+0 Author: Alex Taylor [anathema]
+0 !LDRAW_ORG Subpart UPDATE 2010-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2010-04-09 [mikeheide] Moved portions to main parts
+0 !HISTORY 2010-12-31 [PTadmin] Official Update 2010-03
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\3811s01.dat
+1 16 260 0 260 0 0 1 0 1 0 -1 0 0 stug6.dat
+1 16 290 0 170 0 0 1 0 1 0 -1 0 0 stug3.dat
+1 16 250 0 190 0 0 1 0 1 0 -1 0 0 stud.dat
+1 16 250 0 170 0 0 1 0 1 0 -1 0 0 stud.dat
+1 16 230 0 190 0 0 1 0 1 0 -1 0 0 stud.dat
+1 16 170 0 290 0 0 1 0 1 0 -1 0 0 stug3.dat
+1 16 190 0 250 0 0 1 0 1 0 -1 0 0 stud.dat
+1 16 190 0 230 0 0 1 0 1 0 -1 0 0 stud.dat
+1 16 170 0 250 0 0 1 0 1 0 -1 0 0 stud.dat
+1 16 290 0 -170 0 0 1 0 1 0 -1 0 0 stug3.dat
+1 16 250 0 -170 0 0 1 0 1 0 -1 0 0 stud.dat
+1 16 250 0 -190 0 0 1 0 1 0 -1 0 0 stud.dat
+1 16 230 0 -190 0 0 1 0 1 0 -1 0 0 stud.dat
+1 16 260 0 -260 0 0 1 0 1 0 -1 0 0 stug6.dat
+1 16 190 0 -230 0 0 1 0 1 0 -1 0 0 stud.dat
+1 16 190 0 -250 0 0 1 0 1 0 -1 0 0 stud.dat
+1 16 170 0 -250 0 0 1 0 1 0 -1 0 0 stud.dat
+1 16 170 0 -290 0 0 1 0 1 0 -1 0 0 stug3.dat
+1 16 -170 0 -290 0 0 1 0 1 0 -1 0 0 stug3.dat
+1 16 -170 0 -250 0 0 1 0 1 0 -1 0 0 stud.dat
+1 16 -190 0 -250 0 0 1 0 1 0 -1 0 0 stud.dat
+1 16 -190 0 -230 0 0 1 0 1 0 -1 0 0 stud.dat
+1 16 -260 0 -260 0 0 1 0 1 0 -1 0 0 stug6.dat
+1 16 -230 0 -190 0 0 1 0 1 0 -1 0 0 stud.dat
+1 16 -250 0 -190 0 0 1 0 1 0 -1 0 0 stud.dat
+1 16 -250 0 -170 0 0 1 0 1 0 -1 0 0 stud.dat
+1 16 -290 0 -170 0 0 1 0 1 0 -1 0 0 stug3.dat
+1 16 -290 0 170 0 0 1 0 1 0 -1 0 0 stug3.dat
+1 16 -250 0 170 0 0 1 0 1 0 -1 0 0 stud.dat
+1 16 -250 0 190 0 0 1 0 1 0 -1 0 0 stud.dat
+1 16 -230 0 190 0 0 1 0 1 0 -1 0 0 stud.dat
+1 16 -260 0 260 0 0 1 0 1 0 -1 0 0 stug6.dat
+1 16 -190 0 230 0 0 1 0 1 0 -1 0 0 stud.dat
+1 16 -190 0 250 0 0 1 0 1 0 -1 0 0 stud.dat
+1 16 -170 0 250 0 0 1 0 1 0 -1 0 0 stud.dat
+1 16 -170 0 290 0 0 1 0 1 0 -1 0 0 stug3.dat

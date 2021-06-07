@@ -1,0 +1,21 @@
+0 Tyre 32/ 33 x 61 Racing Wet
+0 Name: 32196.dat
+0 Author: Marc Klein [marckl]
+0 !LDRAW_ORG Part UPDATE 2013-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS 81.6 x 34 ZR, set 8448, Super Street Sensation, wheel rim 32197
+
+0 !HISTORY 2013-03-22 [MagFors] BFC'd, recreated conditional lines
+0 !HISTORY 2013-12-23 [PTadmin] Official Update 2013-02
+
+1 16 0 0 -37 0 -0.707107 0.707107 0 -0.707107 -0.707107 1 0 0 s\32196s01.dat
+1 16 0 0 -37 0 -1 0 0 0 -1 1 0 0 s\32196s01.dat
+1 16 0 0 -37 0 -0.707107 -0.707107 0 0.707107 -0.707107 1 0 0 s\32196s01.dat
+1 16 0 0 -37 0 0 -1 0 1 0 1 0 0 s\32196s01.dat
+1 16 0 0 -37 0 0.707107 -0.707107 0 0.707107 0.707107 1 0 0 s\32196s01.dat
+1 16 0 0 -37 0 1 0 0 0 1 1 0 0 s\32196s01.dat
+1 16 0 0 -37 0 0.707107 0.707107 0 -0.707107 0.707107 1 0 0 s\32196s01.dat
+1 16 0 0 -37 0 0 1 0 -1 0 1 0 0 s\32196s01.dat

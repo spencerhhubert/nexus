@@ -1,0 +1,13 @@
+0 Technic Pneumatic Valve with Pegholes and Stepped Outlets (Down Position)
+0 Name: 47223d-f2.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Shortcut UPDATE 2018-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2018-01-30 [PTadmin] Official Update 2018-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 47222b.dat
+1 16 -10 -26 -32 1 0 0 0 1 0 0 0 1 4713.dat
+1 0 0 0 -39 1 0 0 0 0.866 -0.5 0 0.5 0.866 4695.dat

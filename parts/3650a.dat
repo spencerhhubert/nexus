@@ -1,0 +1,44 @@
+0 Technic Gear 24 Tooth Crown Type 1
+0 Name: 3650a.dat
+0 Author: Adriano Aicardi
+0 !LDRAW_ORG Part UPDATE 2011-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 1998-12-15 [PTadmin] Official Update 1998-10
+0 !HISTORY 2007-06-29 [PTadmin] Header formatted for Contributor Agreement
+0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01
+0 !HISTORY 2008-07-07 [guyvivan] Made BFC Compliant; Corrected bad vertex sequence and non-coplanar quads; Improved detail (2004-08-08)
+0 !HISTORY 2008-07-08 [technog] Use primitive Tooth24c.dat and subpart 3650s01.dat (2006-02-19)
+0 !HISTORY 2008-07-09 [technog] Added 3-8edge's removed from 3650s01.dat (2006-05-27)
+0 !HISTORY 2011-12-29 [PTadmin] Official Update 2011-02
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\3650s01.dat
+1 16 0 0 -6 5.74 0 13.858 -13.858 0 5.74 0 1 0 3-8edge.dat
+1 16 0 0 -6 -5.74 0 -13.858 13.858 0 -5.74 0 1 0 3-8edge.dat
+1 16 0 -26.87 0 1 0 0 0 1 0 0 0 1 tooth24c.dat
+1 16 -6.954 -25.954 0 0.966 0.259 0 -0.259 0.966 0 0 0 1 tooth24c.dat
+1 16 -13.434 -23.27 0 0.866 0.5 0 -0.5 0.866 0 0 0 1 tooth24c.dat
+1 16 -19 -19 0 0.707 0.707 0 -0.707 0.707 0 0 0 1 tooth24c.dat
+1 16 -23.27 -13.435 0 0.5 0.866 0 -0.866 0.5 0 0 0 1 tooth24c.dat
+1 16 -25.953 -6.955 0 0.259 0.966 0 -0.966 0.259 0 0 0 1 tooth24c.dat
+1 16 -26.87 -0 0 0 1 0 -1 0 0 0 0 1 tooth24c.dat
+1 16 -25.954 6.953 0 -0.259 0.966 0 -0.966 -0.259 0 0 0 1 tooth24c.dat
+1 16 -23.27 13.433 0 -0.5 0.866 0 -0.866 -0.5 0 0 0 1 tooth24c.dat
+1 16 -19 19 0 -0.707 0.707 0 -0.707 -0.707 0 0 0 1 tooth24c.dat
+1 16 -13.436 23.27 0 -0.866 0.5 0 -0.5 -0.866 0 0 0 1 tooth24c.dat
+1 16 -6.956 25.953 0 -0.966 0.259 0 -0.259 -0.966 0 0 0 1 tooth24c.dat
+1 16 0 26.87 0 -1 0 0 0 -1 0 0 0 1 tooth24c.dat
+1 16 6.952 25.954 0 -0.966 -0.259 0 0.259 -0.966 0 0 0 1 tooth24c.dat
+1 16 13.433 23.27 0 -0.866 -0.5 0 0.5 -0.866 0 0 0 1 tooth24c.dat
+1 16 19 19 0 -0.707 -0.707 0 0.707 -0.707 0 0 0 1 tooth24c.dat
+1 16 23.27 13.436 0 -0.5 -0.866 0 0.866 -0.5 0 0 0 1 tooth24c.dat
+1 16 25.953 6.956 0 -0.259 -0.966 0 0.966 -0.259 0 0 0 1 tooth24c.dat
+1 16 26.87 0 0 0 -1 0 1 0 0 0 0 1 tooth24c.dat
+1 16 25.954 -6.952 0 0.259 -0.966 0 0.966 0.259 0 0 0 1 tooth24c.dat
+1 16 23.27 -13.433 0 0.5 -0.866 0 0.866 0.5 0 0 0 1 tooth24c.dat
+1 16 19 -19 0 0.707 -0.707 0 0.707 0.707 0 0 0 1 tooth24c.dat
+1 16 13.436 -23.27 0 0.866 -0.5 0 0.5 0.866 0 0 0 1 tooth24c.dat
+1 16 6.956 -25.953 0 0.966 -0.259 0 0.259 0.966 0 0 0 1 tooth24c.dat
+0

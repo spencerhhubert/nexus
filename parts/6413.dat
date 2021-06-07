@@ -1,0 +1,34 @@
+0 Duplo Plate  2 x  4 x  0.5 with 4 Centre Studs
+0 Name: 6413.dat
+0 Author: Rolf Osterthun [Rolf]
+0 !LDRAW_ORG Part UPDATE 2013-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !CATEGORY Plate
+0 !KEYWORDS Tile
+
+0 !HISTORY 2013-07-21 [PTadmin] Official Update 2013-01
+
+1 16 0 0 0 1 0 0 0 2.75 0 0 0 1 stug7-2x2.dat
+1 16 0 4 0 1 0 0 0 -4 0 0 0 1 stug8-1x3.dat
+0 BFC INVERTNEXT
+1 16 0 24 0 76 0 0 0 -20 0 0 0 36 box5.dat
+4 16 80 24 40 76 24 36 -76 24 36 -80 24 40
+4 16 -80 24 40 -76 24 36 -76 24 -36 -80 24 -40
+4 16 -80 24 -40 -76 24 -36 76 24 -36 80 24 -40
+4 16 80 24 -40 76 24 -36 76 24 36 80 24 40
+1 16 0 24 0 80 0 0 0 -24 0 0 0 40 box5.dat
+1 16 60 4 -34 1.5 0 0 0 19 0 0 0 2 box4-1.dat
+1 16 20 4 -34 1.5 0 0 0 19 0 0 0 2 box4-1.dat
+1 16 -20 4 -34 1.5 0 0 0 19 0 0 0 2 box4-1.dat
+1 16 -60 4 -34 1.5 0 0 0 19 0 0 0 2 box4-1.dat
+1 16 60 4 34 1.5 0 0 0 19 0 0 0 -2 box4-1.dat
+1 16 20 4 34 1.5 0 0 0 19 0 0 0 -2 box4-1.dat
+1 16 -20 4 34 1.5 0 0 0 19 0 0 0 -2 box4-1.dat
+1 16 -60 4 34 1.5 0 0 0 19 0 0 0 -2 box4-1.dat
+1 16 74 4 20 0 0 -2 0 19 0 -1.5 0 0 box4-1.dat
+1 16 74 4 -20 0 0 -2 0 19 0 -1.5 0 0 box4-1.dat
+1 16 -74 4 20 0 0 2 0 19 0 -1.5 0 0 box4-1.dat
+1 16 -74 4 -20 0 0 2 0 19 0 -1.5 0 0 box4-1.dat

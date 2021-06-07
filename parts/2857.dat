@@ -1,0 +1,19 @@
+0 Tyre 20/ 46 x 30 Off Road
+0 Name: 2857.dat
+0 Author: Max Martin Richter [MMR1988]
+0 !LDRAW_ORG Part UPDATE 2017-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS 20 x 30, solid
+
+0 !HISTORY 2017-12-30 [PTadmin] Official Update 2017-01
+
+1 16 0 0 0 0 0 1 0 1 0 -1 0 0 s\2857s01.dat
+1 16 0 0 0 0 0 -1 0 -1 0 -1 0 0 s\2857s01.dat
+1 16 0 0 0 0 0 1 0 -1 0 1 0 0 s\2857s01.dat
+1 16 0 0 0 0 0 -1 0 1 0 1 0 0 s\2857s01.dat
+
+0 BFC INVERTNEXT
+1 16 0 0 -25 0 0 38 38 0 0 0 50 0 48\4-4cylo.dat

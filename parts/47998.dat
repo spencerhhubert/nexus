@@ -1,0 +1,39 @@
+0 Plate  4 x  4 with 2 Clips Horizontal
+0 Name: 47998.dat
+0 Author: Willy Tschager [Holly-Wood]
+0 !LDRAW_ORG Part UPDATE 2010-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+
+0 !HISTORY 2010-04-05 [PTadmin] Official Update 2010-01
+
+1 16 20 4 -20 0 0 1 0 -1 0 -1 0 0 stud4.dat
+1 16 20 4 0 0 0 1 0 -1 0 -1 0 0 stud4.dat
+1 16 20 4 20 0 0 1 0 -1 0 -1 0 0 stud4.dat
+1 16 0 4 -20 0 0 1 0 -1 0 -1 0 0 stud4.dat
+1 16 0 4 0 0 0 1 0 -1 0 -1 0 0 stud4.dat
+1 16 0 4 20 0 0 1 0 -1 0 -1 0 0 stud4.dat
+1 16 -20 4 -20 0 0 1 0 -1 0 -1 0 0 stud4.dat
+1 16 -20 4 0 0 0 1 0 -1 0 -1 0 0 stud4.dat
+1 16 -20 4 20 0 0 1 0 -1 0 -1 0 0 stud4.dat
+
+0 BFC INVERTNEXT
+1 16 0 8 0 36 0 0 0 -4 0 0 0 36 box5.dat
+
+4 16 40 8 -40 36 8 -36 -36 8 -36 -40 8 -40
+4 16 40 8 40 36 8 36 36 8 -36 40 8 -40
+4 16 -40 8 40 -36 8 36 36 8 36 40 8 40
+4 16 -40 8 -40 -36 8 -36 -36 8 36 -40 8 40
+
+1 16 0 4 -40 -40 0 0 0 0 -4 0 80 0 box4-2p.dat
+
+1 16 -37 4 -40 0 0 3 -4 0 0 0 1 0 rect3.dat
+1 16 37 4 -40 0 0 -3 -4 0 0 0 1 0 rect3.dat
+1 16 0 4 -40 0 0 -26 -4 0 0 0 1 0 rect.dat
+
+1 16 -30 0 -50 1 0 0 0 1 0 0 0 1 clip3.dat
+1 16 30 0 -50 1 0 0 0 1 0 0 0 1 clip3.dat
+
+1 16 0 0 0 0 0 1 0 1 0 -1 0 0 stug4.dat
+0

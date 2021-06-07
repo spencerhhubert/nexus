@@ -1,0 +1,26 @@
+0 Plate  2 x  2 Round with  1 Centre Stud
+0 Name: 18674.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2015-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS jumper, offset, tile, spacer
+
+0 !HISTORY 2015-10-11 [PTadmin] Official Update 2015-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\15535s02.dat
+1 16 0 0 0 0 0 1 0 1 0 -1 0 0 s\15535s02.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 -1 s\15535s02.dat
+1 16 0 0 0 0 0 -1 0 1 0 1 0 0 s\15535s02.dat
+1 16 0 4 0 1 0 0 0 -1 0 0 0 -1 stud4.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 stud2a.dat
+0 BFC INVERTNEXT
+1 16 0 0 0 4 0 0 0 4 0 0 0 4 4-4cyli.dat
+1 16 0 4 0 4 0 0 0 1 0 0 0 4 4-4edge.dat
+1 16 0 0 0 6 0 0 0 1 0 0 0 6 4-4edge.dat
+1 16 0 4 0 2 0 0 0 -1 0 0 0 2 4-4ring2.dat
+1 16 0 0 0 6 0 0 0 1 0 0 0 6 4-4ring1.dat
+1 16 0 0 0 4 0 0 0 1 0 0 0 4 4-4ring3.dat
+1 16 0 0 0 4 0 0 0 1 0 0 0 4 4-4ring4.dat

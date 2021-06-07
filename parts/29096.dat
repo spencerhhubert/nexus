@@ -1,0 +1,15 @@
+0 Cone Half 10 x  5 x  6
+0 Name: 29096.dat
+0 Author: Gerald Lasser [GeraldLasser]
+0 !LDRAW_ORG Part UPDATE 2020-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2020-06-28 [PTadmin] Official Update 2020-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\29096s01.dat
+1 16 0 52.125 0 -15 0 0 0 -52.125 0 0 0 -15 48\1-4con4.dat
+1 16 0 139 0 -25 0 0 0 -86.875 0 0 0 -25 48\1-4con3.dat
+1 16 0 52.125 0 15 0 0 0 -52.125 0 0 0 -15 48\1-4con4.dat
+1 16 0 139 0 25 0 0 0 -86.875 0 0 0 -25 48\1-4con3.dat

@@ -1,0 +1,18 @@
+0 Minifig Garrison Cap
+0 Name: 4156.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2020-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !CATEGORY Minifig Headwear
+0 !KEYWORDS Legoland Ambassador, Key Chain, Bricklink 3977
+
+0 !HISTORY 2020-12-29 [PTadmin] Official Update 2020-03
+
+1 16 0 -4 0 1 0 0 0 -1 0 0 0 1 stud4o.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\4156s01.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 -1 s\4156s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\4156s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 -1 s\4156s01.dat

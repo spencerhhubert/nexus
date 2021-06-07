@@ -1,0 +1,13 @@
+0 Tail 10 x 10 x  4 Twin
+0 Name: 42603.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2011-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2011-12-29 [PTadmin] Official Update 2011-02
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\42603s01.dat
+4 16 98 -85 82 27 1 -80 27 1 80 98 -85 118
+4 16 -98 -85 118 -27 1 80 -27 1 -80 -98 -85 82

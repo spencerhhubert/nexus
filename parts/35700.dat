@@ -1,0 +1,15 @@
+0 Container  2 x  2 x  1 Crate
+0 Name: 35700.dat
+0 Author: Gerald Lasser [GeraldLasser]
+0 !LDRAW_ORG Part UPDATE 2019-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Box, Case, Canister, Tin, Bin
+
+0 !HISTORY 2019-06-28 [PTadmin] Official Update 2019-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\35700s01.dat
+
+1 16 0 8 0 20 0 0 0 -24 0 0 0 20 box4.dat

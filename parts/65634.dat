@@ -1,0 +1,26 @@
+0 Car Base  6 x 12 with 6 Studs on Each Side
+0 Name: 65634.dat
+0 Author: Magnus Forsberg [MagFors]
+0 !LDRAW_ORG Part UPDATE 2020-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2020-06-28 [PTadmin] Official Update 2020-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\65634s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 -1 s\65634s01.dat
+
+1 16 10 16 0 0 0 -1 0 1 0 1 0 0 stug2-4x4.dat
+1 16 -40 16 0 0 0 -1 0 1 0 1 0 0 stug2-1x4.dat
+1 16 0 0 50 0 0 -1 0 1 0 1 0 0 stug-6x1.dat
+1 16 0 0 -50 0 0 -1 0 1 0 1 0 0 stug-6x1.dat
+1 16 0 8 70 0 0 -1 0 1 0 1 0 0 stug-6x1.dat
+1 16 0 8 -70 0 0 -1 0 1 0 1 0 0 stug-6x1.dat
+1 16 0 8 90 0 0 -1 0 1 0 1 0 0 stug-4x1.dat
+1 16 0 8 -90 0 0 -1 0 1 0 1 0 0 stug-4x1.dat
+1 16 0 8 110 0 0 -1 0 1 0 1 0 0 stug-4x1.dat
+1 16 0 8 -110 0 0 -1 0 1 0 1 0 0 stug-4x1.dat
+0 BFC INVERTNEXT
+1 16 0 20 0 40 0 0 0 4 0 0 0 40 box4.dat
+1 16 0 20 0 0 0 -4 0 1 0 40 0 0 box3u2p.dat

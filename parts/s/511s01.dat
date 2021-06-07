@@ -1,0 +1,40 @@
+0 ~Metal Contact for Electric Train Track Contact Base
+0 Name: s\511s01.dat
+0 Author: Niels Karsdorp [nielsk]
+0 !LDRAW_ORG Subpart UPDATE 2012-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+
+0 !HISTORY 2012-03-30 [PTadmin] Official Update 2012-01
+
+3 16 15 3 5 14 3 5 15 4 5
+3 16 15 4 -5 14 3 -5 15 3 -5
+3 16 -15 4 5 -14 3 5 -15 3 5
+3 16 -15 3 -5 -14 3 -5 -15 4 -5
+4 16 14 3 5 14 3 -5 15 4 -5 15 4 5
+4 16 -15 4 5 -15 4 -5 -14 3 -5 -14 3 5
+4 16 27 4 -5 27 4 5 15 4 5 15 4 -5
+4 16 -15 4 -5 -15 4 5 -27 4 5 -27 4 -5
+1 16 21 4 0 0 0 6 0 -1 0 5 0 0 box4-4a.dat
+1 16 -21 4 0 0 0 -6 0 -1 0 5 0 0 box4-4a.dat
+0 BFC INVERTNEXT
+1 16 0 3 -5 14 0 0 0 0 -8.4 0 10 0 2-4cyli.dat
+1 16 0 3 -5 15 0 0 0 0 -9 0 10 0 2-4cyli.dat
+1 16 0 3 -5 1 0 0 0 0 -.6 0 1 0 2-4rin14.dat
+1 16 0 3 5 1 0 0 0 0 -.6 0 -1 0 2-4rin14.dat
+1 16 0 3 -5 15 0 0 0 0 -9 0 1 0 2-4edge.dat
+1 16 0 3 5 15 0 0 0 0 -9 0 1 0 2-4edge.dat
+1 16 0 3 -5 14 0 0 0 0 -8.4 0 1 0 2-4edge.dat
+1 16 0 3 5 14 0 0 0 0 -8.4 0 1 0 2-4edge.dat
+2 24 15 3 -5 15 3 5
+2 24 -15 3 -5 -15 3 5
+2 24 14 3 -5 14 3 5
+2 24 -14 3 -5 -14 3 5
+2 24 15 4 -5 15 4 5
+2 24 -15 4 -5 -15 4 5
+2 24 15 4 5 14 3 5
+2 24 -15 4 5 -14 3 5
+2 24 15 4 -5 14 3 -5
+2 24 -15 4 -5 -14 3 -5
+0

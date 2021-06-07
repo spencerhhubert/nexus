@@ -1,0 +1,23 @@
+0 Sticker  3.4 x  1.4 with Dark Azure Volkswagen Left Front Window Pillar
+0 Name: 6153754a.dat
+0 Author: Magnus Forsberg [MagFors]
+0 !LDRAW_ORG Part UPDATE 2016-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS set 10252, VW, Beetle
+
+0 !HISTORY 2016-12-31 [PTadmin] Official Update 2016-01
+
+4 16 0 0 34 8 0 34 8 0 -34 -20 0 -34
+4 16 0 -0.25 34 8 -0.25 34 8 0 34 0 0 34
+4 16 8 -.25 26 8 -.25 -34 8 0 -34 8 0 34
+3 16 8 0 34 8 -.25 34 8 -.25 26
+4 16 -8 -.25 -34 -20 -.25 -34 -20 0 -34 8 0 -34
+3 16 8 0 -34 8 -.25 -34 -8 -.25 -34
+4 16 -20 -0.25 -34 0 -0.25 34 0 0 34 -20 0 -34
+3 16 -8 -.25 -34 8 -.25 -34 8 -.25 26
+0 BFC NOCLIP
+3 321 8 -.25 26 8 -.25 34 0 -.25 34
+4 321 -20 -.25 -34 -8 -.25 -34 8 -.25 26 0 -.25 34

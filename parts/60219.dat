@@ -1,0 +1,38 @@
+0 Slope Brick 45  6 x  4 Double Inverted with Centre Holes
+0 Name: 60219.dat
+0 Author: Willy Tschager [Holly-Wood]
+0 !LDRAW_ORG Part UPDATE 2016-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2012-08-09 [PTadmin] Official Update 2012-02
+0 !HISTORY 2016-01-09 [cwdee]   Update description
+0 !HISTORY 2016-01-10 [MagFors] Corrected studs
+0 !HISTORY 2016-12-31 [PTadmin] Official Update 2016-01
+
+0 // Studs Bottom
+1 16 -20 20 0 0 0 1 0 -1 0 -1 0 0 stud4f2w.dat
+1 16 0 20 0 0 0 1 0 -1 0 -1 0 0 stud4f2w.dat
+1 16 20 20 0 0 0 1 0 -1 0 -1 0 0 stud4f2w.dat
+
+1 16 0 20 20 0 0 1 0 -1 0 -1 0 0 stud4f2w.dat
+1 16 0 20 20 6 0 0 0 1 0 0 0 6 4-4edge.dat
+1 16 0 20 10 0 0 2 0 4 0 -2 0 0 box3u8p.dat
+1 16 0 20 32 0 0 -2 0 4 0 4 0 0 box3u6.dat
+3 16 0 24 40 2 24 36 -2 24 36
+1 16 0 20 -20 0 0 1 0 -1 0 -1 0 0 stud4f2w.dat
+1 16 0 20 -20 6 0 0 0 1 0 0 0 6 4-4edge.dat
+1 16 0 20 -10 0 0 -2 0 4 0 2 0 0 box3u8p.dat
+1 16 0 20 -32 0 0 2 0 4 0 -4 0 0 box3u6.dat
+3 16 0 24 -40 -2 24 -36 2 24 -36
+
+0 // Subpart Slope Brick 45  6 x  4 Double Inverted with Center Holes
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\60219s01.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 -1 s\60219s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\60219s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 -1 s\60219s01.dat
+
+0 // Studs Top
+1 16 0 16 0 0 0 1 0 1 0 -1 0 0 stug-4x4.dat
+

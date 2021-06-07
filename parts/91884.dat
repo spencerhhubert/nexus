@@ -1,0 +1,17 @@
+0 Minifig Shield Round Type 2
+0 Name: 91884.dat
+0 Author: Andy Westrate [westrate]
+0 !LDRAW_ORG Part UPDATE 2014-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !CATEGORY Minifig Accessory
+
+0 !HISTORY 2010-10-20 [westrate] Original part shape
+0 !HISTORY 2014-02-16 [Wesley] changed origin, moved geometry into subfile
+0 !HISTORY 2014-06-21 [PTadmin] Official Update 2014-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\91884s01.dat
+0 // printable area
+1 16 0 0 -9 25 0 0 0 0 25 0 1 0 48\4-4disc.dat

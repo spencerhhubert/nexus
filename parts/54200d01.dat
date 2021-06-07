@@ -1,0 +1,14 @@
+0 Slope Brick 31  1 x  1 with Sticker  1.1 x  0.9 with Twin Exhaust Pipes Right
+0 Name: 54200d01.dat
+0 Author: Massimo Maso [Sirio]
+0 !LDRAW_ORG Shortcut UPDATE 2020-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2015-10-11 [PTadmin] Official Update 2015-01
+0 !HISTORY 2019-06-03 [Philo] Adjusted sticker position for rounded corners
+0 !HISTORY 2020-06-28 [PTadmin] Official Update 2020-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 54200.dat
+1 16 0 -10.5463 0.9105 1 0 0 0 0.85749 -0.5145 0 0.5145 0.85749 4615865e.dat

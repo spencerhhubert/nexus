@@ -1,0 +1,22 @@
+0 ~Wheel Minifig Bicycle Integral Tyre
+0 Name: s\92851s02.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Subpart UPDATE 2018-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2018-12-08 [PTadmin] Official Update 2018-02
+
+1 16 0 0 0 19.5 0 0 0 0 19.5 0 26.45 0 48\tm04o0870.dat
+1 16 0 0 0 0 0 -19.5 19.5 0 0 0 26.45 0 48\tm04o0870.dat
+1 16 0 0 0 0 0 -19.5 19.5 0 0 0 -26.45 0 48\tm04o0870.dat
+1 16 0 0 0 -19.5 0 0 0 0 -19.5 0 26.45 0 48\tm04o0870.dat
+1 16 0 0 0 -19.5 0 0 0 0 -19.5 0 -26.45 0 48\tm04o0870.dat
+1 16 0 0 0 0 0 19.5 -19.5 0 0 0 26.45 0 48\tm04o0870.dat
+1 16 0 0 0 0 0 19.5 -19.5 0 0 0 -26.45 0 48\tm04o0870.dat
+1 16 0 0 0 19.5 0 0 0 0 19.5 0 -26.45 0 48\tm04o0870.dat
+1 16 0 0 2.3 1.95 0 0 0 0 1.95 0 -1 0 48\4-4ring9.dat
+1 16 0 0 -2.3 1.95 0 0 0 0 1.95 0 1 0 48\4-4ring9.dat
+0 BFC INVERTNEXT
+1 16 0 0 2.3 17.55 0 0 0 0 17.55 0 -4.6 0 48\4-4cylo.dat

@@ -1,0 +1,16 @@
+0 Hose Air Pump 16 x 14 x 13 Valves and Pump (Complete)
+0 Name: 30587c01.dat
+0 Author: Mikkel Bech Jensen [gaia]
+0 !LDRAW_ORG Shortcut UPDATE 2019-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 !HELP Angle for rotation = 41.25
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2019-09-09 [PTadmin] Official Update 2019-02
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 30587.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 30588.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 30589.dat
+1 256 0 0 0 1 0 0 0 1 0 0 0 1 23222.dat

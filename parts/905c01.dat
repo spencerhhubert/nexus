@@ -1,0 +1,14 @@
+0 Electric Light & Sound Computer Console (Complete)
+0 Name: 905c01.dat
+0 Author: Willy Tschager [Holly-Wood]
+0 !LDRAW_ORG Shortcut UPDATE 2010-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+0 !KEYWORDS 9V, space, spaceship, spacecraft, slope 
+
+0 !HISTORY 2010-04-05 [PTadmin] Official Update 2010-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 905.dat
+1 16 0 0 -10 1 0 0 0 0.707 0.707 0 -0.707 0.707 906.dat
+0

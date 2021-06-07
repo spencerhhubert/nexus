@@ -1,0 +1,15 @@
+0 Technic Pneumatic Tube 33L
+0 Name: 96889-f1.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2020-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS 264 mm
+
+0 !HISTORY 2020-09-05 [PTadmin] Official Update 2020-02
+
+1 16 -330 0 0 0 1 0 1 0 0 0 0 1 71533k02.dat
+1 16 330 0 0 0 -1 0 -1 0 0 0 0 1 71533k02.dat
+1 16 -330 0 0 0 660 0 1 0 0 0 0 1 71533k03.dat

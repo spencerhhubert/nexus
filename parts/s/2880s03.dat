@@ -1,0 +1,14 @@
+0 ~Monorail Track Curve Rack - Curved Bottom Faces
+0 Name: s\2880s03.dat
+0 Author: Mikkel Bech Jensen [gaia]
+0 !LDRAW_ORG Subpart UPDATE 2020-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+
+0 !HISTORY 2020-09-05 [PTadmin] Official Update 2020-02
+
+4 16 5.601 0 -7.585 5.1 0 -7.577 3.922 0 -4.534 7.146 0 -4.61
+4 16 1.949 0 -7.525 1.449 0 -7.525 .224 0 -4.502 3.449 0 -4.525
+4 16 .251 0 4.498 1.638 0 7.505 2.138 0 7.497 3.59 0 4.474
+4 16 4.035 0 4.465 5.525 0 7.449 6.025 0 7.433 7.43 0 4.387

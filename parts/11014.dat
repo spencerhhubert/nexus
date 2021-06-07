@@ -1,0 +1,23 @@
+0 ~Electric Mindstorms EV3 Colour Sensor Opto Support
+0 Name: 11014.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2018-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2012-05-20 {LEGO MINDSTORMS Team} Original part shape
+0 !HISTORY 2012-06-05 [Philo] Complete rebuild for LDraw Parts Tracker
+0 !HISTORY 2013-12-23 [PTadmin] Official Update 2013-02
+0 !HISTORY 2018-03-25 [cwdee] Correct description spelling
+0 !HISTORY 2018-12-08 [PTadmin] Official Update 2018-02
+
+0 // Part inside sensor is highly simplified
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\11014s01.dat
+1 16 0 0 0 -1.76777 0 -1.76777 1.76777 0 -1.76777 0 1 0 3-4ring5.dat
+1 16 0 13 0 2.15 0 0 0 0 2.15 0 1 0 2-4ring4.dat
+4 16 7.946 9.709 0 10.6 10.6 0 8.839 8.839 0 7.819 9.52 0
+4 16 10.75 13 0 10.6 10.6 0 7.946 9.709 0 8.6 13 0
+4 16 -7.819 9.52 0 -8.839 8.839 0 -10.6 10.6 0 -7.946 9.709 0
+4 16 -8.6 13 0 -7.946 9.709 0 -10.6 10.6 0 -10.75 13 0

@@ -1,0 +1,50 @@
+0 ~Electric Mindstorms NXT Motor Casing Top
+0 Name: 54717.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2012-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2012-03-30 [PTadmin] Official Update 2012-01
+
+1 16 -10 0 -210 0 0 -1 -1 0 0 0 16 0 npeghol2.dat
+4 16 20 6 -192 20 9 -192 -20 9 -192 -20 6 -192
+4 16 14 -6 -192 14 6 -192 6 6 -192 6 -6 -192
+4 16 -6 -6 -192 -6 6 -192 -14 6 -192 -14 -6 -192
+2 24 20 -9 -192 20 -8 -192
+2 24 -20 -9 -192 -20 -8 -192
+0 BFC INVERTNEXT
+1 16 0 0 -192 0 0 -6 6 0 0 0 -16 0 4-4cyli.dat
+1 16 0 0 -210 0 0 -1 -1 0 0 0 1 0 peghole.dat
+1 16 0 0 -210 0 0 -1 -1 0 0 0 1 0 4-4ring8.dat
+1 16 10 0 -210 0 0 -1 -1 0 0 0 16 0 npeghol2.dat
+0 BFC INVERTNEXT
+1 16 20 0 -192 0 0 -6 6 0 0 0 -16 0 4-4cyli.dat
+1 16 20 0 -192 0 0 -6 6 0 0 0 -16 0 4-4edge.dat
+1 16 0 0 -192 0 0 -6 6 0 0 0 -16 0 4-4edge.dat
+1 16 -20 0 -192 0 0 -6 6 0 0 0 -16 0 4-4edge.dat
+1 16 -20 0 -192 0 0 6 -6 0 0 0 -16 0 2-4ndis.dat
+1 16 0 0 -192 0 0 -6 6 0 0 0 -16 0 2-4ndis.dat
+1 16 0 0 -192 0 0 6 -6 0 0 0 -16 0 2-4ndis.dat
+1 16 20 0 -192 0 0 -6 6 0 0 0 -16 0 2-4ndis.dat
+1 16 20 0 -192 0 0 3 -3 0 0 0 -1 0 2-4ring2.dat
+1 16 -20 0 -192 0 0 -3 3 0 0 0 -1 0 2-4ring2.dat
+1 16 20 0 -210 0 0 -1 -1 0 0 0 1 0 peghole.dat
+1 16 20 0 -210 0 0 -1 -1 0 0 0 1 0 4-4ring8.dat
+1 16 -20 0 -210 0 0 -1 -1 0 0 0 1 0 peghole.dat
+0 BFC INVERTNEXT
+1 16 -20 0 -192 0 0 -6 6 0 0 0 -16 0 4-4cyli.dat
+1 16 -20 0 -210 0 0 -1 -1 0 0 0 1 0 4-4ring8.dat
+0 Sides and edges
+1 16 -20 0 -192 0 0 -9 9 0 0 0 -18 0 2-4cyli.dat
+1 16 -20 0 -192 0 0 -9 9 0 0 0 -1 0 2-4edge.dat
+1 16 -20 0 -210 0 0 -9 -9 0 0 0 1 0 2-4edge.dat
+1 16 20 0 -192 0 0 9 -9 0 0 0 -18 0 2-4cyli.dat
+1 16 20 0 -192 0 0 9 -9 0 0 0 -1 0 2-4edge.dat
+1 16 20 0 -210 0 0 9 9 0 0 0 1 0 2-4edge.dat
+1 16 0 9 -201 20 0 0 0 -1 0 0 0 -9 rect2p.dat
+1 16 0 -9 -201 0 0 20 0 1 0 -9 0 0 rect1.dat
+1 16 0 -8.5 -192 0 0 20 0.5 0 0 0 61 0 box5-4a.dat
+1 16 0 -7 -192 0 0 -20 -1 0 0 0 -1 0 rect1.dat
+0

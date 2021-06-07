@@ -1,0 +1,15 @@
+0 Duplo Building Wall  4 x  8 x  6 with Open Back and White Door and Window
+0 Name: 6431c01.dat
+0 Author: Tim Lampmann [L4mpi]
+0 !LDRAW_ORG Shortcut UPDATE 2020-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !CATEGORY Brick
+
+0 !HISTORY 2020-09-05 [PTadmin] Official Update 2020-02
+
+1 15 -139.5 85 -76 1 0 0 0 1 0 0 0 1 2205.dat
+1 15 139.5 85 -76 -1 0 0 0 1 0 0 0 1 2206.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 6431.dat

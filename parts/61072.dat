@@ -1,0 +1,37 @@
+0 Plate  1 x  2 with Exhaust Ports
+0 Name: 61072.dat
+0 Author: Michael Heidemann [mikeheide]
+0 !LDRAW_ORG Part UPDATE 2011-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2009-10-13 {LEGO Universe Team} Original part shape
+0 !HISTORY 2010-01-30 [mikeheide] File preparation for LDraw Parts Tracker
+0 !HISTORY 2011-06-27 [Brickaneer] Primitives and coordinates changed.
+0 !HISTORY 2011-06-28 [Brickaneer] Box4-1 and stud3 corrected.
+0 !HISTORY 2011-12-29 [PTadmin] Official Update 2011-02
+
+1 16 30 0 0 1 0 0 0 1 0 0 0 1 s\61072s01.dat
+1 16 -30 0 0 -1 0 0 0 1 0 0 0 -1 s\61072s01.dat
+4 16 30 5.21 -10 30.631 0 -10 -20 8 -10 20 8 -10
+4 16 -20 8 -10 30.631 0 -10 -30.631 0 -10 -30 5.21 -10
+1 16 10 0 0 0 0 1 0 1 0 -1 0 0 stud.dat
+1 16 -10 0 0 0 0 1 0 1 0 -1 0 0 stud.dat
+4 16 -30 5.21 10 -30.631 0 10 20 8 10 -20 8 10
+4 16 -30.631 0 10 30.631 0 10 30 5.21 10 20 8 10
+2 24 30.631 0 -10 -30.631 0 -10
+1 16 0 8 -8.125 0 0 -20 0 -1 0 -1.875 0 0 rect.dat
+4 16 -25.97 0 -8.741 -30.631 0 -10 30.631 0 -10 25.97 0 -8.741
+0 BFC INVERTNEXT
+1 16 0 8 0 -20 0 0 0 -5.25 0 0 0 6.5 box5-4a.dat
+4 16 -21.91 0 -5.305 -25.97 0 -8.741 25.97 0 -8.741 21.91 0 -5.305
+4 16 -20.76 0 0 -21.91 0 -5.305 21.91 0 -5.305 20.76 0 0
+1 16 0 8 8.125 0 0 20 0 -1 0 1.875 0 0 rect.dat
+4 16 -21.91 0 5.305 -20.76 0 0 20.76 0 0 21.91 0 5.305
+4 16 -25.97 0 8.741 -21.91 0 5.305 21.91 0 5.305 25.97 0 8.741
+4 16 25.97 0 8.741 30.631 0 10 -30.631 0 10 -25.97 0 8.741
+2 24 -30.631 0 10 30.631 0 10
+1 16 0 2.75 0 1 0 0 0 -1.3125 0 0 0 -1 stud3.dat
+1 16 -18 2.75 0 0 0 2 0 5.25 0 -1.5 0 0 box4-1.dat
+1 16 18 2.75 0 0 0 -2 0 5.25 0 1.5 0 0 box4-1.dat

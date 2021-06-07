@@ -1,0 +1,76 @@
+0 Minifig Sword Shortsword
+0 Name: 3847.dat
+0 Author: James Jessiman
+0 !LDRAW_ORG Part UPDATE 2004-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+0 !CATEGORY Minifig Accessory
+0 !KEYWORDS Castle, weapon, blade, sword, shortsword, gladius
+
+0 !HISTORY 1997-10-29 [PTadmin] Official Update 1997-16
+0 !HISTORY 2003-01-23 [sbliss] Retitled, completed header, BFC'ed, converted degenerate quads to triangles...
+0 !HISTORY 2003-11-21 [westrate] Extended blade to hilt, grip to bottom sphere, removed duplicate type-5 lines...
+0 !HISTORY 2003-12-27 [cwdee] added shortsword to title
+0 !HISTORY 2004-03-02 [PTadmin] Official Update 2004-01
+0 !HISTORY 2007-06-30 [PTadmin] Header formatted for Contributor Agreement
+0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01
+
+0 // Blade
+1 16 0 -52 0 0 2 0 -6 0 0 0 0 6 1-4con0.dat
+1 16 0 -52 0 0 2 0 0 0 -6 -6 0 0 1-4con0.dat
+1 16 0 -52 0 0 -2 0 -6 0 0 0 0 -6 1-4con0.dat
+1 16 0 -52 0 0 -2 0 0 0 -6 6 0 0 1-4con0.dat
+1 16 0 -52 0 0 1 0 0 0 -6 6 0 0 2-4edge.dat
+4 16 0 -4 6 0 -52 6 2 -52 0 2 -4 0
+4 16 -2 -52 0 0 -52 6 0 -4 6 -2 -4 0
+4 16 2 -52 0 0 -52 -6 0 -4 -6 2 -4 0
+4 16 0 -4 -6 0 -52 -6 -2 -52 0 -2 -4 0
+2 24 0 -52 6 0 -4 6
+2 24 0 -52 -6 0 -4 -6
+2 24 2 -52 0 2 -3.382 0
+2 24 -2 -52 0 -2 -3.382 0
+2 24 0 -4 -6 -1.5308 -3.6956 -1.4076
+3 16 -2 -4 0 -1.5308 -3.6956 -1.4076 0 -4 -6
+3 16 -2 -3.382 0 -1.5308 -3.6956 -1.4076 -2 -4 0
+2 24 -1.5308 -3.6956 -1.4076 -2 -3.382 0
+2 24 0 -4 6 1.5308 -3.6956 1.4076
+3 16 2 -4 0 1.5308 -3.6956 1.4076 0 -4 6
+3 16 2 -3.382 0 1.5308 -3.6956 1.4076 2 -4 0
+2 24 1.5308 -3.6956 1.4076 2 -3.382 0
+2 24 0 -4 -6 1.5308 -3.6956 -1.4076
+3 16 0 -4 -6 1.5308 -3.6956 -1.4076 2 -4 0
+3 16 2 -4 0 1.5308 -3.6956 -1.4076 2 -3.382 0
+2 24 1.5308 -3.6956 -1.4076 2 -3.382 0
+2 24 0 -4 6 -1.5308 -3.6956 1.4076
+3 16 0 -4 6 -1.5308 -3.6956 1.4076 -2 -4 0
+3 16 -2 -4 0 -1.5308 -3.6956 1.4076 -2 -3.382 0
+2 24 -1.5308 -3.6956 1.4076 -2 -3.382 0
+
+0 Hilt
+
+1 16 0 0 0 4 0 0 0 1 4 0 0 4 2-4edge.dat
+1 16 0 0 0 4 0 0 0 1 4 0 0 -4 2-4edge.dat
+1 16 0 0 -4 0 0 4 4 0 0 0 4 0 1-4cyls.dat
+1 16 0 0 -4 0 0 -4 4 0 0 0 4 0 1-4cyls.dat
+1 16 0 0 4 0 0 4 4 0 0 0 -4 0 1-4cyls.dat
+1 16 0 0 4 0 0 -4 4 0 0 0 -4 0 1-4cyls.dat
+1 16 0 4 0 0 0 4 0 -4 0 4 0 0 1-4cyls.dat
+1 16 0 4 0 0 0 4 0 -4 0 -4 0 0 1-4cyls.dat
+1 16 0 4 0 0 0 -4 0 -4 0 4 0 0 1-4cyls.dat
+1 16 0 4 0 0 0 -4 0 -4 0 -4 0 0 1-4cyls.dat
+1 16 0 0 -10 4 0 0 0 0 -4 0 20 0 2-4cyli.dat
+1 16 0 0 -10 4 0 0 0 0 4 0 6 0 2-4cyli.dat
+1 16 0 0 10 4 0 0 0 0 4 0 -6 0 2-4cyli.dat
+1 16 0 0 10 4 0 0 0 0 4 0 1 0 4-4edge.dat
+1 16 0 0 -10 4 0 0 0 0 4 0 1 0 4-4edge.dat
+1 16 0 0 10 -4 0 0 0 0 4 0 -1 0 4-4disc.dat
+1 16 0 0 -10 4 0 0 0 0 4 0 1 0 4-4disc.dat
+1 16 0 0 12 4 0 0 0 4 0 0 0 4 8-8sphe.dat
+1 16 0 0 -12 4 0 0 0 4 0 0 0 4 8-8sphe.dat
+1 16 0 4 0 4 0 0 0 12 0 0 0 4 4-4cyli.dat
+1 16 0 16 0 -4 0 0 0 -1 0 0 0 4 4-4disc.dat
+1 16 0 16 0 4 0 0 0 1 0 0 0 4 4-4edge.dat
+1 16 0 18 0 4 0 0 0 4 0 0 0 4 8-8sphe.dat
+
+0 end of file

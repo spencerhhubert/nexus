@@ -1,0 +1,22 @@
+0 Sticker  1 x  3.8 with "HA 7990", Red/White Stripes, Black Edges
+0 Name: 59826h.dat
+0 Author: J.C. Tchang [tchang]
+0 !LDRAW_ORG Part UPDATE 2012-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+
+0 !HISTORY 2012-03-30 [PTadmin] Official Update 2012-01
+
+0 // Variant with Black Edges
+
+4 15 -38 0 10 -38 0 -10 38 0 -10 38 0 10
+4 15 38 0 10 38 0 -10 38 -0.25 -10 38 -0.25 10
+4 15 -38 -0.25 10 -38 -0.25 -10 -38 0 -10 -38 0 10
+4 15 38 -0.25 10 -38 -0.25 10 -38 0 10 38 0 10
+4 15 38 0 -10 -38 0 -10 -38 -0.25 -10 38 -0.25 -10
+0 //
+1 0 0 -0.25 0 0.21 0 0 0 1 0 0 0 0.21 s\59826s01.dat
+0 //
+1 0 0 -0.25 0 1 0 0 0 -1 0 0 0 1 s\59826s02.dat
+0 //

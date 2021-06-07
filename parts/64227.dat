@@ -1,0 +1,26 @@
+0 Electric Power Functions IR Handset Incremental (Complete)
+0 Name: 64227.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Shortcut UPDATE 2012-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS remote, remote control, infrared
+
+0 !HISTORY 2012-03-30 [PTadmin] Official Update 2012-01
+
+1 72 0 0 0 1 0 0 0 1 0 0 0 1 84748.dat
+1 72 0 0 0 1 0 0 0 1 0 0 0 1 84747.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 84746.dat
+1 0 51.52 45.722 -60 0.83333 0 0 0 -1 0 0 0 -0.83333 u9013.dat
+1 4 60 -5 -30 1 0 0 0 1 0 0 0 1 84751.dat
+1 4 -60 -5 -30 1 0 0 0 1 0 0 0 1 84751.dat
+1 25 60 -12 -90 1 0 0 0 1 0 0 0 1 84752.dat
+1 25 -60 -12 -90 1 0 0 0 1 0 0 0 1 84752.dat
+1 0 30 5 -35 0 0 -1 0 1 0 1 0 0 937.dat
+1 0 -30 5 -35 0 0 -1 0 1 0 1 0 0 937.dat
+1 25 0 2 -77.8 0 0 1 0 1 0 -1 0 0 59365.dat
+1 32 0 0 0 1 0 0 0 1 0 0 0 1 84750.dat
+4 16 -100 8 -120 -100 8 20 -100 28 20 -100 28 -120
+4 16 100 28 -120 100 28 20 100 8 20 100 8 -120

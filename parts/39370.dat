@@ -1,0 +1,15 @@
+0 Technic Beam  5 x  3 H-shaped with Ball Socket
+0 Name: 39370.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2019-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Spike Prime, Ball Castor
+
+0 !HISTORY 2019-12-27 [PTadmin] Official Update 2019-03
+
+1 16 0 0 0 0 1 0 0 0 -1 -1 0 0 connhole.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\39370s01.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 -1 s\39370s01.dat

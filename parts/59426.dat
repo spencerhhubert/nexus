@@ -1,0 +1,31 @@
+0 Technic Axle  5.5 with Stop Type 2
+0 Name: 59426.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2013-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 !HELP Compared to older 33209, 59426 long arm is 2 ldu longer
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2013-12-23 [PTadmin] Official Update 2013-02
+
+1 16 -55 0 0 0 1 0 1 0 0 0 0 1 axlehol2.dat
+1 16 -55 0 0 0 1 0 1 0 0 0 0 1 axlehol9.dat
+1 16 -37 0 0 0 1 0 1 0 0 0 0 1 axlehol9.dat
+1 16 -37 0 0 0 1 0 1 0 0 0 0 1 axlehol2.dat
+1 16 -55 0 0 0 1 0 1 0 0 0 0 1 axleend.dat
+1 16 -55 0 0 0 18 0 1 0 0 0 0 1 axlehol8.dat
+1 16 -35 0 0 0 1 0 6 0 0 0 0 6 4-4edge.dat
+1 16 -37 0 0 0 1 0 2 0 0 0 0 2 4-4ring3.dat
+1 16 -37 0 0 0 1 0 1 0 0 0 0 1 axleho10.dat
+1 16 -37 0 0 0 2 0 8 0 0 0 0 8 4-4cylo.dat
+1 16 -35 0 0 0 -1 0 2 0 0 0 0 2 4-4ring3.dat
+1 16 -27 0 0 0 1 0 1 0 0 0 0 1 axlehol9.dat
+1 16 -27 0 0 0 1 0 1 0 0 0 0 1 axlehol3.dat
+1 16 -35 0 0 0 8 0 6 0 0 0 0 6 4-4cyli.dat
+1 16 -27 0 0 0 -1 0 1 0 0 0 0 1 axleho10.dat
+1 16 55 0 0 0 1 0 1 0 0 0 0 1 axlehol2.dat
+1 16 55 0 0 0 1 0 1 0 0 0 0 1 axlehol9.dat
+1 16 -27 0 0 0 82 0 1 0 0 0 0 1 axlehol8.dat
+1 16 55 0 0 0 -1 0 1 0 0 0 0 1 axleend.dat

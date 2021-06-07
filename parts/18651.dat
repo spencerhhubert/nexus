@@ -1,0 +1,14 @@
+0 Technic Axle Pin Long with Friction with  2L Axle
+0 Name: 18651.dat
+0 Author: Owen Burgoyne [C3POwen]
+0 !LDRAW_ORG Part UPDATE 2015-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2015-10-11 [PTadmin] Official Update 2015-01
+
+1 16 -10 0 0 0 1 0 0 0 1 1 0 0 confric4.dat
+1 16 -10 0 0 0 1 0 8 0 0 0 0 8 4-4edge.dat
+1 16 -10 0 0 0 -1 0 8 0 0 0 0 8 4-4disc.dat
+1 16 -10 0 0 0 40 0 -1 0 0 0 0 1 axle.dat

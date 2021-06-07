@@ -1,0 +1,13 @@
+0 Technic Arm  1 x  6 with Gear 12 Tooth Double Bevel Ends
+0 Name: 41666.dat
+0 Author: Guy Vivan [guyvivan]
+0 !LDRAW_ORG Part UPDATE 2009-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+
+0 !HISTORY 2009-12-29 [PTadmin] Official Update 2009-03
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\41666s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\41666s01.dat
+0

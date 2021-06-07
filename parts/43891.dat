@@ -1,0 +1,17 @@
+0 Animal Elephant Ear
+0 Name: 43891.dat
+0 Author: Andy Westrate [westrate]
+0 !LDRAW_ORG Part UPDATE 2019-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2009-10-13 {LEGO Universe Team} Original part shape
+0 !HISTORY 2009-11-21 [westrate] File preparation for LDraw Parts Tracker
+0 !HISTORY 2019-06-28 [PTadmin] Official Update 2019-01
+
+1 16 0 0 0 1 0 0 0  1 0 0 0 1 s\43891s01.dat
+1 16 0 0 0 1 0 0 0 -1 0 0 0 1 s\43891s01.dat
+1 16 -10 0 0 0 10 0 4 0 0 0 0 4 4-4cylc.dat
+5 24 55.59 0 14.53 17.12 0 3.63 54.87 5.16 14.27 54.87 -5.16 14.27
+5 24 16.67 0 6.08 55.16 0 16.99 16.14 2.83 5.95 16.14 -2.83 5.95

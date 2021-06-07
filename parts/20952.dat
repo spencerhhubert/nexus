@@ -1,0 +1,23 @@
+0 Brick Round  1.4 x  1.4 x  0.667 Dome Top
+0 Name: 20952.dat
+0 Author: Massimo Maso [Sirio]
+0 !LDRAW_ORG Part UPDATE 2020-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2016-03-18 {LEGO Digital Designer} Original part shape
+0 !HISTORY 2019-05-28 [Sirio] File preparation for LDraw Parts Tracker
+0 !HISTORY 2020-12-29 [PTadmin] Official Update 2020-03
+
+0 // Suparts
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\20952s01.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\20952s02.dat
+1 16 0 0 0 0 0 1 0 1 0 1 0 0 s\20952s02.dat
+1 16 0 0 0 0 0 -1 0 1 0 1 0 0 s\20952s02.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\20952s02.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 -1 s\20952s02.dat
+1 16 0 0 0 0 0 -1 0 1 0 -1 0 0 s\20952s02.dat
+1 16 0 0 0 0 0 1 0 1 0 -1 0 0 s\20952s02.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 -1 s\20952s02.dat

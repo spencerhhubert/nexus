@@ -1,0 +1,14 @@
+0 Electric Technic Motor  4.5V without Centre Pin Hole
+0 Name: 6216a.dat
+0 Author: Jens Bauer [rockford]
+0 !LDRAW_ORG Part UPDATE 2020-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+0 !CMDLINE -c7
+
+0 !HISTORY 2018-03-31 [cwdee] reworked with renumbered parts
+0 !HISTORY 2020-12-29 [PTadmin] Official Update 2020-03
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 u9372c02.dat
+1 0 0 26 -59 1 0 0 0 1 0 0 0 1 u9377.dat

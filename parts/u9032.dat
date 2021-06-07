@@ -1,0 +1,37 @@
+0 ~Wheel  6.8 x 18 for Vehicle Base  4 x  4 with  2 x  4 Studs
+0 Name: u9032.dat
+0 Author: Michael Heidemann [mikeheide]
+0 !LDRAW_ORG Part UPDATE 2012-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2012-08-09 [PTadmin] Official Update 2012-02
+
+0 // Nomenclature: width_(mm) x rim_diameter_(mm) [optional qualifier]
+
+1 16 0 0 -2.5 22 0 0 0 0 -22 0 5 0 4-4cyli.dat
+0 BFC INVERTNEXT
+1 16 0 0 -8.5 16 0 0 0 0 -16 0 7 0 4-4cyli.dat
+0 BFC INVERTNEXT
+1 16 0 0 1.5 16 0 0 0 0 -16 0 7 0 4-4cyli.dat
+1 16 0 0 -8.5 16 0 0 0 0 -16 0 5 0 4-4edge.dat
+1 16 0 0 -1.5 16 0 0 0 0 -16 0 5 0 4-4edge.dat
+1 16 0 0 8.5 16 0 0 0 0 -16 0 5 0 4-4edge.dat
+1 16 0 0 1.5 16 0 0 0 0 -16 0 5 0 4-4edge.dat
+1 16 0 0 -2.5 16 0 0 0 0 16 0 -16 0 t01o3750.dat
+1 16 0 0 2.5 0 0 16 16 0 0 0 16 0 t01o3750.dat
+1 16 0 0 1.5 0 0 2 -2 0 0 0 -2 0 4-4ring7.dat
+1 16 0 0 -1.5 0 0 2 2 0 0 0 2 0 4-4ring7.dat
+1 16 0 0 -1.5 0 0 14 14 0 0 0 4 0 4-4edge.dat
+1 16 0 0 -3.5 0 0 14 14 0 0 0 4 0 4-4edge.dat
+1 16 0 0 -3.5 0 0 12 12 0 0 0 4 0 4-4edge.dat
+1 16 0 0 1.5 0 0 14 14 0 0 0 4 0 4-4edge.dat
+1 16 0 0 3.5 0 0 14 14 0 0 0 4 0 4-4edge.dat
+1 16 0 0 3.5 0 0 12 12 0 0 0 4 0 4-4edge.dat
+0 BFC INVERTNEXT
+1 16 0 0 -3.5 0 0 12 12 0 0 0 7 0 4-4cyli.dat
+1 16 0 0 -3.5 2 0 0 0 0 -2 0 1 0 4-4RING6.DAT
+1 16 0 0 3.5 2 0 0 0 0 2 0 -1 0 4-4RING6.DAT
+1 16 0 0 -3.5 0 0 14 14 0 0 0 2 0 4-4cyli.dat
+1 16 0 0 1.5 0 0 14 14 0 0 0 2 0 4-4cyli.dat

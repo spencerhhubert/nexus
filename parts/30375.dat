@@ -1,0 +1,19 @@
+0 Minifig Mechanical Torso
+0 Name: 30375.dat
+0 Author: Nathan Wright
+0 !LDRAW_ORG Part UPDATE 2002-05
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+0 !KEYWORDS Star Wars, Episode One, Episode Two, Trade Federation, battle droid
+0 !KEYWORDS Space, Life on Mars, Martian, minifig, minifig-scale
+
+0 !HISTORY 2002-06-09 [fwcain] Separated DAT code into subfile (to enable pattern files)...  
+0 !HISTORY 2002-11-30 [PTadmin] Official Update 2002-05
+0 !HISTORY 2007-06-09 [PTadmin] Header formatted for Contributor Agreement
+0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01
+
+ 1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\30375s01.dat
+ 1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\30375s02.dat
+ 1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\30375s03.dat
+0

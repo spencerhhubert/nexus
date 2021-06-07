@@ -1,0 +1,29 @@
+0 ~Rack Winder  2 x  4 x  2 Top
+0 Name: 2425.dat
+0 Author: Max Martin Richter [MMR1988]
+0 !LDRAW_ORG Part UPDATE 2013-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2013-07-21 [PTadmin] Official Update 2013-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\2425s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\2425s01.dat
+
+
+1 16 0 0 0 40 0 0 0 1 0 0 0 20 recte3.dat
+1 16 0 0 -13.75 10 0 0 0 1 0 0 0 6.25 recte3.dat
+4 16 40 0 20 -40 0 20 -10 0 -7.5 10 0 -7.5
+1 16 0 9.743 -7.5 5 0 0 0 0 -5.743 0 1 0 recte3.dat
+4 16 -5 4 -7.5 5 4 -7.5 10 0 -7.5 -10 0 -7.5
+1 16 0 3.5 -5.5 5 0 0 0 0.5 0 0 0 2 box2-7.dat
+1 16 0 3 6.25 10 0 0 0 -1 0 0 0 -9.75 rect3.dat
+1 16 0 14 18 10 0 0 0 11 0 0 0 -2 box2-5.dat
+4 16 10 25 20 -10 25 20 -10 18 20 10 18 20
+4 16 10 18 20 -10 18 20 -40 0 20 40 0 20
+
+
+1 16 0 0 10 -1 0 0 0 1 0 0 0 -1 stug2-1x4.dat
+1 16 30 0 -10 -1 0 0 0 1 0 0 0 -1 stud2.dat
+1 16 -30 0 -10 -1 0 0 0 1 0 0 0 -1 stud2.dat

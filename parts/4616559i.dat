@@ -1,0 +1,17 @@
+0 Sticker  3.9 x  1.8 with Maersk Blue/White Diagonal Up Left
+0 Name: 4616559i.dat
+0 Author: J.C. Tchang [tchang]
+0 !LDRAW_ORG Part UPDATE 2012-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Set 10219
+
+0 !HISTORY 2012-12-28 [PTadmin] Official Update 2012-03
+
+1 16 0 -0.25 0 18 0 0 0 0.25 0 0 0 39 box5-12.dat
+0 //
+4 15 18 -0.25 -39 18 -0.25 -15 -18 -0.25 39 -18 -0.25 15
+3 313 18 -0.25 -39 -18 -0.25 15 -18 -0.25 -39
+3 16 18 -0.25 -15 18 -0.25 39 -18 -0.25 39

@@ -1,0 +1,15 @@
+0 Container Box  3.5 x  3.5 x  1.333 with Hinged Lid Opened
+0 Name: 33031c01.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2015-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Belville, Scala
+
+0 !HISTORY 2015-12-30 [PTadmin] Official Update 2015-02
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\33031s01.dat
+1 16 0 -23 34 1 0 0 0 0.382683 0.92388 0 -0.92388 0.382683 s\33031s02.dat
+

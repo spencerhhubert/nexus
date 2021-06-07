@@ -1,0 +1,13 @@
+0 Plate  1 x  2 with Jet Engine and Smooth Hole (Needs Work)
+0 Name: 98302.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2014-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2014-12-23 [PTadmin] Official Update 2014-02
+
+0 // Needs Work: 98302 is slightly different from 3475b
+
+1 16 0 0 0  1 0 0  0 1 0  0 0 1 3475b.dat

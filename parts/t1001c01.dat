@@ -1,0 +1,18 @@
+0 | BuWizz Rechargeable Battery and Bluetooth  4 Ports Motor Driver
+0 Name: t1001c01.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2020-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !CATEGORY Electric
+
+0 !HISTORY 2020-09-05 [PTadmin] Official Update 2020-02
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 t1001.dat
+1 16 0 72 0 1 0 0 0 1 0 0 0 1 t1000.dat
+1 15 0 2 -69 -1 0 0 0 1 0 0 0 -1 t1002.dat
+1 494 0 0 -10 -1 0 0 0 1 0 0 0 -1 t1003.dat
+0 // See through blocker
+4 0 -20 12 10 -20 12 -30 20 12 -30 20 12 10

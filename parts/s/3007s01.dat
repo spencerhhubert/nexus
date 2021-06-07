@@ -1,0 +1,36 @@
+0 ~Brick  2 x  8 without Front Face
+0 Name: s\3007s01.dat
+0 Author: Michael Heidemann [mikeheide]
+0 !LDRAW_ORG Subpart UPDATE 2014-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2013-12-24 [MMR1988] Added reinforcements
+0 !HISTORY 2014-06-21 [PTadmin] Official Update 2014-01
+
+1 16 0 24 0 80 0 0 0 -24 0 0 0 20 box4t.dat
+0 BFC INVERTNEXT
+1 16 0 24 0 76 0 0 0 -20 0 0 0 16 box5.dat
+4 16 80 24 20 76 24 16 -76 24 16 -80 24 20
+4 16 -80 24 -20 -76 24 -16 76 24 -16 80 24 -20
+4 16 80 24 -20 76 24 -16 76 24 16 80 24 20
+4 16 -80 24 20 -76 24 16 -76 24 -16 -80 24 -20
+1 16 0 0 10 1 0 0 0 1 0 0 0 1 stug-1x8.dat
+1 16 0 0 -10 1 0 0 0 1 0 0 0 1 stug-1x8.dat
+1 16 0 4 0 1 0 0 0 -5 0 0 0 1 stug4-1x7.dat
+
+1 16 -40 4 8 0 0 1 0 14.5 0 -1 0 0 boxjcyl4.dat
+1 16 -40 4 12 0 0 1 0 14.5 0 -4 0 0 box3u5p.dat
+1 16 -40 4 -8 0 0 -1 0 14.5 0 1 0 0 boxjcyl4.dat
+1 16 -40 4 -12 0 0 -1 0 14.5 0 4 0 0 box3u5p.dat
+
+1 16 0 4 8 0 0 1 0 14.5 0 -1 0 0 boxjcyl4.dat
+1 16 0 4 12 0 0 1 0 14.5 0 -4 0 0 box3u5p.dat
+1 16 0 4 -8 0 0 -1 0 14.5 0 1 0 0 boxjcyl4.dat
+1 16 0 4 -12 0 0 -1 0 14.5 0 4 0 0 box3u5p.dat
+
+1 16 40 4 8 0 0 1 0 14.5 0 -1 0 0 boxjcyl4.dat
+1 16 40 4 12 0 0 1 0 14.5 0 -4 0 0 box3u5p.dat
+1 16 40 4 -8 0 0 -1 0 14.5 0 1 0 0 boxjcyl4.dat
+1 16 40 4 -12 0 0 -1 0 14.5 0 4 0 0 box3u5p.dat

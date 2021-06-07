@@ -1,0 +1,12 @@
+0 ~Electric Train Motor  4 x 12 x  4 Cover
+0 Name: 579.dat
+0 Author: Michael Heidemann [mikeheide]
+0 !LDRAW_ORG Part UPDATE 2020-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+
+0 !HISTORY 2020-12-29 [PTadmin] Official Update 2020-03
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\579s01.dat
+4 16 40 0 -80 40 48 -80 -40 48 -80 -40 0 -80

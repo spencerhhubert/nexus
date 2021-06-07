@@ -1,0 +1,16 @@
+0 Pov-RAY Light Source
+0 Name: light.dat
+0 Author: James Jessiman
+0 !LDRAW_ORG Part ORIGINAL
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 !HISTORY 2007-07-29 [PTadmin] Header formatted for Contributor Agreement
+0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01
+
+ 2 24 0 4 0 0 1 0
+ 2 24 4 0 0 1 0 0
+ 2 24 0 0 4 0 0 1
+ 2 24 0 -4 0 0 -1 0
+ 2 24 -4 0 0 -1 0 0
+ 2 24 0 0 -4 0 0 -1
+0

@@ -1,0 +1,38 @@
+0 Plate  4 x  4 Round with Hole and Snapstud
+0 Name: 60474.dat
+0 Author: Alex Taylor [anathema]
+0 !LDRAW_ORG Part UPDATE 2011-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 !HELP turntable together with 61485
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Turntable
+
+0 !HISTORY 2010-04-05 [PTadmin] Official Update 2010-01
+0 !HISTORY 2010-11-06 [MagFors] Added new primitive, modified subfile
+0 !HISTORY 2011-12-29 [PTadmin] Official Update 2011-02
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\60474s01.dat
+1 16 0 0 0 0 0 -1 0 1 0 1 0 0 s\60474s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 -1 s\60474s01.dat
+1 16 0 0 0 0 0 1 0 1 0 -1 0 0 s\60474s01.dat
+1 16 0 0 0 0 0 -1 0 1 0 -1 0 0 s\60474s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\60474s01.dat
+1 16 0 0 0 0 0 1 0 1 0 1 0 0 s\60474s01.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 -1 s\60474s01.dat
+1 16 20 0 0 1 0 0 0 1 0 0 0 1 stug-2x2.dat
+1 16 -10 0 30 1 0 0 0 1 0 0 0 1 stud.dat
+1 16 -10 0 -30 1 0 0 0 1 0 0 0 1 stud.dat
+1 16 10 0 -30 1 0 0 0 1 0 0 0 1 stud.dat
+1 16 10 0 30 1 0 0 0 1 0 0 0 1 stud.dat
+1 16 -20 0 0 1 0 0 0 1 0 0 0 1 stug-2x2.dat
+1 16 -20 4 0 1 0 0 0 -1 0 0 0 -1 stud4.dat
+1 16 20 4 0 1 0 0 0 -1 0 0 0 -1 stud4.dat
+1 16 0 4 20 1 0 0 0 -1 0 0 0 -1 stud4.dat
+1 16 0 4 -20 1 0 0 0 -1 0 0 0 -1 stud4.dat
+0 //
+1 16 0 0 0 8 0 0 0 1 0 0 0 8 48\4-4aring.dat
+1 16 0 4 0 8 0 0 0 -1 0 0 0 8 48\4-4aring.dat
+1 16 0 4 0 1 0 0 0 -1 0 0 0 1 stud18a.dat

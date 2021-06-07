@@ -1,0 +1,27 @@
+0 Technic Brick  2 x  2 w/ Axlehole, Click Rot. Hinge (V) and Fist
+0 Name: 47431.dat
+0 Author: Guy Vivan [guyvivan]
+0 !LDRAW_ORG Part UPDATE 2010-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2010-07-05 [PTadmin] Official Update 2010-02
+
+1 16 0 0 0 0 0 -1 0 1 0 1 0 0 s\47431s01.dat
+1 16 -40 0 0 0 0 -1 0 1 0 1 0 0 s\47431s02.dat
+1 16 -40 0 0 0 0 -1 0 1 0 -1 0 0 s\47431s02.dat
+1 16 0 0 0 0 0 -1 0 1 0 1 0 0 s\48170s06.dat
+1 16 -40 8 0 0 0 -1 0 -4 0 1 0 0 STUD4A.dat
+1 16 -40 8 0 0 0 -1 0 -16 0 1 0 0 axl2hole.dat
+1 16 -40 8 0 0 0 -1 0 -12 0 1 0 0 axl2hol3.dat
+1 16 -40 -8 0 0 0 -1 0 -12 0 1 0 0 axl2hol2.dat
+1 16 -40 -8 0 0 0 -2 0 1 0 2 0 0 4-4ring3.dat
+1 16 -40 -8 0 0 0 -8 0 1 0 8 0 0 4-4edge.dat
+1 16 -40 -6 0 0 0 -8 0 1 0 8 0 0 4-4edge.dat
+1 16 -40 -2 0 0 0 -8 0 1 0 8 0 0 4-4edge.dat
+1 16 -40 -2 0 0 0 -8 0 -1 0 8 0 0 4-4ndis.dat
+1 16 -40 -6 0 0 0 -8 0 1 0 8 0 0 4-4ndis.dat
+1 16 -40 -2 0 0 0 -8 0 10 0 8 0 0 4-4cyli.dat
+1 16 -40 -8 0 0 0 -8 0 2 0 8 0 0 4-4cyli.dat
+0

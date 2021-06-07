@@ -1,0 +1,12 @@
+0 Brick  1 x  4 x  3
+0 Name: 49311.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2019-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2019-09-09 [PTadmin] Official Update 2019-02
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\49311s01.dat
+4 16 40 0 -10 -40 0 -10 -40 72 -10 40 72 -10

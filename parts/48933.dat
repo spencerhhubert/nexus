@@ -1,0 +1,25 @@
+0 Wedge  4 x  4 Triple with Stud Notches
+0 Name: 48933.dat
+0 Author: Willy Tschager [Holly-Wood]
+0 !LDRAW_ORG Part UPDATE 2010-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+
+0 !HISTORY 2007-08-25 {The LEGO Universe Team} Original part shape
+0 !HISTORY 2008-03-03 [Holly-Wood] File preparation for LDraw Parts Tracker
+0 !HISTORY 2010-12-31 [PTadmin] Official Update 2010-03
+
+2 24 20 0 -10 40 20 -10
+2 24 -20 0 -10 -40 20 -10
+2 24 20 0 -10 20 20 -70
+2 24 -20 0 -10 -20 20 -70
+4 16 20 0 10 40 20 10 40 20 -10 20 0 -10
+4 16 -20 0 -10 -40 20 -10 -40 20 10 -20 0 10
+3 16 20 0 -10 40 20 -10 20 20 -70
+3 16 -20 20 -70 -40 20 -10 -20 0 -10
+4 16 20 0 -10 20 20 -70 -20 20 -70 -20 0 -10
+
+0 // Subpart Wedge 4 x 4 Triple with Stud Notches without Faces and Lines
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\48933s01.dat
+0

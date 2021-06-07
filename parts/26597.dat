@@ -1,0 +1,22 @@
+0 Brick  1 x  2 with Handle on End with Untrimmed Arm
+0 Name: 26597.dat
+0 Author: Owen Burgoyne [C3POwen]
+0 !LDRAW_ORG Part UPDATE 2017-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2017-12-30 [PTadmin] Official Update 2017-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 3004.dat
+1 16 25 16 0 5 0 0 0 3 0 0 0 6 box3u5p.dat
+1 16 30 19 0 0 0 6 0 -3 0 -6 0 0 2-4cylc.dat
+1 16 22 16 0 -2 0 0 0 1 0 0 0 -6 rect1.dat
+1 16 30 16 0 0 0 -6 0 1 0 6 0 0 2-4ndis.dat
+1 16 30 16 0 2 0 0 0 1 0 0 0 2 4-4ring2.dat
+1 16 30 8 0 4 0 0 0 8 0 0 0 4 4-4cylo.dat
+1 16 22 8 0 -2 0 0 0 -1 0 0 0 -6 rect1.dat
+1 16 30 8 0 0 0 -6 0 -1 0 6 0 0 2-4ndis.dat
+1 16 30 8 0 2 0 0 0 -1 0 0 0 2 4-4ring2.dat
+1 16 25 8 0 5 0 0 0 -3 0 0 0 6 box3u5p.dat
+1 16 30 5 0 0 0 6 0 3 0 -6 0 0 2-4cylc.dat

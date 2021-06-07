@@ -1,0 +1,83 @@
+0 ~Slope Brick 45  2 x  4 Double without Top Faces
+0 Name: s\3041s01.dat
+0 Author: Imre Papp [ampi]
+0 !LDRAW_ORG Subpart UPDATE 2010-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2010-07-05 [PTadmin] Official Update 2010-02
+
+1 16 20 12 0 1 0 0 0 -3 0 0 0 1  stud4a.dat
+1 16 20 4 0 6 0 0 0 1 6 0 0 6  2-4edge.dat
+1 16 20 4 0 6 0 0 0 1 6 0 0 -6  2-4edge.dat
+1 16 20 4 0 8 0 0 0 1 8 0 0 8  2-4edge.dat
+1 16 20 4 0 8 0 0 0 1 8 0 0 -8  2-4edge.dat
+0 BFC INVERTNEXT
+1 16 20 10 0 0 0 6 0 -6 0 -6 0 0  1-4cyls.dat
+0 BFC INVERTNEXT
+1 16 20 10 0 0 0 -6 0 -6 0 -6 0 0  1-4cyls.dat
+0 BFC INVERTNEXT
+1 16 20 10 0 0 0 6 0 -6 0 6 0 0  1-4cyls.dat
+0 BFC INVERTNEXT
+1 16 20 10 0 0 0 -6 0 -6 0 6 0 0  1-4cyls.dat
+0 BFC INVERTNEXT
+1 16 20 10 0 6 0 0 0 2 0 0 0 6  4-4cyli.dat
+1 16 20 12 0 0 0 8 0 -8 0 -8 0 0  1-4cyls.dat
+1 16 20 12 0 0 0 -8 0 -8 0 -8 0 0  1-4cyls.dat
+1 16 20 12 0 0 0 8 0 -8 0 8 0 0  1-4cyls.dat
+1 16 20 12 0 0 0 -8 0 -8 0 8 0 0  1-4cyls.dat
+1 16 -20 12 0 1 0 0 0 -3 0 0 0 1  stud4a.dat
+1 16 -20 4 0 6 0 0 0 1 6 0 0 6  2-4edge.dat
+1 16 -20 4 0 6 0 0 0 1 6 0 0 -6  2-4edge.dat
+1 16 -20 4 0 8 0 0 0 1 8 0 0 8  2-4edge.dat
+1 16 -20 4 0 8 0 0 0 1 8 0 0 -8  2-4edge.dat
+0 BFC INVERTNEXT
+1 16 -20 10 0 0 0 6 0 -6 0 -6 0 0  1-4cyls.dat
+0 BFC INVERTNEXT
+1 16 -20 10 0 0 0 -6 0 -6 0 -6 0 0  1-4cyls.dat
+0 BFC INVERTNEXT
+1 16 -20 10 0 0 0 6 0 -6 0 6 0 0  1-4cyls.dat
+0 BFC INVERTNEXT
+1 16 -20 10 0 0 0 -6 0 -6 0 6 0 0  1-4cyls.dat
+0 BFC INVERTNEXT
+1 16 -20 10 0 6 0 0 0 2 0 0 0 6  4-4cyli.dat
+1 16 -20 12 0 0 0 8 0 -8 0 -8 0 0  1-4cyls.dat
+1 16 -20 12 0 0 0 -8 0 -8 0 -8 0 0  1-4cyls.dat
+1 16 -20 12 0 0 0 8 0 -8 0 8 0 0  1-4cyls.dat
+1 16 -20 12 0 0 0 -8 0 -8 0 8 0 0  1-4cyls.dat
+1 16 0 12 0 1 0 0 0 -3 0 0 0 1  stud4a.dat
+1 16 0 4 0 6 0 0 0 1 6 0 0 6  2-4edge.dat
+1 16 0 4 0 6 0 0 0 1 6 0 0 -6  2-4edge.dat
+1 16 0 4 0 8 0 0 0 1 8 0 0 8  2-4edge.dat
+1 16 0 4 0 8 0 0 0 1 8 0 0 -8  2-4edge.dat
+0 BFC INVERTNEXT
+1 16 0 10 0 0 0 6 0 -6 0 -6 0 0  1-4cyls.dat
+0 BFC INVERTNEXT
+1 16 0 10 0 0 0 -6 0 -6 0 -6 0 0  1-4cyls.dat
+0 BFC INVERTNEXT
+1 16 0 10 0 0 0 6 0 -6 0 6 0 0  1-4cyls.dat
+0 BFC INVERTNEXT
+1 16 0 10 0 0 0 -6 0 -6 0 6 0 0  1-4cyls.dat
+0 BFC INVERTNEXT
+1 16 0 10 0 6 0 0 0 2 0 0 0 6  4-4cyli.dat
+1 16 0 12 0 0 0 8 0 -8 0 -8 0 0  1-4cyls.dat
+1 16 0 12 0 0 0 -8 0 -8 0 -8 0 0  1-4cyls.dat
+1 16 0 12 0 0 0 8 0 -8 0 8 0 0  1-4cyls.dat
+1 16 0 12 0 0 0 -8 0 -8 0 8 0 0  1-4cyls.dat
+4 16 40 24 20 36 24 16 -36 24 16 -40 24 20 
+4 16 -40 24 20 -36 24 16 -36 24 -16 -40 24 -20 
+4 16 -40 24 -20 -36 24 -16 36 24 -16 40 24 -20 
+4 16 40 24 -20 36 24 -16 36 24 16 40 24 20 
+3 16 40 20 20 40 0 0 40 20 -20 
+3 16 36 20 16 36 20 -16 36 4 0 
+3 16 -36 20 16 -36 4 0 -36 20 -16 
+3 16 -40 20 20 -40 20 -20 -40 0 0 
+1 16 0 24 0 -40 0 0 0 -4 0 0 0 20  box4o4a.dat
+0 BFC INVERTNEXT
+1 16 0 24 0 -36 0 0 0 -4 0 0 0 16  box4o4a.dat
+0 BFC INVERTNEXT
+1 16 0 20 0 -36 0 0 0 -8 -8 0 -8 8  box2-5.dat
+0 top faces commented out
+0 // 1 16 0 20 0 -40 0 0 0 -10 -10 0 -10 10  box2-5.dat
+0 

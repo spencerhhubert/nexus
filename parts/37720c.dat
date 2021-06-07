@@ -1,0 +1,22 @@
+0 Minifig Bar  4L with Middle Bat Emblem
+0 Name: 37720c.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2020-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !CATEGORY Minifig Accessory
+0 !KEYWORDS Batman, Batarang, Weapon
+
+0 !HISTORY 2019-06-06 {Mecabricks} Original part shape
+0 !HISTORY 2019-06-06 [Philo] File preparation for LDraw Parts Tracker
+0 !HISTORY 2020-06-28 [PTadmin] Official Update 2020-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\37720cs01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\37720cs01.dat
+3 16 2.155 2.8284 -1.0975 -2.155 2.8284 -1.0975 0 2.8284 17.99
+3 16 -2.155 -2.8284 -1.0975 2.155 -2.8284 -1.0975 0 -2.8284 17.99
+1 16 0 0 -1.0975 -2.155 0 0 0 0 2.8284 0 1 0 rect2p.dat
+2 24 0 -2.8284 17.99 0 -2.1625 19.8
+2 24 0 2.1625 19.8 0 2.8284 17.99

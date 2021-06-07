@@ -1,0 +1,12 @@
+0 Tile  8 x 16 Type 2
+0 Name: 90498.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2011-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2011-12-29 [PTadmin] Official Update 2011-02
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\90498s01.dat
+4 16 160 0 80 -160 0 80 -160 0 -80 160 0 -80

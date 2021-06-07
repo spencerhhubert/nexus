@@ -1,0 +1,64 @@
+0 Minifig Skeleton Torso with Shoulder Rods
+0 Name: 60115.dat
+0 Author: Andy Westrate [westrate]
+0 !LDRAW_ORG Part UPDATE 2012-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 !HELP Arm posts start at <+/-15.197, 7.925, 0>, and are rotated 10.3 degrees on z axis
+0 !HELP Leg posts start at <+/-6, 44.8, 0>
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2009-10-13 {LEGO Universe Team} Original part shape
+0 !HISTORY 2010-10-02 [westrate] File preparation for LDraw Parts Tracker
+0 !HISTORY 2012-12-28 [PTadmin] Official Update 2012-03
+
+0 // Ribs and Spine
+
+1 16 0 0 0  1 0 0 0 1 0 0 0  1 s\60115s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0  1 s\60115s01.dat
+1 16 0 0 0  1 0 0 0 1 0 0 0 -1 s\60115s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 -1 s\60115s01.dat
+
+0 // Neck Peg
+1 16 0 0 0 6 0 0 0 -12.5 0 0 0 6 4-4cyli.dat
+1 16 0 0 0 6 0 0 0 1 0 0 0 6 4-4edge.dat
+1 16 0 -12.5 0 6 0 0 0 1 0 0 0 6 4-4edge.dat
+0 BFC INVERTNEXT
+1 16 0 0 0 4 0 0 0 -12.5 0 0 0 4 4-4cyli.dat
+1 16 0 0 0 4 0 0 0 1 0 0 0 4 4-4edge.dat
+1 16 0 -12.5 0 4 0 0 0 1 0 0 0 4 4-4edge.dat
+1 16 0 -12.5 0 2 0 0 0 1 0 0 0 2 4-4ring2.dat
+
+0 // Hips
+1 16 0 36.55 0 16.25 0 0 0 -3.75 0 0 0 6.25 box5-4a.dat
+1 16 4.5 36.55 0 1.5 0 0 0 8.25 0 0 0 6.25 box4o8a.dat
+1 16 -4.5 36.55 0 1.5 0 0 0 8.25 0 0 0 6.25 box4o8a.dat
+1 16 0 36.55 0 3 0 0 0 -1 0 0 0 6.25 rect.dat
+1 16 11.125 36.55 0 5.125 0 0 0 -1 0 0 0 6.25 rect.dat
+1 16 -11.125 36.55 0 5.125 0 0 0 -1 0 0 0 6.25 rect.dat
+1 16 -3 44.8 0 0 6 0 0 0 2.25 2.25 0 0 4-4cylo.dat
+1 16 3 44.8 0 0 3 0 0 0 6.25 6.25 0 0 2-4cylc.dat
+1 16 6 44.8 0 0 -1 0 0 0 6.25 6.25 0 0 2-4disc.dat
+1 16 -6 44.8 0 0 3 0 0 0 6.25 6.25 0 0 2-4cylc.dat
+1 16 -3 44.8 0 0 -1 0 0 0 6.25 6.25 0 0 2-4disc.dat
+
+0 // Leg posts
+1 16 6 44.8 0 0 8 0 0 0 4 4 0 0 4-4cylo.dat
+1 16 16.2 44.8 0 0 -2.2 0 0 0 6 6 0 0 4-4cylc.dat
+1 16 14 44.8 0 0 1 0 0 0 2 2 0 0 4-4ring2.dat
+
+1 16 -6 44.8 0 0 -8 0 0 0 4 -4 0 0 4-4cylo.dat
+1 16 -16.2 44.8 0 0 2.2 0 0 0 6 -6 0 0 4-4cylc.dat
+1 16 -14 44.8 0 0 -1 0 0 0 2 -2 0 0 4-4ring2.dat
+
+0 // Arm posts
+1 16 15.197 7.925 0 0 7.871 0.715 0 -1.43 3.936 4 0 0 4-4cylo.dat
+1 16 25.233 6.101 0 0 -2.165 1.073 0 0.393 5.903 6 0 0 4-4cylc.dat
+1 16 23.068 6.495 0 0 0.984 0.358 0 -0.179 1.968 2 0 0 4-4ring2.dat
+
+1 16 -15.197 7.925 0 0 -7.871 -0.715 0 -1.43 3.936 -4 0 0 4-4cylo.dat
+1 16 -25.233 6.101 0 0 2.165 -1.073 0 0.393 5.903 -6 0 0 4-4cylc.dat
+1 16 -23.068 6.495 0 0 -0.984 -0.358 0 -0.179 1.968 -2 0 0 4-4ring2.dat
+
+0

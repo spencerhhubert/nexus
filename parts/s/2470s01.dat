@@ -1,0 +1,38 @@
+0 ~Wheel Spoked Wooden - Hub
+0 Name: s\2470s01.dat
+0 Author: William Howard [WilliamH]
+0 !LDRAW_ORG Subpart UPDATE 2013-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2013-12-23 [PTadmin] Official Update 2013-02
+
+1 16 0 0 8 4 0 0 0 0 4 0 1 0 4-4edge.dat
+1 16 0 0 8 8 0 0 0 0 8 0 1 0 4-4edge.dat
+1 16 0 0 4 10 0 0 0 0 10 0 1 0 4-4edge.dat
+1 16 0 0 -3 4 0 0 0 0 4 0 1 0 4-4edge.dat
+1 16 0 0 -5 6 0 0 0 0 6 0 1 0 4-4edge.dat
+1 16 0 0 -3 6 0 0 0 0 6 0 1 0 4-4edge.dat
+1 16 0 0 -7 8 0 0 0 0 8 0 1 0 4-4edge.dat
+1 16 0 0 -7 10 0 0 0 0 10 0 1 0 4-4edge.dat
+0 BFC INVERTNEXT
+1 16 0 0 8 4 0 0 0 0 4 0 -11 0 4-4cyli.dat
+0 BFC INVERTNEXT
+1 16 0 0 -3 6 0 0 0 0 6 0 -2 0 4-4cyli.dat
+1 16 0 0 4 10 0 0 0 0 10 0 -11 0 4-4cyli.dat
+1 16 0 0 8 8 0 0 0 0 8 0 -2 0 4-4cyli.dat
+1 16 0 0 8 4 0 0 0 0 4 0 -1 0 4-4ring1.dat
+1 16 0 0 -3 2 0 0 0 0 2 0 1 0 4-4ring2.dat
+1 16 0 0 -7 2 0 0 0 0 2 0 1 0 4-4ring4.dat
+0 BFC INVERTNEXT
+1 16 0 0 6 10 0 0 0 0 10 0 -10 0 t04i2000.dat
+0 BFC INVERTNEXT
+1 16 0 0 6 -10 0 0 0 0 10 0 -10 0 t04i2000.dat
+0 BFC INVERTNEXT
+1 16 0 0 6 10 0 0 0 0 -10 0 -10 0 t04i2000.dat
+0 BFC INVERTNEXT
+1 16 0 0 6 -10 0 0 0 0 -10 0 -10 0 t04i2000.dat
+0 BFC INVERTNEXT
+1 16 0 0 -7 2 0 0 0 0 2 0 2 0 4-4con3.dat
+0

@@ -1,0 +1,25 @@
+0 Plate  2 x 14
+0 Name: 91988.dat
+0 Author: Owen Burgoyne [C3POwen]
+0 !LDRAW_ORG Part UPDATE 2012-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2012-08-09 [PTadmin] Official Update 2012-02
+
+1 16 0 4 0 1 0 0 0 -1 0 0 0 -1 stud4.dat
+1 16 -70 4 0 1 0 0 0 -1 0 0 0 -1 stug4-1x6.dat
+1 16 70 4 0 1 0 0 0 -1 0 0 0 -1 stug4-1x6.dat
+0 BFC INVERTNEXT
+1 16 0 8 0 136 0 0 0 -4 0 0 0 -16 box5.dat
+4 16 -140 8 -20 -136 8 -16 136 8 -16 140 8 -20
+4 16 -140 8 -20 -140 8 20 -136 8 16 -136 8 -16
+4 16 140 8 20 136 8 16 -136 8 16 -140 8 20
+4 16 140 8 20 140 8 -20 136 8 -16 136 8 16
+1 16 0 8 0 140 0 0 0 -8 0 0 0 -20 box5.dat
+1 16 -70 0 -10 1 0 0 0 1 0 0 0 1 stug-1x7.dat
+1 16 -70 0 10 1 0 0 0 1 0 0 0 1 stug-1x7.dat
+1 16 70 0 -10 1 0 0 0 1 0 0 0 1 stug-1x7.dat
+1 16 70 0 10 1 0 0 0 1 0 0 0 1 stug-1x7.dat
+0

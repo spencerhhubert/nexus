@@ -1,0 +1,19 @@
+0 ~Moved to 70720c01
+0 Name: 2879c01.dat
+0 Author: [PTadmin]
+0 !LDRAW_ORG Shortcut UPDATE 2013-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2003-12-19 [PTadmin] Official Update 2003-03
+0 !HISTORY 2007-05-20 [PTadmin] Header formatted for Contributor Agreement
+0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01
+0 !HISTORY 2013-03-02 [MagFors] Changed colour 383 to 494 (real metal)
+0 !HISTORY 2013-03-07 [MagFors] Moved to 70720c01
+0 !HISTORY 2013-12-23 [PTadmin] Official Update 2013-02
+
+0 // old description: Train Wheel  9V Pair on Axle (Shortcut)
+0 // new description: ~Axle Steel  6 x 110 with Two Train Wheels  9V
+
+1 16 0 34 0 1 0 0 0 1 0 0 0 1 70720c01.dat

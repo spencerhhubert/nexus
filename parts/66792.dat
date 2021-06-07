@@ -1,0 +1,19 @@
+0 Plate  4 x  4 x  0.667 with Rounded Corners with Studs on Edges
+0 Name: 66792.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2020-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2020-12-29 [PTadmin] Official Update 2020-03
+
+1 16 30 0 0 0 0 1 0 1 0 -1 0 0 stug-1x4.dat
+1 16 -30 0 0 0 0 1 0 1 0 -1 0 0 stug-1x4.dat
+1 16 0 0 30 0 0 1 0 1 0 -1 0 0 stug-2x1.dat
+1 16 0 0 -30 0 0 1 0 1 0 -1 0 0 stug-2x1.dat
+1 16 30 0 30 6 0 0 0 -1 0 0 0 6 1-4chrd.dat
+1 16 30 0 -30 0 0 6 0 -1 0 -6 0 0 1-4chrd.dat
+1 16 -30 0 -30 -6 0 0 0 -1 0 0 0 -6 1-4chrd.dat
+1 16 -30 0 30 0 0 -6 0 -1 0 6 0 0 1-4chrd.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 68869.dat

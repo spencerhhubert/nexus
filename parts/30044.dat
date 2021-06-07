@@ -1,0 +1,111 @@
+0 Window  1 x  2 x  2.667 with Rounded Top
+0 Name: 30044.dat
+0 Author: James Jessiman
+0 !LDRAW_ORG Part UPDATE 2011-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2000-01-05 [sbliss] Fixed size in part name.
+0 !HISTORY 2000-05-07 [PTadmin] Official Update 2000-01
+0 !HISTORY 2002-07-01 [Whist] Fixed gap space between 3659 Arch and frame.
+0 !HISTORY 2002-07-01 [Whist] Fixed stud to remove gap spacing at top of frame.
+0 !HISTORY 2002-07-01 [Whist] Modifications not specified involved reducing y to 16 in some places.
+0 !HISTORY 2002-07-17 [Whist] Added edge lines around stud base, corrected conditional lines.
+0 !HISTORY 2002-08-18 [PTadmin] Official Update 2002-04
+0 !HISTORY 2007-05-25 [PTadmin] Header formatted for Contributor Agreement
+0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01
+0 !HISTORY 2010-05-17 [mikeheide] Corrected matrix all zero errors.
+0 !HISTORY 2010-06-01 [Eldar] BFCed
+0 !HISTORY 2010-07-09 [Philo] Corrected top curvature, added more details
+0 !HISTORY 2011-02-28 [Brickaneer] Reduced to 4 digits. Rectified.
+0 !HISTORY 2011-07-25 [PTadmin] Official Update 2011-01
+
+0 BFC INVERTNEXT
+1 16 0 64 0 16 0 0 0 -4 0 0 0 6 box4.dat
+1 16 0 56 0 16 0 0 0 -3 0 0 0 2 box3u2p.dat
+4 16 20 64 10 16 64 6 -16 64 6 -20 64 10
+4 16 -20 64 10 -16 64 6 -16 64 -6 -20 64 -10
+4 16 -20 64 -10 -16 64 -6 16 64 -6 20 64 -10
+4 16 20 64 -10 16 64 -6 16 64 6 20 64 10
+2 24 20 64 10 -20 64 10
+2 24 -16 56 10 -16 56 2
+2 24 16 56 10 16 56 2
+2 24 -16 56 -2 -16 56 -10
+2 24 16 56 -10 -16 56 -10
+2 24 16 56 10 -16 56 10
+2 24 16 56 -2 16 56 -10
+2 24 -20 64 -10 20 64 -10
+2 24 16 56 10 16 20 10
+2 24 -16 56 10 -16 20 10
+2 24 16 56 -10 16 20 -10
+2 24 -16 56 -10 -16 20 -10
+1 16 20 42 0 0 -1 0 0 0 22 -10 0 0 rect3.dat
+1 16 -20 42 0 0 1 0 0 0 22 10 0 0 rect3.dat
+4 16 -16 56 10 -16 25 6 -16 25 -6 -16 56 -10
+4 16 -16 56 10 -16 20 10 -16 21 6 -16 25 6
+4 16 -16 25 2 -16 21 2 -16 21 -2 -16 25 -2
+4 16 -16 25 -6 -16 21 -6 -16 20 -10 -16 56 -10
+0 BFC INVERTNEXT
+1 16 -16 23 -4 0 1.5 0 -2 0 0 0 0 2 bump5000.dat
+0 BFC INVERTNEXT
+1 16 -16 23 4 0 1.5 0 -2 0 0 0 0 2 bump5000.dat
+1 16 -16 23 4 0 -1 0 -2 0 0 0 0 2 4-4ndis.dat
+1 16 -16 23 -4 0 -1 0 -2 0 0 0 0 2 4-4ndis.dat
+4 16 16 56 -10 16 25 -6 16 25 6 16 56 10
+4 16 16 20 10 16 21 6 16 21 -6 16 20 -10
+4 16 -16 20 -10 -16 21 -6 -16 21 6 -16 20 10
+4 16 16 56 -10 16 20 -10 16 21 -6 16 25 -6
+4 16 16 25 -2 16 21 -2 16 21 2 16 25 2
+4 16 16 25 6 16 21 6 16 20 10 16 56 10
+0 BFC INVERTNEXT
+1 16 16 23 4 0 -1.5 0 -2 0 0 0 0 -2 bump5000.dat
+0 BFC INVERTNEXT
+1 16 16 23 -4 0 -1.5 0 -2 0 0 0 0 -2 bump5000.dat
+1 16 16 23 -4 0 1 0 -2 0 0 0 0 -2 4-4ndis.dat
+1 16 16 23 4 0 1 0 -2 0 0 0 0 -2 4-4ndis.dat
+4 16 -20 64 10 -16 56 10 16 56 10 20 64 10
+4 16 20 64 10 16 56 10 16 20 10 20 20 10
+4 16 -20 20 10 -16 20 10 -16 56 10 -20 64 10
+4 16 20 64 -10 16 56 -10 -16 56 -10 -20 64 -10
+4 16 20 20 -10 16 20 -10 16 56 -10 20 64 -10
+4 16 -20 64 -10 -16 56 -10 -16 20 -10 -20 20 -10
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 stud2a.dat
+1 16 0 0 0 4 0 0 0 1 0 0 0 4 4-4disc.dat
+1 16 0 0 0 6 0 0 0 1.1935 0 0 0 6 1-4cyls2.dat
+1 16 0 0 0 -6 0 0 0 1.1935 0 0 0 6 1-4cyls2.dat
+1 16 0 0 0 6 0 0 0 1.1935 0 0 0 -6 1-4cyls2.dat
+1 16 0 0 0 -6 0 0 0 1.1935 0 0 0 -6 1-4cyls2.dat
+1 16 0 0 0 4 0 0 0 1 0 0 0 4 4-4edge.dat
+1 16 0 0 0 0 0 6 0 1 1.1935 -6 0 0 2-4edge.dat
+1 16 0 0 0 0 0 -6 0 1 1.1935 -6 0 0 2-4edge.dat
+1 16 0 20 10 20 0 0 0 0 -20 0 1 0 2-4edge.dat
+1 16 0 20 -10 20 0 0 0 0 -20 0 1 0 2-4edge.dat
+1 16 0 20 -10 20 0 0 0 0 -20 0 20 0 2-4cyli.dat
+1 16 0 20 10 16 0 0 0 0 -16 0 1 0 2-4edge.dat
+1 16 0 20 -10 16 0 0 0 0 -16 0 1 0 2-4edge.dat
+0 BFC INVERTNEXT
+1 16 0 20 -10 16 0 0 0 0 -16 0 20 0 2-4cyli.dat
+1 16 0 20 -10 4 0 0 0 0 -4 0 1 0 2-4ring4.dat
+1 16 0 20 10 -4 0 0 0 0 -4 0 -1 0 2-4ring4.dat
+0 BFC INVERTNEXT
+1 16 0 56 4 2 0 0 0 4 0 0 0 2 4-4cylo.dat
+0 BFC INVERTNEXT
+1 16 0 56 -4 2 0 0 0 4 0 0 0 2 4-4cylo.dat
+1 16 0 56 -4 2 0 0 0 4 0 0 0 2 4-4ndis.dat
+1 16 0 56 4 2 0 0 0 4 0 0 0 2 4-4ndis.dat
+1 16 0 60 -4 -2 0 0 0 -4 0 0 0 2 4-4ndis.dat
+1 16 0 60 4 -2 0 0 0 -4 0 0 0 2 4-4ndis.dat
+4 16 16 60 -6 2 60 -6 2 60 6 16 60 6
+4 16 -2 60 -6 -16 60 -6 -16 60 6 -2 60 6
+4 16 2 60 -2 -2 60 -2 -2 60 2 2 60 2
+4 16 16 56 10 2 56 6 2 56 2 16 56 2
+4 16 -16 56 10 -2 56 6 2 56 6 16 56 10
+4 16 -16 56 2 -2 56 2 -2 56 6 -16 56 10
+4 16 -16 56 -10 -2 56 -6 -2 56 -2 -16 56 -2
+4 16 16 56 -10 2 56 -6 -2 56 -6 -16 56 -10
+4 16 16 56 -2 2 56 -2 2 56 -6 16 56 -10
+1 16 4.8 60 3.5 2.5 0 0 0 3.5 0 2.5 0 2.5 tri3a1.dat
+1 16 -4.8 60 3.5 -2.5 0 0 0 3.5 0 2.5 0 2.5 tri3a1.dat
+1 16 4.8 60 -3.5 2.5 0 0 0 3.5 0 -2.5 0 -2.5 tri3a1.dat
+1 16 -4.8 60 -3.5 -2.5 0 0 0 3.5 0 -2.5 0 -2.5 tri3a1.dat

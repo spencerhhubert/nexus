@@ -1,0 +1,17 @@
+0 Panel  1 x  2 x  3 Reinforced with Hieroglyphs and Anubis Head (Right Half) Sticker
+0 Name: 87544dq1.dat
+0 Author: Christian Neumann [Wesley]
+0 !LDRAW_ORG Shortcut UPDATE 2020-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Pharaoh's Quest, Set 7327
+0 !CMDLINE -c0
+
+0 !HISTORY 2016-12-31 [PTadmin] Official Update 2016-01
+0 !HISTORY 2020-05-25 [PTadmin] Update description
+0 !HISTORY 2020-06-28 [PTadmin] Official Update 2020-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 87544.dat
+1 16 0 36 10 -1 0 0 0 0 -1 0 -1 0 4613907b.dat

@@ -1,0 +1,19 @@
+0 Sticker  1.4 x  5.5 with Green "CARGO"
+0 Name: 4201639c.dat
+0 Author: Gerald Lasser [GeraldLasser]
+0 !LDRAW_ORG Part UPDATE 2015-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Set 4512
+
+0 !HISTORY 2015-12-30 [PTadmin] Official Update 2015-02
+
+1 16 0 -0.25 0 0.88 0 0 0 1 0 0 0 0.65 s\4201639s01a.dat
+1 2 0 -0.25 0 0.88 0 0 0 1 0 0 0 0.65 s\4201639s01b.dat
+4 16 -52.8 -0.25 -13.65 -52.8 -0.25 13.65 -55 -0.25 14 -55 -0.25 -14
+4 16 52.8 -0.25 13.65 52.8 -0.25 -13.65 55 -0.25 -14 55 -0.25 14
+4 16 52.8 -0.25 -13.65 -52.8 -0.25 -13.65 -55 -0.25 -14 55 -0.25 -14
+4 16 -52.8 -0.25 13.65 52.8 -0.25 13.65 55 -0.25 14 -55 -0.25 14
+1 16 0 -0.25 0 55 0 0 0 0.25 0 0 0 14 box5-12.dat

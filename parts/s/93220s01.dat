@@ -1,0 +1,14 @@
+0 ~Minifig Baseball Bat without Grip Area
+0 Name: s\93220s01.dat
+0 Author: Gerald Lasser [GeraldLasser]
+0 !LDRAW_ORG Subpart UPDATE 2020-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2020-06-28 [PTadmin] Official Update 2020-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\93220s04.dat
+1 16 0 -10 0 5.25 0 0 0 -12 0 0 0 -5.25 2-4cyli.dat
+1 16 0 -51 0 .875 0 0 0 29 0 0 0 -.875 2-4con6.dat
+1 16 0 -51 0 6.125 0 0 0 -10 0 0 0 -6.125 2-4cyli.dat

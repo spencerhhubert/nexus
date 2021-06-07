@@ -1,0 +1,13 @@
+0 ~Swiss Railways Logo Black
+0 Name: s\196945sch.dat
+0 Author: Chris Dee [cwdee]
+0 !LDRAW_ORG Subpart UPDATE 2012-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2012-03-30 [PTadmin] Official Update 2012-01
+
+1 0 0 0 0 1 0 0 0 1 0 0 0 1 s\191915scha.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\191915schb.dat
+0

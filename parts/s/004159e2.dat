@@ -1,0 +1,18 @@
+0 ~Sticker System US-Flag Pattern - Filling between stars
+0 Name: s\004159e2.dat
+0 Author: Willy Tschager [Holly-Wood]
+0 !LDRAW_ORG Subpart UPDATE 2009-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+
+0 !HISTORY 2009-12-29 [PTadmin] Official Update 2009-03
+
+4 16 -1 0 1 -1 0 -1 -1.6 0 -1.375 -1.6 0 1.375
+4 16 1 0 1 -1 0 1 -1.6 0 1.375 1.6 0 1.375
+4 16 1.6 0 -1.375 1 0 -1 1 0 1 1.6 0 1.375
+0 // www.holly-wood.it
+4 16 1.6 0 -1.375 -1.6 0 -1.375 -1 0 -1 1 0 -1
+4 16 3.6 0 -1.375 1.6 0 -1.375 1.6 0 1.375 3.6 0 1.375
+4 16 -1.6 0 -1.375 1.6 0 -1.375 1.6 0 -3.375 -1.6 0 -3.375
+0

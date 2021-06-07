@@ -1,0 +1,32 @@
+0 ~Boat Rigging  4 x 28 Corner Joint
+0 Name: s\47996s01.dat
+0 Author: William Howard [WilliamH]
+0 !LDRAW_ORG Subpart UPDATE 2010-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+
+0 !HISTORY 2010-12-31 [PTadmin] Official Update 2010-03
+
+1 16 4 0 0 0 16 0 -4 0 0 0 0 4 4-4cyli.dat
+1 16 0 0 4 4 0 0 0 0 4 0 36 0 4-4cyli.dat
+1 16 0 0 0 4 0 0 0 4 0 0 0 4 1-8tric.dat
+1 16 0 0 0 0 0 4 0 -4 0 4 0 0 1-8tric.dat
+1 16 0 0 4 0 0 -4 -4 0 0 0 -4 0 1-4cyls.dat
+1 16 0 -4 0 0 0 -4 0 4 0 4 0 0 1-4cyls.dat
+1 16 0 4 0 0 0 -4 0 -4 0 4 0 0 1-4cyls.dat
+1 16 0 4 0 4 0 0 0 -4 0 0 0 -4 1-4cyls.dat
+1 16 0 -4 0 4 0 0 0 4 0 0 0 -4 1-4cyls.dat
+1 16 0 0 4 0 0 -4 4 0 0 0 -4 0 1-4cyls.dat
+1 16 4 0 0 0 -4 0 4 0 0 0 0 -4 1-4cyls.dat
+1 16 4 0 0 0 -4 0 -4 0 0 0 0 -4 1-4cyls.dat
+1 16 0 -4 0 0 0 4 0 4 0 -4 0 0 4-4disc.dat
+1 16 0 4 0 0 0 4 0 -4 0 4 0 0 4-4disc.dat
+1 16 0 -4 0 0 0 -4 0 8 0 -4 0 0 1-4cyli.dat
+1 16 0 4 0 0 0 4 0 -4 0 4 0 0 4-4edge.dat
+1 16 0 0 0 0 0 -4 -4 2.82843 0 4 2.82843 0 1-4edge.dat
+1 16 0 0 0 0 0 -4 4 2.82843 0 4 -2.82843 0 1-4edge.dat
+1 16 0 0 0 4 2.82843 0 4 -2.82843 0 0 0 -4 1-4edge.dat
+1 16 0 0 0 4 -2.82843 0 -4 -2.82843 0 0 0 -4 1-4edge.dat
+1 16 0 -4 0 0 0 4 0 -4 0 4 0 0 4-4edge.dat
+0

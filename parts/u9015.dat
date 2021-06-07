@@ -1,0 +1,19 @@
+0 ~Electric RC Race Buggy Axle
+0 Name: u9015.dat
+0 Author: Guy Vivan [guyvivan]
+0 !LDRAW_ORG Part UPDATE 2010-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2010-07-05 [PTadmin] Official Update 2010-02
+
+1 16 0 20 0 -8 0 0 0 0 8 0 1 0 4-4edge.dat
+1 16 0 20 0 -1 0 0 0 0 1 0 20 0 axlehole.dat
+1 16 0 20 0 -1 0 0 0 0 1 0 1 0 axlehol2.dat
+1 16 0 20 20 -1 0 0 0 0 1 0 1 0 axlehol2.dat
+1 16 0 20 20 -1 0 0 0 0 1 0 1 0 axleend.dat
+1 16 0 20 0 -2 0 0 0 0 2 0 1 0 4-4ring3.dat
+1 16 0 20 53 -8 0 0 0 0 8 0 1 0 4-4edge.dat
+1 16 0 20 0 -8 0 0 0 0 8 0 53 0 4-4cyli.dat
+0

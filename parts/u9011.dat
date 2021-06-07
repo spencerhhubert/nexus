@@ -1,0 +1,28 @@
+0 ~Technic Axle Flexible 26 Axle - 2L End
+0 Name: u9011.dat
+0 Author: Michael Heidemann [mikeheide]
+0 !LDRAW_ORG Part UPDATE 2010-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2010-12-31 [PTadmin] Official Update 2010-03
+
+0 BFC INVERTNEXT
+1 16 0 0 0 0 10 0 -3.5 0 0 0 0 3.5 4-4cyli.dat
+1 16 0 0 0 0 1 0 -1 0 0 0 0 1 4-4RING5.DAT
+1 16 0 0 0 0 1 0 -1 0 0 0 0 1 4-4ring4.DAT
+1 16 0 0 0 0 1 0 -0.5 0 0 0 0 0.5 4-4ring7.DAT
+1 16 10 0 0 0 1 0 -3.5 0 0 0 0 3.5 4-4disc.dat
+1 16 15 0 0 0 1 0 -1 0 0 0 0 1 4-4ring6.dat
+1 16 0 0 0 0 15 0 -6 0 0 0 0 6 4-4cyli.dat
+1 16 15 0 0 0 5 0 -7 0 0 0 0 7 4-4cyli.dat
+1 16 15 0 0 0 15 0 -7 0 0 0 0 7 4-4edge.dat
+1 16 20 0 0 0 15 0 -7 0 0 0 0 7 4-4edge.dat
+1 16 20 0 0 0 -15 0 -7 0 0 0 0 -7 4-4disc.dat
+1 16 0 0 0 0 15 0 -6 0 0 0 0 6 4-4edge.dat
+1 16 15 0 0 0 15 0 -6 0 0 0 0 6 4-4edge.dat
+1 16 0 0 0 0 1 0 -3.5 0 0 0 0 3.5 4-4edge.dat
+1 16 10 0 0 0 15 0 -3.5 0 0 0 0 3.5 4-4edge.dat
+1 16 20 0 0 0 40 0 -1 0 0 0 0 1 axle.dat
+0

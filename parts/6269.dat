@@ -1,0 +1,66 @@
+0 Minifig Goblet with Hollow Stem
+0 Name: 6269.dat
+0 Author: J.C. Tchang [tchang]
+0 !LDRAW_ORG Part UPDATE 2013-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+0 !CATEGORY Minifig Accessory
+0 !KEYWORDS Castle, Town, utensil, cup, chalice, glass, wine, crystal
+0 !KEYWORDS fine crystal, treasure, exhaust pipe, cone
+
+0 !HISTORY 2009-10-12 [tchang] Rebuild from 2343, Change shape, Add inner hole and cylinder part
+0 !HISTORY 2013-12-23 [PTadmin] Official Update 2013-02
+
+0 BFC INVERTNEXT
+1 16 0 0 0 8 0 0 0 5 0 0 0 8 4-4cyli.dat
+1 16 0 0 0 8 0 0 0 1 0 0 0 8 4-4edge.dat
+1 16 0 5 0 8 0 0 0 1 0 0 0 8 4-4edge.dat
+0 //
+1 16 0 5 0 0.5 0 0 0 1 0 0 0 0.5 4-4rin15.dat
+1 16 0 5 0 7.5 0 0 0 1 0 0 0 7.5 4-4edge.dat
+0 BFC INVERTNEXT
+1 16 0 5 0 1.5 0 0 0 11 0 0 0 1.5 4-4con4.dat
+1 16 0 16 0 6 0 0 0 1 0 0 0 6 4-4edge.dat
+1 16 0 16 0 2 0 0 0 1 0 0 0 2 4-4ring2.dat
+1 16 0 16 0 2 0 0 0 1 0 0 0 2 4-4ring1.dat
+1 16 0 16 0 2 0 0 0 1 0 0 0 2 4-4edge.dat
+0 //
+0 BFC INVERTNEXT
+1 16 0 16 0 2 0 0 0 18 0 0 0 2 4-4cyli.dat
+1 16 0 34 0 4 0 0 0 4 0 0 0 4 t04i5000.dat
+1 16 0 34 0 0 0 -4 0 4 0 4 0 0 t04i5000.dat
+1 16 0 34 0 -4 0 0 0 4 0 0 0 -4 t04i5000.dat
+1 16 0 34 0 0 0 4 0 4 0 -4 0 0 t04i5000.dat
+1 16 0 36 0 2 0 0 0 -1 0 0 0 2 4-4ring2.dat
+1 16 0 36 0 6 0 0 0 1 0 0 0 6 4-4edge.dat
+0 //
+0 BFC INVERTNEXT
+1 16 0 36 0 6 0 0 0 4 0 0 0 6 4-4cyli.dat
+1 16 0 40 0 6 0 0 0 1 0 0 0 6 4-4edge.dat
+0 //
+1 16 0 40 0 3 0 0 0 -1 0 0 0 3 4-4ring2.dat
+1 16 0 40 0 1 0 0 0 -1 0 0 0 1 4-4ring9.dat
+1 16 0 40 0 10 0 0 0 1 0 0 0 10 4-4edge.dat
+0 //
+1 16 0 36 0 10 0 0 0 4 0 0 0 10 4-4cyli.dat
+1 16 0 36 0 0 0 -6 0 -6 0 6 0 0 t04o6667.dat
+1 16 0 36 0 -6 0 0 0 -6 0 0 0 -6 t04o6667.dat
+1 16 0 36 0 0 0 6 0 -6 0 -6 0 0 t04o6667.dat
+1 16 0 36 0 6 0 0 0 -6 0 0 0 6 t04o6667.dat
+1 16 0 32 0 2 0 0 0 1 0 0 0 2 4-4ring2.dat
+1 16 0 32 0 4 0 0 0 1 0 0 0 4 4-4edge.dat
+0 //
+1 16 0 18 0 4 0 0 0 14 0 0 0 4 4-4cyli.dat
+1 16 0 18 0 4 0 0 0 1 0 0 0 4 4-4edge.dat
+1 16 0 18 0 2 0 0 0 -1 0 0 0 2 4-4ring2.dat
+1 16 0 17 0 6 0 0 0 6 0 0 0 6 t04o1667.dat
+1 16 0 17 0 0 0 -6 0 6 0 6 0 0 t04o1667.dat
+1 16 0 17 0 -6 0 0 0 6 0 0 0 -6 t04o1667.dat
+1 16 0 17 0 0 0 6 0 6 0 -6 0 0 t04o1667.dat
+0 //
+1 16 0 7 0 1.75 0 0 0 10 0 0 0 1.75 4-4con4.dat
+1 16 0 0 0 1.25 0 0 0 7 0 0 0 1.25 4-4con7.dat
+1 16 0 0 0 10 0 0 0 1 0 0 0 10 4-4edge.dat
+1 16 0 0 0 2 0 0 0 1 0 0 0 2 4-4ring4.dat
+0 //

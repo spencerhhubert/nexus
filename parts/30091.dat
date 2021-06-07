@@ -1,0 +1,41 @@
+0 Minifig Scuba Tank
+0 Name: 30091.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2012-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+0 !CATEGORY Minifig Neckwear
+
+0 !HISTORY 2009-10-13 {LEGO Universe Team} Original part shape
+0 !HISTORY 2009-11-06 [Philo] File preparation for LDraw Parts Tracker
+0 !HISTORY 2011-07-25 [PTadmin] Official Update 2011-01
+0 !HISTORY 2012-12-24 [cwdee] Update category
+0 !HISTORY 2012-12-28 [PTadmin] Official Update 2012-03
+
+0 BFC INVERTNEXT
+1 16 0 1 18 -5 0 0 0 29 0 0 0 -5 4-4cylc.dat
+1 16 0 -2.775 18 4.5 0 0 0 1.175 0 0 0 -4.5 4-4cylc.dat
+1 16 0 0 18 -8 0 0 0 30 0 0 0 -8 4-4cyli.dat
+1 16 0 30 18 -8 0 0 0 30 0 0 0 -8 4-4edge.dat
+1 16 0 30 18 -2 0 0 0 -1 0 0 0 -2 4-4ring3.dat
+1 16 0 30 18 -1 0 0 0 -1 0 0 0 -1 4-4ring5.dat
+1 16 0 0 18 -6.4 0 0 0 -6.4 0 0 0 -6.4 t01o2500.dat
+1 16 0 -1.6 18 6.4 0 0 0 1 0 0 0 -6.4 4-4disc.dat
+1 16 0 2.3 -23 -4 0 0 0 0 4 0 1.4 0 4-4cyli.dat
+1 16 0 2.3 -23 -4 0 0 0 0 4 0 1.4 0 4-4edge.dat
+1 16 0 2.3 -23 4 0 0 0 0 4 0 1 0 4-4disc.dat
+1 16 0 0 0 -2 0 0 0 -1 0 0 0 -2 2-4ring3.dat
+1 16 0 0 0 -2 0 0 0 -1 0 0 0 -2 2-4ring4.dat
+1 16 0 -2 0 -10 0 0 0 2 0 0 0 -10 2-4cyli.dat
+1 16 0 0 0 -10 0 0 0 2 0 0 0 -10 2-4edge.dat
+1 16 0 0 0 -6 0 0 0 2 0 0 0 -6 2-4edge.dat
+0 BFC INVERTNEXT
+1 16 0 0 0 -6 0 0 0 -2 0 0 0 -6 2-4cyli.dat
+4 16 0 -6.58 15.24 1.91 -6.58 19.85 0 -6.58 20.64 -1.91 -6.58 16.04
+4 16 -1.91 -6.58 16.04 0 -6.58 20.64 -1.91 -6.58 19.85 -2.7 -6.58 17.94
+4 16 1.91 -6.58 19.85 0 -6.58 15.24 1.91 -6.58 16.04 2.7 -6.58 17.94
+5 24 0 -6.58 20.64 -1.91 -6.58 16.04 0 -6.58 15.24 -1.91 -6.58 19.85
+5 24 0 -6.58 15.24 1.91 -6.58 19.85 0 -6.58 20.64 1.91 -6.58 16.04
+1 16 0 0 0 -1 0 0 0 1 0 0 0 -1 s\30091s01.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 -1 s\30091s01.dat

@@ -1,0 +1,35 @@
+0 ~Bar  1 x  6 with Studs
+0 Name: s\4873s01.dat
+0 Author: Magnus Forsberg [MagFors]
+0 !LDRAW_ORG Subpart UPDATE 2015-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2015-10-11 [PTadmin] Official Update 2015-01
+
+1 16 50 20 0 1 0 0 0 -1 0 0 0 1 stud4a.dat
+1 16 50 20 0 6 0 0 0 1 0 0 0 6 4-4edge.dat
+1 16 50 20 0 -6 0 0 0 -1 0 0 0 6 4-4disc.dat
+1 16 50 16 0 8 0 0 0 1 0 0 0 8 4-4edge.dat
+1 16 50 16 0 8 0 0 0 4 0 0 0 8 4-4cyli.dat
+1 16 50 16 0 8 0 0 0 1 0 0 0 8 4-4disc.dat
+
+1 16 50 16 0 4 0 0 0 1 0 0 0 4 4-4edge.dat
+1 16 50 14 0 4 0 0 0 2 0 0 0 4 4-4cyli.dat
+1 16 40 14 0 10 0 0 0 0 -10 0 10 0 t04q4000.dat
+
+1 16 40 4 0 0 -4 0 4 0 0 0 0 4 4-4cyli.dat
+1 16 24 4 0 0 -8 0 4 0 0 0 0 4 4-4cyli.dat
+
+1 16 24 4 0 0 -1 0 0 0 1 -1 0 0 cylj4x6.dat
+1 16 36 4 0 0 1 0 0 0 1 1 0 0 cylj4x6.dat
+1 16 30 8 0 6 0 0 0 -1 0 0 0 -6 4-4edge.dat
+1 16 30 8 0 6 0 0 0 -8 0 0 0 -6 4-4cyli.dat
+1 16 30 0 0 1 0 0 0 1 0 0 0 1 stud2a.dat
+
+1 16 4 4 0 0 -1 0 0 0 1 -1 0 0 cylj4x6.dat
+1 16 16 4 0 0 1 0 0 0 1 1 0 0 cylj4x6.dat
+1 16 10 8 0 6 0 0 0 -1 0 0 0 -6 4-4edge.dat
+1 16 10 8 0 6 0 0 0 -8 0 0 0 -6 4-4cyli.dat
+1 16 10 0 0 1 0 0 0 1 0 0 0 1 stud2a.dat

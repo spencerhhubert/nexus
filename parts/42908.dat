@@ -1,0 +1,15 @@
+0 Electric RC Race Buggy Motor (Complete)
+0 Name: 42908.dat
+0 Author: Guy Vivan [guyvivan]
+0 !LDRAW_ORG Shortcut UPDATE 2010-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2010-07-05 [PTadmin] Official Update 2010-02
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 5292.dat
+1 4 0 0 40 1 0 0 0 1 0 0 0 1 991.dat
+1 4 -40 0 40 1 0 0 0 1 0 0 0 1 991.dat
+1 4 144 0 0 0 -1 0 0 0 1 -1 0 0 45907.dat
+0

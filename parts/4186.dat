@@ -1,0 +1,46 @@
+0 Baseplate 48 x 48
+0 Name: 4186.dat
+0 Author: Steve Bliss [sbliss]
+0 !LDRAW_ORG Part UPDATE 2015-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 1998-01-12 [PTadmin] Official Update 1998-01
+0 !HISTORY 1998-07-15 [PTadmin] Official Update 1998-07
+0 !HISTORY 2002-03-17 [sbliss]  Corrected color 24 on linetype 1 to color 16.
+0 !HISTORY 2002-04-25 [PTadmin] Official Update 2002-02
+0 !HISTORY 2007-07-04 [PTadmin] Header formatted for Contributor Agreement
+0 !HISTORY 2008-07-01 [PTadmin] Official Update 2008-01
+0 !HISTORY 2015-01-19 [Steffen] BFCed, used stugs
+0 !HISTORY 2015-02-17 [MagFors] used box and rect primitives
+0 !HISTORY 2015-10-11 [PTadmin] Official Update 2015-01
+
+1 16 -320 0 320 1 0 0 0 1 0 0 0 1 stug-16x16.dat
+1 16 0 0 320 1 0 0 0 1 0 0 0 1 stug-16x16.dat
+1 16 320 0 320 1 0 0 0 1 0 0 0 1 stug-16x16.dat
+1 16 -320 0 0 1 0 0 0 1 0 0 0 1 stug-16x16.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 stug-16x16.dat
+1 16 320 0 0 1 0 0 0 1 0 0 0 1 stug-16x16.dat
+1 16 -320 0 -320 1 0 0 0 1 0 0 0 1 stug-16x16.dat
+1 16 0 0 -320 1 0 0 0 1 0 0 0 1 stug-16x16.dat
+1 16 320 0 -320 1 0 0 0 1 0 0 0 1 stug-16x16.dat
+1 16 -476 2 0 0 952 0 -2 0 0 0 0 480 box4o8a.dat
+4 16 -480 4 -476 -480 4 476 -476 4 480 -476 4 -480
+4 16 476 4 -480 476 4 480 480 4 476 480 4 -476
+1 16 476 4 476 4 0 0 0 -1 0 0 0 4 1-4chrd.dat
+1 16 -476 4 476 -4 0 0 0 -1 0 0 0 4 1-4chrd.dat
+1 16 476 4 -476 4 0 0 0 -1 0 0 0 -4 1-4chrd.dat
+1 16 -476 4 -476 -4 0 0 0 -1 0 0 0 -4 1-4chrd.dat
+1 16 480 2 0 0 -1 0 0 0 2 -476 0 0 rect2p.dat
+1 16 -480 2 0 0 1 0 0 0 2 476 0 0 rect2p.dat
+1 16 476 0 476 4 0 0 0 4 0 0 0 4 1-4cylo.dat
+1 16 -476 0 476 -4 0 0 0 4 0 0 0 4 1-4cylo.dat
+1 16 476 0 -476 4 0 0 0 4 0 0 0 -4 1-4cylo.dat
+1 16 -476 0 -476 -4 0 0 0 4 0 0 0 -4 1-4cylo.dat
+4 16 -480 0 476 -480 0 -476 -476 0 -480 -476 0 480
+4 16 476 0 480 476 0 -480 480 0 -476 480 0 476
+1 16 476 0 476 4 0 0 0 1 0 0 0 4 1-4chrd.dat
+1 16 -476 0 476 -4 0 0 0 1 0 0 0 4 1-4chrd.dat
+1 16 476 0 -476 4 0 0 0 1 0 0 0 -4 1-4chrd.dat
+1 16 -476 0 -476 -4 0 0 0 1 0 0 0 -4 1-4chrd.dat

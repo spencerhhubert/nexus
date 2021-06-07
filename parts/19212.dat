@@ -1,0 +1,16 @@
+0 Windscreen  1 x 12 x  4 Trapezoidal
+0 Name: 19212.dat
+0 Author: Owen Burgoyne [C3POwen]
+0 !LDRAW_ORG Part UPDATE 2018-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2018-01-30 [PTadmin] Official Update 2018-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\19212s01.dat
+4 16 -120 88 10 -120 88 0 -80 0 0 -80 0 10
+1 16 -70 0 0 -10 -40 0 0 88 0 0 0 -10 1-4cyli.dat
+4 16 110 88 -10 70 0 -10 -70 0 -10 -110 88 -10
+1 16 70 0 0 0 40 10 0 88 0 -10 0 0 1-4cyli.dat
+4 16 80 0 10 80 0 0 120 88 0 120 88 10

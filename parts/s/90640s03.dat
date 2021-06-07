@@ -1,0 +1,18 @@
+0 ~Constraction Shell - Ball Connector
+0 Name: s\90640s03.dat
+0 Author: Magnus Forsberg [MagFors]
+0 !LDRAW_ORG Subpart UPDATE 2018-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2018-12-08 [PTadmin] Official Update 2018-02
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\90640s04.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 -1 s\90640s04.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\90640s04.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 -1 s\90640s04.dat
+5 24 0 20 7.575 0 11.75 7.575 -1.698 11.75 7.38 1.698 11.75 7.38
+5 24 0 20 -7.575 0 11.75 -7.575 1.698 11.75 -7.38 -1.698 11.75 -7.38
+5 24 -7.5 20 0 -7.5 11.75 0 -6.778 11.75 3.285 -6.778 11.75 -3.285
+5 24 7.5 20 0 7.5 11.75 0 6.778 11.75 3.285 6.778 11.75 -3.285

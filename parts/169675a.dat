@@ -1,0 +1,24 @@
+0 Sticker  1.1 x  1.5 with Global Container Cargo Logo
+0 Name: 169675a.dat
+0 Author: Ulrich Röder [UR]
+0 !LDRAW_ORG Part UPDATE 2019-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Set 4555, Train, Transport, Station
+
+0 !HISTORY 2019-06-28 [PTadmin] Official Update 2019-01
+
+0 // Main
+
+1 16 0 -0.25 0 1 0 0 0 1 0 0 0 1 s\169675as01.dat
+1 16 0 -.25 0 15 0 0 0 .25 0 0 0 -11 box5-12.dat
+4 16 0 -.25 10 13 -.25 10 15 -.25 11 -15 -.25 11
+3 16 -15 -.25 11 -13 -.25 10 0 -.25 10
+4 16 15 -.25 -11 15 -.25 11 13 -.25 0 13 -.25 -10
+3 16 15 -.25 11 13 -.25 10 13 -.25 0
+4 16 -15 -.25 11 -15 -.25 -11 -13 -.25 0 -13 -.25 10
+3 16 -15 -.25 -11 -13 -.25 -10 -13 -.25 0
+4 16 -15 -.25 -11 15 -.25 -11 0 -.25 -10 -13 -.25 -10
+3 16 15 -.25 -11 13 -.25 -10 0 -.25 -10

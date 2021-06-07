@@ -1,0 +1,15 @@
+0 =Minifig Top Hat
+0 Name: 88412.dat
+0 Author: Rolf Osterthun [Rolf]
+0 !LDRAW_ORG Part Alias UPDATE 2013-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !CATEGORY Minifig Headwear
+
+0 !HISTORY 2013-12-23 [PTadmin] Official Update 2013-02
+
+0 // Alias of 3878
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 3878.dat

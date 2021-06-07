@@ -1,0 +1,30 @@
+0 ~Electric Power Functions Large Motor Case Front
+0 Name: 10090.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2012-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2012-09-12 {LEGO Technic Team} Original part shape
+0 !HISTORY 2012-10-03 [Philo] Complete rebuild for LDraw Parts Tracker
+0 !HISTORY 2012-12-28 [PTadmin] Official Update 2012-03
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\10090s01.dat
+1 16 0 0 0 -1 0 0 0 1 0 0 0 1 s\10090s01.dat
+1 16 0 0 0 1 0 0 0 -1 0 0 0 1 s\10090s01.dat
+1 16 0 0 0 -1 0 0 0 -1 0 0 0 1 s\10090s01.dat
+1 16 20 0 0 1 0 0 0 0 -1 0 1 0 peghole.dat
+1 16 -20 0 0 1 0 0 0 0 -1 0 1 0 peghole.dat
+1 16 0 -20 0 1 0 0 0 0 -1 0 1 0 peghole.dat
+1 16 0 20 0 1 0 0 0 0 -1 0 1 0 peghole.dat
+5 24 0 29 3.583 0 29.5 4 3.85 29.246 4 -3.444 28.315 3.202
+5 24 29.5 0 4 29 0 3.583 28.315 3.444 3.202 28.315 -3.444 3.202
+5 24 0 31 41 0 39.5 51.2 4.046 30.733 41 -4.046 30.733 41
+5 24 0 39.5 51.2 0 39.5 60 4.5 39.2 60 -4.5 39.2 60
+5 24 27 0 50 27 0 60 26.5 4 60 26.5 -4 60
+5 24 -29 0 3.583 -29.5 0 4 -28.315 3.444 3.202 -28.315 -3.444 3.202
+5 24 -27 0 60 -27 0 50 -26.5 4 60 -26.5 -4 60
+5 24 0 -29.5 4 0 -29 3.583 3.444 -28.315 3.202 -3.85 -29.246 4
+5 24 0 -39.5 51.2 0 -31 41 4.046 -30.733 41 -4.046 -30.733 41
+5 24 0 -39.5 60 0 -39.5 51.2 4.5 -39.2 60 -4.5 -39.2 60

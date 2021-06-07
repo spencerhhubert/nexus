@@ -1,0 +1,21 @@
+0 Boat Mast Base  4 x  4 x  9 without Top Notches
+0 Name: 4844a.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Part UPDATE 2018-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Fabuland, Merry-Go-Round, Turntable
+
+0 !HISTORY 2018-01-30 [PTadmin] Official Update 2018-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\4844s01.dat
+
+0 // Top cap notchless
+0 BFC INVERTNEXT
+1 16 0 -212 0 16 0 0 0 -2 0 0 0 16 4-4cyli.dat
+1 16 0 -214 0 16 0 0 0 -1 0 0 0 16 4-4edge.dat
+1 16 0 -212 0 20 0 0 0 -2 0 0 0 20 4-4cyli.dat
+1 16 0 -214 0 20 0 0 0 -1 0 0 0 20 4-4edge.dat
+1 16 0 -214 0 0 0 4 0 1 0 4 0 0 4-4ring4.dat

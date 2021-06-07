@@ -1,0 +1,27 @@
+0 Technic Gear  8 Tooth Timing Wheel
+0 Name: 32060.dat
+0 Author: Douglas Taylor, Jr. [djcool905]
+0 !LDRAW_ORG Part UPDATE 2010-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2010-02-17 [arezey] Moved tooth to subfile; corrected intersection; BFC'd
+0 !HISTORY 2010-07-05 [PTadmin] Official Update 2010-02
+
+1 16 0 0 -10 1 0 0 0 0 -1 0 20 0 axl2hole.dat
+1 16 0 0 10 -1 0 0 0 0 1 0 -1 0 4-4ring6.dat
+1 16 0 0 -10 -1 0 0 0 0 1 0 1 0 4-4ring6.dat
+1 16 0 0 10 -1 0 0 0 0 1 0 -1 0 4-4ring7.dat
+1 16 0 0 -10 -1 0 0 0 0 1 0 1 0 4-4ring7.dat
+1 16 0 0 10 -0.5 0 0 0 0 0.5 0 -1 0 4-4rin16.dat
+1 16 0 0 -10 -0.5 0 0 0 0 0.5 0 1 0 4-4rin16.dat
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 s\32060s01.dat
+1 16 0 0 0 0.7071 -0.7071 0 0.7071 0.7071 0 0 0 1 s\32060s01.dat
+1 16 0 0 0 0 -1 0 1 0 0 0 0 1 s\32060s01.dat
+1 16 0 0 0 -0.7071 -0.7071 0 0.7071 -0.7071 0 0 0 1 s\32060s01.dat
+1 16 0 0 0 -1 0 0 0 -1 0 0 0 1 s\32060s01.dat
+1 16 0 0 0 -0.7071 0.7071 0 -0.7071 -0.7071 0 0 0 1 s\32060s01.dat
+1 16 0 0 0 0 1 0 -1 0 0 0 0 1 s\32060s01.dat
+1 16 0 0 0 0.7071 0.7071 0 -0.7071 0.7071 0 0 0 1 s\32060s01.dat
+0 //

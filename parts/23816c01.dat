@@ -1,0 +1,27 @@
+0 Electric Power Functions 2.0 Plug with Black Cable Stub
+0 Name: 23816c01.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Shortcut UPDATE 2019-03
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !KEYWORDS Lpf2, WeDo 2.0, Boost, Powered Up
+
+0 !HISTORY 2016-12-31 [PTadmin] Official Update 2016-01
+0 !HISTORY 2019-04-17 [PTadmin] Renamed from 23816
+0 !HISTORY 2019-12-27 [PTadmin] Official Update 2019-03
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 23816a.dat
+1 256 0 0 -14 0 0 -1 -1 0 0 0 20 0 s\23816s01.dat
+1 256 -7.345 0 6 1.46941 0 -1.46941 -1.46941 0 -1.46941 0 -1 0 3-4chrd.dat
+1 256 1.47 0 6 1.46941 0 -1.46941 -1.46941 0 -1.46941 0 -1 0 1-4chrd.dat
+1 256 1.47 0 6 -1.46941 0 1.46941 1.46941 0 1.46941 0 -1 0 1-4chrd.dat
+1 256 4.408 0 6 1.46941 0 -1.46941 -1.46941 0 -1.46941 0 -1 0 1-4chrd.dat
+1 256 4.408 0 6 -1.46941 0 1.46941 1.46941 0 1.46941 0 -1 0 1-4chrd.dat
+1 256 7.347 0 6 -1.46941 0 1.46941 1.46941 0 1.46941 0 -1 0 3-4chrd.dat
+1 256 -4.406 0 6 1.46941 0 -1.46941 -1.46941 0 -1.46941 0 -1 0 1-4chrd.dat
+1 256 -4.406 0 6 -1.46941 0 1.46941 1.46941 0 1.46941 0 -1 0 1-4chrd.dat
+1 256 -1.468 0 6 1.46941 0 -1.46941 -1.46941 0 -1.46941 0 -1 0 1-4chrd.dat
+1 256 -1.468 0 6 -1.46941 0 1.46941 1.46941 0 1.46941 0 -1 0 1-4chrd.dat
+4 256 5.8774 1.4694 6 -5.8758 1.4689 6 -5.8756 -1.4694 6 5.8781 -1.4701 6

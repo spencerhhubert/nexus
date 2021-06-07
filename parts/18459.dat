@@ -1,0 +1,14 @@
+0 =Wheel Rim  8 x  8 Notched Hole, Reinforced Back with Yellow Ring Pattern
+0 Name: 18459.dat
+0 Author: Michael Heidemann [mikeheide]
+0 !LDRAW_ORG Part Alias UPDATE 2018-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2018-01-30 [PTadmin] Official Update 2018-01
+
+0 // Nomenclature: width_(mm) x rim_diameter_(mm) [optional qualifier]
+
+0 // Alias of 74967p01
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 74967p01.dat

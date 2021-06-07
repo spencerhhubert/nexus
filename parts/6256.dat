@@ -1,0 +1,36 @@
+0 Minifig Dinner Plate
+0 Name: 6256.dat
+0 Author: Andy Westrate [westrate]
+0 !LDRAW_ORG Part UPDATE 2010-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+0 !CATEGORY Minifig Accessory
+0 !KEYWORDS basin, dish, sink, tile
+
+0 !HISTORY 2010-04-05 [PTadmin] Official Update 2010-01
+
+1 16 0 4 0 1 0 0 0 -1 0 0 0 1 stud4a.dat
+1 16 0 3 0 6 0 0 0 1 0 0 0 6 4-4edge.dat
+1 16 0 3 0 8 0 0 0 1 0 0 0 8 4-4edge.dat
+0 BFC INVERTNEXT
+1 16 0 3 0 6 0 0 0 1 0 0 0 6 4-4cyli.dat
+1 16 0 3 0 8 0 0 0 1 0 0 0 8 4-4cyli.dat
+
+1 16 0 3 0 18.538 0 0 0 -1 0 0 0 18.538 4-4disc.dat
+1 16 0 3 0 18.538 0 0 0 -1 0 0 0 18.538 4-4edge.dat
+
+1 16 0 0 0 17.8444 0 0 0 1 0 0 0 17.8444 4-4edge.dat
+1 16 0 0 0 17.8444 0 0 0 1 0 0 0 17.8444 4-4disc.dat
+0 BFC INVERTNEXT
+1 16 0 -8.5303 0 4.4611 0 0 0 8.5303 0 0 0 4.4611 4-4con4.dat
+
+1 16 0 -7 0  26 0 0 0  26 0 0 0  26 t04q1538.dat
+1 16 0 -7 0  26 0 0 0 -26 0 0 0 -26 t04q1538.dat
+1 16 0 -7 0 -26 0 0 0  26 0 0 0  26 t04q1538.dat
+1 16 0 -7 0 -26 0 0 0 -26 0 0 0 -26 t04q1538.dat
+
+1 16 0 -4.1724 0 4.6345 0 0 0 7.1724 0 0 0 4.6345 4-4con4.dat
+1 16 0 -4.1724 0 23.1725 0 0 0 -1 0 0 0 23.1725 4-4edge.dat
+
+0

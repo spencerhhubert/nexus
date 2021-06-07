@@ -1,0 +1,36 @@
+0 Mursten Window Pane  1 x  2 x  2
+0 Name: u8016.dat
+0 Author: J.C. Tchang [tchang]
+0 !LDRAW_ORG Part UPDATE 2019-02
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !CATEGORY Window
+0 !KEYWORDS Automatic Binding Brick
+
+0 !HISTORY 2019-09-09 [PTadmin] Official Update 2019-02
+
+1 16 0 0 0 -20 0 0 0 1 0 0 0 -4 rect2p.dat
+1 16 0 48 0 20 0 0 0 -1 0 0 0 -4 rect2p.dat
+
+1 16 -20 24 0 0 -4 0 0 0 24 -2 0 0 box5-2p.dat
+1 16 -20 24 -3 0 1 0 24 0 0 0 0 -1 rect3.dat
+1 16 -20 24 3 0 1 0 -24 0 0 0 0 1 rect3.dat
+1 16 20 24 0 0 4 0 0 0 24 2 0 0 box5-2p.dat
+1 16 20 24 3 0 -1 0 24 0 0 0 0 1 rect3.dat
+1 16 20 24 -3 0 -1 0 -24 0 0 0 0 -1 rect3.dat
+
+4 16 15 5 -4 20 0 -4 -20 0 -4 -15 5 -4
+4 16 -15 43 -4 -20 48 -4 20 48 -4 15 43 -4
+4 16 15 43 -4 20 48 -4 20 0 -4 15 5 -4
+4 16 -15 5 -4 -20 0 -4 -20 48 -4 -15 43 -4
+4 16 -15 5 4 -20 0 4 20 0 4 15 5 4
+4 16 15 43 4 20 48 4 -20 48 4 -15 43 4
+4 16 -15 43 4 -20 48 4 -20 0 4 -15 5 4
+4 16 15 5 4 20 0 4 20 48 4 15 43 4
+
+1 16 -7.5 14.5 0 1 0 0 0 1 0 0 0 1 s\u8016s01.dat
+1 16 7.5 14.5 0 1 0 0 0 1 0 0 0 1 s\u8016s01.dat
+1 16 -7.5 33.5 0 1 0 0 0 1 0 0 0 1 s\u8016s01.dat
+1 16 7.5 33.5 0 1 0 0 0 1 0 0 0 1 s\u8016s01.dat

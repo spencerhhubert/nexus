@@ -1,0 +1,12 @@
+0 Train Buffer Beam for Sealed Magnet with Screw
+0 Name: 64424c01.dat
+0 Author: Sylvain Sauvage [SLS]
+0 !LDRAW_ORG Shortcut UPDATE 2017-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CCW
+
+0 !HISTORY 2017-12-30 [PTadmin] Official Update 2017-01
+
+1 16 0 0 0 1 0 0 0 1 0 0 0 1 64424.dat
+1 494 0 42 -30 -1 0 0 0 -1 0 0 0 1 64420.dat

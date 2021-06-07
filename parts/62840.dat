@@ -1,0 +1,26 @@
+0 Electric Mindstorms NXT Temperature Sensor
+0 Name: 62840.dat
+0 Author: Philippe Hurbain [Philo]
+0 !LDRAW_ORG Shortcut UPDATE 2012-01
+0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt
+
+0 BFC CERTIFY CW
+
+0 !HISTORY 2012-03-30 [PTadmin] Official Update 2012-01
+
+0 // Cable Pass-Through - dark stone
+
+1 72 0 0 0 1 0 0 0 1 0 0 0 1 62838.dat
+0 // shell base - dark stone
+1 72 0 0 0 1 0 0 0 1 0 0 0 1 55816.dat
+0 // shell front - dark stone
+1 72 0 -40 -39 1 0 0 0 1 0 0 0 1 62837.dat
+0 // Probe - silver
+1 494 0 -40 -73 1 0 0 0 1 0 0 0 1 62836.dat
+0 // shell top - light stone
+1 16 0 -70 -24 1 0 0 0 1 0 0 0 1 55966.dat
+0 // Cable - black
+1 0 0 -25 24 0 0 1 1 0 0 0 8 0 932.dat
+1 0 5 -25 32 0 0 3 3 0 0 0 -1 0 2-4disc.dat
+1 0 -5 -25 32 0 0 -3 -3 0 0 0 -1 0 2-4disc.dat
+4 0 -5 -22 32 5 -22 32 5 -28 32 -5 -28 32

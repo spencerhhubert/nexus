@@ -76,10 +76,13 @@ def gen_pics(model, iterations, inPath, outPath, res):
         bpy.context.scene.render.filepath = os.path.join(outPath, f"{model[:-4]}_{i}")
         bpy.ops.render.render(write_still = True)
 
-all_models = os.listdir("/home/spencer/ldraw/parts")
+def gen_many_pics(modelDir, outputDir, quantity, res):
+    allModels = os.listdir(modelDir)
+    for daModel in allModels:
+        modelFolder = os.path.join(outputDir, f"{daModel[:-4]}")
+        if os.path.isdir(modelFolder) == False:
+            os.mkdir(modelFolder)
+        if len(os.listdir(modelFolder)) < (quantity - 1):
+            gen_pics(daModel, 32, modelDir, modelFolder, res)
 
-for da_model in all_models:
-    folder = os.path.join("/home/spencer/Documents/GitHub/nexus/tools/renders/", f"{model[:-4]}")
-    if os.path.isdir(folder) == False:
-        os.mkdir(folder)
-    gen_pics(da_model, 32, "/home/spencer/ldraw/parts/", "/home/spencer/Documents/GitHub/nexus/tools/renders/", 256)
+gen_many_pics("/home/spencer/ldraw/parts/", "/home/spencer/Documents/GitHub/nexus/tools/renders/", 32, 128)

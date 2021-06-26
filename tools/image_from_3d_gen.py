@@ -1,5 +1,6 @@
 import bpy
 import os
+import re
 import math
 from random import seed
 from random import random
@@ -43,7 +44,7 @@ def gen_pics(model, iterations, inPath, outPath, res):
     dimx, dimy, dimz = dims[0], dims[1], dims[2]
 
     #camera location
-    locx, locy, locz = ((max(dimx, dimy, dimz))+.5), ((max(dimx, dimy, dimz))+.5), (dimz / 2)
+    locx, locy, locz = ((max(dimx, dimy, dimz))+.7), ((max(dimx, dimy, dimz))+.7), (dimz / 2)
     rotx, roty, rotz = deg_to_radians(-90), deg_to_radians(180), deg_to_radians(-45)
 
     #set camera
@@ -77,12 +78,15 @@ def gen_pics(model, iterations, inPath, outPath, res):
         bpy.ops.render.render(write_still = True)
 
 def gen_many_pics(modelDir, outputDir, quantity, res):
-    allModels = os.listdir(modelDir)
+    allModels = sorted(os.listdir(modelDir))
     for daModel in allModels:
+        if re.search("[suptdc]", daModel[:-4]):
+            continue
         modelFolder = os.path.join(outputDir, f"{daModel[:-4]}")
-        if os.path.isdir(modelFolder) == False:
+        if not os.path.isdir(modelFolder):
             os.mkdir(modelFolder)
-        if len(os.listdir(modelFolder)) < (quantity - 1):
-            gen_pics(daModel, 32, modelDir, modelFolder, res)
+        if len(os.listdir(modelFolder)) >= (quantity):
+            continue
+        gen_pics(daModel, 32, modelDir, modelFolder, res)
 
-gen_many_pics("/home/spencer/ldraw/parts/", "/home/spencer/Documents/GitHub/nexus/tools/renders/", 32, 128)
+gen_many_pics("/home/spencer/ldraw/parts/", "/home/spencer/Documents/GitHub/nexus/tools/renders2/", 32, 128) 

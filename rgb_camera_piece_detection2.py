@@ -12,26 +12,11 @@ x1 = int(width_prime * 4)
 x2 = int(width_prime * 6)
 y1 = int(0)
 y2 = int(resolution[1])
-scan_cooldown = 1000 #in milliseconds
-cooldown = 0
-#this should be changed. it should still be a cooldown but instead the cooldown is right after taking a picture, but constantly. constantly be looking, but then wait once the pic is taken
-
-scan_detec_threshold = 1
 
 #Focus control for Logitech C920 on Ubuntu
 #Will be switching to more permanent solution later
 os.system('v4l2-ctl -d /dev/video0 --set-ctrl=focus_auto=0')
 os.system('v4l2-ctl -d /dev/video0 --set-ctrl=focus_absolute=50')
-
-init_frame = np.full((x2-x1, y2-y1), 0) 
-last_x_frames = [init_frame]
-frames_to_check = 16 
-
-def piece_detected(frame_change):
-    if frame_change > scan_detec_threshold or frame_change < (scan_detec_threshold * -1):
-        return True
-    else:
-        return False
 
 #let camera exposure adjust
 x_seconds_future = time.time() + 5
@@ -42,6 +27,23 @@ while time.time() < x_seconds_future:
         break
 cv.destroyAllWindows()
 
+def piece_detected(frame_change):
+    if frame_change > scan_detec_threshold or frame_change < (scan_detec_threshold * -1):
+        return True
+    else:
+        return False
+
+def blank_frame():
+    return np.full((y2-y1, x2-x1), 0)
+
+scan_cooldown = 1000 #in milliseconds
+current_cooldown = 0
+scan_detec_threshold = 1
+
+prev_frames = [blank_frame()]
+frames_averaged = 16
+average_frame = blank_frame()
+
 if not cap.isOpened():
     print("Cannot open camera")
     exit()
@@ -49,40 +51,37 @@ while True:
     #clear frame buffer
     for i in range(4):
         cap.grab()
+    #initialize the frame
     ret, frame = cap.read()
     if not ret:
         print("Can't receive frame (stream end?). Exiting ...")
         break
-
     color_frame = frame
     grayscale_frame = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
-    analysis_region = grayscale_frame[y1:y2, x1:x2]
-    #cv.imshow('frame', analysis_region)
-    
-    #frame_change = np.average(np.subtract(init_frame, analysis_region))
-    #init_frame = analysis_region
 
-    piece_detected2 = False
-    if len(last_x_frames) > frames_to_check:
-        last_x_frames.pop(0)
-        average_last_x_frames = np.average(np.array(last_x_frames),axis=0)
-        frame_change2 = np.average(np.subtract(average_last_x_frames, analysis_region))
-        if piece_detected(frame_change2):
-            piece_detected2 = True
+    if current_cooldown < time.time():
+        analysis_region = grayscale_frame[y1:y2, x1:x2]
     else:
-        frame_change2 = 0
-    
-    if piece_detected2 == False:
-        last_x_frames.append(analysis_region)
+        analysis_region = average_frame
+
+    if len(prev_frames) >= frames_averaged:
+        average_frame = np.average(np.array(prev_frames),axis=0)
+        frame_change = np.average(np.subtract(average_frame, analysis_region))
+        prev_frames.pop(0)
+    else:
+        frame_change = 0
 
     current_moment = datetime.now()
     timestamp = math.floor(datetime.timestamp(current_moment))
-    if cooldown < time.time() and piece_detected(frame_change2):
+    if piece_detected(frame_change):
+        current_cooldown = time.time() + (scan_cooldown / 1000)
+        prev_frames.append(average_frame)
         cv.imwrite(f'piece_photos/piece-{timestamp}.jpg', color_frame)
-        cooldown = time.time() + (scan_cooldown / 1000)
         print("captured")
-        #last_x_frames.fill(average_last_x_frames)
-    print(f"scan: {timestamp} change: {frame_change2} {piece_detected(frame_change2)}")
+    else:
+        prev_frames.append(analysis_region)
+
+    print(f"scan: {timestamp} change: {frame_change} {piece_detected(frame_change)}")
 
     imageRectangle = color_frame
     cv.rectangle(imageRectangle,     # source image

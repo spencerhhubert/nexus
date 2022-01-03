@@ -25,7 +25,7 @@ while time.time() < x_seconds_from_now:
 cv.destroyAllWindows()
 
 def blank_analysis_region():
-    return np.full((AY2-AY1, AX2-AX1), 0)
+    return np.full((AY2-AY1, AX2-AX1, 3), 0)
 
 def diff_frame(frame1, frame2):
     return np.subtract(frame1, frame2)
@@ -76,15 +76,16 @@ def record_frame(frame):
 
 def piece_detected(scan, prev_frames):
     avg_frame_change = frame_root_mean_sqr(diff_frame(avg_frame(prev_frames), scan))
+    print(diff_frame(avg_frame(prev_frames), scan))
     print(math.floor(avg_frame_change))
     if abs(avg_frame_change) > detection_threshold:
         return True
     else:
         return False
 
-cooldown = 8 #in frames
+cooldown = 16 #in frames
 current_cooldown = 0
-detection_threshold = 10
+detection_threshold = 25 
 prev_frames = [blank_analysis_region()]
 frames_avgd = 16 
 
@@ -100,9 +101,7 @@ while True:
         print("Can't receive frame (stream end?). Exiting ...")
         break
     grayscale_frame = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
-    analysis_region = grayscale_frame[AY1:AY2, AX1:AX2]
-    print(f"length: {len(prev_frames)}")
-    print("scan")
+    analysis_region = frame[AY1:AY2, AX1:AX2]
     if avg_frames_ready(prev_frames):
         if current_cooldown < 1:
             if piece_detected(analysis_region, prev_frames):

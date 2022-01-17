@@ -1,3 +1,5 @@
+# this is old and did not work well enough, went with ml segmentation technique in /segmentation
+
 import numpy as np
 import cv2 as cv
 from datetime import datetime

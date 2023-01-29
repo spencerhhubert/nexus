@@ -23,4 +23,4 @@ RUN echo "source /opt/ros/${ROS_VERSION}/setup.bash" >> /root/.bashrc
 RUN echo "export ROS_DOMAIN_ID=1" >> /root/.bashrc
 
 RUN apt update && apt -y upgrade
-RUN apt install -y ~nros-rolling-rqt*
+#RUN apt install -y ~nros-rolling-rqt*

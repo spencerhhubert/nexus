@@ -1,4 +1,4 @@
 #! /bin/sh
 
-go build run.go
-sudo -s ./run
+go build .
+sudo -s ./robot

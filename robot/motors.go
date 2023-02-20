@@ -1,7 +1,7 @@
 package main
 
 import (
-    "github.com/kraman/go-firmata"
+    "github.com/spencerhhubert/go-firmata"
     "time"
 )
 
@@ -53,4 +53,30 @@ func NewVibrationMotor(device *firmata.FirmataClient, pwm_pin uint8) *VibrationM
 func (v *VibrationMotor) Run(voltage byte) {
     var pin_big_int uint = uint(v.pwm_pin)
     v.device.AnalogWrite(pin_big_int, voltage)
+}
+
+type PCA9685 struct {
+    dev *firmata.FirmataClient
+    board_addr byte
+    //TODO: have oscillator frequency and prescaler be set here instead of in arduino code
+}
+
+func NewPCA9685(dev *firmata.FirmataClient, board_addr byte) {
+    dev.SysEx(0x01, 0x07, board_addr)
+}
+
+type Servo struct {
+    dev *firmata.FirmataClient
+    board_addr byte
+    channel byte
+    Angle uint8
+}
+
+func NewServo(dev *firmata.FirmataClient, board_addr byte, channel byte) *Servo {
+    return &Servo{dev, board_addr, channel, 0}
+}
+
+func (s *Servo) SetAngle(angle uint8) {
+    s.dev.SysEx(0x01, 0x08, s.board_addr, s.channel, UInt8To7BitBytes(angle)[0], UInt8To7BitBytes(angle)[1]);
+    s.Angle = angle
 }

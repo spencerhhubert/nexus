@@ -1,3 +1,6 @@
+//modified version of StandardFirmata.cpp to support the Adafruit PWM Servo Driver
+//https://github.com/firmata/arduino/tree/main/examples/StandardFirmata
+
 #include <Servo.h>
 #include <Wire.h>
 #include <Firmata.h>

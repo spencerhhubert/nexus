@@ -1,0 +1,10 @@
+github.com/argandas/goduino v0.0.0-20191008135832-d28698444e80 h1:I1SKgJf+/pFD3ZMOFnsN8AQDpAR3Z4On9dpBK91tpFM=
+github.com/argandas/goduino v0.0.0-20191008135832-d28698444e80/go.mod h1:zgblBYtB7C3mfFPF4lO6nFlklmdD5b+/G0FDlLJEOmQ=
+github.com/kraman/go-firmata v0.0.0-20210217014819-86cd471177a8 h1:tGwMwyOs9oEyG7C84PEGh7lTY07fc9QPNe0q6eWJWOE=
+github.com/kraman/go-firmata v0.0.0-20210217014819-86cd471177a8/go.mod h1:kZms7W1SPq1b0WAllYu+mIZocEUJ+6A/sqCWsbP5OJs=
+github.com/spencerhhubert/go-firmata v0.0.0-20230218095213-377c248b2cd3 h1:n/1ljujbAXosYDgGZ9z/IetZXDZMc5YeI+Z7fquy/Xk=
+github.com/spencerhhubert/go-firmata v0.0.0-20230218095213-377c248b2cd3/go.mod h1:3IhQUKTEx+KgRLcVLjiGexiu3Zui5ynQwZ6qXvr/q3g=
+github.com/tarm/serial v0.0.0-20180830185346-98f6abe2eb07 h1:UyzmZLoiDWMRywV4DUYb9Fbt8uiOSooupjTq10vpvnU=
+github.com/tarm/serial v0.0.0-20180830185346-98f6abe2eb07/go.mod h1:kDXzergiv9cbyO7IOYJZWg1U88JhDg3PB6klq9Hg2pA=
+golang.org/x/sys v0.5.0 h1:MUK/U/4lj1t1oPg0HfuXDN/Z1wv31ZJ/YcPiGccS4DU=
+golang.org/x/sys v0.5.0/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=

@@ -1,4 +1,4 @@
-package classifcation
+package classification
 
 import (
     "yaml"

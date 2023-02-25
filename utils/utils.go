@@ -15,7 +15,7 @@ func UInt8To7BitBytes(i uint8) []byte {
     return b[:]
 }
 
-func waitForKillCommand(dev *firmata.FirmataClient) {
+func WaitForKillCommand(dev *firmata.FirmataClient) {
     //it's annoying to reconnect to the microcontroller if you don't .Close()
     sigs := make(chan os.Signal, 1)
     signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM)

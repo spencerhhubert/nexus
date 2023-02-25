@@ -3,6 +3,7 @@ package actuators
 import (
     "github.com/spencerhhubert/go-firmata"
     "time"
+    u "github.com/spencerhhubert/nexus/utils"
 )
 
 type Stepper struct {
@@ -77,6 +78,6 @@ func NewServo(dev *firmata.FirmataClient, board_addr byte, channel byte) *Servo 
 }
 
 func (s *Servo) SetAngle(angle uint8) {
-    s.dev.SysEx(0x01, 0x08, s.board_addr, s.channel, UInt8To7BitBytes(angle)[0], UInt8To7BitBytes(angle)[1]);
+    s.dev.SysEx(0x01, 0x08, s.board_addr, s.channel, u.UInt8To7BitBytes(angle)[0], u.UInt8To7BitBytes(angle)[1]);
     s.Angle = angle
 }

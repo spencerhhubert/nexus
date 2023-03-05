@@ -1,9 +1,12 @@
 import torch
 import torch.nn as nn
+import torchvision
 import torchvision.models.segmentation
 from torchvision.models.segmentation.deeplabv3 import DeepLabHead, DeepLabV3_MobileNet_V3_Large_Weights
+from torchvision.models.detection.faster_rcnn import FastRCNNPredictor
+from torchvision.models.detection.mask_rcnn import MaskRCNNPredictor
 
-class BinarySegmentationModel(nn.Module):
+class DeepLabSegNet(nn.Module):
     def __init__(self):
         super().__init__()
         self.model = torchvision.models.segmentation.deeplabv3_mobilenet_v3_large(
@@ -23,11 +26,7 @@ class BinarySegmentationModel(nn.Module):
         x = self.act(x) 
         return x
 
-import torchvision
-from torchvision.models.detection.faster_rcnn import FastRCNNPredictor
-from torchvision.models.detection.mask_rcnn import MaskRCNNPredictor
-
-class SegNet(nn.Module):
+class MaskRCNNSegNet(nn.Module):
     def __init__(self):
         super().__init__()
         self.model = torchvision.models.detection.maskrcnn_resnet50_fpn(weights="DEFAULT")

@@ -1,8 +1,9 @@
 import os
+import time
 import numpy as np
 import torch
 import torch.nn as nn
-from model import MaskRCNNSegNet
+from model import DeepLabV3SegNet
 from torch.utils.data import Dataset, DataLoader
 from torchvision import transforms, io
 
@@ -25,7 +26,7 @@ class MaskedPiecesDataset(Dataset):
         img = io.read_image(img_path)
         img = img.float()
         #img = img / 255.0 #normalize to (0,1)
-
+        
         mask = np.load(mask_path)
         mask = torch.from_numpy(mask)
         mask = mask.unsqueeze(0)
@@ -33,90 +34,63 @@ class MaskedPiecesDataset(Dataset):
         img = transforms.Resize(self.crop_shape)(img)
         mask = transforms.Resize(self.crop_shape, interpolation=transforms.InterpolationMode.NEAREST)(mask)
 
-        obj_ids = torch.unique(mask)
-        obj_ids = obj_ids[1:]
-        masks = mask == obj_ids[:, None, None]
         mask[mask > 1] = 1 #idk sometimes the mask has other values in it and we're just doing binary rn
 
-        num_objs = len(obj_ids)
-        boxes = []
-        for i in range(num_objs):
-            pos = torch.where(masks[i])
-            xmin = torch.min(pos[1])
-            xmax = torch.max(pos[1])
-            ymin = torch.min(pos[0])
-            ymax = torch.max(pos[0])
-            boxes.append([xmin, ymin, xmax, ymax])
-
-		#since we often have zero objects in the scene we do this
-        if num_objs == 0:
-            boxes = torch.zeros((0, 4), dtype=torch.float32)
-            area = torch.as_tensor(0, dtype=torch.float32)
-        else:
-            boxes = torch.as_tensor(boxes, dtype=torch.float32)
-            area = (boxes[:, 3] - boxes[:, 1]) * (boxes[:, 2] - boxes[:, 0])
-
-        labels = torch.ones((num_objs,), dtype=torch.int64)
-        masks = torch.as_tensor(masks, dtype=torch.uint8)
-
-        image_id = torch.tensor([idx])
-        area = (boxes[:, 3] - boxes[:, 1]) * (boxes[:, 2] - boxes[:, 0])
-        iscrowd = torch.zeros((num_objs,), dtype=torch.int64)
-
-        target = {}
-        target["boxes"] = boxes
-        target["labels"] = labels
-        target["masks"] = masks
-        target["image_id"] = image_id
-        target["area"] = area
-        target["iscrowd"] = iscrowd
+        mask = torch.as_tensor(mask, dtype=torch.float32)
 
         if self.transforms is not None:
-            img, target = self.transforms(img, target)
+            img, mask = self.transforms(img, mask)
 
-        return img, target
+        return img, mask
 
     def __len__(self):
         return len(self.masks)
 
 device = "cuda"
-num_epochs = 100
-batch_size = 2
-model = MaskRCNNSegNet().to(device)
+num_epochs = 8
+batch_size = 16
+model = DeepLabV3SegNet().to(device)
 params = [p for p in model.parameters() if p.requires_grad]
 optimizer = torch.optim.Adam(params, lr=0.001, weight_decay=1e-8)
-#num_params = sum(p.numel() for p in model.model.classifier.parameters())
 criterion = nn.BCELoss()
 
 model.to(device)
-model.train()
 
-
-#dataset = BinarySegmentationDataset("data/source", "data/labels")
 dataset = MaskedPiecesDataset("data", transforms=None)
-#train_dataset = dataset.getRange(0, 100)
-#val_dataset = dataset.getRange(100, 120)
-train_dataset = dataset
+torch.manual_seed(1)
+indices = torch.randperm(len(dataset)).tolist()
+train_dataset = torch.utils.data.Subset(dataset, indices[:-50])
+test_dataset = torch.utils.data.Subset(dataset, indices[-50:])
+
+print(f"train dataset size: {len(train_dataset)}")
+print(f"test dataset size: {len(test_dataset)}")
 
 def collate_fn(batch):
     return tuple(zip(*batch))
 
-train_dataloader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, collate_fn=collate_fn)
-model.train()
+train_dataloader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, collate_fn=None)
+test_dataloader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False, collate_fn=None)
 
 for epoch in range(num_epochs):
+    model.train()
     for i, (images, targets) in enumerate(train_dataloader):
-        if batch_size == 1:
-            images = [images]
-            targets = [targets]
-        images = list(image.to(device) for image in images)
-        targets = [{k: v.to(device) for k, v in t.items()} for t in targets]
-        loss_dict = model(images, targets)
-        losses = sum(loss for loss in loss_dict.values())
-        print(f"loss: {losses.item()}")
+        images = images.to(device)
+        targets = targets.to(device)
+        output = model(images)
+        loss = criterion(output, targets)
         optimizer.zero_grad()
-        losses.backward()
+        loss.backward()
         optimizer.step()
+        print(f"training loss: {loss.item()}")
     print(f"epoch {epoch} complete")
 
+    model.eval()
+    for i, (images, targets) in enumerate(test_dataloader):
+        images = images.to(device)
+        targets = targets.to(device)
+        output = model(images)
+        loss = criterion(output, targets)
+        print(f"test loss: {loss.item()}")
 
+
+torch.save(model.state_dict(), f"models/model_{time.time()}.pt")

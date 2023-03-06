@@ -47,8 +47,8 @@ class MaskedPiecesDataset(Dataset):
         return len(self.masks)
 
 device = "cuda"
-num_epochs = 8
-batch_size = 16
+num_epochs = 2
+batch_size = 8
 model = DeepLabV3SegNet().to(device)
 params = [p for p in model.parameters() if p.requires_grad]
 optimizer = torch.optim.Adam(params, lr=0.001, weight_decay=1e-8)
@@ -92,5 +92,6 @@ for epoch in range(num_epochs):
         loss = criterion(output, targets)
         print(f"test loss: {loss.item()}")
 
-
-torch.save(model.state_dict(), f"models/model_{time.time()}.pt")
+model_name = f"models/model_{time.time()}.pt"
+torch.save(model.state_dict(), model_name)
+print(f"model saved to {model_name}")

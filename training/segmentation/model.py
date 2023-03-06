@@ -3,8 +3,6 @@ import torch.nn as nn
 import torchvision
 import torchvision.models.segmentation
 from torchvision.models.segmentation.deeplabv3 import DeepLabHead, DeepLabV3_MobileNet_V3_Large_Weights
-from torchvision.models.detection.faster_rcnn import FastRCNNPredictor
-from torchvision.models.detection.mask_rcnn import MaskRCNNPredictor
 
 class DeepLabV3SegNet(nn.Module):
     def __init__(self):

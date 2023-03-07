@@ -73,5 +73,6 @@ if __name__ == "__main__":
         if box is None:
             continue
         else:
-            cropped = crop(box, img, padding=50)
-            saveImage(cropped, os.path.join(output_path, img_name))
+            img = crop(box, img, padding=50)
+            img = transforms.Resize((224,224))(cropped)
+            saveImage(img, os.path.join(output_path, img_name))

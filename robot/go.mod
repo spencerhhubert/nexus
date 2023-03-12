@@ -4,7 +4,7 @@ go 1.20
 
 require (
 	github.com/owulveryck/onnx-go v0.5.0
-	github.com/spencerhhubert/go-firmata v0.0.0-20230218095213-377c248b2cd3
+	github.com/spencerhhubert/go-firmata v0.0.0-20230310110336-8649b0a41b8a
 	gorgonia.org/tensor v0.9.24
 )
 
@@ -19,6 +19,7 @@ require (
 	github.com/tarm/serial v0.0.0-20180830185346-98f6abe2eb07 // indirect
 	github.com/xtgo/set v1.0.0 // indirect
 	go4.org/unsafe/assume-no-moving-gc v0.0.0-20220617031537-928513b29760 // indirect
+	gocv.io/x/gocv v0.32.1 // indirect
 	golang.org/x/sys v0.5.0 // indirect
 	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
 	gonum.org/v1/gonum v0.8.2 // indirect

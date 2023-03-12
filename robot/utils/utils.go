@@ -64,6 +64,7 @@ func WaitForKillCommand(dev *firmata.FirmataClient) {
     go func () {
         <-sigs
         dev.Close()
+        fmt.Println("Killing")
         time.Sleep(5000 * time.Millisecond)
         os.Exit(0)
     }()

@@ -14,5 +14,4 @@ cd $ROOT_DIR
 #./utils/droidcam/run_droidcam.sh
 
 cd $ROOT_DIR/robot
-go build ./cmd/cli/cvtest.go
-./cvtest
+python main.py

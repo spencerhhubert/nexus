@@ -22,11 +22,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     rm -rf /var/lib/apt/lists/*
 RUN /usr/sbin/update-ccache-symlinks
 
-#install go            
-RUN wget https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz
-RUN rm -rf /usr/local/go && tar -C /usr/local -xzf go${GO_VERSION}.linux-amd64.tar.gz
-ENV PATH=$PATH:/usr/local/go/bin
-
 #install arduino-cli
 RUN wget -qO arduino-cli.tar.gz https://downloads.arduino.cc/arduino-cli/arduino-cli_latest_Linux_64bit.tar.gz
 RUN tar xf arduino-cli.tar.gz -C /usr/local/bin arduino-cli
@@ -44,10 +39,6 @@ RUN alias pip=pip3
 RUN pip install numpy
 RUN pip install torch==${TORCH_VERSION}+${CUDA_VERSION_SHORT} torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/${CUDA_VERSION_SHORT}
 RUN pip install opencv-python
-
-#install opencv for go
-RUN git clone https://github.com/hybridgroup/gocv
-RUN cd gocv && make install
 
 RUN echo "alias v=nvim" >> /root/.bashrc
 RUN echo "set +e" >> /root/.bashrc

@@ -1,4 +1,5 @@
 from pyfirmata import Arduino, util, PWM
+from threading import Thread
 
 class Stepper:
     def __init__(self, dir_pin:int, step_pin:int, steps_per_rev:int, dev:Arduino):
@@ -6,16 +7,27 @@ class Stepper:
         self.step_pin = step_pin
         self.steps_per_rev = steps_per_rev
         self.dev = dev
+        self.running = False
 
     def run(self, dir:bool, rpm:int):
-        delay = 60e6 / (self.steps_per_rev * rpm)
-        delay = 0
+        self.running = True
         self.dev.digital[self.dir_pin].write(dir)
-        while True:
+        t = Thread(target=self._run, args=(rpm,))
+        t.start()
+
+    def _run(self, rpm:int):
+        delay = 0
+        while self.running:
             self.dev.digital[self.step_pin].write(1)
             self.dev.pass_time(delay)
             self.dev.digital[self.step_pin].write(0)
             self.dev.pass_time(delay)
+
+    def stop(self):
+        self.running = False
+
+    def restart(self):
+        self.running = True
 
     def step(self, dir:bool, speed:int, steps:int):
         delay = 60e6 / (self.steps_per_rev * speed)

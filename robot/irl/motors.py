@@ -10,13 +10,14 @@ class Stepper:
         self.running = False
 
     def run(self, dir:bool, rpm:int):
+        print(f"Running stepper on pin {self.step_pin} at {rpm} RPM")
         self.running = True
         self.dev.digital[self.dir_pin].write(dir)
         t = Thread(target=self._run, args=(rpm,))
         t.start()
 
     def _run(self, rpm:int):
-        delay = 0
+        delay = 60 / (self.steps_per_rev * rpm)
         while self.running:
             self.dev.digital[self.step_pin].write(1)
             self.dev.pass_time(delay)
@@ -24,6 +25,7 @@ class Stepper:
             self.dev.pass_time(delay)
 
     def stop(self):
+        print(f"Stopping stepper on pin {self.step_pin}")
         self.running = False
 
     def restart(self):
@@ -59,4 +61,5 @@ class Servo:
         self.dev = dev
 
     def setAngle(self, angle:int):
+        print(f"Setting servo on channel {self.channel} and board {self.dev.addr} to {angle} degrees")
         self.dev.dev.send_sys_ex(0x01, 0x08, self.dev.addr, self.channel, util.to_two_bytes(angle)[0], util.to_two_bytes(angle)[1])

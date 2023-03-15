@@ -14,4 +14,5 @@ cd $ROOT_DIR
 #./utils/droidcam/run_droidcam.sh
 
 cd $ROOT_DIR/robot
+export PYTHONPATH=$PYTHONPATH:/nexus
 python main.py

@@ -36,12 +36,14 @@ RUN apt-get update && apt-get install -y python${PYTHON_VERSION} python3-pip
 RUN ln -sf /usr/bin/python3.8 /usr/local/bin/python
 RUN alias pip=pip3
 
-RUN pip install numpy
-RUN pip install torch==${TORCH_VERSION}+${CUDA_VERSION_SHORT} torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/${CUDA_VERSION_SHORT}
-RUN pip install opencv-python
+#copy in requirements.txt from robot folder
+COPY ./robot/requirements.txt ./requirements.txt
+RUN pip install -r ./requirements.txt
+RUN pip install torch==${TORCH_VERSION}+${CUDA_VERSION_SHORT} torchvision --extra-index-url https://download.pytorch.org/whl/${CUDA_VERSION_SHORT}
 
 RUN echo "alias v=nvim" >> /root/.bashrc
 RUN echo "set +e" >> /root/.bashrc
+RUN echo "export PYTHONPATH=$PYTHONPATH:/nexus" >> /root/.bachrc
 
 #when running with utils/docker/run_container.sh, this gets linked with the root nexus directory
 RUN mkdir nexus

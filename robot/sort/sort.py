@@ -22,7 +22,7 @@ main_conveyor_stepper_dir_pin = 4
 main_conveyor_stepper_step_pin = 5
 dev = Arduino(mc_path)
 
-mask_threshold = 1000 #number of pixels that need to be in the mask for it to be considered a present piece
+mask_threshold = 500 #number of pixels that need to be in the mask for it to be considered a present piece
 
 data_collection_mode = True
 
@@ -61,6 +61,7 @@ def sort(profile:c.Profile):
     cam = cv2.VideoCapture(camera_path)
     buffer = [] #hopefully all a single piece, from different angles. send as a batch to classification model
     piece_present = False
+
     while True:
         ret, img = cam.read()
         if not ret:

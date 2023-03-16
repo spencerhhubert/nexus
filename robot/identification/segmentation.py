@@ -45,7 +45,7 @@ def findBoundingBox(img:torch.Tensor, mask:torch.Tensor, new_size=(256,256), pad
     masked_img = maskImage(img, mask)
     #cv2 will glitch if you pass an empty image, also waste of compute
     if torch.sum(masked_img) < 10:
-        masked_img = transforms.Resize(new_size)(masked_img)
+        print("this should never happen")
         return None
     masked_img = masked_img.permute(1,2,0)
     masked_img = masked_img.cpu().numpy()

@@ -1,5 +1,6 @@
 import os
 import requests
+import json
 from bricklink_auth import oauth
 import sqlite3 as sql
 from bs4 import BeautifulSoup
@@ -11,7 +12,7 @@ def removeSpaceBeforeNumbers(s:str):
             s[i-1] = ''
     return ''.join(s)
 
-def makeKindTable(db_path:str):
+def makeEmptyKindTable(db_path:str):
     conn = sql.connect(db_path)
     c = conn.cursor()
 
@@ -19,7 +20,8 @@ def makeKindTable(db_path:str):
         CREATE TABLE kinds (
             id TEXT PRIMARY KEY,
             name TEXT,
-            characteristics TEXT
+            characteristics TEXT,
+            alterate_ids TEXT
         );
     """)
 
@@ -36,7 +38,8 @@ def updateKindTable(db_path:str, ldraw_parts_list_path:str, replace:bool=False):
         CREATE TABLE IF NOT EXISTS kinds (
             id TEXT PRIMARY KEY,
             name TEXT,
-            characteristics TEXT
+            characteristics TEXT,
+            alterate_ids TEXT
         );
     """)
     conn.commit()
@@ -45,30 +48,43 @@ def updateKindTable(db_path:str, ldraw_parts_list_path:str, replace:bool=False):
         for i,line in enumerate(f):
             line = line.split('=')
             line[0] = line[0].strip()
+
             ldraw_id = line[0][:-4] #remove .dat
+
+            c.execute("SELECT * FROM kinds WHERE id=?", (ldraw_id,))
+            if c.fetchone() != None:
+                print(f"part {ldraw_id} already in db. skipping")
+                continue
+
             bl_primary_id = scrapePrimaryId(ldraw_id)
             if bl_primary_id == None or bl_primary_id == "":
                 print(f"part {ldraw_id} not found on bricklink. skipping")
                 continue
+
             part_info = getBLPartInfo(bl_primary_id)
-            print(f"trying to get info for {ldraw_id}")
-            print(f"using {bl_primary_id} as primary id")
             bl_alternate_ids = part_info["alternate_no"].split(',')
             ids = list(set([ldraw_id] + [bl_primary_id] + bl_alternate_ids))
+            alterate_ids = json.dumps(ids)
+
             name = part_info["name"]
-            print(f"found {name} for {ldraw_id}")
-            print(ids)
+
+            category = part_info["category_id"]
+            category = getCategory(category)
+            category = category["category_name"]
+            characteristics = [category]
+            characteristics = json.dumps(characteristics)
+
+            print(f"inserting {ldraw_id} {name} into {db_path}")
+
             if replace:
                 c.execute("""
-                    INSERT OR REPLACE INTO kinds (id, name) VALUES (?, ?);
-                """, (ldraw_id, name))
+                    INSERT OR REPLACE INTO kinds (id, name, characteristics, alterate_ids) VALUES (?, ?, ?, ?);
+                """, (ldraw_id, name, characteristics, alterate_ids))
             else:
                 c.execute("""
-                    INSERT INTO kinds (id, name) VALUES (?, ?);
-                """, (ldraw_id, name))
-
-            if i == 10:
-                exit()
+                    INSERT OR IGNORE INTO kinds (id, name, characteristics, alterate_ids) VALUES (?, ?, ?, ?);
+                """, (ldraw_id, name, characteristics, alterate_ids))
+            conn.commit()
 
 def scrapePrimaryId(id:str) -> str:
     #given an alternate id, which many of the ids in ldraw are, you can't figure out the primary id from the bricklink api
@@ -138,12 +154,6 @@ def getCategory(id:str):
     url = base_url + f"/categories/{id}"
     response = requests.get(url, auth=oauth)
     return response.json()["data"]
-
-if __name__ == "__main__":
-    t = scrapePrimaryId("15588")
-    info = getBLPartInfo(t)
-    print(info)
-
 
 if __name__ == "__main__":
     db_path = "parts_temp.db"

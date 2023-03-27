@@ -1,5 +1,27 @@
 #define ARDUINO_AVR_MEGA2560
 
+
+#include <ConfigurableFirmata.h>
+#include <DigitalInputFirmata.h>
+DigitalInputFirmata digitalInput;
+#include <DigitalOutputFirmata.h>
+DigitalOutputFirmata digitalOutput;
+#include <AnalogInputFirmata.h>
+AnalogInputFirmata analogInput;
+#include <AnalogOutputFirmata.h>
+AnalogOutputFirmata analogOutput;
+#include <Wire.h>
+#include <I2CFirmata.h>
+I2CFirmata i2c;
+#include <Wire.h>
+#include <SpiFirmata.h>
+#include <SerialFirmata.h>
+SerialFirmata serial;
+
+//what is this
+#include <FirmataExt.h>
+FirmataExt firmataExt;
+
 #include <stdint.h>
 #include <math.h>
 #include <Wire.h>
@@ -7,6 +29,8 @@
 #include <stdarg.h>
 #include <ArduinoSTL.h>
 #include <map>
+
+#include <AccelStepper.h>
 
 uint16_t SevenBitToInt16(byte *bytes) {
     return (bytes[0] & 0x7F) | ((bytes[1] & 0x7F) << 7);
@@ -39,7 +63,7 @@ void moveServoToAngle(byte addr, byte channel, uint16_t angle) {
     pwm_boards[addr].setPWM(channel, 0, angleToPulse(angle));
 }
 
-void pwmServoCommand(byte command, byte argc, byte *argv) {
+void parsePwmServoCommand(byte command, byte argc, byte *argv) {
     switch (command) {
         case MAKE_BOARD: {
             makeBoard(argv[0]);
@@ -52,29 +76,61 @@ void pwmServoCommand(byte command, byte argc, byte *argv) {
     }
 }
 
-#include <ConfigurableFirmata.h>
-#include <DigitalInputFirmata.h>
-DigitalInputFirmata digitalInput;
-#include <DigitalOutputFirmata.h>
-DigitalOutputFirmata digitalOutput;
-#include <AnalogInputFirmata.h>
-AnalogInputFirmata analogInput;
-#include <AnalogOutputFirmata.h>
-AnalogOutputFirmata analogOutput;
-#include <Wire.h>
-#include <I2CFirmata.h>
-I2CFirmata i2c;
-#include <Wire.h>
-#include <SpiFirmata.h>
-#include <SerialFirmata.h>
-SerialFirmata serial;
+#define STEPPER_COMMAND 0x02
+#define MAKE_STEPPER 0x01
+#define RUN_STEPPER 0x02
+#define STOP_STEPPER 0x03
 
-//what is this
-#include <FirmataExt.h>
-FirmataExt firmataExt;
+std::map<byte, AccelStepper> steppers;
 
-#include <AccelStepperFirmata.h>
-AccelStepperFirmata accelStepper;
+void makeStepper(byte id, int dir_pin, int step_pin, int steps_per_rev) {
+    Firmata.sendString(F("Making stepper with id:"), id);
+    Firmata.sendString(F("Direction pin:"), dir_pin);
+    Firmata.sendString(F("Step pin:"), step_pin);
+    steppers[id] = AccelStepper(AccelStepper::DRIVER, step_pin, dir_pin);
+}
+
+void runStepper(byte id, int speed) {
+    Firmata.sendString(F("Running stepper at constant speed:"), speed);
+    speed = 3000;
+    steppers[id].setMaxSpeed(speed);
+    steppers[id].setAcceleration(1000);
+    steppers[id].setSpeed(speed);
+}
+
+void stopStepper(byte id) {
+    steppers[id].stop();
+    steppers[id].setSpeed(0);
+}
+
+void updateSteppers() {
+    if (steppers.size() == 0) {
+        return;
+    }
+    for (int i = 0; i < steppers.size(); i++) {
+        Firmata.sendString(F("Running stepper:"), i);
+        steppers[i].runSpeed();
+    }
+}
+
+
+
+void parseStepperCommand(byte command, byte argc, byte *argv) {
+    switch (command) {
+        case MAKE_STEPPER: {
+            makeStepper(argv[0], argv[1], argv[2], SevenBitToInt16(argv + 3));
+            break;
+        }
+        case RUN_STEPPER: {
+            runStepper(argv[0], SevenBitToInt16(argv + 1));
+            break;
+        }
+        case STOP_STEPPER: {
+            stopStepper(argv[0]);
+            break;
+        }
+    }
+}
 
 void systemResetCallback() {
     for (byte i = 0; i < TOTAL_PINS; i++) {
@@ -88,9 +144,13 @@ void systemResetCallback() {
 }
 
 void sysexCallback(byte command, byte argc, byte *argv) {
+    Firmata.sendString(F("Parsing a sysex command"));
     switch (command) {
         case PWM_SERVO:
-            pwmServoCommand(argv[0], argc-1, argv+1);
+            parsePwmServoCommand(argv[0], argc-1, argv+1);
+        case STEPPER_COMMAND:
+            parseStepperCommand(argv[0], argc-1, argv+1);
+            break;
         break;
     }
 }
@@ -103,7 +163,6 @@ void initFirmata() {
     firmataExt.addFeature(analogOutput);
     firmataExt.addFeature(i2c);
     firmataExt.addFeature(serial);
-    firmataExt.addFeature(accelStepper);
     Firmata.attach(SYSTEM_RESET, systemResetCallback);
     Firmata.attach(START_SYSEX, sysexCallback);
 }
@@ -113,14 +172,14 @@ void setup() {
 	Firmata.sendString(F("Booting device. Stand by..."));
 	initFirmata();
 	Firmata.parse(SYSTEM_RESET);
-	// Firmata.sendString(F("System booted. Free bytes: 0x"), freeMemory());
 }
 
 void loop() {
-    while(Firmata.available()) {
+    while(Firmata.available()) { //only runs if message in buffer
         Firmata.processInput();
         if (!Firmata.isParsingMessage()) {
             break;
         }
     }
+    updateSteppers();
 }

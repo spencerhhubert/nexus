@@ -1,16 +1,33 @@
 from pyfirmata import Arduino, util, PWM
 from threading import Thread
+import time
+from robot.utils import toHex
 
 class Stepper:
-    def __init__(self, dir_pin:int, step_pin:int, steps_per_rev:int, dev:Arduino):
+    def __init__(self, dir_pin:int, step_pin:int, steps_per_rev:int, dev:Arduino, dev_num:int):
         self.dir_pin = dir_pin
         self.step_pin = step_pin
         self.steps_per_rev = steps_per_rev
         self.dev = dev
         self.running = False
+        self.dev_num = dev_num
+        data = [0x01, toHex(dev_num), toHex(dir_pin), toHex(step_pin), util.to_two_bytes(steps_per_rev)[0], util.to_two_bytes(steps_per_rev)[1]]
+        dev.send_sysex(0x02, data)
+
+    def runWithAccelStepper(self, dir:bool, rpm:int):
+        print(f"Running stepper on pin {self.step_pin} at {rpm} RPM")
+        self.running = True
+        data = [0x02, toHex(self.dev_num), util.to_two_bytes(rpm)[0], util.to_two_bytes(rpm)[1], toHex(dir)]
+        self.dev.send_sysex(0x02, data)
+        time.sleep(0.1) #wait for microcontroller to process command
+
+    def stopAccelStepper(self):
+        self.running = False
+        data = [3, self.dev_num]
+        data = list(map(toHex, data))
+        self.dev.send_sysex(0x02, data)
 
     def run(self, dir:bool, rpm:int):
-        print(f"Running stepper on pin {self.step_pin} at {rpm} RPM")
         self.running = True
         self.dev.digital[self.dir_pin].write(dir)
         t = Thread(target=self._run, args=(rpm,))
@@ -18,18 +35,12 @@ class Stepper:
 
     def _run(self, rpm:int):
         delay = 60 / (self.steps_per_rev * rpm)
+        delay = 0
         while self.running:
             self.dev.digital[self.step_pin].write(1)
             self.dev.pass_time(delay)
             self.dev.digital[self.step_pin].write(0)
             self.dev.pass_time(delay)
-
-    def stop(self):
-        print(f"Stopping stepper on pin {self.step_pin}")
-        self.running = False
-
-    def restart(self):
-        self.running = True
 
     def step(self, dir:bool, speed:int, steps:int):
         delay = 60e6 / (self.steps_per_rev * speed)

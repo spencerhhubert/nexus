@@ -30,8 +30,6 @@ FirmataExt firmataExt;
 #include <ArduinoSTL.h>
 #include <map>
 
-#include <AccelStepper.h>
-
 uint16_t SevenBitToInt16(byte *bytes) {
     return (bytes[0] & 0x7F) | ((bytes[1] & 0x7F) << 7);
 }
@@ -76,44 +74,6 @@ void parsePwmServoCommand(byte command, byte argc, byte *argv) {
     }
 }
 
-#define STEPPER_COMMAND 0x02
-#define MAKE_STEPPER 0x01
-#define RUN_STEPPER 0x02
-#define STOP_STEPPER 0x03
-
-std::map<byte, AccelStepper> steppers;
-
-void makeStepper(byte id, int dir_pin, int step_pin, int steps_per_rev) {
-    Firmata.sendString(F("Making stepper with id:"), id);
-    Firmata.sendString(F("Direction pin:"), dir_pin);
-    Firmata.sendString(F("Step pin:"), step_pin);
-    steppers[id] = AccelStepper(AccelStepper::DRIVER, step_pin, dir_pin);
-}
-
-void runStepper(byte id, int speed) {
-    Firmata.sendString(F("Running stepper at constant speed:"), speed);
-    speed = 3000;
-    steppers[id].setMaxSpeed(speed);
-    steppers[id].setAcceleration(1000);
-    steppers[id].setSpeed(speed);
-}
-
-void stopStepper(byte id) {
-    steppers[id].stop();
-    steppers[id].setSpeed(0);
-}
-
-void updateSteppers() {
-    if (steppers.size() == 0) {
-        return;
-    }
-    for (int i = 0; i < steppers.size(); i++) {
-        Firmata.sendString(F("Running stepper:"), i);
-        steppers[i].runSpeed();
-    }
-}
-
-
 
 void parseStepperCommand(byte command, byte argc, byte *argv) {
     switch (command) {
@@ -148,9 +108,6 @@ void sysexCallback(byte command, byte argc, byte *argv) {
     switch (command) {
         case PWM_SERVO:
             parsePwmServoCommand(argv[0], argc-1, argv+1);
-        case STEPPER_COMMAND:
-            parseStepperCommand(argv[0], argc-1, argv+1);
-            break;
         break;
     }
 }
@@ -181,5 +138,4 @@ void loop() {
             break;
         }
     }
-    updateSteppers();
 }

@@ -51,10 +51,11 @@ def updateKindTable(db_path:str, ldraw_parts_list_path:str, replace:bool=False):
 
             ldraw_id = line[0][:-4] #remove .dat
 
-            c.execute("SELECT * FROM kinds WHERE id=?", (ldraw_id,))
-            if c.fetchone() != None:
-                print(f"part {ldraw_id} already in db. skipping")
-                continue
+            if not replace:
+                c.execute("SELECT * FROM kinds WHERE id=?", (ldraw_id,))
+                if c.fetchone() != None:
+                    print(f"part {ldraw_id} already in db. skipping")
+                    continue
 
             bl_primary_id = scrapePrimaryId(ldraw_id)
             if bl_primary_id == None or bl_primary_id == "":
@@ -79,11 +80,11 @@ def updateKindTable(db_path:str, ldraw_parts_list_path:str, replace:bool=False):
             if replace:
                 c.execute("""
                     INSERT OR REPLACE INTO kinds (id, name, characteristics, alterate_ids) VALUES (?, ?, ?, ?);
-                """, (ldraw_id, name, characteristics, alterate_ids))
+                """, (bl_primary_id, name, characteristics, alterate_ids))
             else:
                 c.execute("""
                     INSERT OR IGNORE INTO kinds (id, name, characteristics, alterate_ids) VALUES (?, ?, ?, ?);
-                """, (ldraw_id, name, characteristics, alterate_ids))
+                """, (bl_primary_id, name, characteristics, alterate_ids))
             conn.commit()
 
 def scrapePrimaryId(id:str) -> str:
@@ -156,7 +157,7 @@ def getCategory(id:str):
     return response.json()["data"]
 
 if __name__ == "__main__":
-    db_path = "parts_temp.db"
+    db_path = "pieces.db"
     ldraw_parts_list_path = "/home/spencer/code/ldraw/mklist/parts.lst"
     updateKindTable(db_path, ldraw_parts_list_path, replace=True)
 

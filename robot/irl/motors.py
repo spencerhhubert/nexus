@@ -4,15 +4,15 @@ import time
 from robot.utils import toHex
 
 class Stepper:
-    def __init__(self, dir_pin:int, step_pin:int, steps_per_rev:int, dev:Arduino, dev_num:int):
+    def __init__(self, dir_pin:int, step_pin:int, microstep:int, dev:Arduino, dev_num:int):
         self.dir_pin = dir_pin
         self.step_pin = step_pin
-        self.steps_per_rev = steps_per_rev
+        self.microstep = microstep
         self.dev = dev
         self.running = False
         self.dev_num = dev_num
-        data = [0x01, toHex(dev_num), toHex(dir_pin), toHex(step_pin), util.to_two_bytes(steps_per_rev)[0], util.to_two_bytes(steps_per_rev)[1]]
-        dev.send_sysex(0x02, data)
+        #data = [0x01, toHex(dev_num), toHex(dir_pin), toHex(step_pin), util.to_two_bytes(steps_per_rev)[0], util.to_two_bytes(steps_per_rev)[1]]
+        #dev.send_sysex(0x02, data)
 
     def runWithAccelStepper(self, dir:bool, rpm:int):
         print(f"Running stepper on pin {self.step_pin} at {rpm} RPM")
@@ -27,20 +27,27 @@ class Stepper:
         data = list(map(toHex, data))
         self.dev.send_sysex(0x02, data)
 
-    def run(self, dir:bool, rpm:int):
+    def run(self, dir:bool, sps):
         self.running = True
         self.dev.digital[self.dir_pin].write(dir)
-        t = Thread(target=self._run, args=(rpm,))
+        t = Thread(target=self._run, args=(sps,))
         t.start()
 
-    def _run(self, rpm:int):
-        delay = 60 / (self.steps_per_rev * rpm)
-        delay = 0
+    def _run(self, sps:int):
+        #delay in seconds, given steps per second and steps per revolution
+        delay = 1 / (sps * self.microstep)
+
+        #this is hell. so many weird properties with stepper motors. need ultra clean super fast signals otherwise they bug out like crazy
+        #serial is not good for this lol
+        #going to redo with regular dc motor in v2 circuit
         while self.running:
             self.dev.digital[self.step_pin].write(1)
-            self.dev.pass_time(delay)
+            #self.dev.pass_time(delay)
+            time.sleep(delay)
             self.dev.digital[self.step_pin].write(0)
-            self.dev.pass_time(delay)
+            #self.dev.pass_time(delay)
+            time.sleep(delay)
+            print("stepped")
 
     def step(self, dir:bool, speed:int, steps:int):
         delay = 60e6 / (self.steps_per_rev * speed)

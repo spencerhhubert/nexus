@@ -48,7 +48,7 @@ def saveBuffer(buffer:list, out_dir:str, preds:dict=None):
     print("saved buffer")
 
 def sort(profile:c.Profile):
-    mc, dms, feeder_stepper, main_conveyor_stepper = irl.config.buildConfig()
+    mc, dms, feeder_stepper, main_conveyor_stepper bins_allocated = irl.config.buildConfig()
 
     feeder_stepper.run(dir=True, sps=100)
     main_conveyor_stepper.run(dir=True, sps=500)

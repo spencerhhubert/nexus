@@ -1,33 +1,28 @@
 #practically the main process. this is where motor controls are called and ML models are ran
 import os
 import time
+import json
 import torch
 from torchvision import transforms
 from torchvision.utils import save_image
-from pyfirmata import Arduino
+from pyfirmata import Arduino, util, pyfirmata
 import cv2
 import robot.identification as id
 import robot.irl as irl
 import robot.classification as c
 
-mc_path = "/dev/ttyACM0"
 camera_path = "/dev/video0"
 ml_dev = "cuda"
 seg_model = "seg_model_1678064497.7959268.pt"
 root_dir = "/nexus"
 
-feeder_stepper_dir_pin = 2
-feeder_stepper_step_pin = 3
-main_conveyor_stepper_dir_pin = 4
-main_conveyor_stepper_step_pin = 5
-dev = Arduino(mc_path)
-
+#todo: make this percentage of frame
 mask_threshold = 500 #number of pixels that need to be in the mask for it to be considered a present piece
 
 data_collection_mode = True
 
 def servoTest():
-    controller = irl.PCA9685(dev, 0x40)
+    controller = irl.PCA9685(dev, 0x42)
     servo1 = irl.Servo(15, controller)
     while True:
         servo1.setAngle(0)
@@ -35,8 +30,11 @@ def servoTest():
         servo1.setAngle(180)
         time.sleep(1)
 
-def saveBuffer(buffer:list):
-    out_dir = os.path.join(root_dir, f"training/classification/data/{time.time()}")
+def saveBuffer(buffer:list, out_dir:str, preds:dict):
+    os.makedirs(out_dir, exist_ok=True)
+    preds_out_path = os.path.join(out_dir, "preds.json")
+    with open(out_path, "w") as f:
+        json.dump(preds, f)
     for i,img in enumerate(buffer):
         #save whole buffer to the same folder
         os.makedirs(out_dir, exist_ok=True)
@@ -49,10 +47,13 @@ def saveBuffer(buffer:list):
     print("saved buffer")
 
 def sort(profile:c.Profile):
-    feeder_stepper = irl.motors.Stepper(feeder_stepper_dir_pin, feeder_stepper_step_pin, 200*16, dev)
-    main_conveyor_stepper = irl.motors.Stepper(main_conveyor_stepper_dir_pin, main_conveyor_stepper_step_pin, 200*16, dev)
-    #feeder_stepper.run(dir=True, rpm=5000)
-    #main_conveyor_stepper.run(dir=True, rpm=5000)
+    mc, dms, feeder_stepper, main_conveyor_stepper = irl.config.buildConfig()
+
+    feeder_stepper.run(dir=True, sps=100)
+    main_conveyor_stepper.run(dir=True, sps=500)
+
+    while True:
+        pass
 
     segnet = id.DeepLabV3SegNet().to(ml_dev)
     segnet.load_state_dict(torch.load(os.path.join(root_dir, "robot/models", seg_model)))
@@ -73,8 +74,7 @@ def sort(profile:c.Profile):
         piece_present = False if mask.sum() < mask_threshold else True
 
         if not piece_present and len(buffer) > 0:
-            #only case we want to use buffer
-            pass
+            pass #only case we want to use buffer
         else:
             if not piece_present:
                 print("no piece detected")
@@ -85,11 +85,17 @@ def sort(profile:c.Profile):
                 img = transforms.Resize((224, 224))(img)
                 buffer.append(img)
                 continue
-        
-        print("saving buffer")
+       
+        #will probably want to scrape a few off the ends where it's not as visible
+        img_to_pass = buffer[len(buffer)/2] #going to batch these later to get avg as the angle changes
+        preds = id.predict.predictFromTensor(img_to_pass)
+        pred_id = id.predict.topId(preds) #temp, going to move all this here
+
+        where_go = profile.getCategory(pred_id)
 
         if data_collection_mode:
-            saveBuffer(buffer)
+            out_dir = os.path.join(root_dir, f"training/classification/data/{time.time()}")
+            saveBuffer(buffer, out_dir, preds)
             buffer = []
             continue
 

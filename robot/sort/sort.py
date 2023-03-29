@@ -30,11 +30,12 @@ def servoTest():
         servo1.setAngle(180)
         time.sleep(1)
 
-def saveBuffer(buffer:list, out_dir:str, preds:dict):
-    os.makedirs(out_dir, exist_ok=True)
-    preds_out_path = os.path.join(out_dir, "preds.json")
-    with open(out_path, "w") as f:
-        json.dump(preds, f)
+def saveBuffer(buffer:list, out_dir:str, preds:dict=None):
+    if preds is not None:
+        os.makedirs(out_dir, exist_ok=True)
+        preds_out_path = os.path.join(out_dir, "preds.json")
+        with open(out_path, "w") as f:
+            json.dump(preds, f)
     for i,img in enumerate(buffer):
         #save whole buffer to the same folder
         os.makedirs(out_dir, exist_ok=True)

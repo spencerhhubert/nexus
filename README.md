@@ -20,5 +20,4 @@ Everything here is currently a huge work in progress. I hope to have minimum fun
 - Put entire host system on a smartphone
     - Good GPU, CPU, memory, camera, LED, UI, and reliability package per dollar
 
-![nexus initial sketch](https://raw.githubusercontent.com/spencerhhubert/nexus/main/assets/initial_sketch.jpg)
-![first irl prototype of the nexus wip](https://raw.githubusercontent.com/spencerhhubert/nexus/main/assets/nexus_prototype0101.jpg)
+![first irl prototype of the nexus wip](https://raw.githubusercontent.com/spencerhhubert/nexus/main/assets/nexus_prototype0102.jpg)

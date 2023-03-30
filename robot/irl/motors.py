@@ -43,11 +43,10 @@ class Stepper:
         while self.running:
             self.dev.digital[self.step_pin].write(1)
             #self.dev.pass_time(delay)
-            time.sleep(delay)
+            #time.sleep(delay)
             self.dev.digital[self.step_pin].write(0)
             #self.dev.pass_time(delay)
-            time.sleep(delay)
-            print("stepped")
+            #time.sleep(delay)
 
     def step(self, dir:bool, speed:int, steps:int):
         delay = 60e6 / (self.steps_per_rev * speed)
@@ -72,7 +71,6 @@ class PCA9685:
         self.dev = dev
         self.addr = hex(addr)
         self.addr = int(self.addr, 16)
-        print(self.addr)
         dev.send_sysex(0x01, [0x07, self.addr])
 
 class Servo:

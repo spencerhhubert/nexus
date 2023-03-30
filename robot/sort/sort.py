@@ -48,10 +48,10 @@ def saveBuffer(buffer:list, out_dir:str, preds:dict=None):
     print("saved buffer")
 
 def sort(profile:c.Profile):
-    mc, dms, feeder_stepper, main_conveyor_stepper bins_allocated = irl.config.buildConfig()
+    mc, dms, feeder_stepper, main_conveyor_stepper = irl.buildConfig()
 
-    feeder_stepper.run(dir=True, sps=100)
-    main_conveyor_stepper.run(dir=True, sps=500)
+    #feeder_stepper.run(dir=True, sps=100)
+    #main_conveyor_stepper.run(dir=True, sps=100)
 
     while True:
         pass
@@ -92,7 +92,7 @@ def sort(profile:c.Profile):
         preds = id.predict.predictFromTensor(img_to_pass)
         pred_id = id.predict.topId(preds) #temp, going to move all this here
 
-        where_go = profile.getCategory(pred_id)
+        pred_category = profile.belongsTo(pred_id)
 
         if data_collection_mode:
             out_dir = os.path.join(root_dir, f"training/classification/data/{time.time()}")

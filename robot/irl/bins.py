@@ -7,4 +7,4 @@ class DistributionModule:
 class Bin:
     def __init__(self, servo, category=None):
         self.servo = servo
-        self.catagory = category
+        self.category = category

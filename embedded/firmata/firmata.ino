@@ -1,6 +1,5 @@
 #define ARDUINO_AVR_MEGA2560
 
-
 #include <ConfigurableFirmata.h>
 #include <DigitalInputFirmata.h>
 DigitalInputFirmata digitalInput;
@@ -75,23 +74,6 @@ void parsePwmServoCommand(byte command, byte argc, byte *argv) {
 }
 
 
-void parseStepperCommand(byte command, byte argc, byte *argv) {
-    switch (command) {
-        case MAKE_STEPPER: {
-            makeStepper(argv[0], argv[1], argv[2], SevenBitToInt16(argv + 3));
-            break;
-        }
-        case RUN_STEPPER: {
-            runStepper(argv[0], SevenBitToInt16(argv + 1));
-            break;
-        }
-        case STOP_STEPPER: {
-            stopStepper(argv[0]);
-            break;
-        }
-    }
-}
-
 void systemResetCallback() {
     for (byte i = 0; i < TOTAL_PINS; i++) {
         if (IS_PIN_ANALOG(i)) {
@@ -124,11 +106,50 @@ void initFirmata() {
     Firmata.attach(START_SYSEX, sysexCallback);
 }
 
+#define conveyor_step_pin 6
+#define conveyor_dir_pin 4
+#define feeder_step_pin 3
+#define feeder_dir_pin 2
+
+#define conveyor_delay 600
+#define feeder_delay 15000
+
 void setup() {
     Firmata.begin(57600);
 	Firmata.sendString(F("Booting device. Stand by..."));
 	initFirmata();
 	Firmata.parse(SYSTEM_RESET);
+
+    pinMode(conveyor_step_pin, OUTPUT);
+    pinMode(conveyor_dir_pin, OUTPUT);
+    pinMode(feeder_step_pin, OUTPUT);
+    pinMode(feeder_dir_pin, OUTPUT);
+    pinMode(7, OUTPUT);
+
+    digitalWrite(conveyor_dir_pin, HIGH);
+    digitalWrite(feeder_dir_pin, HIGH);
+    digitalWrite(7, HIGH);
+}
+
+int count = 1;
+
+void stepSteppers() {
+    digitalWrite(conveyor_step_pin, HIGH);
+    digitalWrite(feeder_step_pin, HIGH);
+    delayMicroseconds(conveyor_delay);
+    digitalWrite(conveyor_step_pin, LOW);
+    digitalWrite(feeder_step_pin, LOW);
+    delayMicroseconds(conveyor_delay);
+
+    count = 1;
+    if (count == 4) {
+        digitalWrite(feeder_step_pin, HIGH);
+        delayMicroseconds(feeder_delay);
+        digitalWrite(feeder_step_pin, LOW);
+        delayMicroseconds(feeder_delay);
+
+        count = 1;
+    }
 }
 
 void loop() {
@@ -138,4 +159,5 @@ void loop() {
             break;
         }
     }
+    stepSteppers();
 }

@@ -46,23 +46,22 @@ def updateKindTable(db_path:str, ldraw_parts_list_path:str, replace:bool=False):
 
     with open(ldraw_parts_list_path, 'r') as f:
         for i,line in enumerate(f):
-            line = line.split('=')
-            line[0] = line[0].strip()
-
-            ldraw_id = line[0][:-4] #remove .dat
-
-            if not replace:
-                c.execute("SELECT * FROM kinds WHERE id=?", (ldraw_id,))
-                if c.fetchone() != None:
-                    print(f"part {ldraw_id} already in db. skipping")
-                    continue
+            line = line.split(".dat")
+            ldraw_id = line[0].strip()
 
             bl_primary_id = scrapePrimaryId(ldraw_id)
             if bl_primary_id == None or bl_primary_id == "":
-                print(f"part {ldraw_id} not found on bricklink. skipping")
                 continue
 
+            if not replace:
+                c.execute("SELECT * FROM kinds WHERE id=?", (bl_primary_id,))
+                if c.fetchone() != None:
+                    print(f"part {bl_primary_id} already in db. skipping")
+                    continue
+
             part_info = getBLPartInfo(bl_primary_id)
+            if "alternate_no" not in part_info:
+                part_info["alternate_no"] = ""
             bl_alternate_ids = part_info["alternate_no"].split(',')
             ids = list(set([ldraw_id] + [bl_primary_id] + bl_alternate_ids))
             alterate_ids = json.dumps(ids)
@@ -75,7 +74,8 @@ def updateKindTable(db_path:str, ldraw_parts_list_path:str, replace:bool=False):
             characteristics = [category]
             characteristics = json.dumps(characteristics)
 
-            print(f"inserting {ldraw_id} {name} into {db_path}")
+            print(f"Inserting {name} into db")
+            print(f"aka {line[1]}")
 
             if replace:
                 c.execute("""
@@ -96,27 +96,33 @@ def scrapePrimaryId(id:str) -> str:
     #and use this https://curlconverter.com/
 
     cookies = {
-        'BLNEWSESSIONID': 'V108157EC42E8A967B04329C3A5D0FCDE2A93CB02FE6F21C87E6A888C2AE1FF0A42EC9B7C67A7414B0F716370A1276A3FA2',
-        'cartBuyerID': '-1477601822',
-        'blckMID': '18714c74c6500000-fbf5455ea27661db',
+        'blckMID': 'bfc2d42a-8792-470e-befd-9f27194d338c',
+        'cartBuyerID': '-1477053304',
         'blckSessionStarted': '1',
-        'blckCookieSetting': 'CHKTGATFPBLF',
-        'AWSALB': 'UBbpEBYGYFtC8eRTpt9KzBCMtfd/n51R425GpOKqnIhapz096VxMJ+cCpKhNKYOk4LTvCRo1zyIl0BgqkPU7AXUhKxPBZf2jPe24T/KoDpSZ7MR0LCA+zQUjDSZL',
-        'AWSALBCORS': 'UBbpEBYGYFtC8eRTpt9KzBCMtfd/n51R425GpOKqnIhapz096VxMJ+cCpKhNKYOk4LTvCRo1zyIl0BgqkPU7AXUhKxPBZf2jPe24T/KoDpSZ7MR0LCA+zQUjDSZL',
+        'BLNEWSESSIONID': 'V10DC861CB17DAB24ACC9DE250FD955C5B728BEDE3709FB19CE1834122EB57BE2238BB8115A70D3E969AB0FB2242318078B',
+        'ASPSESSIONIDQSBTQSQD': 'PGFNLAEBGMNBBFKANOHMKKJF',
+        'ASPSESSIONIDSSDTQTRD': 'KBNMJAEBDEGHCBHHFKMDNPCM',
+        'AWSALB': 'Oof3WiXYzOap/Kc7YT4acUYYIFoGC13Y3sFpHZxQBv5snYGco0JAvJlKbBtxpeB9TSQ3NJfKDjr6hwPT7M9Q95oKoW7fVm5xbwmet6Saocdr95unuiEn/vREIE8O',
+        'AWSALBCORS': 'Oof3WiXYzOap/Kc7YT4acUYYIFoGC13Y3sFpHZxQBv5snYGco0JAvJlKbBtxpeB9TSQ3NJfKDjr6hwPT7M9Q95oKoW7fVm5xbwmet6Saocdr95unuiEn/vREIE8O',
     }
 
     headers = {
         'authority': 'www.bricklink.com',
         'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
         'accept-language': 'en-US,en;q=0.5',
-        # 'cookie': 'BLNEWSESSIONID=V108157EC42E8A967B04329C3A5D0FCDE2A93CB02FE6F21C87E6A888C2AE1FF0A42EC9B7C67A7414B0F716370A1276A3FA2; cartBuyerID=-1477601822; blckMID=18714c74c6500000-fbf5455ea27661db; blckSessionStarted=1; blckCookieSetting=CHKTGATFPBLF; AWSALB=UBbpEBYGYFtC8eRTpt9KzBCMtfd/n51R425GpOKqnIhapz096VxMJ+cCpKhNKYOk4LTvCRo1zyIl0BgqkPU7AXUhKxPBZf2jPe24T/KoDpSZ7MR0LCA+zQUjDSZL; AWSALBCORS=UBbpEBYGYFtC8eRTpt9KzBCMtfd/n51R425GpOKqnIhapz096VxMJ+cCpKhNKYOk4LTvCRo1zyIl0BgqkPU7AXUhKxPBZf2jPe24T/KoDpSZ7MR0LCA+zQUjDSZL',
+        'cache-control': 'max-age=0',
+        # 'cookie': 'blckMID=bfc2d42a-8792-470e-befd-9f27194d338c; cartBuyerID=-1477053304; blckSessionStarted=1; BLNEWSESSIONID=V10DC861CB17DAB24ACC9DE250FD955C5B728BEDE3709FB19CE1834122EB57BE2238BB8115A70D3E969AB0FB2242318078B; ASPSESSIONIDQSBTQSQD=PGFNLAEBGMNBBFKANOHMKKJF; ASPSESSIONIDSSDTQTRD=KBNMJAEBDEGHCBHHFKMDNPCM; AWSALB=Oof3WiXYzOap/Kc7YT4acUYYIFoGC13Y3sFpHZxQBv5snYGco0JAvJlKbBtxpeB9TSQ3NJfKDjr6hwPT7M9Q95oKoW7fVm5xbwmet6Saocdr95unuiEn/vREIE8O; AWSALBCORS=Oof3WiXYzOap/Kc7YT4acUYYIFoGC13Y3sFpHZxQBv5snYGco0JAvJlKbBtxpeB9TSQ3NJfKDjr6hwPT7M9Q95oKoW7fVm5xbwmet6Saocdr95unuiEn/vREIE8O',
+        'referer': 'https://www.bricklink.com/catalogList.asp?catType=P&catString=437',
+        'sec-ch-ua': '"Brave";v="111", "Not(A:Brand";v="8", "Chromium";v="111"',
+        'sec-ch-ua-mobile': '?0',
+        'sec-ch-ua-platform': '"macOS"',
         'sec-fetch-dest': 'document',
         'sec-fetch-mode': 'navigate',
         'sec-fetch-site': 'same-origin',
         'sec-fetch-user': '?1',
         'sec-gpc': '1',
         'upgrade-insecure-requests': '1',
-        'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36',
+        'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36',
     }
 
     base = "https://www.bricklink.com"
@@ -124,25 +130,32 @@ def scrapePrimaryId(id:str) -> str:
 
     response = requests.get(base+path, cookies=cookies, headers=headers)
     response = response.json()
-
+    
+    if not "result" in response:
+        print(f"Failed to get results for {id}. Skipping")
+        return None
     success = len(response["result"]["typeList"]) > 0
     if not success:
+        print(f"No results for {id}. Skipping") 
         return None
 
-    for result in response["result"]["typeList"][0]["items"]:
+    results = response["result"]["typeList"][0]["items"]
+    
+    for result in results:
         bl_primary_id = result["strItemNo"]
         part_info = getBLPartInfo(bl_primary_id) #additional api call being made here that isn't totally necessary, TODO refactor to like cache or something
-        if not "alternate_no" in part_info:
-            continue
-        alternate_ids = part_info["alternate_no"].split(",")
-        if not id in alternate_ids:
-            continue
+        if "alternate_no" in part_info:
+            alternate_ids = part_info["alternate_no"].split(",")
+            if id in alternate_ids:
+                print(f"Successfully found primary id {bl_primary_id} for {id}")
+                return bl_primary_id
+
+    if len(results) == 1 and "alternate_no" in getBLPartInfo(results[0]["strItemNo"]):
+        print(f"No alternate ids for {id}")
         return bl_primary_id
-
+    
+    print(f"Default skip for {id}.")
     return None
-
-    id = response["result"]["typeList"][0]["items"][0]["strItemNo"]
-    return id
 
 def getBLPartInfo(id:str):
     base = "https://api.bricklink.com/api/store/v1"
@@ -160,4 +173,3 @@ if __name__ == "__main__":
     db_path = "pieces.db"
     ldraw_parts_list_path = "/home/spencer/code/ldraw/mklist/parts.lst"
     updateKindTable(db_path, ldraw_parts_list_path, replace=True)
-

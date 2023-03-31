@@ -5,6 +5,9 @@ db_path = "pieces.db"
 conn = sql.connect(db_path)
 c = conn.cursor()
 
+#drop table
+c.execute('''DROP TABLE IF EXISTS categories''')
+conn.commit()
 c.execute('''CREATE TABLE IF NOT EXISTS categories (category TEXT PRIMARY KEY, name TEXT, pieces TEXT, kinds TEXT,colors TEXT, categories TEXT)''')
 
 for kind in c.execute('''SELECT * FROM kinds''').fetchall():
@@ -15,12 +18,12 @@ for kind in c.execute('''SELECT * FROM kinds''').fetchall():
     c.execute('''SELECT * FROM categories WHERE category=?''', (bl_category,))
     category = c.fetchone()
     if category:
-        pieces = json.loads(category[2])
-        pieces.append(id)
-        pieces = list(set(pieces))
-        c.execute('''UPDATE categories SET pieces=? WHERE category=?''', (json.dumps(pieces), bl_category))
+        kinds = json.loads(category[3])
+        kinds.append(id)
+        kinds = list(set(kinds))
+        c.execute('''UPDATE categories SET kinds=? WHERE category=?''', (json.dumps(kinds), bl_category))
     else:
-        c.execute('''INSERT INTO categories VALUES (?,?,?,?,?,?)''', (bl_category, bl_category, json.dumps([id]), '', '', ''))
+        c.execute('''INSERT INTO categories VALUES (?,?,?,?,?,?)''', (bl_category, bl_category, '', json.dumps([id]), '', ''))
     conn.commit()
 
 for category in c.execute('''SELECT * FROM categories'''):

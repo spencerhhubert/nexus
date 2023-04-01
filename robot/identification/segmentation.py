@@ -58,7 +58,6 @@ def findBoundingBox(img:torch.Tensor, mask:torch.Tensor, new_size=(256,256), pad
     return (x,y,w,h)
 
 def crop(bounding_box:tuple, img:torch.Tensor, padding=250) -> torch.Tensor:
-    print(bounding_box)
     x,y,w,h = bounding_box
     x = max(0, x - padding)
     y = max(0, y - padding)

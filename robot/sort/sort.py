@@ -8,8 +8,12 @@ from torchvision.utils import save_image
 from pyfirmata import Arduino, util, pyfirmata
 import cv2
 import robot.identification as id
+import robot.identification.segmentation as seg
 import robot.irl as irl
 import robot.classification as c
+from robot.classification.profile import Profile
+from robot.sort.helpers import incrementBins
+import robot.utils.dev as dev
 
 camera_path = "/dev/video0"
 ml_dev = "cuda"
@@ -19,7 +23,7 @@ root_dir = "/nexus"
 #todo: make this percentage of frame
 mask_threshold = 500 #number of pixels that need to be in the mask for it to be considered a present piece
 
-data_collection_mode = True
+dev_mode = True
 
 def servoTest():
     controller = irl.PCA9685(dev, 0x42)
@@ -30,33 +34,13 @@ def servoTest():
         servo1.setAngle(180)
         time.sleep(1)
 
-def saveBuffer(buffer:list, out_dir:str, preds:dict=None):
-    if preds is not None:
-        os.makedirs(out_dir, exist_ok=True)
-        preds_out_path = os.path.join(out_dir, "preds.json")
-        with open(out_path, "w") as f:
-            json.dump(preds, f)
-    for i,img in enumerate(buffer):
-        #save whole buffer to the same folder
-        os.makedirs(out_dir, exist_ok=True)
-        out_path = os.path.join(out_dir, f"{i}.png")
-        img = img.float()
-        img = img / 255
-        print(img.shape)
-        img = img.unsqueeze(0)
-        save_image(img, out_path)
-    print("saved buffer")
-
-def sort(profile:c.Profile):
+def sort(profile:Profile):
     mc, dms, feeder_stepper, main_conveyor_stepper = irl.buildConfig()
 
     #feeder_stepper.run(dir=True, sps=100)
     #main_conveyor_stepper.run(dir=True, sps=100)
 
-    while True:
-        pass
-
-    segnet = id.DeepLabV3SegNet().to(ml_dev)
+    segnet = seg.DeepLabV3SegNet().to(ml_dev)
     segnet.load_state_dict(torch.load(os.path.join(root_dir, "robot/models", seg_model)))
     segnet.eval()
 
@@ -71,34 +55,38 @@ def sort(profile:c.Profile):
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB) #bgr is so dumb
         img = torch.from_numpy(img).to(ml_dev)
         img = img.permute(2, 0, 1)
-        mask = id.predictMask(img, segnet, threshold=0.5)
+        mask = seg.predictMask(img, segnet, threshold=0.5)
         piece_present = False if mask.sum() < mask_threshold else True
 
         if not piece_present and len(buffer) > 0:
             pass #only case we want to use buffer
         else:
             if not piece_present:
-                print("no piece detected")
                 continue
             else:
-                bounding_box = id.findBoundingBox(img, mask)
-                img = id.crop(bounding_box, img, padding=32)
+                bounding_box = seg.findBoundingBox(img, mask)
+                img = seg.crop(bounding_box, img, padding=32)
                 img = transforms.Resize((224, 224))(img)
                 buffer.append(img)
                 continue
        
         #will probably want to scrape a few off the ends where it's not as visible
-        img_to_pass = buffer[len(buffer)/2] #going to batch these later to get avg as the angle changes
-        preds = id.predict.predictFromTensor(img_to_pass)
-        pred_id = id.predict.topId(preds) #temp, going to move all this here
+        img_to_pass = buffer[int(len(buffer)/2)] #going to batch these later to get avg as the angle changes
+        preds = id.brickognize.predictFromTensor(img_to_pass)
+        pred_id = id.brickognize.topId(preds) #temp, going to move all this here
+        print(f"predicted {pred_id} - {id.brickognize.topName(preds)}")
+    
+        pred_category = profile.belongsTo((pred_id, "n/a"))
+        dm, bin, dms = incrementBins(pred_category, dms)
 
-        pred_category = profile.belongsTo(pred_id)
+        #make cv func for this, ping say every 30 seconds
+        speed = 10 #cm/s
 
-        if data_collection_mode:
-            out_dir = os.path.join(root_dir, f"training/classification/data/{time.time()}")
-            saveBuffer(buffer, out_dir, preds)
+        when_open_doors = (1 / speed*(dm.distance_from_camera)) * 1000 #ms
+        when_open_doors = 0 #lol need asap
+        irl.openDoors(dm, bin, when_open_doors)
+
+        if dev_mode:
+            dev.runErrorAnalysis(buffer, preds)
             buffer = []
             continue
-
-        #maybe wait here for a small buffer of images to build up then send in as batch
-        #take avg of predictions for piece prediction?

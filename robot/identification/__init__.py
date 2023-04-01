@@ -1,1 +1,2 @@
-from robot.identification.segmentation import *
+import robot.identification.segmentation
+import robot.identification.brickognize

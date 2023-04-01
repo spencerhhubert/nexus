@@ -38,7 +38,7 @@ config = {
 
 def buildConfig(config=config):
     mc = Arduino(config["mc_path"])
-    debug = False
+    debug = True
     if debug:
         it = util.Iterator(mc)
         it.start()
@@ -50,11 +50,10 @@ def buildConfig(config=config):
     cs = Stepper(config["main_conveyor_stepper"]["dir_pin"], config["main_conveyor_stepper"]["step_pin"], config["main_conveyor_stepper"]["microstep"], mc, config["main_conveyor_stepper"]["dev_num"])
     
     dms = []
-    if False:
-        for dm in config["distribution_modules"]:
-            servo_controller = PCA9685(mc, dm["controller_address"])
-            chute_servo = Servo(15, servo_controller)
-            bins = [Bin(Servo(i, servo_controller)) for i in range(dm["num_bins"])]
-            dms.append(DistributionModule(chute_servo, dm["distance_from_camera"], bins))
+    for dm in config["distribution_modules"]:
+        servo_controller = PCA9685(mc, dm["controller_address"])
+        chute_servo = Servo(15, servo_controller)
+        bins = [Bin(Servo(i, servo_controller)) for i in range(dm["num_bins"])]
+        dms.append(DistributionModule(chute_servo, dm["distance_from_camera"], bins))
 
     return (mc, dms, cs, fs)

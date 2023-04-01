@@ -7,12 +7,16 @@ def openDoors(dm, bin, when:int):
 
     def _openDoors(dm, bin, when:int):
         #wait n milliseconds until we presume the piece has arrived
+        wait = 3
         time.sleep(when/1000)
-        dm.servo.setAngle(45)
-        bin.servo.setAngle(45)
-        time.sleep(1.5)
+        dm.servo.setAngle(135)
+        time.sleep(0.25)
+        bin.servo.setAngle(135)
+        time.sleep(wait)
         dm.servo.setAngle(90)
-        bin.servo.setAngle(90)
+        time.sleep(0.25)
+        bin.servo.setAngle(170)
+        time.sleep(0.25)
 
     t = Thread(target=_openDoors, args=(dm, bin, when))
     t.start()

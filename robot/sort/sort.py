@@ -15,7 +15,7 @@ from robot.classification.profile import Profile
 from robot.sort.helpers import incrementBins
 import robot.utils.dev as dev
 
-camera_path = "/dev/video1"
+camera_path = "/dev/video3"
 ml_dev = "cuda"
 seg_model = "seg_model_1678064497.7959268.pt"
 root_dir = "/nexus"
@@ -46,6 +46,7 @@ def sort(profile:Profile):
 
     cam = cv2.VideoCapture(camera_path)
     buffer = [] #hopefully all a single piece, from different angles. send as a batch to classification model
+    raw_buffer = []
     piece_present = False
 
     while True:
@@ -53,8 +54,18 @@ def sort(profile:Profile):
         if not ret:
             continue
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB) #bgr is so dumb
+
+        #flip img 180 degrees
+        img = cv2.flip(img, 0)
+
         img = torch.from_numpy(img).to(ml_dev)
         img = img.permute(2, 0, 1)
+
+        #crop to square but keep height
+        size = img.shape[1]
+        img = transforms.functional.crop(img, 0, int(size/2), size, size)
+        print(f"img shape: {img.shape}")
+
         mask = seg.predictMask(img, segnet, threshold=0.5)
         piece_present = False if mask.sum() < mask_threshold else True
 
@@ -64,11 +75,11 @@ def sort(profile:Profile):
             if not piece_present:
                 continue
             else:
-                bounding_box = seg.findBoundingBox(img, mask)
-                raw_img = img
+                raw_buffer.append(img)
+                bounding_box = seg.findBoundingBox(img, mask, square=True)
                 img = seg.crop(bounding_box, img, padding=32)
                 img = transforms.Resize((224, 224))(img)
-                buffer.append(raw_img)
+                buffer.append(img)
                 if len(buffer) < 25: #temporary hack for brickognize because api needs pic asap
                     continue
        
@@ -79,6 +90,7 @@ def sort(profile:Profile):
         preds = id.brickognize.predictFromTensor(img_to_pass)
         all_pred_ids = id.brickognize.allTopIds(preds)
         pred_id = profile.topExistentKind(all_pred_ids)
+        print(f"pred_id: {pred_id}")
         pred_category = profile.belongsTo((pred_id, "n/a"))
         dm, bin, dms = incrementBins(pred_category, dms)
 
@@ -92,6 +104,7 @@ def sort(profile:Profile):
         time.sleep(5)
 
         if dev_mode:
-            dev.runErrorAnalysis(buffer, preds)
+            dev.runErrorAnalysis(buffer, raw_buffer, preds)
             buffer = []
+            raw_buffer = []
             continue

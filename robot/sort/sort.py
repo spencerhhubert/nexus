@@ -64,7 +64,6 @@ def sort(profile:Profile):
         #crop to square but keep height
         size = img.shape[1]
         img = transforms.functional.crop(img, 0, int(size/2), size, size)
-        print(f"img shape: {img.shape}")
 
         mask = seg.predictMask(img, segnet, threshold=0.5)
         piece_present = False if mask.sum() < mask_threshold else True
@@ -90,7 +89,7 @@ def sort(profile:Profile):
         preds = id.brickognize.predictFromTensor(img_to_pass)
         all_pred_ids = id.brickognize.allTopIds(preds)
         pred_id = profile.topExistentKind(all_pred_ids)
-        print(f"pred_id: {pred_id}")
+        print(f"predicted piece: {pred_id} - {profile.getName(pred_id)}")
         pred_category = profile.belongsTo((pred_id, "n/a"))
         dm, bin, dms = incrementBins(pred_category, dms)
 

@@ -17,6 +17,7 @@ class Profile():
         c = conn.cursor()
         self.bins = c.execute("SELECT * FROM bricklink_categories_profile").fetchall()
         self.bins = list(map(deserializeCategory, self.bins))
+        self.kinds = c.execute("SELECT * FROM kinds").fetchall()
 
     def belongsTo(self, piece:tuple) -> str:
         kind_id, color_id = piece
@@ -32,4 +33,10 @@ class Profile():
             for bin in self.bins:
                 if kind in bin[3]:
                     return kind
+        return None
+
+    def getName(self, kind_id:str) -> str:
+        for kind in self.kinds:
+            if kind[0] == kind_id:
+                return kind[1]
         return None

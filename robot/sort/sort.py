@@ -15,13 +15,13 @@ from robot.classification.profile import Profile
 from robot.sort.helpers import incrementBins
 import robot.utils.dev as dev
 
-camera_path = "/dev/video0"
+camera_path = "/dev/video1"
 ml_dev = "cuda"
 seg_model = "seg_model_1678064497.7959268.pt"
 root_dir = "/nexus"
 
 #todo: make this percentage of frame
-mask_threshold = 500 #number of pixels that need to be in the mask for it to be considered a present piece
+mask_threshold = 1000 #number of pixels that need to be in the mask for it to be considered a present piece
 
 dev_mode = True
 
@@ -65,17 +65,20 @@ def sort(profile:Profile):
                 continue
             else:
                 bounding_box = seg.findBoundingBox(img, mask)
+                raw_img = img
                 img = seg.crop(bounding_box, img, padding=32)
                 img = transforms.Resize((224, 224))(img)
-                buffer.append(img)
-                continue
+                buffer.append(raw_img)
+                if len(buffer) < 25: #temporary hack for brickognize because api needs pic asap
+                    continue
        
         #will probably want to scrape a few off the ends where it's not as visible
         img_to_pass = buffer[int(len(buffer)/2)] #going to batch these later to get avg as the angle changes
+        img_to_pass = buffer[-1]
+        print(f"length of buffer: {len(buffer)}")
         preds = id.brickognize.predictFromTensor(img_to_pass)
-        pred_id = id.brickognize.topId(preds) #temp, going to move all this here
-        print(f"predicted {pred_id} - {id.brickognize.topName(preds)}")
-    
+        all_pred_ids = id.brickognize.allTopIds(preds)
+        pred_id = profile.topExistentKind(all_pred_ids)
         pred_category = profile.belongsTo((pred_id, "n/a"))
         dm, bin, dms = incrementBins(pred_category, dms)
 
@@ -85,6 +88,8 @@ def sort(profile:Profile):
         when_open_doors = (1 / speed*(dm.distance_from_camera)) * 1000 #ms
         when_open_doors = 0 #lol need asap
         irl.openDoors(dm, bin, when_open_doors)
+
+        time.sleep(5)
 
         if dev_mode:
             dev.runErrorAnalysis(buffer, preds)

@@ -25,3 +25,11 @@ class Profile():
             kinds = bin[3]
             if kind_id in kinds:
                 return id
+
+    #from a list of predictions, which is the top that we actually have in our profile?
+    def topExistentKind(self, kinds:list) -> str:
+        for kind in kinds:
+            for bin in self.bins:
+                if kind in bin[3]:
+                    return kind
+        return None

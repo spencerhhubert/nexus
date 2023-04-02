@@ -36,3 +36,6 @@ def topId(preds):
 
 def topName(preds):
     return preds["items"][0]["name"]
+
+def allTopIds(preds):
+    return [p["id"] for p in preds["items"]]

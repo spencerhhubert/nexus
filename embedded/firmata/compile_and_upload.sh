@@ -6,5 +6,4 @@ if [ "$1" = "firmware" ]; then
     sudo arduino-cli compile --fqbn arduino:avr:mega
 fi
 
-sudo arduino-cli upload --port /dev/ttyACM0 --fqbn arduino:avr:mega
-
+sudo arduino-cli upload --port $MC_PATH --fqbn arduino:avr:mega

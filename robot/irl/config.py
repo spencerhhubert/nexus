@@ -1,10 +1,11 @@
 from robot.irl.motors import PCA9685, Servo, Stepper
 from robot.irl.bins import DistributionModule, Bin
 from pyfirmata import Arduino, util, pyfirmata
+import os
 
 #will package this as a .json once there's a UI
 config = {
-    "mc_path": "/dev/ttyACM0",
+    "mc_path": os.getenv("MC_PATH", "/dev/ttyACM0"),
     "distribution_modules": [
         {
             "distance_from_camera": 20, #cm

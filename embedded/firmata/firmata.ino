@@ -75,6 +75,8 @@ void parsePwmServoCommand(byte command, byte argc, byte *argv) {
     }
 }
 
+#define RUN_STEPPERS 0x02
+bool run_steppers = false;
 
 void systemResetCallback() {
     for (byte i = 0; i < TOTAL_PINS; i++) {
@@ -92,6 +94,8 @@ void sysexCallback(byte command, byte argc, byte *argv) {
         case PWM_SERVO:
             parsePwmServoCommand(argv[0], argc-1, argv+1);
         break;
+        case RUN_STEPPERS:
+            run_steppers = true;
     }
 }
 
@@ -135,7 +139,8 @@ void loop() {
             break;
         }
     }
-
-    conveyor_stepper.runSpeed();
-    feeder_stepper.runSpeed();
+    if (run_steppers) {
+        conveyor_stepper.runSpeed();
+        feeder_stepper.runSpeed();
+    }
 }

@@ -57,6 +57,10 @@ class Stepper:
             self.dev.digital[self.step_pin].write(0)
             self.dev.pass_time(delay)
 
+def runSteppers(dev):
+    dev.send_sysex(0x02, [])
+
+
 class VibrationMotor:
     def __init__(self, pwm_pin:int, dev:Arduino):
         self.pwd_pin = pwm_pin

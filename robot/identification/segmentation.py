@@ -41,7 +41,7 @@ def predictMask(img:torch.Tensor, model:torch.nn.Module, threshold:0.5) -> torch
     mask = torch.where(mask > threshold, torch.ones_like(mask), torch.zeros_like(mask))
     return mask
 
-def findBoundingBox(img:torch.Tensor, mask:torch.Tensor, new_size=(256,256), padding=250, square=False) -> tuple:
+def findBoundingBox(img:torch.Tensor, mask:torch.Tensor, new_size=(256,256), padding=250) -> tuple:
     masked_img = maskImage(img, mask)
     #cv2 will glitch if you pass an empty image, also waste of compute
     if torch.sum(masked_img) < 10:
@@ -55,6 +55,11 @@ def findBoundingBox(img:torch.Tensor, mask:torch.Tensor, new_size=(256,256), pad
     thresh = cv2.dilate(thresh, None, iterations=2)
     contours, hierarchy = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     x,y,w,h = cv2.boundingRect(contours[0])
+    return (x,y,w,h)
+
+def crop(bounding_box:tuple, img:torch.Tensor, padding=250, square=False) -> torch.Tensor:
+    x,y,w,h = bounding_box
+
     if square:
         if w > h:
             diff = w - h
@@ -65,10 +70,6 @@ def findBoundingBox(img:torch.Tensor, mask:torch.Tensor, new_size=(256,256), pad
             w = h
             x = x - (diff//2)
 
-    return (x,y,w,h)
-
-def crop(bounding_box:tuple, img:torch.Tensor, padding=250) -> torch.Tensor:
-    x,y,w,h = bounding_box
     x = max(0, x - padding)
     y = max(0, y - padding)
     w = min(img.shape[2], w + 2*padding)

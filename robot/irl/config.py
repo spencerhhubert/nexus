@@ -8,17 +8,17 @@ config = {
     "mc_path": os.getenv("MC_PATH", "/dev/ttyACM0"),
     "distribution_modules": [
         {
-            "distance_from_camera": 20, #cm
+            "distance_from_camera": 45, #cm
             "num_bins": 4,
             "controller_address": 0x40,
         },
         {
-            "distance_from_camera": 30,
+            "distance_from_camera": 45+17,
             "num_bins": 4,
             "controller_address": 0x41,
         },
         {
-            "distance_from_camera": 40,
+            "distance_from_camera": 45+17+15,
             "num_bins": 4,
             "controller_address": 0x42,
         },

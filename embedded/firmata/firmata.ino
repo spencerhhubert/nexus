@@ -125,8 +125,9 @@ void setup() {
 	initFirmata();
 	Firmata.parse(SYSTEM_RESET);
 
+    //currently set to run at 1/2 step
     conveyor_stepper.setMaxSpeed(1000.0);
-    conveyor_stepper.setSpeed(1000.0);
+    conveyor_stepper.setSpeed(600.0);
 
     feeder_stepper.setMaxSpeed(1000.0);
     feeder_stepper.setSpeed(500.0);

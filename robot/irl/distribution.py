@@ -7,7 +7,7 @@ def openDoors(dm, bin, when:int):
 
     def _openDoors(dm, bin, when:int):
         #wait n milliseconds until we presume the piece has arrived
-        wait = 3
+        wait = 7
         time.sleep(when/1000)
         dm.servo.setAngle(135)
         time.sleep(0.25)

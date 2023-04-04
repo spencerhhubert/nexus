@@ -29,6 +29,8 @@ FirmataExt firmataExt;
 #include <ArduinoSTL.h>
 #include <map>
 
+#include <AccelStepper.h>
+
 uint16_t SevenBitToInt16(byte *bytes) {
     return (bytes[0] & 0x7F) | ((bytes[1] & 0x7F) << 7);
 }
@@ -86,7 +88,6 @@ void systemResetCallback() {
 }
 
 void sysexCallback(byte command, byte argc, byte *argv) {
-    Firmata.sendString(F("Parsing a sysex command"));
     switch (command) {
         case PWM_SERVO:
             parsePwmServoCommand(argv[0], argc-1, argv+1);
@@ -106,13 +107,13 @@ void initFirmata() {
     Firmata.attach(START_SYSEX, sysexCallback);
 }
 
-#define conveyor_step_pin 6
-#define conveyor_dir_pin 4
-#define feeder_step_pin 3
-#define feeder_dir_pin 2
+#define conveyor_step_pin 3
+#define conveyor_dir_pin 2
+#define feeder_step_pin 6
+#define feeder_dir_pin 4
 
-#define conveyor_delay 600
-#define feeder_delay 15000
+AccelStepper conveyor_stepper(AccelStepper::DRIVER, conveyor_step_pin, conveyor_dir_pin);
+AccelStepper feeder_stepper(AccelStepper::DRIVER, feeder_step_pin, feeder_dir_pin);
 
 void setup() {
     Firmata.begin(57600);
@@ -120,36 +121,11 @@ void setup() {
 	initFirmata();
 	Firmata.parse(SYSTEM_RESET);
 
-    pinMode(conveyor_step_pin, OUTPUT);
-    pinMode(conveyor_dir_pin, OUTPUT);
-    pinMode(feeder_step_pin, OUTPUT);
-    pinMode(feeder_dir_pin, OUTPUT);
-    pinMode(7, OUTPUT);
+    conveyor_stepper.setMaxSpeed(1000.0);
+    conveyor_stepper.setSpeed(1000.0);
 
-    digitalWrite(conveyor_dir_pin, HIGH);
-    digitalWrite(feeder_dir_pin, HIGH);
-    digitalWrite(7, HIGH);
-}
-
-int count = 1;
-
-void stepSteppers() {
-    digitalWrite(conveyor_step_pin, HIGH);
-    digitalWrite(feeder_step_pin, HIGH);
-    delayMicroseconds(conveyor_delay);
-    digitalWrite(conveyor_step_pin, LOW);
-    digitalWrite(feeder_step_pin, LOW);
-    delayMicroseconds(conveyor_delay);
-
-    count = 1;
-    if (count == 4) {
-        digitalWrite(feeder_step_pin, HIGH);
-        delayMicroseconds(feeder_delay);
-        digitalWrite(feeder_step_pin, LOW);
-        delayMicroseconds(feeder_delay);
-
-        count = 1;
-    }
+    feeder_stepper.setMaxSpeed(1000.0);
+    feeder_stepper.setSpeed(500.0);
 }
 
 void loop() {
@@ -159,5 +135,7 @@ void loop() {
             break;
         }
     }
-    stepSteppers();
+
+    conveyor_stepper.runSpeed();
+    feeder_stepper.runSpeed();
 }

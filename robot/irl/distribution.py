@@ -13,7 +13,7 @@ def openDoors(dm, bin, when:int):
         time.sleep(0.25)
         bin.servo.setAngle(135)
         time.sleep(wait)
-        dm.servo.setAngle(90)
+        dm.servo.setAngle(95)
         time.sleep(0.25)
         bin.servo.setAngle(170)
         time.sleep(0.25)

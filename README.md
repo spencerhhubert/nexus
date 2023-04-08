@@ -4,14 +4,14 @@ A machine that sorts LEGO®
 ![demo of lego sorting machine gif](https://github.com/spencerhhubert/nexus/blob/main/assets/nexus%20demo%202023-4-8%2003.gif?raw=true)
 
 ## Key features
-- Arbitrary Versaility
+- Arbitrary Versatility 
     - Dump in a pile of LEGO® pieces, ranging from 1x1 studs to 8x8 plates
     - Identify each piece as precisely what it is, BrickLink ID and color
     - Sort pieces according to not-annoying-to-setup user-defined "profiles"
         - Want to sort by BrickLink category? Want to sort by color? Something in between? All combinations are possible
 - Extensible
-    - Current architecutre supports expanding to over 900 bins with no changes to the overall design or electronics
-- Reproducable
+    - Current architecture supports expanding to over 900 bins with no changes to the overall design or electronics
+- Reproducible 
     - Primarily constructed 3D printable parts, 2020 aluminum extrusion, and affordable, easily obtained motors/electronics
 
 ![nexus lego sorting machine prototype 1 overview](https://raw.githubusercontent.com/spencerhhubert/nexus/main/assets/nexus_prototype0103.jpg)

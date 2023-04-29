@@ -20,6 +20,8 @@ A machine that sorts LEGO®
 ## The state of this project
 The Nexus is very much an alpha stage prototype. It is not yet a machine I would recommend anyone else try to build it. This will come in the future after more hardware and software bugs have been ironed out.
 
+I'm planning another big push for a beta prototype this ~June where the focus will be on improving mechanical reliability and more real-to-life renders of digital pieces for classification training.
+
 ## Future goals and todo
 - Make reliable
 - Rate >~1 piece/second

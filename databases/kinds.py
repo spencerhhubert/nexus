@@ -21,7 +21,7 @@ def makeEmptyKindTable(db_path:str):
             id TEXT PRIMARY KEY,
             name TEXT,
             characteristics TEXT,
-            alterate_ids TEXT
+            alternate_ids TEXT
         );
     """)
 
@@ -39,7 +39,7 @@ def updateKindTable(db_path:str, ldraw_parts_list_path:str, replace:bool=False):
             id TEXT PRIMARY KEY,
             name TEXT,
             characteristics TEXT,
-            alterate_ids TEXT
+            alternate_ids TEXT
         );
     """)
     conn.commit()
@@ -64,7 +64,7 @@ def updateKindTable(db_path:str, ldraw_parts_list_path:str, replace:bool=False):
                 part_info["alternate_no"] = ""
             bl_alternate_ids = part_info["alternate_no"].split(',')
             ids = list(set([ldraw_id] + [bl_primary_id] + bl_alternate_ids))
-            alterate_ids = json.dumps(ids)
+            alternate_ids = json.dumps(ids)
 
             name = part_info["name"]
 
@@ -79,12 +79,12 @@ def updateKindTable(db_path:str, ldraw_parts_list_path:str, replace:bool=False):
 
             if replace:
                 c.execute("""
-                    INSERT OR REPLACE INTO kinds (id, name, characteristics, alterate_ids) VALUES (?, ?, ?, ?);
-                """, (bl_primary_id, name, characteristics, alterate_ids))
+                    INSERT OR REPLACE INTO kinds (id, name, characteristics, alternate_ids) VALUES (?, ?, ?, ?);
+                """, (bl_primary_id, name, characteristics, alternate_ids))
             else:
                 c.execute("""
-                    INSERT OR IGNORE INTO kinds (id, name, characteristics, alterate_ids) VALUES (?, ?, ?, ?);
-                """, (bl_primary_id, name, characteristics, alterate_ids))
+                    INSERT OR IGNORE INTO kinds (id, name, characteristics, alternate_ids) VALUES (?, ?, ?, ?);
+                """, (bl_primary_id, name, characteristics, alternate_ids))
             conn.commit()
 
 def scrapePrimaryId(id:str) -> str:

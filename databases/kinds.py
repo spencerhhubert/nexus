@@ -19,6 +19,7 @@ def makeEmptyKindTable(db_path:str):
     c.execute("""
         CREATE TABLE kinds (
             id TEXT PRIMARY KEY,
+            ml_id INTEGER,
             name TEXT,
             characteristics TEXT,
             alternate_ids TEXT
@@ -37,6 +38,7 @@ def updateKindTable(db_path:str, ldraw_parts_list_path:str, replace:bool=False):
     c.execute("""
         CREATE TABLE IF NOT EXISTS kinds (
             id TEXT PRIMARY KEY,
+            ml_id INTEGER,
             name TEXT,
             characteristics TEXT,
             alternate_ids TEXT
@@ -74,17 +76,22 @@ def updateKindTable(db_path:str, ldraw_parts_list_path:str, replace:bool=False):
             characteristics = [category]
             characteristics = json.dumps(characteristics)
 
+            cur_max_ml_id = c.execute("SELECT MAX(ml_id) FROM kinds").fetchone()[0]
+            if cur_max_ml_id == None:
+                cur_max_ml_id = 0
+            ml_id = cur_max_ml_id + 1
+
             print(f"Inserting {name} into db")
             print(f"aka {line[1]}")
 
             if replace:
                 c.execute("""
-                    INSERT OR REPLACE INTO kinds (id, name, characteristics, alternate_ids) VALUES (?, ?, ?, ?);
-                """, (bl_primary_id, name, characteristics, alternate_ids))
+                    INSERT OR REPLACE INTO kinds (id, ml_id, name, characteristics, alternate_ids) VALUES (?, ?, ?, ?, ?);
+                """, (bl_primary_id, ml_id, name, characteristics, alternate_ids))
             else:
                 c.execute("""
-                    INSERT OR IGNORE INTO kinds (id, name, characteristics, alternate_ids) VALUES (?, ?, ?, ?);
-                """, (bl_primary_id, name, characteristics, alternate_ids))
+                    INSERT OR IGNORE INTO kinds (id, ml_id, name, characteristics, alternate_ids) VALUES (?, ?, ?, ?, ?);
+                """, (bl_primary_id, ml_id, name, characteristics, alternate_ids))
             conn.commit()
 
 def scrapePrimaryId(id:str) -> str:

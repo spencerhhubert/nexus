@@ -14,7 +14,7 @@ This will include all the slightly different versions of parts, every different 
 While LDraw is the primary source for what parts exist, this is really only because you can't actually see every part available on BrickLink. We default to BrickLink for other metadata, like names, categories, and alternate IDs, and perhaps other stuff in the future like pictures and weight.
 
 ## Kinds
-A kind is an abstract form a piece. Like 2x4 brick. It is not a realized piece, a real piece is a pair of `(kind, color)`. It has an ID, which is whatever the filename of its `.dat` in the parts library list file (a 2x4 brick has an ID `3001`), the name from the same file, and a list of manually added "characteristics", like `"['brick', '2 wide']".
+A kind is an abstract form a piece. Like 2x4 brick. It is not a realized piece, a real piece is a pair of `(kind, color)`. It has an ID, which is whatever the filename of its `.dat` in the parts library list file (a 2x4 brick has an ID `3001`), the name from the same file, and a list of manually added "characteristics", like `"['brick', '2 wide']", alternate ids (whatever BL lists), and a unique integer for the purposes of training. The primary key is a string, so we need a mapping from those to some integer.
 
 ## Colors
 Pretty self-explanatory. The `colors` table has colors, and a color has an `id` and a `name`. We use the ones from BrickLink.

@@ -78,7 +78,7 @@ def updateKindTable(db_path:str, ldraw_parts_list_path:str, replace:bool=False):
 
             cur_max_ml_id = c.execute("SELECT MAX(ml_id) FROM kinds").fetchone()[0]
             if cur_max_ml_id == None:
-                cur_max_ml_id = 0
+                cur_max_ml_id = 1
             ml_id = cur_max_ml_id + 1
 
             print(f"Inserting {name} into db")

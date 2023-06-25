@@ -4,6 +4,7 @@ import json
 from bricklink_auth import oauth
 import sqlite3 as sql
 from bs4 import BeautifulSoup
+import argparse
 
 def removeSpaceBeforeNumbers(s:str):
     s = list(s)
@@ -41,7 +42,8 @@ def updateKindTable(db_path:str, ldraw_parts_list_path:str, replace:bool=False):
             ml_id INTEGER,
             name TEXT,
             characteristics TEXT,
-            alternate_ids TEXT
+            alternate_ids TEXT,
+            dims TEXT
         );
     """)
     conn.commit()
@@ -69,6 +71,7 @@ def updateKindTable(db_path:str, ldraw_parts_list_path:str, replace:bool=False):
             alternate_ids = json.dumps(ids)
 
             name = part_info["name"]
+            dims = json.dumps(list(map(float, [part_info["dim_x"], part_info["dim_y"], part_info["dim_z"]])))
 
             category = part_info["category_id"]
             category = getCategory(category)
@@ -86,12 +89,12 @@ def updateKindTable(db_path:str, ldraw_parts_list_path:str, replace:bool=False):
 
             if replace:
                 c.execute("""
-                    INSERT OR REPLACE INTO kinds (id, ml_id, name, characteristics, alternate_ids) VALUES (?, ?, ?, ?, ?);
-                """, (bl_primary_id, ml_id, name, characteristics, alternate_ids))
+                    INSERT OR REPLACE INTO kinds (id, ml_id, name, characteristics, alternate_ids, dims) VALUES (?, ?, ?, ?, ?, ?);
+                """, (bl_primary_id, ml_id, name, characteristics, alternate_ids, dims))
             else:
                 c.execute("""
-                    INSERT OR IGNORE INTO kinds (id, ml_id, name, characteristics, alternate_ids) VALUES (?, ?, ?, ?, ?);
-                """, (bl_primary_id, ml_id, name, characteristics, alternate_ids))
+                    INSERT OR IGNORE INTO kinds (id, ml_id, name, characteristics, alternate_ids) VALUES (?, ?, ?, ?, ?, ?);
+                """, (bl_primary_id, ml_id, name, characteristics, alternate_ids, dims))
             conn.commit()
 
 def scrapePrimaryId(id:str) -> str:
@@ -176,7 +179,43 @@ def getCategory(id:str):
     response = requests.get(url, auth=oauth)
     return response.json()["data"]
 
+def justUpdateDims(db_path:str, rate_limit:int=4750):
+    conn = sql.connect(db_path)
+    c = conn.cursor()
+    c.execute("SELECT * FROM kinds;")
+    kinds = c.fetchall()
+    num_reqs = 0
+    for i, kind in enumerate(kinds):
+        bl_id = kind[0]
+        dims = kind[5]
+        if dims == None:
+            try:
+                data = getBLPartInfo(bl_id)
+                dims = json.dumps(list(map(float, [data["dim_x"], data["dim_y"], data["dim_z"]])))
+                c.execute("UPDATE kinds SET dims = ? WHERE id = ?", (dims, bl_id))
+                print(f"Updated dims for {bl_id}")
+                conn.commit()
+                num_reqs += 1
+                if num_reqs > rate_limit:
+                    print("Rate limit reached. Exiting")
+                    break
+            except Exception as e:
+                print(f"Failed to update dims for {bl_id}")
+                print(e)
+                continue
+        else:
+            print(f"Skipping {bl_id}")
+    conn.close()
+
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--justDims', action='store_true')
+    args = parser.parse_args()
+
+    if args.justDims:
+        justUpdateDims("pieces.db")
+        exit()
+
     db_path = "pieces.db"
     ldraw_parts_list_path = "/home/spencer/code/ldraw/mklist/parts.lst"
     updateKindTable(db_path, ldraw_parts_list_path, replace=True)

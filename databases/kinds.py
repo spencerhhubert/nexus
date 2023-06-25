@@ -170,8 +170,11 @@ def scrapePrimaryId(id:str) -> str:
 def getBLPartInfo(id:str):
     base = "https://api.bricklink.com/api/store/v1"
     path = f"/items/part/{id}"
-    response = requests.get(base+path, auth=oauth)
-    return response.json()["data"]
+    res = requests.get(base+path, auth=oauth)
+    out = res.json()
+    if "data" not in out:
+        out["data"] = None
+    return out["data"]
 
 def getCategory(id:str):
     base_url = "https://api.bricklink.com/api/store/v1"
@@ -188,21 +191,24 @@ def justUpdateDims(db_path:str, rate_limit:int=4750):
     for i, kind in enumerate(kinds):
         bl_id = kind[0]
         dims = kind[5]
+        alt_ids = json.loads(kind[3])
         if dims == None:
-            try:
-                data = getBLPartInfo(bl_id)
-                dims = json.dumps(list(map(float, [data["dim_x"], data["dim_y"], data["dim_z"]])))
-                c.execute("UPDATE kinds SET dims = ? WHERE id = ?", (dims, bl_id))
-                print(f"Updated dims for {bl_id}")
-                conn.commit()
-                num_reqs += 1
-                if num_reqs > rate_limit:
-                    print("Rate limit reached. Exiting")
-                    break
-            except Exception as e:
-                print(f"Failed to update dims for {bl_id}")
-                print(e)
-                continue
+            data = getBLPartInfo(bl_id)
+            if data == None:
+                altDatas = [getBLPartInfo(id) for id in alt_ids]
+                for altData in altDatas:
+                    if altData != None:
+                        data = altData
+                        break
+                    continue
+            dims = json.dumps(list(map(float, [data["dim_x"], data["dim_y"], data["dim_z"]])))
+            c.execute("UPDATE kinds SET dims = ? WHERE id = ?", (dims, bl_id))
+            print(f"Updated dims for {bl_id}")
+            conn.commit()
+            num_reqs += 1
+            if num_reqs > rate_limit:
+                print("Rate limit reached. Exiting")
+                break
         else:
             print(f"Skipping {bl_id}")
     conn.close()

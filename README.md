@@ -3,11 +3,9 @@ A machine that sorts LEGO®
 ![the nexus logo](https://github.com/spencerhhubert/nexus/blob/main/assets/nexus_logo_original_res_green.png)
 
 ## Contributing and Bounties
-The Nexus is not good yet. It's not reliable enough that I can legitmately use it, let alone suggest other people try to. We're totally open to PRs and collaboration, to get involved, join the Discord server for this project.
+The Nexus is not good yet. It's not reliable enough that I can legitmately use it, let alone suggest other people try to. We're totally open to PRs and collaboration, to get involved, join the [Discord server](https://discord.gg/N8FS2dN79p).
 
-<iframe src="https://discord.com/widget?id=1135394569668804689&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
-
-I'm also posting bounties to get the limiting problems solved. You should join the [Discord server](https://discord.gg/N8FS2dN79p) first and we can talk as long as need be about how to attack these problems. Work from the bounties will be open sourced in this repo with the goal of making a good open source LEGO® sorting machine.
+I'm also posting bounties to get the limiting problems solved. You should join the Discord first and we can talk as long as need be about how to attack these problems. Work from the bounties will be open sourced in this repo with the goal of making a good open source LEGO® sorting machine.
 #### Mechanical
 - Bigger and better feeder
     - $500

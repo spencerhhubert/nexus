@@ -1,10 +1,13 @@
 # The Nexus
 A machine that sorts LEGO®
+![the nexus logo](https://github.com/spencerhhubert/nexus/blob/main/assets/nexus_logo_original_res_green.png)
 
-![demo of lego sorting machine gif](https://github.com/spencerhhubert/nexus/blob/main/assets/nexus%20demo%202023-4-8%2003.gif?raw=true)
+## Contributing and Bounties
+The Nexus is not good yet. It's not reliable enough that I can legitmately use it, let alone suggest other people try to. We're totally open to PRs and collaboration, to get involved, join the Discord server for this project.
 
-## Bounties
-The Nexus is not good yet. It's not reliable enough that I can legitmately use it, let alone suggest other people try to. I'm posting bounties to get the limiting problems solved. You should [email me](mailto:him@spencerhubert.info) first and we can talk as long as need be about how to attack these problems. Work from the bounties will be open sourced in this repo with the goal of making a good open source LEGO® sorting machine.
+<iframe src="https://discord.com/widget?id=1135394569668804689&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+
+I'm also posting bounties to get the limiting problems solved. You should join the [Discord server](https://discord.gg/N8FS2dN79p) first and we can talk as long as need be about how to attack these problems. Work from the bounties will be open sourced in this repo with the goal of making a good open source LEGO® sorting machine.
 #### Mechanical
 - Bigger and better feeder
     - $500
@@ -26,6 +29,7 @@ none right now
 - Reproducible 
     - Primarily constructed 3D printable parts, 2020 aluminum extrusion, and affordable, easily obtained motors/electronics
 
+![demo of lego sorting machine gif](https://github.com/spencerhhubert/nexus/blob/main/assets/nexus%20demo%202023-4-8%2003.gif?raw=true)
 ![nexus lego sorting machine prototype 1 overview](https://raw.githubusercontent.com/spencerhhubert/nexus/main/assets/nexus_prototype0103.jpg)
 ![nexus lego sorting machine prototype 1 overview 2](https://raw.githubusercontent.com/spencerhhubert/nexus/main/assets/nexus_prototype0104.jpg)
 

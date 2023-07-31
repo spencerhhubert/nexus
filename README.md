@@ -3,6 +3,18 @@ A machine that sorts LEGO®
 
 ![demo of lego sorting machine gif](https://github.com/spencerhhubert/nexus/blob/main/assets/nexus%20demo%202023-4-8%2003.gif?raw=true)
 
+## Bounties
+The Nexus is not good yet. It's not reliable enough that I can legitmately use it, let alone suggest other people try to. I'm posting bounties to get the limiting problems solved. You should [email me](mailto:him@spencerhubert.info) first and we can talk as long as need be about how to attack these problems. Work from the bounties will be open sourced in this repo with the goal of making a good open source LEGO® sorting machine.
+#### Mechanical
+- Bigger and better feeder
+    - $500
+    - Requirements:
+        - the user can dump a bin of pieces between the sizes of a 1x1 round plate and an 8x8 plate into the feeder, and the feeder automatically gets those pieces onto the conveyor belt one-by-one at a rate under 0.2 pieces/second
+        - reliable enough that it can run for an hour without massive failure
+        - largely off the shelf parts or 3D printable
+#### Software
+none right now
+
 ## Key features
 - Arbitrary Versatility 
     - Dump in a pile of LEGO® pieces, ranging from 1x1 studs to 8x8 plates

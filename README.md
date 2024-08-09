@@ -2,18 +2,6 @@
 A machine that sorts LEGO®
 ![the nexus logo](https://github.com/spencerhhubert/nexus/blob/main/assets/nexus_logo_original_res_green.png)
 
-The Nexus is not good yet. It's not good enough to sort my collection, and I wouldn't recommend anyone try to build it yet.
-
-#### Mechanical
-- Bigger and better feeder
-    - $500
-    - Requirements:
-        - the user can dump a bin of pieces between the sizes of a 1x1 round plate and an 8x8 plate into the feeder, and the feeder automatically gets those pieces onto the conveyor belt one-by-one at a rate under 0.2 pieces/second
-        - reliable enough that it can run for an hour without massive failure
-        - largely off the shelf parts or 3D printable
-#### Software
-none right now
-
 ## Key features
 - Arbitrary Versatility 
     - Dump in a pile of LEGO® pieces, ranging from 1x1 studs to 8x8 plates
@@ -30,9 +18,7 @@ none right now
 ![nexus lego sorting machine prototype 1 overview 2](https://raw.githubusercontent.com/spencerhhubert/nexus/main/assets/nexus_prototype0104.jpg)
 
 ## The state of this project
-The Nexus is very much an alpha stage prototype. It is not yet a machine I would recommend anyone else try to build it. This will come in the future after more hardware and software bugs have been ironed out.
-
-I'm planning another big push for a beta prototype this ~June where the focus will be on improving mechanical reliability and more real-to-life renders of digital pieces for classification training.
+The Nexus is very much an alpha stage prototype. It is not yet a machine I would recommend anyone else try to build it. It's not even good enough to sort my own collection. This will come in the future after more hardware and software bugs have been ironed out.
 
 ## Future goals and todo
 - Make reliable

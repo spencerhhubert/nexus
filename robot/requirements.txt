@@ -1,3 +1,0 @@
-pyfirmata
-numpy
-opencv-python

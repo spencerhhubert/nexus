@@ -1,2 +1,0 @@
-import robot.identification.segmentation
-import robot.identification.brickognize

@@ -26,7 +26,6 @@ FirmataExt firmataExt;
 #include <Wire.h>
 #include <Adafruit_PWMServoDriver.h>
 #include <stdarg.h>
-// Removed ArduinoSTL and std::map
 #include <AccelStepper.h>
 
 uint16_t SevenBitToInt16(byte *bytes) {

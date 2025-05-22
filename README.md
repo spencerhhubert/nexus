@@ -32,3 +32,12 @@ It was at this point something was not working and I used the regular Arduino ID
 brew install arduino-ide
 ```
 and copy the `embedded/firmata/firmata.ino` into it
+
+## Setup Python
+[pyFirmata](https://github.com/tino/pyFirmata) needs to be installed from source, not pip.
+
+After that,
+```
+cd robot
+python -m pip install -r requirements.txt
+```

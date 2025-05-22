@@ -27,12 +27,12 @@ def buildIRLConfig() -> IRLConfig:
             {
                 "distance_from_camera": 45,
                 "num_bins": 4,
-                "controller_address": 0x40,
+                "controller_address": 0x41,
             },
             {
                 "distance_from_camera": 45+17,
                 "num_bins": 4,
-                "controller_address": 0x41,
+                "controller_address": 0x42,
             }
         ],
     }

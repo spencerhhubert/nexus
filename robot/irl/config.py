@@ -5,16 +5,20 @@ from typing import Dict, List, Tuple, TypedDict, NewType
 import os
 from robot.global_config import GlobalConfig
 
+
 class DistributionModuleConfig(TypedDict):
     distance_from_camera: int
     num_bins: int
     controller_address: int
 
+
 class IRLConfig(TypedDict):
     mc_path: str
     distribution_modules: List[DistributionModuleConfig]
 
+
 IRLSystemInterface = Tuple[Arduino, List[DistributionModule]]
+
 
 def buildIRLConfig() -> IRLConfig:
     mc_path = os.getenv("MC_PATH")
@@ -30,23 +34,26 @@ def buildIRLConfig() -> IRLConfig:
                 "controller_address": 0x41,
             },
             {
-                "distance_from_camera": 45+17,
+                "distance_from_camera": 45 + 17,
                 "num_bins": 4,
                 "controller_address": 0x42,
-            }
+            },
         ],
     }
 
 
-
-def buildIRLSystemInterface(config: IRLConfig, global_config: GlobalConfig) -> IRLSystemInterface:
+def buildIRLSystemInterface(
+    config: IRLConfig, global_config: GlobalConfig
+) -> IRLSystemInterface:
     mc = Arduino(config["mc_path"])
     debug_level = global_config["debug_level"]
     if debug_level > 0:
         it = util.Iterator(mc)
         it.start()
+
         def messageHandler(*args, **kwargs) -> None:
             print(util.two_byte_iter_to_str(args))
+
         mc.add_cmd_handler(pyfirmata.STRING_DATA, messageHandler)
 
     dms = []

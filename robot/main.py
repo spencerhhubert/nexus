@@ -3,15 +3,21 @@ from robot.irl.config import buildIRLSystemInterface, IRLSystemInterface, buildI
 from robot.irl.motors import Servo
 from robot.global_config import GlobalConfig, buildGlobalConfig
 
-def sweep_servo(servo: Servo, start_angle: int, end_angle: int, step: int, delay_ms: int) -> None:
+
+def sweep_servo(
+    servo: Servo, start_angle: int, end_angle: int, step: int, delay_ms: int
+) -> None:
     current_angle = start_angle
     direction = 1 if end_angle > start_angle else -1
     step = abs(step) * direction
 
-    while (direction > 0 and current_angle <= end_angle) or (direction < 0 and current_angle >= end_angle):
+    while (direction > 0 and current_angle <= end_angle) or (
+        direction < 0 and current_angle >= end_angle
+    ):
         servo.setAngle(current_angle)
         time.sleep(delay_ms / 1000)
         current_angle += step
+
 
 def run_sweep_demo() -> None:
     global_config = buildGlobalConfig()
@@ -50,6 +56,7 @@ def run_sweep_demo() -> None:
             dm.servo.setAngle(90)
             for bin in dm.bins:
                 bin.servo.setAngle(170)
+
 
 if __name__ == "__main__":
     run_sweep_demo()

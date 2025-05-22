@@ -44,3 +44,8 @@ ENV/
 *.swp
 *.swo
 *~
+
+example
+examples
+prompts
+notes

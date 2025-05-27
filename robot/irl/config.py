@@ -1,8 +1,10 @@
 from pyfirmata import ArduinoMega, util, pyfirmata
 from robot.irl.motors import PCA9685, Servo, DCMotor
 from robot.irl.distribution import Bin, DistributionModule
-from typing import Dict, List, Tuple, TypedDict, NewType
+from typing import Dict, List, Tuple, TypedDict, NewType, Optional
 import os
+import subprocess
+import re
 from robot.global_config import GlobalConfig
 
 
@@ -70,10 +72,66 @@ def buildIRLConfig() -> IRLConfig:
     }
 
 
+def discoverArduinoBoard() -> Optional[str]:
+    try:
+        result = subprocess.run(
+            ["arduino-cli", "board", "list"],
+            capture_output=True,
+            text=True,
+            check=True
+        )
+        
+        for line in result.stdout.split('\n'):
+            if "Arduino Mega" in line and "Serial Port (USB)" in line:
+                parts = line.split()
+                if parts:
+                    return parts[0]
+        
+        return None
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        return None
+
+
+def connectToArduino(mc_path: str, global_config: GlobalConfig) -> ArduinoMega:
+    debug_level = global_config["debug_level"]
+    auto_confirm = global_config["auto_confirm"]
+    
+    try:
+        if debug_level > 0:
+            print(f"Attempting to connect to Arduino at {mc_path}")
+        mc = ArduinoMega(mc_path)
+        return mc
+    except Exception as e:
+        if debug_level > 0:
+            print(f"Failed to connect to Arduino at {mc_path}: {e}")
+        
+        discovered_path = discoverArduinoBoard()
+        if discovered_path is None:
+            print(f"Failed to connect to Arduino at {mc_path} and could not discover any Arduino Mega boards")
+            raise e
+        
+        if not auto_confirm:
+            response = input(f"Failed to use board from environment at {mc_path}. Would you like to automatically try to use discovered board at {discovered_path}? (y/N): ")
+            if response.lower() not in ['y', 'yes']:
+                print("User declined to use discovered board")
+                raise e
+        
+        if debug_level > 0:
+            print(f"Attempting to connect to discovered Arduino at {discovered_path}")
+        
+        try:
+            mc = ArduinoMega(discovered_path)
+            print(f"Successfully connected to Arduino at {discovered_path}")
+            return mc
+        except Exception as discovery_error:
+            print(f"Failed to connect to discovered board at {discovered_path}: {discovery_error}")
+            raise e
+
+
 def buildIRLSystemInterface(
     config: IRLConfig, global_config: GlobalConfig
 ) -> IRLSystemInterface:
-    mc = ArduinoMega(config["mc_path"])
+    mc = connectToArduino(config["mc_path"], global_config)
     debug_level = global_config["debug_level"]
     if debug_level > 0:
         it = util.Iterator(mc)

@@ -1,5 +1,8 @@
 #!/bin/bash
 
+source .env
+source ../.env
+
 # Get the absolute path to the parent directory of the robot package
 PARENT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 

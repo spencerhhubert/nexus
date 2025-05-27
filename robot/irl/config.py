@@ -86,12 +86,13 @@ def buildIRLSystemInterface(
 
     dms = []
     for dm in config["distribution_modules"]:
-        servo_controller = PCA9685(mc, dm["controller_address"])
-        chute_servo = Servo(15, servo_controller)
-        bins = [Bin(Servo(i, servo_controller), "") for i in range(dm["num_bins"])]
-        dms.append(DistributionModule(chute_servo, dm["distance_from_camera"], bins))
+        servo_controller = PCA9685(global_config, mc, dm["controller_address"])
+        chute_servo = Servo(global_config, 15, servo_controller)
+        bins = [Bin(global_config, Servo(global_config, i, servo_controller), "") for i in range(dm["num_bins"])]
+        dms.append(DistributionModule(global_config, chute_servo, dm["distance_from_camera"], bins))
 
     main_conveyor_motor = DCMotor(
+        global_config,
         mc,
         config["main_conveyor_dc_motor"]["enable_pin"],
         config["main_conveyor_dc_motor"]["input_1_pin"],
@@ -99,6 +100,7 @@ def buildIRLSystemInterface(
     )
 
     feeder_conveyor_motor = DCMotor(
+        global_config,
         mc,
         config["feeder_conveyor_dc_motor"]["enable_pin"],
         config["feeder_conveyor_dc_motor"]["input_1_pin"],
@@ -106,6 +108,7 @@ def buildIRLSystemInterface(
     )
 
     vibration_hopper_motor = DCMotor(
+        global_config,
         mc,
         config["vibration_hopper_dc_motor"]["enable_pin"],
         config["vibration_hopper_dc_motor"]["input_1_pin"],

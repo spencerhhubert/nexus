@@ -20,13 +20,13 @@ def main() -> None:
         print(f"Running with debug level: {debug_level}")
 
     try:
-        print("Testing DC motors at speed 100...")
-        #main_conveyor_motor.setSpeed(100)
-        #feeder_conveyor_motor.setSpeed(100)
-        vibration_hopper_motor.setSpeed(255)
-
+        print("Setting all motors to speed 100...")
+        main_conveyor_motor.setSpeed(100)
+        feeder_conveyor_motor.setSpeed(100)
+        vibration_hopper_motor.setSpeed(100)
+        
         while True:
-            time.sleep(1000)
+            time.sleep(1)
     except KeyboardInterrupt:
         print("Stopping motors...")
         main_conveyor_motor.setSpeed(0)

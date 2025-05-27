@@ -36,6 +36,13 @@ uint16_t SevenBitToInt16(byte *bytes) {
 #define MAKE_BOARD 0x07
 #define MOVE_SERVO_TO_ANGLE 0x08
 
+//Digital Pin Controller SysEx commands
+#define DIGITAL_PIN 0x02 //identifier for all digital pin commands
+//subcommands  
+#define SET_PIN_MODE_DIGITAL 0x01
+#define WRITE_DIGITAL_PIN 0x02
+#define WRITE_PWM_PIN 0x03
+
 #define SERVOMIN  100
 #define SERVOMAX  477
 #define SERVO_FREQ 50
@@ -125,6 +132,35 @@ void parsePwmServoCommand(byte command, byte argc, byte *argv) {
     }
 }
 
+void setPinModeDigital(byte pin, byte mode) {
+    pinMode(pin, mode);
+}
+
+void writeDigitalPin(byte pin, byte value) {
+    digitalWrite(pin, value);
+}
+
+void writePwmPin(byte pin, byte value) {
+    analogWrite(pin, value);
+}
+
+void parseDigitalPinCommand(byte command, byte argc, byte *argv) {
+    switch (command) {
+        case SET_PIN_MODE_DIGITAL: {
+            setPinModeDigital(argv[0], argv[1]);
+            break;
+        }
+        case WRITE_DIGITAL_PIN: {
+            writeDigitalPin(argv[0], argv[1]);
+            break;
+        }
+        case WRITE_PWM_PIN: {
+            writePwmPin(argv[0], argv[1]);
+            break;
+        }
+    }
+}
+
 
 
 void systemResetCallback() {
@@ -143,8 +179,15 @@ void sysexCallback(byte command, byte argc, byte *argv) {
         case PWM_SERVO:
             parsePwmServoCommand(argv[0], argc-1, argv+1);
         break;
+        case DIGITAL_PIN:
+            parseDigitalPinCommand(argv[0], argc-1, argv+1);
+        break;
     }
 }
+
+
+
+
 
 void initFirmata() {
     Firmata.setFirmwareNameAndVersion("ConfigurableFirmata", FIRMATA_FIRMWARE_MAJOR_VERSION, FIRMATA_FIRMWARE_MINOR_VERSION);
@@ -156,6 +199,7 @@ void initFirmata() {
     firmataExt.addFeature(serial);
     Firmata.attach(SYSTEM_RESET, systemResetCallback);
     Firmata.attach(START_SYSEX, sysexCallback);
+
 }
 
 
@@ -168,6 +212,8 @@ void setup() {
 
     // Initialize our pwm_boards array
     initPwmBoards();
+
+    Firmata.sendString(F("Setup complete. Ready for commands."));
 }
 
 void loop() {
@@ -177,5 +223,4 @@ void loop() {
             break;
         }
     }
-
 }

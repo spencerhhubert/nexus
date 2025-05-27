@@ -11,5 +11,4 @@ sudo arduino-cli lib install --git-url https://github.com/adafruit/Adafruit-PWM-
 #sudo arduino-cli lib install --git-url https://github.com/firmata/ConfigurableFirmata
 sudo arduino-cli lib install --git-url https://github.com/spencerhhubert/ConfigurableFirmata
 sudo arduino-cli lib install ArduinoSTL
-sudo arduino-cli lib install --git-url https://github.com/waspinator/AccelStepper
 #sudo arduino-cli compile --fqbn arduino:avr:nano

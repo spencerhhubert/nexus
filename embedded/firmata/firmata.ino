@@ -26,7 +26,6 @@ FirmataExt firmataExt;
 #include <Wire.h>
 #include <Adafruit_PWMServoDriver.h>
 #include <stdarg.h>
-#include <AccelStepper.h>
 
 uint16_t SevenBitToInt16(byte *bytes) {
     return (bytes[0] & 0x7F) | ((bytes[1] & 0x7F) << 7);
@@ -126,8 +125,7 @@ void parsePwmServoCommand(byte command, byte argc, byte *argv) {
     }
 }
 
-#define RUN_STEPPERS 0x02
-bool run_steppers = false;
+
 
 void systemResetCallback() {
     for (byte i = 0; i < TOTAL_PINS; i++) {
@@ -145,8 +143,6 @@ void sysexCallback(byte command, byte argc, byte *argv) {
         case PWM_SERVO:
             parsePwmServoCommand(argv[0], argc-1, argv+1);
         break;
-        case RUN_STEPPERS:
-            run_steppers = true;
     }
 }
 
@@ -162,13 +158,7 @@ void initFirmata() {
     Firmata.attach(START_SYSEX, sysexCallback);
 }
 
-#define conveyor_step_pin 3
-#define conveyor_dir_pin 2
-#define feeder_step_pin 6
-#define feeder_dir_pin 4
 
-AccelStepper conveyor_stepper(AccelStepper::DRIVER, conveyor_step_pin, conveyor_dir_pin);
-AccelStepper feeder_stepper(AccelStepper::DRIVER, feeder_step_pin, feeder_dir_pin);
 
 void setup() {
     Firmata.begin(57600);
@@ -178,13 +168,6 @@ void setup() {
 
     // Initialize our pwm_boards array
     initPwmBoards();
-
-    //currently set to run at 1/2 step
-    conveyor_stepper.setMaxSpeed(1000.0);
-    conveyor_stepper.setSpeed(600.0);
-
-    feeder_stepper.setMaxSpeed(1000.0);
-    feeder_stepper.setSpeed(500.0);
 }
 
 void loop() {
@@ -194,8 +177,5 @@ void loop() {
             break;
         }
     }
-    if (run_steppers) {
-        conveyor_stepper.runSpeed();
-        feeder_stepper.runSpeed();
-    }
+
 }

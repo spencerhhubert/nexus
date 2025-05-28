@@ -41,3 +41,6 @@ After that,
 cd robot
 python -m pip install -r requirements.txt
 ```
+
+## Camera
+Right now I'm using the "Logitech BRIO" or "Logitech Pro 4k Webcam". It seems like the only way I can control the focus is through their G HUB software, so I manually set the focus there before running everything. Such is life until a new camera.

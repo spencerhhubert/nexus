@@ -33,12 +33,12 @@ def main() -> None:
             print(f"Captured frame saved as {filename}")
         else:
             print("Failed to capture frame")
-        
+
         print("Setting all motors to speed 100...")
         main_conveyor_motor.setSpeed(100)
         feeder_conveyor_motor.setSpeed(100)
         vibration_hopper_motor.setSpeed(100)
-        
+
         while True:
             time.sleep(1)
     except KeyboardInterrupt:

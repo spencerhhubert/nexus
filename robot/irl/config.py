@@ -1,6 +1,7 @@
 from pyfirmata import ArduinoMega, util, pyfirmata
 from robot.irl.motors import PCA9685, Servo, DCMotor
 from robot.irl.distribution import Bin, DistributionModule
+from robot.irl.camera import Camera, connectToCamera
 from typing import Dict, List, Tuple, TypedDict, NewType, Optional
 import os
 import subprocess
@@ -19,12 +20,23 @@ class DCMotorConfig(TypedDict):
     input_2_pin: int
 
 
+class MainCameraConfig(TypedDict):
+    device_index: int
+    width: int
+    height: int
+    fps: int
+
+
+
+
+
 class IRLConfig(TypedDict):
     mc_path: str
     distribution_modules: List[DistributionModuleConfig]
     main_conveyor_dc_motor: DCMotorConfig
     feeder_conveyor_dc_motor: DCMotorConfig
     vibration_hopper_dc_motor: DCMotorConfig
+    main_camera: MainCameraConfig
 
 
 class IRLSystemInterface(TypedDict):
@@ -33,15 +45,26 @@ class IRLSystemInterface(TypedDict):
     main_conveyor_dc_motor: DCMotor
     feeder_conveyor_dc_motor: DCMotor
     vibration_hopper_dc_motor: DCMotor
+    main_camera: Camera
 
 
 def buildIRLConfig() -> IRLConfig:
     mc_path = os.getenv("MC_PATH")
     if mc_path is None:
         raise ValueError("MC_PATH environment variable must be set")
+    
+    camera_index = os.getenv("CAMERA_INDEX")
+    if camera_index is None:
+        raise ValueError("CAMERA_INDEX environment variable must be set")
 
     return {
         "mc_path": mc_path,
+        "main_camera": {
+            "device_index": int(camera_index),
+            "width": 1920,
+            "height": 1080,
+            "fps": 30,
+        },
         "distribution_modules": [
             {
                 "distance_from_camera": 45,
@@ -173,10 +196,19 @@ def buildIRLSystemInterface(
         config["vibration_hopper_dc_motor"]["input_2_pin"]
     )
 
+    main_camera = connectToCamera(
+        config["main_camera"]["device_index"],
+        global_config,
+        config["main_camera"]["width"],
+        config["main_camera"]["height"],
+        config["main_camera"]["fps"]
+    )
+
     return {
         "arduino": mc,
         "distribution_modules": dms,
         "main_conveyor_dc_motor": main_conveyor_motor,
         "feeder_conveyor_dc_motor": feeder_conveyor_motor,
-        "vibration_hopper_dc_motor": vibration_hopper_motor
+        "vibration_hopper_dc_motor": vibration_hopper_motor,
+        "main_camera": main_camera
     }

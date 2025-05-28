@@ -28,7 +28,7 @@ def main() -> None:
         frame = main_camera.captureFrame()
         if frame is not None:
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-            filename = f"camera_test_{timestamp}.jpg"
+            filename = f"tmp/camera_test_{timestamp}.jpg"
             cv2.imwrite(filename, frame)
             print(f"Captured frame saved as {filename}")
         else:

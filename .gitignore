@@ -50,3 +50,7 @@ examples
 prompts
 notes
 logs
+
+*camera_test*
+test.py
+test*.py

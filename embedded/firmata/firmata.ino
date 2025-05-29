@@ -92,24 +92,36 @@ int angleToPulse(int angle) {
 }
 
 void makeBoard(byte addr) {
+    char debugMsg[80];
+    sprintf(debugMsg, "makeBoard: addr=0x%02X", addr);
+    Firmata.sendString(STRING_DATA, debugMsg);
+    
     int idx = findBoardIndex(addr);
     if (idx >= 0) {
-        // Board already exists, nothing to do
+        Firmata.sendString(STRING_DATA, "Board already exists");
         return;
     }
 
     idx = findEmptyBoardSlot();
     if (idx < 0) {
-        // No space for new board
+        Firmata.sendString(STRING_DATA, "No space for new board");
         return;
     }
 
     pwm_boards[idx].addr = addr;
     pwm_boards[idx].active = true;
     pwm_boards[idx].driver = Adafruit_PWMServoDriver(addr);
+    
+    Firmata.sendString(STRING_DATA, "Calling driver.begin()");
     pwm_boards[idx].driver.begin();
+    
+    Firmata.sendString(STRING_DATA, "Setting oscillator frequency");
     pwm_boards[idx].driver.setOscillatorFrequency(27000000);
+    
+    Firmata.sendString(STRING_DATA, "Setting PWM frequency");
     pwm_boards[idx].driver.setPWMFreq(SERVO_FREQ);
+    
+    Firmata.sendString(STRING_DATA, "makeBoard completed successfully");
 }
 
 void moveServoToAngle(byte addr, byte channel, uint16_t angle) {

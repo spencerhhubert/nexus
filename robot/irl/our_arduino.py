@@ -7,7 +7,7 @@ from robot.global_config import GlobalConfig
 
 
 class OurArduinoMega(ArduinoMega):
-    def __init__(self, gc: GlobalConfig, port: str, command_delay_ms: int = 100):
+    def __init__(self, gc: GlobalConfig, port: str, command_delay_ms: int):
         super().__init__(port)
         self.gc = gc
         self.command_delay_ms = command_delay_ms / 1000.0

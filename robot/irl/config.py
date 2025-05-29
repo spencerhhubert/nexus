@@ -78,6 +78,11 @@ def buildIRLConfig() -> IRLConfig:
                 "num_bins": 4,
                 "controller_address": 0x42,
             },
+            {
+                "distance_from_camera": 45 + 17*2,
+                "num_bins": 4,
+                "controller_address": 0x40,
+            },
         ],
         "vibration_hopper_dc_motor": {
             "enable_pin": 3,
@@ -123,7 +128,7 @@ def connectToArduino(mc_path: str, gc: GlobalConfig) -> OurArduinoMega:
 
     try:
         logger.info(f"Attempting to connect to Arduino at {mc_path}")
-        mc = OurArduinoMega(gc, mc_path)
+        mc = OurArduinoMega(gc, mc_path, 10)
         return mc
     except Exception as e:
         logger.error(f"Failed to connect to Arduino at {mc_path}: {e}")
@@ -142,7 +147,7 @@ def connectToArduino(mc_path: str, gc: GlobalConfig) -> OurArduinoMega:
         logger.info(f"Attempting to connect to discovered Arduino at {discovered_path}")
 
         try:
-            mc = OurArduinoMega(gc, discovered_path)
+            mc = OurArduinoMega(gc, discovered_path, 10)
             logger.info(f"Successfully connected to Arduino at {discovered_path}")
             return mc
         except Exception as discovery_error:
@@ -167,10 +172,10 @@ def buildIRLSystemInterface(
     dms = []
     for dm in config["distribution_modules"]:
         servo_controller = PCA9685(gc, mc, dm["controller_address"])
+        break
         chute_servo = Servo(gc, 15, servo_controller)
         bins = [Bin(gc, Servo(gc, i, servo_controller), "") for i in range(dm["num_bins"])]
         dms.append(DistributionModule(gc, chute_servo, dm["distance_from_camera"], bins))
-        break
 
     main_conveyor_motor = DCMotor(
         gc,

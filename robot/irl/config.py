@@ -1,4 +1,6 @@
-from pyfirmata import ArduinoMega, util, pyfirmata
+from cv2.gapi import video
+from pyfirmata import util, pyfirmata
+from robot.irl.our_arduino import OurArduinoMega
 from robot.irl.motors import PCA9685, Servo, DCMotor
 from robot.irl.distribution import Bin, DistributionModule
 from robot.irl.camera import Camera, connectToCamera
@@ -40,7 +42,7 @@ class IRLConfig(TypedDict):
 
 
 class IRLSystemInterface(TypedDict):
-    arduino: ArduinoMega
+    arduino: OurArduinoMega
     distribution_modules: List[DistributionModule]
     main_conveyor_dc_motor: DCMotor
     feeder_conveyor_dc_motor: DCMotor
@@ -52,7 +54,7 @@ def buildIRLConfig() -> IRLConfig:
     mc_path = os.getenv("MC_PATH")
     if mc_path is None:
         raise ValueError("MC_PATH environment variable must be set")
-    
+
     camera_index = os.getenv("CAMERA_INDEX")
     if camera_index is None:
         raise ValueError("CAMERA_INDEX environment variable must be set")
@@ -61,8 +63,8 @@ def buildIRLConfig() -> IRLConfig:
         "mc_path": mc_path,
         "main_camera": {
             "device_index": int(camera_index),
-            "width": 1920,
-            "height": 1080,
+            "width": 3840,
+            "height": 2160,
             "fps": 30,
         },
         "distribution_modules": [
@@ -77,17 +79,17 @@ def buildIRLConfig() -> IRLConfig:
                 "controller_address": 0x42,
             },
         ],
-        "main_conveyor_dc_motor": {
+        "vibration_hopper_dc_motor": {
             "enable_pin": 3,
             "input_1_pin": 22,
             "input_2_pin": 24,
         },
-        "feeder_conveyor_dc_motor": {
+        "main_conveyor_dc_motor": {
             "enable_pin": 5,
             "input_1_pin": 26,
             "input_2_pin": 28,
         },
-        "vibration_hopper_dc_motor": {
+        "feeder_conveyor_dc_motor": {
             "enable_pin": 6,
             "input_1_pin": 30,
             "input_2_pin": 32,
@@ -103,93 +105,93 @@ def discoverArduinoBoard() -> Optional[str]:
             text=True,
             check=True
         )
-        
+
         for line in result.stdout.split('\n'):
             if "Arduino Mega" in line and "Serial Port (USB)" in line:
                 parts = line.split()
                 if parts:
                     return parts[0]
-        
+
         return None
     except (subprocess.CalledProcessError, FileNotFoundError):
         return None
 
 
-def connectToArduino(mc_path: str, global_config: GlobalConfig) -> ArduinoMega:
-    debug_level = global_config["debug_level"]
-    auto_confirm = global_config["auto_confirm"]
-    
+def connectToArduino(mc_path: str, gc: GlobalConfig) -> OurArduinoMega:
+    logger = gc["logger"]
+    auto_confirm = gc["auto_confirm"]
+
     try:
-        if debug_level > 0:
-            print(f"Attempting to connect to Arduino at {mc_path}")
-        mc = ArduinoMega(mc_path)
+        logger.info(f"Attempting to connect to Arduino at {mc_path}")
+        mc = OurArduinoMega(gc, mc_path)
         return mc
     except Exception as e:
-        if debug_level > 0:
-            print(f"Failed to connect to Arduino at {mc_path}: {e}")
-        
+        logger.error(f"Failed to connect to Arduino at {mc_path}: {e}")
+
         discovered_path = discoverArduinoBoard()
         if discovered_path is None:
-            print(f"Failed to connect to Arduino at {mc_path} and could not discover any Arduino Mega boards")
+            logger.error(f"Failed to connect to Arduino at {mc_path} and could not discover any Arduino Mega boards")
             raise e
-        
+
         if not auto_confirm:
             response = input(f"Failed to use board from environment at {mc_path}. Would you like to automatically try to use discovered board at {discovered_path}? (y/N): ")
             if response.lower() not in ['y', 'yes']:
-                print("User declined to use discovered board")
+                logger.warning("User declined to use discovered board")
                 raise e
-        
-        if debug_level > 0:
-            print(f"Attempting to connect to discovered Arduino at {discovered_path}")
-        
+
+        logger.info(f"Attempting to connect to discovered Arduino at {discovered_path}")
+
         try:
-            mc = ArduinoMega(discovered_path)
-            print(f"Successfully connected to Arduino at {discovered_path}")
+            mc = OurArduinoMega(gc, discovered_path)
+            logger.info(f"Successfully connected to Arduino at {discovered_path}")
             return mc
         except Exception as discovery_error:
-            print(f"Failed to connect to discovered board at {discovered_path}: {discovery_error}")
+            logger.error(f"Failed to connect to discovered board at {discovered_path}: {discovery_error}")
             raise e
 
 
 def buildIRLSystemInterface(
-    config: IRLConfig, global_config: GlobalConfig
+    config: IRLConfig, gc: GlobalConfig
 ) -> IRLSystemInterface:
-    mc = connectToArduino(config["mc_path"], global_config)
-    debug_level = global_config["debug_level"]
-    if debug_level > 0:
+    mc = connectToArduino(config["mc_path"], gc)
+    logger = gc["logger"]
+    if gc["debug_level"] > 0:
         it = util.Iterator(mc)
         it.start()
 
         def messageHandler(*args, **kwargs) -> None:
-            print(util.two_byte_iter_to_str(args))
+            logger.info(util.two_byte_iter_to_str(args))
 
         mc.add_cmd_handler(pyfirmata.STRING_DATA, messageHandler)
 
     dms = []
     for dm in config["distribution_modules"]:
-        servo_controller = PCA9685(global_config, mc, dm["controller_address"])
-        chute_servo = Servo(global_config, 15, servo_controller)
-        bins = [Bin(global_config, Servo(global_config, i, servo_controller), "") for i in range(dm["num_bins"])]
-        dms.append(DistributionModule(global_config, chute_servo, dm["distance_from_camera"], bins))
+        servo_controller = PCA9685(gc, mc, dm["controller_address"])
+        chute_servo = Servo(gc, 15, servo_controller)
+        bins = [Bin(gc, Servo(gc, i, servo_controller), "") for i in range(dm["num_bins"])]
+        dms.append(DistributionModule(gc, chute_servo, dm["distance_from_camera"], bins))
+        break
 
     main_conveyor_motor = DCMotor(
-        global_config,
+        gc,
         mc,
         config["main_conveyor_dc_motor"]["enable_pin"],
         config["main_conveyor_dc_motor"]["input_1_pin"],
         config["main_conveyor_dc_motor"]["input_2_pin"]
     )
 
+
     feeder_conveyor_motor = DCMotor(
-        global_config,
+        gc,
         mc,
         config["feeder_conveyor_dc_motor"]["enable_pin"],
         config["feeder_conveyor_dc_motor"]["input_1_pin"],
         config["feeder_conveyor_dc_motor"]["input_2_pin"]
     )
 
+
     vibration_hopper_motor = DCMotor(
-        global_config,
+        gc,
         mc,
         config["vibration_hopper_dc_motor"]["enable_pin"],
         config["vibration_hopper_dc_motor"]["input_1_pin"],
@@ -198,7 +200,7 @@ def buildIRLSystemInterface(
 
     main_camera = connectToCamera(
         config["main_camera"]["device_index"],
-        global_config,
+        gc,
         config["main_camera"]["width"],
         config["main_camera"]["height"],
         config["main_camera"]["fps"]

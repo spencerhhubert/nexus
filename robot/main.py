@@ -8,9 +8,9 @@ from robot.global_config import GlobalConfig, buildGlobalConfig
 
 
 def main() -> None:
-    global_config = buildGlobalConfig()
+    gc = buildGlobalConfig()
     irl_config = buildIRLConfig()
-    system: IRLSystemInterface = buildIRLSystemInterface(irl_config, global_config)
+    system: IRLSystemInterface = buildIRLSystemInterface(irl_config, gc)
 
     arduino = system["arduino"]
     distribution_modules = system["distribution_modules"]
@@ -19,33 +19,36 @@ def main() -> None:
     vibration_hopper_motor = system["vibration_hopper_dc_motor"]
     main_camera = system["main_camera"]
 
-    debug_level = global_config["debug_level"]
-    if debug_level > 0:
-        print(f"Running with debug level: {debug_level}")
+    logger = gc["logger"]
+    logger.info(f"Running with debug level: {gc['debug_level']}")
+    logger.info("Waiting for Arduino responses...")
 
     try:
-        print("Testing camera...")
-        frame = main_camera.captureFrame()
-        if frame is not None:
-            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-            filename = f"tmp/camera_test_{timestamp}.jpg"
-            cv2.imwrite(filename, frame)
-            print(f"Captured frame saved as {filename}")
-        else:
-            print("Failed to capture frame")
+        if False:
+            logger.info("Testing camera...")
+            frame = main_camera.captureFrame()
+            if frame is not None:
+                timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+                filename = f"tmp/camera_test_{timestamp}.jpg"
+                cv2.imwrite(filename, frame)
+                logger.info(f"Captured frame saved as {filename}")
+            else:
+                logger.error("Failed to capture frame")
 
-        print("Setting all motors to speed 100...")
-        main_conveyor_motor.setSpeed(100)
+        logger.info("Setting all motors...")
+        main_conveyor_motor.setSpeed(50)
         feeder_conveyor_motor.setSpeed(100)
-        vibration_hopper_motor.setSpeed(100)
+        vibration_hopper_motor.setSpeed(65)
 
         while True:
             time.sleep(1)
     except KeyboardInterrupt:
-        print("Stopping motors...")
+        logger.info("Stopping motors...")
         main_conveyor_motor.setSpeed(0)
         feeder_conveyor_motor.setSpeed(0)
         vibration_hopper_motor.setSpeed(0)
+        arduino.flush()
+        arduino.close()
         main_camera.release()
 
 

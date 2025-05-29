@@ -37,7 +37,7 @@ uint16_t SevenBitToInt16(byte *bytes) {
 #define MOVE_SERVO_TO_ANGLE 0x08
 
 //Digital Pin Controller SysEx commands
-#define DIGITAL_PIN 0x02 //identifier for all digital pin commands
+#define DIGITAL_PIN 0x03 //identifier for all digital pin commands
 //subcommands  
 #define SET_PIN_MODE_DIGITAL 0x01
 #define WRITE_DIGITAL_PIN 0x02
@@ -133,29 +133,53 @@ void parsePwmServoCommand(byte command, byte argc, byte *argv) {
 }
 
 void setPinModeDigital(byte pin, byte mode) {
+    char debugMsg[50];
+    sprintf(debugMsg, "Pin mode: pin=%d, mode=%d", pin, mode);
+    Firmata.sendString(STRING_DATA, debugMsg);
+    
     pinMode(pin, mode);
 }
 
 void writeDigitalPin(byte pin, byte value) {
+    char debugMsg[50];
+    sprintf(debugMsg, "Digital write: pin=%d, value=%d", pin, value);
+    Firmata.sendString(STRING_DATA, debugMsg);
+    
     digitalWrite(pin, value);
 }
 
 void writePwmPin(byte pin, byte value) {
+    char debugMsg[50];
+    sprintf(debugMsg, "PWM write: pin=%d, value=%d", pin, value);
+    Firmata.sendString(STRING_DATA, debugMsg);
+    
     analogWrite(pin, value);
 }
 
 void parseDigitalPinCommand(byte command, byte argc, byte *argv) {
+    char debugMsg[80];
+    sprintf(debugMsg, "Digital cmd: %d, argc: %d", command, argc);
+    Firmata.sendString(STRING_DATA, debugMsg);
+    
     switch (command) {
         case SET_PIN_MODE_DIGITAL: {
+            Firmata.sendString(STRING_DATA, "SET_PIN_MODE_DIGITAL");
             setPinModeDigital(argv[0], argv[1]);
             break;
         }
         case WRITE_DIGITAL_PIN: {
+            Firmata.sendString(STRING_DATA, "WRITE_DIGITAL_PIN");
             writeDigitalPin(argv[0], argv[1]);
             break;
         }
         case WRITE_PWM_PIN: {
+            Firmata.sendString(STRING_DATA, "WRITE_PWM_PIN");
             writePwmPin(argv[0], argv[1]);
+            break;
+        }
+        default: {
+            sprintf(debugMsg, "Unknown digital cmd: %d", command);
+            Firmata.sendString(STRING_DATA, debugMsg);
             break;
         }
     }
@@ -175,12 +199,36 @@ void systemResetCallback() {
 }
 
 void sysexCallback(byte command, byte argc, byte *argv) {
+    char debugMsg[80];
+    sprintf(debugMsg, "Sysex cmd: 0x%02X, argc=%d", command, argc);
+    Firmata.sendString(STRING_DATA, debugMsg);
+    
+    // Print argv contents for debugging
+    if (argc > 0) {
+        sprintf(debugMsg, "Argv[0]: %d", argv[0]);
+        Firmata.sendString(STRING_DATA, debugMsg);
+    }
+    if (argc > 1) {
+        sprintf(debugMsg, "Argv[1]: %d", argv[1]);
+        Firmata.sendString(STRING_DATA, debugMsg);
+    }
+    if (argc > 2) {
+        sprintf(debugMsg, "Argv[2]: %d", argv[2]);
+        Firmata.sendString(STRING_DATA, debugMsg);
+    }
+    
     switch (command) {
         case PWM_SERVO:
+            Firmata.sendString(STRING_DATA, "Processing PWM_SERVO");
             parsePwmServoCommand(argv[0], argc-1, argv+1);
         break;
         case DIGITAL_PIN:
+            Firmata.sendString(STRING_DATA, "Processing DIGITAL_PIN");
             parseDigitalPinCommand(argv[0], argc-1, argv+1);
+        break;
+        default:
+            sprintf(debugMsg, "Unknown sysex command: 0x%02X", command);
+            Firmata.sendString(STRING_DATA, debugMsg);
         break;
     }
 }
@@ -218,6 +266,7 @@ void setup() {
 
 void loop() {
     while(Firmata.available()) { //only runs if message in buffer
+        Firmata.sendString(STRING_DATA, "Firmata command received");
         Firmata.processInput();
         if (!Firmata.isParsingMessage()) {
             break;

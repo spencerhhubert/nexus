@@ -54,3 +54,5 @@ logs
 *camera_test*
 test.py
 test*.py
+
+testing/*

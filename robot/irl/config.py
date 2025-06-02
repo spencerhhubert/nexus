@@ -170,12 +170,11 @@ def buildIRLSystemInterface(
         mc.add_cmd_handler(pyfirmata.STRING_DATA, messageHandler)
 
     dms = []
-    for dm in config["distribution_modules"]:
+    for distribution_module_idx, dm in enumerate(config["distribution_modules"]):
         servo_controller = PCA9685(gc, mc, dm["controller_address"])
-        break
         chute_servo = Servo(gc, 15, servo_controller)
-        bins = [Bin(gc, Servo(gc, i, servo_controller), "") for i in range(dm["num_bins"])]
-        dms.append(DistributionModule(gc, chute_servo, dm["distance_from_camera"], bins))
+        bins = [Bin(gc, Servo(gc, i, servo_controller), "", i) for i in range(dm["num_bins"])]
+        dms.append(DistributionModule(gc, chute_servo, dm["distance_from_camera"], bins, distribution_module_idx))
 
     main_conveyor_motor = DCMotor(
         gc,

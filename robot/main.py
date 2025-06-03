@@ -5,7 +5,7 @@ from datetime import datetime
 from robot.irl.config import buildIRLSystemInterface, IRLSystemInterface, buildIRLConfig
 from robot.irl.motors import Servo, DCMotor
 from robot.global_config import GlobalConfig, buildGlobalConfig
-from robot.controller import createSortingController
+from robot.controller import SortingController
 
 
 def main() -> None:
@@ -16,7 +16,7 @@ def main() -> None:
     logger = gc["logger"]
     logger.info(f"Running with debug level: {gc['debug_level']}")
 
-    sorting_controller = createSortingController(
+    sorting_controller = SortingController(
         gc, system, irl_config["distribution_modules"]
     )
 

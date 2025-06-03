@@ -479,11 +479,3 @@ class SortingController:
         for line in s.getvalue().split("\n")[:25]:  # Log first 25 lines
             if line.strip():
                 self.global_config["logger"].info(line)
-
-
-def createSortingController(
-    global_config: GlobalConfig,
-    irl_system: IRLSystemInterface,
-    distribution_module_configs: List[DistributionModuleConfig],
-) -> SortingController:
-    return SortingController(global_config, irl_system, distribution_module_configs)

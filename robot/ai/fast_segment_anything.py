@@ -313,18 +313,12 @@ def postProcessMasks(
 
 
 def _segmentFrame(
-    frame: np.ndarray, global_config: GlobalConfig
+    frame: np.ndarray, model: FastSAM, global_config: GlobalConfig
 ) -> List[Dict[str, Any]]:
-    model = FastSAM(global_config["fastsam_weights"])
-
     device = global_config["tensor_device"]
 
-    os.makedirs(".tmp", exist_ok=True)
-    temp_path = ".tmp/temp_frame.jpg"
-    cv2.imwrite(temp_path, frame)
-
-    everything_results = model(temp_path, device=device, **FASTSAM_CONFIG)
-    prompt_process = FastSAMPrompt(temp_path, everything_results, device=device)
+    everything_results = model(frame, device=device, **FASTSAM_CONFIG)
+    prompt_process = FastSAMPrompt(frame, everything_results, device=device)
     ann = prompt_process.everything_prompt()
 
     processed_groups: List[Dict[str, Any]] = []
@@ -333,5 +327,4 @@ def _segmentFrame(
         image_height, image_width = ann_tensor.shape[1], ann_tensor.shape[2]
         processed_groups = postProcessMasks(ann_tensor, image_height, image_width)
 
-    os.remove(temp_path)
     return processed_groups

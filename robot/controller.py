@@ -1,11 +1,16 @@
 import time
 import numpy as np
 import uuid
+import cProfile
+import pstats
+import io
+import os
 from typing import List, Optional, Dict, Any
 from enum import Enum
 from robot.global_config import GlobalConfig
 from robot.irl.config import IRLSystemInterface, DistributionModuleConfig
 from robot.ai import segmentFrame, classifySegment
+from robot.ai.segment import initializeSegmentationModel
 from robot.ai.brickognize_types import BrickognizeClassificationResult
 from robot.storage.sqlite3.migrations import initializeDatabase
 from robot.storage.sqlite3.operations import saveObservationToDatabase
@@ -50,6 +55,7 @@ class SortingController:
 
         self.active_trajectories: List[ObjectTrajectory] = []
         self.completed_trajectories: List[ObjectTrajectory] = []
+        self.segmentation_model = None
 
     def initialize(self) -> None:
         self.global_config["logger"].info("Initializing sorting controller...")
@@ -67,6 +73,7 @@ class SortingController:
             self.global_config, available_bins, self.sorting_profile
         )
         self.door_scheduler = DoorScheduler(self.global_config)
+        self.segmentation_model = initializeSegmentationModel(self.global_config)
 
         self.lifecycle_stage = SystemLifecycleStage.STARTING_HARDWARE
 
@@ -99,34 +106,46 @@ class SortingController:
     def run(self) -> None:
         self.global_config["logger"].info("Starting main control loop...")
 
-        while self.lifecycle_stage == SystemLifecycleStage.RUNNING:
-            try:
-                tick_start_time = time.time()
-                self._processFrame()
-                self._processTriggerActions()
-                self._cleanupCompletedTrajectories()
-                tick_duration_ms = (time.time() - tick_start_time) * 1000
-                self.global_config["logger"].info(
-                    f"Tick completed in {tick_duration_ms:.2f}ms"
-                )
+        enable_profiling = self.global_config.get("enable_profiling", False)
+        profiler = None
+        if enable_profiling:
+            profiler = cProfile.Profile()
+            profiler.enable()
+            self.global_config["logger"].info("Performance profiling enabled")
 
-                time.sleep(self.global_config["capture_delay_ms"] / 1000.0)
+        try:
+            while self.lifecycle_stage == SystemLifecycleStage.RUNNING:
+                try:
+                    tick_start_time = time.time()
+                    self._processFrame()
+                    self._processTriggerActions()
+                    self._cleanupCompletedTrajectories()
+                    tick_duration_ms = (time.time() - tick_start_time) * 1000
+                    self.global_config["logger"].info(
+                        f"Tick completed in {tick_duration_ms:.2f}ms"
+                    )
 
-            except KeyboardInterrupt:
-                self.global_config["logger"].info("Interrupt received, stopping...")
-                self.lifecycle_stage = SystemLifecycleStage.STOPPING
-                break
-            except Exception as e:
-                self.global_config["logger"].error(f"Error in main loop: {e}")
-                self.lifecycle_stage = SystemLifecycleStage.STOPPING
-                break
+                    time.sleep(self.global_config["capture_delay_ms"] / 1000.0)
+
+                except KeyboardInterrupt:
+                    self.global_config["logger"].info("Interrupt received, stopping...")
+                    self.lifecycle_stage = SystemLifecycleStage.STOPPING
+                    break
+                except Exception as e:
+                    self.global_config["logger"].error(f"Error in main loop: {e}")
+                    self.lifecycle_stage = SystemLifecycleStage.STOPPING
+                    break
+        finally:
+            if enable_profiling and profiler is not None:
+                profiler.disable()
+                self._saveProfilingResults(profiler)
 
     def _processFrame(self) -> None:
         frame = self.irl_system["main_camera"].captureFrame()
         if frame is None:
             return
 
-        segments = segmentFrame(frame, self.global_config)
+        segments = segmentFrame(frame, self.segmentation_model, self.global_config)
 
         for segment in segments:
             masked_image = self._maskSegment(frame, segment)
@@ -390,6 +409,29 @@ class SortingController:
         self.irl_system["main_camera"].release()
 
         self.lifecycle_stage = SystemLifecycleStage.SHUTDOWN
+
+    def _saveProfilingResults(self, profiler: cProfile.Profile) -> None:
+        self.global_config["logger"].info("Saving profiling results...")
+
+        profiles_dir = "./profiles"
+        os.makedirs(profiles_dir, exist_ok=True)
+
+        profile_file = os.path.join(
+            profiles_dir, f"profile_{self.global_config['run_id']}.prof"
+        )
+        profiler.dump_stats(profile_file)
+
+        # Log top time-consuming functions
+        s = io.StringIO()
+        ps = pstats.Stats(profiler, stream=s)
+        ps.sort_stats("cumulative")
+        ps.print_stats(20)  # Top 20 functions
+
+        self.global_config["logger"].info(f"Profiling results saved to {profile_file}")
+        self.global_config["logger"].info("Top time-consuming functions:")
+        for line in s.getvalue().split("\n")[:25]:  # Log first 25 lines
+            if line.strip():
+                self.global_config["logger"].info(line)
 
 
 def createSortingController(

@@ -29,6 +29,7 @@ class GlobalConfig(TypedDict):
     trajectory_matching_spatial_weight: float
     camera_trigger_position: float
     capture_delay_ms: int
+    enable_profiling: bool
 
 
 def buildGlobalConfig() -> GlobalConfig:
@@ -44,6 +45,11 @@ def buildGlobalConfig() -> GlobalConfig:
         nargs="*",
         choices=["main_conveyor", "vibration_hopper", "feeder_conveyor"],
         help="Disable specified systems",
+    )
+    parser.add_argument(
+        "--profile",
+        action="store_true",
+        help="Enable performance profiling",
     )
     args = parser.parse_args()
 
@@ -74,6 +80,7 @@ def buildGlobalConfig() -> GlobalConfig:
         "trajectory_matching_spatial_weight": 0.3,
         "camera_trigger_position": 0.15,
         "capture_delay_ms": 1,
+        "enable_profiling": args.profile,
     }
 
     from robot.logger import Logger

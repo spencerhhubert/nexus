@@ -80,7 +80,6 @@ class SortingController:
         ensureBlobStorageExists(self.global_config)
         initializeDatabase(self.global_config)
 
-        default_category = Category(self.global_config, "default", "Default Category")
         self.sorting_profile = SortingProfile(
             self.global_config, "hardcoded_profile", {}
         )
@@ -424,34 +423,44 @@ class SortingController:
             if trajectory.lifecycle_stage != TrajectoryLifecycleStage.UNDER_CAMERA:
                 continue
 
-            if trajectory.shouldTriggerAction(self.global_config):
-                item_id = trajectory.getConsensusClassification()
-                target_bin = self._getTargetBin(item_id)
+            if not trajectory.shouldTriggerAction(self.global_config):
+                continue
 
-                if (
-                    target_bin
-                    and self.door_scheduler is not None
-                    and self.bin_state_tracker is not None
-                ):
-                    delay_ms = self._calculateDoorDelay(trajectory, target_bin)
-                    self.door_scheduler.scheduleDoorAction(target_bin, delay_ms)
-                    self.bin_state_tracker.reserveBin(target_bin, "default")
+            item_id = trajectory.getConsensusClassification()
+            target_bin = self._getTargetBin(item_id)
 
-                    with self.trajectory_lock:
-                        trajectory.lifecycle_stage = TrajectoryLifecycleStage.IN_TRANSIT
+            if (
+                not target_bin
+                or self.door_scheduler is None
+                or self.bin_state_tracker is None
+            ):
+                continue
 
-                    self.global_config["logger"].info(
-                        f"Scheduled action for trajectory {trajectory.trajectory_id} -> bin {target_bin} with delay {delay_ms}ms"
-                    )
+            delay_ms = self._calculateDoorDelay(trajectory, target_bin)
+            if delay_ms is None:
+                self.global_config["logger"].info(
+                    f"Cannot schedule action for trajectory {trajectory.trajectory_id} - conveyor speed unknown"
+                )
+                continue
+
+            self.door_scheduler.scheduleDoorAction(target_bin, delay_ms)
+            self.bin_state_tracker.reserveBin(target_bin, "default")
+
+            with self.trajectory_lock:
+                trajectory.lifecycle_stage = TrajectoryLifecycleStage.IN_TRANSIT
+
+            self.global_config["logger"].info(
+                f"Scheduled action for trajectory {trajectory.trajectory_id} -> bin {target_bin} with delay {delay_ms}ms"
+            )
 
     def _calculateDoorDelay(
         self, trajectory: ObjectTrajectory, target_bin: BinCoordinates
-    ) -> int:
+    ) -> Optional[int]:
         conveyor_speed = estimateConveyorSpeed(
             self.active_trajectories, self.completed_trajectories
         )
         if conveyor_speed is None:
-            return 1000
+            return None
 
         # Calculate distance from current position to target bin
         # For now, use a simple estimate based on distribution module distance
@@ -464,11 +473,11 @@ class SortingController:
             travel_time_ms = (
                 int((target_distance / conveyor_speed) * 1000)
                 if conveyor_speed > 0
-                else 1000
+                else None
             )
-            return max(0, travel_time_ms)
+            return max(0, travel_time_ms) if travel_time_ms is not None else None
 
-        return 1000
+        return None
 
     def _getTargetBin(self, item_id: str) -> Optional[BinCoordinates]:
         if self.bin_state_tracker is None:

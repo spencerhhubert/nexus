@@ -27,6 +27,12 @@ from robot.sorting import Category, SortingProfile
 from robot.bin_state_tracker import BinStateTracker, BinCoordinates, BinState
 from robot.door_scheduler import DoorScheduler
 from robot.conveyor_speed_tracker import estimateConveyorSpeed
+from robot.tick_profiling import (
+    TickProfilingRecord,
+    createTickProfilingRecord,
+    finalizeTickProfilingRecord,
+    printTickProfilingReport,
+)
 
 
 class SystemLifecycleStage(Enum):
@@ -116,14 +122,33 @@ class SortingController:
         try:
             while self.lifecycle_stage == SystemLifecycleStage.RUNNING:
                 try:
-                    tick_start_time = time.time()
-                    self._processFrame()
+                    tick_start_time_ms = time.time() * 1000
+                    profiling_record = createTickProfilingRecord(tick_start_time_ms)
+
+                    self._processFrame(profiling_record)
+
+                    profiling_record["trigger_actions_start_ms"] = time.time() * 1000
                     self._processTriggerActions()
+                    if profiling_record["trigger_actions_start_ms"] is not None:
+                        profiling_record["trigger_actions_duration_ms"] = (
+                            time.time() * 1000
+                        ) - profiling_record["trigger_actions_start_ms"]
+
+                    profiling_record["cleanup_start_ms"] = time.time() * 1000
                     self._cleanupCompletedTrajectories()
-                    tick_duration_ms = (time.time() - tick_start_time) * 1000
-                    self.global_config["logger"].info(
-                        f"Tick completed in {tick_duration_ms:.2f}ms"
-                    )
+                    if profiling_record["cleanup_start_ms"] is not None:
+                        profiling_record["cleanup_duration_ms"] = (
+                            time.time() * 1000
+                        ) - profiling_record["cleanup_start_ms"]
+
+                    finalizeTickProfilingRecord(profiling_record, time.time() * 1000)
+
+                    if self.global_config["enable_profiling"]:
+                        printTickProfilingReport(profiling_record)
+                    else:
+                        self.global_config["logger"].info(
+                            f"Tick completed in {profiling_record['total_tick_duration_ms']:.2f}ms"
+                        )
 
                     time.sleep(self.global_config["capture_delay_ms"] / 1000.0)
 
@@ -140,19 +165,37 @@ class SortingController:
                 profiler.disable()
                 self._saveProfilingResults(profiler)
 
-    def _processFrame(self) -> None:
+    def _processFrame(self, profiling_record: TickProfilingRecord) -> None:
+        profiling_record["frame_capture_start_ms"] = time.time() * 1000
         frame = self.irl_system["main_camera"].captureFrame()
+        if profiling_record["frame_capture_start_ms"] is not None:
+            profiling_record["frame_capture_duration_ms"] = (
+                time.time() * 1000
+            ) - profiling_record["frame_capture_start_ms"]
+
         if frame is None:
             return
 
+        profiling_record["segmentation_start_ms"] = time.time() * 1000
         segments = segmentFrame(frame, self.segmentation_model, self.global_config)
+        if profiling_record["segmentation_start_ms"] is not None:
+            profiling_record["segmentation_duration_ms"] = (
+                time.time() * 1000
+            ) - profiling_record["segmentation_start_ms"]
+        profiling_record["segments_found_count"] = len(segments)
 
         for segment in segments:
             masked_image = self._maskSegment(frame, segment)
             if masked_image is None:
                 continue
 
+            classification_start_ms = time.time() * 1000
             classification_result = classifySegment(masked_image, self.global_config)
+            classification_duration_ms = (time.time() * 1000) - classification_start_ms
+            profiling_record[
+                "classification_total_duration_ms"
+            ] += classification_duration_ms
+            profiling_record["classification_calls_count"] += 1
 
             if not classification_result.get("items", []):
                 self.global_config["logger"].info(
@@ -183,7 +226,11 @@ class SortingController:
                 center_x, center_y, bbox_width, bbox_height, classification_result
             )
 
+            save_start_ms = time.time() * 1000
             self._saveObservationData(frame, masked_image, observation)
+            save_duration_ms = (time.time() * 1000) - save_start_ms
+            profiling_record["observation_save_total_duration_ms"] += save_duration_ms
+            profiling_record["observations_saved_count"] += 1
 
     def _maskSegment(self, full_frame: np.ndarray, segment) -> Optional[np.ndarray]:
         y_min, y_max, x_min, x_max = segment.bbox

@@ -1,9 +1,10 @@
 import sqlite3
 import json
 import time
-from typing import Optional
+from typing import Optional, Any
 from robot.global_config import GlobalConfig
 from robot.storage.sqlite3.migrations import getDatabaseConnection
+
 
 
 def saveObservationToDatabase(
@@ -18,7 +19,7 @@ def saveObservationToDatabase(
     full_image_path: str,
     masked_image_path: str,
     classification_file_path: str,
-    classification_result: dict,
+    classification_result: Any,
 ) -> None:
     conn = getDatabaseConnection(global_config)
     cursor = conn.cursor()

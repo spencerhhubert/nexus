@@ -2,6 +2,7 @@ import time
 import uuid
 from typing import Dict, Any, TypedDict, Optional
 from robot.global_config import GlobalConfig
+from robot.ai.brickognize_types import BrickognizeClassificationResult
 
 
 class Observation(TypedDict):
@@ -15,7 +16,7 @@ class Observation(TypedDict):
     full_image_path: str
     masked_image_path: str
     classification_file_path: str
-    classification_result: Dict[str, Any]
+    classification_result: BrickognizeClassificationResult
 
 
 def createObservation(
@@ -27,7 +28,7 @@ def createObservation(
     bbox_height: float,
     full_image_path: str,
     masked_image_path: str,
-    classification_result: Dict[str, Any],
+    classification_result: BrickognizeClassificationResult,
 ) -> Observation:
     observation_id = str(uuid.uuid4())
     timestamp_ms = int(time.time() * 1000)

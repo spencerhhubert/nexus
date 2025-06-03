@@ -6,6 +6,7 @@ import time
 import json
 from typing import Dict, Any, Tuple
 from robot.global_config import GlobalConfig
+from robot.ai.brickognize_types import BrickognizeClassificationResult
 
 
 def ensureBlobStorageExists(global_config: GlobalConfig) -> None:
@@ -17,7 +18,7 @@ def saveObservationBlob(
     global_config: GlobalConfig,
     full_frame: np.ndarray,
     masked_image: np.ndarray,
-    classification_result: Dict[str, Any],
+    classification_result: BrickognizeClassificationResult,
 ) -> Tuple[str, str, str]:
     ensureBlobStorageExists(global_config)
 

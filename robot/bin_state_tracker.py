@@ -15,8 +15,13 @@ class BinState(TypedDict):
 
 
 class BinStateTracker:
-    def __init__(self, global_config: GlobalConfig, available_bin_coordinates: List[BinCoordinates],
-                 sorting_profile: SortingProfile, previous_state: Optional[BinState] = None):
+    def __init__(
+        self,
+        global_config: GlobalConfig,
+        available_bin_coordinates: List[BinCoordinates],
+        sorting_profile: SortingProfile,
+        previous_state: Optional[BinState] = None,
+    ):
         self.global_config = global_config
         self.available_bin_coordinates = available_bin_coordinates
         self.sorting_profile = sorting_profile
@@ -27,7 +32,7 @@ class BinStateTracker:
             self.current_state[key] = None
 
         if previous_state:
-            self.current_state.update(previous_state['bin_contents'])
+            self.current_state.update(previous_state["bin_contents"])
 
     def findAvailableBin(self, category_id: str) -> Optional[BinCoordinates]:
         for coordinates in self.available_bin_coordinates:
@@ -43,8 +48,8 @@ class BinStateTracker:
 
     def getCurrentState(self) -> BinState:
         return {
-            'bin_contents': self.current_state.copy(),
-            'timestamp': int(time.time() * 1000)
+            "bin_contents": self.current_state.copy(),
+            "timestamp": int(time.time() * 1000),
         }
 
 

@@ -13,22 +13,20 @@ from robot.global_config import GlobalConfig
 
 # Parameters
 FILTERING_PARAMS = {
-    'background_threshold': 0.8,
-    'border_region_ratio': 0.1,
-    'border_overlap_threshold': 0.25,
-    'nested_threshold': 0.9,
-    'merge_distance_px': 64,
-    'multi_mask_expansion_px': 50
+    "background_threshold": 0.8,
+    "border_region_ratio": 0.1,
+    "border_overlap_threshold": 0.25,
+    "nested_threshold": 0.9,
+    "merge_distance_px": 64,
+    "multi_mask_expansion_px": 50,
 }
 
-FASTSAM_CONFIG = {
-    'retina_masks': True,
-    'imgsz': 512,
-    'conf': 0.3,
-    'iou': 0.8
-}
+FASTSAM_CONFIG = {"retina_masks": True, "imgsz": 512, "conf": 0.3, "iou": 0.8}
 
-def filterMasks(masks: List[torch.Tensor], image_height: int, image_width: int) -> List[torch.Tensor]:
+
+def filterMasks(
+    masks: List[torch.Tensor], image_height: int, image_width: int
+) -> List[torch.Tensor]:
     filtered_masks = []
 
     for mask in masks:
@@ -36,11 +34,11 @@ def filterMasks(masks: List[torch.Tensor], image_height: int, image_width: int) 
         mask_area = mask.sum().item()
         total_pixels = image_height * image_width
 
-        if mask_area / total_pixels > FILTERING_PARAMS['background_threshold']:
+        if mask_area / total_pixels > FILTERING_PARAMS["background_threshold"]:
             continue
 
-        border_width = int(image_width * FILTERING_PARAMS['border_region_ratio'])
-        border_height = int(image_height * FILTERING_PARAMS['border_region_ratio'])
+        border_width = int(image_width * FILTERING_PARAMS["border_region_ratio"])
+        border_height = int(image_height * FILTERING_PARAMS["border_region_ratio"])
 
         border_mask = torch.zeros_like(mask, dtype=torch.bool)
         border_mask[:border_height, :] = True
@@ -51,12 +49,13 @@ def filterMasks(masks: List[torch.Tensor], image_height: int, image_width: int) 
         border_overlap = (mask & border_mask).sum().item()
         border_overlap_ratio = border_overlap / mask_area if mask_area > 0 else 0
 
-        if border_overlap_ratio > FILTERING_PARAMS['border_overlap_threshold']:
+        if border_overlap_ratio > FILTERING_PARAMS["border_overlap_threshold"]:
             continue
 
         filtered_masks.append(mask)
 
     return filtered_masks
+
 
 def removeNestedSegments(masks: List[torch.Tensor]) -> List[torch.Tensor]:
     filtered_masks = []
@@ -68,7 +67,10 @@ def removeNestedSegments(masks: List[torch.Tensor]) -> List[torch.Tensor]:
                 overlap = (mask_a & mask_b).sum().item()
                 mask_a_area = mask_a.sum().item()
 
-                if mask_a_area > 0 and overlap / mask_a_area > FILTERING_PARAMS['nested_threshold']:
+                if (
+                    mask_a_area > 0
+                    and overlap / mask_a_area > FILTERING_PARAMS["nested_threshold"]
+                ):
                     is_nested = True
                     break
 
@@ -76,6 +78,7 @@ def removeNestedSegments(masks: List[torch.Tensor]) -> List[torch.Tensor]:
             filtered_masks.append(mask_a)
 
     return filtered_masks
+
 
 def mergeCloseSegments(masks: List[torch.Tensor]) -> List[torch.Tensor]:
     if len(masks) == 0:
@@ -115,7 +118,7 @@ def mergeCloseSegments(masks: List[torch.Tensor]) -> List[torch.Tensor]:
             dy = max(0, max(y_min_a, y_min_b) - min(y_max_a, y_max_b))
             distance = (dx * dx + dy * dy) ** 0.5
 
-            if distance <= FILTERING_PARAMS['merge_distance_px']:
+            if distance <= FILTERING_PARAMS["merge_distance_px"]:
                 current_group.append(j)
 
         for idx in current_group:
@@ -134,6 +137,7 @@ def mergeCloseSegments(masks: List[torch.Tensor]) -> List[torch.Tensor]:
 
     return merged_masks
 
+
 def groupOverlappingMasks(masks: List[torch.Tensor]) -> List[List[Dict[str, Any]]]:
     # Group masks that have overlapping or nearby bounding boxes
     if len(masks) == 0:
@@ -146,11 +150,9 @@ def groupOverlappingMasks(masks: List[torch.Tensor]) -> List[List[Dict[str, Any]
         if len(coords[0]) > 0:
             y_min, y_max = coords[0].min(), coords[0].max()
             x_min, x_max = coords[1].min(), coords[1].max()
-            mask_data.append({
-                'mask': mask,
-                'bbox': (y_min, y_max, x_min, x_max),
-                'index': i
-            })
+            mask_data.append(
+                {"mask": mask, "bbox": (y_min, y_max, x_min, x_max), "index": i}
+            )
 
     groups = []
     used_indices = set()
@@ -161,13 +163,13 @@ def groupOverlappingMasks(masks: List[torch.Tensor]) -> List[List[Dict[str, Any]
 
         current_group = [data_a]
         current_indices = [i]
-        y_min_a, y_max_a, x_min_a, x_max_a = data_a['bbox']
+        y_min_a, y_max_a, x_min_a, x_max_a = data_a["bbox"]
 
         for j, data_b in enumerate(mask_data):
             if j <= i or j in used_indices:
                 continue
 
-            y_min_b, y_max_b, x_min_b, x_max_b = data_b['bbox']
+            y_min_b, y_max_b, x_min_b, x_max_b = data_b["bbox"]
 
             # Check if bounding boxes overlap or are close
             overlap_x = not (x_max_a < x_min_b or x_max_b < x_min_a)
@@ -183,6 +185,7 @@ def groupOverlappingMasks(masks: List[torch.Tensor]) -> List[List[Dict[str, Any]
 
     return groups
 
+
 def countConnectedComponents(mask: torch.Tensor) -> int:
     # Count separate clumps of pixels using connected components analysis
     mask_np = mask.cpu().numpy().astype(np.uint8)
@@ -190,14 +193,17 @@ def countConnectedComponents(mask: torch.Tensor) -> int:
     num_components = result[1]
     return int(num_components)
 
-def processSegmentGroups(segment_groups: List[List[Dict[str, Any]]]) -> List[Dict[str, Any]]:
+
+def processSegmentGroups(
+    segment_groups: List[List[Dict[str, Any]]]
+) -> List[Dict[str, Any]]:
     # Process each group of segments
     # If multiple masks in overlapping bounding boxes, assume model failed to identify complete object
     # and is seeing features of a single object instead of the whole thing
     processed_groups = []
 
     for group in segment_groups:
-        masks = [data['mask'] for data in group]
+        masks = [data["mask"] for data in group]
 
         if len(masks) > 1:
             # Multiple masks with overlapping bounding boxes - treat as incomplete object detection
@@ -217,19 +223,21 @@ def processSegmentGroups(segment_groups: List[List[Dict[str, Any]]]) -> List[Dic
                 y_min, y_max = coords[0].min(), coords[0].max()
                 x_min, x_max = coords[1].min(), coords[1].max()
 
-                expansion = FILTERING_PARAMS['multi_mask_expansion_px']
+                expansion = FILTERING_PARAMS["multi_mask_expansion_px"]
                 y_min = max(0, y_min - expansion)
                 y_max = min(mask_np.shape[0] - 1, y_max + expansion)
                 x_min = max(0, x_min - expansion)
                 x_max = min(mask_np.shape[1] - 1, x_max + expansion)
 
-                processed_groups.append({
-                    'bbox': (y_min, y_max, x_min, x_max),
-                    'apply_mask': False,
-                    'mask': combined_mask,
-                    'mask_count': len(masks),
-                    'component_count': component_count
-                })
+                processed_groups.append(
+                    {
+                        "bbox": (y_min, y_max, x_min, x_max),
+                        "apply_mask": False,
+                        "mask": combined_mask,
+                        "mask_count": len(masks),
+                        "component_count": component_count,
+                    }
+                )
         else:
             # Single mask - check for multiple connected components
             mask = masks[0]
@@ -244,31 +252,38 @@ def processSegmentGroups(segment_groups: List[List[Dict[str, Any]]]) -> List[Dic
 
                 # If single mask has multiple disconnected clumps, treat like multi-mask case
                 if component_count > 1:
-                    expansion = FILTERING_PARAMS['multi_mask_expansion_px']
+                    expansion = FILTERING_PARAMS["multi_mask_expansion_px"]
                     y_min = max(0, y_min - expansion)
                     y_max = min(mask_np.shape[0] - 1, y_max + expansion)
                     x_min = max(0, x_min - expansion)
                     x_max = min(mask_np.shape[1] - 1, x_max + expansion)
 
-                    processed_groups.append({
-                        'bbox': (y_min, y_max, x_min, x_max),
-                        'apply_mask': False,
-                        'mask': mask,
-                        'mask_count': 1,
-                        'component_count': component_count
-                    })
+                    processed_groups.append(
+                        {
+                            "bbox": (y_min, y_max, x_min, x_max),
+                            "apply_mask": False,
+                            "mask": mask,
+                            "mask_count": 1,
+                            "component_count": component_count,
+                        }
+                    )
                 else:
-                    processed_groups.append({
-                        'bbox': (y_min, y_max, x_min, x_max),
-                        'apply_mask': True,
-                        'mask': mask,
-                        'mask_count': 1,
-                        'component_count': component_count
-                    })
+                    processed_groups.append(
+                        {
+                            "bbox": (y_min, y_max, x_min, x_max),
+                            "apply_mask": True,
+                            "mask": mask,
+                            "mask_count": 1,
+                            "component_count": component_count,
+                        }
+                    )
 
     return processed_groups
 
-def postProcessMasks(masks: torch.Tensor, image_height: int, image_width: int) -> List[Dict[str, Any]]:
+
+def postProcessMasks(
+    masks: torch.Tensor, image_height: int, image_width: int
+) -> List[Dict[str, Any]]:
     if len(masks) == 0:
         return []
 
@@ -296,14 +311,18 @@ def postProcessMasks(masks: torch.Tensor, image_height: int, image_width: int) -
 
     return processed
 
-def _segmentFrame(frame: np.ndarray, global_config: GlobalConfig) -> List[Dict[str, Any]]:
-    model = FastSAM(global_config['fastsam_weights'])
-    device = global_config['tensor_device']
-    
-    os.makedirs('.tmp', exist_ok=True)
-    temp_path = '.tmp/temp_frame.jpg'
+
+def _segmentFrame(
+    frame: np.ndarray, global_config: GlobalConfig
+) -> List[Dict[str, Any]]:
+    model = FastSAM(global_config["fastsam_weights"])
+
+    device = global_config["tensor_device"]
+
+    os.makedirs(".tmp", exist_ok=True)
+    temp_path = ".tmp/temp_frame.jpg"
     cv2.imwrite(temp_path, frame)
-    
+
     everything_results = model(temp_path, device=device, **FASTSAM_CONFIG)
     prompt_process = FastSAMPrompt(temp_path, everything_results, device=device)
     ann = prompt_process.everything_prompt()

@@ -16,8 +16,10 @@ def main() -> None:
     logger = gc["logger"]
     logger.info(f"Running with debug level: {gc['debug_level']}")
 
-    sorting_controller = createSortingController(gc, system, irl_config["distribution_modules"])
-    
+    sorting_controller = createSortingController(
+        gc, system, irl_config["distribution_modules"]
+    )
+
     try:
         sorting_controller.initialize()
         sorting_controller.startHardware()

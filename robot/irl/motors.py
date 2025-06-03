@@ -34,13 +34,20 @@ class Servo:
 
 
 class DCMotor:
-    def __init__(self, gc: GlobalConfig, dev: OurArduinoMega, enable_pin: int, input_1_pin: int, input_2_pin: int):
+    def __init__(
+        self,
+        gc: GlobalConfig,
+        dev: OurArduinoMega,
+        enable_pin: int,
+        input_1_pin: int,
+        input_2_pin: int,
+    ):
         self.gc = gc
         self.dev = dev
         self.enable_pin = enable_pin
         self.input_1_pin = input_1_pin
         self.input_2_pin = input_2_pin
-        
+
         logger = gc["logger"]
         logger.info(f"Setting pin {self.input_1_pin} to OUTPUT")
         self.dev.sysex(0x03, [0x01, self.input_1_pin, 1])
@@ -49,15 +56,15 @@ class DCMotor:
         logger.info(f"Setting pin {self.enable_pin} to OUTPUT")
         self.dev.sysex(0x03, [0x01, self.enable_pin, 1])
 
-
-
     def setSpeed(self, speed: int) -> None:
         original_speed = speed
         speed = max(-255, min(255, speed))
-        
+
         logger = self.gc["logger"]
         logger.info(f"DCMotor setSpeed: requested={original_speed}, clamped={speed}")
-        logger.info(f"Using pins: enable={self.enable_pin}, input1={self.input_1_pin}, input2={self.input_2_pin}")
+        logger.info(
+            f"Using pins: enable={self.enable_pin}, input1={self.input_1_pin}, input2={self.input_2_pin}"
+        )
 
         if speed > 0:
             logger.info("Setting FORWARD: IN1=HIGH, IN2=LOW")

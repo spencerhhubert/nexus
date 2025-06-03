@@ -16,6 +16,7 @@ class DistributionModuleConfig(TypedDict):
     num_bins: int
     controller_address: int
 
+
 class DCMotorConfig(TypedDict):
     enable_pin: int
     input_1_pin: int
@@ -27,9 +28,6 @@ class MainCameraConfig(TypedDict):
     width: int
     height: int
     fps: int
-
-
-
 
 
 class IRLConfig(TypedDict):
@@ -79,7 +77,7 @@ def buildIRLConfig() -> IRLConfig:
                 "controller_address": 0x42,
             },
             {
-                "distance_from_camera": 45 + 17*2,
+                "distance_from_camera": 45 + 17 * 2,
                 "num_bins": 4,
                 "controller_address": 0x40,
             },
@@ -98,20 +96,17 @@ def buildIRLConfig() -> IRLConfig:
             "enable_pin": 6,
             "input_1_pin": 30,
             "input_2_pin": 32,
-        }
+        },
     }
 
 
 def discoverArduinoBoard() -> Optional[str]:
     try:
         result = subprocess.run(
-            ["arduino-cli", "board", "list"],
-            capture_output=True,
-            text=True,
-            check=True
+            ["arduino-cli", "board", "list"], capture_output=True, text=True, check=True
         )
 
-        for line in result.stdout.split('\n'):
+        for line in result.stdout.split("\n"):
             if "Arduino Mega" in line and "Serial Port (USB)" in line:
                 parts = line.split()
                 if parts:
@@ -126,38 +121,44 @@ def connectToArduino(mc_path: str, gc: GlobalConfig) -> OurArduinoMega:
     logger = gc["logger"]
     auto_confirm = gc["auto_confirm"]
 
+    DELAY_BETWEEN_FIRMATA_COMMANDS_MS = 100
+
     try:
         logger.info(f"Attempting to connect to Arduino at {mc_path}")
-        mc = OurArduinoMega(gc, mc_path, 10)
+        mc = OurArduinoMega(gc, mc_path, DELAY_BETWEEN_FIRMATA_COMMANDS_MS)
         return mc
     except Exception as e:
         logger.error(f"Failed to connect to Arduino at {mc_path}: {e}")
 
         discovered_path = discoverArduinoBoard()
         if discovered_path is None:
-            logger.error(f"Failed to connect to Arduino at {mc_path} and could not discover any Arduino Mega boards")
+            logger.error(
+                f"Failed to connect to Arduino at {mc_path} and could not discover any Arduino Mega boards"
+            )
             raise e
 
         if not auto_confirm:
-            response = input(f"Failed to use board from environment at {mc_path}. Would you like to automatically try to use discovered board at {discovered_path}? (y/N): ")
-            if response.lower() not in ['y', 'yes']:
+            response = input(
+                f"Failed to use board from environment at {mc_path}. Would you like to automatically try to use discovered board at {discovered_path}? (y/N): "
+            )
+            if response.lower() not in ["y", "yes"]:
                 logger.warning("User declined to use discovered board")
                 raise e
 
         logger.info(f"Attempting to connect to discovered Arduino at {discovered_path}")
 
         try:
-            mc = OurArduinoMega(gc, discovered_path, 10)
+            mc = OurArduinoMega(gc, discovered_path, DELAY_BETWEEN_FIRMATA_COMMANDS_MS)
             logger.info(f"Successfully connected to Arduino at {discovered_path}")
             return mc
         except Exception as discovery_error:
-            logger.error(f"Failed to connect to discovered board at {discovered_path}: {discovery_error}")
+            logger.error(
+                f"Failed to connect to discovered board at {discovered_path}: {discovery_error}"
+            )
             raise e
 
 
-def buildIRLSystemInterface(
-    config: IRLConfig, gc: GlobalConfig
-) -> IRLSystemInterface:
+def buildIRLSystemInterface(config: IRLConfig, gc: GlobalConfig) -> IRLSystemInterface:
     mc = connectToArduino(config["mc_path"], gc)
     logger = gc["logger"]
     if gc["debug_level"] > 0:
@@ -173,33 +174,42 @@ def buildIRLSystemInterface(
     for distribution_module_idx, dm in enumerate(config["distribution_modules"]):
         servo_controller = PCA9685(gc, mc, dm["controller_address"])
         chute_servo = Servo(gc, 15, servo_controller)
-        bins = [Bin(gc, Servo(gc, i, servo_controller), "", i) for i in range(dm["num_bins"])]
-        dms.append(DistributionModule(gc, chute_servo, dm["distance_from_camera"], bins, distribution_module_idx))
+        bins = [
+            Bin(gc, Servo(gc, i, servo_controller), "", i)
+            for i in range(dm["num_bins"])
+        ]
+        dms.append(
+            DistributionModule(
+                gc,
+                chute_servo,
+                dm["distance_from_camera"],
+                bins,
+                distribution_module_idx,
+            )
+        )
 
     main_conveyor_motor = DCMotor(
         gc,
         mc,
         config["main_conveyor_dc_motor"]["enable_pin"],
         config["main_conveyor_dc_motor"]["input_1_pin"],
-        config["main_conveyor_dc_motor"]["input_2_pin"]
+        config["main_conveyor_dc_motor"]["input_2_pin"],
     )
-
 
     feeder_conveyor_motor = DCMotor(
         gc,
         mc,
         config["feeder_conveyor_dc_motor"]["enable_pin"],
         config["feeder_conveyor_dc_motor"]["input_1_pin"],
-        config["feeder_conveyor_dc_motor"]["input_2_pin"]
+        config["feeder_conveyor_dc_motor"]["input_2_pin"],
     )
-
 
     vibration_hopper_motor = DCMotor(
         gc,
         mc,
         config["vibration_hopper_dc_motor"]["enable_pin"],
         config["vibration_hopper_dc_motor"]["input_1_pin"],
-        config["vibration_hopper_dc_motor"]["input_2_pin"]
+        config["vibration_hopper_dc_motor"]["input_2_pin"],
     )
 
     main_camera = connectToCamera(
@@ -207,7 +217,7 @@ def buildIRLSystemInterface(
         gc,
         config["main_camera"]["width"],
         config["main_camera"]["height"],
-        config["main_camera"]["fps"]
+        config["main_camera"]["fps"],
     )
 
     return {
@@ -216,5 +226,5 @@ def buildIRLSystemInterface(
         "main_conveyor_dc_motor": main_conveyor_motor,
         "feeder_conveyor_dc_motor": feeder_conveyor_motor,
         "vibration_hopper_dc_motor": vibration_hopper_motor,
-        "main_camera": main_camera
+        "main_camera": main_camera,
     }

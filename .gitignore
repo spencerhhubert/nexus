@@ -56,3 +56,7 @@ test.py
 test*.py
 
 testing/*
+
+database.db
+weights
+.blob

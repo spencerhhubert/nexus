@@ -12,13 +12,10 @@ class Segment(NamedTuple):
 
 def segmentFrame(frame: np.ndarray, global_config: GlobalConfig) -> List[Segment]:
     processed_groups = _segmentFrame(frame, global_config)
-    
+
     segments = []
     for group in processed_groups:
-        y_min, y_max, x_min, x_max = group['bbox']
-        segments.append(Segment(
-            bbox=(y_min, y_max, x_min, x_max),
-            mask=group['mask']
-        ))
-    
+        y_min, y_max, x_min, x_max = group["bbox"]
+        segments.append(Segment(bbox=(y_min, y_max, x_min, x_max), mask=group["mask"]))
+
     return segments

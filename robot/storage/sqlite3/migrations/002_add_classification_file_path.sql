@@ -1,0 +1,1 @@
+ALTER TABLE observations ADD COLUMN classification_file_path TEXT;

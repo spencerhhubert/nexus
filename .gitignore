@@ -60,3 +60,4 @@ testing/*
 database.db
 weights
 .blob
+.tmp

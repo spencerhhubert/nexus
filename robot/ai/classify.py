@@ -1,14 +1,15 @@
 import numpy as np
 import requests
 from PIL import Image
-from typing import Dict, Any
+from typing import cast
 import io
 from robot.global_config import GlobalConfig
+from robot.ai.brickognize_types import BrickognizeClassificationResult
 
 
 def classifySegment(
     segment_image: np.ndarray, global_config: GlobalConfig
-) -> Dict[str, Any]:
+) -> BrickognizeClassificationResult:
     url = "https://api.brickognize.com/predict/"
 
     img = Image.fromarray(segment_image)
@@ -21,4 +22,4 @@ def classifySegment(
     headers = {"accept": "application/json"}
 
     response = requests.post(url, headers=headers, files=files)
-    return response.json()
+    return cast(BrickognizeClassificationResult, response.json())

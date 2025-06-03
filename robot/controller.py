@@ -6,6 +6,7 @@ from enum import Enum
 from robot.global_config import GlobalConfig
 from robot.irl.config import IRLSystemInterface, DistributionModuleConfig
 from robot.ai import segmentFrame, classifySegment
+from robot.ai.brickognize_types import BrickognizeClassificationResult
 from robot.storage.sqlite3.migrations import initializeDatabase
 from robot.storage.sqlite3.operations import saveObservationToDatabase
 from robot.storage.blob import saveObservationBlob, ensureBlobStorageExists
@@ -132,7 +133,25 @@ class SortingController:
             if masked_image is None:
                 continue
 
-            classification_result = self._classifySegment(masked_image)
+            classification_result = classifySegment(masked_image, self.global_config)
+
+            if not classification_result.get("items", []):
+                self.global_config["logger"].info(
+                    "No items found in classification result, skipping segment"
+                )
+                continue
+
+            BRICKOGNIZE_SCORE_THRESHOLD = 0.25
+            max_score = (
+                max(item["score"] for item in classification_result["items"])
+                if classification_result["items"]
+                else 0.0
+            )
+            if max_score < BRICKOGNIZE_SCORE_THRESHOLD:
+                self.global_config["logger"].info(
+                    f"No items above score threshold {BRICKOGNIZE_SCORE_THRESHOLD} (max: {max_score:.3f}), skipping segment"
+                )
+                continue
 
             (
                 center_x,
@@ -167,9 +186,6 @@ class SortingController:
 
         return masked_image
 
-    def _classifySegment(self, masked_image: np.ndarray) -> Dict[str, Any]:
-        return classifySegment(masked_image, self.global_config)
-
     def _calculateNormalizedBounds(
         self, full_frame: np.ndarray, segment
     ) -> tuple[float, float, float, float]:
@@ -188,7 +204,7 @@ class SortingController:
         center_y: float,
         bbox_width: float,
         bbox_height: float,
-        classification_result: Dict[str, Any],
+        classification_result: BrickognizeClassificationResult,
     ) -> Observation:
         matching_trajectory = findMatchingTrajectory(
             self.global_config,
@@ -270,7 +286,7 @@ class SortingController:
         center_y: float,
         bbox_width: float,
         bbox_height: float,
-        classification_result: Dict[str, Any],
+        classification_result: BrickognizeClassificationResult,
     ) -> Observation:
         timestamp_ms = int(time.time() * 1000)
         return Observation(

@@ -13,11 +13,11 @@ from robot.global_config import GlobalConfig
 
 # Parameters
 FILTERING_PARAMS = {
-    "background_threshold": 0.8,
+    "background_threshold": 0.40,
     "border_region_ratio": 0.1,
     "border_overlap_threshold": 0.25,
     "nested_threshold": 0.9,
-    "merge_distance_px": 64,
+    "merge_distance_px": 64 * 2,
     "multi_mask_expansion_px": 50,
 }
 

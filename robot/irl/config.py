@@ -61,6 +61,8 @@ def buildIRLConfig() -> IRLConfig:
         "mc_path": mc_path,
         "main_camera": {
             "device_index": int(camera_index),
+            # "width": 1920,
+            # "height": 1080,
             "width": 3840,
             "height": 2160,
             "fps": 30,

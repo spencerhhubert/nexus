@@ -16,11 +16,10 @@ from robot.ai.segment import initializeSegmentationModel
 from robot.ai.brickognize_types import BrickognizeClassificationResult
 from robot.storage.sqlite3.migrations import initializeDatabase
 from robot.storage.sqlite3.operations import saveObservationToDatabase
-from robot.storage.blob import saveObservationBlob, ensureBlobStorageExists
+from robot.storage.blob import ensureBlobStorageExists, saveTrajectory
 from robot.trajectories import (
     Observation,
     ObjectTrajectory,
-    createObservation,
     createTrajectory,
     findMatchingTrajectory,
     TrajectoryLifecycleStage,
@@ -143,6 +142,10 @@ class SortingController:
 
                     self._submitFrameForProcessing()
 
+                    update_start_ms = time.time() * 1000
+                    self._updateTrajectories()
+                    update_duration_ms = time.time() * 1000 - update_start_ms
+
                     trigger_start_ms = time.time() * 1000
                     self._processTriggerActions()
                     trigger_duration_ms = time.time() * 1000 - trigger_start_ms
@@ -160,7 +163,7 @@ class SortingController:
                         printAggregateProfilingReport(20)
 
                     self.global_config["logger"].info(
-                        f"Main tick: {tick_duration_ms:.1f}ms (trigger: {trigger_duration_ms:.1f}ms, cleanup: {cleanup_duration_ms:.1f}ms, queue: {active_futures_count}/{self.max_queue_size})"
+                        f"Main tick: {tick_duration_ms:.1f}ms (update: {update_duration_ms:.1f}ms, trigger: {trigger_duration_ms:.1f}ms, cleanup: {cleanup_duration_ms:.1f}ms, queue: {active_futures_count}/{self.max_queue_size})"
                     )
 
                     tick_count += 1
@@ -195,7 +198,6 @@ class SortingController:
             )
             return
 
-        # Create profiling record for this frame
         profiling_record = createFrameProfilingRecord()
 
         # Submit frame for processing
@@ -260,18 +262,17 @@ class SortingController:
             ) = self._calculateNormalizedBounds(frame, segment)
 
             with self.trajectory_lock:
-                observation = self._assignToTrajectory(
-                    center_x, center_y, bbox_width, bbox_height, classification_result
+                observation, new_trajectory = self._assignToTrajectory(
+                    center_x,
+                    center_y,
+                    bbox_width,
+                    bbox_height,
+                    frame,
+                    masked_image,
+                    classification_result,
                 )
 
-            save_start_ms = time.time() * 1000
-            self._saveObservationData(frame, masked_image, observation)
-            save_duration_ms = (time.time() * 1000) - save_start_ms
-
             if profiling_record is not None:
-                profiling_record[
-                    "observation_save_total_duration_ms"
-                ] += save_duration_ms
                 profiling_record["observations_saved_count"] += 1
 
         # Complete frame processing profiling
@@ -316,104 +317,56 @@ class SortingController:
         center_y: float,
         bbox_width: float,
         bbox_height: float,
+        full_frame: np.ndarray,
+        masked_image: np.ndarray,
         classification_result: BrickognizeClassificationResult,
-    ) -> Observation:
+    ) -> tuple[Observation, Optional[ObjectTrajectory]]:
+        temp_observation = Observation(
+            None,
+            center_x,
+            center_y,
+            bbox_width,
+            bbox_height,
+            full_frame,
+            masked_image,
+            classification_result,
+        )
+
         matching_trajectory = findMatchingTrajectory(
             self.global_config,
-            self._createTempObservation(
-                center_x, center_y, bbox_width, bbox_height, classification_result
-            ),
+            temp_observation,
             self.active_trajectories,
         )
 
         if matching_trajectory is None:
-            observation = createObservation(
-                self.global_config,
-                None,
-                center_x,
-                center_y,
-                bbox_width,
-                bbox_height,
-                "",
-                "",
-                classification_result,
-            )
-            new_trajectory = createTrajectory(self.global_config, observation)
+            new_trajectory = createTrajectory(self.global_config, temp_observation)
             self.active_trajectories.append(new_trajectory)
-            return observation
+            return temp_observation, new_trajectory
         else:
-            observation = createObservation(
-                self.global_config,
+            observation = Observation(
                 matching_trajectory.trajectory_id,
                 center_x,
                 center_y,
                 bbox_width,
                 bbox_height,
-                "",
-                "",
+                full_frame,
+                masked_image,
                 classification_result,
             )
             matching_trajectory.addObservation(observation)
-            return observation
+            return observation, None
 
-    def _saveObservationData(
-        self, full_frame: np.ndarray, masked_image: np.ndarray, observation: Observation
-    ) -> None:
-        full_image_path, masked_image_path, classification_path = saveObservationBlob(
-            self.global_config,
-            full_frame,
-            masked_image,
-            observation["classification_result"],
-        )
+    def _updateTrajectories(self) -> None:
+        with self.trajectory_lock:
+            trajectories_to_update = self.active_trajectories.copy()
 
-        observation["full_image_path"] = full_image_path
-        observation["masked_image_path"] = masked_image_path
-        observation["classification_file_path"] = classification_path
-
-        assert (
-            observation["observation_id"] is not None
-        ), "Observation must have ID before saving"
-        assert (
-            observation["trajectory_id"] is not None
-        ), "Observation must have trajectory ID before saving"
-
-        saveObservationToDatabase(
-            self.global_config,
-            observation["observation_id"],
-            observation["trajectory_id"],
-            observation["timestamp_ms"],
-            observation["center_x"],
-            observation["center_y"],
-            observation["bbox_width"],
-            observation["bbox_height"],
-            observation["full_image_path"],
-            observation["masked_image_path"],
-            classification_path,
-            observation["classification_result"],
-        )
-
-    def _createTempObservation(
-        self,
-        center_x: float,
-        center_y: float,
-        bbox_width: float,
-        bbox_height: float,
-        classification_result: BrickognizeClassificationResult,
-    ) -> Observation:
-        timestamp_ms = int(time.time() * 1000)
-        return Observation(
-            observation_id=None,
-            trajectory_id=None,
-            timestamp_ms=timestamp_ms,
-            center_x=center_x,
-            center_y=center_y,
-            bbox_width=bbox_width,
-            bbox_height=bbox_height,
-            full_image_path="",
-            masked_image_path="",
-            classification_file_path="",
-            classification_result=classification_result,
-        )
+        for trajectory in trajectories_to_update:
+            try:
+                saveTrajectory(self.global_config, trajectory)
+            except Exception as e:
+                self.global_config["logger"].error(
+                    f"Failed to save trajectory {trajectory.trajectory_id}: {e}"
+                )
 
     def _processTriggerActions(self) -> None:
         with self.trajectory_lock:

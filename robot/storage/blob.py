@@ -2,11 +2,9 @@ import os
 import numpy as np
 import cv2
 from PIL import Image
-import time
 import json
-from typing import Dict, Any, Tuple
 from robot.global_config import GlobalConfig
-from robot.ai.brickognize_types import BrickognizeClassificationResult
+from robot.storage.sqlite3.operations import saveObservationToDatabase
 
 
 def ensureBlobStorageExists(global_config: GlobalConfig) -> None:
@@ -14,34 +12,44 @@ def ensureBlobStorageExists(global_config: GlobalConfig) -> None:
     os.makedirs(run_blob_dir, exist_ok=True)
 
 
-def saveObservationBlob(
-    global_config: GlobalConfig,
-    full_frame: np.ndarray,
-    masked_image: np.ndarray,
-    classification_result: BrickognizeClassificationResult,
-) -> Tuple[str, str, str]:
+def saveTrajectory(global_config: GlobalConfig, trajectory) -> None:
     ensureBlobStorageExists(global_config)
 
-    timestamp = int(time.time() * 1000)
-    observation_dir = os.path.join(global_config["run_blob_dir"], str(timestamp))
-    os.makedirs(observation_dir, exist_ok=True)
+    trajectory_dir = os.path.join(
+        global_config["run_blob_dir"],
+        f"traj_{trajectory.observations[0].timestamp_ms}_{trajectory.trajectory_id}",
+    )
+    os.makedirs(trajectory_dir, exist_ok=True)
 
-    # Save full frame
-    full_path = os.path.join(observation_dir, "full.jpg")
-    rgb_full = cv2.cvtColor(full_frame, cv2.COLOR_BGR2RGB)
-    Image.fromarray(rgb_full).save(full_path)
+    for observation in trajectory.observations:
+        if observation.full_image_path is None:
+            observation_dir = os.path.join(
+                trajectory_dir,
+                f"obs_{observation.timestamp_ms}_{observation.observation_id}",
+            )
+            os.makedirs(observation_dir, exist_ok=True)
 
-    # Save masked image
-    masked_path = os.path.join(observation_dir, "masked.jpg")
-    rgb_masked = cv2.cvtColor(masked_image, cv2.COLOR_BGR2RGB)
-    Image.fromarray(rgb_masked).save(masked_path)
+            full_path = os.path.join(observation_dir, "full.jpg")
+            rgb_full = cv2.cvtColor(observation.full_frame, cv2.COLOR_BGR2RGB)
+            Image.fromarray(rgb_full).save(full_path)
 
-    # Save classification result
-    classification_path = os.path.join(observation_dir, "classification.json")
-    with open(classification_path, "w") as f:
-        json.dump(classification_result, f, indent=2)
+            masked_path = os.path.join(observation_dir, "masked.jpg")
+            rgb_masked = cv2.cvtColor(observation.masked_image, cv2.COLOR_BGR2RGB)
+            Image.fromarray(rgb_masked).save(masked_path)
 
-    return full_path, masked_path, classification_path
+            classification_path = os.path.join(observation_dir, "classification.json")
+            with open(classification_path, "w") as f:
+                json.dump(observation.classification_result, f, indent=2)
+
+            observation.full_image_path = full_path
+            observation.masked_image_path = masked_path
+            observation.classification_file_path = classification_path
+
+            saveObservationToDatabase(global_config, observation)
+
+    trajectory_path = os.path.join(trajectory_dir, "trajectory.json")
+    with open(trajectory_path, "w") as f:
+        json.dump(trajectory.toJSON(), f, indent=2)
 
 
 def loadBlobImage(global_config: GlobalConfig, file_path: str) -> np.ndarray:
@@ -50,6 +58,5 @@ def loadBlobImage(global_config: GlobalConfig, file_path: str) -> np.ndarray:
 
     img = Image.open(file_path)
     rgb_array = np.array(img)
-    # Convert RGB back to BGR to maintain consistency with OpenCV format
     bgr_array = cv2.cvtColor(rgb_array, cv2.COLOR_RGB2BGR)
     return bgr_array

@@ -47,12 +47,12 @@ def _calculateTrajectorySpeed(trajectory: ObjectTrajectory) -> Optional[float]:
         obs_prev = trajectory.observations[i - 1]
         obs_curr = trajectory.observations[i]
 
-        time_delta = obs_curr["timestamp_ms"] - obs_prev["timestamp_ms"]
+        time_delta = obs_curr.timestamp_ms - obs_prev.timestamp_ms
         if time_delta <= 0:
             continue
 
-        dx = obs_curr["center_x"] - obs_prev["center_x"]
-        dy = obs_curr["center_y"] - obs_prev["center_y"]
+        dx = obs_curr.center_x - obs_prev.center_x
+        dy = obs_curr.center_y - obs_prev.center_y
         distance = (dx * dx + dy * dy) ** 0.5
 
         total_distance += distance

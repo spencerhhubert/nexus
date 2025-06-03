@@ -1,4 +1,4 @@
-from robot.trajectories.observation import Observation, createObservation
+from robot.trajectories.observation import Observation, ObservationJSON
 from robot.trajectories.trajectory import (
     ObjectTrajectory,
     TrajectoryLifecycleStage,

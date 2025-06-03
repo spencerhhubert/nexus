@@ -1,6 +1,6 @@
 import time
 import uuid
-from typing import List, Optional, Dict, Any
+from typing import List, Optional, Dict, Any, TypedDict
 from enum import Enum
 from robot.global_config import GlobalConfig
 from robot.trajectories.observation import Observation
@@ -11,6 +11,19 @@ class TrajectoryLifecycleStage(Enum):
     IN_TRANSIT = "in_transit"
     DOORS_OPEN = "doors_open"
     DOORS_CLOSED = "doors_closed"
+
+
+class TrajectoryJSON(TypedDict):
+    trajectory_id: str
+    created_at: int
+    updated_at: int
+    observation_ids: List[str]
+    estimated_position_x: float
+    estimated_position_y: float
+    estimated_velocity_x: float
+    estimated_velocity_y: float
+    consensus_classification: str
+    lifecycle_stage: str
 
 
 class ObjectTrajectory:
@@ -26,7 +39,7 @@ class ObjectTrajectory:
         self.lifecycle_stage = TrajectoryLifecycleStage.UNDER_CAMERA
 
     def addObservation(self, observation: Observation) -> None:
-        observation["trajectory_id"] = self.trajectory_id
+        observation.trajectory_id = self.trajectory_id
         self.observations.append(observation)
 
     def getLatestObservation(self) -> Optional[Observation]:
@@ -39,7 +52,7 @@ class ObjectTrajectory:
         classification_counts: Dict[str, int] = {}
 
         for observation in self.observations:
-            result = observation["classification_result"]
+            result = observation.classification_result
             if "items" in result and result["items"]:
                 item_id = result["items"][0].get("id", "unknown")
                 classification_counts[item_id] = (
@@ -58,12 +71,12 @@ class ObjectTrajectory:
         if not latest_observation:
             return False
 
-        return latest_observation["center_x"] >= camera_trigger_position
+        return latest_observation.center_x >= camera_trigger_position
 
     def getPredictedPosition(self, timestamp_ms: int) -> tuple[float, float]:
         if len(self.observations) < 2:
             latest = self.getLatestObservation()
-            return (latest["center_x"], latest["center_y"]) if latest else (0.0, 0.0)
+            return (latest.center_x, latest.center_y) if latest else (0.0, 0.0)
 
         # Use all observations to calculate average velocity
         total_velocity_x = 0.0
@@ -74,17 +87,17 @@ class ObjectTrajectory:
             obs_prev = self.observations[i - 1]
             obs_curr = self.observations[i]
 
-            time_delta = obs_curr["timestamp_ms"] - obs_prev["timestamp_ms"]
+            time_delta = obs_curr.timestamp_ms - obs_prev.timestamp_ms
             if time_delta > 0:
-                velocity_x = (obs_curr["center_x"] - obs_prev["center_x"]) / time_delta
-                velocity_y = (obs_curr["center_y"] - obs_prev["center_y"]) / time_delta
+                velocity_x = (obs_curr.center_x - obs_prev.center_x) / time_delta
+                velocity_y = (obs_curr.center_y - obs_prev.center_y) / time_delta
                 total_velocity_x += velocity_x
                 total_velocity_y += velocity_y
                 velocity_samples += 1
 
         if velocity_samples == 0:
             latest = self.getLatestObservation()
-            return (latest["center_x"], latest["center_y"]) if latest else (0.0, 0.0)
+            return (latest.center_x, latest.center_y) if latest else (0.0, 0.0)
 
         avg_velocity_x = total_velocity_x / velocity_samples
         avg_velocity_y = total_velocity_y / velocity_samples
@@ -93,27 +106,75 @@ class ObjectTrajectory:
         if not latest:
             return (0.0, 0.0)
 
-        prediction_time_delta = timestamp_ms - latest["timestamp_ms"]
+        prediction_time_delta = timestamp_ms - latest.timestamp_ms
 
-        predicted_x = latest["center_x"] + avg_velocity_x * prediction_time_delta
-        predicted_y = latest["center_y"] + avg_velocity_y * prediction_time_delta
+        predicted_x = latest.center_x + avg_velocity_x * prediction_time_delta
+        predicted_y = latest.center_y + avg_velocity_y * prediction_time_delta
 
         return (predicted_x, predicted_y)
+
+    def getEstimatedVelocity(self) -> tuple[float, float]:
+        if len(self.observations) < 2:
+            return (0.0, 0.0)
+
+        total_velocity_x = 0.0
+        total_velocity_y = 0.0
+        velocity_samples = 0
+
+        for i in range(1, len(self.observations)):
+            obs_prev = self.observations[i - 1]
+            obs_curr = self.observations[i]
+
+            time_delta = obs_curr.timestamp_ms - obs_prev.timestamp_ms
+            if time_delta > 0:
+                velocity_x = (obs_curr.center_x - obs_prev.center_x) / time_delta
+                velocity_y = (obs_curr.center_y - obs_prev.center_y) / time_delta
+                total_velocity_x += velocity_x
+                total_velocity_y += velocity_y
+                velocity_samples += 1
+
+        if velocity_samples == 0:
+            return (0.0, 0.0)
+
+        return (
+            total_velocity_x / velocity_samples,
+            total_velocity_y / velocity_samples,
+        )
+
+    def toJSON(self) -> TrajectoryJSON:
+        latest = self.getLatestObservation()
+        est_pos_x, est_pos_y = (
+            (latest.center_x, latest.center_y) if latest else (0.0, 0.0)
+        )
+        est_vel_x, est_vel_y = self.getEstimatedVelocity()
+
+        return TrajectoryJSON(
+            trajectory_id=self.trajectory_id,
+            created_at=int(time.time() * 1000),
+            updated_at=int(time.time() * 1000),
+            observation_ids=[obs.observation_id for obs in self.observations],
+            estimated_position_x=est_pos_x,
+            estimated_position_y=est_pos_y,
+            estimated_velocity_x=est_vel_x,
+            estimated_velocity_y=est_vel_y,
+            consensus_classification=self.getConsensusClassification(),
+            lifecycle_stage=self.lifecycle_stage.value,
+        )
 
 
 def createTrajectory(
     global_config: GlobalConfig, initial_observation: Observation
 ) -> ObjectTrajectory:
     trajectory_id = str(uuid.uuid4())
-    initial_observation["trajectory_id"] = trajectory_id
+    initial_observation.trajectory_id = trajectory_id
     return ObjectTrajectory(global_config, trajectory_id, initial_observation)
 
 
 def calculateSpatialDistance(
     obs: Observation, predicted_x: float, predicted_y: float
 ) -> float:
-    dx = obs["center_x"] - predicted_x
-    dy = obs["center_y"] - predicted_y
+    dx = obs.center_x - predicted_x
+    dy = obs.center_y - predicted_y
     return (dx * dx + dy * dy) ** 0.5
 
 
@@ -122,8 +183,8 @@ def calculateSizeRatio(obs: Observation, trajectory: ObjectTrajectory) -> float:
     if not latest:
         return 1.0
 
-    obs_area = obs["bbox_width"] * obs["bbox_height"]
-    latest_area = latest["bbox_width"] * latest["bbox_height"]
+    obs_area = obs.bbox_width * obs.bbox_height
+    latest_area = latest.bbox_width * latest.bbox_height
 
     if latest_area <= 0:
         return 1.0
@@ -136,7 +197,7 @@ def calculateClassificationConsistency(
 ) -> float:
     trajectory_consensus = trajectory.getConsensusClassification()
 
-    result = obs["classification_result"]
+    result = obs.classification_result
     if "items" not in result or not result["items"]:
         return 0.0
 
@@ -172,12 +233,12 @@ def findMatchingTrajectory(
         if not latest:
             continue
 
-        time_gap = new_observation["timestamp_ms"] - latest["timestamp_ms"]
+        time_gap = new_observation.timestamp_ms - latest.timestamp_ms
         if time_gap > max_time_gap_ms:
             continue
 
         predicted_x, predicted_y = trajectory.getPredictedPosition(
-            new_observation["timestamp_ms"]
+            new_observation.timestamp_ms
         )
         spatial_distance = calculateSpatialDistance(
             new_observation, predicted_x, predicted_y

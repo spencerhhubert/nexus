@@ -283,6 +283,7 @@ class SortingController:
             bbox_height=bbox_height,
             full_image_path="",
             masked_image_path="",
+            classification_file_path="",
             classification_result=classification_result,
         )
 

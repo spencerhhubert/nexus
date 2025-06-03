@@ -261,16 +261,19 @@ class SortingController:
                 bbox_height,
             ) = self._calculateNormalizedBounds(frame, segment)
 
+            observation = Observation(
+                None,
+                center_x,
+                center_y,
+                bbox_width,
+                bbox_height,
+                frame,
+                masked_image,
+                classification_result,
+            )
+
             with self.trajectory_lock:
-                observation, new_trajectory = self._assignToTrajectory(
-                    center_x,
-                    center_y,
-                    bbox_width,
-                    bbox_height,
-                    frame,
-                    masked_image,
-                    classification_result,
-                )
+                new_trajectory = self._assignToTrajectory(observation)
 
             if profiling_record is not None:
                 profiling_record["observations_saved_count"] += 1
@@ -312,49 +315,22 @@ class SortingController:
         return center_x, center_y, bbox_width, bbox_height
 
     def _assignToTrajectory(
-        self,
-        center_x: float,
-        center_y: float,
-        bbox_width: float,
-        bbox_height: float,
-        full_frame: np.ndarray,
-        masked_image: np.ndarray,
-        classification_result: BrickognizeClassificationResult,
-    ) -> tuple[Observation, Optional[ObjectTrajectory]]:
-        temp_observation = Observation(
-            None,
-            center_x,
-            center_y,
-            bbox_width,
-            bbox_height,
-            full_frame,
-            masked_image,
-            classification_result,
-        )
-
+        self, observation: Observation
+    ) -> Optional[ObjectTrajectory]:
         matching_trajectory = findMatchingTrajectory(
             self.global_config,
-            temp_observation,
+            observation,
             self.active_trajectories,
         )
 
         if matching_trajectory is None:
-            new_trajectory = createTrajectory(self.global_config, temp_observation)
+            new_trajectory = createTrajectory(self.global_config, observation)
             self.active_trajectories.append(new_trajectory)
-            return temp_observation, new_trajectory
+            return new_trajectory
         else:
-            observation = Observation(
-                matching_trajectory.trajectory_id,
-                center_x,
-                center_y,
-                bbox_width,
-                bbox_height,
-                full_frame,
-                masked_image,
-                classification_result,
-            )
+            observation.trajectory_id = matching_trajectory.trajectory_id
             matching_trajectory.addObservation(observation)
-            return observation, None
+            return None
 
     def _updateTrajectories(self) -> None:
         with self.trajectory_lock:

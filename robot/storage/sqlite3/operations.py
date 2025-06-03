@@ -6,7 +6,6 @@ from robot.global_config import GlobalConfig
 from robot.storage.sqlite3.migrations import getDatabaseConnection
 
 
-
 def saveObservationToDatabase(
     global_config: GlobalConfig,
     observation_id: str,

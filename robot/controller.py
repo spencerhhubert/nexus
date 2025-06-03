@@ -5,6 +5,8 @@ import cProfile
 import pstats
 import io
 import os
+import concurrent.futures
+import threading
 from typing import List, Optional, Dict, Any
 from enum import Enum
 from robot.global_config import GlobalConfig
@@ -27,11 +29,12 @@ from robot.sorting import Category, SortingProfile
 from robot.bin_state_tracker import BinStateTracker, BinCoordinates, BinState
 from robot.door_scheduler import DoorScheduler
 from robot.conveyor_speed_tracker import estimateConveyorSpeed
-from robot.tick_profiling import (
-    TickProfilingRecord,
-    createTickProfilingRecord,
-    finalizeTickProfilingRecord,
-    printTickProfilingReport,
+from robot.async_profiling import (
+    initializeAsyncProfiling,
+    createFrameProfilingRecord,
+    startFrameProcessing,
+    completeFrameProcessing,
+    printAggregateProfilingReport,
 )
 
 
@@ -63,6 +66,14 @@ class SortingController:
         self.completed_trajectories: List[ObjectTrajectory] = []
         self.segmentation_model = None
 
+        self.max_worker_threads = global_config["max_worker_threads"]
+        self.max_queue_size = global_config["max_queue_size"]
+        self.frame_processor_pool: Optional[
+            concurrent.futures.ThreadPoolExecutor
+        ] = None
+        self.active_futures: List[concurrent.futures.Future] = []
+        self.trajectory_lock = threading.Lock()
+
     def initialize(self) -> None:
         self.global_config["logger"].info("Initializing sorting controller...")
 
@@ -80,6 +91,12 @@ class SortingController:
         )
         self.door_scheduler = DoorScheduler(self.global_config)
         self.segmentation_model = initializeSegmentationModel(self.global_config)
+
+        initializeAsyncProfiling(self.global_config)
+
+        self.frame_processor_pool = concurrent.futures.ThreadPoolExecutor(
+            max_workers=self.max_worker_threads, thread_name_prefix="frame_processor"
+        )
 
         self.lifecycle_stage = SystemLifecycleStage.STARTING_HARDWARE
 
@@ -119,36 +136,35 @@ class SortingController:
             profiler.enable()
             self.global_config["logger"].info("Performance profiling enabled")
 
+        tick_count = 0
         try:
             while self.lifecycle_stage == SystemLifecycleStage.RUNNING:
                 try:
                     tick_start_time_ms = time.time() * 1000
-                    profiling_record = createTickProfilingRecord(tick_start_time_ms)
 
-                    self._processFrame(profiling_record)
+                    self._submitFrameForProcessing()
 
-                    profiling_record["trigger_actions_start_ms"] = time.time() * 1000
+                    trigger_start_ms = time.time() * 1000
                     self._processTriggerActions()
-                    if profiling_record["trigger_actions_start_ms"] is not None:
-                        profiling_record["trigger_actions_duration_ms"] = (
-                            time.time() * 1000
-                        ) - profiling_record["trigger_actions_start_ms"]
+                    trigger_duration_ms = time.time() * 1000 - trigger_start_ms
 
-                    profiling_record["cleanup_start_ms"] = time.time() * 1000
+                    cleanup_start_ms = time.time() * 1000
                     self._cleanupCompletedTrajectories()
-                    if profiling_record["cleanup_start_ms"] is not None:
-                        profiling_record["cleanup_duration_ms"] = (
-                            time.time() * 1000
-                        ) - profiling_record["cleanup_start_ms"]
+                    self._cleanupCompletedFutures()
+                    cleanup_duration_ms = time.time() * 1000 - cleanup_start_ms
 
-                    finalizeTickProfilingRecord(profiling_record, time.time() * 1000)
+                    tick_duration_ms = time.time() * 1000 - tick_start_time_ms
+                    active_futures_count = len(self.active_futures)
 
-                    if self.global_config["enable_profiling"]:
-                        printTickProfilingReport(profiling_record)
-                    else:
-                        self.global_config["logger"].info(
-                            f"Tick completed in {profiling_record['total_tick_duration_ms']:.2f}ms"
-                        )
+                    # Print aggregate profiling report every 20 ticks when profiling enabled
+                    if self.global_config["enable_profiling"] and tick_count % 20 == 0:
+                        printAggregateProfilingReport(20)
+
+                    self.global_config["logger"].info(
+                        f"Main tick: {tick_duration_ms:.1f}ms (trigger: {trigger_duration_ms:.1f}ms, cleanup: {cleanup_duration_ms:.1f}ms, queue: {active_futures_count}/{self.max_queue_size})"
+                    )
+
+                    tick_count += 1
 
                     time.sleep(self.global_config["capture_delay_ms"] / 1000.0)
 
@@ -165,24 +181,44 @@ class SortingController:
                 profiler.disable()
                 self._saveProfilingResults(profiler)
 
-    def _processFrame(self, profiling_record: TickProfilingRecord) -> None:
-        profiling_record["frame_capture_start_ms"] = time.time() * 1000
-        frame = self.irl_system["main_camera"].captureFrame()
-        if profiling_record["frame_capture_start_ms"] is not None:
-            profiling_record["frame_capture_duration_ms"] = (
-                time.time() * 1000
-            ) - profiling_record["frame_capture_start_ms"]
+            # Wait for remaining frame processing to complete
+            self._shutdownFrameProcessor()
 
+    def _submitFrameForProcessing(self) -> None:
+        frame = self.irl_system["main_camera"].captureFrame()
         if frame is None:
             return
 
-        profiling_record["segmentation_start_ms"] = time.time() * 1000
+        # Check if we have too many queued frames
+        if len(self.active_futures) >= self.max_queue_size:
+            self.global_config["logger"].info(
+                f"Frame queue full ({len(self.active_futures)}/{self.max_queue_size}), dropping frame"
+            )
+            return
+
+        # Create profiling record for this frame
+        profiling_record = createFrameProfilingRecord()
+
+        # Submit frame for processing
+        if self.frame_processor_pool is not None:
+            future = self.frame_processor_pool.submit(
+                self._processFrame, frame.copy(), profiling_record
+            )
+            self.active_futures.append(future)
+
+    def _processFrame(self, frame: np.ndarray, profiling_record) -> None:
+        if profiling_record is not None:
+            startFrameProcessing(profiling_record)
+
+        # Segmentation
+        segmentation_start_ms = time.time() * 1000
         segments = segmentFrame(frame, self.segmentation_model, self.global_config)
-        if profiling_record["segmentation_start_ms"] is not None:
-            profiling_record["segmentation_duration_ms"] = (
-                time.time() * 1000
-            ) - profiling_record["segmentation_start_ms"]
-        profiling_record["segments_found_count"] = len(segments)
+        segmentation_duration_ms = (time.time() * 1000) - segmentation_start_ms
+
+        if profiling_record is not None:
+            profiling_record["segmentation_start_ms"] = segmentation_start_ms
+            profiling_record["segmentation_duration_ms"] = segmentation_duration_ms
+            profiling_record["segments_found_count"] = len(segments)
 
         for segment in segments:
             masked_image = self._maskSegment(frame, segment)
@@ -192,10 +228,12 @@ class SortingController:
             classification_start_ms = time.time() * 1000
             classification_result = classifySegment(masked_image, self.global_config)
             classification_duration_ms = (time.time() * 1000) - classification_start_ms
-            profiling_record[
-                "classification_total_duration_ms"
-            ] += classification_duration_ms
-            profiling_record["classification_calls_count"] += 1
+
+            if profiling_record is not None:
+                profiling_record[
+                    "classification_total_duration_ms"
+                ] += classification_duration_ms
+                profiling_record["classification_calls_count"] += 1
 
             if not classification_result.get("items", []):
                 self.global_config["logger"].info(
@@ -222,15 +260,24 @@ class SortingController:
                 bbox_height,
             ) = self._calculateNormalizedBounds(frame, segment)
 
-            observation = self._assignToTrajectory(
-                center_x, center_y, bbox_width, bbox_height, classification_result
-            )
+            with self.trajectory_lock:
+                observation = self._assignToTrajectory(
+                    center_x, center_y, bbox_width, bbox_height, classification_result
+                )
 
             save_start_ms = time.time() * 1000
             self._saveObservationData(frame, masked_image, observation)
             save_duration_ms = (time.time() * 1000) - save_start_ms
-            profiling_record["observation_save_total_duration_ms"] += save_duration_ms
-            profiling_record["observations_saved_count"] += 1
+
+            if profiling_record is not None:
+                profiling_record[
+                    "observation_save_total_duration_ms"
+                ] += save_duration_ms
+                profiling_record["observations_saved_count"] += 1
+
+        # Complete frame processing profiling
+        if profiling_record is not None:
+            completeFrameProcessing(profiling_record)
 
     def _maskSegment(self, full_frame: np.ndarray, segment) -> Optional[np.ndarray]:
         y_min, y_max, x_min, x_max = segment.bbox
@@ -370,7 +417,10 @@ class SortingController:
         )
 
     def _processTriggerActions(self) -> None:
-        for trajectory in self.active_trajectories:
+        with self.trajectory_lock:
+            trajectories_to_check = self.active_trajectories.copy()
+
+        for trajectory in trajectories_to_check:
             if trajectory.lifecycle_stage != TrajectoryLifecycleStage.UNDER_CAMERA:
                 continue
 
@@ -386,7 +436,9 @@ class SortingController:
                     delay_ms = self._calculateDoorDelay(trajectory, target_bin)
                     self.door_scheduler.scheduleDoorAction(target_bin, delay_ms)
                     self.bin_state_tracker.reserveBin(target_bin, "default")
-                    trajectory.lifecycle_stage = TrajectoryLifecycleStage.IN_TRANSIT
+
+                    with self.trajectory_lock:
+                        trajectory.lifecycle_stage = TrajectoryLifecycleStage.IN_TRANSIT
 
                     self.global_config["logger"].info(
                         f"Scheduled action for trajectory {trajectory.trajectory_id} -> bin {target_bin} with delay {delay_ms}ms"
@@ -424,24 +476,52 @@ class SortingController:
         return self.bin_state_tracker.findAvailableBin("default")
 
     def _cleanupCompletedTrajectories(self) -> None:
-        completed = [
-            t
-            for t in self.active_trajectories
-            if t.lifecycle_stage == TrajectoryLifecycleStage.DOORS_CLOSED
-        ]
+        with self.trajectory_lock:
+            completed = [
+                t
+                for t in self.active_trajectories
+                if t.lifecycle_stage == TrajectoryLifecycleStage.DOORS_CLOSED
+            ]
 
-        self.completed_trajectories.extend(completed)
+            self.completed_trajectories.extend(completed)
 
-        # Keep only recent completed trajectories for speed estimation
-        max_completed = 50
-        if len(self.completed_trajectories) > max_completed:
-            self.completed_trajectories = self.completed_trajectories[-max_completed:]
+            # Keep only recent completed trajectories for speed estimation
+            max_completed = 50
+            if len(self.completed_trajectories) > max_completed:
+                self.completed_trajectories = self.completed_trajectories[
+                    -max_completed:
+                ]
 
-        self.active_trajectories = [
-            t
-            for t in self.active_trajectories
-            if t.lifecycle_stage != TrajectoryLifecycleStage.DOORS_CLOSED
-        ]
+            self.active_trajectories = [
+                t
+                for t in self.active_trajectories
+                if t.lifecycle_stage != TrajectoryLifecycleStage.DOORS_CLOSED
+            ]
+
+    def _cleanupCompletedFutures(self) -> None:
+        completed_futures = [f for f in self.active_futures if f.done()]
+
+        for future in completed_futures:
+            try:
+                future.result()  # This will raise any exceptions that occurred
+            except Exception as e:
+                self.global_config["logger"].error(f"Frame processing error: {e}")
+
+        self.active_futures = [f for f in self.active_futures if not f.done()]
+
+    def _shutdownFrameProcessor(self) -> None:
+        if self.frame_processor_pool is not None:
+            self.global_config["logger"].info("Shutting down frame processor...")
+
+            # Wait for remaining futures to complete
+            if self.active_futures:
+                self.global_config["logger"].info(
+                    f"Waiting for {len(self.active_futures)} frames to complete..."
+                )
+                concurrent.futures.wait(self.active_futures, timeout=10.0)
+
+            self.frame_processor_pool.shutdown(wait=True)
+            self.frame_processor_pool = None
 
     def stop(self) -> None:
         self.global_config["logger"].info("Stopping sorting controller...")
@@ -450,6 +530,8 @@ class SortingController:
         self.irl_system["main_conveyor_dc_motor"].setSpeed(0)
         self.irl_system["feeder_conveyor_dc_motor"].setSpeed(0)
         self.irl_system["vibration_hopper_dc_motor"].setSpeed(0)
+
+        self._shutdownFrameProcessor()
 
         self.irl_system["arduino"].flush()
         self.irl_system["arduino"].close()

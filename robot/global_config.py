@@ -30,6 +30,8 @@ class GlobalConfig(TypedDict):
     camera_trigger_position: float
     capture_delay_ms: int
     enable_profiling: bool
+    max_worker_threads: int
+    max_queue_size: int
 
 
 def buildGlobalConfig() -> GlobalConfig:
@@ -79,8 +81,10 @@ def buildGlobalConfig() -> GlobalConfig:
         "trajectory_matching_classification_consistency_weight": 0.7,
         "trajectory_matching_spatial_weight": 0.3,
         "camera_trigger_position": 0.15,
-        "capture_delay_ms": 1,
+        "capture_delay_ms": 150,
         "enable_profiling": args.profile,
+        "max_worker_threads": 4,
+        "max_queue_size": 8,
     }
 
     from robot.logger import Logger

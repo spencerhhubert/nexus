@@ -4,6 +4,7 @@ from typing import List, Optional, Dict, Any, TypedDict
 from enum import Enum
 from robot.global_config import GlobalConfig
 from robot.trajectories.observation import Observation
+from robot.util.bricklink import splitBricklinkId
 
 
 class TrajectoryLifecycleStage(Enum):
@@ -43,7 +44,11 @@ class ObjectTrajectory:
         self.observations.append(observation)
 
     def getLatestObservation(self) -> Optional[Observation]:
-        return self.observations[-1] if self.observations else None
+        return (
+            max(self.observations, key=lambda obs: obs.timestamp_ms)
+            if self.observations
+            else None
+        )
 
     def getConsensusClassification(self) -> str:
         if not self.observations:
@@ -71,7 +76,11 @@ class ObjectTrajectory:
         if not latest_observation:
             return False
 
-        return latest_observation.center_x >= camera_trigger_position
+        should_trigger = latest_observation.center_x <= camera_trigger_position
+        global_config["logger"].info(
+            f"should_trigger: {should_trigger}, latest_observation.center_x: {latest_observation.center_x}"
+        )
+        return should_trigger
 
     def getPredictedPosition(self, timestamp_ms: int) -> tuple[float, float]:
         if len(self.observations) < 2:
@@ -201,7 +210,14 @@ def calculateClassificationConsistency(
     if "items" not in result or not result["items"]:
         return 0.0
 
-    obs_item_id = result["items"][0].get("id", "unknown")
+    item_id = result["items"][0].get("id", "unknown")
+    if item_id == "unknown":
+        item_id = None
+
+    if item_id is None:
+        return 0.0
+
+    obs_item_id = splitBricklinkId(item_id)[0]
 
     return 1.0 if obs_item_id == trajectory_consensus else 0.0
 
@@ -227,14 +243,17 @@ def findMatchingTrajectory(
 
     for trajectory in active_trajectories:
         if trajectory.lifecycle_stage != TrajectoryLifecycleStage.UNDER_CAMERA:
+            global_config["logger"].info("not under camera")
             continue
 
         latest = trajectory.getLatestObservation()
         if not latest:
+            global_config["logger"].info("no latest observation")
             continue
 
         time_gap = new_observation.timestamp_ms - latest.timestamp_ms
         if time_gap > max_time_gap_ms:
+            global_config["logger"].info(f"time gap too large {time_gap}")
             continue
 
         predicted_x, predicted_y = trajectory.getPredictedPosition(
@@ -245,6 +264,9 @@ def findMatchingTrajectory(
         )
 
         if spatial_distance > max_position_distance_px:
+            global_config["logger"].info(
+                f"continue from spacial distance {spatial_distance}"
+            )
             continue
 
         size_ratio = calculateSizeRatio(new_observation, trajectory)
@@ -260,9 +282,13 @@ def findMatchingTrajectory(
             spatial_weight * spatial_score
             + classification_weight * classification_score
         )
+        global_config["logger"].info(
+            f"scores {combined_score} {best_score} {spatial_score} {classification_score}"
+        )
 
         if combined_score > best_score:
             best_score = combined_score
             best_trajectory = trajectory
 
+    global_config["logger"].info(f"found best trajectory {best_trajectory}")
     return best_trajectory

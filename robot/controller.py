@@ -7,6 +7,7 @@ import io
 import os
 import concurrent.futures
 import threading
+import cv2
 from typing import List, Optional, Dict, Any
 from enum import Enum
 from robot.global_config import GlobalConfig
@@ -127,6 +128,8 @@ class SortingController:
     def run(self) -> None:
         self.global_config["logger"].info("Starting main control loop...")
 
+        cv2.namedWindow("Camera Feed", cv2.WINDOW_AUTOSIZE)
+
         enable_profiling = self.global_config.get("enable_profiling", False)
         profiler = None
         if enable_profiling:
@@ -190,6 +193,11 @@ class SortingController:
         frame = self.irl_system["main_camera"].captureFrame()
         if frame is None:
             return
+
+        # Resize frame for display (480p)
+        display_frame = cv2.resize(frame, (640, 480))
+        cv2.imshow("Camera Feed", display_frame)
+        cv2.waitKey(1)
 
         # Check if we have too many queued frames
         if len(self.active_futures) >= self.max_queue_size:
@@ -470,6 +478,8 @@ class SortingController:
         self.irl_system["vibration_hopper_dc_motor"].setSpeed(0)
 
         self._shutdownFrameProcessor()
+
+        cv2.destroyAllWindows()
 
         self.irl_system["arduino"].flush()
         self.irl_system["arduino"].close()

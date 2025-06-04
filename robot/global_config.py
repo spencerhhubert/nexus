@@ -58,7 +58,7 @@ def buildGlobalConfig() -> GlobalConfig:
     disabled_motors = args.disable or []
 
     run_id = f"run_{int(time.time())}"
-    base_blob_path = "./.blob"
+    base_blob_path = "../.blob"
     run_blob_dir = os.path.join(base_blob_path, run_id)
 
     gc = {
@@ -80,8 +80,8 @@ def buildGlobalConfig() -> GlobalConfig:
         "trajectory_matching_max_bbox_size_ratio": 4.0,
         "trajectory_matching_classification_consistency_weight": 0.3,
         "trajectory_matching_spatial_weight": 0.3,
-        "camera_trigger_position": 0,
-        "capture_delay_ms": 500,
+        "camera_trigger_position": 0.25,
+        "capture_delay_ms": 100,
         "enable_profiling": args.profile,
         "max_worker_threads": 4,
         "max_queue_size": 8,

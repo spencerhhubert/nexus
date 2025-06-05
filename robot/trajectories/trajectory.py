@@ -27,7 +27,7 @@ class TrajectoryJSON(TypedDict):
     lifecycle_stage: str
 
 
-class ObjectTrajectory:
+class Trajectory:
     def __init__(
         self,
         global_config: GlobalConfig,
@@ -173,10 +173,10 @@ class ObjectTrajectory:
 
 def createTrajectory(
     global_config: GlobalConfig, initial_observation: Observation
-) -> ObjectTrajectory:
+) -> Trajectory:
     trajectory_id = str(uuid.uuid4())
     initial_observation.trajectory_id = trajectory_id
-    return ObjectTrajectory(global_config, trajectory_id, initial_observation)
+    return Trajectory(global_config, trajectory_id, initial_observation)
 
 
 def calculateSpatialDistance(
@@ -187,7 +187,7 @@ def calculateSpatialDistance(
     return (dx * dx + dy * dy) ** 0.5
 
 
-def calculateSizeRatio(obs: Observation, trajectory: ObjectTrajectory) -> float:
+def calculateSizeRatio(obs: Observation, trajectory: Trajectory) -> float:
     latest = trajectory.getLatestObservation()
     if not latest:
         return 1.0
@@ -202,7 +202,7 @@ def calculateSizeRatio(obs: Observation, trajectory: ObjectTrajectory) -> float:
 
 
 def calculateClassificationConsistency(
-    obs: Observation, trajectory: ObjectTrajectory
+    obs: Observation, trajectory: Trajectory
 ) -> float:
     trajectory_consensus = trajectory.getConsensusClassification()
 
@@ -225,8 +225,8 @@ def calculateClassificationConsistency(
 def findMatchingTrajectory(
     global_config: GlobalConfig,
     new_observation: Observation,
-    active_trajectories: List[ObjectTrajectory],
-) -> Optional[ObjectTrajectory]:
+    active_trajectories: List[Trajectory],
+) -> Optional[Trajectory]:
     max_time_gap_ms = global_config["trajectory_matching_max_time_gap_ms"]
     max_position_distance_px = global_config[
         "trajectory_matching_max_position_distance_px"

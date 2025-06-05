@@ -1,13 +1,13 @@
 from typing import List, Optional
-from robot.trajectories import ObjectTrajectory
+from robot.trajectories import Trajectory
 
 NUM_TRAJECTORIES_TO_ESTIMATE_WITH = 10
 MIN_OBSERVATIONS_TO_ESTIMATE_VELOCITY = 4
 
 
 def estimateConveyorSpeed(
-    active_trajectories: List[ObjectTrajectory],
-    completed_trajectories: List[ObjectTrajectory],
+    active_trajectories: List[Trajectory],
+    completed_trajectories: List[Trajectory],
 ) -> Optional[float]:
     all_trajectories = active_trajectories + completed_trajectories
 
@@ -36,7 +36,7 @@ def estimateConveyorSpeed(
     return sum(trajectory_speeds) / len(trajectory_speeds)
 
 
-def _calculateTrajectorySpeed(trajectory: ObjectTrajectory) -> Optional[float]:
+def _calculateTrajectorySpeed(trajectory: Trajectory) -> Optional[float]:
     if len(trajectory.observations) < 2:
         return None
 

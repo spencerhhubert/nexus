@@ -25,7 +25,7 @@ from robot.storage.sqlite3.operations import saveObservationToDatabase
 from robot.storage.blob import ensureBlobStorageExists, saveTrajectory
 from robot.trajectories import (
     Observation,
-    ObjectTrajectory,
+    Trajectory,
     createTrajectory,
     findMatchingTrajectory,
     TrajectoryLifecycleStage,
@@ -68,8 +68,8 @@ class SortingController:
         self.bin_state_tracker: Optional[BinStateTracker] = None
         self.door_scheduler: Optional[DoorScheduler] = None
 
-        self.active_trajectories: List[ObjectTrajectory] = []
-        self.completed_trajectories: List[ObjectTrajectory] = []
+        self.active_trajectories: List[Trajectory] = []
+        self.completed_trajectories: List[Trajectory] = []
         self.segmentation_model = None
 
         self.max_worker_threads = global_config["max_worker_threads"]
@@ -297,9 +297,7 @@ class SortingController:
         if profiling_record is not None:
             completeFrameProcessing(profiling_record)
 
-    def _assignToTrajectory(
-        self, observation: Observation
-    ) -> Optional[ObjectTrajectory]:
+    def _assignToTrajectory(self, observation: Observation) -> Optional[Trajectory]:
         matching_trajectory = findMatchingTrajectory(
             self.global_config,
             observation,
@@ -366,7 +364,7 @@ class SortingController:
             )
 
     def _calculateDoorDelay(
-        self, trajectory: ObjectTrajectory, target_bin: BinCoordinates
+        self, trajectory: Trajectory, target_bin: BinCoordinates
     ) -> Optional[int]:
         conveyor_speed = estimateConveyorSpeed(
             self.active_trajectories, self.completed_trajectories

@@ -1,6 +1,10 @@
 import time
 import threading
 import uuid
+import cProfile
+import pstats
+import io
+import os
 from typing import TypedDict, Optional, List, Dict, Any
 from collections import deque
 from robot.global_config import GlobalConfig
@@ -264,3 +268,27 @@ def getProfilingStats(last_n_frames: int = 10) -> Dict[str, Any]:
     if _profiling_aggregator is None:
         return {}
     return _profiling_aggregator.getAggregateStats(last_n_frames)
+
+
+def saveProfilingResults(
+    global_config: GlobalConfig, profiler: cProfile.Profile
+) -> None:
+    global_config["logger"].info("Saving profiling results...")
+
+    profiles_dir = global_config["profiling_dir_path"]
+    os.makedirs(profiles_dir, exist_ok=True)
+
+    profile_file = os.path.join(profiles_dir, f"profile_{global_config['run_id']}.prof")
+    profiler.dump_stats(profile_file)
+
+    # Log top time-consuming functions
+    s = io.StringIO()
+    ps = pstats.Stats(profiler, stream=s)
+    ps.sort_stats("cumulative")
+    ps.print_stats(20)  # Top 20 functions
+
+    global_config["logger"].info(f"Profiling results saved to {profile_file}")
+    global_config["logger"].info("Top time-consuming functions:")
+    for line in s.getvalue().split("\n")[:25]:  # Log first 25 lines
+        if line.strip():
+            global_config["logger"].info(line)

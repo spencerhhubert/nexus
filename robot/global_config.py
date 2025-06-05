@@ -32,6 +32,10 @@ class GlobalConfig(TypedDict):
     enable_profiling: bool
     max_worker_threads: int
     max_queue_size: int
+    door_open_angle: int
+    door_closed_angle: int
+    door_open_duration_ms: int
+    profiling_dir_path: str
 
 
 def buildGlobalConfig() -> GlobalConfig:
@@ -67,7 +71,7 @@ def buildGlobalConfig() -> GlobalConfig:
         "blob_storage_path": base_blob_path,
         "run_id": run_id,
         "run_blob_dir": run_blob_dir,
-        "db_path": "./database.db",
+        "db_path": "../database.db",
         "tensor_device": "cpu",
         "main_camera_index": 0,
         "fastsam_weights": "../weights/FastSAM-s.pt",
@@ -85,6 +89,10 @@ def buildGlobalConfig() -> GlobalConfig:
         "enable_profiling": args.profile,
         "max_worker_threads": 4,
         "max_queue_size": 8,
+        "door_open_angle": 55,
+        "door_closed_angle": 0,
+        "door_open_duration_ms": 5000,
+        "profiling_dir_path": "../profiles",
     }
 
     from robot.logger import Logger

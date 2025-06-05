@@ -1,14 +1,35 @@
 import time
 import threading
+from typing import List
 from robot.global_config import GlobalConfig
 from robot.bin_state_tracker import BinCoordinates
-
-DOOR_OPEN_DURATION_MS = 500
+from robot.irl.distribution import DistributionModule
+from robot.irl.motors import Servo
 
 
 class DoorScheduler:
-    def __init__(self, global_config: GlobalConfig):
+    def __init__(
+        self,
+        global_config: GlobalConfig,
+        distribution_modules: List[DistributionModule],
+    ):
         self.global_config = global_config
+        self.distribution_modules = distribution_modules
+
+    def _getServoForBin(self, bin_coordinates: BinCoordinates) -> Servo:
+        dm_idx = bin_coordinates["distribution_module_idx"]
+        bin_idx = bin_coordinates["bin_idx"]
+
+        assert (
+            dm_idx < len(self.distribution_modules)
+        ), f"Distribution module index {dm_idx} out of range (have {len(self.distribution_modules)} modules)"
+
+        dm = self.distribution_modules[dm_idx]
+        assert (
+            bin_idx < len(dm.bins)
+        ), f"Bin index {bin_idx} out of range for distribution module {dm_idx} (has {len(dm.bins)} bins)"
+
+        return dm.bins[bin_idx].servo
 
     def scheduleDoorAction(
         self, bin_coordinates: BinCoordinates, delay_ms: int = 0
@@ -17,11 +38,24 @@ class DoorScheduler:
             if delay_ms > 0:
                 time.sleep(delay_ms / 1000.0)
 
-            self.global_config["logger"].info(f"Opening door for bin {bin_coordinates}")
+            servo = self._getServoForBin(bin_coordinates)
+            assert servo is not None, f"Servo is None for bin {bin_coordinates}"
 
-            time.sleep(DOOR_OPEN_DURATION_MS / 1000.0)
+            door_open_angle = self.global_config["door_open_angle"]
+            door_closed_angle = self.global_config["door_closed_angle"]
+            door_open_duration_ms = self.global_config["door_open_duration_ms"]
 
-            self.global_config["logger"].info(f"Closing door for bin {bin_coordinates}")
+            self.global_config["logger"].info(
+                f"Opening door for bin {bin_coordinates} to {door_open_angle} degrees"
+            )
+            servo.setAngle(door_open_angle)
+
+            time.sleep(door_open_duration_ms / 1000.0)
+
+            self.global_config["logger"].info(
+                f"Closing door for bin {bin_coordinates} to {door_closed_angle} degrees"
+            )
+            servo.setAngle(door_closed_angle)
 
         thread = threading.Thread(target=executeDoorAction, daemon=True)
         thread.start()

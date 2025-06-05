@@ -12,7 +12,12 @@ from typing import List, Optional, Dict, Any
 from enum import Enum
 from robot.global_config import GlobalConfig
 from robot.irl.config import IRLSystemInterface, DistributionModuleConfig
-from robot.ai import segmentFrame, classifySegment
+from robot.ai import (
+    segmentFrame,
+    classifySegment,
+    maskSegment,
+    calculateNormalizedBounds,
+)
 from robot.ai.segment import initializeSegmentationModel
 from robot.ai.brickognize_types import BrickognizeClassificationResult
 from robot.storage.sqlite3.migrations import initializeDatabase
@@ -35,6 +40,7 @@ from robot.async_profiling import (
     startFrameProcessing,
     completeFrameProcessing,
     printAggregateProfilingReport,
+    saveProfilingResults,
 )
 
 
@@ -88,7 +94,9 @@ class SortingController:
         self.bin_state_tracker = BinStateTracker(
             self.global_config, available_bins, self.sorting_profile
         )
-        self.door_scheduler = DoorScheduler(self.global_config)
+        self.door_scheduler = DoorScheduler(
+            self.global_config, self.irl_system["distribution_modules"]
+        )
         self.segmentation_model = initializeSegmentationModel(self.global_config)
 
         initializeAsyncProfiling(self.global_config)
@@ -184,7 +192,7 @@ class SortingController:
         finally:
             if enable_profiling and profiler is not None:
                 profiler.disable()
-                self._saveProfilingResults(profiler)
+                saveProfilingResults(self.global_config, profiler)
 
             # Wait for remaining frame processing to complete
             self._shutdownFrameProcessor()
@@ -230,7 +238,7 @@ class SortingController:
             profiling_record["segments_found_count"] = len(segments)
 
         for segment in segments:
-            masked_image = self._maskSegment(frame, segment)
+            masked_image = maskSegment(frame, segment)
             if masked_image is None:
                 continue
 
@@ -267,7 +275,7 @@ class SortingController:
                 center_y,
                 bbox_width,
                 bbox_height,
-            ) = self._calculateNormalizedBounds(frame, segment)
+            ) = calculateNormalizedBounds(frame, segment)
 
             observation = Observation(
                 None,
@@ -286,41 +294,8 @@ class SortingController:
             if profiling_record is not None:
                 profiling_record["observations_saved_count"] += 1
 
-        # Complete frame processing profiling
         if profiling_record is not None:
             completeFrameProcessing(profiling_record)
-
-    def _maskSegment(self, full_frame: np.ndarray, segment) -> Optional[np.ndarray]:
-        y_min, y_max, x_min, x_max = segment.bbox
-
-        if y_min >= y_max or x_min >= x_max:
-            return None
-
-        y_min = max(0, y_min)
-        y_max = min(full_frame.shape[0] - 1, y_max)
-        x_min = max(0, x_min)
-        x_max = min(full_frame.shape[1] - 1, x_max)
-
-        cropped_image = full_frame[y_min : y_max + 1, x_min : x_max + 1]
-
-        mask_np = segment.mask.cpu().numpy()
-        cropped_mask = mask_np[y_min : y_max + 1, x_min : x_max + 1]
-        masked_image = cropped_image.copy()
-        masked_image[~cropped_mask] = 0
-
-        return masked_image
-
-    def _calculateNormalizedBounds(
-        self, full_frame: np.ndarray, segment
-    ) -> tuple[float, float, float, float]:
-        y_min, y_max, x_min, x_max = segment.bbox
-
-        center_x = (x_min + x_max) / 2.0 / full_frame.shape[1]
-        center_y = (y_min + y_max) / 2.0 / full_frame.shape[0]
-        bbox_width = (x_max - x_min) / full_frame.shape[1]
-        bbox_height = (y_max - y_min) / full_frame.shape[0]
-
-        return center_x, center_y, bbox_width, bbox_height
 
     def _assignToTrajectory(
         self, observation: Observation
@@ -486,26 +461,3 @@ class SortingController:
         self.irl_system["main_camera"].release()
 
         self.lifecycle_stage = SystemLifecycleStage.SHUTDOWN
-
-    def _saveProfilingResults(self, profiler: cProfile.Profile) -> None:
-        self.global_config["logger"].info("Saving profiling results...")
-
-        profiles_dir = "../profiles"
-        os.makedirs(profiles_dir, exist_ok=True)
-
-        profile_file = os.path.join(
-            profiles_dir, f"profile_{self.global_config['run_id']}.prof"
-        )
-        profiler.dump_stats(profile_file)
-
-        # Log top time-consuming functions
-        s = io.StringIO()
-        ps = pstats.Stats(profiler, stream=s)
-        ps.sort_stats("cumulative")
-        ps.print_stats(20)  # Top 20 functions
-
-        self.global_config["logger"].info(f"Profiling results saved to {profile_file}")
-        self.global_config["logger"].info("Top time-consuming functions:")
-        for line in s.getvalue().split("\n")[:25]:  # Log first 25 lines
-            if line.strip():
-                self.global_config["logger"].info(line)

@@ -46,12 +46,6 @@ class BinStateTracker:
         key = binCoordinatesToKey(coordinates)
         self.current_state[key] = category_id
 
-    def getCurrentState(self) -> BinState:
-        return {
-            "bin_contents": self.current_state.copy(),
-            "timestamp": int(time.time() * 1000),
-        }
-
 
 def binCoordinatesToKey(coordinates: BinCoordinates) -> str:
     return f"{coordinates['distribution_module_idx']}_{coordinates['bin_idx']}"

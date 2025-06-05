@@ -1,7 +1,6 @@
 import time
 import cv2
 import os
-from datetime import datetime
 from robot.irl.config import buildIRLSystemInterface, IRLSystemInterface, buildIRLConfig
 from robot.irl.motors import Servo, DCMotor
 from robot.global_config import GlobalConfig, buildGlobalConfig

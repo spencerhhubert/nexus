@@ -1,5 +1,4 @@
 from fastsam import FastSAM, FastSAMPrompt  # type: ignore
-import datetime
 import time
 import torch
 from PIL import Image

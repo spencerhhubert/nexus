@@ -1,4 +1,4 @@
-from pyfirmata import util, PWM, OUTPUT
+from pyfirmata import util
 import time
 from typing import Dict, Any, List, Optional, cast
 from robot.global_config import GlobalConfig

@@ -13,6 +13,3 @@ class SortingProfile:
         self.global_config = global_config
         self.profile_name = profile_name
         self.item_id_to_category_mapping = item_id_to_category_mapping
-
-    def getCategoryForItem(self, item_id: str) -> Optional[Category]:
-        return self.item_id_to_category_mapping.get(item_id)

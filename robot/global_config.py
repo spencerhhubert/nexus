@@ -70,7 +70,7 @@ def buildGlobalConfig() -> GlobalConfig:
         "db_path": "./database.db",
         "tensor_device": "cpu",
         "main_camera_index": 0,
-        "fastsam_weights": "./weights/FastSAM-s.pt",
+        "fastsam_weights": "../weights/FastSAM-s.pt",
         "disable_main_conveyor": "main_conveyor" in disabled_motors,
         "disable_vibration_hopper": "vibration_hopper" in disabled_motors,
         "disable_feeder_conveyor": "feeder_conveyor" in disabled_motors,

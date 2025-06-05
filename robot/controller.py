@@ -490,7 +490,7 @@ class SortingController:
     def _saveProfilingResults(self, profiler: cProfile.Profile) -> None:
         self.global_config["logger"].info("Saving profiling results...")
 
-        profiles_dir = "./profiles"
+        profiles_dir = "../profiles"
         os.makedirs(profiles_dir, exist_ok=True)
 
         profile_file = os.path.join(

@@ -11,10 +11,16 @@ import re
 from robot.global_config import GlobalConfig
 
 
+class ServoMotorConfig(TypedDict):
+    channel: int
+
+
 class DistributionModuleConfig(TypedDict):
     distance_from_camera: int
     num_bins: int
     controller_address: int
+    conveyor_door_servo: ServoMotorConfig
+    bin_door_servos: List[ServoMotorConfig]
 
 
 class DCMotorConfig(TypedDict):
@@ -72,16 +78,37 @@ def buildIRLConfig() -> IRLConfig:
                 "distance_from_camera": 45,
                 "num_bins": 4,
                 "controller_address": 0x41,
+                "conveyor_door_servo": {"channel": 15},
+                "bin_door_servos": [
+                    {"channel": 0},
+                    {"channel": 1},
+                    {"channel": 2},
+                    {"channel": 3},
+                ],
             },
             {
                 "distance_from_camera": 45 + 17,
                 "num_bins": 4,
                 "controller_address": 0x42,
+                "conveyor_door_servo": {"channel": 15},
+                "bin_door_servos": [
+                    {"channel": 0},
+                    {"channel": 1},
+                    {"channel": 2},
+                    {"channel": 3},
+                ],
             },
             {
                 "distance_from_camera": 45 + 17 * 2,
                 "num_bins": 4,
                 "controller_address": 0x40,
+                "conveyor_door_servo": {"channel": 15},
+                "bin_door_servos": [
+                    {"channel": 0},
+                    {"channel": 1},
+                    {"channel": 2},
+                    {"channel": 3},
+                ],
             },
         ],
         "vibration_hopper_dc_motor": {
@@ -175,10 +202,10 @@ def buildIRLSystemInterface(config: IRLConfig, gc: GlobalConfig) -> IRLSystemInt
     dms = []
     for distribution_module_idx, dm in enumerate(config["distribution_modules"]):
         servo_controller = PCA9685(gc, mc, dm["controller_address"])
-        chute_servo = Servo(gc, 15, servo_controller)
+        chute_servo = Servo(gc, dm["conveyor_door_servo"]["channel"], servo_controller)
         bins = [
-            Bin(gc, Servo(gc, i, servo_controller), "", i)
-            for i in range(dm["num_bins"])
+            Bin(gc, Servo(gc, servo_config["channel"], servo_controller), "", i)
+            for i, servo_config in enumerate(dm["bin_door_servos"])
         ]
         dms.append(
             DistributionModule(

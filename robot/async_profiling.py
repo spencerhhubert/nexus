@@ -240,20 +240,42 @@ def initializeAsyncProfiling(global_config: GlobalConfig) -> None:
     _profiling_aggregator = AsyncProfilingAggregator(global_config)
 
 
-def createFrameProfilingRecord() -> Optional[AsyncFrameProfilingRecord]:
+def createFrameProfilingRecord() -> AsyncFrameProfilingRecord:
     if _profiling_aggregator is None:
-        return None
+        # Return a dummy record when profiling is disabled
+        frame_id = str(uuid.uuid4())[:8]
+        thread_id = threading.current_thread().name
+        submitted_time_ms = time.time() * 1000
+
+        return AsyncFrameProfilingRecord(
+            frame_id=frame_id,
+            thread_id=thread_id,
+            submitted_to_queue_ms=submitted_time_ms,
+            processing_started_ms=0.0,
+            processing_completed_ms=0.0,
+            queue_wait_duration_ms=0.0,
+            total_processing_duration_ms=0.0,
+            segmentation_start_ms=None,
+            segmentation_duration_ms=None,
+            segments_found_count=0,
+            classification_total_duration_ms=0.0,
+            classification_calls_count=0,
+            observation_save_total_duration_ms=0.0,
+            observations_saved_count=0,
+            delayed_by_previous_frame=False,
+            thread_was_busy_ms=None,
+        )
     return _profiling_aggregator.createFrameRecord()
 
 
-def startFrameProcessing(record: Optional[AsyncFrameProfilingRecord]) -> None:
-    if _profiling_aggregator is None or record is None:
+def startFrameProcessing(record: AsyncFrameProfilingRecord) -> None:
+    if _profiling_aggregator is None:
         return
     _profiling_aggregator.startFrameProcessing(record)
 
 
-def completeFrameProcessing(record: Optional[AsyncFrameProfilingRecord]) -> None:
-    if _profiling_aggregator is None or record is None:
+def completeFrameProcessing(record: AsyncFrameProfilingRecord) -> None:
+    if _profiling_aggregator is None:
         return
     _profiling_aggregator.completeFrameProcessing(record)
 

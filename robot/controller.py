@@ -35,6 +35,7 @@ from robot.bin_state_tracker import BinStateTracker, BinCoordinates, BinState
 from robot.door_scheduler import DoorScheduler
 from robot.conveyor_speed_tracker import estimateConveyorSpeed
 from robot.async_profiling import (
+    AsyncFrameProfilingRecord,
     initializeAsyncProfiling,
     createFrameProfilingRecord,
     startFrameProcessing,
@@ -208,19 +209,19 @@ class SortingController:
             )
             self.active_futures.append(future)
 
-    def _processFrame(self, frame: np.ndarray, profiling_record) -> None:
-        if profiling_record is not None:
-            startFrameProcessing(profiling_record)
+    def _processFrame(
+        self, frame: np.ndarray, profiling_record: AsyncFrameProfilingRecord
+    ) -> None:
+        startFrameProcessing(profiling_record)
 
         # Segmentation
         segmentation_start_ms = time.time() * 1000
         segments = segmentFrame(frame, self.segmentation_model, self.global_config)
         segmentation_duration_ms = (time.time() * 1000) - segmentation_start_ms
 
-        if profiling_record is not None:
-            profiling_record["segmentation_start_ms"] = segmentation_start_ms
-            profiling_record["segmentation_duration_ms"] = segmentation_duration_ms
-            profiling_record["segments_found_count"] = len(segments)
+        profiling_record["segmentation_start_ms"] = segmentation_start_ms
+        profiling_record["segmentation_duration_ms"] = segmentation_duration_ms
+        profiling_record["segments_found_count"] = len(segments)
 
         for segment in segments:
             masked_image = maskSegment(frame, segment)
@@ -231,11 +232,10 @@ class SortingController:
             classification_result = classifySegment(masked_image, self.global_config)
             classification_duration_ms = (time.time() * 1000) - classification_start_ms
 
-            if profiling_record is not None:
-                profiling_record[
-                    "classification_total_duration_ms"
-                ] += classification_duration_ms
-                profiling_record["classification_calls_count"] += 1
+            profiling_record[
+                "classification_total_duration_ms"
+            ] += classification_duration_ms
+            profiling_record["classification_calls_count"] += 1
 
             if not classification_result.get("items", []):
                 self.global_config["logger"].info(
@@ -276,11 +276,9 @@ class SortingController:
             with self.trajectory_lock:
                 new_trajectory = self._assignToTrajectory(observation)
 
-            if profiling_record is not None:
-                profiling_record["observations_saved_count"] += 1
+            profiling_record["observations_saved_count"] += 1
 
-        if profiling_record is not None:
-            completeFrameProcessing(profiling_record)
+        completeFrameProcessing(profiling_record)
 
     def _assignToTrajectory(self, observation: Observation) -> Optional[Trajectory]:
         matching_trajectory = findMatchingTrajectory(

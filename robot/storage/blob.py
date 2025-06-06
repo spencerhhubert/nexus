@@ -54,13 +54,3 @@ def saveTrajectory(global_config: GlobalConfig, trajectory) -> None:
     trajectory_path = os.path.join(trajectory_dir, "trajectory.json")
     with open(trajectory_path, "w") as f:
         json.dump(trajectory.toJSON(), f, indent=2)
-
-
-def loadBlobImage(global_config: GlobalConfig, file_path: str) -> np.ndarray:
-    if not os.path.exists(file_path):
-        raise FileNotFoundError(f"Blob image not found: {file_path}")
-
-    img = Image.open(file_path)
-    rgb_array = np.array(img)
-    bgr_array = cv2.cvtColor(rgb_array, cv2.COLOR_RGB2BGR)
-    return bgr_array

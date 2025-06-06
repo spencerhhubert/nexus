@@ -15,9 +15,7 @@ def main() -> None:
     logger = gc["logger"]
     logger.info(f"Running with debug level: {gc['debug_level']}")
 
-    sorting_controller = SortingController(
-        gc, system, irl_config["distribution_modules"]
-    )
+    sorting_controller = SortingController(gc, system)
 
     try:
         sorting_controller.initialize()

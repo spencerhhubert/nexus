@@ -11,7 +11,7 @@ import cv2
 from typing import List, Optional, Dict, Any
 from enum import Enum
 from robot.global_config import GlobalConfig
-from robot.irl.config import IRLSystemInterface, DistributionModuleConfig
+from robot.irl.config import IRLSystemInterface
 from robot.ai import (
     segmentFrame,
     classifySegment,
@@ -57,11 +57,9 @@ class SortingController:
         self,
         global_config: GlobalConfig,
         irl_system: IRLSystemInterface,
-        distribution_module_configs: List[DistributionModuleConfig],
     ):
         self.global_config = global_config
         self.irl_system = irl_system
-        self.distribution_module_configs = distribution_module_configs
         self.lifecycle_stage = SystemLifecycleStage.INITIALIZING
 
         self.sorting_profile: Optional[SortingProfile] = None
@@ -90,9 +88,10 @@ class SortingController:
             self.global_config, "hardcoded_profile", {}
         )
 
-        available_bins = self._buildAvailableBinCoordinates()
         self.bin_state_tracker = BinStateTracker(
-            self.global_config, available_bins, self.sorting_profile
+            self.global_config,
+            self.irl_system["distribution_modules"],
+            self.sorting_profile,
         )
         self.door_scheduler = DoorScheduler(
             self.global_config, self.irl_system["distribution_modules"]
@@ -106,20 +105,6 @@ class SortingController:
         )
 
         self.lifecycle_stage = SystemLifecycleStage.STARTING_HARDWARE
-
-    def _buildAvailableBinCoordinates(self) -> List[BinCoordinates]:
-        available_bins = []
-        sorted_configs = sorted(
-            self.distribution_module_configs, key=lambda x: x["distance_from_camera"]
-        )
-
-        for dm_idx, config in enumerate(sorted_configs):
-            for bin_idx in range(config["num_bins"]):
-                available_bins.append(
-                    {"distribution_module_idx": dm_idx, "bin_idx": bin_idx}
-                )
-
-        return available_bins
 
     def startHardware(self) -> None:
         self.global_config["logger"].info("Starting hardware systems...")
@@ -375,11 +360,11 @@ class SortingController:
         # Calculate distance from current position to target bin
         # For now, use a simple estimate based on distribution module distance
         if target_bin["distribution_module_idx"] < len(
-            self.distribution_module_configs
+            self.irl_system["distribution_modules"]
         ):
-            target_distance = self.distribution_module_configs[
+            target_distance = self.irl_system["distribution_modules"][
                 target_bin["distribution_module_idx"]
-            ]["distance_from_camera"]
+            ].distance_from_camera
             travel_time_ms = (
                 int((target_distance / conveyor_speed) * 1000)
                 if conveyor_speed > 0

@@ -318,12 +318,11 @@ class SortingController:
                 target_bin["distribution_module_idx"]
             ].distance_from_camera_cm
 
-            travel_time_s = self.scene_tracker.calculateTravelTime(target_distance_cm)
-            if travel_time_s is None:
+            travel_time_ms = self.scene_tracker.calculateTravelTime(target_distance_cm)
+            if travel_time_ms is None:
                 return None
 
-            travel_time_ms = int(travel_time_s * 1000)
-            return max(0, travel_time_ms)
+            return max(0, int(travel_time_ms))
 
         return None
 

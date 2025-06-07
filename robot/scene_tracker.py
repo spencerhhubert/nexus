@@ -18,7 +18,7 @@ class SceneTracker:
         self.global_config = global_config
         self.pixels_per_cm = pixels_per_cm
         self.active_trajectories: List[Trajectory] = []
-        self.conveyor_velocity_cm_per_sec: Optional[float] = None
+        self.conveyor_velocity_cm_per_ms: Optional[float] = None
         self.lock = threading.Lock()
 
         # Parameters for trajectory management
@@ -49,7 +49,7 @@ class SceneTracker:
 
     def calculateTravelTime(self, distance_cm: float) -> Optional[float]:
         with self.lock:
-            speed = self.conveyor_velocity_cm_per_sec
+            speed = self.conveyor_velocity_cm_per_ms
         if speed is None or speed <= 0:
             return None
         return distance_cm / speed
@@ -121,7 +121,7 @@ class SceneTracker:
                 trajectory_speeds.append(speed)
 
         if trajectory_speeds:
-            self.conveyor_velocity_cm_per_sec = sum(trajectory_speeds) / len(
+            self.conveyor_velocity_cm_per_ms = sum(trajectory_speeds) / len(
                 trajectory_speeds
             )
 
@@ -151,8 +151,8 @@ class SceneTracker:
         if total_time_ms <= 0:
             return None
 
-        # Convert from cm/ms to cm/sec
-        return total_distance_cm / (total_time_ms / 1000.0)
+        # Return as cm/ms
+        return total_distance_cm / total_time_ms
 
     def _cleanupOldTrajectories(self) -> None:
         current_time_ms = int(time.time() * 1000)

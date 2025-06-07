@@ -73,7 +73,7 @@ def buildIRLConfig() -> IRLConfig:
             "width": 3840,
             "height": 2160,
             "fps": 30,
-            "distance_across_frame_cm": 120.0,
+            "distance_across_frame_cm": 13.49375, #5+5/16"
         },
         "distribution_modules": [
             {

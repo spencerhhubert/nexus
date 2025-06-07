@@ -37,9 +37,18 @@ class Trajectory:
         self.observations: List[Observation] = [initial_observation]
         self.lifecycle_stage = TrajectoryLifecycleStage.UNDER_CAMERA
 
+        current_time_ms = int(time.time() * 1000)
+        self.created_at = current_time_ms
+        self.updated_at = current_time_ms
+
     def addObservation(self, observation: Observation) -> None:
         observation.trajectory_id = self.trajectory_id
         self.observations.append(observation)
+        self.updated_at = int(time.time() * 1000)
+
+    def setLifecycleStage(self, new_stage: TrajectoryLifecycleStage) -> None:
+        self.lifecycle_stage = new_stage
+        self.updated_at = int(time.time() * 1000)
 
     def getLatestObservation(self) -> Optional[Observation]:
         return (
@@ -249,8 +258,8 @@ class Trajectory:
 
         return TrajectoryJSON(
             trajectory_id=self.trajectory_id,
-            created_at=int(time.time() * 1000),
-            updated_at=int(time.time() * 1000),
+            created_at=self.created_at,
+            updated_at=self.updated_at,
             observation_ids=[obs.observation_id for obs in self.observations],
             estimated_velocity_x=est_vel_x_px_per_ms,
             estimated_velocity_y=est_vel_y_px_per_ms,

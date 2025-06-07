@@ -71,7 +71,7 @@ class SceneTracker:
         with self.lock:
             for trajectory in self.active_trajectories:
                 if trajectory.trajectory_id == trajectory_id:
-                    trajectory.lifecycle_stage = TrajectoryLifecycleStage.IN_TRANSIT
+                    trajectory.setLifecycleStage(TrajectoryLifecycleStage.IN_TRANSIT)
                     break
 
     def getActiveTrajectories(self) -> List[Trajectory]:

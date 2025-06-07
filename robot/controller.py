@@ -26,14 +26,13 @@ from robot.storage.blob import ensureBlobStorageExists, saveTrajectory
 from robot.trajectories import (
     Observation,
     Trajectory,
-    createTrajectory,
-    findMatchingTrajectory,
     TrajectoryLifecycleStage,
 )
+from robot.scene_tracker import SceneTracker
 from robot.sorting import Category, SortingProfile
 from robot.bin_state_tracker import BinStateTracker, BinCoordinates, BinState
 from robot.door_scheduler import DoorScheduler
-from robot.conveyor_speed_tracker import estimateConveyorSpeed
+
 from robot.async_profiling import (
     AsyncFrameProfilingRecord,
     initializeAsyncProfiling,
@@ -63,28 +62,6 @@ class SortingController:
         self.irl_system = irl_system
         self.lifecycle_stage = SystemLifecycleStage.INITIALIZING
 
-        self.sorting_profile: Optional[SortingProfile] = None
-        self.bin_state_tracker: Optional[BinStateTracker] = None
-        self.door_scheduler: Optional[DoorScheduler] = None
-
-        self.active_trajectories: List[Trajectory] = []
-        self.completed_trajectories: List[Trajectory] = []
-        self.segmentation_model = None
-
-        self.max_worker_threads = global_config["max_worker_threads"]
-        self.max_queue_size = global_config["max_queue_size"]
-        self.frame_processor_pool: Optional[
-            concurrent.futures.ThreadPoolExecutor
-        ] = None
-        self.active_futures: List[concurrent.futures.Future] = []
-        self.trajectory_lock = threading.Lock()
-
-    def initialize(self) -> None:
-        self.global_config["logger"].info("Initializing sorting controller...")
-
-        ensureBlobStorageExists(self.global_config)
-        initializeDatabase(self.global_config)
-
         self.sorting_profile = SortingProfile(
             self.global_config, "hardcoded_profile", {}
         )
@@ -94,16 +71,30 @@ class SortingController:
             self.irl_system["distribution_modules"],
             self.sorting_profile,
         )
+
         self.door_scheduler = DoorScheduler(
             self.global_config, self.irl_system["distribution_modules"]
         )
+
+        pixels_per_cm = self.irl_system["main_camera"].pixels_per_cm
+        self.scene_tracker = SceneTracker(self.global_config, pixels_per_cm)
+
         self.segmentation_model = initializeSegmentationModel(self.global_config)
 
-        initializeAsyncProfiling(self.global_config)
-
+        self.max_worker_threads = global_config["max_worker_threads"]
+        self.max_queue_size = global_config["max_queue_size"]
         self.frame_processor_pool = concurrent.futures.ThreadPoolExecutor(
             max_workers=self.max_worker_threads, thread_name_prefix="frame_processor"
         )
+        self.active_futures: List[concurrent.futures.Future] = []
+
+    def initialize(self) -> None:
+        self.global_config["logger"].info("Initializing sorting controller...")
+
+        ensureBlobStorageExists(self.global_config)
+        initializeDatabase(self.global_config)
+
+        initializeAsyncProfiling(self.global_config)
 
         self.lifecycle_stage = SystemLifecycleStage.STARTING_HARDWARE
 
@@ -148,7 +139,6 @@ class SortingController:
                     trigger_duration_ms = time.time() * 1000 - trigger_start_ms
 
                     cleanup_start_ms = time.time() * 1000
-                    self._cleanupCompletedTrajectories()
                     self._cleanupCompletedFutures()
                     cleanup_duration_ms = time.time() * 1000 - cleanup_start_ms
 
@@ -203,11 +193,10 @@ class SortingController:
         profiling_record = createFrameProfilingRecord()
 
         # Submit frame for processing
-        if self.frame_processor_pool is not None:
-            future = self.frame_processor_pool.submit(
-                self._processFrame, frame.copy(), profiling_record
-            )
-            self.active_futures.append(future)
+        future = self.frame_processor_pool.submit(
+            self._processFrame, frame.copy(), profiling_record
+        )
+        self.active_futures.append(future)
 
     def _processFrame(
         self, frame: np.ndarray, profiling_record: AsyncFrameProfilingRecord
@@ -273,32 +262,14 @@ class SortingController:
                 classification_result,
             )
 
-            with self.trajectory_lock:
-                new_trajectory = self._assignToTrajectory(observation)
+            self.scene_tracker.addObservation(observation)
 
             profiling_record["observations_saved_count"] += 1
 
         completeFrameProcessing(profiling_record)
 
-    def _assignToTrajectory(self, observation: Observation) -> Optional[Trajectory]:
-        matching_trajectory = findMatchingTrajectory(
-            self.global_config,
-            observation,
-            self.active_trajectories,
-        )
-
-        if matching_trajectory is None:
-            new_trajectory = createTrajectory(self.global_config, observation)
-            self.active_trajectories.append(new_trajectory)
-            return new_trajectory
-        else:
-            observation.trajectory_id = matching_trajectory.trajectory_id
-            matching_trajectory.addObservation(observation)
-            return None
-
     def _updateTrajectories(self) -> None:
-        with self.trajectory_lock:
-            trajectories_to_update = self.active_trajectories.copy()
+        trajectories_to_update = self.scene_tracker.getActiveTrajectories()
 
         for trajectory in trajectories_to_update:
             try:
@@ -309,24 +280,16 @@ class SortingController:
                 )
 
     def _processTriggerActions(self) -> None:
-        with self.trajectory_lock:
-            trajectories_to_check = self.active_trajectories.copy()
+        camera_trigger_position = self.global_config["camera_trigger_position"]
+        trajectories_to_trigger = self.scene_tracker.getTrajectoriesToTrigger(
+            camera_trigger_position
+        )
 
-        for trajectory in trajectories_to_check:
-            if trajectory.lifecycle_stage != TrajectoryLifecycleStage.UNDER_CAMERA:
-                continue
-
-            if not trajectory.shouldTriggerAction(self.global_config):
-                continue
-
+        for trajectory in trajectories_to_trigger:
             item_id = trajectory.getConsensusClassification()
             target_bin = self._getTargetBin(item_id)
 
-            if (
-                not target_bin
-                or self.door_scheduler is None
-                or self.bin_state_tracker is None
-            ):
+            if not target_bin:
                 continue
 
             delay_ms = self._calculateDoorDelay(trajectory, target_bin)
@@ -338,9 +301,7 @@ class SortingController:
 
             self.door_scheduler.scheduleDoorAction(target_bin, delay_ms)
             self.bin_state_tracker.reserveBin(target_bin, "default")
-
-            with self.trajectory_lock:
-                trajectory.lifecycle_stage = TrajectoryLifecycleStage.IN_TRANSIT
+            self.scene_tracker.markTrajectoryInTransit(trajectory.trajectory_id)
 
             self.global_config["logger"].info(
                 f"Scheduled action for trajectory {trajectory.trajectory_id} -> bin {target_bin} with delay {delay_ms}ms"
@@ -349,56 +310,27 @@ class SortingController:
     def _calculateDoorDelay(
         self, trajectory: Trajectory, target_bin: BinCoordinates
     ) -> Optional[int]:
-        conveyor_speed = estimateConveyorSpeed(
-            self.active_trajectories, self.completed_trajectories
-        )
-        if conveyor_speed is None:
-            return None
-
         # Calculate distance from current position to target bin
-        # For now, use a simple estimate based on distribution module distance
         if target_bin["distribution_module_idx"] < len(
             self.irl_system["distribution_modules"]
         ):
-            target_distance = self.irl_system["distribution_modules"][
+            target_distance_cm = self.irl_system["distribution_modules"][
                 target_bin["distribution_module_idx"]
-            ].distance_from_camera
-            travel_time_ms = (
-                int((target_distance / conveyor_speed) * 1000)
-                if conveyor_speed > 0
-                else None
-            )
-            return max(0, travel_time_ms) if travel_time_ms is not None else None
+            ].distance_from_camera_cm
+
+            travel_time_s = self.scene_tracker.calculateTravelTime(target_distance_cm)
+            if travel_time_s is None:
+                return None
+
+            travel_time_ms = int(travel_time_s * 1000)
+            return max(0, travel_time_ms)
 
         return None
 
     def _getTargetBin(self, item_id: str) -> Optional[BinCoordinates]:
-        if self.bin_state_tracker is None:
-            return None
+        # needs to map item id to category id
+        # todo
         return self.bin_state_tracker.findAvailableBin("default")
-
-    def _cleanupCompletedTrajectories(self) -> None:
-        with self.trajectory_lock:
-            completed = [
-                t
-                for t in self.active_trajectories
-                if t.lifecycle_stage == TrajectoryLifecycleStage.DOORS_CLOSED
-            ]
-
-            self.completed_trajectories.extend(completed)
-
-            # Keep only recent completed trajectories for speed estimation
-            max_completed = 50
-            if len(self.completed_trajectories) > max_completed:
-                self.completed_trajectories = self.completed_trajectories[
-                    -max_completed:
-                ]
-
-            self.active_trajectories = [
-                t
-                for t in self.active_trajectories
-                if t.lifecycle_stage != TrajectoryLifecycleStage.DOORS_CLOSED
-            ]
 
     def _cleanupCompletedFutures(self) -> None:
         completed_futures = [f for f in self.active_futures if f.done()]
@@ -412,18 +344,16 @@ class SortingController:
         self.active_futures = [f for f in self.active_futures if not f.done()]
 
     def _shutdownFrameProcessor(self) -> None:
-        if self.frame_processor_pool is not None:
-            self.global_config["logger"].info("Shutting down frame processor...")
+        self.global_config["logger"].info("Shutting down frame processor...")
 
-            # Wait for remaining futures to complete
-            if self.active_futures:
-                self.global_config["logger"].info(
-                    f"Waiting for {len(self.active_futures)} frames to complete..."
-                )
-                concurrent.futures.wait(self.active_futures, timeout=10.0)
+        # Wait for remaining futures to complete
+        if self.active_futures:
+            self.global_config["logger"].info(
+                f"Waiting for {len(self.active_futures)} frames to complete..."
+            )
+            concurrent.futures.wait(self.active_futures, timeout=10.0)
 
-            self.frame_processor_pool.shutdown(wait=True)
-            self.frame_processor_pool = None
+        self.frame_processor_pool.shutdown(wait=True)
 
     def stop(self) -> None:
         self.global_config["logger"].info("Stopping sorting controller...")

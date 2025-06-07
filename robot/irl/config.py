@@ -16,7 +16,7 @@ class ServoMotorConfig(TypedDict):
 
 
 class DistributionModuleConfig(TypedDict):
-    distance_from_camera: int
+    distance_from_camera_cm: int
     num_bins: int
     controller_address: int
     conveyor_door_servo: ServoMotorConfig
@@ -34,6 +34,7 @@ class MainCameraConfig(TypedDict):
     width: int
     height: int
     fps: int
+    distance_across_frame_cm: float
 
 
 class IRLConfig(TypedDict):
@@ -72,10 +73,11 @@ def buildIRLConfig() -> IRLConfig:
             "width": 3840,
             "height": 2160,
             "fps": 30,
+            "distance_across_frame_cm": 120.0,
         },
         "distribution_modules": [
             {
-                "distance_from_camera": 45,
+                "distance_from_camera_cm": 45,
                 "num_bins": 4,
                 "controller_address": 0x41,
                 "conveyor_door_servo": {"channel": 15},
@@ -87,7 +89,7 @@ def buildIRLConfig() -> IRLConfig:
                 ],
             },
             {
-                "distance_from_camera": 45 + 17,
+                "distance_from_camera_cm": 45 + 17,
                 "num_bins": 4,
                 "controller_address": 0x42,
                 "conveyor_door_servo": {"channel": 15},
@@ -99,7 +101,7 @@ def buildIRLConfig() -> IRLConfig:
                 ],
             },
             {
-                "distance_from_camera": 45 + 17 * 2,
+                "distance_from_camera_cm": 45 + 17 * 2,
                 "num_bins": 4,
                 "controller_address": 0x40,
                 "conveyor_door_servo": {"channel": 15},
@@ -211,7 +213,7 @@ def buildIRLSystemInterface(config: IRLConfig, gc: GlobalConfig) -> IRLSystemInt
             DistributionModule(
                 gc,
                 chute_servo,
-                dm["distance_from_camera"],
+                dm["distance_from_camera_cm"],
                 bins,
                 distribution_module_idx,
             )
@@ -247,6 +249,7 @@ def buildIRLSystemInterface(config: IRLConfig, gc: GlobalConfig) -> IRLSystemInt
         config["main_camera"]["width"],
         config["main_camera"]["height"],
         config["main_camera"]["fps"],
+        config["main_camera"]["distance_across_frame_cm"],
     )
 
     return {

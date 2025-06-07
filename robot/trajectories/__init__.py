@@ -3,5 +3,4 @@ from robot.trajectories.trajectory import (
     Trajectory,
     TrajectoryLifecycleStage,
     createTrajectory,
-    findMatchingTrajectory,
 )

@@ -13,6 +13,7 @@ class Camera:
         width: int = 1920,
         height: int = 1080,
         fps: int = 30,
+        distance_across_frame_cm: float = 120.0,
     ):
         self.global_config = global_config
         self.debug_level = global_config["debug_level"]
@@ -20,6 +21,8 @@ class Camera:
         self.width = width
         self.height = height
         self.fps = fps
+        self.distance_across_frame_cm = distance_across_frame_cm
+        self.pixels_per_cm = width / distance_across_frame_cm
 
         if self.debug_level > 0:
             print(f"Initializing camera with device index: {device_index}")
@@ -78,6 +81,7 @@ def connectToCamera(
     width: int = 1920,
     height: int = 1080,
     fps: int = 30,
+    distance_across_frame_cm: float = 120.0,
 ) -> Camera:
     debug_level = global_config["debug_level"]
     auto_confirm = global_config["auto_confirm"]
@@ -86,7 +90,14 @@ def connectToCamera(
     try:
         if debug_level > 0:
             print(f"Attempting to connect to camera at index {camera_device_index}")
-        camera = Camera(global_config, camera_device_index, width, height, fps)
+        camera = Camera(
+            global_config,
+            camera_device_index,
+            width,
+            height,
+            fps,
+            distance_across_frame_cm,
+        )
 
     except Exception as e:
         if debug_level > 0:
@@ -115,7 +126,14 @@ def connectToCamera(
             )
 
         try:
-            camera = Camera(global_config, discovered_camera, width, height, fps)
+            camera = Camera(
+                global_config,
+                discovered_camera,
+                width,
+                height,
+                fps,
+                distance_across_frame_cm,
+            )
             print(f"Successfully connected to camera at index {discovered_camera}")
         except Exception as discovery_error:
             print(

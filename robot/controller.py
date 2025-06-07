@@ -134,6 +134,10 @@ class SortingController:
                     self._updateTrajectories()
                     update_duration_ms = time.time() * 1000 - update_start_ms
 
+                    step_start_ms = time.time() * 1000
+                    self.scene_tracker.stepScene()
+                    step_duration_ms = time.time() * 1000 - step_start_ms
+
                     trigger_start_ms = time.time() * 1000
                     self._processTriggerActions()
                     trigger_duration_ms = time.time() * 1000 - trigger_start_ms
@@ -150,7 +154,7 @@ class SortingController:
                         printAggregateProfilingReport(20)
 
                     self.global_config["logger"].info(
-                        f"Main tick: {tick_duration_ms:.1f}ms (update: {update_duration_ms:.1f}ms, trigger: {trigger_duration_ms:.1f}ms, cleanup: {cleanup_duration_ms:.1f}ms, queue: {active_futures_count}/{self.max_queue_size})"
+                        f"Main tick: {tick_duration_ms:.1f}ms (update: {update_duration_ms:.1f}ms, step: {step_duration_ms:.1f}ms, trigger: {trigger_duration_ms:.1f}ms, cleanup: {cleanup_duration_ms:.1f}ms, queue: {active_futures_count}/{self.max_queue_size})"
                     )
 
                     tick_count += 1

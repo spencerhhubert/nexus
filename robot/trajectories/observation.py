@@ -9,10 +9,14 @@ class ObservationJSON(TypedDict):
     observation_id: str
     trajectory_id: Optional[str]
     timestamp_ms: int
-    center_x: float
-    center_y: float
-    bbox_width: float
-    bbox_height: float
+    center_x_percent: float
+    center_y_percent: float
+    bbox_width_percent: float
+    bbox_height_percent: float
+    center_x_px: int
+    center_y_px: int
+    bbox_width_px: int
+    bbox_height_px: int
     full_image_path: Optional[str]
     masked_image_path: Optional[str]
     classification_file_path: Optional[str]
@@ -34,10 +38,17 @@ class Observation:
         self.observation_id = str(uuid.uuid4())
         self.trajectory_id = trajectory_id
         self.timestamp_ms = int(time.time() * 1000)
-        self.center_x = center_x
-        self.center_y = center_y
-        self.bbox_width = bbox_width
-        self.bbox_height = bbox_height
+        self.center_x_percent = center_x
+        self.center_y_percent = center_y
+        self.bbox_width_percent = bbox_width
+        self.bbox_height_percent = bbox_height
+
+        frame_height, frame_width = full_frame.shape[:2]
+        self.center_x_px = int(center_x * frame_width)
+        self.center_y_px = int(center_y * frame_height)
+        self.bbox_width_px = int(bbox_width * frame_width)
+        self.bbox_height_px = int(bbox_height * frame_height)
+
         self.full_frame = full_frame
         self.masked_image = masked_image
         self.classification_result = classification_result
@@ -50,10 +61,14 @@ class Observation:
             observation_id=self.observation_id,
             trajectory_id=self.trajectory_id,
             timestamp_ms=self.timestamp_ms,
-            center_x=self.center_x,
-            center_y=self.center_y,
-            bbox_width=self.bbox_width,
-            bbox_height=self.bbox_height,
+            center_x_percent=self.center_x_percent,
+            center_y_percent=self.center_y_percent,
+            bbox_width_percent=self.bbox_width_percent,
+            bbox_height_percent=self.bbox_height_percent,
+            center_x_px=self.center_x_px,
+            center_y_px=self.center_y_px,
+            bbox_width_px=self.bbox_width_px,
+            bbox_height_px=self.bbox_height_px,
             full_image_path=self.full_image_path,
             masked_image_path=self.masked_image_path,
             classification_file_path=self.classification_file_path,

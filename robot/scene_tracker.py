@@ -24,7 +24,8 @@ class SceneTracker:
         # Parameters for trajectory management
         self.max_trajectory_age_ms = 30000  # 30 seconds
         self.min_observations_for_speed = 4
-        self.num_trajectories_for_speed_estimate = 10
+        self.num_trajectories_for_speed_estimate = 1
+        self.min_trajectories_to_keep = 10
 
     def addObservation(self, observation: Observation) -> None:
         with self.lock:
@@ -43,16 +44,21 @@ class SceneTracker:
                     f"Added observation to trajectory {matching_trajectory.trajectory_id}"
                 )
 
-            # Update speed estimate and clean up old trajectories
-            self._updateConveyorSpeed()
-            self._cleanupOldTrajectories()
-
     def calculateTravelTime(self, distance_cm: float) -> Optional[float]:
         with self.lock:
             speed = self.conveyor_velocity_cm_per_ms
+
         if speed is None or speed <= 0:
+            self.global_config["logger"].info(
+                f"Cannot calculate travel time: distance={distance_cm:.1f}cm, speed={speed} cm/ms"
+            )
             return None
-        return distance_cm / speed
+
+        travel_time_ms = distance_cm / speed
+        self.global_config["logger"].info(
+            f"Travel time calculation: distance={distance_cm:.1f}cm, speed={speed:.4f}cm/ms, time={travel_time_ms:.1f}ms"
+        )
+        return travel_time_ms
 
     def getTrajectoriesToTrigger(self, trigger_position: float) -> List[Trajectory]:
         with self.lock:
@@ -73,6 +79,11 @@ class SceneTracker:
                 if trajectory.trajectory_id == trajectory_id:
                     trajectory.setLifecycleStage(TrajectoryLifecycleStage.IN_TRANSIT)
                     break
+
+    def stepScene(self) -> None:
+        with self.lock:
+            self._updateConveyorSpeed()
+            self._cleanupOldTrajectories()
 
     def getActiveTrajectories(self) -> List[Trajectory]:
         with self.lock:
@@ -120,6 +131,8 @@ class SceneTracker:
             if speed is not None:
                 trajectory_speeds.append(speed)
 
+        self.global_config["logger"].info(f"Trajectory speeds: {trajectory_speeds}")
+
         if trajectory_speeds:
             self.conveyor_velocity_cm_per_ms = sum(trajectory_speeds) / len(
                 trajectory_speeds
@@ -138,10 +151,13 @@ class SceneTracker:
 
             time_delta_ms = obs_curr.timestamp_ms - obs_prev.timestamp_ms
             if time_delta_ms <= 0:
+                self.global_config["logger"].error(
+                    f"Observations out of order, invalid time delta: {time_delta_ms}"
+                )
                 continue
 
-            dx_px = obs_curr.center_x - obs_prev.center_x
-            dy_px = obs_curr.center_y - obs_prev.center_y
+            dx_px = obs_curr.center_x_px - obs_prev.center_x_px
+            dy_px = obs_curr.center_y_px - obs_prev.center_y_px
             distance_px = (dx_px * dx_px + dy_px * dy_px) ** 0.5
             distance_cm = distance_px / self.pixels_per_cm
 
@@ -157,6 +173,10 @@ class SceneTracker:
     def _cleanupOldTrajectories(self) -> None:
         current_time_ms = int(time.time() * 1000)
 
+        # Don't clean up if we have too few trajectories
+        if len(self.active_trajectories) <= self.min_trajectories_to_keep:
+            return
+
         # Remove trajectories that are too old or have completed their lifecycle
         self.active_trajectories = [
             t
@@ -167,6 +187,10 @@ class SceneTracker:
                 and t.lifecycle_stage != TrajectoryLifecycleStage.DOORS_CLOSED
             )
         ]
+
+        # Ensure we still have minimum trajectories after cleanup
+        if len(self.active_trajectories) < self.min_trajectories_to_keep:
+            return
 
         # Keep a reasonable number of trajectories for speed estimation
         max_trajectories = 50

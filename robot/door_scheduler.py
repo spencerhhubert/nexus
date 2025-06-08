@@ -34,22 +34,26 @@ class DoorScheduler:
     def scheduleDoorAction(
         self, bin_coordinates: BinCoordinates, delay_ms: int = 0
     ) -> None:
-        def executeDoorAction():
-            if delay_ms > 0:
-                time.sleep(delay_ms / 1000.0)
+        def executeDoorAction(delay: int, coords: BinCoordinates):
+            # offset due to lag?? debt to be paid back. that, or something is wrong with the code estimating the speed of the conveyor
+            delay += self.global_config["door_delay_offset_ms"]
+            if delay < 0:
+                delay = 0
+            if delay > 0:
+                time.sleep(delay / 1000.0)
 
-            dm_servo, bin_servo = self._getServosForBin(bin_coordinates)
+            dm_servo, bin_servo = self._getServosForBin(coords)
             assert (
                 dm_servo is not None
-            ), f"Distribution module servo is None for bin {bin_coordinates}"
-            assert bin_servo is not None, f"Bin servo is None for bin {bin_coordinates}"
+            ), f"Distribution module servo is None for bin {coords}"
+            assert bin_servo is not None, f"Bin servo is None for bin {coords}"
 
             door_open_angle = self.global_config["door_open_angle"]
             door_closed_angle = self.global_config["door_closed_angle"]
             door_open_duration_ms = self.global_config["door_open_duration_ms"]
 
             self.global_config["logger"].info(
-                f"Opening doors for bin {bin_coordinates} to {door_open_angle} degrees"
+                f"Opening doors for bin {coords} to {door_open_angle} degrees"
             )
             dm_servo.setAngle(door_open_angle)
             bin_servo.setAngle(door_open_angle)
@@ -57,10 +61,12 @@ class DoorScheduler:
             time.sleep(door_open_duration_ms / 1000.0)
 
             self.global_config["logger"].info(
-                f"Closing doors for bin {bin_coordinates} to {door_closed_angle} degrees"
+                f"Closing doors for bin {coords} to {door_closed_angle} degrees"
             )
             dm_servo.setAngle(door_closed_angle, duration=500)
             bin_servo.setAngle(door_closed_angle)
 
-        thread = threading.Thread(target=executeDoorAction, daemon=True)
+        thread = threading.Thread(
+            target=executeDoorAction, args=(delay_ms, bin_coordinates), daemon=True
+        )
         thread.start()

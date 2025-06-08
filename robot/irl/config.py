@@ -77,14 +77,16 @@ def buildIRLConfig() -> IRLConfig:
             "fps": 10,
             "calibration_measurements": [
                 {
-                    "distance_down_from_top_of_frame_percent": 0.2,
+                    "distance_down_from_top_of_frame_percent": 0.245,
                     "physical_distance_on_floor_across_frame_cm": inchesToCm(
-                        8 + 2 / 16
+                        8 + 10 / 16
                     ),
                 },
                 {
-                    "distance_down_from_top_of_frame_percent": 0.9,
-                    "physical_distance_on_floor_across_frame_cm": inchesToCm(5),
+                    "distance_down_from_top_of_frame_percent": 0.885,
+                    "physical_distance_on_floor_across_frame_cm": inchesToCm(
+                        5 + 6 / 16
+                    ),
                 },
             ],
         },

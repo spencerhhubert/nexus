@@ -36,6 +36,7 @@ class GlobalConfig(TypedDict):
     door_open_angle: int
     door_closed_angle: int
     door_open_duration_ms: int
+    door_delay_offset_ms: int
     profiling_dir_path: str
 
 
@@ -99,6 +100,7 @@ def buildGlobalConfig() -> GlobalConfig:
         "door_open_angle": 55,
         "door_closed_angle": 0,
         "door_open_duration_ms": 3500,
+        "door_delay_offset_ms": -1500,
         "profiling_dir_path": "../profiles",
     }
 

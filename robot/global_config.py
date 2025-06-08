@@ -33,7 +33,8 @@ class GlobalConfig(TypedDict):
     enable_profiling: bool
     max_worker_threads: int
     max_queue_size: int
-    door_open_angle: int
+    conveyor_door_open_angle: int
+    bin_door_open_angle: int
     door_closed_angle: int
     door_open_duration_ms: int
     door_delay_offset_ms: int
@@ -97,7 +98,8 @@ def buildGlobalConfig() -> GlobalConfig:
         "enable_profiling": args.profile,
         "max_worker_threads": 4,
         "max_queue_size": 8,
-        "door_open_angle": 55,
+        "conveyor_door_open_angle": 55,
+        "bin_door_open_angle": 45,
         "door_closed_angle": 0,
         "door_open_duration_ms": 3500,
         "door_delay_offset_ms": -1500,

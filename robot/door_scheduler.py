@@ -48,15 +48,16 @@ class DoorScheduler:
             ), f"Distribution module servo is None for bin {coords}"
             assert bin_servo is not None, f"Bin servo is None for bin {coords}"
 
-            door_open_angle = self.global_config["door_open_angle"]
+            conveyor_door_open_angle = self.global_config["conveyor_door_open_angle"]
+            bin_door_open_angle = self.global_config["bin_door_open_angle"]
             door_closed_angle = self.global_config["door_closed_angle"]
             door_open_duration_ms = self.global_config["door_open_duration_ms"]
 
             self.global_config["logger"].info(
-                f"Opening doors for bin {coords} to {door_open_angle} degrees"
+                f"Opening doors for bin {coords} - conveyor: {conveyor_door_open_angle}°, bin: {bin_door_open_angle}°"
             )
-            dm_servo.setAngle(door_open_angle)
-            bin_servo.setAngle(door_open_angle)
+            dm_servo.setAngle(conveyor_door_open_angle)
+            bin_servo.setAngle(bin_door_open_angle)
 
             time.sleep(door_open_duration_ms / 1000.0)
 

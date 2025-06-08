@@ -300,7 +300,7 @@ class SortingController:
             delay_ms = self._calculateDoorDelay(trajectory, target_bin)
             if delay_ms is None:
                 self.global_config["logger"].info(
-                    f"Cannot schedule action for trajectory {trajectory.trajectory_id} - conveyor speed unknown"
+                    f"Cannot schedule action for trajectory {trajectory.trajectory_id}"
                 )
                 continue
 
@@ -318,11 +318,17 @@ class SortingController:
         if target_bin["distribution_module_idx"] >= len(
             self.irl_system["distribution_modules"]
         ):
+            self.global_config["logger"].info(
+                f"Invalid target bin distribution_module_idx {target_bin['distribution_module_idx']}"
+            )
             return None
 
         # Get when trajectory was at camera center
         time_at_center_ms = self.scene_tracker.predictTimeAtCameraCenter(trajectory)
         if time_at_center_ms is None:
+            self.global_config["logger"].info(
+                "Could not predict time at camera center for trajectory"
+            )
             return None
 
         # Get distance from camera center to door beginning
@@ -332,6 +338,7 @@ class SortingController:
 
         travel_time_ms = self.scene_tracker.calculateTravelTime(target_distance_cm)
         if travel_time_ms is None:
+            self.global_config["logger"].info("Could not calculate travel time")
             return None
 
         # Calculate delay: time for object to travel from center to door, minus time already elapsed since center

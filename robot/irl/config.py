@@ -74,7 +74,7 @@ def buildIRLConfig() -> IRLConfig:
             # "height": 1080,
             "width": 3840,
             "height": 2160,
-            "fps": 30,
+            "fps": 10,
             "calibration_measurements": [
                 {
                     "distance_down_from_top_of_frame_percent": 0.2,

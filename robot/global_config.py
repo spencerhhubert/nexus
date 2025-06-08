@@ -29,6 +29,7 @@ class GlobalConfig(TypedDict):
     trajectory_matching_spatial_weight: float
     camera_trigger_position: float
     capture_delay_ms: int
+    camera_preview: bool
     enable_profiling: bool
     max_worker_threads: int
     max_queue_size: int
@@ -57,6 +58,11 @@ def buildGlobalConfig() -> GlobalConfig:
         action="store_true",
         help="Enable performance profiling",
     )
+    parser.add_argument(
+        "--preview",
+        action="store_true",
+        help="Enable camera preview window",
+    )
     args = parser.parse_args()
 
     disabled_motors = args.disable or []
@@ -84,14 +90,15 @@ def buildGlobalConfig() -> GlobalConfig:
         "trajectory_matching_max_bbox_size_ratio": 4.0,
         "trajectory_matching_classification_consistency_weight": 0.3,
         "trajectory_matching_spatial_weight": 0.3,
-        "camera_trigger_position": 0.25,
-        "capture_delay_ms": 100,
+        "camera_trigger_position": 0.45,
+        "capture_delay_ms": 250,
+        "camera_preview": args.preview,
         "enable_profiling": args.profile,
         "max_worker_threads": 4,
         "max_queue_size": 8,
         "door_open_angle": 55,
         "door_closed_angle": 0,
-        "door_open_duration_ms": 2500,
+        "door_open_duration_ms": 3500,
         "profiling_dir_path": "../profiles",
     }
 

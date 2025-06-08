@@ -114,7 +114,8 @@ class SortingController:
     def run(self) -> None:
         self.global_config["logger"].info("Starting main control loop...")
 
-        cv2.namedWindow("Camera Feed", cv2.WINDOW_AUTOSIZE)
+        if self.global_config["camera_preview"]:
+            cv2.namedWindow("Camera Feed", cv2.WINDOW_AUTOSIZE)
 
         enable_profiling = self.global_config.get("enable_profiling", False)
         profiler = None
@@ -183,10 +184,11 @@ class SortingController:
         if frame is None:
             return
 
-        # Resize frame for display (480p)
-        display_frame = cv2.resize(frame, (640, 480))
-        cv2.imshow("Camera Feed", display_frame)
-        cv2.waitKey(1)
+        if self.global_config["camera_preview"]:
+            # Resize frame for display (480p)
+            display_frame = cv2.resize(frame, (854, 480))
+            cv2.imshow("Camera Feed", display_frame)
+            cv2.waitKey(1)
 
         # Check if we have too many queued frames
         if len(self.active_futures) >= self.max_queue_size:
@@ -386,7 +388,8 @@ class SortingController:
 
         self._shutdownFrameProcessor()
 
-        cv2.destroyAllWindows()
+        if self.global_config["camera_preview"]:
+            cv2.destroyAllWindows()
 
         self.irl_system["arduino"].flush()
         self.irl_system["arduino"].close()

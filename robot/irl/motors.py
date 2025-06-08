@@ -18,19 +18,59 @@ class Servo:
         self.gc = gc
         self.channel = channel
         self.dev = dev
+        self._current_angle = 0
 
-    def setAngle(self, angle: int) -> None:
+    def setAngle(self, angle: int, duration: Optional[int] = None) -> None:
+        if duration is None:
+            self.gc["logger"].info(
+                f"Setting servo on channel {self.channel} and board {self.dev.addr} to {angle} degrees"
+            )
+            data = [
+                0x08,
+                self.dev.addr,
+                self.channel,
+                util.to_two_bytes(angle)[0],
+                util.to_two_bytes(angle)[1],
+            ]
+            self.dev.dev.sysex(0x01, data)
+            self._current_angle = angle
+        else:
+            self._setAngleGradually(angle, duration)
+
+    def _setAngleGradually(
+        self, target_angle: int, duration_ms: int, step_delay_ms: int = 50
+    ) -> None:
+        current_angle = self._current_angle
+
+        total_steps = max(1, duration_ms // step_delay_ms)
+        angle_step = (target_angle - current_angle) / total_steps
+
         self.gc["logger"].info(
-            f"Setting servo on channel {self.channel} and board {self.dev.addr} to {angle} degrees"
+            f"Moving servo on channel {self.channel} from {current_angle} to {target_angle} degrees over {duration_ms}ms"
         )
+
+        for step in range(total_steps):
+            intermediate_angle = int(current_angle + (angle_step * step))
+            data = [
+                0x08,
+                self.dev.addr,
+                self.channel,
+                util.to_two_bytes(intermediate_angle)[0],
+                util.to_two_bytes(intermediate_angle)[1],
+            ]
+            self.dev.dev.sysex(0x01, data)
+            time.sleep(step_delay_ms / 1000.0)
+
+        # Ensure we end at the exact target angle
         data = [
             0x08,
             self.dev.addr,
             self.channel,
-            util.to_two_bytes(angle)[0],
-            util.to_two_bytes(angle)[1],
+            util.to_two_bytes(target_angle)[0],
+            util.to_two_bytes(target_angle)[1],
         ]
         self.dev.dev.sysex(0x01, data)
+        self._current_angle = target_angle
 
 
 class DCMotor:

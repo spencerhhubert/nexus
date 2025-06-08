@@ -35,7 +35,8 @@ class GlobalConfig(TypedDict):
     max_queue_size: int
     conveyor_door_open_angle: int
     bin_door_open_angle: int
-    door_closed_angle: int
+    conveyor_door_closed_angle: int
+    bin_door_closed_angle: int
     door_open_duration_ms: int
     door_delay_offset_ms: int
     profiling_dir_path: str
@@ -100,7 +101,8 @@ def buildGlobalConfig() -> GlobalConfig:
         "max_queue_size": 8,
         "conveyor_door_open_angle": 55,
         "bin_door_open_angle": 45,
-        "door_closed_angle": 0,
+        "conveyor_door_closed_angle": 0,
+        "bin_door_closed_angle": 180,
         "door_open_duration_ms": 3500,
         "door_delay_offset_ms": -1500,
         "profiling_dir_path": "../profiles",

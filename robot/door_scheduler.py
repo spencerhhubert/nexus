@@ -50,7 +50,10 @@ class DoorScheduler:
 
             conveyor_door_open_angle = self.global_config["conveyor_door_open_angle"]
             bin_door_open_angle = self.global_config["bin_door_open_angle"]
-            door_closed_angle = self.global_config["door_closed_angle"]
+            conveyor_door_closed_angle = self.global_config[
+                "conveyor_door_closed_angle"
+            ]
+            bin_door_closed_angle = self.global_config["bin_door_closed_angle"]
             door_open_duration_ms = self.global_config["door_open_duration_ms"]
 
             self.global_config["logger"].info(
@@ -62,10 +65,10 @@ class DoorScheduler:
             time.sleep(door_open_duration_ms / 1000.0)
 
             self.global_config["logger"].info(
-                f"Closing doors for bin {coords} to {door_closed_angle} degrees"
+                f"Closing doors for bin {coords} - conveyor: {conveyor_door_closed_angle}°, bin: {bin_door_closed_angle}°"
             )
-            dm_servo.setAngle(door_closed_angle, duration=500)
-            bin_servo.setAngle(door_closed_angle)
+            dm_servo.setAngle(conveyor_door_closed_angle, duration=500)
+            bin_servo.setAngle(bin_door_closed_angle)
 
         thread = threading.Thread(
             target=executeDoorAction, args=(delay_ms, bin_coordinates), daemon=True

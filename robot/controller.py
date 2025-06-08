@@ -97,7 +97,27 @@ class SortingController:
 
         initializeAsyncProfiling(self.global_config)
 
+        self.resetServos()
+
         self.lifecycle_stage = SystemLifecycleStage.STARTING_HARDWARE
+
+    def resetServos(self) -> None:
+        conveyor_closed_angle = self.global_config["conveyor_door_closed_angle"]
+        bin_closed_angle = self.global_config["bin_door_closed_angle"]
+
+        self.global_config["logger"].info(
+            f"Resetting all servos - conveyor doors: {conveyor_closed_angle}°, bin doors: {bin_closed_angle}°"
+        )
+
+        for distribution_module in self.irl_system["distribution_modules"]:
+            # Reset conveyor door servo
+            distribution_module.servo.setAngle(conveyor_closed_angle)
+
+            # Reset all bin door servos
+            for bin_servo in distribution_module.bins:
+                bin_servo.servo.setAngle(bin_closed_angle)
+
+        self.global_config["logger"].info("All servos reset to closed positions")
 
     def startHardware(self) -> None:
         self.global_config["logger"].info("Starting hardware systems...")

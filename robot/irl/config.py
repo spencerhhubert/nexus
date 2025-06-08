@@ -99,32 +99,30 @@ def buildIRLConfig() -> IRLConfig:
                 "bin_door_servos": [
                     {"channel": 0},
                     {"channel": 1},
-                    {"channel": 2},
-                    {"channel": 3},
                 ],
             },
             {
-                "distance_from_camera_center_to_door_begin_cm": 45 + 17,
+                "distance_from_camera_center_to_door_begin_cm": int(
+                    inchesToCm(5 + 10 / 16 + (6 + 2 / 16))
+                ),
                 "num_bins": 4,
                 "controller_address": 0x42,
                 "conveyor_door_servo": {"channel": 15},
                 "bin_door_servos": [
                     {"channel": 0},
                     {"channel": 1},
-                    {"channel": 2},
-                    {"channel": 3},
                 ],
             },
             {
-                "distance_from_camera_center_to_door_begin_cm": 45 + 17 * 2,
+                "distance_from_camera_center_to_door_begin_cm": int(
+                    inchesToCm(5 + 10 / 16 + 2 * (6 + 2 / 16))
+                ),
                 "num_bins": 4,
                 "controller_address": 0x40,
                 "conveyor_door_servo": {"channel": 15},
                 "bin_door_servos": [
                     {"channel": 0},
                     {"channel": 1},
-                    {"channel": 2},
-                    {"channel": 3},
                 ],
             },
         ],

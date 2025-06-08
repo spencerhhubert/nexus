@@ -91,7 +91,7 @@ def buildGlobalConfig() -> GlobalConfig:
         "max_queue_size": 8,
         "door_open_angle": 55,
         "door_closed_angle": 0,
-        "door_open_duration_ms": 5000,
+        "door_open_duration_ms": 2500,
         "profiling_dir_path": "../profiles",
     }
 

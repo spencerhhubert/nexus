@@ -59,7 +59,7 @@ class DoorScheduler:
             self.global_config["logger"].info(
                 f"Closing doors for bin {bin_coordinates} to {door_closed_angle} degrees"
             )
-            dm_servo.setAngle(door_closed_angle, duration=1000)
+            dm_servo.setAngle(door_closed_angle, duration=500)
             bin_servo.setAngle(door_closed_angle)
 
         thread = threading.Thread(target=executeDoorAction, daemon=True)

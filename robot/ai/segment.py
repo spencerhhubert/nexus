@@ -4,6 +4,7 @@ from typing import List, NamedTuple, Optional
 from robot.global_config import GlobalConfig
 from robot.ai.fast_segment_anything import _segmentFrame
 from fastsam import FastSAM  # type: ignore
+from robot.irl.camera_calibration import CameraCalibration
 
 
 class Segment(NamedTuple):
@@ -63,3 +64,34 @@ def calculateNormalizedBounds(
     bbox_height = (y_max - y_min) / full_frame.shape[0]
 
     return center_x, center_y, bbox_width, bbox_height
+
+
+def calculatePhysicalBounds(
+    full_frame: np.ndarray, segment, calibration: CameraCalibration
+) -> tuple[float, float, float, float]:
+    """
+    Calculate physical bounds in centimeters using camera calibration.
+    Returns (center_x_cm, center_y_cm, bbox_width_cm, bbox_height_cm).
+    """
+    y_min, y_max, x_min, x_max = segment.bbox
+    frame_height, frame_width = full_frame.shape[:2]
+
+    center_x_px = (x_min + x_max) / 2.0
+    center_y_px = (y_min + y_max) / 2.0
+    bbox_width_px = x_max - x_min
+    bbox_height_px = y_max - y_min
+
+    # Convert to normalized coordinates for calibration lookup
+    center_y_percent = center_y_px / frame_height
+
+    bbox_width_cm = calibration.convertPixelDistanceToCm(
+        bbox_width_px, center_y_percent
+    )
+    bbox_height_cm = calibration.convertPixelDistanceToCm(
+        bbox_height_px, center_y_percent
+    )
+
+    center_x_cm = calibration.convertPixelDistanceToCm(center_x_px, center_y_percent)
+    center_y_cm = calibration.convertPixelDistanceToCm(center_y_px, center_y_percent)
+
+    return center_x_cm, center_y_cm, bbox_width_cm, bbox_height_cm

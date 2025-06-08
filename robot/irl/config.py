@@ -4,11 +4,13 @@ from robot.irl.our_arduino import OurArduinoMega
 from robot.irl.motors import PCA9685, Servo, DCMotor
 from robot.irl.distribution import Bin, DistributionModule
 from robot.irl.camera import Camera, connectToCamera
+from robot.irl.camera_calibration import CameraCalibration, CameraCalibrationMeasurement
 from typing import Dict, List, Tuple, TypedDict, NewType, Optional
 import os
 import subprocess
 import re
 from robot.global_config import GlobalConfig
+from robot.util.random import inchesToCm
 
 
 class ServoMotorConfig(TypedDict):
@@ -16,7 +18,7 @@ class ServoMotorConfig(TypedDict):
 
 
 class DistributionModuleConfig(TypedDict):
-    distance_from_camera_cm: int
+    distance_from_camera_center_to_door_begin_cm: int
     num_bins: int
     controller_address: int
     conveyor_door_servo: ServoMotorConfig
@@ -34,7 +36,7 @@ class MainCameraConfig(TypedDict):
     width: int
     height: int
     fps: int
-    distance_across_frame_cm: float
+    calibration_measurements: List[CameraCalibrationMeasurement]
 
 
 class IRLConfig(TypedDict):
@@ -73,11 +75,24 @@ def buildIRLConfig() -> IRLConfig:
             "width": 3840,
             "height": 2160,
             "fps": 30,
-            "distance_across_frame_cm": 13.49375, #5+5/16"
+            "calibration_measurements": [
+                {
+                    "distance_down_from_top_of_frame_percent": 0.2,
+                    "physical_distance_on_floor_across_frame_cm": inchesToCm(
+                        8 + 2 / 16
+                    ),
+                },
+                {
+                    "distance_down_from_top_of_frame_percent": 0.9,
+                    "physical_distance_on_floor_across_frame_cm": inchesToCm(5),
+                },
+            ],
         },
         "distribution_modules": [
             {
-                "distance_from_camera_cm": 45,
+                "distance_from_camera_center_to_door_begin_cm": int(
+                    inchesToCm(5 + 10 / 16)
+                ),
                 "num_bins": 4,
                 "controller_address": 0x41,
                 "conveyor_door_servo": {"channel": 15},
@@ -89,7 +104,7 @@ def buildIRLConfig() -> IRLConfig:
                 ],
             },
             {
-                "distance_from_camera_cm": 45 + 17,
+                "distance_from_camera_center_to_door_begin_cm": 45 + 17,
                 "num_bins": 4,
                 "controller_address": 0x42,
                 "conveyor_door_servo": {"channel": 15},
@@ -101,7 +116,7 @@ def buildIRLConfig() -> IRLConfig:
                 ],
             },
             {
-                "distance_from_camera_cm": 45 + 17 * 2,
+                "distance_from_camera_center_to_door_begin_cm": 45 + 17 * 2,
                 "num_bins": 4,
                 "controller_address": 0x40,
                 "conveyor_door_servo": {"channel": 15},
@@ -213,7 +228,7 @@ def buildIRLSystemInterface(config: IRLConfig, gc: GlobalConfig) -> IRLSystemInt
             DistributionModule(
                 gc,
                 chute_servo,
-                dm["distance_from_camera_cm"],
+                dm["distance_from_camera_center_to_door_begin_cm"],
                 bins,
                 distribution_module_idx,
             )
@@ -243,14 +258,23 @@ def buildIRLSystemInterface(config: IRLConfig, gc: GlobalConfig) -> IRLSystemInt
         config["vibration_hopper_dc_motor"]["input_2_pin"],
     )
 
+    camera_calibration = CameraCalibration(
+        gc,
+        config["main_camera"]["width"],
+        config["main_camera"]["height"],
+        config["main_camera"]["calibration_measurements"],
+    )
+
     main_camera = connectToCamera(
         config["main_camera"]["device_index"],
         gc,
         config["main_camera"]["width"],
         config["main_camera"]["height"],
         config["main_camera"]["fps"],
-        config["main_camera"]["distance_across_frame_cm"],
+        camera_calibration,
     )
+
+    main_camera.tempSaveFrameWithCalibrationInfo()
 
     return {
         "arduino": mc,

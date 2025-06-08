@@ -36,6 +36,7 @@ class Trajectory:
         self.trajectory_id = trajectory_id
         self.observations: List[Observation] = [initial_observation]
         self.lifecycle_stage = TrajectoryLifecycleStage.UNDER_CAMERA
+        self.velocity_cm_per_ms: Optional[float] = None
 
         current_time_ms = int(time.time() * 1000)
         self.created_at = current_time_ms
@@ -135,35 +136,9 @@ class Trajectory:
 
         return (predicted_x_px, predicted_y_px)
 
-    def getEstimatedVelocity(self) -> tuple[float, float]:
-        if len(self.observations) < 2:
-            return (0.0, 0.0)
-
-        total_velocity_x_px_per_ms = 0.0
-        total_velocity_y_px_per_ms = 0.0
-        velocity_samples = 0
-
-        for i in range(1, len(self.observations)):
-            obs_prev = self.observations[i - 1]
-            obs_curr = self.observations[i]
-
-            time_delta_ms = obs_curr.timestamp_ms - obs_prev.timestamp_ms
-            if time_delta_ms > 0:
-                dx_px = obs_curr.center_x_px - obs_prev.center_x_px
-                dy_px = obs_curr.center_y_px - obs_prev.center_y_px
-                velocity_x_px_per_ms = dx_px / time_delta_ms
-                velocity_y_px_per_ms = dy_px / time_delta_ms
-                total_velocity_x_px_per_ms += velocity_x_px_per_ms
-                total_velocity_y_px_per_ms += velocity_y_px_per_ms
-                velocity_samples += 1
-
-        if velocity_samples == 0:
-            return (0.0, 0.0)
-
-        return (
-            total_velocity_x_px_per_ms / velocity_samples,
-            total_velocity_y_px_per_ms / velocity_samples,
-        )
+    def setVelocity(self, velocity_cm_per_ms: float) -> None:
+        self.velocity_cm_per_ms = velocity_cm_per_ms
+        self.updated_at = int(time.time() * 1000)
 
     def _calculateSpatialDistance(self, obs: Observation) -> float:
         predicted_x_px, predicted_y_px = self.getPredictedPosition(obs.timestamp_ms)
@@ -254,15 +229,13 @@ class Trajectory:
         return combined_score
 
     def toJSON(self) -> TrajectoryJSON:
-        est_vel_x_px_per_ms, est_vel_y_px_per_ms = self.getEstimatedVelocity()
-
         return TrajectoryJSON(
             trajectory_id=self.trajectory_id,
             created_at=self.created_at,
             updated_at=self.updated_at,
             observation_ids=[obs.observation_id for obs in self.observations],
-            estimated_velocity_x=est_vel_x_px_per_ms,
-            estimated_velocity_y=est_vel_y_px_per_ms,
+            estimated_velocity_x=self.velocity_cm_per_ms or 0.0,
+            estimated_velocity_y=0.0,
             consensus_classification=self.getConsensusClassification(),
             lifecycle_stage=self.lifecycle_stage.value,
         )

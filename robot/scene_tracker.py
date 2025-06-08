@@ -11,12 +11,13 @@ from robot.trajectories import (
     createTrajectory,
 )
 from robot.util.bricklink import splitBricklinkId
+from robot.irl.camera_calibration import CameraCalibration
 
 
 class SceneTracker:
-    def __init__(self, global_config: GlobalConfig, pixels_per_cm: float):
+    def __init__(self, global_config: GlobalConfig, calibration: CameraCalibration):
         self.global_config = global_config
-        self.pixels_per_cm = pixels_per_cm
+        self.calibration = calibration
         self.active_trajectories: List[Trajectory] = []
         self.conveyor_velocity_cm_per_ms: Optional[float] = None
         self.lock = threading.Lock()
@@ -59,6 +60,51 @@ class SceneTracker:
             f"Travel time calculation: distance={distance_cm:.1f}cm, speed={speed:.4f}cm/ms, time={travel_time_ms:.1f}ms"
         )
         return travel_time_ms
+
+    def predictTimeAtCameraCenter(self, trajectory: Trajectory) -> Optional[int]:
+        if len(trajectory.observations) < 2:
+            return None
+
+        camera_center_x_percent = 0.5
+
+        # Check if any observation is already at or past center
+        for obs in trajectory.observations:
+            if obs.center_x_percent <= camera_center_x_percent:
+                return obs.timestamp_ms
+
+        # Find the two observations that bracket the center position
+        for i in range(len(trajectory.observations) - 1):
+            obs1 = trajectory.observations[i]
+            obs2 = trajectory.observations[i + 1]
+
+            if (
+                obs1.center_x_percent > camera_center_x_percent
+                and obs2.center_x_percent <= camera_center_x_percent
+            ):
+                # Interpolate between these two observations
+                x_range = obs1.center_x_percent - obs2.center_x_percent
+                if x_range <= 0:
+                    continue
+
+                x_progress = (obs1.center_x_percent - camera_center_x_percent) / x_range
+                time_range = obs2.timestamp_ms - obs1.timestamp_ms
+                predicted_time = obs1.timestamp_ms + int(x_progress * time_range)
+                return predicted_time
+
+        # If we haven't found it in observations, extrapolate from the last two
+        if len(trajectory.observations) >= 2:
+            obs1 = trajectory.observations[-2]
+            obs2 = trajectory.observations[-1]
+
+            time_delta = obs2.timestamp_ms - obs1.timestamp_ms
+            x_delta = obs2.center_x_percent - obs1.center_x_percent
+
+            if time_delta > 0 and x_delta != 0:
+                x_remaining = obs2.center_x_percent - camera_center_x_percent
+                time_to_center = int(x_remaining * time_delta / x_delta)
+                return obs2.timestamp_ms + time_to_center
+
+        return None
 
     def getTrajectoriesToTrigger(self, trigger_position: float) -> List[Trajectory]:
         with self.lock:
@@ -127,9 +173,9 @@ class SceneTracker:
         trajectory_speeds = []
 
         for trajectory in recent_trajectories:
-            speed = self._calculateTrajectorySpeed(trajectory)
-            if speed is not None:
-                trajectory_speeds.append(speed)
+            self._calcAndSetTrajectoryVelocity(trajectory)
+            if trajectory.velocity_cm_per_ms is not None:
+                trajectory_speeds.append(trajectory.velocity_cm_per_ms)
 
         self.global_config["logger"].info(f"Trajectory speeds: {trajectory_speeds}")
 
@@ -138,9 +184,9 @@ class SceneTracker:
                 trajectory_speeds
             )
 
-    def _calculateTrajectorySpeed(self, trajectory: Trajectory) -> Optional[float]:
+    def _calcAndSetTrajectoryVelocity(self, trajectory: Trajectory) -> None:
         if len(trajectory.observations) < 2:
-            return None
+            return
 
         total_distance_cm = 0.0
         total_time_ms = 0.0
@@ -156,19 +202,21 @@ class SceneTracker:
                 )
                 continue
 
-            dx_px = obs_curr.center_x_px - obs_prev.center_x_px
-            dy_px = obs_curr.center_y_px - obs_prev.center_y_px
-            distance_px = (dx_px * dx_px + dy_px * dy_px) ** 0.5
-            distance_cm = distance_px / self.pixels_per_cm
+            distance_cm = self.calibration.getPhysicalDistanceBetweenPoints(
+                obs_prev.center_x_px,
+                obs_prev.center_y_px,
+                obs_curr.center_x_px,
+                obs_curr.center_y_px,
+            )
 
             total_distance_cm += distance_cm
             total_time_ms += time_delta_ms
 
         if total_time_ms <= 0:
-            return None
+            return
 
-        # Return as cm/ms
-        return total_distance_cm / total_time_ms
+        velocity_cm_per_ms = total_distance_cm / total_time_ms
+        trajectory.setVelocity(velocity_cm_per_ms)
 
     def _cleanupOldTrajectories(self) -> None:
         current_time_ms = int(time.time() * 1000)

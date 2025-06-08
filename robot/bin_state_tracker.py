@@ -40,7 +40,7 @@ class BinStateTracker:
         available_bins = []
         sorted_modules = sorted(
             enumerate(self.distribution_modules),
-            key=lambda x: x[1].distance_from_camera_cm,
+            key=lambda x: x[1].distance_from_camera_center_to_door_begin_cm,
         )
 
         for dm_idx, module in sorted_modules:

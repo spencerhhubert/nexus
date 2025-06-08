@@ -76,8 +76,9 @@ class SortingController:
             self.global_config, self.irl_system["distribution_modules"]
         )
 
-        pixels_per_cm = self.irl_system["main_camera"].pixels_per_cm
-        self.scene_tracker = SceneTracker(self.global_config, pixels_per_cm)
+        self.scene_tracker = SceneTracker(
+            self.global_config, self.irl_system["main_camera"].calibration
+        )
 
         self.segmentation_model = initializeSegmentationModel(self.global_config)
 
@@ -314,21 +315,31 @@ class SortingController:
     def _calculateDoorDelay(
         self, trajectory: Trajectory, target_bin: BinCoordinates
     ) -> Optional[int]:
-        # Calculate distance from current position to target bin
-        if target_bin["distribution_module_idx"] < len(
+        if target_bin["distribution_module_idx"] >= len(
             self.irl_system["distribution_modules"]
         ):
-            target_distance_cm = self.irl_system["distribution_modules"][
-                target_bin["distribution_module_idx"]
-            ].distance_from_camera_cm
+            return None
 
-            travel_time_ms = self.scene_tracker.calculateTravelTime(target_distance_cm)
-            if travel_time_ms is None:
-                return None
+        # Get when trajectory was at camera center
+        time_at_center_ms = self.scene_tracker.predictTimeAtCameraCenter(trajectory)
+        if time_at_center_ms is None:
+            return None
 
-            return max(0, int(travel_time_ms))
+        # Get distance from camera center to door beginning
+        target_distance_cm = self.irl_system["distribution_modules"][
+            target_bin["distribution_module_idx"]
+        ].distance_from_camera_center_to_door_begin_cm
 
-        return None
+        travel_time_ms = self.scene_tracker.calculateTravelTime(target_distance_cm)
+        if travel_time_ms is None:
+            return None
+
+        # Calculate delay: time for object to travel from center to door, minus time already elapsed since center
+        current_time_ms = int(time.time() * 1000)
+        time_since_center_ms = current_time_ms - time_at_center_ms
+        delay_ms = int(travel_time_ms) - time_since_center_ms
+
+        return max(0, delay_ms)
 
     def _getTargetBin(self, item_id: str) -> Optional[BinCoordinates]:
         # needs to map item id to category id

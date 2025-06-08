@@ -18,12 +18,14 @@ class DistributionModule:
         self,
         global_config: GlobalConfig,
         servo: Servo,
-        distance_from_camera_cm: int,
+        distance_from_camera_center_to_door_begin_cm: int,
         bins: List[Bin],
         distribution_module_idx: int,
     ):
         self.global_config = global_config
         self.servo = servo
-        self.distance_from_camera_cm = distance_from_camera_cm
+        self.distance_from_camera_center_to_door_begin_cm = (
+            distance_from_camera_center_to_door_begin_cm
+        )
         self.bins = bins
         self.distribution_module_idx = distribution_module_idx

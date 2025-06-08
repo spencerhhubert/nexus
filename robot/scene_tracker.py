@@ -11,12 +11,13 @@ from robot.trajectories import (
     createTrajectory,
 )
 from robot.util.bricklink import splitBricklinkId
+from robot.irl.camera import Camera
 
 
 class SceneTracker:
-    def __init__(self, global_config: GlobalConfig, pixels_per_cm: float):
+    def __init__(self, global_config: GlobalConfig, camera: Camera):
         self.global_config = global_config
-        self.pixels_per_cm = pixels_per_cm
+        self.camera = camera
         self.active_trajectories: List[Trajectory] = []
         self.conveyor_velocity_cm_per_ms: Optional[float] = None
         self.lock = threading.Lock()
@@ -159,7 +160,14 @@ class SceneTracker:
             dx_px = obs_curr.center_x_px - obs_prev.center_x_px
             dy_px = obs_curr.center_y_px - obs_prev.center_y_px
             distance_px = (dx_px * dx_px + dy_px * dy_px) ** 0.5
-            distance_cm = distance_px / self.pixels_per_cm
+
+            avg_y = (obs_prev.center_y_px + obs_curr.center_y_px) // 2
+            pixels_per_cm = self.camera.getPixelsPerCmAtY(avg_y)
+            if pixels_per_cm is None:
+                self.global_config["logger"].warning("Camera not calibrated, skipping speed calculation")
+                continue
+
+            distance_cm = distance_px / pixels_per_cm
 
             total_distance_cm += distance_cm
             total_time_ms += time_delta_ms

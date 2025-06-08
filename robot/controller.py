@@ -76,8 +76,7 @@ class SortingController:
             self.global_config, self.irl_system["distribution_modules"]
         )
 
-        pixels_per_cm = self.irl_system["main_camera"].pixels_per_cm
-        self.scene_tracker = SceneTracker(self.global_config, pixels_per_cm)
+        self.scene_tracker = SceneTracker(self.global_config, self.irl_system["main_camera"])
 
         self.segmentation_model = initializeSegmentationModel(self.global_config)
 
@@ -95,6 +94,8 @@ class SortingController:
         initializeDatabase(self.global_config)
 
         initializeAsyncProfiling(self.global_config)
+
+        self._calibrateCamera()
 
         self.lifecycle_stage = SystemLifecycleStage.STARTING_HARDWARE
 
@@ -357,6 +358,39 @@ class SortingController:
             concurrent.futures.wait(self.active_futures, timeout=10.0)
 
         self.frame_processor_pool.shutdown(wait=True)
+
+    def _calibrateCamera(self) -> None:
+        self.global_config["logger"].info("Starting camera calibration...")
+
+        max_attempts = 3
+        attempt = 0
+
+        while attempt < max_attempts:
+            frame = self.irl_system["main_camera"].captureFrame()
+            if frame is None:
+                self.global_config["logger"].error("Failed to capture frame for calibration")
+                attempt += 1
+                continue
+
+            success = self.irl_system["main_camera"].calibrateFromPerpendicularColoredSquares(frame, self.irl_system["main_camera"].distance_across_frame_cm)
+            if success:
+                self.global_config["logger"].info("Camera calibration successful")
+                self.irl_system["main_camera"].saveDebugCalibrationImage(frame, "calibration_success.jpg")
+                return
+
+            attempt += 1
+            self.global_config["logger"].warning(f"Calibration attempt {attempt}/{max_attempts} failed")
+            self.irl_system["main_camera"].saveDebugCalibrationImage(frame, f"calibration_failed_attempt_{attempt}.jpg")
+
+            if not self.global_config["auto_confirm"]:
+                response = input(f"Calibration failed. Try again? (y/N): ")
+                if response.lower() not in ["y", "yes"]:
+                    break
+
+            time.sleep(1)
+
+        self.global_config["logger"].error("Camera calibration failed after all attempts")
+        raise RuntimeError("Camera calibration required")
 
     def stop(self) -> None:
         self.global_config["logger"].info("Stopping sorting controller...")

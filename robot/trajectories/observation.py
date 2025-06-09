@@ -2,7 +2,7 @@ import time
 import uuid
 import numpy as np
 from typing import TypedDict, Optional
-from robot.ai.brickognize_types import BrickognizeClassificationResult
+from robot.sorting.sorter import ClassificationResult
 
 
 class ObservationJSON(TypedDict):
@@ -20,7 +20,7 @@ class ObservationJSON(TypedDict):
     full_image_path: Optional[str]
     masked_image_path: Optional[str]
     classification_file_path: Optional[str]
-    classification_result: BrickognizeClassificationResult
+    classification_result: dict
 
 
 class Observation:
@@ -33,7 +33,7 @@ class Observation:
         bbox_height: float,
         full_frame: np.ndarray,
         masked_image: np.ndarray,
-        classification_result: BrickognizeClassificationResult,
+        classification_result: ClassificationResult,
     ):
         self.observation_id = str(uuid.uuid4())
         self.trajectory_id = trajectory_id
@@ -72,5 +72,5 @@ class Observation:
             full_image_path=self.full_image_path,
             masked_image_path=self.masked_image_path,
             classification_file_path=self.classification_file_path,
-            classification_result=self.classification_result,
+            classification_result=self.classification_result.toJSON(),
         )

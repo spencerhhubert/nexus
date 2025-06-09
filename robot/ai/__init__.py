@@ -5,4 +5,3 @@ from robot.ai.segment import (
     calculateNormalizedBounds,
     calculatePhysicalBounds,
 )
-from robot.ai.classify import classifySegment

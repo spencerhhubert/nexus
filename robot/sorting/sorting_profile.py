@@ -1,15 +1,19 @@
-from typing import Dict, Optional
+from abc import ABC, abstractmethod
+from typing import Optional
 from robot.global_config import GlobalConfig
-from robot.sorting.category import Category
 
 
-class SortingProfile:
+class SortingProfile(ABC):
     def __init__(
         self,
         global_config: GlobalConfig,
         profile_name: str,
-        item_id_to_category_mapping: Dict[str, Category],
+        description: Optional[str] = None
     ):
         self.global_config = global_config
         self.profile_name = profile_name
-        self.item_id_to_category_mapping = item_id_to_category_mapping
+        self.description = description
+
+    @abstractmethod
+    def getCategoryId(self, item_id: str) -> Optional[str]:
+        pass

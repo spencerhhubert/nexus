@@ -1,7 +1,7 @@
 from typing import Dict, List, Optional, TypedDict
 import time
 from robot.global_config import GlobalConfig
-from robot.sorting import SortingProfile
+from robot.sorting.sorting_profile import SortingProfile
 from robot.irl.distribution import DistributionModule
 
 

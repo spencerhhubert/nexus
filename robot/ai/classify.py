@@ -7,7 +7,7 @@ from robot.global_config import GlobalConfig
 from robot.ai.brickognize_types import BrickognizeClassificationResult
 
 
-def classifySegment(
+def brickognizeClassifySegment(
     segment_image: np.ndarray, global_config: GlobalConfig
 ) -> BrickognizeClassificationResult:
     url = "https://api.brickognize.com/predict/"

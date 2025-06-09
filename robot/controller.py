@@ -14,12 +14,11 @@ from robot.global_config import GlobalConfig
 from robot.irl.config import IRLSystemInterface
 from robot.ai import (
     segmentFrame,
-    classifySegment,
     maskSegment,
     calculateNormalizedBounds,
 )
 from robot.ai.segment import initializeSegmentationModel
-from robot.ai.brickognize_types import BrickognizeClassificationResult
+from robot.sorting.sorter import ClassificationResult
 from robot.storage.sqlite3.migrations import initializeDatabase
 from robot.storage.sqlite3.operations import saveObservationToDatabase
 from robot.storage.blob import ensureBlobStorageExists, saveTrajectory
@@ -29,7 +28,7 @@ from robot.trajectories import (
     TrajectoryLifecycleStage,
 )
 from robot.scene_tracker import SceneTracker
-from robot.sorting import Category, SortingProfile
+from robot.sorting import PieceSorter, PieceSortingProfile
 from robot.bin_state_tracker import BinStateTracker, BinCoordinates, BinState
 from robot.door_scheduler import DoorScheduler
 
@@ -62,14 +61,18 @@ class SortingController:
         self.irl_system = irl_system
         self.lifecycle_stage = SystemLifecycleStage.INITIALIZING
 
-        self.sorting_profile = SortingProfile(
-            self.global_config, "hardcoded_profile", {}
+        piece_sorting_profile = PieceSortingProfile(
+            self.global_config,
+            "default_pieces_profile",
+            {},
         )
+
+        self.sorter = PieceSorter(self.global_config, piece_sorting_profile)
 
         self.bin_state_tracker = BinStateTracker(
             self.global_config,
             self.irl_system["distribution_modules"],
-            self.sorting_profile,
+            piece_sorting_profile,
         )
 
         self.door_scheduler = DoorScheduler(
@@ -245,7 +248,7 @@ class SortingController:
                 continue
 
             classification_start_ms = time.time() * 1000
-            classification_result = classifySegment(masked_image, self.global_config)
+            classification_result = self.sorter.classifySegment(masked_image)
             classification_duration_ms = (time.time() * 1000) - classification_start_ms
 
             profiling_record[
@@ -253,21 +256,10 @@ class SortingController:
             ] += classification_duration_ms
             profiling_record["classification_calls_count"] += 1
 
-            if not classification_result.get("items", []):
+            CLASSIFICATION_THRESHOLD = 0.25
+            if classification_result.confidence < CLASSIFICATION_THRESHOLD:
                 self.global_config["logger"].info(
-                    "No items found in classification result, skipping segment"
-                )
-                continue
-
-            BRICKOGNIZE_SCORE_THRESHOLD = 0.25
-            max_score = (
-                max(item["score"] for item in classification_result["items"])
-                if classification_result["items"]
-                else 0.0
-            )
-            if max_score < BRICKOGNIZE_SCORE_THRESHOLD:
-                self.global_config["logger"].info(
-                    f"No items above score threshold {BRICKOGNIZE_SCORE_THRESHOLD} (max: {max_score:.3f}), skipping segment"
+                    f"Classification confidence too low: {classification_result.confidence:.3f}, skipping segment"
                 )
                 continue
 
@@ -313,8 +305,11 @@ class SortingController:
         )
 
         for trajectory in trajectories_to_trigger:
-            item_id = trajectory.getConsensusClassification()
-            target_bin = self._getTargetBin(item_id)
+            consensus_item_id = trajectory.getConsensusClassification()
+            if not consensus_item_id:
+                continue
+
+            target_bin = self._getTargetBin(consensus_item_id)
 
             if not target_bin:
                 continue
@@ -371,8 +366,9 @@ class SortingController:
         return max(0, delay_ms)
 
     def _getTargetBin(self, item_id: str) -> Optional[BinCoordinates]:
-        # needs to map item id to category id
-        # todo
+        category_id = self.sorter.sorting_profile.getCategoryId(item_id)
+        if category_id:
+            return self.bin_state_tracker.findAvailableBin(category_id)
         return self.bin_state_tracker.findAvailableBin("default")
 
     def _cleanupCompletedFutures(self) -> None:

@@ -39,7 +39,7 @@ def saveTrajectory(global_config: GlobalConfig, trajectory) -> None:
 
             classification_path = os.path.join(observation_dir, "classification.json")
             with open(classification_path, "w") as f:
-                json.dump(observation.classification_result, f, indent=2)
+                json.dump(observation.classification_result.toJSON(), f, indent=2)
 
             observation_json_path = os.path.join(observation_dir, "observation.json")
             with open(observation_json_path, "w") as f:

@@ -21,7 +21,7 @@ class TrajectoryJSON(TypedDict):
     observation_ids: List[str]
     estimated_velocity_x: float
     estimated_velocity_y: float
-    consensus_classification: str
+    consensus_classification: Optional[str]
     lifecycle_stage: str
 
 
@@ -58,22 +58,22 @@ class Trajectory:
             else None
         )
 
-    def getConsensusClassification(self) -> str:
+    def getConsensusClassification(self) -> Optional[str]:
         if not self.observations:
-            return "unknown"
+            return None
 
         classification_counts: Dict[str, int] = {}
 
         for observation in self.observations:
             result = observation.classification_result
-            if "items" in result and result["items"]:
-                item_id = result["items"][0].get("id", "unknown")
+            if result.tag == "piece_classification" and result.data.get("item_id"):
+                item_id = result.data["item_id"]
                 classification_counts[item_id] = (
                     classification_counts.get(item_id, 0) + 1
                 )
 
         if not classification_counts:
-            return "unknown"
+            return None
 
         return max(classification_counts.keys(), key=lambda k: classification_counts[k])
 
@@ -163,11 +163,11 @@ class Trajectory:
         trajectory_consensus = self.getConsensusClassification()
 
         result = obs.classification_result
-        if "items" not in result or not result["items"]:
+        if result.tag != "piece_classification" or not result.data.get("item_id"):
             return 0.0
 
-        item_id = result["items"][0].get("id", "unknown")
-        if item_id == "unknown":
+        item_id = result.data["item_id"]
+        if not item_id or not trajectory_consensus:
             return 0.0
 
         obs_item_id = splitBricklinkId(item_id)[0]

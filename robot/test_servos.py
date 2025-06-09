@@ -47,24 +47,22 @@ def main():
     try:
         logger.info(f"Starting servo test with {len(servos)} servos...")
 
-        delay_s = 3.0
-
         while True:
             # Set all servos to closed position
             logger.info("Setting all servos to CLOSED position")
             for servo_config in servos:
                 logger.info(f"  {servo_config['name']}: {servo_config['closed_angle']}°")
-                servo_config["servo"].setAngle(servo_config["closed_angle"], duration=1000)
+                servo_config["servo"].setAngle(servo_config["closed_angle"])
 
-            time.sleep(delay_s)
+            time.sleep(30)
 
-            # Set all servos to open position
+            #Set all servos to open position
             logger.info("Setting all servos to OPEN position")
             for servo_config in servos:
                 logger.info(f"  {servo_config['name']}: {servo_config['open_angle']}°")
                 servo_config["servo"].setAngle(servo_config["open_angle"])
 
-            time.sleep(delay_s)
+            time.sleep(5)
 
     except KeyboardInterrupt:
         logger.info("Test interrupted by user")

@@ -100,7 +100,7 @@ def buildGlobalConfig() -> GlobalConfig:
         "max_worker_threads": 4,
         "max_queue_size": 8,
         "conveyor_door_open_angle": 55,
-        "bin_door_open_angle": 45,
+        "bin_door_open_angle": 180-25,
         "conveyor_door_closed_angle": 0,
         "bin_door_closed_angle": 180,
         "door_open_duration_ms": 3500,

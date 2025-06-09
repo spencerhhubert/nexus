@@ -1,3 +1,4 @@
+import time
 from robot.global_config import GlobalConfig
 
 
@@ -8,10 +9,13 @@ class Logger:
 
     def info(self, message: str) -> None:
         if self.debug_level > 0:
-            print(f"INFO: {message}")
+            timestamp = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+            print(f"[{timestamp}] INFO: {message}")
 
     def warning(self, message: str) -> None:
-        print(f"WARNING: {message}")
+        timestamp = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+        print(f"[{timestamp}] WARNING: {message}")
 
     def error(self, message: str) -> None:
-        print(f"ERROR: {message}")
+        timestamp = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+        print(f"[{timestamp}] ERROR: {message}")

@@ -18,6 +18,7 @@ from robot.ai import (
     calculateNormalizedBounds,
 )
 from robot.ai.segment import initializeSegmentationModel
+from robot.sorting.example import EXAMPLE_ITEM_ID_TO_CATEGORY_ID_MAPPING
 from robot.sorting.sorter import ClassificationResult
 from robot.storage.sqlite3.migrations import initializeDatabase
 from robot.storage.sqlite3.operations import saveObservationToDatabase
@@ -63,8 +64,8 @@ class SortingController:
 
         piece_sorting_profile = PieceSortingProfile(
             self.global_config,
-            "default_pieces_profile",
-            {},
+            "Example",
+            EXAMPLE_ITEM_ID_TO_CATEGORY_ID_MAPPING,
         )
 
         self.sorter = PieceSorter(self.global_config, piece_sorting_profile)
@@ -309,7 +310,14 @@ class SortingController:
             if not consensus_item_id:
                 continue
 
-            target_bin = self._getTargetBin(consensus_item_id)
+            category_id = self.sorter.sorting_profile.getCategoryId(consensus_item_id)
+            if category_id:
+                target_bin = self.bin_state_tracker.findAvailableBin(category_id)
+            else:
+                target_bin = self.bin_state_tracker.findAvailableBin(
+                    self.bin_state_tracker.misc_category_id
+                )
+                category_id = self.bin_state_tracker.misc_category_id
 
             if not target_bin:
                 continue
@@ -322,7 +330,7 @@ class SortingController:
                 continue
 
             self.door_scheduler.scheduleDoorAction(target_bin, delay_ms)
-            self.bin_state_tracker.reserveBin(target_bin, "default")
+            self.bin_state_tracker.reserveBin(target_bin, category_id)
             self.scene_tracker.markTrajectoryInTransit(trajectory.trajectory_id)
 
             self.global_config["logger"].info(
@@ -364,12 +372,6 @@ class SortingController:
         delay_ms = int(travel_time_ms) - time_since_center_ms
 
         return max(0, delay_ms)
-
-    def _getTargetBin(self, item_id: str) -> Optional[BinCoordinates]:
-        category_id = self.sorter.sorting_profile.getCategoryId(item_id)
-        if category_id:
-            return self.bin_state_tracker.findAvailableBin(category_id)
-        return self.bin_state_tracker.findAvailableBin("default")
 
     def _cleanupCompletedFutures(self) -> None:
         completed_futures = [f for f in self.active_futures if f.done()]

@@ -27,6 +27,7 @@ class BinStateTracker:
         self.distribution_modules = distribution_modules
         self.available_bin_coordinates = self._buildAvailableBinCoordinates()
         self.sorting_profile = sorting_profile
+        self.misc_category_id = "misc"
 
         self.current_state: Dict[str, Optional[str]] = {}
         for coordinates in self.available_bin_coordinates:
@@ -35,6 +36,11 @@ class BinStateTracker:
 
         if previous_state:
             self.current_state.update(previous_state["bin_contents"])
+
+        # Reserve the last bin as the misc bin
+        if self.available_bin_coordinates:
+            last_bin = self.available_bin_coordinates[-1]
+            self.reserveBin(last_bin, self.misc_category_id)
 
     def _buildAvailableBinCoordinates(self) -> List[BinCoordinates]:
         available_bins = []
@@ -52,6 +58,14 @@ class BinStateTracker:
         return available_bins
 
     def findAvailableBin(self, category_id: str) -> Optional[BinCoordinates]:
+        # First, try to find a bin that already has this category
+        for coordinates in self.available_bin_coordinates:
+            key = binCoordinatesToKey(coordinates)
+            current_category = self.current_state.get(key)
+            if current_category == category_id:
+                return coordinates
+
+        # If no existing bin found, look for an empty bin
         for coordinates in self.available_bin_coordinates:
             key = binCoordinatesToKey(coordinates)
             current_category = self.current_state.get(key)

@@ -52,11 +52,11 @@ def main():
             logger.info("Setting all servos to CLOSED position")
             for servo_config in servos:
                 logger.info(f"  {servo_config['name']}: {servo_config['closed_angle']}°")
-                servo_config["servo"].setAngle(servo_config["closed_angle"])
+                servo_config["servo"].setAngle(servo_config["closed_angle"], duration=500)
 
-            time.sleep(30)
+            time.sleep(5)
 
-            #Set all servos to open position
+            # #Set all servos to open position
             logger.info("Setting all servos to OPEN position")
             for servo_config in servos:
                 logger.info(f"  {servo_config['name']}: {servo_config['open_angle']}°")

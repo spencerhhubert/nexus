@@ -11,18 +11,14 @@ class ClassificationResult:
         self.data = data
 
     def toJSON(self) -> Dict[str, Any]:
-        return {
-            "tag": self.tag,
-            "confidence": self.confidence,
-            "data": self.data
-        }
+        return {"tag": self.tag, "confidence": self.confidence, "data": self.data}
 
     @staticmethod
     def fromJSON(json_data: Dict[str, Any]) -> "ClassificationResult":
         return ClassificationResult(
             tag=json_data["tag"],
             confidence=json_data["confidence"],
-            data=json_data["data"]
+            data=json_data["data"],
         )
 
 
@@ -35,5 +31,7 @@ class Sorter(ABC):
         pass
 
     @abstractmethod
-    def lookupCategory(self, classification_result: ClassificationResult) -> Optional[str]:
+    def lookupCategory(
+        self, classification_result: ClassificationResult
+    ) -> Optional[str]:
         pass

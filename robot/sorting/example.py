@@ -10,10 +10,26 @@ EXAMPLE_ITEM_ID_TO_CATEGORY_ID_MAPPING = {
 }
 
 EXAMPLE_KINDS = {
-    "3001": {"kind_id": "3001", "name": "Brick 2x4", "description": "Standard 2x4 brick"},
-    "3002": {"kind_id": "3002", "name": "Brick 2x3", "description": "Standard 2x3 brick"},
-    "3003": {"kind_id": "3003", "name": "Brick 2x2", "description": "Standard 2x2 brick"},
-    "3022": {"kind_id": "3022", "name": "Plate 2x2", "description": "Standard 2x2 plate"},
+    "3001": {
+        "kind_id": "3001",
+        "name": "Brick 2x4",
+        "description": "Standard 2x4 brick",
+    },
+    "3002": {
+        "kind_id": "3002",
+        "name": "Brick 2x3",
+        "description": "Standard 2x3 brick",
+    },
+    "3003": {
+        "kind_id": "3003",
+        "name": "Brick 2x2",
+        "description": "Standard 2x2 brick",
+    },
+    "3022": {
+        "kind_id": "3022",
+        "name": "Plate 2x2",
+        "description": "Standard 2x2 plate",
+    },
 }
 
 EXAMPLE_COLORS = {

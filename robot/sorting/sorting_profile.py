@@ -8,7 +8,7 @@ class SortingProfile(ABC):
         self,
         global_config: GlobalConfig,
         profile_name: str,
-        description: Optional[str] = None
+        description: Optional[str] = None,
     ):
         self.global_config = global_config
         self.profile_name = profile_name

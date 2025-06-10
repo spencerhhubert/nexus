@@ -16,21 +16,27 @@ class PieceClassificationResult(TypedDict):
 
 
 class PieceSorter(Sorter):
-    def __init__(self, global_config: GlobalConfig, sorting_profile: PieceSortingProfile):
+    def __init__(
+        self, global_config: GlobalConfig, sorting_profile: PieceSortingProfile
+    ):
         super().__init__(global_config)
         self.sorting_profile = sorting_profile
 
     def classifySegment(self, segment_image: np.ndarray) -> ClassificationResult:
-        brickognize_result = brickognizeClassifySegment(segment_image, self.global_config)
+        brickognize_result = brickognizeClassifySegment(
+            segment_image, self.global_config
+        )
         piece_result = self._convertBrickognizeResult(brickognize_result)
 
         return ClassificationResult(
             tag="piece_classification",
             confidence=piece_result["confidence"],
-            data=cast(Dict[str, Any], piece_result)
+            data=cast(Dict[str, Any], piece_result),
         )
 
-    def lookupCategory(self, classification_result: ClassificationResult) -> Optional[str]:
+    def lookupCategory(
+        self, classification_result: ClassificationResult
+    ) -> Optional[str]:
         if classification_result.tag != "piece_classification":
             return None
 
@@ -42,7 +48,9 @@ class PieceSorter(Sorter):
 
         return None
 
-    def _convertBrickognizeResult(self, brickognize_result: BrickognizeClassificationResult) -> PieceClassificationResult:
+    def _convertBrickognizeResult(
+        self, brickognize_result: BrickognizeClassificationResult
+    ) -> PieceClassificationResult:
         item_id = None
         confidence = 0.0
 
@@ -56,5 +64,5 @@ class PieceSorter(Sorter):
             kind_id=None,
             color_id=None,
             confidence=confidence,
-            brickognize_data=cast(Dict[str, Any], brickognize_result)
+            brickognize_data=cast(Dict[str, Any], brickognize_result),
         )

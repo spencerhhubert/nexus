@@ -1,5 +1,6 @@
 from pyfirmata import util
 import time
+import threading
 from typing import Dict, Any, List, Optional, cast
 from robot.global_config import GlobalConfig
 from robot.irl.our_arduino import OurArduinoMega
@@ -71,6 +72,27 @@ class Servo:
         ]
         self.dev.dev.sysex(0x01, data)
         self._current_angle = target_angle
+
+    def turnOff(self) -> None:
+        self.gc["logger"].info(
+            f"Turning off servo on channel {self.channel} and board {self.dev.addr}"
+        )
+        data = [
+            0x09,
+            self.dev.addr,
+            self.channel,
+        ]
+        self.dev.dev.sysex(0x01, data)
+
+    def setAngleAndTurnOff(self, angle: int, turn_off_delay_ms: int) -> None:
+        self.setAngle(angle)
+
+        def turnOffAfterDelay():
+            time.sleep(turn_off_delay_ms / 1000.0)
+            self.turnOff()
+
+        thread = threading.Thread(target=turnOffAfterDelay, daemon=True)
+        thread.start()
 
 
 class DCMotor:

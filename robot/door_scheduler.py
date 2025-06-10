@@ -45,7 +45,7 @@ class DoorScheduler:
 
     def _openServo(self, servo_key: str, servo: Servo, open_angle: int) -> None:
         self.global_config["logger"].info(f"Opening servo {servo_key} to {open_angle}°")
-        servo.setAngle(open_angle)
+        servo.setAngleAndTurnOff(open_angle, 1000)  # Turn off after 1 second
 
     def _closeServo(
         self, servo_key: str, servo: Servo, close_angle: int, gradual_duration: int = 0
@@ -55,8 +55,11 @@ class DoorScheduler:
         )
         if gradual_duration > 0:
             servo.setAngle(close_angle, duration=gradual_duration)
+            # Turn off servo after gradual movement completes + 500ms buffer
+            turn_off_delay = gradual_duration + 500
+            servo.setAngleAndTurnOff(close_angle, turn_off_delay)
         else:
-            servo.setAngle(close_angle)
+            servo.setAngleAndTurnOff(close_angle, 1000)  # Turn off after 1 second
 
     def _scheduleServoClose(
         self,

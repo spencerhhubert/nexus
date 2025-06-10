@@ -115,11 +115,11 @@ class SortingController:
 
         for distribution_module in self.irl_system["distribution_modules"]:
             # Reset conveyor door servo
-            distribution_module.servo.setAngle(conveyor_closed_angle)
+            distribution_module.servo.setAngleAndTurnOff(conveyor_closed_angle, 1000)
 
             # Reset all bin door servos
             for bin_servo in distribution_module.bins:
-                bin_servo.servo.setAngle(bin_closed_angle)
+                bin_servo.servo.setAngleAndTurnOff(bin_closed_angle, 1000)
 
         self.global_config["logger"].info("All servos reset to closed positions")
 

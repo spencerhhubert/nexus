@@ -39,6 +39,7 @@ class GlobalConfig(TypedDict):
     bin_door_closed_angle: int
     door_open_duration_ms: int
     door_delay_offset_ms: int
+    delay_for_chute_fall_ms: int
     profiling_dir_path: str
 
 
@@ -103,8 +104,9 @@ def buildGlobalConfig() -> GlobalConfig:
         "bin_door_open_angle": 180 - 48,
         "conveyor_door_closed_angle": 0,
         "bin_door_closed_angle": 170,
-        "door_open_duration_ms": 3500,
+        "door_open_duration_ms": 5000,
         "door_delay_offset_ms": -2000,
+        "delay_for_chute_fall_ms": 1000,
         "profiling_dir_path": "../profiles",
     }
 

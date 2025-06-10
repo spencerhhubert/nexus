@@ -70,7 +70,7 @@ class DoorScheduler:
             dm_servo.setAngle(conveyor_door_closed_angle, duration=500)
             DELAY_FOR_CHUTE_FALL_MS = 1000
             time.sleep(DELAY_FOR_CHUTE_FALL_MS / 1000.0)
-            bin_servo.setAngle(bin_door_closed_angle, duration=1000)
+            bin_servo.setAngle(bin_door_closed_angle)
 
         thread = threading.Thread(
             target=executeDoorAction, args=(delay_ms, bin_coordinates), daemon=True

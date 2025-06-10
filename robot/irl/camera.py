@@ -106,7 +106,7 @@ class Camera:
             2,
         )
 
-        filename = f"calibration_viz_{str(uuid.uuid4())[:8]}.jpg"
+        filename = f".tmp/calibration_viz_{str(uuid.uuid4())[:8]}.jpg"
         cv2.imwrite(filename, overlay)
         self.global_config["logger"].info(
             f"Saved calibration visualization to {filename}"

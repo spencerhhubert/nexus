@@ -22,4 +22,6 @@ def brickognizeClassifySegment(
     headers = {"accept": "application/json"}
 
     response = requests.post(url, headers=headers, files=files)
-    return cast(BrickognizeClassificationResult, response.json())
+    out = cast(BrickognizeClassificationResult, response.json())
+    print("Brickognize Response", out)
+    return out

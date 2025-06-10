@@ -114,6 +114,9 @@ class SceneTracker:
                 if trajectory.lifecycle_stage != TrajectoryLifecycleStage.UNDER_CAMERA:
                     continue
 
+                if trajectory.target_bin is not None:
+                    continue
+
                 if trajectory.shouldTriggerAction(self.global_config):
                     trajectories_to_trigger.append(trajectory)
 
@@ -129,6 +132,7 @@ class SceneTracker:
     def stepScene(self) -> None:
         with self.lock:
             self._updateConveyorSpeed()
+            self._checkForTrajectoriesLeavingCamera()
             self._cleanupOldTrajectories()
 
     def getActiveTrajectories(self) -> List[Trajectory]:
@@ -217,6 +221,29 @@ class SceneTracker:
 
         velocity_cm_per_ms = total_distance_cm / total_time_ms
         trajectory.setVelocity(velocity_cm_per_ms)
+
+    def _checkForTrajectoriesLeavingCamera(self) -> None:
+        TIME_SINCE_UNDER_CAMERA_THRESHOLD_MS = 500
+        current_time_ms = int(time.time() * 1000)
+
+        for trajectory in self.active_trajectories:
+            if trajectory.lifecycle_stage != TrajectoryLifecycleStage.UNDER_CAMERA:
+                continue
+
+            latest_observation = trajectory.getLatestObservation()
+            if not latest_observation:
+                continue
+
+            # Check if trajectory has left camera view (moved off left side)
+            if latest_observation.center_x_percent <= 0.0:
+                time_since_last_observation = (
+                    current_time_ms - latest_observation.timestamp_ms
+                )
+                if time_since_last_observation >= TIME_SINCE_UNDER_CAMERA_THRESHOLD_MS:
+                    trajectory.setLifecycleStage(TrajectoryLifecycleStage.IN_TRANSIT)
+                    self.global_config["logger"].info(
+                        f"Trajectory {trajectory.trajectory_id} left camera view, marking as in transit"
+                    )
 
     def _cleanupOldTrajectories(self) -> None:
         current_time_ms = int(time.time() * 1000)

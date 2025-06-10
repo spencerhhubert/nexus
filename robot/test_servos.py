@@ -62,9 +62,7 @@ def main():
                 logger.info(
                     f"  {servo_config['name']}: {servo_config['closed_angle']}°"
                 )
-                servo_config["servo"].setAngle(
-                    servo_config["closed_angle"], duration=500
-                )
+                servo_config["servo"].setAngle(servo_config["closed_angle"])
 
             time.sleep(5)
 

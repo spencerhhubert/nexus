@@ -5,6 +5,7 @@ from enum import Enum
 from robot.global_config import GlobalConfig
 from robot.trajectories.observation import Observation
 from robot.util.bricklink import splitBricklinkId
+from robot.bin_state_tracker import BinCoordinates
 
 
 class TrajectoryLifecycleStage(Enum):
@@ -23,6 +24,7 @@ class TrajectoryJSON(TypedDict):
     estimated_velocity_y: float
     consensus_classification: Optional[str]
     lifecycle_stage: str
+    target_bin: Optional[Dict[str, Any]]
 
 
 class Trajectory:
@@ -37,6 +39,7 @@ class Trajectory:
         self.observations: List[Observation] = [initial_observation]
         self.lifecycle_stage = TrajectoryLifecycleStage.UNDER_CAMERA
         self.velocity_cm_per_ms: Optional[float] = None
+        self.target_bin: Optional[BinCoordinates] = None
 
         current_time_ms = int(time.time() * 1000)
         self.created_at = current_time_ms
@@ -140,6 +143,10 @@ class Trajectory:
         self.velocity_cm_per_ms = velocity_cm_per_ms
         self.updated_at = int(time.time() * 1000)
 
+    def setTargetBin(self, target_bin: BinCoordinates) -> None:
+        self.target_bin = target_bin
+        self.updated_at = int(time.time() * 1000)
+
     def _calculateSpatialDistance(self, obs: Observation) -> float:
         predicted_x_px, predicted_y_px = self.getPredictedPosition(obs.timestamp_ms)
         dx_px = obs.center_x_px - predicted_x_px
@@ -238,6 +245,7 @@ class Trajectory:
             estimated_velocity_y=0.0,
             consensus_classification=self.getConsensusClassification(),
             lifecycle_stage=self.lifecycle_stage.value,
+            target_bin=dict(self.target_bin) if self.target_bin else None,
         )
 
 

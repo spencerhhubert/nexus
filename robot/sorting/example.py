@@ -7,6 +7,8 @@ EXAMPLE_ITEM_ID_TO_CATEGORY_ID_MAPPING = {
     "3022": "plates",
     "3023": "plates",
     "3024": "plates",
+    "3176": "plate_modified",
+    "33909": "plate_modified",
 }
 
 EXAMPLE_KINDS = {

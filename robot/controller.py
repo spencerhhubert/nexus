@@ -165,7 +165,7 @@ class SortingController:
                     step_duration_ms = time.time() * 1000 - step_start_ms
 
                     trigger_start_ms = time.time() * 1000
-                    self._processTriggerActions()
+                    self._scheduleDoorTriggersForTrajectories()
                     trigger_duration_ms = time.time() * 1000 - trigger_start_ms
 
                     cleanup_start_ms = time.time() * 1000
@@ -299,7 +299,7 @@ class SortingController:
                     f"Failed to save trajectory {trajectory.trajectory_id}: {e}"
                 )
 
-    def _processTriggerActions(self) -> None:
+    def _scheduleDoorTriggersForTrajectories(self) -> None:
         camera_trigger_position = self.global_config["camera_trigger_position"]
         trajectories_to_trigger = self.scene_tracker.getTrajectoriesToTrigger(
             camera_trigger_position
@@ -329,9 +329,9 @@ class SortingController:
                 )
                 continue
 
+            trajectory.setTargetBin(target_bin)
             self.door_scheduler.scheduleDoorAction(target_bin, delay_ms)
             self.bin_state_tracker.reserveBin(target_bin, category_id)
-            self.scene_tracker.markTrajectoryInTransit(trajectory.trajectory_id)
 
             self.global_config["logger"].info(
                 f"Scheduled action for trajectory {trajectory.trajectory_id} -> bin {target_bin} with delay {delay_ms}ms"

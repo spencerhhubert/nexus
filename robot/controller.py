@@ -30,7 +30,12 @@ from robot.trajectories import (
 )
 from robot.scene_tracker import SceneTracker
 from robot.sorting import PieceSorter, PieceSortingProfile
-from robot.bin_state_tracker import BinStateTracker, BinCoordinates, BinState
+from robot.bin_state_tracker import (
+    BinStateTracker,
+    BinCoordinates,
+    BinState,
+    binCoordinatesToKey,
+)
 from robot.door_scheduler import DoorScheduler
 
 from robot.async_profiling import (
@@ -127,7 +132,7 @@ class SortingController:
         self.global_config["logger"].info("Starting hardware systems...")
 
         if not self.global_config["disable_main_conveyor"]:
-            self.irl_system["main_conveyor_dc_motor"].setSpeed(100)
+            self.irl_system["main_conveyor_dc_motor"].setSpeed(200)
         if not self.global_config["disable_feeder_conveyor"]:
             self.irl_system["feeder_conveyor_dc_motor"].setSpeed(200)
         if not self.global_config["disable_vibration_hopper"]:
@@ -311,15 +316,38 @@ class SortingController:
                 continue
 
             category_id = self.sorter.sorting_profile.getCategoryId(consensus_item_id)
+            target_bin = None
+
             if category_id:
                 target_bin = self.bin_state_tracker.findAvailableBin(category_id)
+
+                # Check if we got the fallback bin for overflow categorized items
+                if target_bin:
+                    target_key = binCoordinatesToKey(target_bin)
+                    current_bin_category = self.bin_state_tracker.current_state.get(
+                        target_key
+                    )
+                    if (
+                        current_bin_category
+                        == self.bin_state_tracker.fallback_category_id
+                    ):
+                        self.global_config["logger"].info(
+                            f"No available bin for category '{category_id}', using fallback bin for trajectory {trajectory.trajectory_id}"
+                        )
+                        category_id = self.bin_state_tracker.fallback_category_id
             else:
+                self.global_config["logger"].info(
+                    f"Unknown item '{consensus_item_id}', using misc bin for trajectory {trajectory.trajectory_id}"
+                )
                 target_bin = self.bin_state_tracker.findAvailableBin(
                     self.bin_state_tracker.misc_category_id
                 )
                 category_id = self.bin_state_tracker.misc_category_id
 
             if not target_bin:
+                self.global_config["logger"].warning(
+                    f"No available bins (including misc and fallback) for trajectory {trajectory.trajectory_id}"
+                )
                 continue
 
             delay_ms = self._calculateDoorDelay(trajectory, target_bin)

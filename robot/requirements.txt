@@ -7,3 +7,4 @@ torchvision
 Pillow
 requests
 scipy
+requests_oauthlib

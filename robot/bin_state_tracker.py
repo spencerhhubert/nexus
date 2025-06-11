@@ -28,6 +28,7 @@ class BinStateTracker:
         self.available_bin_coordinates = self._buildAvailableBinCoordinates()
         self.sorting_profile = sorting_profile
         self.misc_category_id = "misc"
+        self.fallback_category_id = "fallback"
 
         self.current_state: Dict[str, Optional[str]] = {}
         for coordinates in self.available_bin_coordinates:
@@ -37,8 +38,14 @@ class BinStateTracker:
         if previous_state:
             self.current_state.update(previous_state["bin_contents"])
 
-        # Reserve the last bin as the misc bin
-        if self.available_bin_coordinates:
+        # Reserve the second to last bin as misc and the last bin as fallback
+        if len(self.available_bin_coordinates) >= 2:
+            second_to_last_bin = self.available_bin_coordinates[-2]
+            last_bin = self.available_bin_coordinates[-1]
+            self.reserveBin(second_to_last_bin, self.misc_category_id)
+            self.reserveBin(last_bin, self.fallback_category_id)
+        elif len(self.available_bin_coordinates) == 1:
+            # If only one bin, use it as misc
             last_bin = self.available_bin_coordinates[-1]
             self.reserveBin(last_bin, self.misc_category_id)
 
@@ -71,6 +78,22 @@ class BinStateTracker:
             current_category = self.current_state.get(key)
             if current_category is None:
                 return coordinates
+
+        # If no empty bin available, fall back to fallback bin for categorized items
+        if (
+            category_id != self.misc_category_id
+            and category_id != self.fallback_category_id
+        ):
+            self.global_config["logger"].info(
+                f"No available bins for category '{category_id}', falling back to fallback bin"
+            )
+
+            for coordinates in self.available_bin_coordinates:
+                key = binCoordinatesToKey(coordinates)
+                current_category = self.current_state.get(key)
+                if current_category == self.fallback_category_id:
+                    return coordinates
+
         return None
 
     def reserveBin(self, coordinates: BinCoordinates, category_id: str) -> None:

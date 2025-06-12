@@ -109,7 +109,6 @@ def saveKind(
             ),
         )
         conn.commit()
-        logger.info(f"Saved kind: {part['name']} (ID: {part['no']})")
 
     except Exception as e:
         logger.error(f"Failed to save kind {part['no']}: {e}")
@@ -143,7 +142,6 @@ def saveKindAlternateIds(
                 )
 
         conn.commit()
-        logger.info(f"Saved {len(alternate_ids)} alternate IDs for kind {primary_id}")
 
     except Exception as e:
         logger.error(f"Failed to save alternate IDs for kind {primary_id}: {e}")
@@ -184,7 +182,6 @@ def saveFailedKind(
             (ldraw_id, failed_reason.value, current_time, current_time),
         )
         conn.commit()
-        logger.info(f"Saved failed kind: {ldraw_id} (reason: {failed_reason.value})")
 
     except Exception as e:
         logger.error(f"Failed to save failed kind {ldraw_id}: {e}")

@@ -70,7 +70,7 @@ def main():
             logger.info("Setting all servos to OPEN position")
             for servo_config in servos:
                 logger.info(f"  {servo_config['name']}: {servo_config['open_angle']}°")
-                servo_config["servo"].setAngle(servo_config["open_angle"])
+                # servo_config["servo"].setAngle(servo_config["open_angle"])
 
             time.sleep(5)
 

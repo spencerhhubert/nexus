@@ -101,6 +101,8 @@ def buildIRLConfig() -> IRLConfig:
                 "bin_door_servos": [
                     {"channel": 0},
                     {"channel": 1},
+                    {"channel": 2},
+                    {"channel": 3},
                 ],
             },
             {
@@ -113,6 +115,8 @@ def buildIRLConfig() -> IRLConfig:
                 "bin_door_servos": [
                     {"channel": 0},
                     {"channel": 1},
+                    {"channel": 2},
+                    {"channel": 3},
                 ],
             },
             {
@@ -125,6 +129,8 @@ def buildIRLConfig() -> IRLConfig:
                 "bin_door_servos": [
                     {"channel": 0},
                     {"channel": 1},
+                    {"channel": 2},
+                    {"channel": 3},
                 ],
             },
         ],

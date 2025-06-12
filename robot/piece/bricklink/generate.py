@@ -1,6 +1,9 @@
 import requests
 from robot.global_config import GlobalConfig, buildGlobalConfig
 from robot.piece.bricklink.auth import mkAuth
+from robot.piece.bricklink.generate_categories import generateCategories
+from robot.piece.bricklink.generate_colors import generateColors
+from robot.piece.bricklink.generate_kinds import generateKinds
 
 
 def generateBricklinkData(global_config: GlobalConfig) -> None:
@@ -12,25 +15,9 @@ def generateBricklinkData(global_config: GlobalConfig) -> None:
         auth = mkAuth()
         logger.info("BrickLink authentication configured successfully")
 
-        # Make a simple test request to verify authentication
-        base_url = "https://api.bricklink.com/api/store/v1"
-        test_endpoint = "/colors"
-
-        logger.info("Making test request to BrickLink API...")
-        response = requests.get(base_url + test_endpoint, auth=auth)
-
-        if response.status_code == 200:
-            data = response.json()
-            color_count = len(data.get("data", []))
-            logger.info(f"BrickLink API test successful - found {color_count} colors")
-        else:
-            logger.error(f"BrickLink API test failed with status {response.status_code}: {response.text}")
-            return
-
-        # TODO: Call individual generation scripts
-        # generateCategories(global_config, auth)
-        # generateKinds(global_config, auth)
-        # generateColors(global_config, auth)
+        generateCategories(global_config, auth)
+        generateColors(global_config, auth)
+        generateKinds(global_config, auth)
 
         logger.info("BrickLink data generation completed")
 

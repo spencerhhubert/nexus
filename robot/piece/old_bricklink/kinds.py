@@ -106,7 +106,43 @@ def scrapePrimaryId(id:str) -> str:
     #and use this https://curlconverter.com/
     #look for the searchproduct request
 
+    cookies = {
+        'l5_sp': '1eba0191-47c2-4aa3-96c7-a9b55b1155c4',
+        'blckMID': 'f270aba0-8394-460c-a837-126fd5288afe',
+        'catalogView': 'cView=1',
+        'blCartBuyerID': '-707598233',
+        'blckSessionStarted': '1',
+        'blckCookieSetting': 'CHKTGATFPBLF',
+        'BLNEWSESSIONID': 'V103226BBA237B88852C6B04CF2C7D73679A3D5FD03DCEE7BD80538EE86DB08044893ECDD768B92ECC96F4D7DC3E94A817A',
+        'ASPSESSIONIDCAQASBCA': 'GDNCHEODPIFAGFPIGJNDJPMN',
+        'ASPSESSIONIDACSDRDCA': 'GPBOAFODPIEODANGACAPHFFK',
+        'BLdiscussFlag': 'Y',
+        '_pk_id.12.23af': 'b2840f12a6d53d62.1749619769.',
+        'ASPSESSIONIDAATCQCDA': 'LLNOBNIAJLKFNKBMGHIEOBFM',
+        '_pk_ses.12.23af': '1',
+        '_sp_ses.8289': '*',
+        '_sp_id.8289': '.1749493018.5.1749701832.1749624071.cf1a7e8e-1c65-4ff7-b761-a2ed8a413ffc..024c784e-e348-4b7b-90a2-5266cbac0c40.1749701808446.2',
+        'aws-waf-token': '843b4532-05b0-494a-95ff-16ab8c6004eb:EQoAdoccqs/jAAAA:kzZL+rQ8o5yvRF/Rq7Sxw9QCIDj8TNG2PhA6mW772KkEboNW2qDfQacEBaHzGqmMezug1ikDP3wfex7GHQ/MfZ55vKIjmGuLaYQu/7i2EY2+C4adkBlkHgKyu6Yc3gt6nxPbp6oOnThZ97uh+HgdUPczvEHZcufiyYRiIsDbPaivGIm1wTnJGUVBfmQ7jZSHBjFAqVE1vQcLWKzBspqMfTSRM2hpgPuiVNF1nxUCcmhv+31jVRCWhZ+4LXvLKHlByD+KR5/Q8vU=',
+        'AWSALB': '9TaJpQrjZUfTVZ6e4j4Qni7t6S7lscsGVUv8dhvpf/f5pbJ12qE9NxS4fphOdYx4ryXxHyJUPDAxlqc7MrcxSQitSDwOEQok4QJSSs0bhSlih1t5ELwKpeCPpGSz',
+        'AWSALBCORS': '9TaJpQrjZUfTVZ6e4j4Qni7t6S7lscsGVUv8dhvpf/f5pbJ12qE9NxS4fphOdYx4ryXxHyJUPDAxlqc7MrcxSQitSDwOEQok4QJSSs0bhSlih1t5ELwKpeCPpGSz',
+    }
 
+    headers = {
+        'accept': 'application/json, text/javascript, */*; q=0.01',
+        'accept-language': 'en-US,en;q=0.9',
+        'priority': 'u=1, i',
+        'referer': 'https://www.bricklink.com/v2/search.page?q=72154',
+        'sec-ch-ua': '"Brave";v="137", "Chromium";v="137", "Not/A)Brand";v="24"',
+        'sec-ch-ua-mobile': '?0',
+        'sec-ch-ua-platform': '"macOS"',
+        'sec-fetch-dest': 'empty',
+        'sec-fetch-mode': 'cors',
+        'sec-fetch-site': 'same-origin',
+        'sec-gpc': '1',
+        'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36',
+        'x-requested-with': 'XMLHttpRequest',
+        # 'cookie': 'l5_sp=1eba0191-47c2-4aa3-96c7-a9b55b1155c4; blckMID=f270aba0-8394-460c-a837-126fd5288afe; catalogView=cView=1; blCartBuyerID=-707598233; blckSessionStarted=1; blckCookieSetting=CHKTGATFPBLF; BLNEWSESSIONID=V103226BBA237B88852C6B04CF2C7D73679A3D5FD03DCEE7BD80538EE86DB08044893ECDD768B92ECC96F4D7DC3E94A817A; ASPSESSIONIDCAQASBCA=GDNCHEODPIFAGFPIGJNDJPMN; ASPSESSIONIDACSDRDCA=GPBOAFODPIEODANGACAPHFFK; BLdiscussFlag=Y; _pk_id.12.23af=b2840f12a6d53d62.1749619769.; ASPSESSIONIDAATCQCDA=LLNOBNIAJLKFNKBMGHIEOBFM; _pk_ses.12.23af=1; _sp_ses.8289=*; _sp_id.8289=.1749493018.5.1749701832.1749624071.cf1a7e8e-1c65-4ff7-b761-a2ed8a413ffc..024c784e-e348-4b7b-90a2-5266cbac0c40.1749701808446.2; aws-waf-token=843b4532-05b0-494a-95ff-16ab8c6004eb:EQoAdoccqs/jAAAA:kzZL+rQ8o5yvRF/Rq7Sxw9QCIDj8TNG2PhA6mW772KkEboNW2qDfQacEBaHzGqmMezug1ikDP3wfex7GHQ/MfZ55vKIjmGuLaYQu/7i2EY2+C4adkBlkHgKyu6Yc3gt6nxPbp6oOnThZ97uh+HgdUPczvEHZcufiyYRiIsDbPaivGIm1wTnJGUVBfmQ7jZSHBjFAqVE1vQcLWKzBspqMfTSRM2hpgPuiVNF1nxUCcmhv+31jVRCWhZ+4LXvLKHlByD+KR5/Q8vU=; AWSALB=9TaJpQrjZUfTVZ6e4j4Qni7t6S7lscsGVUv8dhvpf/f5pbJ12qE9NxS4fphOdYx4ryXxHyJUPDAxlqc7MrcxSQitSDwOEQok4QJSSs0bhSlih1t5ELwKpeCPpGSz; AWSALBCORS=9TaJpQrjZUfTVZ6e4j4Qni7t6S7lscsGVUv8dhvpf/f5pbJ12qE9NxS4fphOdYx4ryXxHyJUPDAxlqc7MrcxSQitSDwOEQok4QJSSs0bhSlih1t5ELwKpeCPpGSz',
+    }
 
     base = "https://www.bricklink.com"
     path = f"/ajax/clone/search/searchproduct.ajax?q={id}&st=0&cond=&type=&cat=&yf=0&yt=0&loc=&reg=0&ca=0&ss=&pmt=&nmp=0&color=-1&min=0&max=0&minqty=0&nosuperlot=1&incomplete=0&showempty=1&rpp=25&pi=1&ci=0"

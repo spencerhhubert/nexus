@@ -41,6 +41,7 @@ class GlobalConfig(TypedDict):
     door_delay_offset_ms: int
     delay_for_chute_fall_ms: int
     profiling_dir_path: str
+    ldraw_dir_path: str
 
 
 def buildGlobalConfig() -> GlobalConfig:
@@ -108,6 +109,7 @@ def buildGlobalConfig() -> GlobalConfig:
         "door_delay_offset_ms": -2000,
         "delay_for_chute_fall_ms": 1000,
         "profiling_dir_path": "../profiles",
+        "ldraw_dir_path": "../ldraw",
     }
 
     from robot.logger import Logger

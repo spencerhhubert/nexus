@@ -1,5 +1,6 @@
 from requests_oauthlib import OAuth1
-from robot.global_config import GlobalConfig
+from tqdm import tqdm
+from robot.piece.bricklink.generate_piece_config import PieceGenerationConfig
 from robot.piece.bricklink.api import getColors
 from robot.piece.bricklink.db_operations import (
     saveColor,
@@ -8,15 +9,15 @@ from robot.piece.bricklink.db_operations import (
 )
 
 
-def generateColors(global_config: GlobalConfig, auth: OAuth1) -> None:
-    logger = global_config["logger"]
+def generateColors(piece_config: PieceGenerationConfig, auth: OAuth1) -> None:
+    logger = piece_config["logger"]
 
     logger.info("Starting BrickLink colors generation...")
 
-    initial_count = getColorCount(global_config)
+    initial_count = getColorCount(piece_config)
     logger.info(f"Database currently has {initial_count} colors")
 
-    colors = getColors(global_config, auth)
+    colors = getColors(auth)
 
     if not colors:
         logger.error("Failed to retrieve colors from BrickLink API")
@@ -25,21 +26,24 @@ def generateColors(global_config: GlobalConfig, auth: OAuth1) -> None:
     saved_count = 0
     skipped_count = 0
 
-    for color in colors:
-        color_id = str(color["color_id"])
+    with tqdm(colors, desc="Generating colors", unit="color") as pbar:
+        for color in pbar:
+            color_id = str(color["color_id"])
 
-        if getExistingColor(global_config, color_id):
-            logger.info(f"Color {color_id} already exists, skipping")
-            skipped_count += 1
-            continue
+            if getExistingColor(piece_config, color_id):
+                tqdm.write(f"Color {color_id} already exists, skipping")
+                skipped_count += 1
+                pbar.set_postfix(saved=saved_count, skipped=skipped_count)
+                continue
 
-        try:
-            saveColor(global_config, color)
-            saved_count += 1
-        except Exception as e:
-            logger.error(f"Failed to save color {color_id}: {e}")
+            try:
+                saveColor(piece_config, logger, color)
+                saved_count += 1
+                pbar.set_postfix(saved=saved_count, skipped=skipped_count)
+            except Exception as e:
+                tqdm.write(f"Failed to save color {color_id}: {e}")
 
-    final_count = getColorCount(global_config)
+    final_count = getColorCount(piece_config)
 
     logger.info(f"Colors generation completed:")
     logger.info(f"  Retrieved: {len(colors)} colors")

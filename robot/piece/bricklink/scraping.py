@@ -4,11 +4,21 @@ import time
 import json
 from typing import Optional, Dict, Any
 from requests_oauthlib import OAuth1
-from robot.global_config import GlobalConfig
+
+from robot.piece.bricklink.consts import BRICKLINK_SCRAPING_RATE_LIMIT_DELAY_MS
 from robot.piece.bricklink.types import BricklinkSearchResponse
 
 
 def getScrapingConfig() -> Dict[str, Any]:
+    # given an alternate id, which many of the ids in ldraw are,
+    # you can't figure out the primary id from the bricklink api
+    # and you need the primary id to get info about it from the bl api
+    # so we gotta do this
+
+    # get this curl info doing "copy cURL" from packet representing search page like
+    # https://www.bricklink.com/v2/search.page?q=72154 from the network tab of the browser
+    # and use this https://curlconverter.com/
+    # look for the searchproduct request
     cookies_json = os.environ.get("BL_SCRAPING_COOKIES")
     if not cookies_json:
         raise ValueError("Missing required environment variable: BL_SCRAPING_COOKIES")
@@ -36,11 +46,7 @@ def getScrapingConfig() -> Dict[str, Any]:
     return {"cookies": cookies, "headers": headers}
 
 
-def scrapePrimaryId(
-    ldraw_id: str, global_config: GlobalConfig, auth: OAuth1
-) -> Optional[str]:
-    logger = global_config["logger"]
-
+def scrapePrimaryId(ldraw_id: str, auth: OAuth1) -> Optional[str]:
     try:
         scraping_config = getScrapingConfig()
 
@@ -51,25 +57,22 @@ def scrapePrimaryId(
         headers = scraping_config["headers"].copy()
         headers["referer"] = f"https://www.bricklink.com/v2/search.page?q={ldraw_id}"
 
-        logger.info(f"Scraping BrickLink search for ID: {ldraw_id}")
         response = requests.get(
             base_url + search_path, cookies=scraping_config["cookies"], headers=headers
         )
 
+        # Rate limiting for scraping
+        time.sleep(BRICKLINK_SCRAPING_RATE_LIMIT_DELAY_MS / 1000.0)
+
         if response.status_code != 200:
-            logger.warning(
-                f"Scraping failed for {ldraw_id}, status: {response.status_code}"
-            )
             return None
 
         search_data = response.json()
 
         if "result" not in search_data:
-            logger.info(f"No search results found for {ldraw_id}")
             return None
 
         if len(search_data["result"]["typeList"]) == 0:
-            logger.info(f"No search results in typeList for {ldraw_id}")
             return None
 
         search_results = search_data["result"]["typeList"][0]["items"]
@@ -82,29 +85,24 @@ def scrapePrimaryId(
             try:
                 from robot.piece.bricklink.api import getPartInfo
 
-                part_info = getPartInfo(bl_primary_id, global_config, auth)
+                part_info = getPartInfo(bl_primary_id, auth)
 
                 if part_info and "alternate_no" in part_info:
                     alternate_ids = part_info["alternate_no"].split(",")
                     alternate_ids = [aid.strip() for aid in alternate_ids]
 
                     if ldraw_id in alternate_ids:
-                        logger.info(f"Found primary ID {bl_primary_id} for {ldraw_id}")
                         return bl_primary_id
 
             except Exception as e:
-                logger.warning(f"Failed to check alternates for {bl_primary_id}: {e}")
                 continue
 
         # If only one result and no alternates found, might be the primary ID itself
         if len(search_results) == 1:
             bl_primary_id = search_results[0]["strItemNo"]
-            logger.info(f"Single result found, using {bl_primary_id} for {ldraw_id}")
             return bl_primary_id
 
-        logger.info(f"Could not determine primary ID for {ldraw_id}")
         return None
 
     except Exception as e:
-        logger.error(f"Error scraping primary ID for {ldraw_id}: {e}")
         return None

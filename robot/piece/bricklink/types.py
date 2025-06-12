@@ -1,4 +1,12 @@
 from typing import TypedDict, List, Optional, Union
+from enum import Enum
+
+
+class GENERATE_PIECE_KIND_FAILED_REASON(Enum):
+    COULD_NOT_FIND_PRIMARY_ID = "could_not_find_primary_id"
+    COULD_NOT_GET_PART_INFO = "could_not_get_part_info"
+    SCRAPING_ERROR = "scraping_error"
+    API_ERROR = "api_error"
 
 
 class BricklinkApiMeta(TypedDict):

@@ -8,3 +8,4 @@ Pillow
 requests
 scipy
 requests_oauthlib
+tqdm

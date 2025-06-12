@@ -1,5 +1,6 @@
 from requests_oauthlib import OAuth1
-from robot.global_config import GlobalConfig
+from tqdm import tqdm
+from robot.piece.bricklink.generate_piece_config import PieceGenerationConfig
 from robot.piece.bricklink.api import getCategories
 from robot.piece.bricklink.db_operations import (
     saveCategory,
@@ -8,15 +9,15 @@ from robot.piece.bricklink.db_operations import (
 )
 
 
-def generateCategories(global_config: GlobalConfig, auth: OAuth1) -> None:
-    logger = global_config["logger"]
+def generateCategories(piece_config: PieceGenerationConfig, auth: OAuth1) -> None:
+    logger = piece_config["logger"]
 
     logger.info("Starting BrickLink categories generation...")
 
-    initial_count = getCategoryCount(global_config)
+    initial_count = getCategoryCount(piece_config)
     logger.info(f"Database currently has {initial_count} categories")
 
-    categories = getCategories(global_config, auth)
+    categories = getCategories(auth)
 
     if not categories:
         logger.error("Failed to retrieve categories from BrickLink API")
@@ -25,21 +26,24 @@ def generateCategories(global_config: GlobalConfig, auth: OAuth1) -> None:
     saved_count = 0
     skipped_count = 0
 
-    for category in categories:
-        category_id = str(category["category_id"])
+    with tqdm(categories, desc="Generating categories", unit="category") as pbar:
+        for category in pbar:
+            category_id = str(category["category_id"])
 
-        if getExistingCategory(global_config, category_id):
-            logger.info(f"Category {category_id} already exists, skipping")
-            skipped_count += 1
-            continue
+            if getExistingCategory(piece_config, category_id):
+                tqdm.write(f"Category {category_id} already exists, skipping")
+                skipped_count += 1
+                pbar.set_postfix(saved=saved_count, skipped=skipped_count)
+                continue
 
-        try:
-            saveCategory(global_config, category)
-            saved_count += 1
-        except Exception as e:
-            logger.error(f"Failed to save category {category_id}: {e}")
+            try:
+                saveCategory(piece_config, logger, category)
+                saved_count += 1
+                pbar.set_postfix(saved=saved_count, skipped=skipped_count)
+            except Exception as e:
+                tqdm.write(f"Failed to save category {category_id}: {e}")
 
-    final_count = getCategoryCount(global_config)
+    final_count = getCategoryCount(piece_config)
 
     logger.info(f"Categories generation completed:")
     logger.info(f"  Retrieved: {len(categories)} categories")

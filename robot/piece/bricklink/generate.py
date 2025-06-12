@@ -1,13 +1,16 @@
 import requests
-from robot.global_config import GlobalConfig, buildGlobalConfig
+from robot.piece.bricklink.generate_piece_config import (
+    PieceGenerationConfig,
+    buildPieceGenerationConfig,
+)
 from robot.piece.bricklink.auth import mkAuth
 from robot.piece.bricklink.generate_categories import generateCategories
 from robot.piece.bricklink.generate_colors import generateColors
 from robot.piece.bricklink.generate_kinds import generateKinds
 
 
-def generateBricklinkData(global_config: GlobalConfig) -> None:
-    logger = global_config["logger"]
+def generateBricklinkData(piece_config: PieceGenerationConfig) -> None:
+    logger = piece_config["logger"]
 
     logger.info("Starting BrickLink data generation...")
 
@@ -15,9 +18,9 @@ def generateBricklinkData(global_config: GlobalConfig) -> None:
         auth = mkAuth()
         logger.info("BrickLink authentication configured successfully")
 
-        generateCategories(global_config, auth)
-        generateColors(global_config, auth)
-        generateKinds(global_config, auth)
+        generateCategories(piece_config, auth)
+        generateColors(piece_config, auth)
+        generateKinds(piece_config, auth)
 
         logger.info("BrickLink data generation completed")
 
@@ -27,8 +30,8 @@ def generateBricklinkData(global_config: GlobalConfig) -> None:
 
 
 def main() -> None:
-    global_config = buildGlobalConfig()
-    generateBricklinkData(global_config)
+    piece_config = buildPieceGenerationConfig()
+    generateBricklinkData(piece_config)
 
 
 if __name__ == "__main__":

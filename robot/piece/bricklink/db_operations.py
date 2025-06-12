@@ -1,23 +1,39 @@
 import sqlite3
+import time
 from typing import List, Optional
-from robot.global_config import GlobalConfig
-from robot.storage.sqlite3.migrations import getDatabaseConnection
+from robot.piece.bricklink.generate_piece_config import PieceGenerationConfig
 from robot.piece.bricklink.types import (
     BricklinkPartData,
     BricklinkCategoryData,
     BricklinkColorData,
+    GENERATE_PIECE_KIND_FAILED_REASON,
 )
 
 
-def saveCategory(global_config: GlobalConfig, category: BricklinkCategoryData) -> None:
-    logger = global_config["logger"]
-    conn = getDatabaseConnection(global_config)
+def _getCurrentTimestampMs() -> int:
+    return int(time.time() * 1000)
+
+
+def _getDatabaseConnection(piece_config: PieceGenerationConfig) -> sqlite3.Connection:
+    return sqlite3.connect(piece_config["database_path"])
+
+
+def saveCategory(
+    piece_config: PieceGenerationConfig, logger, category: BricklinkCategoryData
+) -> None:
+    conn = _getDatabaseConnection(piece_config)
     cursor = conn.cursor()
 
     try:
+        current_time = _getCurrentTimestampMs()
         cursor.execute(
-            "INSERT OR IGNORE INTO bricklink_category (category_id, name) VALUES (?, ?)",
-            (str(category["category_id"]), category["category_name"]),
+            "INSERT OR IGNORE INTO bricklink_category (category_id, name, created_at, updated_at) VALUES (?, ?, ?, ?)",
+            (
+                str(category["category_id"]),
+                category["category_name"],
+                current_time,
+                current_time,
+            ),
         )
         conn.commit()
 
@@ -34,19 +50,23 @@ def saveCategory(global_config: GlobalConfig, category: BricklinkCategoryData) -
         conn.close()
 
 
-def saveColor(global_config: GlobalConfig, color: BricklinkColorData) -> None:
-    logger = global_config["logger"]
-    conn = getDatabaseConnection(global_config)
+def saveColor(
+    piece_config: PieceGenerationConfig, logger, color: BricklinkColorData
+) -> None:
+    conn = _getDatabaseConnection(piece_config)
     cursor = conn.cursor()
 
     try:
+        current_time = _getCurrentTimestampMs()
         cursor.execute(
-            "INSERT OR IGNORE INTO bricklink_color (color_id, name, hex_color_code, type) VALUES (?, ?, ?, ?)",
+            "INSERT OR IGNORE INTO bricklink_color (color_id, name, hex_color_code, type, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)",
             (
                 str(color["color_id"]),
                 color["color_name"],
                 color["color_code"],
                 color["color_type"],
+                current_time,
+                current_time,
             ),
         )
         conn.commit()
@@ -62,9 +82,10 @@ def saveColor(global_config: GlobalConfig, color: BricklinkColorData) -> None:
         conn.close()
 
 
-def saveKind(global_config: GlobalConfig, part: BricklinkPartData) -> None:
-    logger = global_config["logger"]
-    conn = getDatabaseConnection(global_config)
+def saveKind(
+    piece_config: PieceGenerationConfig, logger, part: BricklinkPartData
+) -> None:
+    conn = _getDatabaseConnection(piece_config)
     cursor = conn.cursor()
 
     try:
@@ -74,9 +95,18 @@ def saveKind(global_config: GlobalConfig, part: BricklinkPartData) -> None:
             else part["image_url"]
         )
 
+        current_time = _getCurrentTimestampMs()
         cursor.execute(
-            "INSERT OR REPLACE INTO kind (primary_id, bricklink_category_id, name, bricklink_image_url) VALUES (?, ?, ?, ?)",
-            (part["no"], str(part["category_id"]), part["name"], image_url),
+            "INSERT OR REPLACE INTO piece_kinds (primary_id, bricklink_category_id, name, bricklink_image_url, created_at, updated_at, failed_reason) VALUES (?, ?, ?, ?, ?, ?, ?)",
+            (
+                part["no"],
+                str(part["category_id"]),
+                part["name"],
+                image_url,
+                current_time,
+                current_time,
+                None,
+            ),
         )
         conn.commit()
         logger.info(f"Saved kind: {part['name']} (ID: {part['no']})")
@@ -90,22 +120,26 @@ def saveKind(global_config: GlobalConfig, part: BricklinkPartData) -> None:
 
 
 def saveKindAlternateIds(
-    global_config: GlobalConfig, primary_id: str, alternate_ids: List[str]
+    piece_config: PieceGenerationConfig,
+    logger,
+    primary_id: str,
+    alternate_ids: List[str],
 ) -> None:
-    logger = global_config["logger"]
-    conn = getDatabaseConnection(global_config)
+    conn = _getDatabaseConnection(piece_config)
     cursor = conn.cursor()
 
     try:
         cursor.execute(
-            "DELETE FROM kind_alternate_ids WHERE kind_primary_id = ?", (primary_id,)
+            "DELETE FROM piece_kind_alternate_ids WHERE kind_primary_id = ?",
+            (primary_id,),
         )
 
+        current_time = _getCurrentTimestampMs()
         for alternate_id in alternate_ids:
             if alternate_id.strip():
                 cursor.execute(
-                    "INSERT INTO kind_alternate_ids (kind_primary_id, alternate_id) VALUES (?, ?)",
-                    (primary_id, alternate_id.strip()),
+                    "INSERT INTO piece_kind_alternate_ids (kind_primary_id, alternate_id, created_at, updated_at) VALUES (?, ?, ?, ?)",
+                    (primary_id, alternate_id.strip(), current_time, current_time),
                 )
 
         conn.commit()
@@ -119,20 +153,64 @@ def saveKindAlternateIds(
         conn.close()
 
 
-def getExistingKind(global_config: GlobalConfig, primary_id: str) -> bool:
-    conn = getDatabaseConnection(global_config)
+def getExistingKind(piece_config: PieceGenerationConfig, primary_id: str) -> bool:
+    conn = _getDatabaseConnection(piece_config)
     cursor = conn.cursor()
 
     try:
-        cursor.execute("SELECT 1 FROM kind WHERE primary_id = ?", (primary_id,))
+        cursor.execute(
+            "SELECT 1 FROM piece_kinds WHERE primary_id = ? AND failed_reason IS NULL",
+            (primary_id,),
+        )
         result = cursor.fetchone()
         return result is not None
     finally:
         conn.close()
 
 
-def getExistingCategory(global_config: GlobalConfig, category_id: str) -> bool:
-    conn = getDatabaseConnection(global_config)
+def saveFailedKind(
+    piece_config: PieceGenerationConfig,
+    logger,
+    ldraw_id: str,
+    failed_reason: GENERATE_PIECE_KIND_FAILED_REASON,
+) -> None:
+    conn = _getDatabaseConnection(piece_config)
+    cursor = conn.cursor()
+
+    try:
+        current_time = _getCurrentTimestampMs()
+        cursor.execute(
+            "INSERT OR REPLACE INTO piece_kinds (primary_id, failed_reason, created_at, updated_at) VALUES (?, ?, ?, ?)",
+            (ldraw_id, failed_reason.value, current_time, current_time),
+        )
+        conn.commit()
+        logger.info(f"Saved failed kind: {ldraw_id} (reason: {failed_reason.value})")
+
+    except Exception as e:
+        logger.error(f"Failed to save failed kind {ldraw_id}: {e}")
+        conn.rollback()
+        raise
+    finally:
+        conn.close()
+
+
+def getFailedKind(piece_config: PieceGenerationConfig, ldraw_id: str) -> bool:
+    conn = _getDatabaseConnection(piece_config)
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute(
+            "SELECT 1 FROM piece_kinds WHERE primary_id = ? AND failed_reason IS NOT NULL",
+            (ldraw_id,),
+        )
+        result = cursor.fetchone()
+        return result is not None
+    finally:
+        conn.close()
+
+
+def getExistingCategory(piece_config: PieceGenerationConfig, category_id: str) -> bool:
+    conn = _getDatabaseConnection(piece_config)
     cursor = conn.cursor()
 
     try:
@@ -145,8 +223,8 @@ def getExistingCategory(global_config: GlobalConfig, category_id: str) -> bool:
         conn.close()
 
 
-def getExistingColor(global_config: GlobalConfig, color_id: str) -> bool:
-    conn = getDatabaseConnection(global_config)
+def getExistingColor(piece_config: PieceGenerationConfig, color_id: str) -> bool:
+    conn = _getDatabaseConnection(piece_config)
     cursor = conn.cursor()
 
     try:
@@ -157,20 +235,20 @@ def getExistingColor(global_config: GlobalConfig, color_id: str) -> bool:
         conn.close()
 
 
-def getKindCount(global_config: GlobalConfig) -> int:
-    conn = getDatabaseConnection(global_config)
+def getKindCount(piece_config: PieceGenerationConfig) -> int:
+    conn = _getDatabaseConnection(piece_config)
     cursor = conn.cursor()
 
     try:
-        cursor.execute("SELECT COUNT(*) FROM kind")
+        cursor.execute("SELECT COUNT(*) FROM piece_kinds")
         result = cursor.fetchone()
         return result[0] if result else 0
     finally:
         conn.close()
 
 
-def getCategoryCount(global_config: GlobalConfig) -> int:
-    conn = getDatabaseConnection(global_config)
+def getCategoryCount(piece_config: PieceGenerationConfig) -> int:
+    conn = _getDatabaseConnection(piece_config)
     cursor = conn.cursor()
 
     try:
@@ -181,8 +259,8 @@ def getCategoryCount(global_config: GlobalConfig) -> int:
         conn.close()
 
 
-def getColorCount(global_config: GlobalConfig) -> int:
-    conn = getDatabaseConnection(global_config)
+def getColorCount(piece_config: PieceGenerationConfig) -> int:
+    conn = _getDatabaseConnection(piece_config)
     cursor = conn.cursor()
 
     try:

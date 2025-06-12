@@ -1,11 +1,9 @@
 import time
-from robot.global_config import GlobalConfig
 
 
 class Logger:
-    def __init__(self, gc: GlobalConfig):
-        self.gc = gc
-        self.debug_level = gc["debug_level"]
+    def __init__(self, debug_level: int):
+        self.debug_level = debug_level
 
     def info(self, message: str) -> None:
         if self.debug_level > 0:

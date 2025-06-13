@@ -1,7 +1,7 @@
 import os
 import argparse
 import time
-from typing import TypedDict, TYPE_CHECKING, cast
+from typing import TypedDict, TYPE_CHECKING, cast, Optional
 
 if TYPE_CHECKING:
     from robot.logger import Logger
@@ -41,6 +41,7 @@ class GlobalConfig(TypedDict):
     door_delay_offset_ms: int
     delay_for_chute_fall_ms: int
     profiling_dir_path: str
+    use_prev_bin_state: Optional[str]
 
 
 def buildGlobalConfig() -> GlobalConfig:
@@ -66,6 +67,12 @@ def buildGlobalConfig() -> GlobalConfig:
         "--preview",
         action="store_true",
         help="Enable camera preview window",
+    )
+    parser.add_argument(
+        "--use_prev_bin_state",
+        nargs="?",
+        const="latest",
+        help="Use previous bin state. Optionally specify bin state ID, defaults to most recent",
     )
     args = parser.parse_args()
 
@@ -108,6 +115,7 @@ def buildGlobalConfig() -> GlobalConfig:
         "door_delay_offset_ms": -2000,
         "delay_for_chute_fall_ms": 1000,
         "profiling_dir_path": "../profiles",
+        "use_prev_bin_state": args.use_prev_bin_state,
     }
 
     from robot.logger import Logger

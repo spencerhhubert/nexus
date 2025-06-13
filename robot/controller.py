@@ -77,6 +77,11 @@ class SortingController:
             self.global_config,
             self.irl_system["distribution_modules"],
             piece_sorting_profile,
+            self.global_config["use_prev_bin_state"],
+        )
+
+        self.global_config["logger"].info(
+            f"Using bin state ID: {self.bin_state_tracker.current_bin_state_id}"
         )
 
         self.door_scheduler = DoorScheduler(

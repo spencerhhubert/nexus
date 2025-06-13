@@ -18,7 +18,9 @@ from robot.ai import (
     calculateNormalizedBounds,
 )
 from robot.ai.segment import initializeSegmentationModel
-from robot.sorting.example import EXAMPLE_ITEM_ID_TO_CATEGORY_ID_MAPPING
+from robot.sorting.bricklink_categories_sorting_profile import (
+    mkBricklinkCategoriesSortingProfile,
+)
 from robot.sorting.sorter import ClassificationResult
 from robot.storage.sqlite3.migrations import initializeDatabase
 from robot.storage.sqlite3.operations import saveObservationToDatabase
@@ -67,11 +69,7 @@ class SortingController:
         self.irl_system = irl_system
         self.lifecycle_stage = SystemLifecycleStage.INITIALIZING
 
-        piece_sorting_profile = PieceSortingProfile(
-            self.global_config,
-            "Example",
-            EXAMPLE_ITEM_ID_TO_CATEGORY_ID_MAPPING,
-        )
+        piece_sorting_profile = mkBricklinkCategoriesSortingProfile(self.global_config)
 
         self.sorter = PieceSorter(self.global_config, piece_sorting_profile)
 

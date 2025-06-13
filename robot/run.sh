@@ -1,18 +1,29 @@
-#! /bin/sh
+#!/bin/bash
 
-export MC_USB="/dev/ttyACM0"
-#export ROOT_DIR="/home/spencer/code/nexus"
-export ROOT_DIR="/nexus"
+source .env
+source ../.env
 
-export PATH=$PATH:/usr/local/go/bin
+PARENT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 
-#if $1=firmware then it compiles new firmware, otherwise just uploads what's already compiled
-cd $ROOT_DIR/embedded/firmata
-./compile_and_upload.sh $1
+export PYTHONPATH="${PARENT_DIR}:${PYTHONPATH}"
 
-cd $ROOT_DIR
-#./utils/droidcam/run_droidcam.sh
+PYTHON_INTERPRETER="/opt/homebrew/opt/python@3.11/libexec/bin/python"
 
-cd $ROOT_DIR/robot
-export PYTHONPATH=$PYTHONPATH:/nexus
-python main.py
+cd "$(dirname "$0")"
+
+# Check if --dump argument is present
+if [[ " $* " == *" --dump "* ]]; then
+    # Remove --dump from arguments
+    args=()
+    for arg in "$@"; do
+        if [[ "$arg" != "--dump" ]]; then
+            args+=("$arg")
+        fi
+    done
+
+    mkdir -p ../logs
+    TIMESTAMP=$(date +"%Y-%m-%d_%H-%M-%S")
+    $PYTHON_INTERPRETER main.py "${args[@]}" &> "../logs/${TIMESTAMP}.log"
+else
+    $PYTHON_INTERPRETER main.py "$@"
+fi

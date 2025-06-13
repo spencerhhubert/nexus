@@ -1,3 +1,11 @@
 pyfirmata
 numpy
 opencv-python
+fastsam
+torch
+torchvision
+Pillow
+requests
+scipy
+requests_oauthlib
+tqdm

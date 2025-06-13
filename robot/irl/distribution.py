@@ -1,22 +1,31 @@
-import time
-from threading import Thread
+from typing import List
+from robot.irl.motors import Servo
+from robot.global_config import GlobalConfig
 
-#pair is a pair of servo objects
-#when is in milliseconds
-def openDoors(dm, bin, when:int):
 
-    def _openDoors(dm, bin, when:int):
-        #wait n milliseconds until we presume the piece has arrived
-        wait = 7
-        time.sleep(when/1000)
-        dm.servo.setAngle(135)
-        time.sleep(0.25)
-        bin.servo.setAngle(135)
-        time.sleep(wait)
-        dm.servo.setAngle(95)
-        time.sleep(0.25)
-        bin.servo.setAngle(170)
-        time.sleep(0.25)
+class Bin:
+    def __init__(
+        self, global_config: GlobalConfig, servo: Servo, category: str, bin_idx: int
+    ):
+        self.global_config = global_config
+        self.servo = servo
+        self.category = category
+        self.bin_idx = bin_idx
 
-    t = Thread(target=_openDoors, args=(dm, bin, when))
-    t.start()
+
+class DistributionModule:
+    def __init__(
+        self,
+        global_config: GlobalConfig,
+        servo: Servo,
+        distance_from_camera_center_to_door_begin_cm: int,
+        bins: List[Bin],
+        distribution_module_idx: int,
+    ):
+        self.global_config = global_config
+        self.servo = servo
+        self.distance_from_camera_center_to_door_begin_cm = (
+            distance_from_camera_center_to_door_begin_cm
+        )
+        self.bins = bins
+        self.distribution_module_idx = distribution_module_idx

@@ -12,12 +12,14 @@ from robot.global_config import GlobalConfig
 
 # Parameters
 FILTERING_PARAMS = {
-    "background_threshold": 0.40,
+    "background_threshold": 0.20,
     "border_region_ratio": 0.1,
     "border_overlap_threshold": 0.25,
     "nested_threshold": 0.9,
     "merge_distance_px": 64 * 2,
     "multi_mask_expansion_px": 50,
+    "filter_disjoint_segments": True,
+    "disjoint_separation_threshold_px": 64 * 2,
 }
 
 FASTSAM_CONFIG = {"retina_masks": True, "imgsz": 512, "conf": 0.3, "iou": 0.8}
@@ -193,6 +195,53 @@ def countConnectedComponents(mask: torch.Tensor) -> int:
     return int(num_components)
 
 
+def filterDisjointSegments(masks: List[torch.Tensor]) -> List[torch.Tensor]:
+    # Filter out segments that have multiple disconnected clumps separated by large distances
+    # This helps reduce instances where we segment a bunch of features of an object, but not the entire object
+    if not FILTERING_PARAMS["filter_disjoint_segments"]:
+        return masks
+
+    filtered_masks = []
+    separation_threshold = FILTERING_PARAMS["disjoint_separation_threshold_px"]
+
+    for mask in masks:
+        mask_np = mask.cpu().numpy().astype(np.uint8)
+        labeled_mask, num_components = ndimage.label(mask_np)
+
+        if num_components <= 1:
+            # Single component or no components, keep it
+            filtered_masks.append(mask)
+            continue
+
+        # Find centroids of each component
+        component_centroids = []
+        for component_id in range(1, num_components + 1):
+            component_pixels = np.where(labeled_mask == component_id)
+            if len(component_pixels[0]) > 0:
+                centroid_y = np.mean(component_pixels[0])
+                centroid_x = np.mean(component_pixels[1])
+                component_centroids.append((centroid_x, centroid_y))
+
+        # Check if any pair of components is separated by more than threshold
+        is_disjoint = False
+        for i in range(len(component_centroids)):
+            for j in range(i + 1, len(component_centroids)):
+                cx1, cy1 = component_centroids[i]
+                cx2, cy2 = component_centroids[j]
+                distance = ((cx2 - cx1) ** 2 + (cy2 - cy1) ** 2) ** 0.5
+
+                if distance > separation_threshold:
+                    is_disjoint = True
+                    break
+            if is_disjoint:
+                break
+
+        if not is_disjoint:
+            filtered_masks.append(mask)
+
+    return filtered_masks
+
+
 def processSegmentGroups(
     segment_groups: List[List[Dict[str, Any]]]
 ) -> List[Dict[str, Any]]:
@@ -304,8 +353,13 @@ def postProcessMasks(
     if len(merged) == 0:
         return []
 
-    # Step 4: Group overlapping masks and process multi-mask cases
-    segment_groups = groupOverlappingMasks(merged)
+    # Step 4: Filter disjoint segments
+    disjoint_filtered = filterDisjointSegments(merged)
+    if len(disjoint_filtered) == 0:
+        return []
+
+    # Step 5: Group overlapping masks and process multi-mask cases
+    segment_groups = groupOverlappingMasks(disjoint_filtered)
     processed = processSegmentGroups(segment_groups)
 
     return processed

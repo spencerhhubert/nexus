@@ -58,30 +58,19 @@ class Observation:
         self.masked_image_path: Optional[str] = None
         self.classification_file_path: Optional[str] = None
 
-        self.fully_visible_for_speed_estimation = self._checkFullyVisible(
-            center_x, center_y, bbox_width, bbox_height, border_threshold
-        )
+        self.border_threshold = border_threshold
 
-    def _checkFullyVisible(
-        self,
-        center_x: float,
-        center_y: float,
-        bbox_width: float,
-        bbox_height: float,
-        threshold: float,
-    ) -> bool:
-        # Calculate bounding box edges
+        # Calculate and store visibility for speed estimation
         left_edge = center_x - bbox_width / 2
         right_edge = center_x + bbox_width / 2
         top_edge = center_y - bbox_height / 2
         bottom_edge = center_y + bbox_height / 2
 
-        # Check if completely within inner threshold area
-        return (
-            left_edge >= threshold
-            and right_edge <= (1.0 - threshold)
-            and top_edge >= threshold
-            and bottom_edge <= (1.0 - threshold)
+        self.fully_visible_for_speed_estimation = bool(
+            left_edge >= border_threshold
+            and right_edge <= (1.0 - border_threshold)
+            and top_edge >= border_threshold
+            and bottom_edge <= (1.0 - border_threshold)
         )
 
     def toJSON(self) -> ObservationJSON:

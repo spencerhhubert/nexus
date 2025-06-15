@@ -21,10 +21,10 @@ def saveObservationToDatabase(global_config: GlobalConfig, observation) -> None:
         """
         INSERT INTO observations (
             observation_id, trajectory_id, timestamp_ms, center_x_percent, center_y_percent,
-            bbox_width_percent, bbox_height_percent, center_x_px, center_y_px,
-            bbox_width_px, bbox_height_px, full_image_path, masked_image_path,
+            bbox_width_percent, bbox_height_percent, leading_edge_x_percent, center_x_px, center_y_px,
+            bbox_width_px, bbox_height_px, leading_edge_x_px, full_image_path, masked_image_path,
             classification_file_path, classification_result, created_at
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     """,
         (
             obs_json["observation_id"],
@@ -34,10 +34,12 @@ def saveObservationToDatabase(global_config: GlobalConfig, observation) -> None:
             obs_json["center_y_percent"],
             obs_json["bbox_width_percent"],
             obs_json["bbox_height_percent"],
+            obs_json["leading_edge_x_percent"],
             obs_json["center_x_px"],
             obs_json["center_y_px"],
             obs_json["bbox_width_px"],
             obs_json["bbox_height_px"],
+            obs_json["leading_edge_x_px"],
             obs_json["full_image_path"],
             obs_json["masked_image_path"],
             obs_json["classification_file_path"],

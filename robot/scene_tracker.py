@@ -61,32 +61,34 @@ class SceneTracker:
         )
         return travel_time_ms
 
-    def predictTimeAtCameraCenter(self, trajectory: Trajectory) -> Optional[int]:
+    def predictTimeAtPosition(
+        self, trajectory: Trajectory, target_position_percent: float
+    ) -> Optional[int]:
         if len(trajectory.observations) < 2:
             return None
 
-        camera_center_x_percent = 0.5
-
-        # Check if any observation is already at or past center
+        # Check if any observation is already at or past target position
         for obs in trajectory.observations:
-            if obs.center_x_percent <= camera_center_x_percent:
+            if obs.leading_edge_x_percent <= target_position_percent:
                 return obs.timestamp_ms
 
-        # Find the two observations that bracket the center position
+        # Find the two observations that bracket the target position
         for i in range(len(trajectory.observations) - 1):
             obs1 = trajectory.observations[i]
             obs2 = trajectory.observations[i + 1]
 
             if (
-                obs1.center_x_percent > camera_center_x_percent
-                and obs2.center_x_percent <= camera_center_x_percent
+                obs1.leading_edge_x_percent > target_position_percent
+                and obs2.leading_edge_x_percent <= target_position_percent
             ):
                 # Interpolate between these two observations
-                x_range = obs1.center_x_percent - obs2.center_x_percent
+                x_range = obs1.leading_edge_x_percent - obs2.leading_edge_x_percent
                 if x_range <= 0:
                     continue
 
-                x_progress = (obs1.center_x_percent - camera_center_x_percent) / x_range
+                x_progress = (
+                    obs1.leading_edge_x_percent - target_position_percent
+                ) / x_range
                 time_range = obs2.timestamp_ms - obs1.timestamp_ms
                 predicted_time = obs1.timestamp_ms + int(x_progress * time_range)
                 return predicted_time
@@ -97,14 +99,20 @@ class SceneTracker:
             obs2 = trajectory.observations[-1]
 
             time_delta = obs2.timestamp_ms - obs1.timestamp_ms
-            x_delta = obs2.center_x_percent - obs1.center_x_percent
+            x_delta = obs2.leading_edge_x_percent - obs1.leading_edge_x_percent
 
             if time_delta > 0 and x_delta != 0:
-                x_remaining = obs2.center_x_percent - camera_center_x_percent
-                time_to_center = int(x_remaining * time_delta / x_delta)
-                return obs2.timestamp_ms + time_to_center
+                x_remaining = obs2.leading_edge_x_percent - target_position_percent
+                time_to_position = int(x_remaining * time_delta / x_delta)
+                return obs2.timestamp_ms + time_to_position
 
         return None
+
+    def predictTimeAtCameraCenter(self, trajectory: Trajectory) -> Optional[int]:
+        camera_center_reference_position = self.global_config[
+            "camera_center_reference_position"
+        ]
+        return self.predictTimeAtPosition(trajectory, camera_center_reference_position)
 
     def getTrajectoriesToTrigger(self, trigger_position: float) -> List[Trajectory]:
         with self.lock:
@@ -217,9 +225,9 @@ class SceneTracker:
                 continue
 
             distance_cm = self.calibration.getPhysicalDistanceBetweenPoints(
-                obs_prev.center_x_px,
+                obs_prev.leading_edge_x_px,
                 obs_prev.center_y_px,
-                obs_curr.center_x_px,
+                obs_curr.leading_edge_x_px,
                 obs_curr.center_y_px,
             )
 
@@ -245,7 +253,7 @@ class SceneTracker:
                 continue
 
             # Check if trajectory has left camera view (moved off left side)
-            if latest_observation.center_x_percent <= 0.0:
+            if latest_observation.leading_edge_x_percent <= 0.0:
                 time_since_last_observation = (
                     current_time_ms - latest_observation.timestamp_ms
                 )

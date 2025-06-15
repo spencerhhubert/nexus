@@ -13,10 +13,12 @@ class ObservationJSON(TypedDict):
     center_y_percent: float
     bbox_width_percent: float
     bbox_height_percent: float
+    leading_edge_x_percent: float
     center_x_px: int
     center_y_px: int
     bbox_width_px: int
     bbox_height_px: int
+    leading_edge_x_px: int
     full_image_path: Optional[str]
     masked_image_path: Optional[str]
     classification_file_path: Optional[str]
@@ -51,6 +53,10 @@ class Observation:
         self.bbox_width_px = int(bbox_width * frame_width)
         self.bbox_height_px = int(bbox_height * frame_height)
 
+        # Calculate leading edge (leftmost point of bounding box)
+        self.leading_edge_x_percent = center_x - bbox_width / 2
+        self.leading_edge_x_px = int(self.leading_edge_x_percent * frame_width)
+
         self.full_frame = full_frame
         self.masked_image = masked_image
         self.classification_result = classification_result
@@ -82,10 +88,12 @@ class Observation:
             center_y_percent=self.center_y_percent,
             bbox_width_percent=self.bbox_width_percent,
             bbox_height_percent=self.bbox_height_percent,
+            leading_edge_x_percent=self.leading_edge_x_percent,
             center_x_px=self.center_x_px,
             center_y_px=self.center_y_px,
             bbox_width_px=self.bbox_width_px,
             bbox_height_px=self.bbox_height_px,
+            leading_edge_x_px=self.leading_edge_x_px,
             full_image_path=self.full_image_path,
             masked_image_path=self.masked_image_path,
             classification_file_path=self.classification_file_path,

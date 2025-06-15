@@ -27,7 +27,8 @@ class GlobalConfig(TypedDict):
     trajectory_matching_max_bbox_size_ratio: float
     trajectory_matching_classification_consistency_weight: float
     trajectory_matching_spatial_weight: float
-    camera_trigger_position: float
+    leading_edge_trigger_position: float
+    camera_center_reference_position: float
     capture_delay_ms: int
     camera_preview: bool
     enable_profiling: bool
@@ -102,7 +103,8 @@ def buildGlobalConfig() -> GlobalConfig:
         "trajectory_matching_max_bbox_size_ratio": 4.0,
         "trajectory_matching_classification_consistency_weight": 0.3,
         "trajectory_matching_spatial_weight": 0.3,
-        "camera_trigger_position": 0.55,
+        "leading_edge_trigger_position": 0.35,
+        "camera_center_reference_position": 0.5,
         "capture_delay_ms": 250,
         "camera_preview": args.preview,
         "enable_profiling": args.profile,
@@ -112,7 +114,7 @@ def buildGlobalConfig() -> GlobalConfig:
         "bin_door_open_angle": 180 - 55,
         "conveyor_door_closed_angle": 2,
         "bin_door_closed_angle": 170,
-        "door_open_duration_ms": 4000,
+        "door_open_duration_ms": 2000,
         "door_delay_offset_ms": -2000,
         "delay_for_chute_fall_ms": 1000,
         "profiling_dir_path": "../profiles",

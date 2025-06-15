@@ -135,7 +135,7 @@ class SortingController:
         self.global_config["logger"].info("Starting hardware systems...")
 
         if not self.global_config["disable_main_conveyor"]:
-            self.irl_system["main_conveyor_dc_motor"].setSpeed(200)
+            self.irl_system["main_conveyor_dc_motor"].setSpeed(50)
         if not self.global_config["disable_feeder_conveyor"]:
             self.irl_system["feeder_conveyor_dc_motor"].setSpeed(200)
         if not self.global_config["disable_vibration_hopper"]:
@@ -309,9 +309,11 @@ class SortingController:
                 )
 
     def _scheduleDoorTriggersForTrajectories(self) -> None:
-        camera_trigger_position = self.global_config["camera_trigger_position"]
+        leading_edge_trigger_position = self.global_config[
+            "leading_edge_trigger_position"
+        ]
         trajectories_to_trigger = self.scene_tracker.getTrajectoriesToTrigger(
-            camera_trigger_position
+            leading_edge_trigger_position
         )
 
         for trajectory in trajectories_to_trigger:

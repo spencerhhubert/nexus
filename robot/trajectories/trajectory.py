@@ -81,22 +81,26 @@ class Trajectory:
         return max(classification_counts.keys(), key=lambda k: classification_counts[k])
 
     def shouldTriggerAction(self, global_config: GlobalConfig) -> bool:
-        camera_trigger_position = global_config["camera_trigger_position"]
+        leading_edge_trigger_position = global_config["leading_edge_trigger_position"]
 
         latest_observation = self.getLatestObservation()
         if not latest_observation:
             return False
 
-        should_trigger = latest_observation.center_x_percent <= camera_trigger_position
+        should_trigger = (
+            latest_observation.leading_edge_x_percent <= leading_edge_trigger_position
+        )
         global_config["logger"].info(
-            f"should_trigger: {should_trigger}, latest_observation.center_x_percent: {latest_observation.center_x_percent}"
+            f"should_trigger: {should_trigger}, latest_observation.leading_edge_x_percent: {latest_observation.leading_edge_x_percent}"
         )
         return should_trigger
 
     def getPredictedPosition(self, timestamp_ms: int) -> tuple[float, float]:
         if len(self.observations) < 2:
             latest = self.getLatestObservation()
-            return (latest.center_x_px, latest.center_y_px) if latest else (0.0, 0.0)
+            return (
+                (latest.leading_edge_x_px, latest.center_y_px) if latest else (0.0, 0.0)
+            )
 
         # Use all observations to calculate average velocity
         total_velocity_x_px_per_ms = 0.0
@@ -109,7 +113,7 @@ class Trajectory:
 
             time_delta_ms = obs_curr.timestamp_ms - obs_prev.timestamp_ms
             if time_delta_ms > 0:
-                dx_px = obs_curr.center_x_px - obs_prev.center_x_px
+                dx_px = obs_curr.leading_edge_x_px - obs_prev.leading_edge_x_px
                 dy_px = obs_curr.center_y_px - obs_prev.center_y_px
                 velocity_x_px_per_ms = dx_px / time_delta_ms
                 velocity_y_px_per_ms = dy_px / time_delta_ms
@@ -119,7 +123,9 @@ class Trajectory:
 
         if velocity_samples == 0:
             latest = self.getLatestObservation()
-            return (latest.center_x_px, latest.center_y_px) if latest else (0.0, 0.0)
+            return (
+                (latest.leading_edge_x_px, latest.center_y_px) if latest else (0.0, 0.0)
+            )
 
         avg_velocity_x_px_per_ms = total_velocity_x_px_per_ms / velocity_samples
         avg_velocity_y_px_per_ms = total_velocity_y_px_per_ms / velocity_samples
@@ -131,7 +137,8 @@ class Trajectory:
         prediction_time_delta_ms = timestamp_ms - latest.timestamp_ms
 
         predicted_x_px = (
-            latest.center_x_px + avg_velocity_x_px_per_ms * prediction_time_delta_ms
+            latest.leading_edge_x_px
+            + avg_velocity_x_px_per_ms * prediction_time_delta_ms
         )
         predicted_y_px = (
             latest.center_y_px + avg_velocity_y_px_per_ms * prediction_time_delta_ms
@@ -149,7 +156,7 @@ class Trajectory:
 
     def _calculateSpatialDistance(self, obs: Observation) -> float:
         predicted_x_px, predicted_y_px = self.getPredictedPosition(obs.timestamp_ms)
-        dx_px = obs.center_x_px - predicted_x_px
+        dx_px = obs.leading_edge_x_px - predicted_x_px
         dy_px = obs.center_y_px - predicted_y_px
         return (dx_px * dx_px + dy_px * dy_px) ** 0.5
 

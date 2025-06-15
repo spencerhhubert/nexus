@@ -288,6 +288,7 @@ class SortingController:
                 frame,
                 masked_image,
                 classification_result,
+                self.global_config,
             )
 
             self.scene_tracker.addObservation(observation)

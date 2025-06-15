@@ -1,8 +1,11 @@
 import time
 import uuid
 import numpy as np
-from typing import TypedDict, Optional
+from typing import TypedDict, Optional, TYPE_CHECKING
 from robot.sorting.sorter import ClassificationResult
+
+if TYPE_CHECKING:
+    from robot.global_config import GlobalConfig
 
 
 class ObservationJSON(TypedDict):
@@ -21,6 +24,7 @@ class ObservationJSON(TypedDict):
     masked_image_path: Optional[str]
     classification_file_path: Optional[str]
     classification_result: dict
+    fully_visible_for_speed_estimation: bool
 
 
 class Observation:
@@ -34,6 +38,7 @@ class Observation:
         full_frame: np.ndarray,
         masked_image: np.ndarray,
         classification_result: ClassificationResult,
+        global_config: Optional["GlobalConfig"] = None,
     ):
         self.observation_id = str(uuid.uuid4())
         self.trajectory_id = trajectory_id
@@ -56,6 +61,37 @@ class Observation:
         self.masked_image_path: Optional[str] = None
         self.classification_file_path: Optional[str] = None
 
+        self.fully_visible_for_speed_estimation = self._checkFullyVisible(
+            center_x, center_y, bbox_width, bbox_height, global_config
+        )
+
+    def _checkFullyVisible(
+        self,
+        center_x: float,
+        center_y: float,
+        bbox_width: float,
+        bbox_height: float,
+        global_config: Optional["GlobalConfig"],
+    ) -> bool:
+        if global_config is None:
+            return True  # Default to True if no config provided
+
+        threshold = global_config["speed_estimation_border_threshold_percent"]
+
+        # Calculate bounding box edges
+        left_edge = center_x - bbox_width / 2
+        right_edge = center_x + bbox_width / 2
+        top_edge = center_y - bbox_height / 2
+        bottom_edge = center_y + bbox_height / 2
+
+        # Check if completely within inner threshold area
+        return (
+            left_edge >= threshold
+            and right_edge <= (1.0 - threshold)
+            and top_edge >= threshold
+            and bottom_edge <= (1.0 - threshold)
+        )
+
     def toJSON(self) -> ObservationJSON:
         return ObservationJSON(
             observation_id=self.observation_id,
@@ -73,4 +109,5 @@ class Observation:
             masked_image_path=self.masked_image_path,
             classification_file_path=self.classification_file_path,
             classification_result=self.classification_result.toJSON(),
+            fully_visible_for_speed_estimation=self.fully_visible_for_speed_estimation,
         )

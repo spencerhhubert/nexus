@@ -25,7 +25,7 @@ class SceneTracker:
         # Parameters for trajectory management
         self.max_trajectory_age_ms = 30000  # 30 seconds
         self.min_observations_for_speed = 4
-        self.num_trajectories_for_speed_estimate = 1
+        self.num_trajectories_for_speed_estimate = 16
         self.min_trajectories_to_keep = 10
 
     def addObservation(self, observation: Observation) -> None:

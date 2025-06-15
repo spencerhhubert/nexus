@@ -25,7 +25,7 @@ class SceneTracker:
         # Parameters for trajectory management
         self.max_trajectory_age_ms = 30000  # 30 seconds
         self.min_observations_for_speed = 4
-        self.num_trajectories_for_speed_estimate = 1
+        self.num_trajectories_for_speed_estimate = 16
         self.min_trajectories_to_keep = 10
 
     def addObservation(self, observation: Observation) -> None:
@@ -192,12 +192,22 @@ class SceneTracker:
         if len(trajectory.observations) < 2:
             return
 
+        # Filter to only fully visible observations for speed estimation
+        fully_visible_obs = [
+            obs
+            for obs in trajectory.observations
+            if obs.fully_visible_for_speed_estimation
+        ]
+
+        if len(fully_visible_obs) < 2:
+            return  # Not enough fully visible observations
+
         total_distance_cm = 0.0
         total_time_ms = 0.0
 
-        for i in range(1, len(trajectory.observations)):
-            obs_prev = trajectory.observations[i - 1]
-            obs_curr = trajectory.observations[i]
+        for i in range(1, len(fully_visible_obs)):
+            obs_prev = fully_visible_obs[i - 1]
+            obs_curr = fully_visible_obs[i]
 
             time_delta_ms = obs_curr.timestamp_ms - obs_prev.timestamp_ms
             if time_delta_ms <= 0:

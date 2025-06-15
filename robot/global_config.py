@@ -42,6 +42,7 @@ class GlobalConfig(TypedDict):
     delay_for_chute_fall_ms: int
     profiling_dir_path: str
     use_prev_bin_state: Optional[str]
+    speed_estimation_border_threshold_percent: float
 
 
 def buildGlobalConfig() -> GlobalConfig:
@@ -116,6 +117,7 @@ def buildGlobalConfig() -> GlobalConfig:
         "delay_for_chute_fall_ms": 1000,
         "profiling_dir_path": "../profiles",
         "use_prev_bin_state": args.use_prev_bin_state,
+        "speed_estimation_border_threshold_percent": 0.01,
     }
 
     from robot.logger import Logger

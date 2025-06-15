@@ -117,7 +117,7 @@ def buildGlobalConfig() -> GlobalConfig:
         "delay_for_chute_fall_ms": 1000,
         "profiling_dir_path": "../profiles",
         "use_prev_bin_state": args.use_prev_bin_state,
-        "speed_estimation_border_threshold_percent": 0.05,
+        "speed_estimation_border_threshold_percent": 0.01,
     }
 
     from robot.logger import Logger

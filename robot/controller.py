@@ -288,7 +288,7 @@ class SortingController:
                 frame,
                 masked_image,
                 classification_result,
-                self.global_config,
+                self.global_config["speed_estimation_border_threshold_percent"],
             )
 
             self.scene_tracker.addObservation(observation)

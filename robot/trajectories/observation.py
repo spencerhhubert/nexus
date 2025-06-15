@@ -1,11 +1,8 @@
 import time
 import uuid
 import numpy as np
-from typing import TypedDict, Optional, TYPE_CHECKING
+from typing import TypedDict, Optional
 from robot.sorting.sorter import ClassificationResult
-
-if TYPE_CHECKING:
-    from robot.global_config import GlobalConfig
 
 
 class ObservationJSON(TypedDict):
@@ -38,7 +35,7 @@ class Observation:
         full_frame: np.ndarray,
         masked_image: np.ndarray,
         classification_result: ClassificationResult,
-        global_config: Optional["GlobalConfig"] = None,
+        border_threshold: float,
     ):
         self.observation_id = str(uuid.uuid4())
         self.trajectory_id = trajectory_id
@@ -62,7 +59,7 @@ class Observation:
         self.classification_file_path: Optional[str] = None
 
         self.fully_visible_for_speed_estimation = self._checkFullyVisible(
-            center_x, center_y, bbox_width, bbox_height, global_config
+            center_x, center_y, bbox_width, bbox_height, border_threshold
         )
 
     def _checkFullyVisible(
@@ -71,13 +68,8 @@ class Observation:
         center_y: float,
         bbox_width: float,
         bbox_height: float,
-        global_config: Optional["GlobalConfig"],
+        threshold: float,
     ) -> bool:
-        if global_config is None:
-            return True  # Default to True if no config provided
-
-        threshold = global_config["speed_estimation_border_threshold_percent"]
-
         # Calculate bounding box edges
         left_edge = center_x - bbox_width / 2
         right_edge = center_x + bbox_width / 2

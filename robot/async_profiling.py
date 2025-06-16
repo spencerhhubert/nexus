@@ -286,12 +286,6 @@ def printAggregateProfilingReport(last_n_frames: int = 10) -> None:
     _profiling_aggregator.printAggregateReport(last_n_frames)
 
 
-def getProfilingStats(last_n_frames: int = 10) -> Dict[str, Any]:
-    if _profiling_aggregator is None:
-        return {}
-    return _profiling_aggregator.getAggregateStats(last_n_frames)
-
-
 def saveProfilingResults(
     global_config: GlobalConfig, profiler: cProfile.Profile
 ) -> None:

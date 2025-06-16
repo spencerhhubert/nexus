@@ -1,11 +1,10 @@
-from cv2.gapi import video
 from pyfirmata import util, pyfirmata
 from robot.irl.our_arduino import OurArduinoMega
 from robot.irl.motors import PCA9685, Servo, DCMotor
 from robot.irl.distribution import Bin, DistributionModule
 from robot.irl.camera import Camera, connectToCamera
 from robot.irl.camera_calibration import CameraCalibration, CameraCalibrationMeasurement
-from typing import Dict, List, Tuple, TypedDict, NewType, Optional
+from typing import Dict, List, Tuple, TypedDict, Optional
 import os
 import subprocess
 import re

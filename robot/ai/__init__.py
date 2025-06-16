@@ -3,5 +3,4 @@ from robot.ai.segment import (
     initializeSegmentationModel,
     maskSegment,
     calculateNormalizedBounds,
-    calculatePhysicalBounds,
 )

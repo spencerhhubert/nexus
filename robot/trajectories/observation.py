@@ -9,6 +9,7 @@ class ObservationJSON(TypedDict):
     observation_id: str
     trajectory_id: Optional[str]
     timestamp_ms: int
+    captured_at_ms: int
     center_x_percent: float
     center_y_percent: float
     bbox_width_percent: float
@@ -38,10 +39,12 @@ class Observation:
         masked_image: np.ndarray,
         classification_result: ClassificationResult,
         border_threshold: float,
+        captured_at_ms: int,
     ):
         self.observation_id = str(uuid.uuid4())
         self.trajectory_id = trajectory_id
         self.timestamp_ms = int(time.time() * 1000)
+        self.captured_at_ms = captured_at_ms
         self.center_x_percent = center_x
         self.center_y_percent = center_y
         self.bbox_width_percent = bbox_width
@@ -84,6 +87,7 @@ class Observation:
             observation_id=self.observation_id,
             trajectory_id=self.trajectory_id,
             timestamp_ms=self.timestamp_ms,
+            captured_at_ms=self.captured_at_ms,
             center_x_percent=self.center_x_percent,
             center_y_percent=self.center_y_percent,
             bbox_width_percent=self.bbox_width_percent,

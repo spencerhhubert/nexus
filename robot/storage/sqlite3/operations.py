@@ -20,16 +20,17 @@ def saveObservationToDatabase(global_config: GlobalConfig, observation) -> None:
     cursor.execute(
         """
         INSERT INTO observations (
-            observation_id, trajectory_id, timestamp_ms, center_x_percent, center_y_percent,
+            observation_id, trajectory_id, timestamp_ms, captured_at_ms, center_x_percent, center_y_percent,
             bbox_width_percent, bbox_height_percent, leading_edge_x_percent, center_x_px, center_y_px,
             bbox_width_px, bbox_height_px, leading_edge_x_px, full_image_path, masked_image_path,
             classification_file_path, classification_result, created_at
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     """,
         (
             obs_json["observation_id"],
             obs_json["trajectory_id"],
             obs_json["timestamp_ms"],
+            obs_json["captured_at_ms"],
             obs_json["center_x_percent"],
             obs_json["center_y_percent"],
             obs_json["bbox_width_percent"],

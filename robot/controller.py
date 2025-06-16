@@ -135,7 +135,7 @@ class SortingController:
         self.global_config["logger"].info("Starting hardware systems...")
 
         if not self.global_config["disable_main_conveyor"]:
-            self.irl_system["main_conveyor_dc_motor"].setSpeed(100)
+            self.irl_system["main_conveyor_dc_motor"].setSpeed(50)
         if not self.global_config["disable_feeder_conveyor"]:
             self.irl_system["feeder_conveyor_dc_motor"].setSpeed(200)
         if not self.global_config["disable_vibration_hopper"]:
@@ -212,6 +212,7 @@ class SortingController:
             self._shutdownFrameProcessor()
 
     def _submitFrameForProcessing(self) -> None:
+        captured_at_ms = int(time.time() * 1000)
         frame = self.irl_system["main_camera"].captureFrame()
         if frame is None:
             return
@@ -233,12 +234,15 @@ class SortingController:
 
         # Submit frame for processing
         future = self.frame_processor_pool.submit(
-            self._processFrame, frame.copy(), profiling_record
+            self._processFrame, frame.copy(), profiling_record, captured_at_ms
         )
         self.active_futures.append(future)
 
     def _processFrame(
-        self, frame: np.ndarray, profiling_record: AsyncFrameProfilingRecord
+        self,
+        frame: np.ndarray,
+        profiling_record: AsyncFrameProfilingRecord,
+        captured_at_ms: int,
     ) -> None:
         startFrameProcessing(profiling_record)
 
@@ -289,6 +293,7 @@ class SortingController:
                 masked_image,
                 classification_result,
                 self.global_config["speed_estimation_border_threshold_percent"],
+                captured_at_ms,
             )
 
             self.scene_tracker.addObservation(observation)

@@ -17,7 +17,7 @@ def saveTrajectory(global_config: GlobalConfig, trajectory) -> None:
 
     trajectory_dir = os.path.join(
         global_config["run_blob_dir"],
-        f"traj_{trajectory.observations[0].timestamp_ms}_{trajectory.trajectory_id}",
+        f"traj_{trajectory.observations[0].captured_at_ms}_{trajectory.trajectory_id}",
     )
     os.makedirs(trajectory_dir, exist_ok=True)
 
@@ -25,7 +25,7 @@ def saveTrajectory(global_config: GlobalConfig, trajectory) -> None:
         if observation.full_image_path is None:
             observation_dir = os.path.join(
                 trajectory_dir,
-                f"obs_{observation.timestamp_ms}_{observation.observation_id}",
+                f"obs_{observation.captured_at_ms}_{observation.observation_id}",
             )
             os.makedirs(observation_dir, exist_ok=True)
 

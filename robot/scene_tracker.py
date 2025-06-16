@@ -70,7 +70,7 @@ class SceneTracker:
         # Check if any observation is already at or past target position
         for obs in trajectory.observations:
             if obs.leading_edge_x_percent <= target_position_percent:
-                return obs.timestamp_ms
+                return obs.captured_at_ms
 
         # Find the two observations that bracket the target position
         for i in range(len(trajectory.observations) - 1):
@@ -89,8 +89,8 @@ class SceneTracker:
                 x_progress = (
                     obs1.leading_edge_x_percent - target_position_percent
                 ) / x_range
-                time_range = obs2.timestamp_ms - obs1.timestamp_ms
-                predicted_time = obs1.timestamp_ms + int(x_progress * time_range)
+                time_range = obs2.captured_at_ms - obs1.captured_at_ms
+                predicted_time = obs1.captured_at_ms + int(x_progress * time_range)
                 return predicted_time
 
         # If we haven't found it in observations, extrapolate from the last two
@@ -98,13 +98,13 @@ class SceneTracker:
             obs1 = trajectory.observations[-2]
             obs2 = trajectory.observations[-1]
 
-            time_delta = obs2.timestamp_ms - obs1.timestamp_ms
+            time_delta = obs2.captured_at_ms - obs1.captured_at_ms
             x_delta = obs2.leading_edge_x_percent - obs1.leading_edge_x_percent
 
             if time_delta > 0 and x_delta != 0:
                 x_remaining = obs2.leading_edge_x_percent - target_position_percent
                 time_to_position = int(x_remaining * time_delta / x_delta)
-                return obs2.timestamp_ms + time_to_position
+                return obs2.captured_at_ms + time_to_position
 
         return None
 
@@ -211,7 +211,7 @@ class SceneTracker:
             obs_prev = fully_visible_obs[i - 1]
             obs_curr = fully_visible_obs[i]
 
-            time_delta_ms = obs_curr.timestamp_ms - obs_prev.timestamp_ms
+            time_delta_ms = obs_curr.captured_at_ms - obs_prev.captured_at_ms
             if time_delta_ms <= 0:
                 self.global_config["logger"].error(
                     f"Observations out of order, invalid time delta: {time_delta_ms}"
@@ -253,7 +253,7 @@ class SceneTracker:
                 <= LEADING_EDGE_X_PERCENT_CONSIDERED_OFF_CAMERA
             ):
                 time_since_last_observation = (
-                    current_time_ms - latest_observation.timestamp_ms
+                    current_time_ms - latest_observation.captured_at_ms
                 )
                 if time_since_last_observation >= TIME_SINCE_UNDER_CAMERA_THRESHOLD_MS:
                     trajectory.setLifecycleStage(TrajectoryLifecycleStage.IN_TRANSIT)
@@ -273,7 +273,7 @@ class SceneTracker:
             t
             for t in self.active_trajectories
             if (
-                current_time_ms - t.observations[0].timestamp_ms
+                current_time_ms - t.observations[0].captured_at_ms
                 < self.max_trajectory_age_ms
                 and t.lifecycle_stage != TrajectoryLifecycleStage.DOORS_CLOSED
             )
@@ -287,7 +287,7 @@ class SceneTracker:
         if len(self.active_trajectories) > self.max_trajectories:
             # Sort by most recent observation and keep the newest ones
             self.active_trajectories.sort(
-                key=lambda t: max(obs.timestamp_ms for obs in t.observations),
+                key=lambda t: max(obs.captured_at_ms for obs in t.observations),
                 reverse=True,
             )
             self.active_trajectories = self.active_trajectories[: self.max_trajectories]

@@ -56,7 +56,7 @@ class Trajectory:
 
     def getLatestObservation(self) -> Optional[Observation]:
         return (
-            max(self.observations, key=lambda obs: obs.timestamp_ms)
+            max(self.observations, key=lambda obs: obs.captured_at_ms)
             if self.observations
             else None
         )
@@ -177,7 +177,7 @@ class Trajectory:
             return 0.0
 
         max_time_gap_ms = global_config["trajectory_matching_max_time_gap_ms"]
-        time_gap = obs.timestamp_ms - latest.timestamp_ms
+        time_gap = obs.captured_at_ms - latest.captured_at_ms
         if time_gap > max_time_gap_ms:
             print(
                 f"TOO LONG OF TIME GAP: observation_id={obs.observation_id}, trajectory_id={self.trajectory_id}"

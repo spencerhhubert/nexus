@@ -8,7 +8,7 @@ from robot.sorting.sorter import ClassificationResult
 class ObservationJSON(TypedDict):
     observation_id: str
     trajectory_id: Optional[str]
-    timestamp_ms: int
+    created_at: int
     captured_at_ms: int
     center_x_percent: float
     center_y_percent: float
@@ -43,7 +43,7 @@ class Observation:
     ):
         self.observation_id = str(uuid.uuid4())
         self.trajectory_id = trajectory_id
-        self.timestamp_ms = int(time.time() * 1000)
+        self.created_at = int(time.time() * 1000)
         self.captured_at_ms = captured_at_ms
         self.center_x_percent = center_x
         self.center_y_percent = center_y
@@ -86,7 +86,7 @@ class Observation:
         return ObservationJSON(
             observation_id=self.observation_id,
             trajectory_id=self.trajectory_id,
-            timestamp_ms=self.timestamp_ms,
+            created_at=self.created_at,
             captured_at_ms=self.captured_at_ms,
             center_x_percent=self.center_x_percent,
             center_y_percent=self.center_y_percent,

@@ -95,57 +95,6 @@ class Trajectory:
         )
         return should_trigger
 
-    def getPredictedPosition(self, timestamp_ms: int) -> tuple[float, float]:
-        if len(self.observations) < 2:
-            latest = self.getLatestObservation()
-            return (
-                (latest.leading_edge_x_px, latest.center_y_px) if latest else (0.0, 0.0)
-            )
-
-        # Use all observations to calculate average velocity
-        total_velocity_x_px_per_ms = 0.0
-        total_velocity_y_px_per_ms = 0.0
-        velocity_samples = 0
-
-        for i in range(1, len(self.observations)):
-            obs_prev = self.observations[i - 1]
-            obs_curr = self.observations[i]
-
-            time_delta_ms = obs_curr.timestamp_ms - obs_prev.timestamp_ms
-            if time_delta_ms > 0:
-                dx_px = obs_curr.leading_edge_x_px - obs_prev.leading_edge_x_px
-                dy_px = obs_curr.center_y_px - obs_prev.center_y_px
-                velocity_x_px_per_ms = dx_px / time_delta_ms
-                velocity_y_px_per_ms = dy_px / time_delta_ms
-                total_velocity_x_px_per_ms += velocity_x_px_per_ms
-                total_velocity_y_px_per_ms += velocity_y_px_per_ms
-                velocity_samples += 1
-
-        if velocity_samples == 0:
-            latest = self.getLatestObservation()
-            return (
-                (latest.leading_edge_x_px, latest.center_y_px) if latest else (0.0, 0.0)
-            )
-
-        avg_velocity_x_px_per_ms = total_velocity_x_px_per_ms / velocity_samples
-        avg_velocity_y_px_per_ms = total_velocity_y_px_per_ms / velocity_samples
-
-        latest = self.getLatestObservation()
-        if not latest:
-            return (0.0, 0.0)
-
-        prediction_time_delta_ms = timestamp_ms - latest.timestamp_ms
-
-        predicted_x_px = (
-            latest.leading_edge_x_px
-            + avg_velocity_x_px_per_ms * prediction_time_delta_ms
-        )
-        predicted_y_px = (
-            latest.center_y_px + avg_velocity_y_px_per_ms * prediction_time_delta_ms
-        )
-
-        return (predicted_x_px, predicted_y_px)
-
     def setVelocity(self, velocity_cm_per_ms: float) -> None:
         self.velocity_cm_per_ms = velocity_cm_per_ms
         self.updated_at = int(time.time() * 1000)
@@ -155,9 +104,18 @@ class Trajectory:
         self.updated_at = int(time.time() * 1000)
 
     def _calculateSpatialDistance(self, obs: Observation) -> float:
-        predicted_x_px, predicted_y_px = self.getPredictedPosition(obs.timestamp_ms)
-        dx_px = obs.leading_edge_x_px - predicted_x_px
-        dy_px = obs.center_y_px - predicted_y_px
+        if not self.observations:
+            return 0.0
+
+        closest_obs = min(
+            self.observations,
+            key=lambda existing_obs: abs(
+                existing_obs.leading_edge_x_px - obs.leading_edge_x_px
+            ),
+        )
+
+        dx_px = obs.leading_edge_x_px - closest_obs.leading_edge_x_px
+        dy_px = obs.center_y_px - closest_obs.center_y_px
         return (dx_px * dx_px + dy_px * dy_px) ** 0.5
 
     def _calculateSizeRatio(self, obs: Observation) -> float:
@@ -221,16 +179,25 @@ class Trajectory:
         max_time_gap_ms = global_config["trajectory_matching_max_time_gap_ms"]
         time_gap = obs.timestamp_ms - latest.timestamp_ms
         if time_gap > max_time_gap_ms:
+            print(
+                f"TOO LONG OF TIME GAP: observation_id={obs.observation_id}, trajectory_id={self.trajectory_id}"
+            )
             return 0.0
 
         # Check spatial distance
         spatial_score = self.getSpatialScore(obs, max_position_distance_px)
         if spatial_score == 0.0:
+            print(
+                f"ZERO SPATIAL SCORE: observation_id={obs.observation_id}, trajectory_id={self.trajectory_id}"
+            )
             return 0.0
 
         # Check size ratio
         size_score = self.getSizeScore(obs, min_bbox_size_ratio, max_bbox_size_ratio)
         if size_score == 0.0:
+            print(
+                f"ZERO SIZE SCORE: observation_id={obs.observation_id}, trajectory_id={self.trajectory_id}"
+            )
             return 0.0
 
         # Calculate weighted score
@@ -240,6 +207,9 @@ class Trajectory:
             + classification_weight * classification_score
         )
 
+        print(
+            f"COMBINED SCORE: observation_id={obs.observation_id}, trajectory_id={self.trajectory_id}"
+        )
         return combined_score
 
     def toJSON(self) -> TrajectoryJSON:

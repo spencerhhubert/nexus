@@ -22,7 +22,7 @@ class SceneTracker:
         self.conveyor_velocity_cm_per_ms: Optional[float] = None
         self.lock = threading.Lock()
 
-        self.max_trajectory_age_ms = 60000
+        self.max_trajectory_age_ms = 30000
         self.min_observations_for_speed = 3
         self.num_trajectories_for_speed_estimate = 16
         self.min_trajectories_to_keep = 16
@@ -153,6 +153,7 @@ class SceneTracker:
             score = trajectory.getCompatibilityScore(
                 new_observation, self.global_config
             )
+            print("SCORE", score)
 
             if score > best_score:
                 best_score = score
@@ -234,7 +235,7 @@ class SceneTracker:
         trajectory.setVelocity(velocity_cm_per_ms)
 
     def _checkForTrajectoriesLeavingCamera(self) -> None:
-        TIME_SINCE_UNDER_CAMERA_THRESHOLD_MS = 4000
+        TIME_SINCE_UNDER_CAMERA_THRESHOLD_MS = 2000
         current_time_ms = int(time.time() * 1000)
 
         for trajectory in self.active_trajectories:
@@ -246,7 +247,11 @@ class SceneTracker:
                 continue
 
             # Check if trajectory has left camera view (moved off left side)
-            if latest_observation.leading_edge_x_percent <= 0.0:
+            LEADING_EDGE_X_PERCENT_CONSIDERED_OFF_CAMERA = 0.15
+            if (
+                latest_observation.leading_edge_x_percent
+                <= LEADING_EDGE_X_PERCENT_CONSIDERED_OFF_CAMERA
+            ):
                 time_since_last_observation = (
                     current_time_ms - latest_observation.timestamp_ms
                 )
@@ -285,4 +290,4 @@ class SceneTracker:
                 key=lambda t: max(obs.timestamp_ms for obs in t.observations),
                 reverse=True,
             )
-            self.active_trajectories = self.active_trajectories[:self.max_trajectories]
+            self.active_trajectories = self.active_trajectories[: self.max_trajectories]

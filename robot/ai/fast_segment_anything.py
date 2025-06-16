@@ -19,7 +19,7 @@ FILTERING_PARAMS = {
     "merge_distance_px": 64 * 2,
     "multi_mask_expansion_px": 50,
     "filter_disjoint_segments": True,
-    "disjoint_separation_threshold_px": 64 * 2,
+    "disjoint_separation_threshold_px": 4,
 }
 
 FASTSAM_CONFIG = {"retina_masks": True, "imgsz": 512, "conf": 0.3, "iou": 0.8}
@@ -206,7 +206,8 @@ def filterDisjointSegments(masks: List[torch.Tensor]) -> List[torch.Tensor]:
 
     for mask in masks:
         mask_np = mask.cpu().numpy().astype(np.uint8)
-        labeled_mask, num_components = ndimage.label(mask_np)
+        result = cast(Tuple[np.ndarray, int], ndimage.label(mask_np))
+        labeled_mask, num_components = result
 
         if num_components <= 1:
             # Single component or no components, keep it

@@ -235,7 +235,7 @@ class SceneTracker:
         trajectory.setVelocity(velocity_cm_per_ms)
 
     def _checkForTrajectoriesLeavingCamera(self) -> None:
-        TIME_SINCE_UNDER_CAMERA_THRESHOLD_MS = 2000
+        TIME_SINCE_UNDER_CAMERA_THRESHOLD_MS = 750
         current_time_ms = int(time.time() * 1000)
 
         for trajectory in self.active_trajectories:

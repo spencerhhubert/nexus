@@ -23,7 +23,7 @@ class SceneTracker:
         self.lock = threading.Lock()
 
         self.max_trajectory_age_ms = 30000
-        self.min_observations_for_speed = 3
+        self.min_observations_for_speed = 2
         self.num_trajectories_for_speed_estimate = 16
         self.min_trajectories_to_keep = 16
         self.max_trajectories = 50
@@ -114,7 +114,7 @@ class SceneTracker:
         ]
         return self.predictTimeAtPosition(trajectory, camera_center_reference_position)
 
-    def getTrajectoriesToTrigger(self, trigger_position: float) -> List[Trajectory]:
+    def getTrajectoriesToTrigger(self) -> List[Trajectory]:
         with self.lock:
             trajectories_to_trigger = []
 
@@ -235,7 +235,11 @@ class SceneTracker:
         trajectory.setVelocity(velocity_cm_per_ms)
 
     def _checkForTrajectoriesLeavingCamera(self) -> None:
-        TIME_SINCE_UNDER_CAMERA_THRESHOLD_MS = 750
+        # I think the life cycle management for this under_camera business is going to lead to issues
+        # this is not reliable and if a trajectory doesn't have an accurate TrajectoryLifecycleStage,
+        # a bunch of things break
+        # todo make good
+        TIME_SINCE_UNDER_CAMERA_THRESHOLD_MS = 2000
         current_time_ms = int(time.time() * 1000)
 
         for trajectory in self.active_trajectories:

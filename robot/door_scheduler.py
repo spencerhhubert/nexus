@@ -113,6 +113,9 @@ class DoorScheduler:
             # Apply delay offset
             delay_ms_adjusted = delay_ms + self.global_config["door_delay_offset_ms"]
             if delay_ms_adjusted < 0:
+                self.global_config["logger"].info(
+                    "door needs to open too early for offset to apply, using delay of 0"
+                )
                 delay_ms_adjusted = 0
 
             if delay_ms_adjusted > 0:

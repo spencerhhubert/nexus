@@ -314,12 +314,7 @@ class SortingController:
                 )
 
     def _scheduleDoorTriggersForTrajectories(self) -> None:
-        leading_edge_trigger_position = self.global_config[
-            "leading_edge_trigger_position"
-        ]
-        trajectories_to_trigger = self.scene_tracker.getTrajectoriesToTrigger(
-            leading_edge_trigger_position
-        )
+        trajectories_to_trigger = self.scene_tracker.getTrajectoriesToTrigger()
 
         for trajectory in trajectories_to_trigger:
             consensus_item_id = trajectory.getConsensusClassification()

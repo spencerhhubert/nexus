@@ -105,7 +105,7 @@ def buildGlobalConfig() -> GlobalConfig:
         "trajectory_matching_spatial_weight": 0.3,
         "leading_edge_trigger_position": 0.35,
         "camera_center_reference_position": 0.5,
-        "capture_delay_ms": 300,
+        "capture_delay_ms": 250,
         "camera_preview": args.preview,
         "enable_profiling": args.profile,
         "max_worker_threads": 4,

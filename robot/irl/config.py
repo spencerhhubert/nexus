@@ -93,7 +93,7 @@ def buildIRLConfig() -> IRLConfig:
         "distribution_modules": [
             {
                 "distance_from_camera_center_to_door_begin_cm": int(
-                    inchesToCm(5 + 10 / 16)
+                    inchesToCm(6 + 4 / 16)
                 ),
                 "num_bins": 4,
                 "controller_address": 0x41,
@@ -107,7 +107,7 @@ def buildIRLConfig() -> IRLConfig:
             },
             {
                 "distance_from_camera_center_to_door_begin_cm": int(
-                    inchesToCm(5 + 10 / 16 + (6 + 2 / 16))
+                    inchesToCm(6 + 4 / 16 + (6 + 2 / 16))
                 ),
                 "num_bins": 4,
                 "controller_address": 0x42,
@@ -121,7 +121,7 @@ def buildIRLConfig() -> IRLConfig:
             },
             {
                 "distance_from_camera_center_to_door_begin_cm": int(
-                    inchesToCm(5 + 10 / 16 + 2 * (6 + 2 / 16))
+                    inchesToCm(6 + 4 / 16 + 2 * (6 + 2 / 16))
                 ),
                 "num_bins": 4,
                 "controller_address": 0x40,

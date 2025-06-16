@@ -22,11 +22,11 @@ class SceneTracker:
         self.conveyor_velocity_cm_per_ms: Optional[float] = None
         self.lock = threading.Lock()
 
-        # Parameters for trajectory management
-        self.max_trajectory_age_ms = 30000  # 30 seconds
-        self.min_observations_for_speed = 4
+        self.max_trajectory_age_ms = 60000
+        self.min_observations_for_speed = 3
         self.num_trajectories_for_speed_estimate = 16
-        self.min_trajectories_to_keep = 10
+        self.min_trajectories_to_keep = 16
+        self.max_trajectories = 50
 
     def addObservation(self, observation: Observation) -> None:
         with self.lock:
@@ -129,13 +129,6 @@ class SceneTracker:
                     trajectories_to_trigger.append(trajectory)
 
             return trajectories_to_trigger.copy()
-
-    def markTrajectoryInTransit(self, trajectory_id: str) -> None:
-        with self.lock:
-            for trajectory in self.active_trajectories:
-                if trajectory.trajectory_id == trajectory_id:
-                    trajectory.setLifecycleStage(TrajectoryLifecycleStage.IN_TRANSIT)
-                    break
 
     def stepScene(self) -> None:
         with self.lock:
@@ -241,7 +234,7 @@ class SceneTracker:
         trajectory.setVelocity(velocity_cm_per_ms)
 
     def _checkForTrajectoriesLeavingCamera(self) -> None:
-        TIME_SINCE_UNDER_CAMERA_THRESHOLD_MS = 500
+        TIME_SINCE_UNDER_CAMERA_THRESHOLD_MS = 4000
         current_time_ms = int(time.time() * 1000)
 
         for trajectory in self.active_trajectories:
@@ -286,11 +279,10 @@ class SceneTracker:
             return
 
         # Keep a reasonable number of trajectories for speed estimation
-        max_trajectories = 50
-        if len(self.active_trajectories) > max_trajectories:
+        if len(self.active_trajectories) > self.max_trajectories:
             # Sort by most recent observation and keep the newest ones
             self.active_trajectories.sort(
                 key=lambda t: max(obs.timestamp_ms for obs in t.observations),
                 reverse=True,
             )
-            self.active_trajectories = self.active_trajectories[:max_trajectories]
+            self.active_trajectories = self.active_trajectories[:self.max_trajectories]

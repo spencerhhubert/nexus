@@ -17,6 +17,9 @@ class DoorScheduler:
         self.distribution_modules = distribution_modules
         self.servo_states: Dict[str, str] = {}  # "closed" or "open"
         self.pending_close_threads: Dict[str, threading.Thread] = {}
+        self.pending_conveyor_close_times: Dict[
+            str, int
+        ] = {}  # servo_key -> scheduled_close_time_ms
         self.lock = threading.Lock()
 
     def _getServoKey(self, dm_idx: int, servo_type: str, bin_idx: int = -1) -> str:
@@ -95,6 +98,12 @@ class DoorScheduler:
 
                     self.servo_states[servo_key] = "closed"
                     del self.pending_close_threads[servo_key]
+                    # Clean up conveyor door close time tracking
+                    if (
+                        "conveyor" in servo_key
+                        and servo_key in self.pending_conveyor_close_times
+                    ):
+                        del self.pending_conveyor_close_times[servo_key]
                     self.global_config["logger"].info(f"Servo {servo_key} closed")
 
         thread = threading.Thread(target=closeAfterDelay, daemon=True)
@@ -121,6 +130,35 @@ class DoorScheduler:
             if delay_ms_adjusted > 0:
                 time.sleep(delay_ms_adjusted / 1000.0)
 
+            current_time_ms = int(time.time() * 1000)
+            door_open_duration_ms = self.global_config["door_open_duration_ms"]
+
+            # Check for overlapping conveyor door windows
+            if "conveyor" in servo_key:
+                overlapping_threshold_ms = self.global_config[
+                    "overlapping_conveyor_door_windows_threshold_ms"
+                ]
+                scheduled_close_time = current_time_ms + door_open_duration_ms
+
+                # Check if this conveyor door has a pending close within the threshold
+                with self.lock:
+                    if servo_key in self.pending_conveyor_close_times:
+                        existing_close_time = self.pending_conveyor_close_times[
+                            servo_key
+                        ]
+                        time_gap = scheduled_close_time - existing_close_time
+
+                        # If the gap is within threshold, extend the existing window
+                        if 0 <= time_gap <= overlapping_threshold_ms:
+                            self.global_config["logger"].info(
+                                f"Extending conveyor door {servo_key} window by {time_gap}ms to avoid close/reopen"
+                            )
+                            # Update the close time to the new piece's requirement
+                            self.pending_conveyor_close_times[
+                                servo_key
+                            ] = scheduled_close_time
+                            return  # Don't create new action, just extend existing
+
             with self.lock:
                 # Open servo if not already open
                 if self.servo_states.get(servo_key) != "open":
@@ -137,8 +175,11 @@ class DoorScheduler:
                     del self.pending_close_threads[servo_key]
 
                 # Schedule new close operation
-                door_open_duration_ms = self.global_config["door_open_duration_ms"]
                 if "conveyor" in servo_key:
+                    # Track the scheduled close time for conveyor doors
+                    self.pending_conveyor_close_times[servo_key] = (
+                        current_time_ms + door_open_duration_ms
+                    )
                     close_thread = self._scheduleServoClose(
                         servo_key, servo, close_angle, door_open_duration_ms, 500
                     )

@@ -44,6 +44,7 @@ class GlobalConfig(TypedDict):
     profiling_dir_path: str
     use_prev_bin_state: Optional[str]
     speed_estimation_border_threshold_percent: float
+    overlapping_conveyor_door_windows_threshold_ms: int
 
 
 def buildGlobalConfig() -> GlobalConfig:
@@ -103,7 +104,7 @@ def buildGlobalConfig() -> GlobalConfig:
         "trajectory_matching_max_bbox_size_ratio": 4.0,
         "trajectory_matching_classification_consistency_weight": 0.5,
         "trajectory_matching_spatial_weight": 0.3,
-        "leading_edge_trigger_position": 0.35,
+        "leading_edge_trigger_position": 0.45,
         "camera_center_reference_position": 0.5,
         "capture_delay_ms": 250,
         "camera_preview": args.preview,
@@ -120,6 +121,7 @@ def buildGlobalConfig() -> GlobalConfig:
         "profiling_dir_path": "../profiles",
         "use_prev_bin_state": args.use_prev_bin_state,
         "speed_estimation_border_threshold_percent": 0.05,
+        "overlapping_conveyor_door_windows_threshold_ms": 5000,
     }
 
     from robot.logger import Logger

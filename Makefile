@@ -10,5 +10,7 @@ db:
 	sqlite3 database.db
 conveyor:
 	./robot/run.sh --disable feeder_conveyor vibration_hopper  -y --dump --preview --use_prev_bin_state
+feeder:
+	./robot/run.sh --disable main_conveyor -y --dump --preview --use_prev_bin_state
 run:
 	./robot/run.sh -y --dump --preview --use_prev_bin_state

@@ -21,6 +21,7 @@ class GlobalConfig(TypedDict):
     disable_main_conveyor: bool
     disable_vibration_hopper: bool
     disable_feeder_conveyor: bool
+    disable_classification: bool
     trajectory_matching_max_time_gap_ms: int
     trajectory_matching_max_position_distance_px: int
     trajectory_matching_min_bbox_size_ratio: float
@@ -58,7 +59,7 @@ def buildGlobalConfig() -> GlobalConfig:
     parser.add_argument(
         "--disable",
         nargs="*",
-        choices=["main_conveyor", "vibration_hopper", "feeder_conveyor"],
+        choices=["main_conveyor", "vibration_hopper", "feeder_conveyor", "classification"],
         help="Disable specified systems",
     )
     parser.add_argument(
@@ -98,6 +99,7 @@ def buildGlobalConfig() -> GlobalConfig:
         "disable_main_conveyor": "main_conveyor" in disabled_motors,
         "disable_vibration_hopper": "vibration_hopper" in disabled_motors,
         "disable_feeder_conveyor": "feeder_conveyor" in disabled_motors,
+        "disable_classification": "classification" in disabled_motors,
         "trajectory_matching_max_time_gap_ms": 750,
         "trajectory_matching_max_position_distance_px": 1500,
         "trajectory_matching_min_bbox_size_ratio": 0.25,

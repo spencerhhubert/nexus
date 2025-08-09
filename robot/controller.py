@@ -137,7 +137,7 @@ class SortingController:
         if not self.global_config["disable_main_conveyor"]:
             self.irl_system["main_conveyor_dc_motor"].setSpeed(150)
         if not self.global_config["disable_feeder_conveyor"]:
-            self.irl_system["feeder_conveyor_dc_motor"].setSpeed(200)
+            self.irl_system["feeder_conveyor_dc_motor"].setSpeed(70)
         if not self.global_config["disable_vibration_hopper"]:
             self.irl_system["vibration_hopper_dc_motor"].setSpeed(65)
 
@@ -246,6 +246,11 @@ class SortingController:
     ) -> None:
         startFrameProcessing(profiling_record)
 
+        # Skip processing if classification is disabled
+        if self.global_config["disable_classification"]:
+            completeFrameProcessing(profiling_record)
+            return
+
         # Segmentation
         segmentation_start_ms = time.time() * 1000
         segments = segmentFrame(frame, self.segmentation_model, self.global_config)
@@ -314,6 +319,10 @@ class SortingController:
                 )
 
     def _scheduleDoorTriggersForTrajectories(self) -> None:
+        # Skip door triggers if classification is disabled
+        if self.global_config["disable_classification"]:
+            return
+
         trajectories_to_trigger = self.scene_tracker.getTrajectoriesToTrigger()
 
         for trajectory in trajectories_to_trigger:

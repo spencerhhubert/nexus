@@ -76,15 +76,15 @@ def buildIRLConfig() -> IRLConfig:
             "fps": 10,
             "calibration_measurements": [
                 {
-                    "distance_down_from_top_of_frame_percent": 0.245,
+                    "distance_down_from_top_of_frame_percent": 0.301,
                     "physical_distance_on_floor_across_frame_cm": inchesToCm(
-                        8 + 10 / 16
+                        7 + 9 / 16
                     ),
                 },
                 {
-                    "distance_down_from_top_of_frame_percent": 0.885,
+                    "distance_down_from_top_of_frame_percent": 0.799,
                     "physical_distance_on_floor_across_frame_cm": inchesToCm(
-                        5 + 6 / 16
+                        5 + 13 / 16
                     ),
                 },
             ],
@@ -92,7 +92,7 @@ def buildIRLConfig() -> IRLConfig:
         "distribution_modules": [
             {
                 "distance_from_camera_center_to_door_begin_cm": int(
-                    inchesToCm(7 + 3 / 16)
+                    inchesToCm(8)
                 ),
                 "num_bins": 4,
                 "controller_address": 0x41,
@@ -106,7 +106,7 @@ def buildIRLConfig() -> IRLConfig:
             },
             {
                 "distance_from_camera_center_to_door_begin_cm": int(
-                    inchesToCm(7 + 3 / 16 + (6 + 2 / 16))
+                    inchesToCm(8 + (6 + 2 / 16))
                 ),
                 "num_bins": 4,
                 "controller_address": 0x42,
@@ -120,7 +120,7 @@ def buildIRLConfig() -> IRLConfig:
             },
             {
                 "distance_from_camera_center_to_door_begin_cm": int(
-                    inchesToCm(7 + 3 / 16 + 2 * (6 + 2 / 16))
+                    inchesToCm(8 + 2 * (6 + 2 / 16))
                 ),
                 "num_bins": 4,
                 "controller_address": 0x40,

@@ -354,6 +354,14 @@ void setup() {
     // Initialize servo timeout tracking
     initServoTimeouts();
 
+    // to get smoother operation for the dc motors running over pwm, increase the speed timers 2 and 5
+    // Change PWM frequency for pins 3 & 5 (Timer 3):
+    TCCR3B = TCCR3B & B11111000 | B00000001; // ~31kHz
+
+    // Change PWM frequency for pin 6 (Timer 4):
+    TCCR4B = TCCR4B & B11111000 | B00000001; // ~31kHz
+
+
     Firmata.sendString(F("Setup complete. Ready for commands."));
 }
 

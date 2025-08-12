@@ -20,6 +20,7 @@ class SceneTracker:
         self.calibration = calibration
         self.active_trajectories: List[Trajectory] = []
         self.conveyor_velocity_cm_per_ms: Optional[float] = None
+        self.objects_in_frame: int = 0
         self.lock = threading.Lock()
 
         self.max_trajectory_age_ms = 30000
@@ -135,6 +136,7 @@ class SceneTracker:
             self._updateConveyorSpeed()
             self._checkForTrajectoriesLeavingCamera()
             self._cleanupOldTrajectories()
+            self._updateObjectCount()
 
     def getActiveTrajectories(self) -> List[Trajectory]:
         with self.lock:
@@ -194,7 +196,6 @@ class SceneTracker:
         if len(trajectory.observations) < 2:
             return
 
-        # Filter to only fully visible observations for speed estimation
         fully_visible_obs = [
             obs
             for obs in trajectory.observations
@@ -202,7 +203,7 @@ class SceneTracker:
         ]
 
         if len(fully_visible_obs) < 2:
-            return  # Not enough fully visible observations
+            return
 
         total_distance_cm = 0.0
         total_time_ms = 0.0
@@ -235,10 +236,6 @@ class SceneTracker:
         trajectory.setVelocity(velocity_cm_per_ms)
 
     def _checkForTrajectoriesLeavingCamera(self) -> None:
-        # I think the life cycle management for this under_camera business is going to lead to issues
-        # this is not reliable and if a trajectory doesn't have an accurate TrajectoryLifecycleStage,
-        # a bunch of things break
-        # todo make good
         TIME_SINCE_UNDER_CAMERA_THRESHOLD_MS = 2000
         current_time_ms = int(time.time() * 1000)
 
@@ -250,7 +247,6 @@ class SceneTracker:
             if not latest_observation:
                 continue
 
-            # Check if trajectory has left camera view (moved off left side)
             LEADING_EDGE_X_PERCENT_CONSIDERED_OFF_CAMERA = 0.15
             if (
                 latest_observation.leading_edge_x_percent
@@ -268,11 +264,9 @@ class SceneTracker:
     def _cleanupOldTrajectories(self) -> None:
         current_time_ms = int(time.time() * 1000)
 
-        # Don't clean up if we have too few trajectories
         if len(self.active_trajectories) <= self.min_trajectories_to_keep:
             return
 
-        # Remove trajectories that are too old or have completed their lifecycle
         self.active_trajectories = [
             t
             for t in self.active_trajectories
@@ -283,15 +277,50 @@ class SceneTracker:
             )
         ]
 
-        # Ensure we still have minimum trajectories after cleanup
         if len(self.active_trajectories) < self.min_trajectories_to_keep:
             return
 
-        # Keep a reasonable number of trajectories for speed estimation
         if len(self.active_trajectories) > self.max_trajectories:
-            # Sort by most recent observation and keep the newest ones
             self.active_trajectories.sort(
                 key=lambda t: max(obs.captured_at_ms for obs in t.observations),
                 reverse=True,
             )
             self.active_trajectories = self.active_trajectories[: self.max_trajectories]
+
+    def _updateObjectCount(self) -> None:
+        self.objects_in_frame = self._countObjectsInFrame()
+
+    def _countObjectsInFrame(self) -> int:
+        current_time_ms = int(time.time() * 1000)
+        recent_observation_threshold_ms = 2000
+
+        count = 0
+        for trajectory in self.active_trajectories:
+            if trajectory.lifecycle_stage == TrajectoryLifecycleStage.UNDER_CAMERA:
+                latest_obs = trajectory.getLatestObservation()
+                if (
+                    latest_obs
+                    and (current_time_ms - latest_obs.captured_at_ms)
+                    <= recent_observation_threshold_ms
+                ):
+                    count += 1
+
+        return count
+
+    def isObjectCentered(self) -> bool:
+        if not self.active_trajectories:
+            return False
+
+        center_threshold = self.global_config["object_center_threshold_percent"]
+        frame_center = 0.5
+
+        for trajectory in self.active_trajectories:
+            if trajectory.lifecycle_stage == TrajectoryLifecycleStage.UNDER_CAMERA:
+                latest_obs = trajectory.getLatestObservation()
+                if latest_obs:
+                    object_center_x = latest_obs.center_x_percent
+                    distance_from_center = abs(object_center_x - frame_center)
+                    if distance_from_center <= center_threshold:
+                        return True
+
+        return False

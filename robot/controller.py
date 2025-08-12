@@ -59,6 +59,13 @@ class SystemLifecycleStage(Enum):
     SHUTDOWN = "shutdown"
 
 
+class SortingState(Enum):
+    GETTING_NEW_OBJECT = "getting_new_object"
+    OBJECT_IN_VIEW = "object_in_view"
+    TRYING_TO_CLASSIFY = "trying_to_classify"
+    SENDING_ITEM_TO_BIN = "sending_item_to_bin"
+
+
 class SortingController:
     def __init__(
         self,
@@ -67,7 +74,9 @@ class SortingController:
     ):
         self.global_config = global_config
         self.irl_system = irl_system
-        self.lifecycle_stage = SystemLifecycleStage.INITIALIZING
+        self.system_lifecycle_stage = SystemLifecycleStage.INITIALIZING
+        self.sorting_state = SortingState.GETTING_NEW_OBJECT
+        self.getting_new_object_start_time = None
 
         piece_sorting_profile = mkBricklinkCategoriesSortingProfile(self.global_config)
 
@@ -111,7 +120,7 @@ class SortingController:
 
         self.resetServos()
 
-        self.lifecycle_stage = SystemLifecycleStage.STARTING_HARDWARE
+        self.system_lifecycle_stage = SystemLifecycleStage.STARTING_HARDWARE
 
     def resetServos(self) -> None:
         conveyor_closed_angle = self.global_config["conveyor_door_closed_angle"]
@@ -134,14 +143,7 @@ class SortingController:
     def startHardware(self) -> None:
         self.global_config["logger"].info("Starting hardware systems...")
 
-        if not self.global_config["disable_main_conveyor"]:
-            self.irl_system["main_conveyor_dc_motor"].setSpeed(150)
-        if not self.global_config["disable_feeder_conveyor"]:
-            self.irl_system["feeder_conveyor_dc_motor"].setSpeed(70)
-        if not self.global_config["disable_vibration_hopper"]:
-            self.irl_system["vibration_hopper_dc_motor"].setSpeed(65)
-
-        self.lifecycle_stage = SystemLifecycleStage.RUNNING
+        self.system_lifecycle_stage = SystemLifecycleStage.RUNNING
 
     def run(self) -> None:
         self.global_config["logger"].info("Starting main control loop...")
@@ -158,9 +160,11 @@ class SortingController:
 
         tick_count = 0
         try:
-            while self.lifecycle_stage == SystemLifecycleStage.RUNNING:
+            while self.system_lifecycle_stage == SystemLifecycleStage.RUNNING:
                 try:
                     tick_start_time_ms = time.time() * 1000
+
+                    self._updateSortingStateMachine()
 
                     self._submitFrameForProcessing()
 
@@ -183,12 +187,11 @@ class SortingController:
                     tick_duration_ms = time.time() * 1000 - tick_start_time_ms
                     active_futures_count = len(self.active_futures)
 
-                    # Print aggregate profiling report every 20 ticks when profiling enabled
                     if self.global_config["enable_profiling"] and tick_count % 20 == 0:
                         printAggregateProfilingReport(20)
 
                     self.global_config["logger"].info(
-                        f"Main tick: {tick_duration_ms:.1f}ms (update: {update_duration_ms:.1f}ms, step: {step_duration_ms:.1f}ms, trigger: {trigger_duration_ms:.1f}ms, cleanup: {cleanup_duration_ms:.1f}ms, queue: {active_futures_count}/{self.max_queue_size})"
+                        f"Main tick [{self.sorting_state.value}]: {tick_duration_ms:.1f}ms (update: {update_duration_ms:.1f}ms, step: {step_duration_ms:.1f}ms, trigger: {trigger_duration_ms:.1f}ms, cleanup: {cleanup_duration_ms:.1f}ms, queue: {active_futures_count}/{self.max_queue_size}, objects: {self.scene_tracker.objects_in_frame})"
                     )
 
                     tick_count += 1
@@ -197,19 +200,113 @@ class SortingController:
 
                 except KeyboardInterrupt:
                     self.global_config["logger"].info("Interrupt received, stopping...")
-                    self.lifecycle_stage = SystemLifecycleStage.STOPPING
+                    self.system_lifecycle_stage = SystemLifecycleStage.STOPPING
                     break
                 except Exception as e:
                     self.global_config["logger"].error(f"Error in main loop: {e}")
-                    self.lifecycle_stage = SystemLifecycleStage.STOPPING
+                    self.system_lifecycle_stage = SystemLifecycleStage.STOPPING
                     break
         finally:
             if enable_profiling and profiler is not None:
                 profiler.disable()
                 saveProfilingResults(self.global_config, profiler)
 
-            # Wait for remaining frame processing to complete
             self._shutdownFrameProcessor()
+
+    def _updateSortingStateMachine(self) -> None:
+        current_time_ms = int(time.time() * 1000)
+
+        if self.sorting_state == SortingState.GETTING_NEW_OBJECT:
+            if self.getting_new_object_start_time is None:
+                self.getting_new_object_start_time = current_time_ms
+                self._setMotorSpeeds(
+                    main_conveyor=self.global_config["main_conveyor_speed"],
+                    feeder_conveyor=self.global_config["feeder_conveyor_speed"],
+                    vibration_hopper=self.global_config["vibration_hopper_speed"],
+                )
+                self.global_config["logger"].info("Started motors to get new object")
+
+            if self.scene_tracker.objects_in_frame > 0:
+                self.sorting_state = SortingState.OBJECT_IN_VIEW
+                self.global_config["logger"].info(
+                    "Object detected, switching to OBJECT_IN_VIEW"
+                )
+                return
+
+            time_running = current_time_ms - self.getting_new_object_start_time
+            if time_running > self.global_config["getting_new_object_timeout_ms"]:
+                self.global_config["logger"].info(
+                    "Timeout waiting for object, shutting down"
+                )
+                self.system_lifecycle_stage = SystemLifecycleStage.STOPPING
+                return
+
+        elif self.sorting_state == SortingState.OBJECT_IN_VIEW:
+            # Stop feeder motors, keep main conveyor running
+            self._setMotorSpeeds(
+                main_conveyor=self.global_config["main_conveyor_speed"],
+                feeder_conveyor=0,
+                vibration_hopper=0,
+            )
+
+            if self.scene_tracker.isObjectCentered():
+                self.sorting_state = SortingState.TRYING_TO_CLASSIFY
+                self._setMotorSpeeds(
+                    main_conveyor=0, feeder_conveyor=0, vibration_hopper=0
+                )
+                self.global_config["logger"].info(
+                    "Object centered, switching to TRYING_TO_CLASSIFY"
+                )
+                return
+
+        elif self.sorting_state == SortingState.TRYING_TO_CLASSIFY:
+            # Motors should be stopped, wait for classification to complete
+            # Check if we have trajectories ready to trigger (handled in _scheduleDoorTriggersForTrajectories)
+            # If no trajectories after some time, go back to getting new object
+            if self.scene_tracker.objects_in_frame == 0:
+                self.sorting_state = SortingState.GETTING_NEW_OBJECT
+                self.getting_new_object_start_time = None
+                self.global_config["logger"].info(
+                    "No objects to classify, switching to GETTING_NEW_OBJECT"
+                )
+                return
+
+        elif self.sorting_state == SortingState.SENDING_ITEM_TO_BIN:
+            # Keep main conveyor running for door scheduling
+            self._setMotorSpeeds(
+                main_conveyor=self.global_config["main_conveyor_speed"],
+                feeder_conveyor=0,
+                vibration_hopper=0,
+            )
+
+            # Check if all trajectories have been processed and no more objects in frame
+            active_trajectories = self.scene_tracker.getActiveTrajectories()
+            trajectories_under_camera = [
+                t
+                for t in active_trajectories
+                if t.lifecycle_stage == TrajectoryLifecycleStage.UNDER_CAMERA
+            ]
+
+            if (
+                len(trajectories_under_camera) == 0
+                and self.scene_tracker.objects_in_frame == 0
+            ):
+                self.sorting_state = SortingState.GETTING_NEW_OBJECT
+                self.getting_new_object_start_time = None
+                self.global_config["logger"].info(
+                    "Item sent, switching to GETTING_NEW_OBJECT"
+                )
+                return
+
+    def _setMotorSpeeds(
+        self, main_conveyor: int, feeder_conveyor: int, vibration_hopper: int
+    ) -> None:
+        if not self.global_config["disable_main_conveyor"]:
+            self.irl_system["main_conveyor_dc_motor"].setSpeed(main_conveyor)
+        if not self.global_config["disable_feeder_conveyor"]:
+            self.irl_system["feeder_conveyor_dc_motor"].setSpeed(feeder_conveyor)
+        if not self.global_config["disable_vibration_hopper"]:
+            self.irl_system["vibration_hopper_dc_motor"].setSpeed(vibration_hopper)
 
     def _submitFrameForProcessing(self) -> None:
         captured_at_ms = int(time.time() * 1000)
@@ -246,7 +343,6 @@ class SortingController:
     ) -> None:
         startFrameProcessing(profiling_record)
 
-        # Skip processing if classification is disabled
         if self.global_config["disable_classification"]:
             completeFrameProcessing(profiling_record)
             return
@@ -269,9 +365,9 @@ class SortingController:
             classification_result = self.sorter.classifySegment(masked_image)
             classification_duration_ms = (time.time() * 1000) - classification_start_ms
 
-            profiling_record[
-                "classification_total_duration_ms"
-            ] += classification_duration_ms
+            profiling_record["classification_total_duration_ms"] += (
+                classification_duration_ms
+            )
             profiling_record["classification_calls_count"] += 1
 
             CLASSIFICATION_THRESHOLD = 0.25
@@ -324,6 +420,20 @@ class SortingController:
             return
 
         trajectories_to_trigger = self.scene_tracker.getTrajectoriesToTrigger()
+
+        # If we have trajectories to trigger and we're in TRYING_TO_CLASSIFY, switch to SENDING_ITEM_TO_BIN
+        if (
+            trajectories_to_trigger
+            and self.sorting_state == SortingState.TRYING_TO_CLASSIFY
+        ):
+            self.sorting_state = SortingState.SENDING_ITEM_TO_BIN
+            self.global_config["logger"].info(
+                "Trajectories ready to trigger, switching to SENDING_ITEM_TO_BIN"
+            )
+
+        # Only schedule door triggers when in SENDING_ITEM_TO_BIN state
+        if self.sorting_state != SortingState.SENDING_ITEM_TO_BIN:
+            return
 
         for trajectory in trajectories_to_trigger:
             consensus_item_id = trajectory.getConsensusClassification()
@@ -430,7 +540,6 @@ class SortingController:
     def _shutdownFrameProcessor(self) -> None:
         self.global_config["logger"].info("Shutting down frame processor...")
 
-        # Wait for remaining futures to complete
         if self.active_futures:
             self.global_config["logger"].info(
                 f"Waiting for {len(self.active_futures)} frames to complete..."
@@ -441,7 +550,7 @@ class SortingController:
 
     def stop(self) -> None:
         self.global_config["logger"].info("Stopping sorting controller...")
-        self.lifecycle_stage = SystemLifecycleStage.STOPPING
+        self.system_lifecycle_stage = SystemLifecycleStage.STOPPING
 
         self.irl_system["main_conveyor_dc_motor"].setSpeed(0)
         self.irl_system["feeder_conveyor_dc_motor"].setSpeed(0)
@@ -456,4 +565,4 @@ class SortingController:
         self.irl_system["arduino"].close()
         self.irl_system["main_camera"].release()
 
-        self.lifecycle_stage = SystemLifecycleStage.SHUTDOWN
+        self.system_lifecycle_stage = SystemLifecycleStage.SHUTDOWN

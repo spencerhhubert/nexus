@@ -31,19 +31,19 @@ class DoorScheduler:
             raise ValueError(f"Unknown servo type: {servo_type}")
 
     def _getConveyorServo(self, dm_idx: int) -> Servo:
-        assert dm_idx < len(
-            self.distribution_modules
-        ), f"Distribution module index {dm_idx} out of range"
+        assert dm_idx < len(self.distribution_modules), (
+            f"Distribution module index {dm_idx} out of range"
+        )
         return self.distribution_modules[dm_idx].servo
 
     def _getBinServo(self, dm_idx: int, bin_idx: int) -> Servo:
-        assert dm_idx < len(
-            self.distribution_modules
-        ), f"Distribution module index {dm_idx} out of range"
+        assert dm_idx < len(self.distribution_modules), (
+            f"Distribution module index {dm_idx} out of range"
+        )
         dm = self.distribution_modules[dm_idx]
-        assert bin_idx < len(
-            dm.bins
-        ), f"Bin index {bin_idx} out of range for distribution module {dm_idx}"
+        assert bin_idx < len(dm.bins), (
+            f"Bin index {bin_idx} out of range for distribution module {dm_idx}"
+        )
         return dm.bins[bin_idx].servo
 
     def _openServo(self, servo_key: str, servo: Servo, open_angle: int) -> None:
@@ -154,9 +154,9 @@ class DoorScheduler:
                                 f"Extending conveyor door {servo_key} window by {time_gap}ms to avoid close/reopen"
                             )
                             # Update the close time to the new piece's requirement
-                            self.pending_conveyor_close_times[
-                                servo_key
-                            ] = scheduled_close_time
+                            self.pending_conveyor_close_times[servo_key] = (
+                                scheduled_close_time
+                            )
                             return  # Don't create new action, just extend existing
 
             with self.lock:

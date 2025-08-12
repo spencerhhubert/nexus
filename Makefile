@@ -14,7 +14,6 @@ feeder:
 	./robot/run.sh --disable main_conveyor classification -y --dump --preview --use_prev_bin_state
 run:
 	./robot/run.sh -y --dump --preview --use_prev_bin_state
-
 rm-tmp:
 	find robot -type d -name "__pycache__" -exec rm -rf {} +
 	rm -rf robot/.tmp

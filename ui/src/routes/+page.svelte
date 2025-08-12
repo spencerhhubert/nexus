@@ -35,6 +35,19 @@
       cameraFrame = event.frame_data;
     });
 
+    robotAPI.on("connect", () => {
+      console.log("WebSocket connected");
+      wsConnected = true;
+      isLoading = false;
+    });
+
+    robotAPI.on("disconnect", (event) => {
+      console.log("WebSocket disconnected:", event);
+      wsConnected = false;
+      isOnline = false;
+      status = null;
+      cameraFrame = null;
+    });
 
   });
 
@@ -58,10 +71,12 @@
       if (online) {
         console.log("Robot is online, attempting WebSocket connection...");
         robotAPI.connectWebSocket();
-        wsConnected = true;
         console.log("WebSocket connection initiated");
       } else {
         console.log("Robot is not online");
+        isOnline = false;
+        status = null;
+        cameraFrame = null;
       }
     } catch (e) {
       console.error("Error during connection attempt:", e);

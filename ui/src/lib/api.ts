@@ -68,6 +68,11 @@ class RobotAPI {
         clearInterval(this.reconnectInterval);
         this.reconnectInterval = null;
       }
+      // Notify listeners of connection
+      const handler = this.eventHandlers.get('connect');
+      if (handler) {
+        handler({ type: 'connect' });
+      }
     };
 
     this.ws.onmessage = event => {
@@ -99,6 +104,11 @@ class RobotAPI {
         'Clean:',
         event.wasClean
       );
+      // Notify listeners of disconnect
+      const handler = this.eventHandlers.get('disconnect');
+      if (handler) {
+        handler({ type: 'disconnect', code: event.code, reason: event.reason });
+      }
       this.scheduleReconnect();
     };
 

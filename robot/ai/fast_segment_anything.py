@@ -244,7 +244,7 @@ def filterDisjointSegments(masks: List[torch.Tensor]) -> List[torch.Tensor]:
 
 
 def processSegmentGroups(
-    segment_groups: List[List[Dict[str, Any]]]
+    segment_groups: List[List[Dict[str, Any]]],
 ) -> List[Dict[str, Any]]:
     # Process each group of segments
     # If multiple masks in overlapping bounding boxes, assume model failed to identify complete object

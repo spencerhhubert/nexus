@@ -37,7 +37,9 @@ class Trajectory:
         self.global_config = global_config
         self.trajectory_id = trajectory_id
         self.observations: List[Observation] = [initial_observation]
-        self.lifecycle_stage = TrajectoryLifecycleStage.UNDER_CAMERA
+        self.lifecycle_stage: TrajectoryLifecycleStage = (
+            TrajectoryLifecycleStage.UNDER_CAMERA
+        )
         self.velocity_cm_per_ms: Optional[float] = None
         self.target_bin: Optional[BinCoordinates] = None
 

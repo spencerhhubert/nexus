@@ -9,3 +9,6 @@ requests
 scipy
 requests_oauthlib
 tqdm
+fastapi
+uvicorn
+typing_extensions

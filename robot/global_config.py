@@ -46,6 +46,11 @@ class GlobalConfig(TypedDict):
     use_prev_bin_state: Optional[str]
     speed_estimation_border_threshold_percent: float
     overlapping_conveyor_door_windows_threshold_ms: int
+    main_conveyor_speed: int
+    feeder_conveyor_speed: int
+    vibration_hopper_speed: int
+    object_center_threshold_percent: float
+    getting_new_object_timeout_ms: int
 
 
 def buildGlobalConfig() -> GlobalConfig:
@@ -59,7 +64,12 @@ def buildGlobalConfig() -> GlobalConfig:
     parser.add_argument(
         "--disable",
         nargs="*",
-        choices=["main_conveyor", "vibration_hopper", "feeder_conveyor", "classification"],
+        choices=[
+            "main_conveyor",
+            "vibration_hopper",
+            "feeder_conveyor",
+            "classification",
+        ],
         help="Disable specified systems",
     )
     parser.add_argument(
@@ -124,6 +134,11 @@ def buildGlobalConfig() -> GlobalConfig:
         "use_prev_bin_state": args.use_prev_bin_state,
         "speed_estimation_border_threshold_percent": 0.05,
         "overlapping_conveyor_door_windows_threshold_ms": 5000,
+        "main_conveyor_speed": 152,
+        "feeder_conveyor_speed": 150,
+        "vibration_hopper_speed": 150,
+        "object_center_threshold_percent": 0.05,
+        "getting_new_object_timeout_ms": 120 * 1000,
     }
 
     from robot.logger import Logger

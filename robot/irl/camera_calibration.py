@@ -20,9 +20,9 @@ class CameraCalibration:
         self.frame_width = frame_width
         self.frame_height = frame_height
 
-        assert (
-            len(calibration_measurements) > 0
-        ), "Must provide at least one calibration measurement"
+        assert len(calibration_measurements) > 0, (
+            "Must provide at least one calibration measurement"
+        )
         self.pixels_per_cm_interpolator = self._buildPixelsPerCmInterpolator(
             calibration_measurements
         )

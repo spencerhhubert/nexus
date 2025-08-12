@@ -6,7 +6,7 @@ from robot.storage.sqlite3.migrations import getDatabaseConnection
 
 
 def mkBricklinkCategoriesSortingProfile(
-    global_config: GlobalConfig
+    global_config: GlobalConfig,
 ) -> PieceSortingProfile:
     conn = getDatabaseConnection(global_config)
     cursor = conn.cursor()

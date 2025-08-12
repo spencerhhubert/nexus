@@ -19,7 +19,6 @@ def main() -> None:
 
     sorting_controller = SortingController(gc, system)
 
-    # Start FastAPI server in background thread
     def run_server():
         uvicorn.run(
             sorting_controller.api_server.app,

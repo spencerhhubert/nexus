@@ -53,6 +53,7 @@ from robot.async_profiling import (
 
 from robot.server.types import SystemLifecycleStage, SortingState
 from robot.server.api import RobotAPI
+from robot.server.thread_safe_state import ThreadSafeState
 
 
 class SortingController:
@@ -100,6 +101,13 @@ class SortingController:
             max_workers=self.max_worker_threads, thread_name_prefix="frame_processor"
         )
         self.active_futures: List[concurrent.futures.Future] = []
+
+        self.main_conveyor_speed = 0
+        self.feeder_conveyor_speed = 0
+        self.vibration_hopper_speed = 0
+
+        # Thread-safe communication with API server
+        self.thread_safe_state = ThreadSafeState()
 
     def initialize(self) -> None:
         self.global_config["logger"].info("Initializing sorting controller...")
@@ -187,8 +195,6 @@ class SortingController:
                     self.global_config["logger"].info(
                         f"Main tick [{self.sorting_state.value}]: {tick_duration_ms:.1f}ms (update: {update_duration_ms:.1f}ms, step: {step_duration_ms:.1f}ms, trigger: {trigger_duration_ms:.1f}ms, cleanup: {cleanup_duration_ms:.1f}ms, queue: {active_futures_count}/{self.max_queue_size}, objects: {self.scene_tracker.objects_in_frame})"
                     )
-
-                    # Status updates handled via periodic WebSocket polling
 
                     tick_count += 1
 
@@ -297,6 +303,11 @@ class SortingController:
     def _setMotorSpeeds(
         self, main_conveyor: int, feeder_conveyor: int, vibration_hopper: int
     ) -> None:
+        # Track speeds
+        self.main_conveyor_speed = main_conveyor
+        self.feeder_conveyor_speed = feeder_conveyor
+        self.vibration_hopper_speed = vibration_hopper
+
         if not self.global_config["disable_main_conveyor"]:
             self.irl_system["main_conveyor_dc_motor"].setSpeed(main_conveyor)
         if not self.global_config["disable_feeder_conveyor"]:
@@ -316,7 +327,7 @@ class SortingController:
             cv2.imshow("Camera Feed", display_frame)
             cv2.waitKey(1)
 
-        # Camera frames handled via WebSocket when connected
+        self.thread_safe_state.set("latest_camera_frame", frame)
 
         # Check if we have too many queued frames
         if len(self.active_futures) >= self.max_queue_size:

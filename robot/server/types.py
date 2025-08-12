@@ -58,11 +58,4 @@ class StatusUpdateEvent(TypedDict):
     status: SystemStatus
 
 
-class LogEvent(TypedDict):
-    type: Literal["log"]
-    level: str
-    message: str
-    timestamp: int
-
-
-WebSocketEvent = Union[CameraFrameEvent, StatusUpdateEvent, LogEvent]
+WebSocketEvent = Union[CameraFrameEvent, StatusUpdateEvent]

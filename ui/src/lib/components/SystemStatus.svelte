@@ -28,15 +28,15 @@
   function getLifecycleColor(stage: string): string {
     switch (stage) {
       case "running":
-        return "bg-green-500";
+        return "bg-success-500";
       case "paused_by_user":
-        return "bg-orange-500";
+        return "bg-warning-500";
       case "paused_by_system":
-        return "bg-yellow-500";
+        return "bg-warning-600";
       case "stopping":
-        return "bg-red-500";
+        return "bg-error-500";
       default:
-        return "bg-gray-500";
+        return "bg-surface-500";
     }
   }
 
@@ -49,15 +49,15 @@
   }
 </script>
 
-<section class="bg-white border border-gray-200 p-5">
-  <h2 class="text-xl font-semibold text-gray-800 mb-5 pb-3 border-b border-gray-100">
+<section class="bg-surface-50 dark:bg-surface-800 border border-surface-200 dark:border-surface-700 p-5">
+  <h2 class="text-xl font-semibold text-foreground-light dark:text-foreground-dark mb-5 pb-3 border-b border-surface-200 dark:border-surface-700">
     System Status
   </h2>
 
   {#if status}
     <div class="space-y-3">
       <div class="flex justify-between items-center">
-        <label class="text-gray-600 font-medium">Lifecycle:</label>
+        <label class="text-surface-600 dark:text-surface-400 font-medium">Lifecycle:</label>
         <span
           class="px-3 py-1 text-white text-xs font-semibold {getLifecycleColor(
             status.lifecycle_stage,
@@ -68,36 +68,36 @@
       </div>
 
       <div class="flex justify-between items-center">
-        <label class="text-gray-600 font-medium">Sorting State:</label>
-        <span class="text-gray-800">
+        <label class="text-surface-600 dark:text-surface-400 font-medium">Sorting State:</label>
+        <span class="text-foreground-light dark:text-foreground-dark">
           {formatSortingState(status.sorting_state)}
         </span>
       </div>
 
       <div class="flex justify-between items-center">
-        <label class="text-gray-600 font-medium">Objects in Frame:</label>
-        <span class="text-gray-800 font-mono">{status.objects_in_frame}</span>
+        <label class="text-surface-600 dark:text-surface-400 font-medium">Objects in Frame:</label>
+        <span class="text-foreground-light dark:text-foreground-dark font-mono">{status.objects_in_frame}</span>
       </div>
 
       <div class="flex justify-between items-center">
-        <label class="text-gray-600 font-medium">Conveyor Speed:</label>
-        <span class="text-gray-800 font-mono">
+        <label class="text-surface-600 dark:text-surface-400 font-medium">Conveyor Speed:</label>
+        <span class="text-foreground-light dark:text-foreground-dark font-mono">
           {status.conveyor_speed?.toFixed(4) || "Unknown"} cm/ms
         </span>
       </div>
 
-      <div class="mt-5 pt-5 border-t border-gray-100">
+      <div class="mt-5 pt-5 border-t border-surface-200 dark:border-surface-700">
         {#if status.lifecycle_stage === "paused_by_user" || status.lifecycle_stage === "paused_by_system"}
           <button
             onclick={startSystem}
-            class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-4 rounded transition-colors"
+            class="w-full bg-success-600 hover:bg-success-700 text-white font-semibold py-3 px-4 rounded transition-colors"
           >
             Start System
           </button>
         {:else if status.lifecycle_stage === "running"}
           <button
             onclick={stopSystem}
-            class="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-4 rounded transition-colors"
+            class="w-full bg-error-600 hover:bg-error-700 text-white font-semibold py-3 px-4 rounded transition-colors"
           >
             Stop System
           </button>
@@ -105,6 +105,6 @@
       </div>
     </div>
   {:else}
-    <div class="text-gray-500 italic">No status data available</div>
+    <div class="text-surface-500 dark:text-surface-400 italic">No status data available</div>
   {/if}
 </section>

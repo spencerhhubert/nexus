@@ -1,3 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'Roboto', ui-sans-serif, system-ui, sans-serif;
+  }
+
+  body {
+    @apply bg-background-light dark:bg-background-dark;
+    @apply text-foreground-light dark:text-foreground-dark;
+    @apply transition-colors duration-200;
+  }
+}

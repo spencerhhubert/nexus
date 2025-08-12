@@ -12,13 +12,13 @@
   }
 
   function getStatusClasses(): string {
-    if (isLoading) return "bg-yellow-100 text-yellow-800";
+    if (isLoading) return "bg-warning-100 text-warning-800 dark:bg-warning-900/20 dark:text-warning-300";
     return isOnline
-      ? "bg-green-100 text-green-800"
-      : "bg-red-100 text-red-800";
+      ? "bg-success-100 text-success-800 dark:bg-success-900/20 dark:text-success-300"
+      : "bg-error-100 text-error-800 dark:bg-error-900/20 dark:text-error-300";
   }
 </script>
 
-<div class="px-4 py-2 font-semibold {getStatusClasses()}">
+<div class="px-4 py-2 {getStatusClasses()}">
   {getStatusText()}
 </div>

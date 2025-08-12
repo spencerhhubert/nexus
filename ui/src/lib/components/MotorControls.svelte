@@ -17,20 +17,20 @@
   }
 </script>
 
-<section class="bg-white border border-gray-200 p-5">
-  <h2 class="text-xl font-semibold text-gray-800 mb-5 pb-3 border-b border-gray-100">
+<section class="bg-surface-50 dark:bg-surface-800 border border-surface-200 dark:border-surface-700 p-5">
+  <h2 class="text-xl font-semibold text-foreground-light dark:text-foreground-dark mb-5 pb-3 border-b border-surface-200 dark:border-surface-700">
     Motor Controls
   </h2>
 
   {#if motors && motors.length > 0}
     <div class="space-y-5">
       {#each motors as motor (motor.motor_id)}
-        <div class="bg-gray-50 p-4">
-          <label class="block font-semibold text-gray-700 mb-3">
+        <div class="bg-surface-100 dark:bg-surface-700 p-4">
+          <label class="block font-semibold text-foreground-light dark:text-foreground-dark mb-3">
             {motor.display_name}
           </label>
           <div class="grid grid-cols-[auto_1fr_auto] gap-3 items-center">
-            <span class="text-sm text-gray-600">
+            <span class="text-sm text-surface-600 dark:text-surface-400">
               Current: {motor.current_speed}
             </span>
             <input
@@ -39,7 +39,7 @@
               max={motor.max_speed}
               value={motor.current_speed}
               onchange={(e) => setMotorSpeed(motor.motor_id, parseInt((e.target as HTMLInputElement).value))}
-              class="flex-1"
+              class="flex-1 accent-primary-500"
             />
             <input
               type="number"
@@ -47,13 +47,13 @@
               max={motor.max_speed}
               value={motor.current_speed}
               onchange={(e) => setMotorSpeed(motor.motor_id, parseInt((e.target as HTMLInputElement).value))}
-              class="w-20 px-2 py-1 border border-gray-300 text-center"
+              class="w-20 px-2 py-1 border border-surface-300 dark:border-surface-600 bg-surface-50 dark:bg-surface-800 text-foreground-light dark:text-foreground-dark text-center"
             />
           </div>
         </div>
       {/each}
     </div>
   {:else}
-    <div class="text-gray-500 italic">No motor data available</div>
+    <div class="text-surface-500 dark:text-surface-400 italic">No motor data available</div>
   {/if}
 </section>

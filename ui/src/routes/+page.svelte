@@ -81,24 +81,24 @@
   <title>Sorter</title>
 </svelte:head>
 
-<div class="max-w-7xl mx-auto p-5 font-sans">
+<div class="max-w-7xl mx-auto p-5">
   <header
-    class="flex justify-between items-center mb-8 pb-5 border-b border-gray-200"
+    class="flex justify-between items-center mb-8 pb-5 border-b border-surface-200 dark:border-surface-700"
   >
-    <h1 class="text-3xl font-bold text-gray-900">Sorter Controls</h1>
+    <h1 class="text-3xl font-bold text-foreground-light dark:text-foreground-dark">Sorter Controls</h1>
     <ConnectionStatus {isOnline} {isLoading} />
   </header>
 
   {#if !isOnline && !isLoading}
     <div class="text-center py-16">
-      <h2 class="text-2xl font-semibold text-gray-700 mb-4">
+      <h2 class="text-2xl font-semibold text-surface-700 dark:text-surface-300 mb-4">
         Sorter Server Offline
       </h2>
-      <p class="text-gray-600 mb-6">
+      <p class="text-surface-600 dark:text-surface-400 mb-6">
         Waiting for connection to sorting machine...
       </p>
       <div
-        class="w-10 h-10 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin mx-auto"
+        class="w-10 h-10 border-4 border-surface-300 dark:border-surface-600 border-t-primary-500 dark:border-t-primary-400 rounded-full animate-spin mx-auto"
       ></div>
     </div>
   {:else}

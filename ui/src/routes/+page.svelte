@@ -78,24 +78,24 @@
 </script>
 
 <svelte:head>
-  <title>Robot Control</title>
+  <title>Sorter</title>
 </svelte:head>
 
 <div class="max-w-7xl mx-auto p-5 font-sans">
   <header
     class="flex justify-between items-center mb-8 pb-5 border-b border-gray-200"
   >
-    <h1 class="text-3xl font-bold text-gray-900">Sorting Machine Control Interface</h1>
+    <h1 class="text-3xl font-bold text-gray-900">Sorter Controls</h1>
     <ConnectionStatus {isOnline} {isLoading} />
   </header>
 
   {#if !isOnline && !isLoading}
     <div class="text-center py-16">
       <h2 class="text-2xl font-semibold text-gray-700 mb-4">
-        Robot Server Offline
+        Sorter Server Offline
       </h2>
       <p class="text-gray-600 mb-6">
-        Waiting for connection to robot system...
+        Waiting for connection to sorting machine...
       </p>
       <div
         class="w-10 h-10 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin mx-auto"

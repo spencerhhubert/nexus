@@ -134,7 +134,7 @@ def buildGlobalConfig() -> GlobalConfig:
         "use_prev_bin_state": args.use_prev_bin_state,
         "speed_estimation_border_threshold_percent": 0.05,
         "overlapping_conveyor_door_windows_threshold_ms": 5000,
-        "main_conveyor_speed": 150,
+        "main_conveyor_speed": 152,
         "feeder_conveyor_speed": 150,
         "vibration_hopper_speed": 150,
         "object_center_threshold_percent": 0.05,

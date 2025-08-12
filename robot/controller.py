@@ -51,19 +51,8 @@ from robot.async_profiling import (
 )
 
 
-class SystemLifecycleStage(Enum):
-    INITIALIZING = "initializing"
-    STARTING_HARDWARE = "starting_hardware"
-    RUNNING = "running"
-    STOPPING = "stopping"
-    SHUTDOWN = "shutdown"
-
-
-class SortingState(Enum):
-    GETTING_NEW_OBJECT = "getting_new_object"
-    OBJECT_IN_VIEW = "object_in_view"
-    TRYING_TO_CLASSIFY = "trying_to_classify"
-    SENDING_ITEM_TO_BIN = "sending_item_to_bin"
+from robot.server.types import SystemLifecycleStage, SortingState
+from robot.server.api import RobotAPI
 
 
 class SortingController:
@@ -103,6 +92,8 @@ class SortingController:
 
         self.segmentation_model = initializeSegmentationModel(self.global_config)
 
+        self.api_server = RobotAPI(self.global_config, self)
+
         self.max_worker_threads = global_config["max_worker_threads"]
         self.max_queue_size = global_config["max_queue_size"]
         self.frame_processor_pool = concurrent.futures.ThreadPoolExecutor(
@@ -120,7 +111,7 @@ class SortingController:
 
         self.resetServos()
 
-        self.system_lifecycle_stage = SystemLifecycleStage.STARTING_HARDWARE
+        self.system_lifecycle_stage = SystemLifecycleStage.PAUSED_BY_USER
 
     def resetServos(self) -> None:
         conveyor_closed_angle = self.global_config["conveyor_door_closed_angle"]
@@ -160,13 +151,16 @@ class SortingController:
 
         tick_count = 0
         try:
-            while self.system_lifecycle_stage == SystemLifecycleStage.RUNNING:
+            while self.system_lifecycle_stage in [
+                SystemLifecycleStage.RUNNING,
+                SystemLifecycleStage.PAUSED_BY_USER,
+            ]:
                 try:
                     tick_start_time_ms = time.time() * 1000
 
-                    self._updateSortingStateMachine()
-
-                    self._submitFrameForProcessing()
+                    if self.system_lifecycle_stage == SystemLifecycleStage.RUNNING:
+                        self._updateSortingStateMachine()
+                        self._submitFrameForProcessing()
 
                     update_start_ms = time.time() * 1000
                     self._updateTrajectories()
@@ -193,6 +187,8 @@ class SortingController:
                     self.global_config["logger"].info(
                         f"Main tick [{self.sorting_state.value}]: {tick_duration_ms:.1f}ms (update: {update_duration_ms:.1f}ms, step: {step_duration_ms:.1f}ms, trigger: {trigger_duration_ms:.1f}ms, cleanup: {cleanup_duration_ms:.1f}ms, queue: {active_futures_count}/{self.max_queue_size}, objects: {self.scene_tracker.objects_in_frame})"
                     )
+
+                    # Status updates handled via periodic WebSocket polling
 
                     tick_count += 1
 
@@ -319,6 +315,8 @@ class SortingController:
             display_frame = cv2.resize(frame, (854, 480))
             cv2.imshow("Camera Feed", display_frame)
             cv2.waitKey(1)
+
+        # Camera frames handled via WebSocket when connected
 
         # Check if we have too many queued frames
         if len(self.active_futures) >= self.max_queue_size:

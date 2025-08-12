@@ -1,6 +1,8 @@
 import time
 import cv2
 import os
+import threading
+import uvicorn
 from robot.irl.config import buildIRLSystemInterface, IRLSystemInterface, buildIRLConfig
 from robot.irl.motors import Servo, DCMotor
 from robot.global_config import GlobalConfig, buildGlobalConfig
@@ -16,6 +18,20 @@ def main() -> None:
     logger.info(f"Running with debug level: {gc['debug_level']}")
 
     sorting_controller = SortingController(gc, system)
+
+    # Start FastAPI server in background thread
+    def run_server():
+        uvicorn.run(
+            sorting_controller.api_server.app,
+            host="0.0.0.0",
+            port=8080,
+            log_level="info",
+        )
+
+    server_thread = threading.Thread(target=run_server, daemon=True)
+    server_thread.start()
+
+    logger.info("FastAPI server started on http://localhost:8080")
 
     try:
         sorting_controller.initialize()

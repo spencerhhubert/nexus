@@ -2,6 +2,7 @@ export type SystemLifecycleStage =
   | 'initializing'
   | 'starting_hardware'
   | 'paused_by_user'
+  | 'paused_by_system'
   | 'running'
   | 'stopping'
   | 'shutdown';

@@ -162,6 +162,7 @@ class SortingController:
             while self.system_lifecycle_stage in [
                 SystemLifecycleStage.RUNNING,
                 SystemLifecycleStage.PAUSED_BY_USER,
+                SystemLifecycleStage.PAUSED_BY_SYSTEM,
             ]:
                 try:
                     tick_start_time_ms = time.time() * 1000
@@ -238,9 +239,10 @@ class SortingController:
             time_running = current_time_ms - self.getting_new_object_start_time
             if time_running > self.global_config["getting_new_object_timeout_ms"]:
                 self.global_config["logger"].info(
-                    "Timeout waiting for object, shutting down"
+                    "Timeout waiting for object, pausing system"
                 )
-                self.system_lifecycle_stage = SystemLifecycleStage.STOPPING
+                self.system_lifecycle_stage = SystemLifecycleStage.PAUSED_BY_SYSTEM
+                self._setMotorSpeeds(0, 0, 0)
                 return
 
         elif self.sorting_state == SortingState.OBJECT_IN_VIEW:

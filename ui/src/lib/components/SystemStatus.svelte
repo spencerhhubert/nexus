@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { SystemStatus } from "../types";
   import { robotAPI } from "../api";
+  import { toTitleCase } from "$lib/util";
 
   interface Props {
     status: SystemStatus | null;
@@ -30,6 +31,8 @@
         return "bg-green-500";
       case "paused_by_user":
         return "bg-orange-500";
+      case "paused_by_system":
+        return "bg-yellow-500";
       case "stopping":
         return "bg-red-500";
       default:
@@ -38,11 +41,11 @@
   }
 
   function formatLifecycleStage(stage: string): string {
-    return stage.replace("_", " ").toUpperCase();
+    return toTitleCase(stage.replaceAll("_", " "))
   }
 
   function formatSortingState(state: string): string {
-    return state.replace("_", " ").toUpperCase();
+    return toTitleCase(state.replaceAll("_", " "))
   }
 </script>
 
@@ -84,17 +87,17 @@
       </div>
 
       <div class="mt-5 pt-5 border-t border-gray-100">
-        {#if status.lifecycle_stage === "paused_by_user"}
+        {#if status.lifecycle_stage === "paused_by_user" || status.lifecycle_stage === "paused_by_system"}
           <button
             onclick={startSystem}
-            class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-4 transition-colors"
+            class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-4 rounded transition-colors"
           >
             Start System
           </button>
         {:else if status.lifecycle_stage === "running"}
           <button
             onclick={stopSystem}
-            class="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-4 transition-colors"
+            class="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-4 rounded transition-colors"
           >
             Stop System
           </button>

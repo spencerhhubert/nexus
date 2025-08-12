@@ -7,6 +7,7 @@ class SystemLifecycleStage(Enum):
     INITIALIZING = "initializing"
     STARTING_HARDWARE = "starting_hardware"
     PAUSED_BY_USER = "paused_by_user"
+    PAUSED_BY_SYSTEM = "paused_by_system"
     RUNNING = "running"
     STOPPING = "stopping"
     SHUTDOWN = "shutdown"

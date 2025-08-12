@@ -122,10 +122,10 @@ class RobotAPI:
             raise ValueError(f"Unknown motor_id: {motor_id}")
 
     def _start_system(self):
-        if (
-            self.controller.system_lifecycle_stage
-            == SystemLifecycleStage.PAUSED_BY_USER
-        ):
+        if self.controller.system_lifecycle_stage in [
+            SystemLifecycleStage.PAUSED_BY_USER,
+            SystemLifecycleStage.PAUSED_BY_SYSTEM,
+        ]:
             self.controller.system_lifecycle_stage = SystemLifecycleStage.RUNNING
             self.controller.sorting_state = SortingState.GETTING_NEW_OBJECT
             self.controller.getting_new_object_start_time = None

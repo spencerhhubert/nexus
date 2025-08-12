@@ -3,14 +3,14 @@
 	import '../app.css';
 	import SettingsModal from '$lib/components/SettingsModal.svelte';
 	import { Settings } from 'lucide-svelte';
-	import { theme } from '$lib/stores/theme';
+	import { config } from '$lib/stores/config';
 	import { onMount } from 'svelte';
 
 	let { children } = $props();
 	let showSettings = $state(false);
 
 	onMount(() => {
-		theme.init();
+		config.init();
 	});
 
 	function openSettings() {

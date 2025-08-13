@@ -151,7 +151,6 @@ class SceneTracker:
             score = trajectory.getCompatibilityScore(
                 new_observation, self.global_config
             )
-            print("SCORE", score)
 
             if score > best_score:
                 best_score = score
@@ -163,7 +162,7 @@ class SceneTracker:
         current_time = time.time()
         time_interval_s = current_time - self.last_speed_update_time
 
-        if time_interval_s >= 0.1:  # Update speed every 100ms minimum
+        if time_interval_s >= 0.25:  # Update speed every 250ms minimum
             pulse_count = self.encoder.getPulseCount()
 
             if pulse_count > 0:

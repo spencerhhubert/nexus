@@ -118,27 +118,9 @@ class SortingController:
 
         initializeAsyncProfiling(self.global_config)
 
-        self.resetServos()
+        self._resetServos()
 
-        self.system_lifecycle_stage = SystemLifecycleStage.PAUSED_BY_USER
-
-    def resetServos(self) -> None:
-        conveyor_closed_angle = self.global_config["conveyor_door_closed_angle"]
-        bin_closed_angle = self.global_config["bin_door_closed_angle"]
-
-        self.global_config["logger"].info(
-            f"Resetting all servos - conveyor doors: {conveyor_closed_angle}°, bin doors: {bin_closed_angle}°"
-        )
-
-        for distribution_module in self.irl_system["distribution_modules"]:
-            # Reset conveyor door servo
-            distribution_module.servo.setAngleAndTurnOff(conveyor_closed_angle, 1000)
-
-            # Reset all bin door servos
-            for bin_servo in distribution_module.bins:
-                bin_servo.servo.setAngleAndTurnOff(bin_closed_angle, 1000)
-
-        self.global_config["logger"].info("All servos reset to closed positions")
+        self.system_lifecycle_stage = SystemLifecycleStage.PAUSED_BY_SYSTEM
 
     def startHardware(self) -> None:
         self.global_config["logger"].info("Starting hardware systems...")
@@ -577,3 +559,21 @@ class SortingController:
         self.irl_system["main_camera"].release()
 
         self.system_lifecycle_stage = SystemLifecycleStage.SHUTDOWN
+
+    def _resetServos(self) -> None:
+        conveyor_closed_angle = self.global_config["conveyor_door_closed_angle"]
+        bin_closed_angle = self.global_config["bin_door_closed_angle"]
+
+        self.global_config["logger"].info(
+            f"Resetting all servos - conveyor doors: {conveyor_closed_angle}°, bin doors: {bin_closed_angle}°"
+        )
+
+        for distribution_module in self.irl_system["distribution_modules"]:
+            # Reset conveyor door servo
+            distribution_module.servo.setAngleAndTurnOff(conveyor_closed_angle, 1000)
+
+            # Reset all bin door servos
+            for bin_servo in distribution_module.bins:
+                bin_servo.servo.setAngleAndTurnOff(bin_closed_angle, 1000)
+
+        self.global_config["logger"].info("All servos reset to closed positions")

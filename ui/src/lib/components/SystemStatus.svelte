@@ -82,7 +82,7 @@
       <div class="flex justify-between items-center">
         <label class="text-surface-600 dark:text-surface-400 font-medium">Conveyor Speed:</label>
         <span class="text-foreground-light dark:text-foreground-dark font-mono">
-          {status.conveyor_speed?.toFixed(4) || "Unknown"} cm/ms
+          {status.conveyor_speed ? (status.conveyor_speed * 10).toFixed(3) : "Unknown"} m/s
         </span>
       </div>
 

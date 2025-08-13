@@ -44,6 +44,13 @@ uint16_t SevenBitToInt16(byte *bytes) {
 #define WRITE_DIGITAL_PIN 0x02
 #define WRITE_PWM_PIN 0x03
 
+//Encoder SysEx commands
+#define ENCODER 0x50 //identifier for all encoder commands
+//subcommands
+#define ENCODER_SETUP 0x01
+#define ENCODER_READ 0x02
+#define ENCODER_RESET 0x03
+
 #define SERVOMIN  100
 #define SERVOMAX  477
 #define SERVO_FREQ 50
@@ -75,6 +82,13 @@ PwmBoardEntry pwm_boards[MAX_PWM_BOARDS];
 
 // Array to track servo timeouts
 ServoTimeout servo_timeouts[MAX_ACTIVE_SERVOS];
+
+// Encoder variables
+volatile long encoderPosition = 0;
+volatile int lastCLK = 0;
+int encoderCLKPin = -1;
+int encoderDTPin = -1;
+bool encoderEnabled = false;
 
 // Initialize all board entries as inactive
 void initPwmBoards() {
@@ -275,6 +289,84 @@ void parseDigitalPinCommand(byte command, byte argc, byte *argv) {
     }
 }
 
+void readEncoder() {
+    int currentCLK = digitalRead(encoderCLKPin);
+
+    if (currentCLK != lastCLK) {
+        if (digitalRead(encoderDTPin) != currentCLK) {
+            encoderPosition++;
+        } else {
+            encoderPosition--;
+        }
+    }
+    lastCLK = currentCLK;
+}
+
+void setupEncoder(byte clkPin, byte dtPin) {
+    if (encoderEnabled) {
+        detachInterrupt(digitalPinToInterrupt(encoderCLKPin));
+    }
+
+    encoderCLKPin = clkPin;
+    encoderDTPin = dtPin;
+    encoderPosition = 0;
+
+    pinMode(encoderCLKPin, INPUT_PULLUP);
+    pinMode(encoderDTPin, INPUT_PULLUP);
+
+    lastCLK = digitalRead(encoderCLKPin);
+
+    attachInterrupt(digitalPinToInterrupt(encoderCLKPin), readEncoder, CHANGE);
+    encoderEnabled = true;
+
+    char debugMsg[50];
+    sprintf(debugMsg, "Encoder setup: CLK=%d, DT=%d", clkPin, dtPin);
+    Firmata.sendString(STRING_DATA, debugMsg);
+}
+
+long getEncoderPosition() {
+    return encoderPosition;
+}
+
+void resetEncoder() {
+    encoderPosition = 0;
+    char debugMsg[30];
+    sprintf(debugMsg, "Encoder reset to 0");
+    Firmata.sendString(STRING_DATA, debugMsg);
+}
+
+void parseEncoderCommand(byte command, byte argc, byte *argv) {
+    char debugMsg[80];
+    sprintf(debugMsg, "Encoder cmd: %d, argc: %d", command, argc);
+    Firmata.sendString(STRING_DATA, debugMsg);
+
+    switch (command) {
+        case ENCODER_SETUP: {
+            setupEncoder(argv[0], argv[1]);
+            break;
+        }
+        case ENCODER_READ: {
+            long position = getEncoderPosition();
+            // Split position into 7-bit chunks since Firmata automatically
+            // converts each byte into 2 7-bit bytes during transmission
+            byte response[2];
+            response[0] = position & 0x7F;        // Low 7 bits
+            response[1] = (position >> 7) & 0x7F; // Next 7 bits (supports up to 16,383)
+            Firmata.sendSysex(ENCODER, 2, response);
+            break;
+        }
+        case ENCODER_RESET: {
+            resetEncoder();
+            break;
+        }
+        default: {
+            sprintf(debugMsg, "Unknown encoder cmd: %d", command);
+            Firmata.sendString(STRING_DATA, debugMsg);
+            break;
+        }
+    }
+}
+
 
 
 void systemResetCallback() {
@@ -315,6 +407,10 @@ void sysexCallback(byte command, byte argc, byte *argv) {
         case DIGITAL_PIN:
             Firmata.sendString(STRING_DATA, "Processing DIGITAL_PIN");
             parseDigitalPinCommand(argv[0], argc-1, argv+1);
+        break;
+        case ENCODER:
+            Firmata.sendString(STRING_DATA, "Processing ENCODER");
+            parseEncoderCommand(argv[0], argc-1, argv+1);
         break;
         default:
             sprintf(debugMsg, "Unknown sysex command: 0x%02X", command);
@@ -367,7 +463,6 @@ void setup() {
 
 void loop() {
     while(Firmata.available()) { //only runs if message in buffer
-        Firmata.sendString(STRING_DATA, "Firmata command received");
         Firmata.processInput();
         if (!Firmata.isParsingMessage()) {
             break;

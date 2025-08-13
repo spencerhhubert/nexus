@@ -88,7 +88,8 @@ class SortingController:
         )
 
         self.scene_tracker = SceneTracker(
-            self.global_config, self.irl_system["main_camera"].calibration
+            self.global_config,
+            self.irl_system["conveyor_encoder"],
         )
 
         self.segmentation_model = initializeSegmentationModel(self.global_config)
@@ -404,7 +405,6 @@ class SortingController:
                 frame,
                 masked_image,
                 classification_result,
-                self.global_config["speed_estimation_border_threshold_percent"],
                 captured_at_ms,
             )
 

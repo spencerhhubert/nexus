@@ -1,31 +1,28 @@
 import threading
 import time
-import uuid
-from typing import List, Optional, Dict, Any, Tuple
-from enum import Enum
+from typing import List, Optional
 from robot.global_config import GlobalConfig
+from robot.irl.motors import Encoder
 from robot.trajectories import (
     Trajectory,
     TrajectoryLifecycleStage,
     Observation,
     createTrajectory,
 )
-from robot.util.bricklink import splitBricklinkId
-from robot.irl.camera_calibration import CameraCalibration
 
 
 class SceneTracker:
-    def __init__(self, global_config: GlobalConfig, calibration: CameraCalibration):
+    def __init__(self, global_config: GlobalConfig, encoder: Encoder):
         self.global_config = global_config
-        self.calibration = calibration
+        self.encoder: Encoder = encoder
         self.active_trajectories: List[Trajectory] = []
-        self.conveyor_velocity_cm_per_ms: Optional[float] = None
         self.objects_in_frame: int = 0
         self.lock = threading.Lock()
 
+        self.current_speed_cm_per_ms = 0.0
+        self.last_speed_update_time = time.time()
+
         self.max_trajectory_age_ms = 30000
-        self.min_observations_for_speed = 2
-        self.num_trajectories_for_speed_estimate = 16
         self.min_trajectories_to_keep = 16
         self.max_trajectories = 50
 
@@ -47,8 +44,7 @@ class SceneTracker:
                 )
 
     def calculateTravelTime(self, distance_cm: float) -> Optional[float]:
-        with self.lock:
-            speed = self.conveyor_velocity_cm_per_ms
+        speed = self._getConveyorSpeed()
 
         if speed is None or speed <= 0:
             self.global_config["logger"].info(
@@ -58,7 +54,7 @@ class SceneTracker:
 
         travel_time_ms = distance_cm / speed
         self.global_config["logger"].info(
-            f"Travel time calculation: distance={distance_cm:.1f}cm, speed={speed:.4f}cm/ms, time={travel_time_ms:.1f}ms"
+            f"Travel time calculation: distance={distance_cm:.1f}cm, speed={speed:.6f}cm/ms, time={travel_time_ms:.1f}ms"
         )
         return travel_time_ms
 
@@ -164,76 +160,29 @@ class SceneTracker:
         return best_trajectory
 
     def _updateConveyorSpeed(self) -> None:
-        # Filter trajectories with enough observations for speed calculation
-        valid_trajectories = [
-            t
-            for t in self.active_trajectories
-            if len(t.observations) >= self.min_observations_for_speed
-        ]
+        current_time = time.time()
+        time_interval_s = current_time - self.last_speed_update_time
 
-        recent_trajectories = valid_trajectories[
-            -self.num_trajectories_for_speed_estimate :
-        ]
+        if time_interval_s >= 0.1:  # Update speed every 100ms minimum
+            pulse_count = self.encoder.getPulseCount()
 
-        if not recent_trajectories:
-            return
+            if pulse_count > 0:
+                revolutions = pulse_count / self.encoder.getPulsesPerRevolution()
+                distance_cm = revolutions * self.encoder.getWheelCircumferenceCm()
 
-        trajectory_speeds = []
+                speed_cm_per_s = distance_cm / time_interval_s
+                self.current_speed_cm_per_ms = speed_cm_per_s / 1000
 
-        for trajectory in recent_trajectories:
-            self._calcAndSetTrajectoryVelocity(trajectory)
-            if trajectory.velocity_cm_per_ms is not None:
-                trajectory_speeds.append(trajectory.velocity_cm_per_ms)
-
-        self.global_config["logger"].info(f"Trajectory speeds: {trajectory_speeds}")
-
-        if trajectory_speeds:
-            self.conveyor_velocity_cm_per_ms = sum(trajectory_speeds) / len(
-                trajectory_speeds
-            )
-
-    def _calcAndSetTrajectoryVelocity(self, trajectory: Trajectory) -> None:
-        if len(trajectory.observations) < 2:
-            return
-
-        fully_visible_obs = [
-            obs
-            for obs in trajectory.observations
-            if obs.fully_visible_for_speed_estimation
-        ]
-
-        if len(fully_visible_obs) < 2:
-            return
-
-        total_distance_cm = 0.0
-        total_time_ms = 0.0
-
-        for i in range(1, len(fully_visible_obs)):
-            obs_prev = fully_visible_obs[i - 1]
-            obs_curr = fully_visible_obs[i]
-
-            time_delta_ms = obs_curr.captured_at_ms - obs_prev.captured_at_ms
-            if time_delta_ms <= 0:
-                self.global_config["logger"].error(
-                    f"Observations out of order, invalid time delta: {time_delta_ms}"
+                self.global_config["logger"].info(
+                    f"Conveyor speed update: {pulse_count} pulses, {distance_cm:.2f}cm, {self.current_speed_cm_per_ms:.6f}cm/ms"
                 )
-                continue
 
-            distance_cm = self.calibration.getPhysicalDistanceBetweenPoints(
-                obs_prev.leading_edge_x_px,
-                obs_prev.center_y_px,
-                obs_curr.leading_edge_x_px,
-                obs_curr.center_y_px,
-            )
+                self.encoder.resetPulseCount()
 
-            total_distance_cm += distance_cm
-            total_time_ms += time_delta_ms
+            self.last_speed_update_time = current_time
 
-        if total_time_ms <= 0:
-            return
-
-        velocity_cm_per_ms = total_distance_cm / total_time_ms
-        trajectory.setVelocity(velocity_cm_per_ms)
+    def _getConveyorSpeed(self) -> float:
+        return self.current_speed_cm_per_ms
 
     def _checkForTrajectoriesLeavingCamera(self) -> None:
         TIME_SINCE_UNDER_CAMERA_THRESHOLD_MS = 2000

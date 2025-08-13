@@ -1,9 +1,8 @@
 from pyfirmata import util, pyfirmata
 from robot.irl.our_arduino import OurArduinoMega
-from robot.irl.motors import PCA9685, Servo, DCMotor
+from robot.irl.motors import PCA9685, Servo, DCMotor, Encoder
 from robot.irl.distribution import Bin, DistributionModule
 from robot.irl.camera import Camera, connectToCamera
-from robot.irl.camera_calibration import CameraCalibration, CameraCalibrationMeasurement
 from typing import Dict, List, Tuple, TypedDict, Optional
 import os
 import subprocess
@@ -30,12 +29,18 @@ class DCMotorConfig(TypedDict):
     input_2_pin: int
 
 
+class EncoderConfig(TypedDict):
+    clk_pin: int
+    dt_pin: int
+    pulses_per_revolution: int
+    wheel_diameter_mm: float
+
+
 class MainCameraConfig(TypedDict):
     device_index: int
     width: int
     height: int
     fps: int
-    calibration_measurements: List[CameraCalibrationMeasurement]
 
 
 class IRLConfig(TypedDict):
@@ -45,6 +50,7 @@ class IRLConfig(TypedDict):
     feeder_conveyor_dc_motor: DCMotorConfig
     vibration_hopper_dc_motor: DCMotorConfig
     main_camera: MainCameraConfig
+    conveyor_encoder: EncoderConfig
 
 
 class IRLSystemInterface(TypedDict):
@@ -54,6 +60,7 @@ class IRLSystemInterface(TypedDict):
     feeder_conveyor_dc_motor: DCMotor
     vibration_hopper_dc_motor: DCMotor
     main_camera: Camera
+    conveyor_encoder: Encoder
 
 
 def buildIRLConfig() -> IRLConfig:
@@ -74,20 +81,6 @@ def buildIRLConfig() -> IRLConfig:
             "width": 3840,
             "height": 2160,
             "fps": 10,
-            "calibration_measurements": [
-                {
-                    "distance_down_from_top_of_frame_percent": 0.301,
-                    "physical_distance_on_floor_across_frame_cm": inchesToCm(
-                        7 + 9 / 16
-                    ),
-                },
-                {
-                    "distance_down_from_top_of_frame_percent": 0.799,
-                    "physical_distance_on_floor_across_frame_cm": inchesToCm(
-                        5 + 13 / 16
-                    ),
-                },
-            ],
         },
         "distribution_modules": [
             {
@@ -145,6 +138,12 @@ def buildIRLConfig() -> IRLConfig:
             "enable_pin": 6,
             "input_1_pin": 30,
             "input_2_pin": 32,
+        },
+        "conveyor_encoder": {
+            "clk_pin": 18,
+            "dt_pin": 19,
+            "pulses_per_revolution": 20,
+            "wheel_diameter_mm": 30.0,
         },
     }
 
@@ -261,23 +260,22 @@ def buildIRLSystemInterface(config: IRLConfig, gc: GlobalConfig) -> IRLSystemInt
         config["vibration_hopper_dc_motor"]["input_2_pin"],
     )
 
-    camera_calibration = CameraCalibration(
-        gc,
-        config["main_camera"]["width"],
-        config["main_camera"]["height"],
-        config["main_camera"]["calibration_measurements"],
-    )
-
     main_camera = connectToCamera(
         config["main_camera"]["device_index"],
         gc,
         config["main_camera"]["width"],
         config["main_camera"]["height"],
         config["main_camera"]["fps"],
-        camera_calibration,
     )
 
-    main_camera.tempSaveFrameWithCalibrationInfo()
+    conveyor_encoder = Encoder(
+        gc,
+        mc,
+        config["conveyor_encoder"]["clk_pin"],
+        config["conveyor_encoder"]["dt_pin"],
+        config["conveyor_encoder"]["pulses_per_revolution"],
+        config["conveyor_encoder"]["wheel_diameter_mm"],
+    )
 
     return {
         "arduino": mc,
@@ -286,4 +284,5 @@ def buildIRLSystemInterface(config: IRLConfig, gc: GlobalConfig) -> IRLSystemInt
         "feeder_conveyor_dc_motor": feeder_conveyor_motor,
         "vibration_hopper_dc_motor": vibration_hopper_motor,
         "main_camera": main_camera,
+        "conveyor_encoder": conveyor_encoder,
     }

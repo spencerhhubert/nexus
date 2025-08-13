@@ -28,8 +28,6 @@ class GlobalConfig(TypedDict):
     trajectory_matching_max_bbox_size_ratio: float
     trajectory_matching_classification_consistency_weight: float
     trajectory_matching_spatial_weight: float
-    leading_edge_trigger_position: float
-    camera_center_reference_position: float
     capture_delay_ms: int
     camera_preview: bool
     enable_profiling: bool
@@ -50,6 +48,10 @@ class GlobalConfig(TypedDict):
     vibration_hopper_speed: int
     object_center_threshold_percent: float
     getting_new_object_timeout_ms: int
+    classification_timeout_ms: int
+    early_trigger_door_by_distance_cm: float
+    encoder_polling_delay_ms: int
+    delay_between_firmata_commands_ms: int
 
 
 def buildGlobalConfig() -> GlobalConfig:
@@ -115,8 +117,6 @@ def buildGlobalConfig() -> GlobalConfig:
         "trajectory_matching_max_bbox_size_ratio": 4.0,
         "trajectory_matching_classification_consistency_weight": 0.5,
         "trajectory_matching_spatial_weight": 0.3,
-        "leading_edge_trigger_position": 0.55,
-        "camera_center_reference_position": 0.5,
         "capture_delay_ms": 75,
         "camera_preview": args.preview,
         "enable_profiling": args.profile,
@@ -137,6 +137,10 @@ def buildGlobalConfig() -> GlobalConfig:
         "vibration_hopper_speed": 150,
         "object_center_threshold_percent": 0.05,
         "getting_new_object_timeout_ms": 120 * 1000,
+        "classification_timeout_ms": 10 * 1000,
+        "early_trigger_door_by_distance_cm": 10,
+        "encoder_polling_delay_ms": 1000,
+        "delay_between_firmata_commands_ms": 10,
     }
 
     from robot.logger import Logger

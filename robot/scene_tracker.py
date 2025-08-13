@@ -1,6 +1,6 @@
 import threading
 import time
-from typing import List, Optional
+from typing import List, Optional, NamedTuple
 from robot.global_config import GlobalConfig
 from robot.irl.motors import Encoder
 from robot.trajectories import (
@@ -11,16 +11,23 @@ from robot.trajectories import (
 )
 
 
+class DistanceReading(NamedTuple):
+    timestamp_ms: int
+    distance_traveled_cm: float
+
+
 class SceneTracker:
     def __init__(self, global_config: GlobalConfig, encoder: Encoder):
         self.global_config = global_config
         self.encoder: Encoder = encoder
-        self.active_trajectories: List[Trajectory] = []
+        self.trajectories: List[Trajectory] = []
+        self.observations: List[Observation] = []
         self.objects_in_frame: int = 0
         self.lock = threading.Lock()
 
-        self.current_speed_cm_per_ms = 0.0
-        self.last_speed_update_time = time.time()
+        self.distance_readings: List[DistanceReading] = []
+        self.last_distance_update_time = time.time()
+        self.max_distance_readings = global_config.get("max_distance_readings", 1000)
 
         self.max_trajectory_age_ms = 30000
         self.min_trajectories_to_keep = 16
@@ -28,115 +35,23 @@ class SceneTracker:
 
     def addObservation(self, observation: Observation) -> None:
         with self.lock:
-            matching_trajectory = self._findMatchingTrajectory(observation)
-
-            if matching_trajectory is None:
-                new_trajectory = createTrajectory(self.global_config, observation)
-                self.active_trajectories.append(new_trajectory)
-                self.global_config["logger"].info(
-                    f"Created new trajectory {new_trajectory.trajectory_id}"
-                )
-            else:
-                observation.trajectory_id = matching_trajectory.trajectory_id
-                matching_trajectory.addObservation(observation)
-                self.global_config["logger"].info(
-                    f"Added observation to trajectory {matching_trajectory.trajectory_id}"
-                )
-
-    def calculateTravelTime(self, distance_cm: float) -> Optional[float]:
-        speed = self._getConveyorSpeed()
-
-        if speed is None or speed <= 0:
+            self.observations.append(observation)
+            self.collapseObservationsIntoTrajectories()
             self.global_config["logger"].info(
-                f"Cannot calculate travel time: distance={distance_cm:.1f}cm, speed={speed} cm/ms"
+                f"Added observation {observation.observation_id}, now have {len(self.trajectories)} trajectories"
             )
-            return None
-
-        travel_time_ms = distance_cm / speed
-        self.global_config["logger"].info(
-            f"Travel time calculation: distance={distance_cm:.1f}cm, speed={speed:.6f}cm/ms, time={travel_time_ms:.1f}ms"
-        )
-        return travel_time_ms
-
-    def predictTimeAtPosition(
-        self, trajectory: Trajectory, target_position_percent: float
-    ) -> Optional[int]:
-        if len(trajectory.observations) < 2:
-            return None
-
-        # Check if any observation is already at or past target position
-        for obs in trajectory.observations:
-            if obs.leading_edge_x_percent <= target_position_percent:
-                return obs.captured_at_ms
-
-        # Find the two observations that bracket the target position
-        for i in range(len(trajectory.observations) - 1):
-            obs1 = trajectory.observations[i]
-            obs2 = trajectory.observations[i + 1]
-
-            if (
-                obs1.leading_edge_x_percent > target_position_percent
-                and obs2.leading_edge_x_percent <= target_position_percent
-            ):
-                # Interpolate between these two observations
-                x_range = obs1.leading_edge_x_percent - obs2.leading_edge_x_percent
-                if x_range <= 0:
-                    continue
-
-                x_progress = (
-                    obs1.leading_edge_x_percent - target_position_percent
-                ) / x_range
-                time_range = obs2.captured_at_ms - obs1.captured_at_ms
-                predicted_time = obs1.captured_at_ms + int(x_progress * time_range)
-                return predicted_time
-
-        # If we haven't found it in observations, extrapolate from the last two
-        if len(trajectory.observations) >= 2:
-            obs1 = trajectory.observations[-2]
-            obs2 = trajectory.observations[-1]
-
-            time_delta = obs2.captured_at_ms - obs1.captured_at_ms
-            x_delta = obs2.leading_edge_x_percent - obs1.leading_edge_x_percent
-
-            if time_delta > 0 and x_delta != 0:
-                x_remaining = obs2.leading_edge_x_percent - target_position_percent
-                time_to_position = int(x_remaining * time_delta / x_delta)
-                return obs2.captured_at_ms + time_to_position
-
-        return None
-
-    def predictTimeAtCameraCenter(self, trajectory: Trajectory) -> Optional[int]:
-        camera_center_reference_position = self.global_config[
-            "camera_center_reference_position"
-        ]
-        return self.predictTimeAtPosition(trajectory, camera_center_reference_position)
-
-    def getTrajectoriesToTrigger(self) -> List[Trajectory]:
-        with self.lock:
-            trajectories_to_trigger = []
-
-            for trajectory in self.active_trajectories:
-                if trajectory.lifecycle_stage != TrajectoryLifecycleStage.UNDER_CAMERA:
-                    continue
-
-                if trajectory.target_bin is not None:
-                    continue
-
-                if trajectory.shouldTriggerAction(self.global_config):
-                    trajectories_to_trigger.append(trajectory)
-
-            return trajectories_to_trigger.copy()
 
     def stepScene(self) -> None:
         with self.lock:
-            self._updateConveyorSpeed()
-            self._checkForTrajectoriesLeavingCamera()
+            self._updateDistanceReadings()
+            self.updateTrajectoryLifecycleStages()
             self._cleanupOldTrajectories()
+            self._cleanupProbablyInBinTrajectories()
             self._updateObjectCount()
 
-    def getActiveTrajectories(self) -> List[Trajectory]:
+    def getTrajectories(self) -> List[Trajectory]:
         with self.lock:
-            return self.active_trajectories.copy()
+            return self.trajectories.copy()
 
     def _findMatchingTrajectory(
         self, new_observation: Observation
@@ -144,8 +59,11 @@ class SceneTracker:
         best_trajectory = None
         best_score = 0.0
 
-        for trajectory in self.active_trajectories:
-            if trajectory.lifecycle_stage != TrajectoryLifecycleStage.UNDER_CAMERA:
+        for trajectory in self.trajectories:
+            if trajectory.lifecycle_stage not in [
+                TrajectoryLifecycleStage.ENTERED_CAMERA_VIEW,
+                TrajectoryLifecycleStage.CENTERED_UNDER_CAMERA,
+            ]:
                 continue
 
             score = trajectory.getCompatibilityScore(
@@ -158,117 +76,329 @@ class SceneTracker:
 
         return best_trajectory
 
-    def _updateConveyorSpeed(self) -> None:
+    def _updateDistanceReadings(self) -> None:
         current_time = time.time()
-        time_interval_s = current_time - self.last_speed_update_time
+        time_interval_s = current_time - self.last_distance_update_time
 
-        if time_interval_s >= 0.25:  # Update speed every 250ms minimum
+        if time_interval_s >= self.global_config["encoder_polling_delay_ms"] / 1000.0:
             pulse_count = self.encoder.getPulseCount()
 
             if pulse_count > 0:
                 revolutions = pulse_count / self.encoder.getPulsesPerRevolution()
                 distance_cm = revolutions * self.encoder.getWheelCircumferenceCm()
 
-                speed_cm_per_s = distance_cm / time_interval_s
-                self.current_speed_cm_per_ms = speed_cm_per_s / 1000
+                timestamp_ms = int(current_time * 1000)
+                self.distance_readings.append(
+                    DistanceReading(timestamp_ms, distance_cm)
+                )
+
+                if len(self.distance_readings) > self.max_distance_readings:
+                    self.distance_readings = self.distance_readings[
+                        -self.max_distance_readings :
+                    ]
 
                 self.global_config["logger"].info(
-                    f"Conveyor speed update: {pulse_count} pulses, {distance_cm:.2f}cm, {self.current_speed_cm_per_ms:.6f}cm/ms"
+                    f"Distance reading: {pulse_count} pulses, {distance_cm:.2f}cm at {timestamp_ms}ms"
                 )
 
                 self.encoder.resetPulseCount()
 
-            self.last_speed_update_time = current_time
+            self.last_distance_update_time = current_time
 
-    def _getConveyorSpeed(self) -> float:
-        return self.current_speed_cm_per_ms
+    def getDistanceTraveledSince(self, timestamp_ms: int) -> Optional[float]:
+        if not self.distance_readings:
+            return None
 
-    def _checkForTrajectoriesLeavingCamera(self) -> None:
-        TIME_SINCE_UNDER_CAMERA_THRESHOLD_MS = 2000
+        total_distance = 0.0
+        for reading in self.distance_readings:
+            if reading.timestamp_ms >= timestamp_ms:
+                total_distance += reading.distance_traveled_cm
+
+        return total_distance
+
+    def getAverageSpeed(self, duration_ms: int) -> Optional[float]:
+        if not self.distance_readings:
+            return None
+
+        current_time_ms = int(time.time() * 1000)
+        cutoff_time_ms = current_time_ms - duration_ms
+
+        total_distance = 0.0
+        actual_duration_ms = 0
+        earliest_timestamp = current_time_ms
+
+        for reading in self.distance_readings:
+            if reading.timestamp_ms >= cutoff_time_ms:
+                total_distance += reading.distance_traveled_cm
+                earliest_timestamp = min(earliest_timestamp, reading.timestamp_ms)
+
+        actual_duration_ms = current_time_ms - earliest_timestamp
+
+        if actual_duration_ms <= 0:
+            return None
+
+        return total_distance / actual_duration_ms  # cm/ms
+
+    def collapseObservationsIntoTrajectories(self) -> None:
+        if not self.observations:
+            return
+
+        # Step 1: Build new trajectories from observations (like before)
+        temp_new_trajectories = self._buildTrajectoriesFromObservations()
+
+        # Step 2: Reconcile with existing trajectories
+        final_trajectories = self._reconcileTrajectories(temp_new_trajectories)
+
+        # Step 3: Only now update the real list
+        self.trajectories = final_trajectories
+
+    def _buildTrajectoriesFromObservations(self) -> List[Trajectory]:
+        temp_trajectories = []
+        sorted_observations = sorted(
+            self.observations, key=lambda obs: obs.captured_at_ms
+        )
+
+        for observation in sorted_observations:
+            best_trajectory = None
+            best_score = 0.0
+
+            for trajectory in temp_trajectories:
+                score = trajectory.getCompatibilityScore(
+                    observation, self.global_config
+                )
+                if score > best_score:
+                    best_score = score
+                    best_trajectory = trajectory
+
+            if best_trajectory and best_score > 0.5:
+                observation.trajectory_id = best_trajectory.trajectory_id
+                best_trajectory.addObservation(observation)
+            else:
+                new_trajectory = createTrajectory(self.global_config, observation)
+                temp_trajectories.append(new_trajectory)
+
+        return temp_trajectories
+
+    def _reconcileTrajectories(
+        self, new_trajectories: List[Trajectory]
+    ) -> List[Trajectory]:
+        if not self.trajectories:
+            # No existing trajectories, just use the new ones
+            for trajectory in new_trajectories:
+                self.global_config["logger"].info(
+                    f"Created new trajectory {trajectory.trajectory_id} during collapse"
+                )
+            return new_trajectories
+
+        final_trajectories = []
+        used_existing_trajectories = set()
+
+        for new_traj in new_trajectories:
+            new_obs_ids = set(obs.observation_id for obs in new_traj.observations)
+            best_existing_match = None
+            best_overlap_ratio = 0.0
+
+            # Find the existing trajectory with the highest observation overlap
+            for existing_traj in self.trajectories:
+                if existing_traj.trajectory_id in used_existing_trajectories:
+                    continue
+
+                existing_obs_ids = set(
+                    obs.observation_id for obs in existing_traj.observations
+                )
+                overlap = len(new_obs_ids & existing_obs_ids)
+                union_size = len(new_obs_ids | existing_obs_ids)
+
+                if union_size > 0:
+                    overlap_ratio = overlap / union_size
+                    if overlap_ratio > best_overlap_ratio:
+                        best_overlap_ratio = overlap_ratio
+                        best_existing_match = existing_traj
+
+            # Decide whether to reuse existing trajectory or create new one
+            if (
+                best_existing_match and best_overlap_ratio >= 0.5
+            ):  # At least 50% overlap
+                # Reuse existing trajectory but update its observations
+                existing_obs_ids = set(
+                    obs.observation_id for obs in best_existing_match.observations
+                )
+                new_obs_ids = set(obs.observation_id for obs in new_traj.observations)
+
+                if new_obs_ids.issubset(existing_obs_ids):
+                    # New trajectory is subset - keep existing trajectory unchanged
+                    final_trajectories.append(best_existing_match)
+                    self.global_config["logger"].info(
+                        f"Keeping existing trajectory {best_existing_match.trajectory_id} (subset)"
+                    )
+                elif existing_obs_ids.issubset(new_obs_ids):
+                    # New trajectory is superset - update existing trajectory with new observations
+                    self._updateTrajectoryObservations(
+                        best_existing_match, new_traj.observations
+                    )
+                    final_trajectories.append(best_existing_match)
+                    self.global_config["logger"].info(
+                        f"Updated existing trajectory {best_existing_match.trajectory_id} with new observations"
+                    )
+                else:
+                    # Different observation sets - update existing trajectory completely
+                    self._updateTrajectoryObservations(
+                        best_existing_match, new_traj.observations
+                    )
+                    final_trajectories.append(best_existing_match)
+                    self.global_config["logger"].info(
+                        f"Updated existing trajectory {best_existing_match.trajectory_id} with different observations"
+                    )
+
+                used_existing_trajectories.add(best_existing_match.trajectory_id)
+            else:
+                # No good match found - keep as new trajectory
+                final_trajectories.append(new_traj)
+                self.global_config["logger"].info(
+                    f"Created new trajectory {new_traj.trajectory_id} during reconciliation"
+                )
+
+        # Add any existing trajectories that weren't matched (lost their observations)
+        for existing_traj in self.trajectories:
+            if existing_traj.trajectory_id not in used_existing_trajectories:
+                # This trajectory lost all its observations - keep it but log it
+                final_trajectories.append(existing_traj)
+                self.global_config["logger"].info(
+                    f"Kept orphaned trajectory {existing_traj.trajectory_id} (no observations matched)"
+                )
+
+        return final_trajectories
+
+    def _updateTrajectoryObservations(
+        self, trajectory: Trajectory, new_observations: List[Observation]
+    ) -> None:
+        # Update all observation trajectory_ids to match
+        for obs in new_observations:
+            obs.trajectory_id = trajectory.trajectory_id
+
+        # Replace observations
+        trajectory.observations = new_observations
+        trajectory.updated_at = int(time.time() * 1000)
+
+    def updateTrajectoryLifecycleStages(self) -> None:
         current_time_ms = int(time.time() * 1000)
 
-        for trajectory in self.active_trajectories:
-            if trajectory.lifecycle_stage != TrajectoryLifecycleStage.UNDER_CAMERA:
+        for trajectory in self.trajectories:
+            latest_obs = trajectory.getLatestObservation()
+            if not latest_obs:
                 continue
 
-            latest_observation = trajectory.getLatestObservation()
-            if not latest_observation:
-                continue
-
-            LEADING_EDGE_X_PERCENT_CONSIDERED_OFF_CAMERA = 0.15
             if (
-                latest_observation.leading_edge_x_percent
-                <= LEADING_EDGE_X_PERCENT_CONSIDERED_OFF_CAMERA
+                trajectory.lifecycle_stage
+                == TrajectoryLifecycleStage.ENTERED_CAMERA_VIEW
             ):
-                time_since_last_observation = (
-                    current_time_ms - latest_observation.captured_at_ms
-                )
-                if time_since_last_observation >= TIME_SINCE_UNDER_CAMERA_THRESHOLD_MS:
-                    trajectory.setLifecycleStage(TrajectoryLifecycleStage.IN_TRANSIT)
+                center_threshold = self.global_config["object_center_threshold_percent"]
+                frame_center = 0.5
+                object_center_x = latest_obs.center_x_percent
+                distance_from_center = abs(object_center_x - frame_center)
+
+                if distance_from_center <= center_threshold:
+                    trajectory.setLifecycleStage(
+                        TrajectoryLifecycleStage.CENTERED_UNDER_CAMERA
+                    )
                     self.global_config["logger"].info(
-                        f"Trajectory {trajectory.trajectory_id} left camera view, marking as in transit"
+                        f"Trajectory {trajectory.trajectory_id} centered under camera"
+                    )
+            elif (
+                trajectory.lifecycle_stage
+                == TrajectoryLifecycleStage.CENTERED_UNDER_CAMERA
+            ):
+                LEADING_EDGE_X_PERCENT_CONSIDERED_OFF_CAMERA = 0.15
+                if (
+                    latest_obs.leading_edge_x_percent
+                    <= LEADING_EDGE_X_PERCENT_CONSIDERED_OFF_CAMERA
+                ):
+                    time_since_last_observation = (
+                        current_time_ms - latest_obs.captured_at_ms
+                    )
+                    if time_since_last_observation >= 2000:
+                        trajectory.setLifecycleStage(
+                            TrajectoryLifecycleStage.IN_TRANSIT
+                        )
+                        self.global_config["logger"].info(
+                            f"Trajectory {trajectory.trajectory_id} left camera view, marking as in transit"
+                        )
+            elif trajectory.lifecycle_stage == TrajectoryLifecycleStage.DOORS_OPENED:
+                time_since_doors_opened = current_time_ms - trajectory.updated_at
+                if time_since_doors_opened >= 5000:
+                    trajectory.setLifecycleStage(
+                        TrajectoryLifecycleStage.PROBABLY_IN_BIN
+                    )
+                    self.global_config["logger"].info(
+                        f"Trajectory {trajectory.trajectory_id} probably in bin"
                     )
 
     def _cleanupOldTrajectories(self) -> None:
         current_time_ms = int(time.time() * 1000)
 
-        if len(self.active_trajectories) <= self.min_trajectories_to_keep:
+        if len(self.trajectories) <= self.min_trajectories_to_keep:
             return
 
-        self.active_trajectories = [
+        self.trajectories = [
             t
-            for t in self.active_trajectories
+            for t in self.trajectories
             if (
                 current_time_ms - t.observations[0].captured_at_ms
                 < self.max_trajectory_age_ms
-                and t.lifecycle_stage != TrajectoryLifecycleStage.DOORS_CLOSED
+                and t.lifecycle_stage != TrajectoryLifecycleStage.PROBABLY_IN_BIN
             )
         ]
 
-        if len(self.active_trajectories) < self.min_trajectories_to_keep:
+        if len(self.trajectories) < self.min_trajectories_to_keep:
             return
 
-        if len(self.active_trajectories) > self.max_trajectories:
-            self.active_trajectories.sort(
+        if len(self.trajectories) > self.max_trajectories:
+            self.trajectories.sort(
                 key=lambda t: max(obs.captured_at_ms for obs in t.observations),
                 reverse=True,
             )
-            self.active_trajectories = self.active_trajectories[: self.max_trajectories]
+            self.trajectories = self.trajectories[: self.max_trajectories]
+
+    def _cleanupProbablyInBinTrajectories(self) -> None:
+        current_time_ms = int(time.time() * 1000)
+        cleanup_age_threshold_ms = 60 * 1000
+
+        trajectories_to_remove = []
+        observation_ids_to_remove = set()
+
+        for trajectory in self.trajectories:
+            if trajectory.lifecycle_stage == TrajectoryLifecycleStage.PROBABLY_IN_BIN:
+                age_ms = current_time_ms - trajectory.created_at
+                if age_ms > cleanup_age_threshold_ms:
+                    trajectories_to_remove.append(trajectory)
+                    for obs in trajectory.observations:
+                        observation_ids_to_remove.add(obs.observation_id)
+
+        for trajectory in trajectories_to_remove:
+            self.trajectories.remove(trajectory)
+            self.global_config["logger"].info(
+                f"Cleaned up trajectory {trajectory.trajectory_id} that was probably in bin"
+            )
+        self.observations = [
+            obs
+            for obs in self.observations
+            if obs.observation_id not in observation_ids_to_remove
+        ]
+
+        if observation_ids_to_remove:
+            self.global_config["logger"].info(
+                f"Cleaned up {len(observation_ids_to_remove)} observations from probably-in-bin trajectories"
+            )
 
     def _updateObjectCount(self) -> None:
         self.objects_in_frame = self._countObjectsInFrame()
 
     def _countObjectsInFrame(self) -> int:
-        current_time_ms = int(time.time() * 1000)
-        recent_observation_threshold_ms = 2000
-
         count = 0
-        for trajectory in self.active_trajectories:
-            if trajectory.lifecycle_stage == TrajectoryLifecycleStage.UNDER_CAMERA:
-                latest_obs = trajectory.getLatestObservation()
-                if (
-                    latest_obs
-                    and (current_time_ms - latest_obs.captured_at_ms)
-                    <= recent_observation_threshold_ms
-                ):
-                    count += 1
-
+        for trajectory in self.trajectories:
+            if trajectory.lifecycle_stage in [
+                TrajectoryLifecycleStage.ENTERED_CAMERA_VIEW,
+                TrajectoryLifecycleStage.CENTERED_UNDER_CAMERA,
+            ]:
+                count += 1
         return count
-
-    def isObjectCentered(self) -> bool:
-        if not self.active_trajectories:
-            return False
-
-        center_threshold = self.global_config["object_center_threshold_percent"]
-        frame_center = 0.5
-
-        for trajectory in self.active_trajectories:
-            if trajectory.lifecycle_stage == TrajectoryLifecycleStage.UNDER_CAMERA:
-                latest_obs = trajectory.getLatestObservation()
-                if latest_obs:
-                    object_center_x = latest_obs.center_x_percent
-                    distance_from_center = abs(object_center_x - frame_center)
-                    if distance_from_center <= center_threshold:
-                        return True
-
-        return False

@@ -169,11 +169,9 @@ def connectToArduino(mc_path: str, gc: GlobalConfig) -> OurArduinoMega:
     logger = gc["logger"]
     auto_confirm = gc["auto_confirm"]
 
-    DELAY_BETWEEN_FIRMATA_COMMANDS_MS = 100
-
     try:
         logger.info(f"Attempting to connect to Arduino at {mc_path}")
-        mc = OurArduinoMega(gc, mc_path, DELAY_BETWEEN_FIRMATA_COMMANDS_MS)
+        mc = OurArduinoMega(gc, mc_path, gc["delay_between_firmata_commands_ms"])
         return mc
     except Exception as e:
         logger.error(f"Failed to connect to Arduino at {mc_path}: {e}")
@@ -196,7 +194,9 @@ def connectToArduino(mc_path: str, gc: GlobalConfig) -> OurArduinoMega:
         logger.info(f"Attempting to connect to discovered Arduino at {discovered_path}")
 
         try:
-            mc = OurArduinoMega(gc, discovered_path, DELAY_BETWEEN_FIRMATA_COMMANDS_MS)
+            mc = OurArduinoMega(
+                gc, discovered_path, gc["delay_between_firmata_commands_ms"]
+            )
             logger.info(f"Successfully connected to Arduino at {discovered_path}")
             return mc
         except Exception as discovery_error:

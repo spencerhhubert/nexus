@@ -9,7 +9,7 @@ migrate:
 db:
 	sqlite3 database.db
 conveyor:
-	./robot/run.sh --disable feeder_conveyor vibration_hopper classification -y --dump
+	./robot/run.sh --disable feeder_conveyor vibration_hopper -y --dump
 feeder:
 	./robot/run.sh --disable main_conveyor classification -y --dump --preview --use_prev_bin_state
 run:

@@ -1,10 +1,7 @@
 from fastsam import FastSAM, FastSAMPrompt  # type: ignore
-import time
 import torch
 from PIL import Image
 import numpy as np
-import os
-import cv2
 from scipy import ndimage
 from typing import List, Dict, Any, Tuple, cast
 
@@ -12,8 +9,8 @@ from robot.global_config import GlobalConfig
 
 # Parameters
 FILTERING_PARAMS = {
-    "background_threshold": 0.20,
-    "border_region_ratio": 0.1,
+    "background_threshold": 0.12,
+    "border_region_ratio": 0.15,
     "border_overlap_threshold": 0.25,
     "nested_threshold": 0.9,
     "merge_distance_px": 64 * 2,

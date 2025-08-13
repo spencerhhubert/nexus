@@ -9,7 +9,7 @@ export type SystemLifecycleStage =
 
 export type SortingState =
   | 'getting_new_object'
-  | 'object_in_view'
+  | 'waiting_for_object_to_center'
   | 'trying_to_classify'
   | 'sending_item_to_bin';
 
@@ -26,6 +26,8 @@ export interface SystemStatus {
   sorting_state: SortingState;
   objects_in_frame: number;
   conveyor_speed: number | null;
+  average_speed_1s: number | null;
+  average_speed_5s: number | null;
   motors: MotorInfo[];
 }
 

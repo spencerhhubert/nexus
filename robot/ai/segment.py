@@ -4,7 +4,6 @@ from typing import List, NamedTuple, Optional
 from robot.global_config import GlobalConfig
 from robot.ai.fast_segment_anything import _segmentFrame
 from fastsam import FastSAM  # type: ignore
-from robot.irl.camera_calibration import CameraCalibration
 
 
 class Segment(NamedTuple):

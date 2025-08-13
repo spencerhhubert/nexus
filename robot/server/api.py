@@ -197,7 +197,7 @@ class RobotAPI:
             lifecycle_stage=self.controller.system_lifecycle_stage.value,
             sorting_state=self.controller.sorting_state.value,
             objects_in_frame=self.controller.scene_tracker.objects_in_frame,
-            conveyor_speed=self.controller.scene_tracker.conveyor_velocity_cm_per_ms,
+            conveyor_speed=self.controller.scene_tracker._getConveyorSpeed(),
             motors=motors,
         )
 

@@ -44,7 +44,6 @@ class GlobalConfig(TypedDict):
     delay_for_chute_fall_ms: int
     profiling_dir_path: str
     use_prev_bin_state: Optional[str]
-    speed_estimation_border_threshold_percent: float
     overlapping_conveyor_door_windows_threshold_ms: int
     main_conveyor_speed: int
     feeder_conveyor_speed: int
@@ -132,7 +131,6 @@ def buildGlobalConfig() -> GlobalConfig:
         "delay_for_chute_fall_ms": 1000,
         "profiling_dir_path": "../profiles",
         "use_prev_bin_state": args.use_prev_bin_state,
-        "speed_estimation_border_threshold_percent": 0.05,
         "overlapping_conveyor_door_windows_threshold_ms": 5000,
         "main_conveyor_speed": 152,
         "feeder_conveyor_speed": 150,

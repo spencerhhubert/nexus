@@ -24,7 +24,6 @@ class ObservationJSON(TypedDict):
     masked_image_path: Optional[str]
     classification_file_path: Optional[str]
     classification_result: dict
-    fully_visible_for_speed_estimation: bool
 
 
 class Observation:
@@ -38,7 +37,6 @@ class Observation:
         full_frame: np.ndarray,
         masked_image: np.ndarray,
         classification_result: ClassificationResult,
-        border_threshold: float,
         captured_at_ms: int,
     ):
         self.observation_id = str(uuid.uuid4())
@@ -67,21 +65,6 @@ class Observation:
         self.masked_image_path: Optional[str] = None
         self.classification_file_path: Optional[str] = None
 
-        self.border_threshold = border_threshold
-
-        # Calculate and store visibility for speed estimation
-        left_edge = center_x - bbox_width / 2
-        right_edge = center_x + bbox_width / 2
-        top_edge = center_y - bbox_height / 2
-        bottom_edge = center_y + bbox_height / 2
-
-        self.fully_visible_for_speed_estimation = bool(
-            left_edge >= border_threshold
-            and right_edge <= (1.0 - border_threshold)
-            and top_edge >= border_threshold
-            and bottom_edge <= (1.0 - border_threshold)
-        )
-
     def toJSON(self) -> ObservationJSON:
         return ObservationJSON(
             observation_id=self.observation_id,
@@ -102,5 +85,4 @@ class Observation:
             masked_image_path=self.masked_image_path,
             classification_file_path=self.classification_file_path,
             classification_result=self.classification_result.toJSON(),
-            fully_visible_for_speed_estimation=self.fully_visible_for_speed_estimation,
         )

@@ -19,6 +19,11 @@ class OurArduinoMega(ArduinoMega):
     def sysex(self, command: int, data: List[int]) -> None:
         if self.running:
             self.command_queue.put((command, data))
+            queue_size = self.command_queue.qsize()
+            if queue_size > 10:
+                self.gc["logger"].warning(
+                    f"Firmata command queue size is large: {queue_size} commands pending"
+                )
 
     def _processCommands(self) -> None:
         while self.running:

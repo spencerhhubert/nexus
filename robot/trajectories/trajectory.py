@@ -20,8 +20,6 @@ class TrajectoryJSON(TypedDict):
     created_at: int
     updated_at: int
     observation_ids: List[str]
-    estimated_velocity_x: float
-    estimated_velocity_y: float
     consensus_classification: Optional[str]
     lifecycle_stage: str
     target_bin: Optional[Dict[str, Any]]
@@ -40,7 +38,6 @@ class Trajectory:
         self.lifecycle_stage: TrajectoryLifecycleStage = (
             TrajectoryLifecycleStage.UNDER_CAMERA
         )
-        self.velocity_cm_per_ms: Optional[float] = None
         self.target_bin: Optional[BinCoordinates] = None
 
         current_time_ms = int(time.time() * 1000)
@@ -96,10 +93,6 @@ class Trajectory:
             f"should_trigger: {should_trigger}, latest_observation.leading_edge_x_percent: {latest_observation.leading_edge_x_percent}"
         )
         return should_trigger
-
-    def setVelocity(self, velocity_cm_per_ms: float) -> None:
-        self.velocity_cm_per_ms = velocity_cm_per_ms
-        self.updated_at = int(time.time() * 1000)
 
     def setTargetBin(self, target_bin: BinCoordinates) -> None:
         self.target_bin = target_bin
@@ -220,8 +213,6 @@ class Trajectory:
             created_at=self.created_at,
             updated_at=self.updated_at,
             observation_ids=[obs.observation_id for obs in self.observations],
-            estimated_velocity_x=self.velocity_cm_per_ms or 0.0,
-            estimated_velocity_y=0.0,
             consensus_classification=self.getConsensusClassification(),
             lifecycle_stage=self.lifecycle_stage.value,
             target_bin=dict(self.target_bin) if self.target_bin else None,

@@ -104,6 +104,7 @@ class SortingController:
         self.vibration_hopper_speed = 0
 
         self.classification_start_time_ms = None
+        self.sending_to_bin_state_start_time_ms = None
 
         # Thread-safe communication with API server
         self.thread_safe_state = ThreadSafeState()
@@ -281,6 +282,7 @@ class SortingController:
                         trajectory.setSendingToBinStartTime(current_time_ms)
 
                 self.sorting_state = SortingState.SENDING_ITEM_TO_BIN
+                self.sending_to_bin_state_start_time_ms = current_time_ms
                 self.global_config["logger"].info(
                     "Classification complete, switching to SENDING_ITEM_TO_BIN"
                 )
@@ -532,6 +534,13 @@ class SortingController:
                             trajectory.sending_to_bin_start_time_ms
                         )
 
+                    if distance_traveled is None:
+                        self.global_config["logger"].warning(
+                            "Distance traveled is None - unable to determine object position"
+                        )
+
+                    print("distance traveled here", distance_traveled)
+
                     if (
                         distance_traveled is not None
                         and distance_traveled >= target_distance_cm
@@ -571,6 +580,7 @@ class SortingController:
 
                         self.sorting_state = SortingState.GETTING_NEW_OBJECT
                         self.getting_new_object_start_time = None
+                        self.sending_to_bin_state_start_time_ms = None
                         self.global_config["logger"].info(
                             f"Item sent to bin, distance traveled: {distance_traveled:.1f}cm, switching to GETTING_NEW_OBJECT"
                         )
@@ -584,12 +594,32 @@ class SortingController:
                 )
 
         if self.scene_tracker.objects_in_frame == 0:
-            self.sorting_state = SortingState.GETTING_NEW_OBJECT
-            self.getting_new_object_start_time = None
-            self.global_config["logger"].info(
-                "No objects in frame, switching to GETTING_NEW_OBJECT"
-            )
-            return
+            # Check if minimum time has elapsed
+            if (
+                self.sending_to_bin_state_start_time_ms is not None
+                and current_time_ms - self.sending_to_bin_state_start_time_ms
+                >= self.global_config["min_sending_to_bin_time_ms"]
+            ):
+                self.sorting_state = SortingState.GETTING_NEW_OBJECT
+                self.getting_new_object_start_time = None
+                self.sending_to_bin_state_start_time_ms = None
+
+                # Close all open doors
+                for _, distribution_module in enumerate(
+                    self.irl_system["distribution_modules"]
+                ):
+                    distribution_module.servo.setAngle(
+                        self.global_config["conveyor_door_closed_angle"]
+                    )
+                    for bin_obj in distribution_module.bins:
+                        bin_obj.servo.setAngle(
+                            self.global_config["bin_door_closed_angle"]
+                        )
+
+                self.global_config["logger"].info(
+                    "No objects in frame and minimum time elapsed, closing all doors and switching to GETTING_NEW_OBJECT"
+                )
+                return
 
     def _updateTrajectories(self) -> None:
         trajectories_to_update = self.scene_tracker.getTrajectories()

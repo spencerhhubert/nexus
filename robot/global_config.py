@@ -40,6 +40,7 @@ class GlobalConfig(TypedDict):
     conveyor_door_close_delay_ms: int
     bin_door_close_delay_ms: int
     conveyor_door_gradual_close_duration_ms: int
+    min_sending_to_bin_time_ms: int
     profiling_dir_path: str
     use_prev_bin_state: Optional[str]
 
@@ -128,6 +129,7 @@ def buildGlobalConfig() -> GlobalConfig:
         "conveyor_door_close_delay_ms": 0,
         "bin_door_close_delay_ms": 1000,
         "conveyor_door_gradual_close_duration_ms": 500,
+        "min_sending_to_bin_time_ms": 3000,
         "profiling_dir_path": "../profiles",
         "use_prev_bin_state": args.use_prev_bin_state,
         "main_conveyor_speed": 148,

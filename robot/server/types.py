@@ -15,7 +15,7 @@ class SystemLifecycleStage(Enum):
 
 class SortingState(Enum):
     GETTING_NEW_OBJECT = "getting_new_object"
-    OBJECT_IN_VIEW = "object_in_view"
+    WAITING_FOR_OBJECT_TO_CENTER = "waiting_for_object_to_center"
     TRYING_TO_CLASSIFY = "trying_to_classify"
     SENDING_ITEM_TO_BIN = "sending_item_to_bin"
 
@@ -33,6 +33,8 @@ class SystemStatus(TypedDict):
     sorting_state: str
     objects_in_frame: int
     conveyor_speed: Optional[float]
+    average_speed_1s: Optional[float]
+    average_speed_5s: Optional[float]
     motors: List[MotorInfo]
 
 

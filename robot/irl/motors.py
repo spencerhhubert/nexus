@@ -196,7 +196,7 @@ class Encoder:
             try:
                 # Request current encoder position from Arduino via sysex
                 self.dev.sysex(0x50, [0x02])  # ENCODER_READ command
-                time.sleep(0.25)  # Poll every 250ms for position updates
+                time.sleep(self.gc["encoder_polling_delay_ms"] / 1000.0)
             except Exception as e:
                 self.gc["logger"].error(f"Encoder polling error: {e}")
                 time.sleep(0.1)

@@ -9,10 +9,12 @@ from robot.bin_state_tracker import BinCoordinates
 
 
 class TrajectoryLifecycleStage(Enum):
-    UNDER_CAMERA = "under_camera"
+    ENTERED_CAMERA_VIEW = "entered_camera_view"
+    CENTERED_UNDER_CAMERA = "centered_under_camera"
+    OFF_CAMERA = "off_camera"
     IN_TRANSIT = "in_transit"
-    DOORS_OPEN = "doors_open"
-    DOORS_CLOSED = "doors_closed"
+    DOORS_OPENED = "doors_opened"
+    PROBABLY_IN_BIN = "probably_in_bin"
 
 
 class TrajectoryJSON(TypedDict):
@@ -36,9 +38,10 @@ class Trajectory:
         self.trajectory_id = trajectory_id
         self.observations: List[Observation] = [initial_observation]
         self.lifecycle_stage: TrajectoryLifecycleStage = (
-            TrajectoryLifecycleStage.UNDER_CAMERA
+            TrajectoryLifecycleStage.ENTERED_CAMERA_VIEW
         )
         self.target_bin: Optional[BinCoordinates] = None
+        self.sending_to_bin_start_time_ms: Optional[int] = None
 
         current_time_ms = int(time.time() * 1000)
         self.created_at = current_time_ms
@@ -79,23 +82,12 @@ class Trajectory:
 
         return max(classification_counts.keys(), key=lambda k: classification_counts[k])
 
-    def shouldTriggerAction(self, global_config: GlobalConfig) -> bool:
-        leading_edge_trigger_position = global_config["leading_edge_trigger_position"]
-
-        latest_observation = self.getLatestObservation()
-        if not latest_observation:
-            return False
-
-        should_trigger = (
-            latest_observation.leading_edge_x_percent <= leading_edge_trigger_position
-        )
-        global_config["logger"].info(
-            f"should_trigger: {should_trigger}, latest_observation.leading_edge_x_percent: {latest_observation.leading_edge_x_percent}"
-        )
-        return should_trigger
-
     def setTargetBin(self, target_bin: BinCoordinates) -> None:
         self.target_bin = target_bin
+        self.updated_at = int(time.time() * 1000)
+
+    def setSendingToBinStartTime(self, timestamp_ms: int) -> None:
+        self.sending_to_bin_start_time_ms = timestamp_ms
         self.updated_at = int(time.time() * 1000)
 
     def _calculateSpatialDistance(self, obs: Observation) -> float:

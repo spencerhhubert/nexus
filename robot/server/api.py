@@ -31,7 +31,6 @@ class RobotAPI:
         self.active_websockets: List[WebSocket] = []
         self.last_camera_frame_timestamp = 0.0
 
-        # Add CORS middleware
         self.app.add_middleware(
             CORSMiddleware,
             allow_origins=["http://localhost:5173"],
@@ -133,7 +132,6 @@ class RobotAPI:
     def _stop_system(self):
         if self.controller.system_lifecycle_stage == SystemLifecycleStage.RUNNING:
             self.controller.system_lifecycle_stage = SystemLifecycleStage.PAUSED_BY_USER
-            # Stop all motors when pausing
             self.controller.irl_system["main_conveyor_dc_motor"].setSpeed(0)
             self.controller.irl_system["feeder_conveyor_dc_motor"].setSpeed(0)
             self.controller.irl_system["vibration_hopper_dc_motor"].setSpeed(0)
@@ -193,11 +191,16 @@ class RobotAPI:
             ),
         ]
 
+        average_speed_1s = self.controller.scene_tracker.getAverageSpeed(1000)
+        average_speed_5s = self.controller.scene_tracker.getAverageSpeed(5000)
+
         status = SystemStatus(
             lifecycle_stage=self.controller.system_lifecycle_stage.value,
             sorting_state=self.controller.sorting_state.value,
             objects_in_frame=self.controller.scene_tracker.objects_in_frame,
-            conveyor_speed=self.controller.scene_tracker._getConveyorSpeed(),
+            conveyor_speed=average_speed_1s,
+            average_speed_1s=average_speed_1s,
+            average_speed_5s=average_speed_5s,
             motors=motors,
         )
 
@@ -225,7 +228,7 @@ class RobotAPI:
     async def _periodicBroadcast(self):
         while True:
             try:
-                await asyncio.sleep(1 / 30)  # 30fps for camera frames
+                await asyncio.sleep(1 / 30)
                 if self.active_websockets:
                     await self._checkAndBroadcastCameraFrame()
 

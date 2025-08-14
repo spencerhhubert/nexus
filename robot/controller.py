@@ -38,7 +38,7 @@ from robot.bin_state_tracker import (
     BinState,
     binCoordinatesToKey,
 )
-from robot.door_scheduler import DoorScheduler
+
 
 from robot.async_profiling import (
     AsyncFrameProfilingRecord,
@@ -83,10 +83,6 @@ class SortingController:
             f"Using bin state ID: {self.bin_state_tracker.current_bin_state_id}"
         )
 
-        self.door_scheduler = DoorScheduler(
-            self.global_config, self.irl_system["distribution_modules"]
-        )
-
         self.scene_tracker = SceneTracker(
             self.global_config,
             self.irl_system["conveyor_encoder"],
@@ -101,11 +97,13 @@ class SortingController:
         self.frame_processor_pool = concurrent.futures.ThreadPoolExecutor(
             max_workers=self.max_worker_threads, thread_name_prefix="frame_processor"
         )
-        self.active_futures: List[concurrent.futures.Future] = []
+        self.frame_processing_futures: List[concurrent.futures.Future] = []
 
         self.main_conveyor_speed = 0
         self.feeder_conveyor_speed = 0
         self.vibration_hopper_speed = 0
+
+        self.classification_start_time_ms = None
 
         # Thread-safe communication with API server
         self.thread_safe_state = ThreadSafeState()
@@ -150,9 +148,17 @@ class SortingController:
                 try:
                     tick_start_time_ms = time.time() * 1000
 
+                    cleanup_start_ms = time.time() * 1000
+                    self._cleanupCompletedFutures()
+                    cleanup_duration_ms = time.time() * 1000 - cleanup_start_ms
+
                     if self.system_lifecycle_stage == SystemLifecycleStage.RUNNING:
                         self._updateSortingStateMachine()
-                        self._submitFrameForProcessing()
+                        if self.sorting_state in [
+                            SortingState.GETTING_NEW_OBJECT,
+                            SortingState.WAITING_FOR_OBJECT_TO_CENTER,
+                        ]:
+                            self._submitFrameForProcessing()
 
                     update_start_ms = time.time() * 1000
                     self._updateTrajectories()
@@ -162,22 +168,14 @@ class SortingController:
                     self.scene_tracker.stepScene()
                     step_duration_ms = time.time() * 1000 - step_start_ms
 
-                    trigger_start_ms = time.time() * 1000
-                    self._scheduleDoorTriggersForTrajectories()
-                    trigger_duration_ms = time.time() * 1000 - trigger_start_ms
-
-                    cleanup_start_ms = time.time() * 1000
-                    self._cleanupCompletedFutures()
-                    cleanup_duration_ms = time.time() * 1000 - cleanup_start_ms
-
                     tick_duration_ms = time.time() * 1000 - tick_start_time_ms
-                    active_futures_count = len(self.active_futures)
+                    frame_processing_futures_count = len(self.frame_processing_futures)
 
                     if self.global_config["enable_profiling"] and tick_count % 20 == 0:
                         printAggregateProfilingReport(20)
 
                     self.global_config["logger"].info(
-                        f"Main tick [{self.sorting_state.value}]: {tick_duration_ms:.1f}ms (update: {update_duration_ms:.1f}ms, step: {step_duration_ms:.1f}ms, trigger: {trigger_duration_ms:.1f}ms, cleanup: {cleanup_duration_ms:.1f}ms, queue: {active_futures_count}/{self.max_queue_size}, objects: {self.scene_tracker.objects_in_frame})"
+                        f"Main tick [{self.sorting_state.value}]: {tick_duration_ms:.1f}ms (update: {update_duration_ms:.1f}ms, step: {step_duration_ms:.1f}ms, cleanup: {cleanup_duration_ms:.1f}ms, queue: {frame_processing_futures_count}/{self.max_queue_size}, objects: {self.scene_tracker.objects_in_frame})"
                     )
 
                     tick_count += 1
@@ -200,11 +198,20 @@ class SortingController:
             self._shutdownFrameProcessor()
 
     def _updateSortingStateMachine(self) -> None:
+        self.global_config["logger"].info(
+            f"Updating sorting state machine - current state: {self.sorting_state.value}"
+        )
         current_time_ms = int(time.time() * 1000)
 
         if self.sorting_state == SortingState.GETTING_NEW_OBJECT:
             if self.getting_new_object_start_time is None:
                 self.getting_new_object_start_time = current_time_ms
+                self._setMotorSpeeds(
+                    main_conveyor=self.global_config["main_conveyor_speed"] + 10,
+                    feeder_conveyor=0,
+                    vibration_hopper=0,
+                )
+                time.sleep(3)
                 self._setMotorSpeeds(
                     main_conveyor=self.global_config["main_conveyor_speed"],
                     feeder_conveyor=self.global_config["feeder_conveyor_speed"],
@@ -213,9 +220,9 @@ class SortingController:
                 self.global_config["logger"].info("Started motors to get new object")
 
             if self.scene_tracker.objects_in_frame > 0:
-                self.sorting_state = SortingState.OBJECT_IN_VIEW
+                self.sorting_state = SortingState.WAITING_FOR_OBJECT_TO_CENTER
                 self.global_config["logger"].info(
-                    "Object detected, switching to OBJECT_IN_VIEW"
+                    "Object detected, switching to WAITING_FOR_OBJECT_TO_CENTER"
                 )
                 return
 
@@ -228,16 +235,21 @@ class SortingController:
                 self._setMotorSpeeds(0, 0, 0)
                 return
 
-        elif self.sorting_state == SortingState.OBJECT_IN_VIEW:
-            # Stop feeder motors, keep main conveyor running
+        elif self.sorting_state == SortingState.WAITING_FOR_OBJECT_TO_CENTER:
             self._setMotorSpeeds(
                 main_conveyor=self.global_config["main_conveyor_speed"],
                 feeder_conveyor=0,
                 vibration_hopper=0,
             )
 
-            if self.scene_tracker.isObjectCentered():
+            centered_trajectories = [
+                t
+                for t in self.scene_tracker.getTrajectories()
+                if t.lifecycle_stage == TrajectoryLifecycleStage.CENTERED_UNDER_CAMERA
+            ]
+            if centered_trajectories:
                 self.sorting_state = SortingState.TRYING_TO_CLASSIFY
+                self.classification_start_time_ms = current_time_ms
                 self._setMotorSpeeds(
                     main_conveyor=0, feeder_conveyor=0, vibration_hopper=0
                 )
@@ -247,58 +259,81 @@ class SortingController:
                 return
 
         elif self.sorting_state == SortingState.TRYING_TO_CLASSIFY:
-            # Motors should be stopped, wait for classification to complete
-            # Check if we have trajectories ready to trigger (handled in _scheduleDoorTriggersForTrajectories)
-            # If no trajectories after some time, go back to getting new object
-            if self.scene_tracker.objects_in_frame == 0:
+            active_classification_threads = len(self.frame_processing_futures)
+            centered_trajectories = [
+                t
+                for t in self.scene_tracker.getTrajectories()
+                if t.lifecycle_stage
+                in [
+                    TrajectoryLifecycleStage.CENTERED_UNDER_CAMERA,
+                    TrajectoryLifecycleStage.OFF_CAMERA,
+                ]
+            ]
+
+            has_classified_trajectory = any(
+                t.getConsensusClassification() is not None
+                for t in centered_trajectories
+            )
+
+            if has_classified_trajectory and active_classification_threads == 0:
+                for trajectory in centered_trajectories:
+                    if trajectory.getConsensusClassification() is not None:
+                        trajectory.setSendingToBinStartTime(current_time_ms)
+
+                self.sorting_state = SortingState.SENDING_ITEM_TO_BIN
+                self.global_config["logger"].info(
+                    "Classification complete, switching to SENDING_ITEM_TO_BIN"
+                )
+                return
+
+            if self.classification_start_time_ms:
+                time_since_classification_start = (
+                    current_time_ms - self.classification_start_time_ms
+                )
+                if (
+                    time_since_classification_start
+                    > self.global_config["classification_timeout_ms"]
+                ):
+                    self.global_config["logger"].info(
+                        "Classification timeout, switching to GETTING_NEW_OBJECT"
+                    )
+                    self.sorting_state = SortingState.GETTING_NEW_OBJECT
+                    self.getting_new_object_start_time = None
+                    self.classification_start_time_ms = None
+                    return
+
+            if (
+                self.scene_tracker.objects_in_frame == 0
+                and active_classification_threads == 0
+            ):
                 self.sorting_state = SortingState.GETTING_NEW_OBJECT
                 self.getting_new_object_start_time = None
+                self.classification_start_time_ms = None
                 self.global_config["logger"].info(
                     "No objects to classify, switching to GETTING_NEW_OBJECT"
                 )
                 return
 
         elif self.sorting_state == SortingState.SENDING_ITEM_TO_BIN:
-            # Keep main conveyor running for door scheduling
-            self._setMotorSpeeds(
-                main_conveyor=self.global_config["main_conveyor_speed"],
-                feeder_conveyor=0,
-                vibration_hopper=0,
-            )
-
-            # Check if all trajectories have been processed and no more objects in frame
-            active_trajectories = self.scene_tracker.getActiveTrajectories()
-            trajectories_under_camera = [
-                t
-                for t in active_trajectories
-                if t.lifecycle_stage == TrajectoryLifecycleStage.UNDER_CAMERA
-            ]
-
-            if (
-                len(trajectories_under_camera) == 0
-                and self.scene_tracker.objects_in_frame == 0
-            ):
-                self.sorting_state = SortingState.GETTING_NEW_OBJECT
-                self.getting_new_object_start_time = None
-                self.global_config["logger"].info(
-                    "Item sent, switching to GETTING_NEW_OBJECT"
-                )
-                return
+            self._handleSendingItemToBin(current_time_ms)
 
     def _setMotorSpeeds(
         self, main_conveyor: int, feeder_conveyor: int, vibration_hopper: int
     ) -> None:
-        # Track speeds
-        self.main_conveyor_speed = main_conveyor
-        self.feeder_conveyor_speed = feeder_conveyor
-        self.vibration_hopper_speed = vibration_hopper
+        if self.main_conveyor_speed != main_conveyor:
+            self.main_conveyor_speed = main_conveyor
+            if not self.global_config["disable_main_conveyor"]:
+                self.irl_system["main_conveyor_dc_motor"].setSpeed(main_conveyor)
 
-        if not self.global_config["disable_main_conveyor"]:
-            self.irl_system["main_conveyor_dc_motor"].setSpeed(main_conveyor)
-        if not self.global_config["disable_feeder_conveyor"]:
-            self.irl_system["feeder_conveyor_dc_motor"].setSpeed(feeder_conveyor)
-        if not self.global_config["disable_vibration_hopper"]:
-            self.irl_system["vibration_hopper_dc_motor"].setSpeed(vibration_hopper)
+        if self.feeder_conveyor_speed != feeder_conveyor:
+            self.feeder_conveyor_speed = feeder_conveyor
+            if not self.global_config["disable_feeder_conveyor"]:
+                self.irl_system["feeder_conveyor_dc_motor"].setSpeed(feeder_conveyor)
+
+        if self.vibration_hopper_speed != vibration_hopper:
+            self.vibration_hopper_speed = vibration_hopper
+            if not self.global_config["disable_vibration_hopper"]:
+                self.irl_system["vibration_hopper_dc_motor"].setSpeed(vibration_hopper)
 
     def _submitFrameForProcessing(self) -> None:
         captured_at_ms = int(time.time() * 1000)
@@ -307,27 +342,24 @@ class SortingController:
             return
 
         if self.global_config["camera_preview"]:
-            # Resize frame for display (480p)
             display_frame = cv2.resize(frame, (854, 480))
             cv2.imshow("Camera Feed", display_frame)
             cv2.waitKey(1)
 
         self.thread_safe_state.set("latest_camera_frame", frame)
 
-        # Check if we have too many queued frames
-        if len(self.active_futures) >= self.max_queue_size:
+        if len(self.frame_processing_futures) >= self.max_queue_size:
             self.global_config["logger"].info(
-                f"Frame queue full ({len(self.active_futures)}/{self.max_queue_size}), dropping frame"
+                f"Frame queue full ({len(self.frame_processing_futures)}/{self.max_queue_size}), dropping frame"
             )
             return
 
         profiling_record = createFrameProfilingRecord()
 
-        # Submit frame for processing
         future = self.frame_processor_pool.submit(
             self._processFrame, frame.copy(), profiling_record, captured_at_ms
         )
-        self.active_futures.append(future)
+        self.frame_processing_futures.append(future)
 
     def _processFrame(
         self,
@@ -341,7 +373,6 @@ class SortingController:
             completeFrameProcessing(profiling_record)
             return
 
-        # Segmentation
         segmentation_start_ms = time.time() * 1000
         segments = segmentFrame(frame, self.segmentation_model, self.global_config)
         segmentation_duration_ms = (time.time() * 1000) - segmentation_start_ms
@@ -356,7 +387,7 @@ class SortingController:
                 continue
 
             classification_start_ms = time.time() * 1000
-            classification_result = self.sorter.classifySegment(masked_image)
+            classification_result = self.sorter.classifySegment(frame)
             classification_duration_ms = (time.time() * 1000) - classification_start_ms
 
             profiling_record["classification_total_duration_ms"] += (
@@ -396,8 +427,172 @@ class SortingController:
 
         completeFrameProcessing(profiling_record)
 
+    def _handleSendingItemToBin(self, current_time_ms: int) -> None:
+        classified_trajectories = [
+            t
+            for t in self.scene_tracker.getTrajectories()
+            if (
+                t.getConsensusClassification() is not None
+                and t.lifecycle_stage
+                in [
+                    TrajectoryLifecycleStage.CENTERED_UNDER_CAMERA,
+                    TrajectoryLifecycleStage.OFF_CAMERA,
+                ]
+            )
+        ]
+
+        if classified_trajectories:
+            trajectory = classified_trajectories[0]
+            consensus_item_id = trajectory.getConsensusClassification()
+
+            if consensus_item_id and not self.global_config["disable_classification"]:
+                # One-time setup: find bin, open doors, reserve bin, set start time
+                if trajectory.target_bin is None:
+                    category_id = self.sorter.sorting_profile.getCategoryId(
+                        consensus_item_id
+                    )
+                    target_bin = None
+
+                    if category_id:
+                        target_bin = self.bin_state_tracker.findAvailableBin(
+                            category_id
+                        )
+                        if target_bin:
+                            target_key = binCoordinatesToKey(target_bin)
+                            current_bin_category = (
+                                self.bin_state_tracker.current_state.get(target_key)
+                            )
+                            if (
+                                current_bin_category
+                                == self.bin_state_tracker.fallback_category_id
+                            ):
+                                category_id = (
+                                    self.bin_state_tracker.fallback_category_id
+                                )
+                    else:
+                        target_bin = self.bin_state_tracker.findAvailableBin(
+                            self.bin_state_tracker.misc_category_id
+                        )
+                        category_id = self.bin_state_tracker.misc_category_id
+
+                    if target_bin:
+                        # Open doors immediately
+                        dm_idx = target_bin["distribution_module_idx"]
+                        bin_idx = target_bin["bin_idx"]
+
+                        conveyor_servo = self.irl_system["distribution_modules"][
+                            dm_idx
+                        ].servo
+                        bin_servo = (
+                            self.irl_system["distribution_modules"][dm_idx]
+                            .bins[bin_idx]
+                            .servo
+                        )
+
+                        conveyor_servo.setAngle(
+                            self.global_config["conveyor_door_open_angle"]
+                        )
+                        bin_servo.setAngle(self.global_config["bin_door_open_angle"])
+
+                        # Set up trajectory tracking
+                        trajectory.setSendingToBinStartTime(current_time_ms)
+                        trajectory.setTargetBin(target_bin)
+                        self.bin_state_tracker.reserveBin(target_bin, category_id)
+
+                        self.global_config["logger"].info(
+                            f"Set up bin {target_bin} for trajectory {trajectory.trajectory_id}"
+                        )
+                    else:
+                        self.global_config["logger"].warning(
+                            "No available bins, moving to GETTING_NEW_OBJECT"
+                        )
+                        self.sorting_state = SortingState.GETTING_NEW_OBJECT
+                        self.getting_new_object_start_time = None
+                        return
+
+                # Continue with existing target bin
+                if trajectory.target_bin is not None:
+                    target_bin = trajectory.target_bin
+                    dm_idx = target_bin["distribution_module_idx"]
+                    bin_idx = target_bin["bin_idx"]
+
+                    self._setMotorSpeeds(
+                        main_conveyor=self.global_config["main_conveyor_speed"],
+                        feeder_conveyor=0,
+                        vibration_hopper=0,
+                    )
+
+                    # Check if we've traveled far enough
+                    target_distance_cm = self.irl_system["distribution_modules"][
+                        dm_idx
+                    ].distance_from_camera_center_to_door_begin_cm
+                    distance_traveled = None
+                    if trajectory.sending_to_bin_start_time_ms is not None:
+                        distance_traveled = self.scene_tracker.getDistanceTraveledSince(
+                            trajectory.sending_to_bin_start_time_ms
+                        )
+
+                    if (
+                        distance_traveled is not None
+                        and distance_traveled >= target_distance_cm
+                    ):
+                        conveyor_servo = self.irl_system["distribution_modules"][
+                            dm_idx
+                        ].servo
+                        bin_servo = (
+                            self.irl_system["distribution_modules"][dm_idx]
+                            .bins[bin_idx]
+                            .servo
+                        )
+
+                        # Close conveyor door first, then bin door with separate timing
+                        time.sleep(
+                            self.global_config["conveyor_door_close_delay_ms"] / 1000.0
+                        )
+                        conveyor_servo.setAngle(
+                            self.global_config["conveyor_door_closed_angle"],
+                            self.global_config[
+                                "conveyor_door_gradual_close_duration_ms"
+                            ],
+                        )
+                        self.global_config["logger"].info(
+                            "Conveyor door closing gradually"
+                        )
+
+                        time.sleep(
+                            self.global_config["bin_door_close_delay_ms"] / 1000.0
+                        )
+                        bin_servo.setAngle(self.global_config["bin_door_closed_angle"])
+                        self.global_config["logger"].info("Bin door closed")
+
+                        trajectory.setLifecycleStage(
+                            TrajectoryLifecycleStage.PROBABLY_IN_BIN
+                        )
+
+                        self.sorting_state = SortingState.GETTING_NEW_OBJECT
+                        self.getting_new_object_start_time = None
+                        self.global_config["logger"].info(
+                            f"Item sent to bin, distance traveled: {distance_traveled:.1f}cm, switching to GETTING_NEW_OBJECT"
+                        )
+                        return
+            else:
+                # No classification or classification disabled, just run conveyor
+                self._setMotorSpeeds(
+                    main_conveyor=self.global_config["main_conveyor_speed"],
+                    feeder_conveyor=0,
+                    vibration_hopper=0,
+                )
+
+        if self.scene_tracker.objects_in_frame == 0:
+            self.sorting_state = SortingState.GETTING_NEW_OBJECT
+            self.getting_new_object_start_time = None
+            self.global_config["logger"].info(
+                "No objects in frame, switching to GETTING_NEW_OBJECT"
+            )
+            return
+
     def _updateTrajectories(self) -> None:
-        trajectories_to_update = self.scene_tracker.getActiveTrajectories()
+        trajectories_to_update = self.scene_tracker.getTrajectories()
 
         for trajectory in trajectories_to_update:
             try:
@@ -407,137 +602,27 @@ class SortingController:
                     f"Failed to save trajectory {trajectory.trajectory_id}: {e}"
                 )
 
-    def _scheduleDoorTriggersForTrajectories(self) -> None:
-        # Skip door triggers if classification is disabled
-        if self.global_config["disable_classification"]:
-            return
-
-        trajectories_to_trigger = self.scene_tracker.getTrajectoriesToTrigger()
-
-        # If we have trajectories to trigger and we're in TRYING_TO_CLASSIFY, switch to SENDING_ITEM_TO_BIN
-        if (
-            trajectories_to_trigger
-            and self.sorting_state == SortingState.TRYING_TO_CLASSIFY
-        ):
-            self.sorting_state = SortingState.SENDING_ITEM_TO_BIN
-            self.global_config["logger"].info(
-                "Trajectories ready to trigger, switching to SENDING_ITEM_TO_BIN"
-            )
-
-        # Only schedule door triggers when in SENDING_ITEM_TO_BIN state
-        if self.sorting_state != SortingState.SENDING_ITEM_TO_BIN:
-            return
-
-        for trajectory in trajectories_to_trigger:
-            consensus_item_id = trajectory.getConsensusClassification()
-            if not consensus_item_id:
-                continue
-
-            category_id = self.sorter.sorting_profile.getCategoryId(consensus_item_id)
-            target_bin = None
-
-            if category_id:
-                target_bin = self.bin_state_tracker.findAvailableBin(category_id)
-
-                # Check if we got the fallback bin for overflow categorized items
-                if target_bin:
-                    target_key = binCoordinatesToKey(target_bin)
-                    current_bin_category = self.bin_state_tracker.current_state.get(
-                        target_key
-                    )
-                    if (
-                        current_bin_category
-                        == self.bin_state_tracker.fallback_category_id
-                    ):
-                        self.global_config["logger"].info(
-                            f"No available bin for category '{category_id}', using fallback bin for trajectory {trajectory.trajectory_id}"
-                        )
-                        category_id = self.bin_state_tracker.fallback_category_id
-            else:
-                self.global_config["logger"].info(
-                    f"Unknown item '{consensus_item_id}', using misc bin for trajectory {trajectory.trajectory_id}"
-                )
-                target_bin = self.bin_state_tracker.findAvailableBin(
-                    self.bin_state_tracker.misc_category_id
-                )
-                category_id = self.bin_state_tracker.misc_category_id
-
-            if not target_bin:
-                self.global_config["logger"].warning(
-                    f"No available bins (including misc and fallback) for trajectory {trajectory.trajectory_id}"
-                )
-                continue
-
-            delay_ms = self._calculateDoorDelay(trajectory, target_bin)
-            if delay_ms is None:
-                self.global_config["logger"].info(
-                    f"Cannot schedule action for trajectory {trajectory.trajectory_id}"
-                )
-                continue
-
-            trajectory.setTargetBin(target_bin)
-            self.door_scheduler.scheduleDoorAction(target_bin, delay_ms)
-            self.bin_state_tracker.reserveBin(target_bin, category_id)
-
-            self.global_config["logger"].info(
-                f"Scheduled action for trajectory {trajectory.trajectory_id} -> bin {target_bin} with delay {delay_ms}ms"
-            )
-
-    def _calculateDoorDelay(
-        self, trajectory: Trajectory, target_bin: BinCoordinates
-    ) -> Optional[int]:
-        if target_bin["distribution_module_idx"] >= len(
-            self.irl_system["distribution_modules"]
-        ):
-            self.global_config["logger"].info(
-                f"Invalid target bin distribution_module_idx {target_bin['distribution_module_idx']}"
-            )
-            return None
-
-        # Get when trajectory was at camera center
-        time_at_center_ms = self.scene_tracker.predictTimeAtCameraCenter(trajectory)
-        if time_at_center_ms is None:
-            self.global_config["logger"].info(
-                "Could not predict time at camera center for trajectory"
-            )
-            return None
-
-        # Get distance from camera center to door beginning
-        target_distance_cm = self.irl_system["distribution_modules"][
-            target_bin["distribution_module_idx"]
-        ].distance_from_camera_center_to_door_begin_cm
-
-        travel_time_ms = self.scene_tracker.calculateTravelTime(target_distance_cm)
-        if travel_time_ms is None:
-            self.global_config["logger"].info("Could not calculate travel time")
-            return None
-
-        # Calculate delay: time for object to travel from center to door, minus time already elapsed since center
-        current_time_ms = int(time.time() * 1000)
-        time_since_center_ms = current_time_ms - time_at_center_ms
-        delay_ms = int(travel_time_ms) - time_since_center_ms
-
-        return max(0, delay_ms)
-
     def _cleanupCompletedFutures(self) -> None:
-        completed_futures = [f for f in self.active_futures if f.done()]
+        completed_futures = [f for f in self.frame_processing_futures if f.done()]
 
         for future in completed_futures:
             try:
-                future.result()  # This will raise any exceptions that occurred
+                future.result()
             except Exception as e:
                 self.global_config["logger"].error(f"Frame processing error: {e}")
 
-        self.active_futures = [f for f in self.active_futures if not f.done()]
+        self.frame_processing_futures = [
+            f for f in self.frame_processing_futures if not f.done()
+        ]
 
     def _shutdownFrameProcessor(self) -> None:
         self.global_config["logger"].info("Shutting down frame processor...")
 
-        if self.active_futures:
+        if self.frame_processing_futures:
             self.global_config["logger"].info(
-                f"Waiting for {len(self.active_futures)} frames to complete..."
+                f"Waiting for {len(self.frame_processing_futures)} frames to complete..."
             )
-            concurrent.futures.wait(self.active_futures, timeout=10.0)
+            concurrent.futures.wait(self.frame_processing_futures, timeout=10.0)
 
         self.frame_processor_pool.shutdown(wait=True)
 

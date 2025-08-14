@@ -80,7 +80,7 @@ def buildIRLConfig() -> IRLConfig:
             # "height": 1080,
             "width": 3840,
             "height": 2160,
-            "fps": 10,
+            "fps": 5,
         },
         "distribution_modules": [
             {

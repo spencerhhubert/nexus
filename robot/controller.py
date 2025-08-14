@@ -152,9 +152,17 @@ class SortingController:
                 try:
                     tick_start_time_ms = time.time() * 1000
 
+                    cleanup_start_ms = time.time() * 1000
+                    self._cleanupCompletedFutures()
+                    cleanup_duration_ms = time.time() * 1000 - cleanup_start_ms
+
                     if self.system_lifecycle_stage == SystemLifecycleStage.RUNNING:
                         self._updateSortingStateMachine()
-                        self._submitFrameForProcessing()
+                        if self.sorting_state in [
+                            SortingState.GETTING_NEW_OBJECT,
+                            SortingState.WAITING_FOR_OBJECT_TO_CENTER,
+                        ]:
+                            self._submitFrameForProcessing()
 
                     update_start_ms = time.time() * 1000
                     self._updateTrajectories()
@@ -163,10 +171,6 @@ class SortingController:
                     step_start_ms = time.time() * 1000
                     self.scene_tracker.stepScene()
                     step_duration_ms = time.time() * 1000 - step_start_ms
-
-                    cleanup_start_ms = time.time() * 1000
-                    self._cleanupCompletedFutures()
-                    cleanup_duration_ms = time.time() * 1000 - cleanup_start_ms
 
                     tick_duration_ms = time.time() * 1000 - tick_start_time_ms
                     frame_processing_futures_count = len(self.frame_processing_futures)
@@ -203,6 +207,12 @@ class SortingController:
         if self.sorting_state == SortingState.GETTING_NEW_OBJECT:
             if self.getting_new_object_start_time is None:
                 self.getting_new_object_start_time = current_time_ms
+                self._setMotorSpeeds(
+                    main_conveyor=self.global_config["main_conveyor_speed"] + 10,
+                    feeder_conveyor=self.global_config["feeder_conveyor_speed"],
+                    vibration_hopper=self.global_config["vibration_hopper_speed"],
+                )
+                time.sleep(5)
                 self._setMotorSpeeds(
                     main_conveyor=self.global_config["main_conveyor_speed"],
                     feeder_conveyor=self.global_config["feeder_conveyor_speed"],
@@ -262,6 +272,19 @@ class SortingController:
                 for t in centered_trajectories
             )
 
+            # Debug print trajectories
+            self.global_config["logger"].info(
+                f"Debug trajectories - Total: {len(centered_trajectories)}"
+            )
+            for i, trajectory in enumerate(centered_trajectories):
+                consensus = trajectory.getConsensusClassification()
+                self.global_config["logger"].info(
+                    f"  Trajectory {i}: ID={trajectory.trajectory_id}, "
+                    f"stage={trajectory.lifecycle_stage.value if trajectory.lifecycle_stage else 'None'}, "
+                    f"classification={consensus}, "
+                    f"observations={len(trajectory.observations)}"
+                )
+
             if has_classified_trajectory and active_classification_threads == 0:
                 for trajectory in centered_trajectories:
                     if trajectory.getConsensusClassification() is not None:
@@ -300,11 +323,18 @@ class SortingController:
 
         elif self.sorting_state == SortingState.SENDING_ITEM_TO_BIN:
             self._setMotorSpeeds(
-                main_conveyor=self.global_config["main_conveyor_speed"],
-                feeder_conveyor=0,
-                vibration_hopper=0,
+                main_conveyor=self.global_config["main_conveyor_speed"] + 10,
+                feeder_conveyor=self.global_config["feeder_conveyor_speed"],
+                vibration_hopper=self.global_config["vibration_hopper_speed"],
             )
+            # time.sleep(5)
+            # self._setMotorSpeeds(
+            #     main_conveyor=self.global_config["main_conveyor_speed"],
+            #     feeder_conveyor=0,
+            #     vibration_hopper=0,
+            # )
 
+            print("here000", self.global_config["disable_classification"])
             if not self.global_config["disable_classification"]:
                 self._handleDoorScheduling(current_time_ms)
 
@@ -319,16 +349,20 @@ class SortingController:
     def _setMotorSpeeds(
         self, main_conveyor: int, feeder_conveyor: int, vibration_hopper: int
     ) -> None:
-        self.main_conveyor_speed = main_conveyor
-        self.feeder_conveyor_speed = feeder_conveyor
-        self.vibration_hopper_speed = vibration_hopper
+        if self.main_conveyor_speed != main_conveyor:
+            self.main_conveyor_speed = main_conveyor
+            if not self.global_config["disable_main_conveyor"]:
+                self.irl_system["main_conveyor_dc_motor"].setSpeed(main_conveyor)
 
-        if not self.global_config["disable_main_conveyor"]:
-            self.irl_system["main_conveyor_dc_motor"].setSpeed(main_conveyor)
-        if not self.global_config["disable_feeder_conveyor"]:
-            self.irl_system["feeder_conveyor_dc_motor"].setSpeed(feeder_conveyor)
-        if not self.global_config["disable_vibration_hopper"]:
-            self.irl_system["vibration_hopper_dc_motor"].setSpeed(vibration_hopper)
+        if self.feeder_conveyor_speed != feeder_conveyor:
+            self.feeder_conveyor_speed = feeder_conveyor
+            if not self.global_config["disable_feeder_conveyor"]:
+                self.irl_system["feeder_conveyor_dc_motor"].setSpeed(feeder_conveyor)
+
+        if self.vibration_hopper_speed != vibration_hopper:
+            self.vibration_hopper_speed = vibration_hopper
+            if not self.global_config["disable_vibration_hopper"]:
+                self.irl_system["vibration_hopper_dc_motor"].setSpeed(vibration_hopper)
 
     def _submitFrameForProcessing(self) -> None:
         captured_at_ms = int(time.time() * 1000)
@@ -382,7 +416,7 @@ class SortingController:
                 continue
 
             classification_start_ms = time.time() * 1000
-            classification_result = self.sorter.classifySegment(masked_image)
+            classification_result = self.sorter.classifySegment(frame)
             classification_duration_ms = (time.time() * 1000) - classification_start_ms
 
             profiling_record["classification_total_duration_ms"] += (
@@ -434,6 +468,7 @@ class SortingController:
                 )
 
     def _handleDoorScheduling(self, current_time_ms: int) -> None:
+        print("handling door scheduling")
         classified_trajectories = [
             t
             for t in self.scene_tracker.getTrajectories()
@@ -452,6 +487,22 @@ class SortingController:
                 ]
             )
         ]
+
+        # Debug logging for trajectories
+        all_trajectories = self.scene_tracker.getTrajectories()
+        self.global_config["logger"].info(
+            f"Debug: Total trajectories: {len(all_trajectories)}, "
+            f"Classified trajectories for door scheduling: {len(classified_trajectories)}"
+        )
+
+        for i, trajectory in enumerate(all_trajectories):
+            consensus = trajectory.getConsensusClassification()
+            self.global_config["logger"].info(
+                f"Debug: Trajectory {i} - ID: {trajectory.trajectory_id}, "
+                f"Stage: {trajectory.lifecycle_stage.value if trajectory.lifecycle_stage else 'None'}, "
+                f"Classification: {consensus}, "
+                f"Sending start time: {trajectory.sending_to_bin_start_time_ms}"
+            )
 
         for trajectory in classified_trajectories:
             if trajectory.sending_to_bin_start_time_ms is None:

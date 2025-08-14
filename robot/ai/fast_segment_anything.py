@@ -19,7 +19,7 @@ FILTERING_PARAMS = {
     "disjoint_separation_threshold_px": 4,
 }
 
-FASTSAM_CONFIG = {"retina_masks": True, "imgsz": 512, "conf": 0.3, "iou": 0.8}
+FASTSAM_CONFIG = {"retina_masks": True, "imgsz": 512, "conf": 0.5, "iou": 0.8}
 
 
 def filterMasks(

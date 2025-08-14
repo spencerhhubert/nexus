@@ -38,7 +38,7 @@ from robot.bin_state_tracker import (
     BinState,
     binCoordinatesToKey,
 )
-from robot.door_scheduler import DoorScheduler
+
 
 from robot.async_profiling import (
     AsyncFrameProfilingRecord,
@@ -81,10 +81,6 @@ class SortingController:
 
         self.global_config["logger"].info(
             f"Using bin state ID: {self.bin_state_tracker.current_bin_state_id}"
-        )
-
-        self.door_scheduler = DoorScheduler(
-            self.global_config, self.irl_system["distribution_modules"]
         )
 
         self.scene_tracker = SceneTracker(
@@ -202,6 +198,9 @@ class SortingController:
             self._shutdownFrameProcessor()
 
     def _updateSortingStateMachine(self) -> None:
+        self.global_config["logger"].info(
+            f"Updating sorting state machine - current state: {self.sorting_state.value}"
+        )
         current_time_ms = int(time.time() * 1000)
 
         if self.sorting_state == SortingState.GETTING_NEW_OBJECT:
@@ -209,10 +208,10 @@ class SortingController:
                 self.getting_new_object_start_time = current_time_ms
                 self._setMotorSpeeds(
                     main_conveyor=self.global_config["main_conveyor_speed"] + 10,
-                    feeder_conveyor=self.global_config["feeder_conveyor_speed"],
-                    vibration_hopper=self.global_config["vibration_hopper_speed"],
+                    feeder_conveyor=0,
+                    vibration_hopper=0,
                 )
-                time.sleep(5)
+                time.sleep(3)
                 self._setMotorSpeeds(
                     main_conveyor=self.global_config["main_conveyor_speed"],
                     feeder_conveyor=self.global_config["feeder_conveyor_speed"],
@@ -264,26 +263,17 @@ class SortingController:
             centered_trajectories = [
                 t
                 for t in self.scene_tracker.getTrajectories()
-                if t.lifecycle_stage == TrajectoryLifecycleStage.CENTERED_UNDER_CAMERA
+                if t.lifecycle_stage
+                in [
+                    TrajectoryLifecycleStage.CENTERED_UNDER_CAMERA,
+                    TrajectoryLifecycleStage.OFF_CAMERA,
+                ]
             ]
 
             has_classified_trajectory = any(
                 t.getConsensusClassification() is not None
                 for t in centered_trajectories
             )
-
-            # Debug print trajectories
-            self.global_config["logger"].info(
-                f"Debug trajectories - Total: {len(centered_trajectories)}"
-            )
-            for i, trajectory in enumerate(centered_trajectories):
-                consensus = trajectory.getConsensusClassification()
-                self.global_config["logger"].info(
-                    f"  Trajectory {i}: ID={trajectory.trajectory_id}, "
-                    f"stage={trajectory.lifecycle_stage.value if trajectory.lifecycle_stage else 'None'}, "
-                    f"classification={consensus}, "
-                    f"observations={len(trajectory.observations)}"
-                )
 
             if has_classified_trajectory and active_classification_threads == 0:
                 for trajectory in centered_trajectories:
@@ -312,7 +302,10 @@ class SortingController:
                     self.classification_start_time_ms = None
                     return
 
-            if self.scene_tracker.objects_in_frame == 0:
+            if (
+                self.scene_tracker.objects_in_frame == 0
+                and active_classification_threads == 0
+            ):
                 self.sorting_state = SortingState.GETTING_NEW_OBJECT
                 self.getting_new_object_start_time = None
                 self.classification_start_time_ms = None
@@ -322,29 +315,7 @@ class SortingController:
                 return
 
         elif self.sorting_state == SortingState.SENDING_ITEM_TO_BIN:
-            self._setMotorSpeeds(
-                main_conveyor=self.global_config["main_conveyor_speed"] + 10,
-                feeder_conveyor=self.global_config["feeder_conveyor_speed"],
-                vibration_hopper=self.global_config["vibration_hopper_speed"],
-            )
-            # time.sleep(5)
-            # self._setMotorSpeeds(
-            #     main_conveyor=self.global_config["main_conveyor_speed"],
-            #     feeder_conveyor=0,
-            #     vibration_hopper=0,
-            # )
-
-            print("here000", self.global_config["disable_classification"])
-            if not self.global_config["disable_classification"]:
-                self._handleDoorScheduling(current_time_ms)
-
-            if self.scene_tracker.objects_in_frame == 0:
-                self.sorting_state = SortingState.GETTING_NEW_OBJECT
-                self.getting_new_object_start_time = None
-                self.global_config["logger"].info(
-                    "Item sent, switching to GETTING_NEW_OBJECT"
-                )
-                return
+            self._handleSendingItemToBin(current_time_ms)
 
     def _setMotorSpeeds(
         self, main_conveyor: int, feeder_conveyor: int, vibration_hopper: int
@@ -456,6 +427,170 @@ class SortingController:
 
         completeFrameProcessing(profiling_record)
 
+    def _handleSendingItemToBin(self, current_time_ms: int) -> None:
+        classified_trajectories = [
+            t
+            for t in self.scene_tracker.getTrajectories()
+            if (
+                t.getConsensusClassification() is not None
+                and t.lifecycle_stage
+                in [
+                    TrajectoryLifecycleStage.CENTERED_UNDER_CAMERA,
+                    TrajectoryLifecycleStage.OFF_CAMERA,
+                ]
+            )
+        ]
+
+        if classified_trajectories:
+            trajectory = classified_trajectories[0]
+            consensus_item_id = trajectory.getConsensusClassification()
+
+            if consensus_item_id and not self.global_config["disable_classification"]:
+                # One-time setup: find bin, open doors, reserve bin, set start time
+                if trajectory.target_bin is None:
+                    category_id = self.sorter.sorting_profile.getCategoryId(
+                        consensus_item_id
+                    )
+                    target_bin = None
+
+                    if category_id:
+                        target_bin = self.bin_state_tracker.findAvailableBin(
+                            category_id
+                        )
+                        if target_bin:
+                            target_key = binCoordinatesToKey(target_bin)
+                            current_bin_category = (
+                                self.bin_state_tracker.current_state.get(target_key)
+                            )
+                            if (
+                                current_bin_category
+                                == self.bin_state_tracker.fallback_category_id
+                            ):
+                                category_id = (
+                                    self.bin_state_tracker.fallback_category_id
+                                )
+                    else:
+                        target_bin = self.bin_state_tracker.findAvailableBin(
+                            self.bin_state_tracker.misc_category_id
+                        )
+                        category_id = self.bin_state_tracker.misc_category_id
+
+                    if target_bin:
+                        # Open doors immediately
+                        dm_idx = target_bin["distribution_module_idx"]
+                        bin_idx = target_bin["bin_idx"]
+
+                        conveyor_servo = self.irl_system["distribution_modules"][
+                            dm_idx
+                        ].servo
+                        bin_servo = (
+                            self.irl_system["distribution_modules"][dm_idx]
+                            .bins[bin_idx]
+                            .servo
+                        )
+
+                        conveyor_servo.setAngle(
+                            self.global_config["conveyor_door_open_angle"]
+                        )
+                        bin_servo.setAngle(self.global_config["bin_door_open_angle"])
+
+                        # Set up trajectory tracking
+                        trajectory.setSendingToBinStartTime(current_time_ms)
+                        trajectory.setTargetBin(target_bin)
+                        self.bin_state_tracker.reserveBin(target_bin, category_id)
+
+                        self.global_config["logger"].info(
+                            f"Set up bin {target_bin} for trajectory {trajectory.trajectory_id}"
+                        )
+                    else:
+                        self.global_config["logger"].warning(
+                            "No available bins, moving to GETTING_NEW_OBJECT"
+                        )
+                        self.sorting_state = SortingState.GETTING_NEW_OBJECT
+                        self.getting_new_object_start_time = None
+                        return
+
+                # Continue with existing target bin
+                if trajectory.target_bin is not None:
+                    target_bin = trajectory.target_bin
+                    dm_idx = target_bin["distribution_module_idx"]
+                    bin_idx = target_bin["bin_idx"]
+
+                    self._setMotorSpeeds(
+                        main_conveyor=self.global_config["main_conveyor_speed"],
+                        feeder_conveyor=0,
+                        vibration_hopper=0,
+                    )
+
+                    # Check if we've traveled far enough
+                    target_distance_cm = self.irl_system["distribution_modules"][
+                        dm_idx
+                    ].distance_from_camera_center_to_door_begin_cm
+                    distance_traveled = None
+                    if trajectory.sending_to_bin_start_time_ms is not None:
+                        distance_traveled = self.scene_tracker.getDistanceTraveledSince(
+                            trajectory.sending_to_bin_start_time_ms
+                        )
+
+                    if (
+                        distance_traveled is not None
+                        and distance_traveled >= target_distance_cm
+                    ):
+                        conveyor_servo = self.irl_system["distribution_modules"][
+                            dm_idx
+                        ].servo
+                        bin_servo = (
+                            self.irl_system["distribution_modules"][dm_idx]
+                            .bins[bin_idx]
+                            .servo
+                        )
+
+                        # Close conveyor door first, then bin door with separate timing
+                        time.sleep(
+                            self.global_config["conveyor_door_close_delay_ms"] / 1000.0
+                        )
+                        conveyor_servo.setAngle(
+                            self.global_config["conveyor_door_closed_angle"],
+                            self.global_config[
+                                "conveyor_door_gradual_close_duration_ms"
+                            ],
+                        )
+                        self.global_config["logger"].info(
+                            "Conveyor door closing gradually"
+                        )
+
+                        time.sleep(
+                            self.global_config["bin_door_close_delay_ms"] / 1000.0
+                        )
+                        bin_servo.setAngle(self.global_config["bin_door_closed_angle"])
+                        self.global_config["logger"].info("Bin door closed")
+
+                        trajectory.setLifecycleStage(
+                            TrajectoryLifecycleStage.PROBABLY_IN_BIN
+                        )
+
+                        self.sorting_state = SortingState.GETTING_NEW_OBJECT
+                        self.getting_new_object_start_time = None
+                        self.global_config["logger"].info(
+                            f"Item sent to bin, distance traveled: {distance_traveled:.1f}cm, switching to GETTING_NEW_OBJECT"
+                        )
+                        return
+            else:
+                # No classification or classification disabled, just run conveyor
+                self._setMotorSpeeds(
+                    main_conveyor=self.global_config["main_conveyor_speed"],
+                    feeder_conveyor=0,
+                    vibration_hopper=0,
+                )
+
+        if self.scene_tracker.objects_in_frame == 0:
+            self.sorting_state = SortingState.GETTING_NEW_OBJECT
+            self.getting_new_object_start_time = None
+            self.global_config["logger"].info(
+                "No objects in frame, switching to GETTING_NEW_OBJECT"
+            )
+            return
+
     def _updateTrajectories(self) -> None:
         trajectories_to_update = self.scene_tracker.getTrajectories()
 
@@ -466,105 +601,6 @@ class SortingController:
                 self.global_config["logger"].error(
                     f"Failed to save trajectory {trajectory.trajectory_id}: {e}"
                 )
-
-    def _handleDoorScheduling(self, current_time_ms: int) -> None:
-        print("handling door scheduling")
-        classified_trajectories = [
-            t
-            for t in self.scene_tracker.getTrajectories()
-            if (
-                t.getConsensusClassification() is not None
-                and t.lifecycle_stage
-                in [
-                    TrajectoryLifecycleStage.CENTERED_UNDER_CAMERA,
-                    TrajectoryLifecycleStage.IN_TRANSIT,
-                ]
-                and t.sending_to_bin_start_time_ms is not None
-                and t.lifecycle_stage
-                not in [
-                    TrajectoryLifecycleStage.DOORS_OPENED,
-                    TrajectoryLifecycleStage.PROBABLY_IN_BIN,
-                ]
-            )
-        ]
-
-        # Debug logging for trajectories
-        all_trajectories = self.scene_tracker.getTrajectories()
-        self.global_config["logger"].info(
-            f"Debug: Total trajectories: {len(all_trajectories)}, "
-            f"Classified trajectories for door scheduling: {len(classified_trajectories)}"
-        )
-
-        for i, trajectory in enumerate(all_trajectories):
-            consensus = trajectory.getConsensusClassification()
-            self.global_config["logger"].info(
-                f"Debug: Trajectory {i} - ID: {trajectory.trajectory_id}, "
-                f"Stage: {trajectory.lifecycle_stage.value if trajectory.lifecycle_stage else 'None'}, "
-                f"Classification: {consensus}, "
-                f"Sending start time: {trajectory.sending_to_bin_start_time_ms}"
-            )
-
-        for trajectory in classified_trajectories:
-            if trajectory.sending_to_bin_start_time_ms is None:
-                continue
-            distance_traveled = self.scene_tracker.getDistanceTraveledSince(
-                trajectory.sending_to_bin_start_time_ms
-            )
-            early_trigger_distance = self.global_config[
-                "early_trigger_door_by_distance_cm"
-            ]
-
-            if (
-                distance_traveled is not None
-                and distance_traveled >= early_trigger_distance
-            ):
-                consensus_item_id = trajectory.getConsensusClassification()
-                if not consensus_item_id:
-                    continue
-                category_id = self.sorter.sorting_profile.getCategoryId(
-                    consensus_item_id
-                )
-                target_bin = None
-
-                if category_id:
-                    target_bin = self.bin_state_tracker.findAvailableBin(category_id)
-
-                    # Check if we got the fallback bin for overflow categorized items
-                    if target_bin:
-                        target_key = binCoordinatesToKey(target_bin)
-                        current_bin_category = self.bin_state_tracker.current_state.get(
-                            target_key
-                        )
-                        if (
-                            current_bin_category
-                            == self.bin_state_tracker.fallback_category_id
-                        ):
-                            self.global_config["logger"].info(
-                                f"No available bin for category '{category_id}', using fallback bin for trajectory {trajectory.trajectory_id}"
-                            )
-                            category_id = self.bin_state_tracker.fallback_category_id
-                else:
-                    self.global_config["logger"].info(
-                        f"Unknown item '{consensus_item_id}', using misc bin for trajectory {trajectory.trajectory_id}"
-                    )
-                    target_bin = self.bin_state_tracker.findAvailableBin(
-                        self.bin_state_tracker.misc_category_id
-                    )
-                    category_id = self.bin_state_tracker.misc_category_id
-
-                if target_bin:
-                    trajectory.setTargetBin(target_bin)
-                    trajectory.setLifecycleStage(TrajectoryLifecycleStage.DOORS_OPENED)
-                    self.door_scheduler.scheduleDoorAction(target_bin, 0)
-                    self.bin_state_tracker.reserveBin(target_bin, category_id)
-
-                    self.global_config["logger"].info(
-                        f"Scheduled immediate door action for trajectory {trajectory.trajectory_id} -> bin {target_bin} (distance: {distance_traveled:.1f}cm)"
-                    )
-                else:
-                    self.global_config["logger"].warning(
-                        f"No available bins for trajectory {trajectory.trajectory_id}"
-                    )
 
     def _cleanupCompletedFutures(self) -> None:
         completed_futures = [f for f in self.frame_processing_futures if f.done()]

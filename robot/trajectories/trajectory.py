@@ -11,6 +11,7 @@ from robot.bin_state_tracker import BinCoordinates
 class TrajectoryLifecycleStage(Enum):
     ENTERED_CAMERA_VIEW = "entered_camera_view"
     CENTERED_UNDER_CAMERA = "centered_under_camera"
+    OFF_CAMERA = "off_camera"
     IN_TRANSIT = "in_transit"
     DOORS_OPENED = "doors_opened"
     PROBABLY_IN_BIN = "probably_in_bin"

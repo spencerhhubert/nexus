@@ -37,19 +37,18 @@ class GlobalConfig(TypedDict):
     bin_door_open_angle: int
     conveyor_door_closed_angle: int
     bin_door_closed_angle: int
-    door_open_duration_ms: int
-    door_delay_offset_ms: int
-    delay_for_chute_fall_ms: int
+    conveyor_door_close_delay_ms: int
+    bin_door_close_delay_ms: int
+    conveyor_door_gradual_close_duration_ms: int
     profiling_dir_path: str
     use_prev_bin_state: Optional[str]
-    overlapping_conveyor_door_windows_threshold_ms: int
+
     main_conveyor_speed: int
     feeder_conveyor_speed: int
     vibration_hopper_speed: int
     object_center_threshold_percent: float
     getting_new_object_timeout_ms: int
     classification_timeout_ms: int
-    early_trigger_door_by_distance_cm: float
     encoder_polling_delay_ms: int
     delay_between_firmata_commands_ms: int
 
@@ -126,19 +125,17 @@ def buildGlobalConfig() -> GlobalConfig:
         "bin_door_open_angle": 180 - 55,
         "conveyor_door_closed_angle": 2,
         "bin_door_closed_angle": 170,
-        "door_open_duration_ms": 2500,
-        "door_delay_offset_ms": -500,
-        "delay_for_chute_fall_ms": 1000,
+        "conveyor_door_close_delay_ms": 1000,
+        "bin_door_close_delay_ms": 1000,
+        "conveyor_door_gradual_close_duration_ms": 500,
         "profiling_dir_path": "../profiles",
         "use_prev_bin_state": args.use_prev_bin_state,
-        "overlapping_conveyor_door_windows_threshold_ms": 5000,
         "main_conveyor_speed": 148,
         "feeder_conveyor_speed": 150,
         "vibration_hopper_speed": 150,
         "object_center_threshold_percent": 0.10,
         "getting_new_object_timeout_ms": 360 * 1000,
         "classification_timeout_ms": 10 * 1000,
-        "early_trigger_door_by_distance_cm": 10,
         "encoder_polling_delay_ms": 1000,
         "delay_between_firmata_commands_ms": 10,
     }

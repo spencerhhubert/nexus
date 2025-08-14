@@ -318,10 +318,10 @@ class SceneTracker:
                     )
                     if time_since_last_observation >= 2000:
                         trajectory.setLifecycleStage(
-                            TrajectoryLifecycleStage.IN_TRANSIT
+                            TrajectoryLifecycleStage.OFF_CAMERA
                         )
                         self.global_config["logger"].info(
-                            f"Trajectory {trajectory.trajectory_id} left camera view, marking as in transit"
+                            f"Trajectory {trajectory.trajectory_id} left camera view, marking as off camera"
                         )
             elif trajectory.lifecycle_stage == TrajectoryLifecycleStage.DOORS_OPENED:
                 time_since_doors_opened = current_time_ms - trajectory.updated_at

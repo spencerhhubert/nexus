@@ -125,7 +125,7 @@ def buildGlobalConfig() -> GlobalConfig:
         "bin_door_open_angle": 180 - 55,
         "conveyor_door_closed_angle": 2,
         "bin_door_closed_angle": 170,
-        "conveyor_door_close_delay_ms": 1000,
+        "conveyor_door_close_delay_ms": 0,
         "bin_door_close_delay_ms": 1000,
         "conveyor_door_gradual_close_duration_ms": 500,
         "profiling_dir_path": "../profiles",

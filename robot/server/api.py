@@ -17,6 +17,8 @@ from robot.server.types import (
     WebSocketEvent,
     CameraFrameEvent,
     StatusUpdateEvent,
+    ObservationEvent,
+    TrajectoryEvent,
     SystemLifecycleStage,
     SortingState,
 )
@@ -146,6 +148,8 @@ class RobotAPI:
         frame, timestamp = self.controller.thread_safe_state.getWithTimestamp(
             "latest_camera_frame"
         )
+        frame_id = self.controller.thread_safe_state.get("latest_frame_id")
+
         if frame is None or timestamp is None:
             return
 
@@ -156,7 +160,11 @@ class RobotAPI:
             _, buffer = cv2.imencode(".jpg", frame)
             frame_data = base64.b64encode(buffer.tobytes()).decode("utf-8")
 
-            event: CameraFrameEvent = {"type": "camera_frame", "frame_data": frame_data}
+            event: CameraFrameEvent = {
+                "type": "camera_frame",
+                "frame_data": frame_data,
+                "frame_id": frame_id,
+            }
             await self._broadcastEvent(event)
 
             self.last_camera_frame_timestamp = timestamp
@@ -206,6 +214,26 @@ class RobotAPI:
 
         event: StatusUpdateEvent = {"type": "status_update", "status": status}
 
+        await self._broadcastEvent(event)
+
+    async def broadcastObservation(self, observation):
+        if not self.active_websockets:
+            return
+
+        event: ObservationEvent = {
+            "type": "observation",
+            "observation": observation.toJSON(include_frame_data=True),
+        }
+        await self._broadcastEvent(event)
+
+    async def broadcastTrajectory(self, trajectory):
+        if not self.active_websockets:
+            return
+
+        event: TrajectoryEvent = {
+            "type": "trajectory",
+            "trajectory": trajectory.toJSON(),
+        }
         await self._broadcastEvent(event)
 
     async def _broadcastEvent(self, event: WebSocketEvent):

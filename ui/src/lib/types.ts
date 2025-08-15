@@ -43,6 +43,7 @@ export interface StopSystemRequest {}
 export interface CameraFrameEvent {
   type: 'camera_frame';
   frame_data: string;
+  frame_id?: string;
 }
 
 export interface StatusUpdateEvent {
@@ -50,4 +51,18 @@ export interface StatusUpdateEvent {
   status: SystemStatus;
 }
 
-export type WebSocketEvent = CameraFrameEvent | StatusUpdateEvent;
+export interface ObservationEvent {
+  type: 'observation';
+  observation: any;
+}
+
+export interface TrajectoryEvent {
+  type: 'trajectory';
+  trajectory: any;
+}
+
+export type WebSocketEvent =
+  | CameraFrameEvent
+  | StatusUpdateEvent
+  | ObservationEvent
+  | TrajectoryEvent;

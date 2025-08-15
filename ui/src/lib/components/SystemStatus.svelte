@@ -57,7 +57,7 @@
   {#if status}
     <div class="space-y-3">
       <div class="flex justify-between items-center">
-        <label class="text-surface-600 dark:text-surface-400 font-medium">Lifecycle:</label>
+        <span class="text-surface-600 dark:text-surface-400 font-medium">Lifecycle:</span>
         <span
           class="px-3 py-1 text-white text-xs font-semibold {getLifecycleColor(
             status.lifecycle_stage,
@@ -68,26 +68,26 @@
       </div>
 
       <div class="flex justify-between items-center">
-        <label class="text-surface-600 dark:text-surface-400 font-medium">Sorting State:</label>
+        <span class="text-surface-600 dark:text-surface-400 font-medium">Sorting State:</span>
         <span class="text-foreground-light dark:text-foreground-dark">
           {formatSortingState(status.sorting_state)}
         </span>
       </div>
 
       <div class="flex justify-between items-center">
-        <label class="text-surface-600 dark:text-surface-400 font-medium">Objects in Frame:</label>
+        <span class="text-surface-600 dark:text-surface-400 font-medium">Objects in Frame:</span>
         <span class="text-foreground-light dark:text-foreground-dark font-mono">{status.objects_in_frame}</span>
       </div>
 
       <div class="flex justify-between items-center">
-        <label class="text-surface-600 dark:text-surface-400 font-medium">Speed (1s avg):</label>
+        <span class="text-surface-600 dark:text-surface-400 font-medium">Speed (1s avg):</span>
         <span class="text-foreground-light dark:text-foreground-dark font-mono">
           {status.average_speed_1s ? (status.average_speed_1s * 10).toFixed(3) : "Unknown"} m/s
         </span>
       </div>
 
       <div class="flex justify-between items-center">
-        <label class="text-surface-600 dark:text-surface-400 font-medium">Speed (5s avg):</label>
+        <span class="text-surface-600 dark:text-surface-400 font-medium">Speed (5s avg):</span>
         <span class="text-foreground-light dark:text-foreground-dark font-mono">
           {status.average_speed_5s ? (status.average_speed_5s * 10).toFixed(3) : "Unknown"} m/s
         </span>

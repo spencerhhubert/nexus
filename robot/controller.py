@@ -86,6 +86,7 @@ class SortingController:
         self.scene_tracker = SceneTracker(
             self.global_config,
             self.irl_system["conveyor_encoder"],
+            self._trajectoryCallback,
         )
 
         self.segmentation_model = initializeSegmentationModel(self.global_config)
@@ -349,12 +350,15 @@ class SortingController:
         if frame is None:
             return
 
+        frame_id = str(uuid.uuid4())
+
         if self.global_config["camera_preview"]:
             display_frame = cv2.resize(frame, (854, 480))
             cv2.imshow("Camera Feed", display_frame)
             cv2.waitKey(1)
 
         self.thread_safe_state.set("latest_camera_frame", frame)
+        self.thread_safe_state.set("latest_frame_id", frame_id)
 
         if len(self.frame_processing_futures) >= self.max_queue_size:
             self.global_config["logger"].info(
@@ -365,7 +369,7 @@ class SortingController:
         profiling_record = createFrameProfilingRecord()
 
         future = self.frame_processor_pool.submit(
-            self._processFrame, frame.copy(), profiling_record, captured_at_ms
+            self._processFrame, frame.copy(), profiling_record, captured_at_ms, frame_id
         )
         self.frame_processing_futures.append(future)
 
@@ -374,6 +378,7 @@ class SortingController:
         frame: np.ndarray,
         profiling_record: AsyncFrameProfilingRecord,
         captured_at_ms: int,
+        frame_id: str,
     ) -> None:
         startFrameProcessing(profiling_record)
 
@@ -419,6 +424,7 @@ class SortingController:
 
             observation = Observation(
                 None,
+                frame_id,
                 center_x,
                 center_y,
                 bbox_width,
@@ -431,9 +437,29 @@ class SortingController:
 
             self.scene_tracker.addObservation(observation)
 
+            # Broadcast observation to WebSocket clients
+            if hasattr(self, "api_server") and self.api_server:
+                import asyncio
+
+                try:
+                    asyncio.create_task(
+                        self.api_server.broadcastObservation(observation)
+                    )
+                except RuntimeError:
+                    pass
+
             profiling_record["observations_saved_count"] += 1
 
         completeFrameProcessing(profiling_record)
+
+    def _trajectoryCallback(self, trajectory):
+        if hasattr(self, "api_server") and self.api_server:
+            import asyncio
+
+            try:
+                asyncio.create_task(self.api_server.broadcastTrajectory(trajectory))
+            except RuntimeError:
+                pass
 
     def _handleSendingItemToBin(self, current_time_ms: int) -> None:
         valid_trajectories = self.scene_tracker.getValidNewTrajectories()

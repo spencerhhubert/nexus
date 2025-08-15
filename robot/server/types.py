@@ -54,6 +54,7 @@ class StopSystemRequest(TypedDict):
 class CameraFrameEvent(TypedDict):
     type: Literal["camera_frame"]
     frame_data: str  # base64 encoded image
+    frame_id: Optional[str]
 
 
 class StatusUpdateEvent(TypedDict):
@@ -61,4 +62,16 @@ class StatusUpdateEvent(TypedDict):
     status: SystemStatus
 
 
-WebSocketEvent = Union[CameraFrameEvent, StatusUpdateEvent]
+class ObservationEvent(TypedDict):
+    type: Literal["observation"]
+    observation: dict
+
+
+class TrajectoryEvent(TypedDict):
+    type: Literal["trajectory"]
+    trajectory: dict
+
+
+WebSocketEvent = Union[
+    CameraFrameEvent, StatusUpdateEvent, ObservationEvent, TrajectoryEvent
+]

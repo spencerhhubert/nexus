@@ -17,9 +17,12 @@ class DistanceReading(NamedTuple):
 
 
 class SceneTracker:
-    def __init__(self, global_config: GlobalConfig, encoder: Encoder):
+    def __init__(
+        self, global_config: GlobalConfig, encoder: Encoder, trajectory_callback=None
+    ):
         self.global_config = global_config
         self.encoder: Encoder = encoder
+        self.trajectory_callback = trajectory_callback
         self.trajectories: List[Trajectory] = []
         self.observations: List[Observation] = []
         self.objects_in_frame: int = 0
@@ -174,9 +177,13 @@ class SceneTracker:
             if best_trajectory and best_score >= 0.1:
                 observation.trajectory_id = best_trajectory.trajectory_id
                 best_trajectory.addObservation(observation)
+                if self.trajectory_callback:
+                    self.trajectory_callback(best_trajectory)
             else:
                 new_trajectory = createTrajectory(self.global_config, observation)
                 temp_trajectories.append(new_trajectory)
+                if self.trajectory_callback:
+                    self.trajectory_callback(new_trajectory)
 
         return temp_trajectories
 

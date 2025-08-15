@@ -134,7 +134,7 @@ def buildGlobalConfig() -> GlobalConfig:
         "min_sending_to_bin_time_ms": 3000,
         "profiling_dir_path": "../profiles",
         "use_prev_bin_state": args.use_prev_bin_state,
-        "main_conveyor_speed": 149,
+        "main_conveyor_speed": 95,
         "feeder_conveyor_speed": 150,
         # "vibration_hopper_speed": 190,
         "vibration_hopper_speed": 150,

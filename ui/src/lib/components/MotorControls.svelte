@@ -26,9 +26,9 @@
     <div class="space-y-5">
       {#each motors as motor (motor.motor_id)}
         <div class="bg-surface-100 dark:bg-surface-700 p-4">
-          <label class="block font-semibold text-foreground-light dark:text-foreground-dark mb-3">
+          <h3 class="block font-semibold text-foreground-light dark:text-foreground-dark mb-3">
             {motor.display_name}
-          </label>
+          </h3>
           <div class="grid grid-cols-[auto_1fr_auto] gap-3 items-center">
             <span class="text-sm text-surface-600 dark:text-surface-400">
               Current: {motor.current_speed}

@@ -15,6 +15,7 @@ class TrajectoryLifecycleStage(Enum):
     IN_TRANSIT = "in_transit"
     DOORS_OPENED = "doors_opened"
     PROBABLY_IN_BIN = "probably_in_bin"
+    EXPIRED = "expired"
 
 
 class TrajectoryJSON(TypedDict):
@@ -166,9 +167,6 @@ class Trajectory:
         max_time_gap_ms = global_config["trajectory_matching_max_time_gap_ms"]
         time_gap = obs.captured_at_ms - latest.captured_at_ms
         if time_gap > max_time_gap_ms:
-            print(
-                f"TOO LONG OF TIME GAP: observation_id={obs.observation_id}, trajectory_id={self.trajectory_id}"
-            )
             return 0.0
 
         # Check spatial distance
@@ -194,9 +192,6 @@ class Trajectory:
             + classification_weight * classification_score
         )
 
-        print(
-            f"COMBINED SCORE: observation_id={obs.observation_id}, trajectory_id={self.trajectory_id}"
-        )
         return combined_score
 
     def toJSON(self) -> TrajectoryJSON:

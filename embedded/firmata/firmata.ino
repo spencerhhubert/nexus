@@ -388,15 +388,15 @@ void sysexCallback(byte command, byte argc, byte *argv) {
     // Print argv contents for debugging
     if (argc > 0) {
         sprintf(debugMsg, "Argv[0]: %d", argv[0]);
-        Firmata.sendString(STRING_DATA, debugMsg);
+        // Firmata.sendString(STRING_DATA, debugMsg);
     }
     if (argc > 1) {
         sprintf(debugMsg, "Argv[1]: %d", argv[1]);
-        Firmata.sendString(STRING_DATA, debugMsg);
+        // Firmata.sendString(STRING_DATA, debugMsg);
     }
     if (argc > 2) {
         sprintf(debugMsg, "Argv[2]: %d", argv[2]);
-        Firmata.sendString(STRING_DATA, debugMsg);
+        // Firmata.sendString(STRING_DATA, debugMsg);
     }
 
     switch (command) {

@@ -23,7 +23,6 @@ def brickognizeClassifySegment(
 
     response = requests.post(url, headers=headers, files=files)
     out = cast(BrickognizeClassificationResult, response.json())
-    print("Brickognize Full Response", out)
     filter_category_substrings = ["primo", "duplo"]
     out["items"] = [
         item

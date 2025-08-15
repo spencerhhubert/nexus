@@ -153,7 +153,7 @@ class SceneTracker:
         self.trajectories = final_trajectories
 
     def _buildTrajectoriesFromObservations(self) -> List[Trajectory]:
-        temp_trajectories = []
+        temp_trajectories: List[Trajectory] = []
         sorted_observations = sorted(
             self.observations, key=lambda obs: obs.captured_at_ms
         )
@@ -170,7 +170,8 @@ class SceneTracker:
                     best_score = score
                     best_trajectory = trajectory
 
-            if best_trajectory and best_score > 0.5:
+            print("observation id", observation.observation_id, "score", best_score)
+            if best_trajectory and best_score >= 0.1:
                 observation.trajectory_id = best_trajectory.trajectory_id
                 best_trajectory.addObservation(observation)
             else:
@@ -217,7 +218,7 @@ class SceneTracker:
 
             # Decide whether to reuse existing trajectory or create new one
             if (
-                best_existing_match and best_overlap_ratio >= 0.5
+                best_existing_match and best_overlap_ratio >= 0.3
             ):  # At least 50% overlap
                 # Reuse existing trajectory but update its observations
                 existing_obs_ids = set(
@@ -287,6 +288,25 @@ class SceneTracker:
             latest_obs = trajectory.getLatestObservation()
             if not latest_obs:
                 continue
+
+            # Check if trajectory should be marked as expired
+            if trajectory.lifecycle_stage in [
+                TrajectoryLifecycleStage.ENTERED_CAMERA_VIEW,
+                TrajectoryLifecycleStage.CENTERED_UNDER_CAMERA,
+            ]:
+                trajectory_age = current_time_ms - trajectory.created_at
+                latest_observation_age = current_time_ms - latest_obs.captured_at_ms
+
+                if (
+                    trajectory_age > self.global_config["max_trajectory_age"]
+                    and latest_observation_age
+                    > self.global_config["max_trajectory_age"]
+                ):
+                    trajectory.setLifecycleStage(TrajectoryLifecycleStage.EXPIRED)
+                    self.global_config["logger"].info(
+                        f"Trajectory {trajectory.trajectory_id} expired after {trajectory_age}ms"
+                    )
+                    continue
 
             if (
                 trajectory.lifecycle_stage
@@ -402,3 +422,27 @@ class SceneTracker:
             ]:
                 count += 1
         return count
+
+    def getValidNewTrajectories(self) -> List[Trajectory]:
+        valid_trajectories = []
+        min_observations = self.global_config["min_number_observations_for_centering"]
+
+        for trajectory in self.trajectories:
+            # Skip expired trajectories
+            if trajectory.lifecycle_stage == TrajectoryLifecycleStage.EXPIRED:
+                continue
+
+            # Only include trajectories in centered or off camera stages
+            if trajectory.lifecycle_stage not in [
+                TrajectoryLifecycleStage.CENTERED_UNDER_CAMERA,
+                TrajectoryLifecycleStage.OFF_CAMERA,
+            ]:
+                continue
+
+            # Only include trajectories with enough observations
+            if len(trajectory.observations) < min_observations:
+                continue
+
+            valid_trajectories.append(trajectory)
+
+        return valid_trajectories

@@ -139,6 +139,17 @@ class SortingController:
             profiler.enable()
             self.global_config["logger"].info("Performance profiling enabled")
 
+        self.global_config["logger"].info(
+            "Running conveyor motor at +20 over config speed for 3 seconds..."
+        )
+        self._setMotorSpeeds(
+            main_conveyor=self.global_config["main_conveyor_speed"] + 20,
+            feeder_conveyor=0,
+            vibration_hopper=0,
+        )
+        time.sleep(3.0)
+        self._setMotorSpeeds(main_conveyor=0, feeder_conveyor=0, vibration_hopper=0)
+
         tick_count = 0
         try:
             while self.system_lifecycle_stage in [
@@ -208,12 +219,6 @@ class SortingController:
             if self.getting_new_object_start_time is None:
                 self.getting_new_object_start_time = current_time_ms
                 self._setMotorSpeeds(
-                    main_conveyor=self.global_config["main_conveyor_speed"] + 10,
-                    feeder_conveyor=0,
-                    vibration_hopper=0,
-                )
-                time.sleep(3)
-                self._setMotorSpeeds(
                     main_conveyor=self.global_config["main_conveyor_speed"],
                     feeder_conveyor=self.global_config["feeder_conveyor_speed"],
                     vibration_hopper=self.global_config["vibration_hopper_speed"],
@@ -243,12 +248,8 @@ class SortingController:
                 vibration_hopper=0,
             )
 
-            centered_trajectories = [
-                t
-                for t in self.scene_tracker.getTrajectories()
-                if t.lifecycle_stage == TrajectoryLifecycleStage.CENTERED_UNDER_CAMERA
-            ]
-            if centered_trajectories:
+            valid_trajectories = self.scene_tracker.getValidNewTrajectories()
+            if valid_trajectories:
                 self.sorting_state = SortingState.TRYING_TO_CLASSIFY
                 self.classification_start_time_ms = current_time_ms
                 self._setMotorSpeeds(
@@ -259,25 +260,30 @@ class SortingController:
                 )
                 return
 
+            # Check for timeout while waiting for object to center
+            if self.getting_new_object_start_time is not None:
+                time_waiting = current_time_ms - self.getting_new_object_start_time
+                if (
+                    time_waiting
+                    > self.global_config["waiting_for_object_to_center_timeout_ms"]
+                ):
+                    self.global_config["logger"].info(
+                        "Timeout waiting for object to center, returning to GETTING_NEW_OBJECT"
+                    )
+                    self.sorting_state = SortingState.GETTING_NEW_OBJECT
+                    self.getting_new_object_start_time = None
+                    return
+
         elif self.sorting_state == SortingState.TRYING_TO_CLASSIFY:
             active_classification_threads = len(self.frame_processing_futures)
-            centered_trajectories = [
-                t
-                for t in self.scene_tracker.getTrajectories()
-                if t.lifecycle_stage
-                in [
-                    TrajectoryLifecycleStage.CENTERED_UNDER_CAMERA,
-                    TrajectoryLifecycleStage.OFF_CAMERA,
-                ]
-            ]
+            valid_trajectories = self.scene_tracker.getValidNewTrajectories()
 
             has_classified_trajectory = any(
-                t.getConsensusClassification() is not None
-                for t in centered_trajectories
+                t.getConsensusClassification() is not None for t in valid_trajectories
             )
 
             if has_classified_trajectory and active_classification_threads == 0:
-                for trajectory in centered_trajectories:
+                for trajectory in valid_trajectories:
                     if trajectory.getConsensusClassification() is not None:
                         trajectory.setSendingToBinStartTime(current_time_ms)
 
@@ -430,18 +436,23 @@ class SortingController:
         completeFrameProcessing(profiling_record)
 
     def _handleSendingItemToBin(self, current_time_ms: int) -> None:
+        valid_trajectories = self.scene_tracker.getValidNewTrajectories()
         classified_trajectories = [
-            t
-            for t in self.scene_tracker.getTrajectories()
-            if (
-                t.getConsensusClassification() is not None
-                and t.lifecycle_stage
-                in [
-                    TrajectoryLifecycleStage.CENTERED_UNDER_CAMERA,
-                    TrajectoryLifecycleStage.OFF_CAMERA,
-                ]
-            )
+            t for t in valid_trajectories if t.getConsensusClassification() is not None
         ]
+
+        trajectory_info = [
+            (
+                t.trajectory_id,
+                t.lifecycle_stage.value
+                if hasattr(t, "lifecycle_stage") and t.lifecycle_stage
+                else "unknown",
+            )
+            for t in classified_trajectories
+        ]
+        self.global_config["logger"].info(
+            f"Handling classified trajectories - IDs and lifecycle stages: {trajectory_info}"
+        )
 
         if classified_trajectories:
             trajectory = classified_trajectories[0]
@@ -519,7 +530,7 @@ class SortingController:
                     bin_idx = target_bin["bin_idx"]
 
                     self._setMotorSpeeds(
-                        main_conveyor=self.global_config["main_conveyor_speed"] + 30,
+                        main_conveyor=self.global_config["main_conveyor_speed"] + 10,
                         feeder_conveyor=0,
                         vibration_hopper=0,
                     )
@@ -538,8 +549,6 @@ class SortingController:
                         self.global_config["logger"].warning(
                             "Distance traveled is None - unable to determine object position"
                         )
-
-                    print("distance traveled here", distance_traveled)
 
                     if (
                         distance_traveled is not None
@@ -592,34 +601,6 @@ class SortingController:
                     feeder_conveyor=0,
                     vibration_hopper=0,
                 )
-
-        if self.scene_tracker.objects_in_frame == 0:
-            # Check if minimum time has elapsed
-            if (
-                self.sending_to_bin_state_start_time_ms is not None
-                and current_time_ms - self.sending_to_bin_state_start_time_ms
-                >= self.global_config["min_sending_to_bin_time_ms"]
-            ):
-                self.sorting_state = SortingState.GETTING_NEW_OBJECT
-                self.getting_new_object_start_time = None
-                self.sending_to_bin_state_start_time_ms = None
-
-                # Close all open doors
-                for _, distribution_module in enumerate(
-                    self.irl_system["distribution_modules"]
-                ):
-                    distribution_module.servo.setAngle(
-                        self.global_config["conveyor_door_closed_angle"]
-                    )
-                    for bin_obj in distribution_module.bins:
-                        bin_obj.servo.setAngle(
-                            self.global_config["bin_door_closed_angle"]
-                        )
-
-                self.global_config["logger"].info(
-                    "No objects in frame and minimum time elapsed, closing all doors and switching to GETTING_NEW_OBJECT"
-                )
-                return
 
     def _updateTrajectories(self) -> None:
         trajectories_to_update = self.scene_tracker.getTrajectories()

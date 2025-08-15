@@ -43,7 +43,6 @@ class GlobalConfig(TypedDict):
     min_sending_to_bin_time_ms: int
     profiling_dir_path: str
     use_prev_bin_state: Optional[str]
-
     main_conveyor_speed: int
     feeder_conveyor_speed: int
     vibration_hopper_speed: int
@@ -132,9 +131,9 @@ def buildGlobalConfig() -> GlobalConfig:
         "min_sending_to_bin_time_ms": 3000,
         "profiling_dir_path": "../profiles",
         "use_prev_bin_state": args.use_prev_bin_state,
-        "main_conveyor_speed": 148,
+        "main_conveyor_speed": 145,
         "feeder_conveyor_speed": 150,
-        "vibration_hopper_speed": 150,
+        "vibration_hopper_speed": 190,
         "object_center_threshold_percent": 0.10,
         "getting_new_object_timeout_ms": 360 * 1000,
         "classification_timeout_ms": 10 * 1000,

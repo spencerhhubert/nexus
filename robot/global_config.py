@@ -52,6 +52,7 @@ class GlobalConfig(TypedDict):
     encoder_polling_delay_ms: int
     delay_between_firmata_commands_ms: int
     waiting_for_object_to_center_timeout_ms: int
+    waiting_for_object_to_appear_timeout_ms: int
     max_trajectory_age: int
     min_number_observations_for_centering: int
 
@@ -134,16 +135,16 @@ def buildGlobalConfig() -> GlobalConfig:
         "min_sending_to_bin_time_ms": 3000,
         "profiling_dir_path": "../profiles",
         "use_prev_bin_state": args.use_prev_bin_state,
-        "main_conveyor_speed": 149,
+        "main_conveyor_speed": 130,
         "feeder_conveyor_speed": 150,
-        # "vibration_hopper_speed": 190,
-        "vibration_hopper_speed": 150,
+        "vibration_hopper_speed": 170,
         "object_center_threshold_percent": 0.25,
         "getting_new_object_timeout_ms": 360 * 1000,
         "classification_timeout_ms": 10 * 1000,
         "encoder_polling_delay_ms": 1000,
         "delay_between_firmata_commands_ms": 10,
         "waiting_for_object_to_center_timeout_ms": 7500,
+        "waiting_for_object_to_appear_timeout_ms": 5000,
         "max_trajectory_age": 10000,
         "min_number_observations_for_centering": 2,
     }

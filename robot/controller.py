@@ -105,6 +105,8 @@ class SortingController:
 
         self.classification_start_time_ms = None
         self.sending_to_bin_state_start_time_ms = None
+        self.waiting_for_object_to_appear_start_time_ms = None
+        self.break_beam_last_query_timestamp = int(time.time() * 1000)
 
         # Thread-safe communication with API server
         self.thread_safe_state = ThreadSafeState()
@@ -139,16 +141,16 @@ class SortingController:
             profiler.enable()
             self.global_config["logger"].info("Performance profiling enabled")
 
-        self.global_config["logger"].info(
-            "Running conveyor motor at +20 over config speed for 3 seconds..."
-        )
-        self._setMotorSpeeds(
-            main_conveyor=self.global_config["main_conveyor_speed"] + 20,
-            feeder_conveyor=0,
-            vibration_hopper=0,
-        )
-        time.sleep(3.0)
-        self._setMotorSpeeds(main_conveyor=0, feeder_conveyor=0, vibration_hopper=0)
+        # self.global_config["logger"].info(
+        #     "Running conveyor motor at +20 over config speed for 3 seconds..."
+        # )
+        # self._setMotorSpeeds(
+        #     main_conveyor=self.global_config["main_conveyor_speed"] + 20,
+        #     feeder_conveyor=0,
+        #     vibration_hopper=0,
+        # )
+        # time.sleep(3.0)
+        # self._setMotorSpeeds(main_conveyor=0, feeder_conveyor=0, vibration_hopper=0)
 
         tick_count = 0
         try:
@@ -168,6 +170,7 @@ class SortingController:
                         self._updateSortingStateMachine()
                         if self.sorting_state in [
                             SortingState.GETTING_NEW_OBJECT,
+                            SortingState.WAITING_FOR_OBJECT_TO_APPEAR,
                             SortingState.WAITING_FOR_OBJECT_TO_CENTER,
                         ]:
                             self._submitFrameForProcessing()
@@ -225,10 +228,17 @@ class SortingController:
                 )
                 self.global_config["logger"].info("Started motors to get new object")
 
-            if self.scene_tracker.objects_in_frame > 0:
-                self.sorting_state = SortingState.WAITING_FOR_OBJECT_TO_CENTER
+            break_timestamp, latest_timestamp = self.irl_system["break_beam_sensor"].queryBreakings(
+                self.break_beam_last_query_timestamp
+            )
+            self.break_beam_last_query_timestamp = latest_timestamp
+
+            if break_timestamp != -1:
+                self.sorting_state = SortingState.WAITING_FOR_OBJECT_TO_APPEAR
+                self.waiting_for_object_to_appear_start_time_ms = current_time_ms
+                self._setMotorSpeeds(0, 0, 0)
                 self.global_config["logger"].info(
-                    "Object detected, switching to WAITING_FOR_OBJECT_TO_CENTER"
+                    f"Break beam triggered at {break_timestamp}, switching to WAITING_FOR_OBJECT_TO_APPEAR"
                 )
                 return
 
@@ -241,12 +251,39 @@ class SortingController:
                 self._setMotorSpeeds(0, 0, 0)
                 return
 
+        elif self.sorting_state == SortingState.WAITING_FOR_OBJECT_TO_APPEAR:
+            if self.scene_tracker.objects_in_frame > 0:
+                self.sorting_state = SortingState.WAITING_FOR_OBJECT_TO_CENTER
+                self.global_config["logger"].info(
+                    "Object appeared in camera, switching to WAITING_FOR_OBJECT_TO_CENTER"
+                )
+                return
+
+            time_waiting = current_time_ms - self.waiting_for_object_to_appear_start_time_ms
+            if time_waiting > self.global_config["waiting_for_object_to_appear_timeout_ms"]:
+                self.global_config["logger"].info(
+                    "Timeout waiting for object to appear, returning to GETTING_NEW_OBJECT"
+                )
+                self.sorting_state = SortingState.GETTING_NEW_OBJECT
+                self.getting_new_object_start_time = None
+                self.waiting_for_object_to_appear_start_time_ms = None
+                return
+
         elif self.sorting_state == SortingState.WAITING_FOR_OBJECT_TO_CENTER:
             self._setMotorSpeeds(
                 main_conveyor=self.global_config["main_conveyor_speed"],
                 feeder_conveyor=0,
                 vibration_hopper=0,
             )
+
+            if self.scene_tracker.objects_in_frame > 1:
+                self.global_config["logger"].info(
+                    "Multiple objects detected, returning to GETTING_NEW_OBJECT"
+                )
+                self.sorting_state = SortingState.GETTING_NEW_OBJECT
+                self.getting_new_object_start_time = None
+                self.waiting_for_object_to_appear_start_time_ms = None
+                return
 
             valid_trajectories = self.scene_tracker.getValidNewTrajectories()
             if valid_trajectories:
@@ -261,8 +298,11 @@ class SortingController:
                 return
 
             # Check for timeout while waiting for object to center
-            if self.getting_new_object_start_time is not None:
-                time_waiting = current_time_ms - self.getting_new_object_start_time
+            start_time = (self.waiting_for_object_to_appear_start_time_ms
+                         if self.waiting_for_object_to_appear_start_time_ms
+                         else self.getting_new_object_start_time)
+            if start_time is not None:
+                time_waiting = current_time_ms - start_time
                 if (
                     time_waiting
                     > self.global_config["waiting_for_object_to_center_timeout_ms"]
@@ -272,6 +312,7 @@ class SortingController:
                     )
                     self.sorting_state = SortingState.GETTING_NEW_OBJECT
                     self.getting_new_object_start_time = None
+                    self.waiting_for_object_to_appear_start_time_ms = None
                     return
 
         elif self.sorting_state == SortingState.TRYING_TO_CLASSIFY:
@@ -307,6 +348,7 @@ class SortingController:
                     )
                     self.sorting_state = SortingState.GETTING_NEW_OBJECT
                     self.getting_new_object_start_time = None
+                    self.waiting_for_object_to_appear_start_time_ms = None
                     self.classification_start_time_ms = None
                     return
 
@@ -316,6 +358,7 @@ class SortingController:
             ):
                 self.sorting_state = SortingState.GETTING_NEW_OBJECT
                 self.getting_new_object_start_time = None
+                self.waiting_for_object_to_appear_start_time_ms = None
                 self.classification_start_time_ms = None
                 self.global_config["logger"].info(
                     "No objects to classify, switching to GETTING_NEW_OBJECT"
@@ -521,6 +564,7 @@ class SortingController:
                         )
                         self.sorting_state = SortingState.GETTING_NEW_OBJECT
                         self.getting_new_object_start_time = None
+                        self.waiting_for_object_to_appear_start_time_ms = None
                         return
 
                 # Continue with existing target bin
@@ -589,6 +633,7 @@ class SortingController:
 
                         self.sorting_state = SortingState.GETTING_NEW_OBJECT
                         self.getting_new_object_start_time = None
+                        self.waiting_for_object_to_appear_start_time_ms = None
                         self.sending_to_bin_state_start_time_ms = None
                         self.global_config["logger"].info(
                             f"Item sent to bin, distance traveled: {distance_traveled:.1f}cm, switching to GETTING_NEW_OBJECT"

@@ -147,6 +147,53 @@ class DCMotor:
         self.dev.sysex(0x03, [0x03, self.enable_pin, pwm_value])
 
 
+class BreakBeamSensor:
+    def __init__(self, gc: GlobalConfig, dev: OurArduinoMega, sensor_pin: int):
+        self.gc = gc
+        self.dev = dev
+        self.sensor_pin = sensor_pin
+        self.last_query_timestamp = 0
+
+        logger = gc["logger"]
+        logger.info(f"Setting up break beam sensor on pin {sensor_pin}")
+
+        self.dev.add_cmd_handler(0x60, self._onBreakBeamResponse)
+        self.dev.sysex(0x60, [0x01, sensor_pin])
+
+        time.sleep(0.1)
+        logger.info(f"Break beam sensor initialized on pin {sensor_pin}")
+
+    def queryBreakings(self, since_timestamp: int) -> tuple[int, int]:
+        timestamp_bytes = [
+            (since_timestamp >> 0) & 0x7F,
+            (since_timestamp >> 7) & 0x7F, 
+            (since_timestamp >> 14) & 0x7F,
+            (since_timestamp >> 21) & 0x7F,
+            (since_timestamp >> 28) & 0x7F
+        ]
+        
+        self.dev.sysex(0x60, [0x02] + timestamp_bytes)
+        time.sleep(0.01)
+        
+        if hasattr(self, 'last_break_timestamp') and hasattr(self, 'last_query_timestamp'):
+            return (self.last_break_timestamp, self.last_query_timestamp)
+        else:
+            return (-1, int(time.time() * 1000))
+
+    def _onBreakBeamResponse(self, *args):
+        if len(args) >= 10:
+            break_timestamp = (args[0] | (args[1] << 7) | (args[2] << 14) | 
+                             (args[3] << 21) | (args[4] << 28))
+            latest_timestamp = (args[5] | (args[6] << 7) | (args[7] << 14) | 
+                              (args[8] << 21) | (args[9] << 28))
+            
+            if break_timestamp == 0xFFFFFFFF:
+                break_timestamp = -1
+                
+            self.last_break_timestamp = break_timestamp
+            self.last_query_timestamp = latest_timestamp
+
+
 class Encoder:
     def __init__(
         self,

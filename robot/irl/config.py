@@ -1,6 +1,6 @@
 from pyfirmata import util, pyfirmata
 from robot.irl.our_arduino import OurArduinoMega
-from robot.irl.motors import PCA9685, Servo, DCMotor, Encoder
+from robot.irl.motors import PCA9685, Servo, DCMotor, Encoder, BreakBeamSensor
 from robot.irl.distribution import Bin, DistributionModule
 from robot.irl.camera import Camera, connectToCamera
 from typing import Dict, List, Tuple, TypedDict, Optional
@@ -36,6 +36,10 @@ class EncoderConfig(TypedDict):
     wheel_diameter_mm: float
 
 
+class BreakBeamSensorConfig(TypedDict):
+    sensor_pin: int
+
+
 class MainCameraConfig(TypedDict):
     device_index: int
     width: int
@@ -51,6 +55,7 @@ class IRLConfig(TypedDict):
     vibration_hopper_dc_motor: DCMotorConfig
     main_camera: MainCameraConfig
     conveyor_encoder: EncoderConfig
+    break_beam_sensor: BreakBeamSensorConfig
 
 
 class IRLSystemInterface(TypedDict):
@@ -61,6 +66,7 @@ class IRLSystemInterface(TypedDict):
     vibration_hopper_dc_motor: DCMotor
     main_camera: Camera
     conveyor_encoder: Encoder
+    break_beam_sensor: BreakBeamSensor
 
 
 def buildIRLConfig() -> IRLConfig:
@@ -144,6 +150,9 @@ def buildIRLConfig() -> IRLConfig:
             "dt_pin": 19,
             "pulses_per_revolution": 20,
             "wheel_diameter_mm": 30.0,
+        },
+        "break_beam_sensor": {
+            "sensor_pin": 51,
         },
     }
 
@@ -277,6 +286,12 @@ def buildIRLSystemInterface(config: IRLConfig, gc: GlobalConfig) -> IRLSystemInt
         config["conveyor_encoder"]["wheel_diameter_mm"],
     )
 
+    break_beam_sensor = BreakBeamSensor(
+        gc,
+        mc,
+        config["break_beam_sensor"]["sensor_pin"],
+    )
+
     return {
         "arduino": mc,
         "distribution_modules": dms,
@@ -285,4 +300,5 @@ def buildIRLSystemInterface(config: IRLConfig, gc: GlobalConfig) -> IRLSystemInt
         "vibration_hopper_dc_motor": vibration_hopper_motor,
         "main_camera": main_camera,
         "conveyor_encoder": conveyor_encoder,
+        "break_beam_sensor": break_beam_sensor,
     }

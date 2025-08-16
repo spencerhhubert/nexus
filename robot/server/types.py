@@ -15,6 +15,7 @@ class SystemLifecycleStage(Enum):
 
 class SortingState(Enum):
     GETTING_NEW_OBJECT = "getting_new_object"
+    WAITING_FOR_OBJECT_TO_APPEAR = "waiting_for_object_to_appear"
     WAITING_FOR_OBJECT_TO_CENTER = "waiting_for_object_to_center"
     TRYING_TO_CLASSIFY = "trying_to_classify"
     SENDING_ITEM_TO_BIN = "sending_item_to_bin"

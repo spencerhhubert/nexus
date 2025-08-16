@@ -51,6 +51,12 @@ uint16_t SevenBitToInt16(byte *bytes) {
 #define ENCODER_READ 0x02
 #define ENCODER_RESET 0x03
 
+//Break Beam Sensor SysEx commands
+#define BREAK_BEAM 0x60 //identifier for all break beam sensor commands
+//subcommands
+#define BREAK_BEAM_SETUP 0x01
+#define BREAK_BEAM_QUERY 0x02
+
 #define SERVOMIN  100
 #define SERVOMAX  477
 #define SERVO_FREQ 50
@@ -89,6 +95,18 @@ volatile int lastCLK = 0;
 int encoderCLKPin = -1;
 int encoderDTPin = -1;
 bool encoderEnabled = false;
+
+// Break beam sensor variables
+const int BREAK_BEAM_PING_INTERVAL_MS = 5;
+const int BREAK_BEAM_HISTORY_DURATION_MS = 1000;
+const int BREAK_BEAM_HISTORY_SIZE = BREAK_BEAM_HISTORY_DURATION_MS / BREAK_BEAM_PING_INTERVAL_MS;
+
+int breakBeamSensorPin = -1;
+bool breakBeamEnabled = false;
+unsigned long breakBeamReadings[BREAK_BEAM_HISTORY_SIZE];
+unsigned long breakBeamTimestamps[BREAK_BEAM_HISTORY_SIZE];
+int breakBeamHistoryIndex = 0;
+unsigned long lastBreakBeamPing = 0;
 
 // Initialize all board entries as inactive
 void initPwmBoards() {
@@ -367,6 +385,156 @@ void parseEncoderCommand(byte command, byte argc, byte *argv) {
     }
 }
 
+void setupBreakBeamSensor(byte sensorPin) {
+    breakBeamSensorPin = sensorPin;
+    pinMode(breakBeamSensorPin, INPUT_PULLUP);
+    breakBeamEnabled = true;
+    breakBeamHistoryIndex = 0;
+    lastBreakBeamPing = millis();
+    
+    for (int i = 0; i < BREAK_BEAM_HISTORY_SIZE; i++) {
+        breakBeamReadings[i] = 1;
+        breakBeamTimestamps[i] = 0;
+    }
+
+    char debugMsg[50];
+    sprintf(debugMsg, "Break beam sensor setup on pin %d", sensorPin);
+    Firmata.sendString(STRING_DATA, debugMsg);
+}
+
+void updateBreakBeamSensor() {
+    if (!breakBeamEnabled) return;
+    
+    unsigned long currentTime = millis();
+    if (currentTime - lastBreakBeamPing >= BREAK_BEAM_PING_INTERVAL_MS) {
+        int reading = digitalRead(breakBeamSensorPin);
+        
+        breakBeamReadings[breakBeamHistoryIndex] = reading;
+        breakBeamTimestamps[breakBeamHistoryIndex] = currentTime;
+        
+        // Debug every 100th reading to avoid spam
+        static int debugCounter = 0;
+        if (debugCounter++ % 100 == 0) {
+            char debugMsg[60];
+            sprintf(debugMsg, "Break beam: pin=%d, reading=%d, time=%lu", 
+                   breakBeamSensorPin, reading, currentTime);
+            Firmata.sendString(STRING_DATA, debugMsg);
+        }
+        
+        breakBeamHistoryIndex = (breakBeamHistoryIndex + 1) % BREAK_BEAM_HISTORY_SIZE;
+        lastBreakBeamPing = currentTime;
+    }
+}
+
+unsigned long findBreakingSince(unsigned long sinceTimestamp) {
+    unsigned long currentTime = millis();
+    unsigned long earliestValidTime = (currentTime > BREAK_BEAM_HISTORY_DURATION_MS) ? 
+                                     (currentTime - BREAK_BEAM_HISTORY_DURATION_MS) : 0;
+    
+    char debugMsg[80];
+    sprintf(debugMsg, "Search: since=%lu, earliest=%lu, current=%lu", 
+           sinceTimestamp, earliestValidTime, currentTime);
+    Firmata.sendString(STRING_DATA, debugMsg);
+    
+    if (sinceTimestamp < earliestValidTime) {
+        sinceTimestamp = earliestValidTime;
+    }
+    
+    int breakingCount = 0;
+    for (int i = 0; i < BREAK_BEAM_HISTORY_SIZE; i++) {
+        int idx = (breakBeamHistoryIndex - 1 - i + BREAK_BEAM_HISTORY_SIZE) % BREAK_BEAM_HISTORY_SIZE;
+        
+        if (breakBeamTimestamps[idx] >= sinceTimestamp) {
+            if (breakBeamReadings[idx] == 0) {
+                breakingCount++;
+                sprintf(debugMsg, "Found break at idx=%d, time=%lu, reading=%d", 
+                       idx, breakBeamTimestamps[idx], breakBeamReadings[idx]);
+                Firmata.sendString(STRING_DATA, debugMsg);
+                return breakBeamTimestamps[idx];
+            }
+        } else {
+            break;
+        }
+    }
+    
+    sprintf(debugMsg, "No breaks found in %d readings", BREAK_BEAM_HISTORY_SIZE);
+    Firmata.sendString(STRING_DATA, debugMsg);
+    return 0xFFFFFFFF;
+}
+
+unsigned long getLatestBreakBeamTimestamp() {
+    if (!breakBeamEnabled) return 0;
+    
+    int latestIdx = (breakBeamHistoryIndex - 1 + BREAK_BEAM_HISTORY_SIZE) % BREAK_BEAM_HISTORY_SIZE;
+    return breakBeamTimestamps[latestIdx];
+}
+
+void parseBreakBeamCommand(byte command, byte argc, byte *argv) {
+    char debugMsg[80];
+    sprintf(debugMsg, "Break beam cmd: %d, argc: %d", command, argc);
+    Firmata.sendString(STRING_DATA, debugMsg);
+
+    switch (command) {
+        case BREAK_BEAM_SETUP: {
+            setupBreakBeamSensor(argv[0]);
+            break;
+        }
+        case BREAK_BEAM_QUERY: {
+            if (argc < 5) {
+                sprintf(debugMsg, "Break beam query: got %d args, need 5 timestamp bytes", argc);
+                Firmata.sendString(STRING_DATA, debugMsg);
+                return;
+            }
+            
+            // argv[0-4] are the 5 timestamp bytes (subcommand already stripped by sysexCallback)
+            unsigned long sinceTimestamp = (unsigned long)argv[0] | 
+                                         ((unsigned long)argv[1] << 7) | 
+                                         ((unsigned long)argv[2] << 14) | 
+                                         ((unsigned long)argv[3] << 21) | 
+                                         ((unsigned long)argv[4] << 28);
+            
+            sprintf(debugMsg, "Query since: %lu (bytes: %d,%d,%d,%d,%d)", 
+                   sinceTimestamp, argv[0], argv[1], argv[2], argv[3], argv[4]);
+            Firmata.sendString(STRING_DATA, debugMsg);
+            
+            unsigned long breakTimestamp = findBreakingSince(sinceTimestamp);
+            unsigned long latestTimestamp = getLatestBreakBeamTimestamp();
+            unsigned long currentTime = millis();
+            
+            sprintf(debugMsg, "Result: break=%lu, latest=%lu, current=%lu", 
+                   breakTimestamp, latestTimestamp, currentTime);
+            Firmata.sendString(STRING_DATA, debugMsg);
+            
+            // Pack 32-bit values into 5 7-bit bytes each
+            byte response[10];
+            response[0] = breakTimestamp & 0x7F;
+            response[1] = (breakTimestamp >> 7) & 0x7F;
+            response[2] = (breakTimestamp >> 14) & 0x7F;
+            response[3] = (breakTimestamp >> 21) & 0x7F;
+            response[4] = (breakTimestamp >> 28) & 0x7F;
+            
+            response[5] = latestTimestamp & 0x7F;
+            response[6] = (latestTimestamp >> 7) & 0x7F;
+            response[7] = (latestTimestamp >> 14) & 0x7F;
+            response[8] = (latestTimestamp >> 21) & 0x7F;
+            response[9] = (latestTimestamp >> 28) & 0x7F;
+            
+            sprintf(debugMsg, "Response bytes: [%d,%d,%d,%d,%d] [%d,%d,%d,%d,%d]", 
+                   response[0], response[1], response[2], response[3], response[4],
+                   response[5], response[6], response[7], response[8], response[9]);
+            Firmata.sendString(STRING_DATA, debugMsg);
+            
+            Firmata.sendSysex(BREAK_BEAM, 10, response);
+            break;
+        }
+        default: {
+            sprintf(debugMsg, "Unknown break beam cmd: %d", command);
+            Firmata.sendString(STRING_DATA, debugMsg);
+            break;
+        }
+    }
+}
+
 
 
 void systemResetCallback() {
@@ -411,6 +579,10 @@ void sysexCallback(byte command, byte argc, byte *argv) {
         case ENCODER:
             Firmata.sendString(STRING_DATA, "Processing ENCODER");
             parseEncoderCommand(argv[0], argc-1, argv+1);
+        break;
+        case BREAK_BEAM:
+            Firmata.sendString(STRING_DATA, "Processing BREAK_BEAM");
+            parseBreakBeamCommand(argv[0], argc-1, argv+1);
         break;
         default:
             sprintf(debugMsg, "Unknown sysex command: 0x%02X", command);
@@ -471,4 +643,7 @@ void loop() {
 
     // Check for servos that should be turned off
     checkServoTimeouts();
+    
+    // Update break beam sensor readings
+    updateBreakBeamSensor();
 }

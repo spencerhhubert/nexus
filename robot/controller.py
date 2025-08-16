@@ -217,9 +217,9 @@ class SortingController:
                 )
                 self.global_config["logger"].info("Started motors to get new object")
 
-            break_timestamp, latest_timestamp = self.irl_system["break_beam_sensor"].queryBreakings(
-                self.break_beam_last_query_timestamp
-            )
+            break_timestamp, latest_timestamp = self.irl_system[
+                "break_beam_sensor"
+            ].queryBreakings(self.break_beam_last_query_timestamp)
             self.break_beam_last_query_timestamp = latest_timestamp
 
             if break_timestamp != -1:
@@ -259,8 +259,13 @@ class SortingController:
                 )
                 return
 
-            time_waiting = current_time_ms - self.waiting_for_object_to_appear_start_time_ms
-            if time_waiting > self.global_config["waiting_for_object_to_appear_timeout_ms"]:
+            time_waiting = (
+                current_time_ms - self.waiting_for_object_to_appear_start_time_ms
+            )
+            if (
+                time_waiting
+                > self.global_config["waiting_for_object_to_appear_timeout_ms"]
+            ):
                 self.global_config["logger"].info(
                     "Timeout waiting for object to appear, returning to GETTING_NEW_OBJECT"
                 )
@@ -298,9 +303,11 @@ class SortingController:
                 return
 
             # Check for timeout while waiting for object to center
-            start_time = (self.waiting_for_object_to_appear_start_time_ms
-                         if self.waiting_for_object_to_appear_start_time_ms
-                         else self.getting_new_object_start_time)
+            start_time = (
+                self.waiting_for_object_to_appear_start_time_ms
+                if self.waiting_for_object_to_appear_start_time_ms
+                else self.getting_new_object_start_time
+            )
             if start_time is not None:
                 time_waiting = current_time_ms - start_time
                 if (

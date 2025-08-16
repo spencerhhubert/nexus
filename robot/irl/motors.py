@@ -159,7 +159,7 @@ class BreakBeamSensor:
 
         self.last_break_timestamp = -1
         self.last_query_timestamp = int(time.time() * 1000)
-        
+
         self.dev.add_cmd_handler(0x60, self._onBreakBeamResponse)
         self.dev.sysex(0x60, [0x01, sensor_pin])
 
@@ -172,48 +172,74 @@ class BreakBeamSensor:
             (since_timestamp >> 7) & 0x7F,
             (since_timestamp >> 14) & 0x7F,
             (since_timestamp >> 21) & 0x7F,
-            (since_timestamp >> 28) & 0x7F
+            (since_timestamp >> 28) & 0x7F,
         ]
-        
-        self.gc["logger"].info(f"Sending break beam query: since_timestamp={since_timestamp}, bytes={timestamp_bytes}")
+
+        self.gc["logger"].info(
+            f"Sending break beam query: since_timestamp={since_timestamp}, bytes={timestamp_bytes}"
+        )
 
         self.dev.sysex(0x60, [0x02] + timestamp_bytes)
         time.sleep(0.02)
 
-        if hasattr(self, 'last_break_timestamp') and hasattr(self, 'last_query_timestamp'):
-            self.gc["logger"].info(f"Break beam query result: break={self.last_break_timestamp}, latest={self.last_query_timestamp}")
+        if hasattr(self, "last_break_timestamp") and hasattr(
+            self, "last_query_timestamp"
+        ):
+            self.gc["logger"].info(
+                f"Break beam query result: break={self.last_break_timestamp}, latest={self.last_query_timestamp}"
+            )
             return (self.last_break_timestamp, self.last_query_timestamp)
         else:
             fallback_time = int(time.time() * 1000)
-            self.gc["logger"].info(f"No break beam response yet, returning fallback: (-1, {fallback_time})")
+            self.gc["logger"].info(
+                f"No break beam response yet, returning fallback: (-1, {fallback_time})"
+            )
             return (-1, fallback_time)
 
     def _onBreakBeamResponse(self, *args):
-        self.gc["logger"].info(f"Break beam response received: {len(args)} args = {list(args)}")
-        
+        self.gc["logger"].info(
+            f"Break beam response received: {len(args)} args = {list(args)}"
+        )
+
         # Firmata converts each byte to two 7-bit values, so we expect 20 args (10 bytes * 2)
         if len(args) >= 20:
             # Extract the actual bytes from the doubled format: [val, 0, val, 0, ...]
             actual_bytes = [args[i] for i in range(0, 20, 2)]
             self.gc["logger"].info(f"Extracted bytes: {actual_bytes}")
-            
-            # Reconstruct timestamps from 7-bit bytes
-            break_timestamp = (actual_bytes[0] | (actual_bytes[1] << 7) | (actual_bytes[2] << 14) |
-                             (actual_bytes[3] << 21) | (actual_bytes[4] << 28))
-            latest_timestamp = (actual_bytes[5] | (actual_bytes[6] << 7) | (actual_bytes[7] << 14) |
-                              (actual_bytes[8] << 21) | (actual_bytes[9] << 28))
 
-            self.gc["logger"].info(f"Reconstructed timestamps: break={break_timestamp}, latest={latest_timestamp}")
-            
+            # Reconstruct timestamps from 7-bit bytes
+            break_timestamp = (
+                actual_bytes[0]
+                | (actual_bytes[1] << 7)
+                | (actual_bytes[2] << 14)
+                | (actual_bytes[3] << 21)
+                | (actual_bytes[4] << 28)
+            )
+            latest_timestamp = (
+                actual_bytes[5]
+                | (actual_bytes[6] << 7)
+                | (actual_bytes[7] << 14)
+                | (actual_bytes[8] << 21)
+                | (actual_bytes[9] << 28)
+            )
+
+            self.gc["logger"].info(
+                f"Reconstructed timestamps: break={break_timestamp}, latest={latest_timestamp}"
+            )
+
             # Check for "no break found" sentinel value
             if break_timestamp == 0xFFFFFFFF:
-                self.gc["logger"].info("Break timestamp is sentinel value 0xFFFFFFFF, converting to -1")
+                self.gc["logger"].info(
+                    "Break timestamp is sentinel value 0xFFFFFFFF, converting to -1"
+                )
                 break_timestamp = -1
 
             self.last_break_timestamp = break_timestamp
             self.last_query_timestamp = latest_timestamp
         else:
-            self.gc["logger"].warning(f"Break beam response too short: got {len(args)} args, expected 20")
+            self.gc["logger"].warning(
+                f"Break beam response too short: got {len(args)} args, expected 20"
+            )
 
 
 class Encoder:

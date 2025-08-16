@@ -141,17 +141,6 @@ class SortingController:
             profiler.enable()
             self.global_config["logger"].info("Performance profiling enabled")
 
-        # self.global_config["logger"].info(
-        #     "Running conveyor motor at +20 over config speed for 3 seconds..."
-        # )
-        # self._setMotorSpeeds(
-        #     main_conveyor=self.global_config["main_conveyor_speed"] + 20,
-        #     feeder_conveyor=0,
-        #     vibration_hopper=0,
-        # )
-        # time.sleep(3.0)
-        # self._setMotorSpeeds(main_conveyor=0, feeder_conveyor=0, vibration_hopper=0)
-
         tick_count = 0
         try:
             while self.system_lifecycle_stage in [
@@ -236,7 +225,11 @@ class SortingController:
             if break_timestamp != -1:
                 self.sorting_state = SortingState.WAITING_FOR_OBJECT_TO_APPEAR
                 self.waiting_for_object_to_appear_start_time_ms = current_time_ms
-                self._setMotorSpeeds(0, 0, 0)
+                self._setMotorSpeeds(
+                    main_conveyor=self.global_config["main_conveyor_speed"],
+                    feeder_conveyor=0,
+                    vibration_hopper=0,
+                )
                 self.global_config["logger"].info(
                     f"Break beam triggered at {break_timestamp}, switching to WAITING_FOR_OBJECT_TO_APPEAR"
                 )
@@ -371,6 +364,8 @@ class SortingController:
     def _setMotorSpeeds(
         self, main_conveyor: int, feeder_conveyor: int, vibration_hopper: int
     ) -> None:
+        if feeder_conveyor == 0 and vibration_hopper == 0 and main_conveyor != 0:
+            main_conveyor -= 30
         if self.main_conveyor_speed != main_conveyor:
             self.main_conveyor_speed = main_conveyor
             if not self.global_config["disable_main_conveyor"]:

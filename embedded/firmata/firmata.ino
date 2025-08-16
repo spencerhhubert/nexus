@@ -411,8 +411,17 @@ void updateBreakBeamSensor() {
         
         breakBeamReadings[breakBeamHistoryIndex] = reading;
         breakBeamTimestamps[breakBeamHistoryIndex] = currentTime;
-        breakBeamHistoryIndex = (breakBeamHistoryIndex + 1) % BREAK_BEAM_HISTORY_SIZE;
         
+        // Debug every 100th reading to avoid spam
+        static int debugCounter = 0;
+        if (debugCounter++ % 100 == 0) {
+            char debugMsg[60];
+            sprintf(debugMsg, "Break beam: pin=%d, reading=%d, time=%lu", 
+                   breakBeamSensorPin, reading, currentTime);
+            Firmata.sendString(STRING_DATA, debugMsg);
+        }
+        
+        breakBeamHistoryIndex = (breakBeamHistoryIndex + 1) % BREAK_BEAM_HISTORY_SIZE;
         lastBreakBeamPing = currentTime;
     }
 }
@@ -422,22 +431,34 @@ unsigned long findBreakingSince(unsigned long sinceTimestamp) {
     unsigned long earliestValidTime = (currentTime > BREAK_BEAM_HISTORY_DURATION_MS) ? 
                                      (currentTime - BREAK_BEAM_HISTORY_DURATION_MS) : 0;
     
+    char debugMsg[80];
+    sprintf(debugMsg, "Search: since=%lu, earliest=%lu, current=%lu", 
+           sinceTimestamp, earliestValidTime, currentTime);
+    Firmata.sendString(STRING_DATA, debugMsg);
+    
     if (sinceTimestamp < earliestValidTime) {
         sinceTimestamp = earliestValidTime;
     }
     
+    int breakingCount = 0;
     for (int i = 0; i < BREAK_BEAM_HISTORY_SIZE; i++) {
         int idx = (breakBeamHistoryIndex - 1 - i + BREAK_BEAM_HISTORY_SIZE) % BREAK_BEAM_HISTORY_SIZE;
         
-        if (breakBeamTimestamps[idx] >= sinceTimestamp && breakBeamReadings[idx] == 0) {
-            return breakBeamTimestamps[idx];
-        }
-        
-        if (breakBeamTimestamps[idx] < sinceTimestamp) {
+        if (breakBeamTimestamps[idx] >= sinceTimestamp) {
+            if (breakBeamReadings[idx] == 0) {
+                breakingCount++;
+                sprintf(debugMsg, "Found break at idx=%d, time=%lu, reading=%d", 
+                       idx, breakBeamTimestamps[idx], breakBeamReadings[idx]);
+                Firmata.sendString(STRING_DATA, debugMsg);
+                return breakBeamTimestamps[idx];
+            }
+        } else {
             break;
         }
     }
     
+    sprintf(debugMsg, "No breaks found in %d readings", BREAK_BEAM_HISTORY_SIZE);
+    Firmata.sendString(STRING_DATA, debugMsg);
     return 0xFFFFFFFF;
 }
 
@@ -460,16 +481,31 @@ void parseBreakBeamCommand(byte command, byte argc, byte *argv) {
         }
         case BREAK_BEAM_QUERY: {
             if (argc < 5) {
-                Firmata.sendString(STRING_DATA, "Break beam query needs 5 timestamp bytes");
+                sprintf(debugMsg, "Break beam query: got %d args, need 5 timestamp bytes", argc);
+                Firmata.sendString(STRING_DATA, debugMsg);
                 return;
             }
             
-            unsigned long sinceTimestamp = argv[0] | (argv[1] << 7) | (argv[2] << 14) | 
-                                         (argv[3] << 21) | (argv[4] << 28);
+            // argv[0-4] are the 5 timestamp bytes (subcommand already stripped by sysexCallback)
+            unsigned long sinceTimestamp = (unsigned long)argv[0] | 
+                                         ((unsigned long)argv[1] << 7) | 
+                                         ((unsigned long)argv[2] << 14) | 
+                                         ((unsigned long)argv[3] << 21) | 
+                                         ((unsigned long)argv[4] << 28);
+            
+            sprintf(debugMsg, "Query since: %lu (bytes: %d,%d,%d,%d,%d)", 
+                   sinceTimestamp, argv[0], argv[1], argv[2], argv[3], argv[4]);
+            Firmata.sendString(STRING_DATA, debugMsg);
             
             unsigned long breakTimestamp = findBreakingSince(sinceTimestamp);
             unsigned long latestTimestamp = getLatestBreakBeamTimestamp();
+            unsigned long currentTime = millis();
             
+            sprintf(debugMsg, "Result: break=%lu, latest=%lu, current=%lu", 
+                   breakTimestamp, latestTimestamp, currentTime);
+            Firmata.sendString(STRING_DATA, debugMsg);
+            
+            // Pack 32-bit values into 5 7-bit bytes each
             byte response[10];
             response[0] = breakTimestamp & 0x7F;
             response[1] = (breakTimestamp >> 7) & 0x7F;
@@ -482,6 +518,11 @@ void parseBreakBeamCommand(byte command, byte argc, byte *argv) {
             response[7] = (latestTimestamp >> 14) & 0x7F;
             response[8] = (latestTimestamp >> 21) & 0x7F;
             response[9] = (latestTimestamp >> 28) & 0x7F;
+            
+            sprintf(debugMsg, "Response bytes: [%d,%d,%d,%d,%d] [%d,%d,%d,%d,%d]", 
+                   response[0], response[1], response[2], response[3], response[4],
+                   response[5], response[6], response[7], response[8], response[9]);
+            Firmata.sendString(STRING_DATA, debugMsg);
             
             Firmata.sendSysex(BREAK_BEAM, 10, response);
             break;

@@ -235,6 +235,13 @@ class SortingController:
                 )
                 return
 
+            if self.scene_tracker.objects_in_frame > 0:
+                self.sorting_state = SortingState.WAITING_FOR_OBJECT_TO_CENTER
+                self.global_config["logger"].info(
+                    "Object appeared in camera, switching to WAITING_FOR_OBJECT_TO_CENTER"
+                )
+                return
+
             time_running = current_time_ms - self.getting_new_object_start_time
             if time_running > self.global_config["getting_new_object_timeout_ms"]:
                 self.global_config["logger"].info(

@@ -139,17 +139,6 @@ class SortingController:
             profiler.enable()
             self.global_config["logger"].info("Performance profiling enabled")
 
-        self.global_config["logger"].info(
-            "Running conveyor motor at +20 over config speed for 3 seconds..."
-        )
-        self._setMotorSpeeds(
-            main_conveyor=self.global_config["main_conveyor_speed"] + 20,
-            feeder_conveyor=0,
-            vibration_hopper=0,
-        )
-        time.sleep(3.0)
-        self._setMotorSpeeds(main_conveyor=0, feeder_conveyor=0, vibration_hopper=0)
-
         tick_count = 0
         try:
             while self.system_lifecycle_stage in [
@@ -530,7 +519,7 @@ class SortingController:
                     bin_idx = target_bin["bin_idx"]
 
                     self._setMotorSpeeds(
-                        main_conveyor=self.global_config["main_conveyor_speed"] + 10,
+                        main_conveyor=self.global_config["main_conveyor_speed"],
                         feeder_conveyor=0,
                         vibration_hopper=0,
                     )

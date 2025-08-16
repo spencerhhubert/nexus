@@ -259,6 +259,7 @@ class SortingController:
                 )
                 return
 
+            assert self.waiting_for_object_to_appear_start_time_ms is not None
             time_waiting = (
                 current_time_ms - self.waiting_for_object_to_appear_start_time_ms
             )

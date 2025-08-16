@@ -569,7 +569,7 @@ class SortingController:
                     bin_idx = target_bin["bin_idx"]
 
                     self._setMotorSpeeds(
-                        main_conveyor=self.global_config["main_conveyor_speed"] + 10,
+                        main_conveyor=self.global_config["main_conveyor_speed"],
                         feeder_conveyor=0,
                         vibration_hopper=0,
                     )

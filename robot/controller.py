@@ -18,6 +18,7 @@ from robot.ai import (
     calculateNormalizedBounds,
 )
 from robot.ai.segment import initializeSegmentationModel
+from robot.irl.camera import CameraBuffer
 from robot.sorting.bricklink_categories_sorting_profile import (
     mkBricklinkCategoriesSortingProfile,
 )
@@ -90,6 +91,10 @@ class SortingController:
 
         self.segmentation_model = initializeSegmentationModel(self.global_config)
 
+        self.camera_buffer = CameraBuffer(
+            self.irl_system["main_camera"], self.global_config
+        )
+
         self.api_server = RobotAPI(self.global_config, self)
 
         self.max_worker_threads = global_config["max_worker_threads"]
@@ -107,6 +112,7 @@ class SortingController:
         self.sending_to_bin_state_start_time_ms = None
         self.waiting_for_object_to_appear_start_time_ms = None
         self.break_beam_last_query_timestamp = int(time.time() * 1000)
+        self.last_capture_time_ms = 0
 
         # Thread-safe communication with API server
         self.thread_safe_state = ThreadSafeState()
@@ -155,14 +161,31 @@ class SortingController:
                     self._cleanupCompletedFutures()
                     cleanup_duration_ms = time.time() * 1000 - cleanup_start_ms
 
+                    current_time_ms = int(time.time() * 1000)
+
+                    sorting_start_ms = time.time() * 1000
+                    sorting_duration_ms = 0.0
+                    frame_processing_duration_ms = 0.0
                     if self.system_lifecycle_stage == SystemLifecycleStage.RUNNING:
                         self._updateSortingStateMachine()
-                        if self.sorting_state in [
-                            SortingState.GETTING_NEW_OBJECT,
-                            SortingState.WAITING_FOR_OBJECT_TO_APPEAR,
-                            SortingState.WAITING_FOR_OBJECT_TO_CENTER,
-                        ]:
-                            self._submitFrameForProcessing()
+                        sorting_duration_ms = time.time() * 1000 - sorting_start_ms
+
+                        # Only capture frames at capture_delay_ms intervals
+                        frame_processing_start_ms = time.time() * 1000
+                        if (
+                            current_time_ms - self.last_capture_time_ms
+                            >= self.global_config["capture_delay_ms"]
+                        ):
+                            if self.sorting_state in [
+                                SortingState.GETTING_NEW_OBJECT,
+                                SortingState.WAITING_FOR_OBJECT_TO_APPEAR,
+                                SortingState.WAITING_FOR_OBJECT_TO_CENTER,
+                            ]:
+                                self._submitFrameForProcessing()
+                            self.last_capture_time_ms = current_time_ms
+                        frame_processing_duration_ms = (
+                            time.time() * 1000 - frame_processing_start_ms
+                        )
 
                     update_start_ms = time.time() * 1000
                     self._updateTrajectories()
@@ -179,12 +202,22 @@ class SortingController:
                         printAggregateProfilingReport(20)
 
                     self.global_config["logger"].info(
-                        f"Main tick [{self.sorting_state.value}]: {tick_duration_ms:.1f}ms (update: {update_duration_ms:.1f}ms, step: {step_duration_ms:.1f}ms, cleanup: {cleanup_duration_ms:.1f}ms, queue: {frame_processing_futures_count}/{self.max_queue_size}, objects: {self.scene_tracker.objects_in_frame})"
+                        f"Main tick [{self.sorting_state.value}]: {tick_duration_ms:.1f}ms (sorting: {sorting_duration_ms:.1f}ms, frame: {frame_processing_duration_ms:.1f}ms, update: {update_duration_ms:.1f}ms, step: {step_duration_ms:.1f}ms, cleanup: {cleanup_duration_ms:.1f}ms, queue: {frame_processing_futures_count}/{self.max_queue_size}, objects: {self.scene_tracker.objects_in_frame})"
                     )
 
                     tick_count += 1
 
-                    time.sleep(self.global_config["capture_delay_ms"] / 1000.0)
+                    # Calculate dynamic sleep to maintain consistent loop timing
+                    tick_duration_ms = time.time() * 1000 - tick_start_time_ms
+                    target_loop_duration_ms = self.global_config["main_loop_delay_ms"]
+                    sleep_time_ms = target_loop_duration_ms - tick_duration_ms
+
+                    if sleep_time_ms > 0:
+                        time.sleep(sleep_time_ms / 1000.0)
+                    else:
+                        self.global_config["logger"].warning(
+                            f"Main loop took {tick_duration_ms:.1f}ms (target: {target_loop_duration_ms}ms), running behind schedule"
+                        )
 
                 except KeyboardInterrupt:
                     self.global_config["logger"].info("Interrupt received, stopping...")
@@ -217,9 +250,14 @@ class SortingController:
                 )
                 self.global_config["logger"].info("Started motors to get new object")
 
+            query_start_time = time.time() * 1000
             break_timestamp, latest_timestamp = self.irl_system[
                 "break_beam_sensor"
             ].queryBreakings(self.break_beam_last_query_timestamp)
+            query_duration_ms = time.time() * 1000 - query_start_time
+            self.global_config["logger"].info(
+                f"Break beam query took {query_duration_ms:.1f}ms"
+            )
             self.break_beam_last_query_timestamp = latest_timestamp
 
             if break_timestamp != -1:
@@ -397,10 +435,10 @@ class SortingController:
                 self.irl_system["vibration_hopper_dc_motor"].setSpeed(vibration_hopper)
 
     def _submitFrameForProcessing(self) -> None:
-        captured_at_ms = int(time.time() * 1000)
-        frame = self.irl_system["main_camera"].captureFrame()
+        frame, captured_at_ms = self.camera_buffer.get_latest_frame()
         if frame is None:
             return
+        captured_at_ms = int(captured_at_ms)
 
         if self.global_config["camera_preview"]:
             display_frame = cv2.resize(frame, (854, 480))
@@ -705,6 +743,7 @@ class SortingController:
         if self.global_config["camera_preview"]:
             cv2.destroyAllWindows()
 
+        self.camera_buffer.stop()
         self.irl_system["arduino"].flush()
         self.irl_system["arduino"].close()
         self.irl_system["main_camera"].release()

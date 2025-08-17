@@ -29,6 +29,7 @@ class GlobalConfig(TypedDict):
     trajectory_matching_classification_consistency_weight: float
     trajectory_matching_spatial_weight: float
     capture_delay_ms: int
+    main_loop_delay_ms: int
     camera_preview: bool
     enable_profiling: bool
     max_worker_threads: int
@@ -120,7 +121,8 @@ def buildGlobalConfig() -> GlobalConfig:
         "trajectory_matching_max_bbox_size_ratio": 6.0,
         "trajectory_matching_classification_consistency_weight": 0.5,
         "trajectory_matching_spatial_weight": 0.5,
-        "capture_delay_ms": 100,
+        "capture_delay_ms": 150,
+        "main_loop_delay_ms": 100,
         "camera_preview": args.preview,
         "enable_profiling": args.profile,
         "max_worker_threads": 4,
@@ -129,20 +131,20 @@ def buildGlobalConfig() -> GlobalConfig:
         "bin_door_open_angle": 180 - 50,
         "conveyor_door_closed_angle": 2,
         "bin_door_closed_angle": 170,
-        "conveyor_door_close_delay_ms": 250,
+        "conveyor_door_close_delay_ms": 750,
         "bin_door_close_delay_ms": 1000,
         "conveyor_door_gradual_close_duration_ms": 750,
         "min_sending_to_bin_time_ms": 3000,
         "profiling_dir_path": "../profiles",
         "use_prev_bin_state": args.use_prev_bin_state,
         "main_conveyor_speed": 150,
-        "feeder_conveyor_speed": 150,
-        "vibration_hopper_speed": 190,
+        "feeder_conveyor_speed": 160,
+        "vibration_hopper_speed": 180,
         "object_center_threshold_percent": 0.25,
         "getting_new_object_timeout_ms": 360 * 1000,
         "classification_timeout_ms": 10 * 1000,
         "encoder_polling_delay_ms": 1000,
-        "delay_between_firmata_commands_ms": 10,
+        "delay_between_firmata_commands_ms": 2,
         "waiting_for_object_to_center_timeout_ms": 7500,
         "waiting_for_object_to_appear_timeout_ms": 5000,
         "max_trajectory_age": 10000,

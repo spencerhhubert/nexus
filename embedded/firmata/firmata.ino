@@ -71,6 +71,15 @@ uint16_t SevenBitToInt16(byte *bytes) {
 // Maximum number of PWM boards we'll support
 #define MAX_PWM_BOARDS 8
 
+// Motor control pins - automatically disabled when break beam is triggered
+// This is done in firmware to reduce latency since serial communication is too slow
+#define VIBRATION_HOPPER_ENABLE_PIN 3
+#define VIBRATION_HOPPER_INPUT1_PIN 22
+#define VIBRATION_HOPPER_INPUT2_PIN 24
+#define FEEDER_CONVEYOR_ENABLE_PIN 6
+#define FEEDER_CONVEYOR_INPUT1_PIN 30
+#define FEEDER_CONVEYOR_INPUT2_PIN 32
+
 // Custom implementation to replace std::map
 struct PwmBoardEntry {
     byte addr;
@@ -100,8 +109,8 @@ int encoderDTPin = -1;
 bool encoderEnabled = false;
 
 // Break beam sensor variables
-const int BREAK_BEAM_PING_INTERVAL_MS = 1;
-const int BREAK_BEAM_HISTORY_DURATION_MS = 200;
+const int BREAK_BEAM_PING_INTERVAL_MS = 5;
+const int BREAK_BEAM_HISTORY_DURATION_MS = 50;
 const int BREAK_BEAM_HISTORY_SIZE = BREAK_BEAM_HISTORY_DURATION_MS / BREAK_BEAM_PING_INTERVAL_MS;
 
 int breakBeamSensorPin = -1;
@@ -461,6 +470,20 @@ void updateBreakBeamSensor() {
         breakBeamReadings[breakBeamHistoryIndex] = reading;
         breakBeamTimestamps[breakBeamHistoryIndex] = currentTime;
 
+        // Automatically disable motors when break beam is broken (reading == 0)
+        // This is done in firmware for fast response since serial communication is too slow
+        if (reading == 0) {
+            // Stop vibration hopper motor
+            analogWrite(VIBRATION_HOPPER_ENABLE_PIN, 0);
+            digitalWrite(VIBRATION_HOPPER_INPUT1_PIN, LOW);
+            digitalWrite(VIBRATION_HOPPER_INPUT2_PIN, LOW);
+            
+            // Stop feeder conveyor motor
+            analogWrite(FEEDER_CONVEYOR_ENABLE_PIN, 0);
+            digitalWrite(FEEDER_CONVEYOR_INPUT1_PIN, LOW);
+            digitalWrite(FEEDER_CONVEYOR_INPUT2_PIN, LOW);
+        }
+
         // Debug every 100th reading to avoid spam
         static int debugCounter = 0;
         if (DEBUG_LEVEL > 0 && debugCounter++ % 100 == 0) {
@@ -717,6 +740,22 @@ void setup() {
 
     // Initialize servo timeout tracking
     initServoTimeouts();
+
+    // Initialize motor control pins for automatic break beam control
+    pinMode(VIBRATION_HOPPER_ENABLE_PIN, OUTPUT);
+    pinMode(VIBRATION_HOPPER_INPUT1_PIN, OUTPUT);
+    pinMode(VIBRATION_HOPPER_INPUT2_PIN, OUTPUT);
+    pinMode(FEEDER_CONVEYOR_ENABLE_PIN, OUTPUT);
+    pinMode(FEEDER_CONVEYOR_INPUT1_PIN, OUTPUT);
+    pinMode(FEEDER_CONVEYOR_INPUT2_PIN, OUTPUT);
+    
+    // Initialize motors to off state
+    analogWrite(VIBRATION_HOPPER_ENABLE_PIN, 0);
+    digitalWrite(VIBRATION_HOPPER_INPUT1_PIN, LOW);
+    digitalWrite(VIBRATION_HOPPER_INPUT2_PIN, LOW);
+    analogWrite(FEEDER_CONVEYOR_ENABLE_PIN, 0);
+    digitalWrite(FEEDER_CONVEYOR_INPUT1_PIN, LOW);
+    digitalWrite(FEEDER_CONVEYOR_INPUT2_PIN, LOW);
 
     // to get smoother operation for the dc motors running over pwm, increase the speed timers 2 and 5
     // Change PWM frequency for pins 3 & 5 (Timer 3):

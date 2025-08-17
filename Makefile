@@ -15,7 +15,7 @@ feeder:
 run-nothing:
 	./robot/run.sh --disable main_conveyor feeder_conveyor vibration_hopper classification -y --dump --use_prev_bin_state
 run:
-	./robot/run.sh -y --dump --use_prev_bin_state --disable feeder_conveyor
+	./robot/run.sh -y --dump --use_prev_bin_state
 rm-tmp:
 	find robot -type d -name "__pycache__" -exec rm -rf {} +
 	rm -rf robot/.tmp

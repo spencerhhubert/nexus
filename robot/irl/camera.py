@@ -1,7 +1,7 @@
 import cv2
 import time
 import numpy as np
-import uuid
+import threading
 from typing import Optional, List, Tuple
 from robot.global_config import GlobalConfig
 
@@ -55,6 +55,45 @@ class Camera:
 
     def isOpened(self) -> bool:
         return self.cap.isOpened()
+
+
+class CameraBuffer:
+    def __init__(self, camera: Camera, global_config: GlobalConfig):
+        self.camera = camera
+        self.global_config = global_config
+        self.latest_frame = None
+        self.frame_timestamp = 0.0
+        self.lock = threading.Lock()
+        self.running = True
+        self.thread = threading.Thread(target=self._capture_loop, daemon=True)
+        self.thread.start()
+
+        global_config["logger"].info("Camera buffer thread started")
+
+    def _capture_loop(self):
+        while self.running:
+            try:
+                frame = self.camera.captureFrame()
+                if frame is not None:
+                    current_time = time.time() * 1000
+                    with self.lock:
+                        self.latest_frame = frame
+                        self.frame_timestamp = current_time
+            except Exception as e:
+                self.global_config["logger"].error(f"Camera buffer capture error: {e}")
+                time.sleep(0.1)  # Brief pause on error
+
+    def get_latest_frame(self) -> tuple[Optional[np.ndarray], float]:
+        with self.lock:
+            if self.latest_frame is not None:
+                return self.latest_frame.copy(), self.frame_timestamp
+            return None, 0.0
+
+    def stop(self):
+        self.global_config["logger"].info("Stopping camera buffer thread")
+        self.running = False
+        if self.thread.is_alive():
+            self.thread.join(timeout=1.0)
 
 
 def discoverCameras() -> List[int]:

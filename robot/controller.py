@@ -8,7 +8,7 @@ import os
 import concurrent.futures
 import threading
 import cv2
-from typing import List, Optional, Dict, Any
+from typing import List, Optional, Dict, Any, TypedDict
 from enum import Enum
 from robot.global_config import GlobalConfig
 from robot.irl.config import IRLSystemInterface
@@ -56,6 +56,14 @@ from robot.server.api import RobotAPI
 from robot.server.thread_safe_state import ThreadSafeState
 
 
+class StateMachineTimestamps(TypedDict):
+    getting_new_object_start_time: Optional[int]
+    classification_start_time_ms: Optional[int]
+    sending_to_bin_state_start_time_ms: Optional[int]
+    waiting_for_object_to_appear_start_time_ms: Optional[int]
+    break_beam_last_query_timestamp: int
+
+
 class SortingController:
     def __init__(
         self,
@@ -66,7 +74,7 @@ class SortingController:
         self.irl_system = irl_system
         self.system_lifecycle_stage = SystemLifecycleStage.INITIALIZING
         self.sorting_state = SortingState.GETTING_NEW_OBJECT
-        self.getting_new_object_start_time = None
+        self.timestamps["getting_new_object_start_time"] = None
 
         piece_sorting_profile = mkBricklinkCategoriesSortingProfile(self.global_config)
 
@@ -103,10 +111,13 @@ class SortingController:
         self.feeder_conveyor_speed = 0
         self.vibration_hopper_speed = 0
 
-        self.classification_start_time_ms = None
-        self.sending_to_bin_state_start_time_ms = None
-        self.waiting_for_object_to_appear_start_time_ms = None
-        self.break_beam_last_query_timestamp = int(time.time() * 1000)
+        self.timestamps: StateMachineTimestamps = {
+            "getting_new_object_start_time": None,
+            "classification_start_time_ms": None,
+            "sending_to_bin_state_start_time_ms": None,
+            "waiting_for_object_to_appear_start_time_ms": None,
+            "break_beam_last_query_timestamp": int(time.time() * 1000),
+        }
 
         # Thread-safe communication with API server
         self.thread_safe_state = ThreadSafeState()
@@ -208,8 +219,8 @@ class SortingController:
         current_time_ms = int(time.time() * 1000)
 
         if self.sorting_state == SortingState.GETTING_NEW_OBJECT:
-            if self.getting_new_object_start_time is None:
-                self.getting_new_object_start_time = current_time_ms
+            if self.timestamps["getting_new_object_start_time"] is None:
+                self.timestamps["getting_new_object_start_time"] = current_time_ms
                 self._setMotorSpeeds(
                     main_conveyor=self.global_config["main_conveyor_speed"],
                     feeder_conveyor=self.global_config["feeder_conveyor_speed"],
@@ -219,12 +230,14 @@ class SortingController:
 
             break_timestamp, latest_timestamp = self.irl_system[
                 "break_beam_sensor"
-            ].queryBreakings(self.break_beam_last_query_timestamp)
-            self.break_beam_last_query_timestamp = latest_timestamp
+            ].queryBreakings(self.timestamps["break_beam_last_query_timestamp"])
+            self.timestamps["break_beam_last_query_timestamp"] = latest_timestamp
 
             if break_timestamp != -1:
                 self.sorting_state = SortingState.WAITING_FOR_OBJECT_TO_APPEAR
-                self.waiting_for_object_to_appear_start_time_ms = current_time_ms
+                self.timestamps["waiting_for_object_to_appear_start_time_ms"] = (
+                    current_time_ms
+                )
                 self._setMotorSpeeds(
                     main_conveyor=self.global_config["main_conveyor_speed"],
                     feeder_conveyor=0,
@@ -242,7 +255,9 @@ class SortingController:
                 )
                 return
 
-            time_running = current_time_ms - self.getting_new_object_start_time
+            time_running = (
+                current_time_ms - self.timestamps["getting_new_object_start_time"]
+            )
             if time_running > self.global_config["getting_new_object_timeout_ms"]:
                 self.global_config["logger"].info(
                     "Timeout waiting for object, pausing system"
@@ -259,9 +274,13 @@ class SortingController:
                 )
                 return
 
-            assert self.waiting_for_object_to_appear_start_time_ms is not None
+            assert (
+                self.timestamps["waiting_for_object_to_appear_start_time_ms"]
+                is not None
+            )
             time_waiting = (
-                current_time_ms - self.waiting_for_object_to_appear_start_time_ms
+                current_time_ms
+                - self.timestamps["waiting_for_object_to_appear_start_time_ms"]
             )
             if (
                 time_waiting
@@ -271,8 +290,8 @@ class SortingController:
                     "Timeout waiting for object to appear, returning to GETTING_NEW_OBJECT"
                 )
                 self.sorting_state = SortingState.GETTING_NEW_OBJECT
-                self.getting_new_object_start_time = None
-                self.waiting_for_object_to_appear_start_time_ms = None
+                self.timestamps["getting_new_object_start_time"] = None
+                self.timestamps["waiting_for_object_to_appear_start_time_ms"] = None
                 return
 
         elif self.sorting_state == SortingState.WAITING_FOR_OBJECT_TO_CENTER:
@@ -287,14 +306,14 @@ class SortingController:
                     "Multiple objects detected, returning to GETTING_NEW_OBJECT"
                 )
                 self.sorting_state = SortingState.GETTING_NEW_OBJECT
-                self.getting_new_object_start_time = None
-                self.waiting_for_object_to_appear_start_time_ms = None
+                self.timestamps["getting_new_object_start_time"] = None
+                self.timestamps["waiting_for_object_to_appear_start_time_ms"] = None
                 return
 
             valid_trajectories = self.scene_tracker.getValidNewTrajectories()
             if valid_trajectories:
                 self.sorting_state = SortingState.TRYING_TO_CLASSIFY
-                self.classification_start_time_ms = current_time_ms
+                self.timestamps["classification_start_time_ms"] = current_time_ms
                 self._setMotorSpeeds(
                     main_conveyor=0, feeder_conveyor=0, vibration_hopper=0
                 )
@@ -305,9 +324,9 @@ class SortingController:
 
             # Check for timeout while waiting for object to center
             start_time = (
-                self.waiting_for_object_to_appear_start_time_ms
-                if self.waiting_for_object_to_appear_start_time_ms
-                else self.getting_new_object_start_time
+                self.timestamps["waiting_for_object_to_appear_start_time_ms"]
+                if self.timestamps["waiting_for_object_to_appear_start_time_ms"]
+                else self.timestamps["getting_new_object_start_time"]
             )
             if start_time is not None:
                 time_waiting = current_time_ms - start_time
@@ -319,8 +338,8 @@ class SortingController:
                         "Timeout waiting for object to center, returning to GETTING_NEW_OBJECT"
                     )
                     self.sorting_state = SortingState.GETTING_NEW_OBJECT
-                    self.getting_new_object_start_time = None
-                    self.waiting_for_object_to_appear_start_time_ms = None
+                    self.timestamps["getting_new_object_start_time"] = None
+                    self.timestamps["waiting_for_object_to_appear_start_time_ms"] = None
                     return
 
         elif self.sorting_state == SortingState.TRYING_TO_CLASSIFY:
@@ -337,15 +356,15 @@ class SortingController:
                         trajectory.setSendingToBinStartTime(current_time_ms)
 
                 self.sorting_state = SortingState.SENDING_ITEM_TO_BIN
-                self.sending_to_bin_state_start_time_ms = current_time_ms
+                self.timestamps["sending_to_bin_state_start_time_ms"] = current_time_ms
                 self.global_config["logger"].info(
                     "Classification complete, switching to SENDING_ITEM_TO_BIN"
                 )
                 return
 
-            if self.classification_start_time_ms:
+            if self.timestamps["classification_start_time_ms"]:
                 time_since_classification_start = (
-                    current_time_ms - self.classification_start_time_ms
+                    current_time_ms - self.timestamps["classification_start_time_ms"]
                 )
                 if (
                     time_since_classification_start
@@ -355,9 +374,9 @@ class SortingController:
                         "Classification timeout, switching to GETTING_NEW_OBJECT"
                     )
                     self.sorting_state = SortingState.GETTING_NEW_OBJECT
-                    self.getting_new_object_start_time = None
-                    self.waiting_for_object_to_appear_start_time_ms = None
-                    self.classification_start_time_ms = None
+                    self.timestamps["getting_new_object_start_time"] = None
+                    self.timestamps["waiting_for_object_to_appear_start_time_ms"] = None
+                    self.timestamps["classification_start_time_ms"] = None
                     return
 
             if (
@@ -365,9 +384,9 @@ class SortingController:
                 and active_classification_threads == 0
             ):
                 self.sorting_state = SortingState.GETTING_NEW_OBJECT
-                self.getting_new_object_start_time = None
-                self.waiting_for_object_to_appear_start_time_ms = None
-                self.classification_start_time_ms = None
+                self.timestamps["getting_new_object_start_time"] = None
+                self.timestamps["waiting_for_object_to_appear_start_time_ms"] = None
+                self.timestamps["classification_start_time_ms"] = None
                 self.global_config["logger"].info(
                     "No objects to classify, switching to GETTING_NEW_OBJECT"
                 )
@@ -576,8 +595,10 @@ class SortingController:
                             "No available bins, moving to GETTING_NEW_OBJECT"
                         )
                         self.sorting_state = SortingState.GETTING_NEW_OBJECT
-                        self.getting_new_object_start_time = None
-                        self.waiting_for_object_to_appear_start_time_ms = None
+                        self.timestamps["getting_new_object_start_time"] = None
+                        self.timestamps[
+                            "waiting_for_object_to_appear_start_time_ms"
+                        ] = None
                         return
 
                 # Continue with existing target bin
@@ -668,9 +689,11 @@ class SortingController:
                         )
 
                         self.sorting_state = SortingState.GETTING_NEW_OBJECT
-                        self.getting_new_object_start_time = None
-                        self.waiting_for_object_to_appear_start_time_ms = None
-                        self.sending_to_bin_state_start_time_ms = None
+                        self.timestamps["getting_new_object_start_time"] = None
+                        self.timestamps[
+                            "waiting_for_object_to_appear_start_time_ms"
+                        ] = None
+                        self.timestamps["sending_to_bin_state_start_time_ms"] = None
                         self.global_config["logger"].info(
                             f"Item {trajectory.trajectory_id} sent to bin, distance traveled: {distance_traveled:.1f}cm, switching to GETTING_NEW_OBJECT"
                         )
@@ -696,9 +719,9 @@ class SortingController:
                     )
 
             self.sorting_state = SortingState.GETTING_NEW_OBJECT
-            self.getting_new_object_start_time = None
-            self.waiting_for_object_to_appear_start_time_ms = None
-            self.sending_to_bin_state_start_time_ms = None
+            self.timestamps["getting_new_object_start_time"] = None
+            self.timestamps["waiting_for_object_to_appear_start_time_ms"] = None
+            self.timestamps["sending_to_bin_state_start_time_ms"] = None
             return
 
     def _updateTrajectories(self) -> None:

@@ -507,7 +507,7 @@ class SortingController:
             f"Handling classified trajectories - IDs and lifecycle stages: {trajectory_info}"
         )
 
-        if classified_trajectories:
+        if classified_trajectories and len(classified_trajectories) > 0:
             trajectory = classified_trajectories[0]
             consensus_item_id = trajectory.getConsensusClassification()
 
@@ -563,6 +563,9 @@ class SortingController:
                         # Set up trajectory tracking
                         trajectory.setSendingToBinStartTime(current_time_ms)
                         trajectory.setTargetBin(target_bin)
+                        trajectory.setLifecycleStage(
+                            TrajectoryLifecycleStage.DOORS_OPENED
+                        )
                         self.bin_state_tracker.reserveBin(target_bin, category_id)
 
                         self.global_config["logger"].info(
@@ -579,15 +582,31 @@ class SortingController:
 
                 # Continue with existing target bin
                 if trajectory.target_bin is not None:
+                    self.global_config["logger"].info(
+                        f"Sending to target bin: {trajectory.target_bin}"
+                    )
                     target_bin = trajectory.target_bin
                     dm_idx = target_bin["distribution_module_idx"]
                     bin_idx = target_bin["bin_idx"]
+
+                    # Set trajectory to in transit if not already
+                    if (
+                        trajectory.lifecycle_stage
+                        == TrajectoryLifecycleStage.DOORS_OPENED
+                    ):
+                        trajectory.setLifecycleStage(
+                            TrajectoryLifecycleStage.IN_TRANSIT
+                        )
+                        self.global_config["logger"].info(
+                            f"Trajectory {trajectory.trajectory_id} now in transit"
+                        )
 
                     self._setMotorSpeeds(
                         main_conveyor=self.global_config["main_conveyor_speed"] + 50,
                         feeder_conveyor=0,
                         vibration_hopper=0,
                     )
+                    self.global_config["logger"].info(f"Increased speed")
 
                     # Check if we've traveled far enough
                     target_distance_cm = self.irl_system["distribution_modules"][
@@ -603,11 +622,18 @@ class SortingController:
                         self.global_config["logger"].warning(
                             "Distance traveled is None - unable to determine object position"
                         )
+                    else:
+                        self.global_config["logger"].info(
+                            f"Trajectory {trajectory.trajectory_id}: traveled {distance_traveled:.1f}cm, target is {target_distance_cm}cm"
+                        )
 
                     if (
                         distance_traveled is not None
                         and distance_traveled >= target_distance_cm
                     ):
+                        self.global_config["logger"].info(
+                            f"Object reached target distance - Trajectory {trajectory.trajectory_id}: traveled {distance_traveled:.1f}cm, target was {target_distance_cm}cm"
+                        )
                         conveyor_servo = self.irl_system["distribution_modules"][
                             dm_idx
                         ].servo
@@ -646,16 +672,34 @@ class SortingController:
                         self.waiting_for_object_to_appear_start_time_ms = None
                         self.sending_to_bin_state_start_time_ms = None
                         self.global_config["logger"].info(
-                            f"Item sent to bin, distance traveled: {distance_traveled:.1f}cm, switching to GETTING_NEW_OBJECT"
+                            f"Item {trajectory.trajectory_id} sent to bin, distance traveled: {distance_traveled:.1f}cm, switching to GETTING_NEW_OBJECT"
                         )
                         return
             else:
-                # No classification or classification disabled, just run conveyor
-                self._setMotorSpeeds(
-                    main_conveyor=self.global_config["main_conveyor_speed"],
-                    feeder_conveyor=0,
-                    vibration_hopper=0,
+                self.global_config["logger"].warning(
+                    "No classification or classification disabled"
                 )
+        else:
+            # No classification or no valid trajectories - close doors and return to getting new object
+            self.global_config["logger"].info(
+                "No valid trajectories in SENDING_ITEM_TO_BIN state, closing doors and returning to GETTING_NEW_OBJECT"
+            )
+
+            # Close all open doors
+            for distribution_module in self.irl_system["distribution_modules"]:
+                distribution_module.servo.setAngle(
+                    self.global_config["conveyor_door_closed_angle"]
+                )
+                for bin_servo in distribution_module.bins:
+                    bin_servo.servo.setAngle(
+                        self.global_config["bin_door_closed_angle"]
+                    )
+
+            self.sorting_state = SortingState.GETTING_NEW_OBJECT
+            self.getting_new_object_start_time = None
+            self.waiting_for_object_to_appear_start_time_ms = None
+            self.sending_to_bin_state_start_time_ms = None
+            return
 
     def _updateTrajectories(self) -> None:
         trajectories_to_update = self.scene_tracker.getTrajectories()

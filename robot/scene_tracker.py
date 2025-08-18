@@ -29,7 +29,7 @@ class SceneTracker:
         self.last_distance_update_time = time.time()
         self.max_distance_readings = global_config.get("max_distance_readings", 1000)
 
-        self.max_trajectory_age_ms = 30000
+        self.max_trajectory_age_ms = global_config.get("max_trajectory_age_ms", 60000)
         self.min_trajectories_to_keep = 16
         self.max_trajectories = 50
 
@@ -107,6 +107,9 @@ class SceneTracker:
 
     def getDistanceTraveledSince(self, timestamp_ms: int) -> Optional[float]:
         if not self.distance_readings:
+            self.global_config["logger"].warning(
+                "No distance readings available to calculate distance traveled"
+            )
             return None
 
         total_distance = 0.0
@@ -170,7 +173,6 @@ class SceneTracker:
                     best_score = score
                     best_trajectory = trajectory
 
-            print("observation id", observation.observation_id, "score", best_score)
             if best_trajectory and best_score >= 0.1:
                 observation.trajectory_id = best_trajectory.trajectory_id
                 best_trajectory.addObservation(observation)
@@ -436,6 +438,8 @@ class SceneTracker:
             if trajectory.lifecycle_stage not in [
                 TrajectoryLifecycleStage.CENTERED_UNDER_CAMERA,
                 TrajectoryLifecycleStage.OFF_CAMERA,
+                TrajectoryLifecycleStage.IN_TRANSIT,
+                TrajectoryLifecycleStage.DOORS_OPENED,
             ]:
                 continue
 

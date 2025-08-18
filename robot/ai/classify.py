@@ -32,5 +32,5 @@ def brickognizeClassifySegment(
             for substring in filter_category_substrings
         )
     ]
-    print("Brickognize Filtered Response", out)
+    global_config["logger"].info(f"Brickognize Filtered Response {out}")
     return out

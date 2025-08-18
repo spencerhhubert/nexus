@@ -180,9 +180,6 @@ class Trajectory:
         # Check size ratio
         size_score = self.getSizeScore(obs, min_bbox_size_ratio, max_bbox_size_ratio)
         if size_score == 0.0:
-            print(
-                f"ZERO SIZE SCORE: observation_id={obs.observation_id}, trajectory_id={self.trajectory_id}"
-            )
             return 0.0
 
         # Calculate weighted score

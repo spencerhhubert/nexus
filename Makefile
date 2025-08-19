@@ -11,7 +11,7 @@ db:
 conveyor:
 	./robot/run.sh --disable classification feeder_conveyor vibration_hopper -y --dump --profile --use_prev_bin_state
 feeder:
-	./robot/run.sh --disable main_conveyor classification -y --dump --preview --use_prev_bin_state
+	./robot/run.sh --disable main_conveyor -y --dump --use_prev_bin_state
 run-nothing:
 	./robot/run.sh --disable main_conveyor feeder_conveyor vibration_hopper classification -y --dump --use_prev_bin_state
 run:

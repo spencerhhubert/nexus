@@ -74,7 +74,14 @@ class SortingController:
         self.irl_system = irl_system
         self.system_lifecycle_stage = SystemLifecycleStage.INITIALIZING
         self.sorting_state = SortingState.GETTING_NEW_OBJECT
-        self.timestamps["getting_new_object_start_time"] = None
+        
+        self.timestamps: StateMachineTimestamps = {
+            "getting_new_object_start_time": None,
+            "classification_start_time_ms": None,
+            "sending_to_bin_state_start_time_ms": None,
+            "waiting_for_object_to_appear_start_time_ms": None,
+            "break_beam_last_query_timestamp": int(time.time() * 1000),
+        }
 
         piece_sorting_profile = mkBricklinkCategoriesSortingProfile(self.global_config)
 
@@ -110,14 +117,6 @@ class SortingController:
         self.main_conveyor_speed = 0
         self.feeder_conveyor_speed = 0
         self.vibration_hopper_speed = 0
-
-        self.timestamps: StateMachineTimestamps = {
-            "getting_new_object_start_time": None,
-            "classification_start_time_ms": None,
-            "sending_to_bin_state_start_time_ms": None,
-            "waiting_for_object_to_appear_start_time_ms": None,
-            "break_beam_last_query_timestamp": int(time.time() * 1000),
-        }
 
         # Thread-safe communication with API server
         self.thread_safe_state = ThreadSafeState()

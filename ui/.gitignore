@@ -23,3 +23,5 @@ vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 
 design.md
+
+svelte-docs-for-llm-small.md

@@ -518,13 +518,13 @@ class SortingController:
         first_vibration_hopper_motor: int,
         second_vibration_hopper_motor: int,
     ) -> None:
-        if (
-            feeder_conveyor == 0
-            and first_vibration_hopper_motor == 0
-            and second_vibration_hopper_motor == 0
-            and main_conveyor != 0
-        ):
-            main_conveyor -= 30
+        # if (
+        #     feeder_conveyor == 0
+        #     and first_vibration_hopper_motor == 0
+        #     and second_vibration_hopper_motor == 0
+        #     and main_conveyor != 0
+        # ):
+        #     main_conveyor -= 30
         if self.main_conveyor_speed != main_conveyor:
             self.main_conveyor_speed = main_conveyor
             if not self.global_config["disable_main_conveyor"]:

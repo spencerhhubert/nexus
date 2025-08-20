@@ -1,19 +1,20 @@
 <script lang="ts">
-  import type { SystemStatus } from "../types";
+  import type { Writable } from "svelte/store";
   import { robotAPI } from "../api";
+  import { logger } from "../logger";
   import { toTitleCase } from "$lib/util";
 
   interface Props {
-    status: SystemStatus | null;
+    pageState: Writable<any>;
   }
 
-  let { status }: Props = $props();
+  let { pageState }: Props = $props();
 
   async function startSystem() {
     try {
       await robotAPI.startSystem();
     } catch (e) {
-      console.error("Failed to start system:", e);
+      logger.error(0, "Failed to start system:", e);
     }
   }
 
@@ -21,7 +22,7 @@
     try {
       await robotAPI.stopSystem();
     } catch (e) {
-      console.error("Failed to stop system:", e);
+      logger.error(0, "Failed to stop system:", e);
     }
   }
 
@@ -54,54 +55,54 @@
     System Status
   </h2>
 
-  {#if status}
+  {#if $pageState.status}
     <div class="space-y-3">
       <div class="flex justify-between items-center">
-        <label class="text-surface-600 dark:text-surface-400 font-medium">Lifecycle:</label>
+        <span class="text-surface-600 dark:text-surface-400 font-medium">Lifecycle:</span>
         <span
           class="px-3 py-1 text-white text-xs font-semibold {getLifecycleColor(
-            status.lifecycle_stage,
+            $pageState.status.lifecycle_stage,
           )}"
         >
-          {formatLifecycleStage(status.lifecycle_stage)}
+          {formatLifecycleStage($pageState.status.lifecycle_stage)}
         </span>
       </div>
 
       <div class="flex justify-between items-center">
-        <label class="text-surface-600 dark:text-surface-400 font-medium">Sorting State:</label>
+        <span class="text-surface-600 dark:text-surface-400 font-medium">Sorting State:</span>
         <span class="text-foreground-light dark:text-foreground-dark">
-          {formatSortingState(status.sorting_state)}
+          {formatSortingState($pageState.status.sorting_state)}
         </span>
       </div>
 
       <div class="flex justify-between items-center">
-        <label class="text-surface-600 dark:text-surface-400 font-medium">Objects in Frame:</label>
-        <span class="text-foreground-light dark:text-foreground-dark font-mono">{status.objects_in_frame}</span>
+        <span class="text-surface-600 dark:text-surface-400 font-medium">Objects in Frame:</span>
+        <span class="text-foreground-light dark:text-foreground-dark font-mono">{$pageState.status.objects_in_frame}</span>
       </div>
 
       <div class="flex justify-between items-center">
-        <label class="text-surface-600 dark:text-surface-400 font-medium">Speed (1s avg):</label>
+        <span class="text-surface-600 dark:text-surface-400 font-medium">Speed (1s avg):</span>
         <span class="text-foreground-light dark:text-foreground-dark font-mono">
-          {status.average_speed_1s ? (status.average_speed_1s * 10).toFixed(3) : "Unknown"} m/s
+          {$pageState.status.average_speed_1s ? ($pageState.status.average_speed_1s * 10).toFixed(3) : "Unknown"} m/s
         </span>
       </div>
 
       <div class="flex justify-between items-center">
-        <label class="text-surface-600 dark:text-surface-400 font-medium">Speed (5s avg):</label>
+        <span class="text-surface-600 dark:text-surface-400 font-medium">Speed (5s avg):</span>
         <span class="text-foreground-light dark:text-foreground-dark font-mono">
-          {status.average_speed_5s ? (status.average_speed_5s * 10).toFixed(3) : "Unknown"} m/s
+          {$pageState.status.average_speed_5s ? ($pageState.status.average_speed_5s * 10).toFixed(3) : "Unknown"} m/s
         </span>
       </div>
 
       <div class="mt-5 pt-5 border-t border-surface-200 dark:border-surface-700">
-        {#if status.lifecycle_stage === "paused_by_user" || status.lifecycle_stage === "paused_by_system"}
+        {#if $pageState.status.lifecycle_stage === "paused_by_user" || $pageState.status.lifecycle_stage === "paused_by_system"}
           <button
             onclick={startSystem}
             class="w-full bg-success-600 hover:bg-success-700 text-white font-semibold py-3 px-4 rounded transition-colors"
           >
             Start System
           </button>
-        {:else if status.lifecycle_stage === "running"}
+        {:else if $pageState.status.lifecycle_stage === "running"}
           <button
             onclick={stopSystem}
             class="w-full bg-error-600 hover:bg-error-700 text-white font-semibold py-3 px-4 rounded transition-colors"

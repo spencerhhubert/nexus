@@ -19,6 +19,15 @@
     }
   }
 
+  function handleBackdropKeydown(event: KeyboardEvent) {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      if (event.target === event.currentTarget) {
+        closeModal();
+      }
+    }
+  }
+
   function handleKeydown(event: KeyboardEvent) {
     if (event.key === 'Escape' && open) {
       closeModal();
@@ -39,7 +48,7 @@
     <div
       class="fixed inset-0 bg-black/50 transition-opacity"
       on:click={handleBackdropClick}
-      on:keydown={handleBackdropClick}
+      on:keydown={handleBackdropKeydown}
       role="button"
       tabindex="-1"
     ></div>

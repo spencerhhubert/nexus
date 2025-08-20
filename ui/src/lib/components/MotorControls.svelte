@@ -1,18 +1,19 @@
 <script lang="ts">
-  import type { MotorInfo } from "../types";
+  import type { Writable } from "svelte/store";
   import { robotAPI } from "../api";
+  import { logger } from "../logger";
 
   interface Props {
-    motors: MotorInfo[] | null;
+    pageState: Writable<any>;
   }
 
-  let { motors }: Props = $props();
+  let { pageState }: Props = $props();
 
   async function setMotorSpeed(motorId: string, speed: number) {
     try {
       await robotAPI.setMotorSpeed({ motor_id: motorId, speed });
     } catch (e) {
-      console.error("Failed to set motor speed:", e);
+      logger.error(0, "Failed to set motor speed:", e);
     }
   }
 </script>
@@ -22,13 +23,13 @@
     Motor Controls
   </h2>
 
-  {#if motors && motors.length > 0}
+  {#if $pageState.status?.motors && $pageState.status.motors.length > 0}
     <div class="space-y-5">
-      {#each motors as motor (motor.motor_id)}
+      {#each $pageState.status.motors as motor (motor.motor_id)}
         <div class="bg-surface-100 dark:bg-surface-700 p-4">
-          <label class="block font-semibold text-foreground-light dark:text-foreground-dark mb-3">
+          <span class="block font-semibold text-foreground-light dark:text-foreground-dark mb-3">
             {motor.display_name}
-          </label>
+          </span>
           <div class="grid grid-cols-[auto_1fr_auto] gap-3 items-center">
             <span class="text-sm text-surface-600 dark:text-surface-400">
               Current: {motor.current_speed}

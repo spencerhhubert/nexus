@@ -26,7 +26,7 @@
 	<!-- Header with settings -->
 	<header class="relative w-full p-4">
 		<button
-			on:click={openSettings}
+			onclick={openSettings}
 			class="absolute top-4 right-4 p-2 text-surface-600 dark:text-surface-400 hover:text-surface-800 dark:hover:text-surface-200 hover:bg-surface-100 dark:hover:bg-surface-700 transition-colors"
 			aria-label="Open settings"
 		>

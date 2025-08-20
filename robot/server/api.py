@@ -1,7 +1,7 @@
 from fastapi import FastAPI, WebSocket, HTTPException
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
-from typing import List, Optional
+from typing import List, Optional, TYPE_CHECKING
 import asyncio
 import json
 import base64
@@ -22,9 +22,11 @@ from robot.server.types import (
 )
 from robot.global_config import GlobalConfig
 
+if TYPE_CHECKING:
+    from robot.controller import SortingController
 
 class RobotAPI:
-    def __init__(self, global_config: GlobalConfig, controller):
+    def __init__(self, global_config: GlobalConfig, controller: "SortingController"):
         self.global_config = global_config
         self.controller = controller
         self.app = FastAPI()
@@ -114,9 +116,18 @@ class RobotAPI:
         elif motor_id == "feeder_conveyor_dc_motor":
             self.controller.irl_system["feeder_conveyor_dc_motor"].setSpeed(speed)
             self.controller.feeder_conveyor_speed = speed
+        elif motor_id == "first_vibration_hopper_motor":
+            self.controller.irl_system["first_vibration_hopper_motor"].setSpeed(speed)
+            self.controller.first_vibration_hopper_motor_speed = speed
+        elif motor_id == "second_vibration_hopper_motor":
+            self.controller.irl_system["second_vibration_hopper_motor"].setSpeed(speed)
+            self.controller.second_vibration_hopper_motor_speed = speed
         elif motor_id == "vibration_hopper_dc_motor":
-            self.controller.irl_system["vibration_hopper_dc_motor"].setSpeed(speed)
-            self.controller.vibration_hopper_speed = speed
+            # Backward compatibility - set both motors to same speed
+            self.controller.irl_system["first_vibration_hopper_motor"].setSpeed(speed)
+            self.controller.irl_system["second_vibration_hopper_motor"].setSpeed(speed)
+            self.controller.first_vibration_hopper_motor_speed = speed
+            self.controller.second_vibration_hopper_motor_speed = speed
         else:
             raise ValueError(f"Unknown motor_id: {motor_id}")
 
@@ -127,17 +138,19 @@ class RobotAPI:
         ]:
             self.controller.system_lifecycle_stage = SystemLifecycleStage.RUNNING
             self.controller.sorting_state = SortingState.GETTING_NEW_OBJECT
-            self.controller.getting_new_object_start_time = None
+            self.controller.timestamps["getting_new_object_start_time"] = None
 
     def _stop_system(self):
         if self.controller.system_lifecycle_stage == SystemLifecycleStage.RUNNING:
             self.controller.system_lifecycle_stage = SystemLifecycleStage.PAUSED_BY_USER
             self.controller.irl_system["main_conveyor_dc_motor"].setSpeed(0)
             self.controller.irl_system["feeder_conveyor_dc_motor"].setSpeed(0)
-            self.controller.irl_system["vibration_hopper_dc_motor"].setSpeed(0)
+            self.controller.irl_system["first_vibration_hopper_motor"].setSpeed(0)
+            self.controller.irl_system["second_vibration_hopper_motor"].setSpeed(0)
             self.controller.main_conveyor_speed = 0
             self.controller.feeder_conveyor_speed = 0
-            self.controller.vibration_hopper_speed = 0
+            self.controller.first_vibration_hopper_motor_speed = 0
+            self.controller.second_vibration_hopper_motor_speed = 0
 
     async def _checkAndBroadcastCameraFrame(self):
         if not self.active_websockets:
@@ -183,9 +196,16 @@ class RobotAPI:
                 max_speed=255,
             ),
             MotorInfo(
-                motor_id="vibration_hopper_dc_motor",
-                display_name="Vibration Hopper",
-                current_speed=self.controller.vibration_hopper_speed,
+                motor_id="first_vibration_hopper_motor",
+                display_name="First Vibration Hopper",
+                current_speed=self.controller.first_vibration_hopper_motor_speed,
+                min_speed=-255,
+                max_speed=255,
+            ),
+            MotorInfo(
+                motor_id="second_vibration_hopper_motor",
+                display_name="Second Vibration Hopper",
+                current_speed=self.controller.second_vibration_hopper_motor_speed,
                 min_speed=-255,
                 max_speed=255,
             ),

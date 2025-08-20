@@ -29,6 +29,7 @@ class GlobalConfig(TypedDict):
     disable_first_vibration_hopper_motor: bool
     disable_second_vibration_hopper_motor: bool
     disable_feeder_conveyor: bool
+    disable_distribution: bool
     disable_classification: bool
     trajectory_matching_max_time_gap_ms: int
     trajectory_matching_max_position_distance_px: int
@@ -85,6 +86,7 @@ def buildGlobalConfig() -> GlobalConfig:
             "second_vibration_hopper",
             "feeder_conveyor",
             "classification",
+            "distribution",
         ],
         help="Disable specified systems",
     )
@@ -123,9 +125,12 @@ def buildGlobalConfig() -> GlobalConfig:
         "main_camera_index": 0,
         "fastsam_weights": "../weights/FastSAM-s.pt",
         "disable_main_conveyor": "main_conveyor" in disabled_motors,
-        "disable_first_vibration_hopper_motor": "vibration_hopper" in disabled_motors or "first_vibration_hopper" in disabled_motors,
-        "disable_second_vibration_hopper_motor": "vibration_hopper" in disabled_motors or "second_vibration_hopper" in disabled_motors,
+        "disable_first_vibration_hopper_motor": "vibration_hopper" in disabled_motors
+        or "first_vibration_hopper" in disabled_motors,
+        "disable_second_vibration_hopper_motor": "vibration_hopper" in disabled_motors
+        or "second_vibration_hopper" in disabled_motors,
         "disable_feeder_conveyor": "feeder_conveyor" in disabled_motors,
+        "disable_distribution": "distribution" in disabled_motors,
         "disable_classification": "classification" in disabled_motors,
         "trajectory_matching_max_time_gap_ms": 4000,
         "trajectory_matching_max_position_distance_px": 3000,
@@ -148,10 +153,10 @@ def buildGlobalConfig() -> GlobalConfig:
         "min_sending_to_bin_time_ms": 3000,
         "profiling_dir_path": "../profiles",
         "use_prev_bin_state": args.use_prev_bin_state,
-        "main_conveyor_speed": 160,
-        "feeder_conveyor_speed": 160,
-        "first_vibration_hopper_motor_speed": 150,
-        "second_vibration_hopper_motor_speed": 155,
+        "main_conveyor_speed": 135,
+        "feeder_conveyor_speed": 150,
+        "first_vibration_hopper_motor_speed": 145,
+        "second_vibration_hopper_motor_speed": 146,
         "object_center_threshold_percent": 0.25,
         "getting_new_object_timeout_ms": 360 * 1000,
         "classification_timeout_ms": 10 * 1000,

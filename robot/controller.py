@@ -68,21 +68,27 @@ class GettingNewObjectState(TypedDict):
     remaining_timeout_ms: int
 
 
-FEEDER_PATTERN: List[FeederStep] = [
-    {"action": FeederAction.RUN_FIRST_VIBRATION_HOPPER, "duration_ms": 1200},
-    {"action": FeederAction.PAUSE, "duration_ms": 500},
-    {"action": FeederAction.RUN_SECOND_VIBRATION_HOPPER, "duration_ms": 600},
-    {"action": FeederAction.PAUSE, "duration_ms": 500},
-    {"action": FeederAction.RUN_FIRST_VIBRATION_HOPPER, "duration_ms": 1200},
-    {"action": FeederAction.PAUSE, "duration_ms": 500},
-    {"action": FeederAction.RUN_SECOND_VIBRATION_HOPPER, "duration_ms": 600},
-    {"action": FeederAction.PAUSE, "duration_ms": 500},
-    {"action": FeederAction.RUN_FIRST_VIBRATION_HOPPER, "duration_ms": 1200},
-    {"action": FeederAction.PAUSE, "duration_ms": 500},
-    {"action": FeederAction.RUN_SECOND_VIBRATION_HOPPER, "duration_ms": 600},
-    {"action": FeederAction.PAUSE, "duration_ms": 500},
-    {"action": FeederAction.RUN_CONVEYOR, "duration_ms": 2500},
-    {"action": FeederAction.PAUSE, "duration_ms": 500},
+PAUSE_LENGTH_MS = 150
+FIRST_VIBRATION_LENGTH_MS = 500
+SECOND_VIBRATION_LENGTH_MS = 500
+CONVEYOR_RUN_LENGTH_MS = 1000
+
+VIBRATION_CYCLE: List[FeederStep] = [
+    {
+        "action": FeederAction.RUN_FIRST_VIBRATION_HOPPER,
+        "duration_ms": FIRST_VIBRATION_LENGTH_MS,
+    },
+    {"action": FeederAction.PAUSE, "duration_ms": PAUSE_LENGTH_MS},
+    {
+        "action": FeederAction.RUN_SECOND_VIBRATION_HOPPER,
+        "duration_ms": SECOND_VIBRATION_LENGTH_MS,
+    },
+    {"action": FeederAction.PAUSE, "duration_ms": PAUSE_LENGTH_MS},
+]
+
+FEEDER_PATTERN: List[FeederStep] = VIBRATION_CYCLE * 10 + [
+    {"action": FeederAction.RUN_CONVEYOR, "duration_ms": CONVEYOR_RUN_LENGTH_MS},
+    {"action": FeederAction.PAUSE, "duration_ms": PAUSE_LENGTH_MS},
 ]
 
 
@@ -702,10 +708,13 @@ class SortingController:
                             .servo
                         )
 
-                        conveyor_servo.setAngle(
-                            self.global_config["conveyor_door_open_angle"]
-                        )
-                        bin_servo.setAngle(self.global_config["bin_door_open_angle"])
+                        if not self.global_config["disable_distribution"]:
+                            conveyor_servo.setAngle(
+                                self.global_config["conveyor_door_open_angle"]
+                            )
+                            bin_servo.setAngle(
+                                self.global_config["bin_door_open_angle"]
+                            )
 
                         # Set up trajectory tracking
                         trajectory.setSendingToBinStartTime(current_time_ms)
@@ -794,24 +803,28 @@ class SortingController:
                         )
 
                         # Close conveyor door first, then bin door with separate timing
-                        time.sleep(
-                            self.global_config["conveyor_door_close_delay_ms"] / 1000.0
-                        )
-                        conveyor_servo.setAngle(
-                            self.global_config["conveyor_door_closed_angle"],
-                            self.global_config[
-                                "conveyor_door_gradual_close_duration_ms"
-                            ],
-                        )
-                        self.global_config["logger"].info(
-                            "Conveyor door closing gradually"
-                        )
+                        if not self.global_config["disable_distribution"]:
+                            time.sleep(
+                                self.global_config["conveyor_door_close_delay_ms"]
+                                / 1000.0
+                            )
+                            conveyor_servo.setAngle(
+                                self.global_config["conveyor_door_closed_angle"],
+                                self.global_config[
+                                    "conveyor_door_gradual_close_duration_ms"
+                                ],
+                            )
+                            self.global_config["logger"].info(
+                                "Conveyor door closing gradually"
+                            )
 
-                        time.sleep(
-                            self.global_config["bin_door_close_delay_ms"] / 1000.0
-                        )
-                        bin_servo.setAngle(self.global_config["bin_door_closed_angle"])
-                        self.global_config["logger"].info("Bin door closed")
+                            time.sleep(
+                                self.global_config["bin_door_close_delay_ms"] / 1000.0
+                            )
+                            bin_servo.setAngle(
+                                self.global_config["bin_door_closed_angle"]
+                            )
+                            self.global_config["logger"].info("Bin door closed")
 
                         trajectory.setLifecycleStage(
                             TrajectoryLifecycleStage.PROBABLY_IN_BIN
@@ -838,14 +851,15 @@ class SortingController:
             )
 
             # Close all open doors
-            for distribution_module in self.irl_system["distribution_modules"]:
-                distribution_module.servo.setAngle(
-                    self.global_config["conveyor_door_closed_angle"]
-                )
-                for bin_servo in distribution_module.bins:
-                    bin_servo.servo.setAngle(
-                        self.global_config["bin_door_closed_angle"]
+            if not self.global_config["disable_distribution"]:
+                for distribution_module in self.irl_system["distribution_modules"]:
+                    distribution_module.servo.setAngle(
+                        self.global_config["conveyor_door_closed_angle"]
                     )
+                    for bin_servo in distribution_module.bins:
+                        bin_servo.servo.setAngle(
+                            self.global_config["bin_door_closed_angle"]
+                        )
 
             self.sorting_state = SortingState.GETTING_NEW_OBJECT
             self.timestamps["getting_new_object_start_time"] = None
@@ -916,12 +930,15 @@ class SortingController:
             f"Resetting all servos - conveyor doors: {conveyor_closed_angle}°, bin doors: {bin_closed_angle}°"
         )
 
-        for distribution_module in self.irl_system["distribution_modules"]:
-            # Reset conveyor door servo
-            distribution_module.servo.setAngleAndTurnOff(conveyor_closed_angle, 1000)
+        if not self.global_config["disable_distribution"]:
+            for distribution_module in self.irl_system["distribution_modules"]:
+                # Reset conveyor door servo
+                distribution_module.servo.setAngleAndTurnOff(
+                    conveyor_closed_angle, 1000
+                )
 
-            # Reset all bin door servos
-            for bin_servo in distribution_module.bins:
-                bin_servo.servo.setAngleAndTurnOff(bin_closed_angle, 1000)
+                # Reset all bin door servos
+                for bin_servo in distribution_module.bins:
+                    bin_servo.servo.setAngleAndTurnOff(bin_closed_angle, 1000)
 
         self.global_config["logger"].info("All servos reset to closed positions")

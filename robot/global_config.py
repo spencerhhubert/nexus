@@ -7,6 +7,13 @@ if TYPE_CHECKING:
     from robot.logger import Logger
 
 
+class FeederTimeoutsConfig(TypedDict):
+    conveyor_run_for_timeout_ms: int
+    first_vibration_hopper_motor_timeout_ms: int
+    second_vibration_hopper_motor_timeout_ms: int
+    timeout_between_feeder_steps_ms: int
+
+
 class GlobalConfig(TypedDict):
     debug_level: int
     auto_confirm: bool
@@ -19,7 +26,8 @@ class GlobalConfig(TypedDict):
     main_camera_index: int
     fastsam_weights: str
     disable_main_conveyor: bool
-    disable_vibration_hopper: bool
+    disable_first_vibration_hopper_motor: bool
+    disable_second_vibration_hopper_motor: bool
     disable_feeder_conveyor: bool
     disable_classification: bool
     trajectory_matching_max_time_gap_ms: int
@@ -45,7 +53,8 @@ class GlobalConfig(TypedDict):
     use_prev_bin_state: Optional[str]
     main_conveyor_speed: int
     feeder_conveyor_speed: int
-    vibration_hopper_speed: int
+    first_vibration_hopper_motor_speed: int
+    second_vibration_hopper_motor_speed: int
     object_center_threshold_percent: float
     getting_new_object_timeout_ms: int
     classification_timeout_ms: int
@@ -55,6 +64,7 @@ class GlobalConfig(TypedDict):
     waiting_for_object_to_appear_timeout_ms: int
     max_trajectory_age: int
     min_number_observations_for_centering: int
+    feeder_timeouts: FeederTimeoutsConfig
 
 
 def buildGlobalConfig() -> GlobalConfig:
@@ -71,6 +81,8 @@ def buildGlobalConfig() -> GlobalConfig:
         choices=[
             "main_conveyor",
             "vibration_hopper",
+            "first_vibration_hopper",
+            "second_vibration_hopper",
             "feeder_conveyor",
             "classification",
         ],
@@ -111,7 +123,8 @@ def buildGlobalConfig() -> GlobalConfig:
         "main_camera_index": 0,
         "fastsam_weights": "../weights/FastSAM-s.pt",
         "disable_main_conveyor": "main_conveyor" in disabled_motors,
-        "disable_vibration_hopper": "vibration_hopper" in disabled_motors,
+        "disable_first_vibration_hopper_motor": "vibration_hopper" in disabled_motors or "first_vibration_hopper" in disabled_motors,
+        "disable_second_vibration_hopper_motor": "vibration_hopper" in disabled_motors or "second_vibration_hopper" in disabled_motors,
         "disable_feeder_conveyor": "feeder_conveyor" in disabled_motors,
         "disable_classification": "classification" in disabled_motors,
         "trajectory_matching_max_time_gap_ms": 4000,
@@ -135,9 +148,10 @@ def buildGlobalConfig() -> GlobalConfig:
         "min_sending_to_bin_time_ms": 3000,
         "profiling_dir_path": "../profiles",
         "use_prev_bin_state": args.use_prev_bin_state,
-        "main_conveyor_speed": 150,
+        "main_conveyor_speed": 160,
         "feeder_conveyor_speed": 160,
-        "vibration_hopper_speed": 140,
+        "first_vibration_hopper_motor_speed": 150,
+        "second_vibration_hopper_motor_speed": 155,
         "object_center_threshold_percent": 0.25,
         "getting_new_object_timeout_ms": 360 * 1000,
         "classification_timeout_ms": 10 * 1000,
@@ -147,6 +161,12 @@ def buildGlobalConfig() -> GlobalConfig:
         "waiting_for_object_to_appear_timeout_ms": 5000,
         "max_trajectory_age": 10000,
         "min_number_observations_for_centering": 2,
+        "feeder_timeouts": {
+            "conveyor_run_for_timeout_ms": 400,
+            "first_vibration_hopper_motor_timeout_ms": 1200,
+            "second_vibration_hopper_motor_timeout_ms": 200,
+            "timeout_between_feeder_steps_ms": 1000,
+        },
     }
 
     from robot.logger import Logger

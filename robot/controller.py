@@ -8,7 +8,7 @@ import os
 import concurrent.futures
 import threading
 import cv2
-from typing import List, Optional, Dict, Any, TypedDict
+from typing import List, Optional, TypedDict
 from enum import Enum
 from robot.global_config import GlobalConfig
 from robot.irl.config import IRLSystemInterface
@@ -21,21 +21,16 @@ from robot.ai.segment import initializeSegmentationModel
 from robot.sorting.bricklink_categories_sorting_profile import (
     mkBricklinkCategoriesSortingProfile,
 )
-from robot.sorting.sorter import ClassificationResult
 from robot.storage.sqlite3.migrations import initializeDatabase
-from robot.storage.sqlite3.operations import saveObservationToDatabase
 from robot.storage.blob import ensureBlobStorageExists, saveTrajectory
 from robot.trajectories import (
     Observation,
-    Trajectory,
     TrajectoryLifecycleStage,
 )
 from robot.scene_tracker import SceneTracker
-from robot.sorting import PieceSorter, PieceSortingProfile
+from robot.sorting import PieceSorter
 from robot.bin_state_tracker import (
     BinStateTracker,
-    BinCoordinates,
-    BinState,
     binCoordinatesToKey,
 )
 
@@ -56,6 +51,41 @@ from robot.server.api import RobotAPI
 from robot.server.thread_safe_state import ThreadSafeState
 
 
+class FeederAction(Enum):
+    RUN_CONVEYOR = "run_conveyor"
+    RUN_FIRST_VIBRATION_HOPPER = "run_first_vibration_hopper"
+    RUN_SECOND_VIBRATION_HOPPER = "run_second_vibration_hopper"
+    PAUSE = "pause"
+
+
+class FeederStep(TypedDict):
+    action: FeederAction
+    duration_ms: int
+
+
+class GettingNewObjectState(TypedDict):
+    current_step_index: int
+    remaining_timeout_ms: int
+
+
+FEEDER_PATTERN: List[FeederStep] = [
+    {"action": FeederAction.RUN_FIRST_VIBRATION_HOPPER, "duration_ms": 1200},
+    {"action": FeederAction.PAUSE, "duration_ms": 500},
+    {"action": FeederAction.RUN_SECOND_VIBRATION_HOPPER, "duration_ms": 600},
+    {"action": FeederAction.PAUSE, "duration_ms": 500},
+    {"action": FeederAction.RUN_FIRST_VIBRATION_HOPPER, "duration_ms": 1200},
+    {"action": FeederAction.PAUSE, "duration_ms": 500},
+    {"action": FeederAction.RUN_SECOND_VIBRATION_HOPPER, "duration_ms": 600},
+    {"action": FeederAction.PAUSE, "duration_ms": 500},
+    {"action": FeederAction.RUN_FIRST_VIBRATION_HOPPER, "duration_ms": 1200},
+    {"action": FeederAction.PAUSE, "duration_ms": 500},
+    {"action": FeederAction.RUN_SECOND_VIBRATION_HOPPER, "duration_ms": 600},
+    {"action": FeederAction.PAUSE, "duration_ms": 500},
+    {"action": FeederAction.RUN_CONVEYOR, "duration_ms": 2500},
+    {"action": FeederAction.PAUSE, "duration_ms": 500},
+]
+
+
 class StateMachineTimestamps(TypedDict):
     getting_new_object_start_time: Optional[int]
     classification_start_time_ms: Optional[int]
@@ -74,7 +104,19 @@ class SortingController:
         self.irl_system = irl_system
         self.system_lifecycle_stage = SystemLifecycleStage.INITIALIZING
         self.sorting_state = SortingState.GETTING_NEW_OBJECT
-        self.timestamps["getting_new_object_start_time"] = None
+
+        self.timestamps: StateMachineTimestamps = {
+            "getting_new_object_start_time": None,
+            "classification_start_time_ms": None,
+            "sending_to_bin_state_start_time_ms": None,
+            "waiting_for_object_to_appear_start_time_ms": None,
+            "break_beam_last_query_timestamp": int(time.time() * 1000),
+        }
+
+        self.getting_new_object_state: GettingNewObjectState = {
+            "current_step_index": 0,
+            "remaining_timeout_ms": FEEDER_PATTERN[0]["duration_ms"],
+        }
 
         piece_sorting_profile = mkBricklinkCategoriesSortingProfile(self.global_config)
 
@@ -109,15 +151,8 @@ class SortingController:
 
         self.main_conveyor_speed = 0
         self.feeder_conveyor_speed = 0
-        self.vibration_hopper_speed = 0
-
-        self.timestamps: StateMachineTimestamps = {
-            "getting_new_object_start_time": None,
-            "classification_start_time_ms": None,
-            "sending_to_bin_state_start_time_ms": None,
-            "waiting_for_object_to_appear_start_time_ms": None,
-            "break_beam_last_query_timestamp": int(time.time() * 1000),
-        }
+        self.first_vibration_hopper_motor_speed = 0
+        self.second_vibration_hopper_motor_speed = 0
 
         # Thread-safe communication with API server
         self.thread_safe_state = ThreadSafeState()
@@ -219,52 +254,7 @@ class SortingController:
         current_time_ms = int(time.time() * 1000)
 
         if self.sorting_state == SortingState.GETTING_NEW_OBJECT:
-            if self.timestamps["getting_new_object_start_time"] is None:
-                self.timestamps["getting_new_object_start_time"] = current_time_ms
-                self._setMotorSpeeds(
-                    main_conveyor=self.global_config["main_conveyor_speed"],
-                    feeder_conveyor=self.global_config["feeder_conveyor_speed"],
-                    vibration_hopper=self.global_config["vibration_hopper_speed"],
-                )
-                self.global_config["logger"].info("Started motors to get new object")
-
-            break_timestamp, latest_timestamp = self.irl_system[
-                "break_beam_sensor"
-            ].queryBreakings(self.timestamps["break_beam_last_query_timestamp"])
-            self.timestamps["break_beam_last_query_timestamp"] = latest_timestamp
-
-            if break_timestamp != -1:
-                self.sorting_state = SortingState.WAITING_FOR_OBJECT_TO_APPEAR
-                self.timestamps["waiting_for_object_to_appear_start_time_ms"] = (
-                    current_time_ms
-                )
-                self._setMotorSpeeds(
-                    main_conveyor=self.global_config["main_conveyor_speed"],
-                    feeder_conveyor=0,
-                    vibration_hopper=0,
-                )
-                self.global_config["logger"].info(
-                    f"Break beam triggered at {break_timestamp}, switching to WAITING_FOR_OBJECT_TO_APPEAR"
-                )
-                return
-
-            if self.scene_tracker.objects_in_frame > 0:
-                self.sorting_state = SortingState.WAITING_FOR_OBJECT_TO_CENTER
-                self.global_config["logger"].info(
-                    "Object appeared in camera, switching to WAITING_FOR_OBJECT_TO_CENTER"
-                )
-                return
-
-            time_running = (
-                current_time_ms - self.timestamps["getting_new_object_start_time"]
-            )
-            if time_running > self.global_config["getting_new_object_timeout_ms"]:
-                self.global_config["logger"].info(
-                    "Timeout waiting for object, pausing system"
-                )
-                self.system_lifecycle_stage = SystemLifecycleStage.PAUSED_BY_SYSTEM
-                self._setMotorSpeeds(0, 0, 0)
-                return
+            self._handleGettingNewObject(current_time_ms)
 
         elif self.sorting_state == SortingState.WAITING_FOR_OBJECT_TO_APPEAR:
             if self.scene_tracker.objects_in_frame > 0:
@@ -298,7 +288,8 @@ class SortingController:
             self._setMotorSpeeds(
                 main_conveyor=self.global_config["main_conveyor_speed"],
                 feeder_conveyor=0,
-                vibration_hopper=0,
+                first_vibration_hopper_motor=0,
+                second_vibration_hopper_motor=0,
             )
 
             if self.scene_tracker.objects_in_frame > 1:
@@ -315,7 +306,10 @@ class SortingController:
                 self.sorting_state = SortingState.TRYING_TO_CLASSIFY
                 self.timestamps["classification_start_time_ms"] = current_time_ms
                 self._setMotorSpeeds(
-                    main_conveyor=0, feeder_conveyor=0, vibration_hopper=0
+                    main_conveyor=0,
+                    feeder_conveyor=0,
+                    first_vibration_hopper_motor=0,
+                    second_vibration_hopper_motor=0,
                 )
                 self.global_config["logger"].info(
                     "Object centered, switching to TRYING_TO_CLASSIFY"
@@ -395,10 +389,135 @@ class SortingController:
         elif self.sorting_state == SortingState.SENDING_ITEM_TO_BIN:
             self._handleSendingItemToBin(current_time_ms)
 
+    def _handleGettingNewObject(self, current_time_ms: int) -> None:
+        if self.timestamps["getting_new_object_start_time"] is None:
+            self.timestamps["getting_new_object_start_time"] = current_time_ms
+
+        break_timestamp, latest_timestamp = self.irl_system[
+            "break_beam_sensor"
+        ].queryBreakings(self.timestamps["break_beam_last_query_timestamp"])
+        self.timestamps["break_beam_last_query_timestamp"] = latest_timestamp
+
+        if break_timestamp != -1:
+            self.sorting_state = SortingState.WAITING_FOR_OBJECT_TO_APPEAR
+            self.timestamps["waiting_for_object_to_appear_start_time_ms"] = (
+                current_time_ms
+            )
+            self._setMotorSpeeds(
+                main_conveyor=self.global_config["main_conveyor_speed"],
+                feeder_conveyor=0,
+                first_vibration_hopper_motor=0,
+                second_vibration_hopper_motor=0,
+            )
+            self.global_config["logger"].info(
+                f"Break beam triggered at {break_timestamp}, switching to WAITING_FOR_OBJECT_TO_APPEAR"
+            )
+            return
+
+        if self.scene_tracker.objects_in_frame > 0:
+            self.sorting_state = SortingState.WAITING_FOR_OBJECT_TO_CENTER
+            self.global_config["logger"].info(
+                "Object appeared in camera, switching to WAITING_FOR_OBJECT_TO_CENTER"
+            )
+            return
+
+        time_running = (
+            current_time_ms - self.timestamps["getting_new_object_start_time"]
+        )
+        if time_running > self.global_config["getting_new_object_timeout_ms"]:
+            self.global_config["logger"].info(
+                "Timeout waiting for object, pausing system"
+            )
+            self.system_lifecycle_stage = SystemLifecycleStage.PAUSED_BY_SYSTEM
+            self._setMotorSpeeds(0, 0, 0, 0)
+            return
+
+        self._updateFeederCycle(current_time_ms)
+
+    def _updateFeederCycle(self, current_time_ms: int) -> None:
+        capture_delay_ms = self.global_config["capture_delay_ms"]
+
+        if self.getting_new_object_state["remaining_timeout_ms"] > capture_delay_ms:
+            self.getting_new_object_state["remaining_timeout_ms"] -= capture_delay_ms
+        else:
+            self.getting_new_object_state["remaining_timeout_ms"] = 0
+
+        if self.getting_new_object_state["remaining_timeout_ms"] <= 0:
+            self._advanceToNextFeederStep()
+
+        self._setFeederMotorsForCurrentStep()
+
+    def _advanceToNextFeederStep(self) -> None:
+        # Advance to next step in the pattern
+        self.getting_new_object_state["current_step_index"] = (
+            self.getting_new_object_state["current_step_index"] + 1
+        ) % len(FEEDER_PATTERN)
+
+        # Set timeout for the new step
+        current_step = FEEDER_PATTERN[
+            self.getting_new_object_state["current_step_index"]
+        ]
+        self.getting_new_object_state["remaining_timeout_ms"] = current_step[
+            "duration_ms"
+        ]
+
+        self.global_config["logger"].info(
+            f"Advanced to feeder step {self.getting_new_object_state['current_step_index']}: {current_step['action'].value}, timeout: {current_step['duration_ms']}ms"
+        )
+
+    def _setFeederMotorsForCurrentStep(self) -> None:
+        current_step = FEEDER_PATTERN[
+            self.getting_new_object_state["current_step_index"]
+        ]
+        action = current_step["action"]
+
+        if action == FeederAction.RUN_CONVEYOR:
+            self._setMotorSpeeds(
+                main_conveyor=self.global_config["main_conveyor_speed"],
+                feeder_conveyor=self.global_config["feeder_conveyor_speed"],
+                first_vibration_hopper_motor=0,
+                second_vibration_hopper_motor=0,
+            )
+        elif action == FeederAction.RUN_FIRST_VIBRATION_HOPPER:
+            self._setMotorSpeeds(
+                main_conveyor=self.global_config["main_conveyor_speed"],
+                feeder_conveyor=0,
+                first_vibration_hopper_motor=self.global_config[
+                    "first_vibration_hopper_motor_speed"
+                ],
+                second_vibration_hopper_motor=0,
+            )
+        elif action == FeederAction.RUN_SECOND_VIBRATION_HOPPER:
+            self._setMotorSpeeds(
+                main_conveyor=self.global_config["main_conveyor_speed"],
+                feeder_conveyor=0,
+                first_vibration_hopper_motor=0,
+                second_vibration_hopper_motor=self.global_config[
+                    "second_vibration_hopper_motor_speed"
+                ],
+            )
+        elif action == FeederAction.PAUSE:
+            # Pause - turn off feeder motors but keep main conveyor running
+            self._setMotorSpeeds(
+                main_conveyor=self.global_config["main_conveyor_speed"],
+                feeder_conveyor=0,
+                first_vibration_hopper_motor=0,
+                second_vibration_hopper_motor=0,
+            )
+
     def _setMotorSpeeds(
-        self, main_conveyor: int, feeder_conveyor: int, vibration_hopper: int
+        self,
+        main_conveyor: int,
+        feeder_conveyor: int,
+        first_vibration_hopper_motor: int,
+        second_vibration_hopper_motor: int,
     ) -> None:
-        if feeder_conveyor == 0 and vibration_hopper == 0 and main_conveyor != 0:
+        if (
+            feeder_conveyor == 0
+            and first_vibration_hopper_motor == 0
+            and second_vibration_hopper_motor == 0
+            and main_conveyor != 0
+        ):
             main_conveyor -= 30
         if self.main_conveyor_speed != main_conveyor:
             self.main_conveyor_speed = main_conveyor
@@ -410,10 +529,19 @@ class SortingController:
             if not self.global_config["disable_feeder_conveyor"]:
                 self.irl_system["feeder_conveyor_dc_motor"].setSpeed(feeder_conveyor)
 
-        if self.vibration_hopper_speed != vibration_hopper:
-            self.vibration_hopper_speed = vibration_hopper
-            if not self.global_config["disable_vibration_hopper"]:
-                self.irl_system["vibration_hopper_dc_motor"].setSpeed(vibration_hopper)
+        if self.first_vibration_hopper_motor_speed != first_vibration_hopper_motor:
+            self.first_vibration_hopper_motor_speed = first_vibration_hopper_motor
+            if not self.global_config["disable_first_vibration_hopper_motor"]:
+                self.irl_system["first_vibration_hopper_motor"].setSpeed(
+                    first_vibration_hopper_motor
+                )
+
+        if self.second_vibration_hopper_motor_speed != second_vibration_hopper_motor:
+            self.second_vibration_hopper_motor_speed = second_vibration_hopper_motor
+            if not self.global_config["disable_second_vibration_hopper_motor"]:
+                self.irl_system["second_vibration_hopper_motor"].setSpeed(
+                    second_vibration_hopper_motor
+                )
 
     def _submitFrameForProcessing(self) -> None:
         captured_at_ms = int(time.time() * 1000)
@@ -625,7 +753,8 @@ class SortingController:
                     self._setMotorSpeeds(
                         main_conveyor=self.global_config["main_conveyor_speed"] + 50,
                         feeder_conveyor=0,
-                        vibration_hopper=0,
+                        first_vibration_hopper_motor=0,
+                        second_vibration_hopper_motor=0,
                     )
                     self.global_config["logger"].info(f"Increased speed")
 
@@ -765,7 +894,8 @@ class SortingController:
 
         self.irl_system["main_conveyor_dc_motor"].setSpeed(0)
         self.irl_system["feeder_conveyor_dc_motor"].setSpeed(0)
-        self.irl_system["vibration_hopper_dc_motor"].setSpeed(0)
+        self.irl_system["first_vibration_hopper_motor"].setSpeed(0)
+        self.irl_system["second_vibration_hopper_motor"].setSpeed(0)
 
         self._shutdownFrameProcessor()
 

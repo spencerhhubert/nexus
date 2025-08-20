@@ -52,7 +52,8 @@ class IRLConfig(TypedDict):
     distribution_modules: List[DistributionModuleConfig]
     main_conveyor_dc_motor: DCMotorConfig
     feeder_conveyor_dc_motor: DCMotorConfig
-    vibration_hopper_dc_motor: DCMotorConfig
+    first_vibration_hopper_motor: DCMotorConfig
+    second_vibration_hopper_motor: DCMotorConfig
     main_camera: MainCameraConfig
     conveyor_encoder: EncoderConfig
     break_beam_sensor: BreakBeamSensorConfig
@@ -63,7 +64,8 @@ class IRLSystemInterface(TypedDict):
     distribution_modules: List[DistributionModule]
     main_conveyor_dc_motor: DCMotor
     feeder_conveyor_dc_motor: DCMotor
-    vibration_hopper_dc_motor: DCMotor
+    first_vibration_hopper_motor: DCMotor
+    second_vibration_hopper_motor: DCMotor
     main_camera: Camera
     conveyor_encoder: Encoder
     break_beam_sensor: BreakBeamSensor
@@ -130,10 +132,15 @@ def buildIRLConfig() -> IRLConfig:
                 ],
             },
         ],
-        "vibration_hopper_dc_motor": {
+        "first_vibration_hopper_motor": {
             "enable_pin": 3,
             "input_1_pin": 22,
             "input_2_pin": 24,
+        },
+        "second_vibration_hopper_motor": {
+            "enable_pin": 6,
+            "input_1_pin": 30,
+            "input_2_pin": 32,
         },
         "main_conveyor_dc_motor": {
             "enable_pin": 5,
@@ -141,9 +148,9 @@ def buildIRLConfig() -> IRLConfig:
             "input_2_pin": 28,
         },
         "feeder_conveyor_dc_motor": {
-            "enable_pin": 6,
-            "input_1_pin": 30,
-            "input_2_pin": 32,
+            "enable_pin": 9,
+            "input_1_pin": 34,
+            "input_2_pin": 36,
         },
         "conveyor_encoder": {
             "clk_pin": 18,
@@ -261,12 +268,20 @@ def buildIRLSystemInterface(config: IRLConfig, gc: GlobalConfig) -> IRLSystemInt
         config["feeder_conveyor_dc_motor"]["input_2_pin"],
     )
 
-    vibration_hopper_motor = DCMotor(
+    first_vibration_hopper_motor = DCMotor(
         gc,
         mc,
-        config["vibration_hopper_dc_motor"]["enable_pin"],
-        config["vibration_hopper_dc_motor"]["input_1_pin"],
-        config["vibration_hopper_dc_motor"]["input_2_pin"],
+        config["first_vibration_hopper_motor"]["enable_pin"],
+        config["first_vibration_hopper_motor"]["input_1_pin"],
+        config["first_vibration_hopper_motor"]["input_2_pin"],
+    )
+
+    second_vibration_hopper_motor = DCMotor(
+        gc,
+        mc,
+        config["second_vibration_hopper_motor"]["enable_pin"],
+        config["second_vibration_hopper_motor"]["input_1_pin"],
+        config["second_vibration_hopper_motor"]["input_2_pin"],
     )
 
     main_camera = connectToCamera(
@@ -297,7 +312,8 @@ def buildIRLSystemInterface(config: IRLConfig, gc: GlobalConfig) -> IRLSystemInt
         "distribution_modules": dms,
         "main_conveyor_dc_motor": main_conveyor_motor,
         "feeder_conveyor_dc_motor": feeder_conveyor_motor,
-        "vibration_hopper_dc_motor": vibration_hopper_motor,
+        "first_vibration_hopper_motor": first_vibration_hopper_motor,
+        "second_vibration_hopper_motor": second_vibration_hopper_motor,
         "main_camera": main_camera,
         "conveyor_encoder": conveyor_encoder,
         "break_beam_sensor": break_beam_sensor,

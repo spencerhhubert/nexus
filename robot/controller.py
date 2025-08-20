@@ -8,7 +8,7 @@ import os
 import concurrent.futures
 import threading
 import cv2
-from typing import List, Optional, Dict, Any, TypedDict
+from typing import List, Optional, TypedDict
 from enum import Enum
 from robot.global_config import GlobalConfig
 from robot.irl.config import IRLSystemInterface
@@ -21,21 +21,16 @@ from robot.ai.segment import initializeSegmentationModel
 from robot.sorting.bricklink_categories_sorting_profile import (
     mkBricklinkCategoriesSortingProfile,
 )
-from robot.sorting.sorter import ClassificationResult
 from robot.storage.sqlite3.migrations import initializeDatabase
-from robot.storage.sqlite3.operations import saveObservationToDatabase
 from robot.storage.blob import ensureBlobStorageExists, saveTrajectory
 from robot.trajectories import (
     Observation,
-    Trajectory,
     TrajectoryLifecycleStage,
 )
 from robot.scene_tracker import SceneTracker
-from robot.sorting import PieceSorter, PieceSortingProfile
+from robot.sorting import PieceSorter
 from robot.bin_state_tracker import (
     BinStateTracker,
-    BinCoordinates,
-    BinState,
     binCoordinatesToKey,
 )
 
@@ -75,15 +70,19 @@ class GettingNewObjectState(TypedDict):
 
 FEEDER_PATTERN: List[FeederStep] = [
     {"action": FeederAction.RUN_FIRST_VIBRATION_HOPPER, "duration_ms": 1200},
-    {"action": FeederAction.PAUSE, "duration_ms": 1000},
-    {"action": FeederAction.RUN_SECOND_VIBRATION_HOPPER, "duration_ms": 200},
-    {"action": FeederAction.PAUSE, "duration_ms": 1000},
+    {"action": FeederAction.PAUSE, "duration_ms": 500},
+    {"action": FeederAction.RUN_SECOND_VIBRATION_HOPPER, "duration_ms": 600},
+    {"action": FeederAction.PAUSE, "duration_ms": 500},
     {"action": FeederAction.RUN_FIRST_VIBRATION_HOPPER, "duration_ms": 1200},
-    {"action": FeederAction.PAUSE, "duration_ms": 1000},
-    {"action": FeederAction.RUN_SECOND_VIBRATION_HOPPER, "duration_ms": 200},
-    {"action": FeederAction.PAUSE, "duration_ms": 1000},
-    {"action": FeederAction.RUN_CONVEYOR, "duration_ms": 400},
-    {"action": FeederAction.PAUSE, "duration_ms": 1000},
+    {"action": FeederAction.PAUSE, "duration_ms": 500},
+    {"action": FeederAction.RUN_SECOND_VIBRATION_HOPPER, "duration_ms": 600},
+    {"action": FeederAction.PAUSE, "duration_ms": 500},
+    {"action": FeederAction.RUN_FIRST_VIBRATION_HOPPER, "duration_ms": 1200},
+    {"action": FeederAction.PAUSE, "duration_ms": 500},
+    {"action": FeederAction.RUN_SECOND_VIBRATION_HOPPER, "duration_ms": 600},
+    {"action": FeederAction.PAUSE, "duration_ms": 500},
+    {"action": FeederAction.RUN_CONVEYOR, "duration_ms": 2500},
+    {"action": FeederAction.PAUSE, "duration_ms": 500},
 ]
 
 

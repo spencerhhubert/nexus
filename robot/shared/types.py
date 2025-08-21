@@ -83,6 +83,10 @@ class ObservationJSON(TypedDict):
     classification_result: Dict[str, Any]
 
 
+class ObservationJSONForWeb(ObservationJSON):
+    masked_image: str
+
+
 class TrajectoryJSON(TypedDict):
     trajectory_id: str
     created_at: int
@@ -95,12 +99,29 @@ class TrajectoryJSON(TypedDict):
 
 class NewObservationEvent(TypedDict):
     type: Literal["new_observation"]
-    observation: ObservationJSON
+    observation: ObservationJSONForWeb
 
 
 class TrajectoriesUpdateEvent(TypedDict):
     type: Literal["trajectories_update"]
     trajectories: List[TrajectoryJSON]
+
+
+class BricklinkPartData(TypedDict):
+    no: str
+    name: str
+    type: str
+    category_id: int
+    alternate_no: str
+    image_url: str
+    thumbnail_url: str
+    weight: str
+    dim_x: str
+    dim_y: str
+    dim_z: str
+    year_released: int
+    description: str
+    is_obsolete: bool
 
 
 WebSocketEvent = Union[

@@ -1,5 +1,9 @@
 import { writable } from 'svelte/store';
-import type { SystemStatus, ObservationData, TrajectoryData } from '../types';
+import type {
+  SystemStatus,
+  ObservationDataForWeb,
+  TrajectoryData,
+} from '../types';
 import { globalConfig } from '../config/global';
 
 interface ControlsPageState {
@@ -8,7 +12,7 @@ interface ControlsPageState {
   status: SystemStatus | null;
   cameraFrame: string | null;
   wsConnected: boolean;
-  observations: ObservationData[];
+  observations: ObservationDataForWeb[];
   trajectories: TrajectoryData[];
 }
 
@@ -39,7 +43,7 @@ function createControlsPageStateStore() {
       update(state => ({ ...state, cameraFrame: frame })),
     setWsConnected: (connected: boolean) =>
       update(state => ({ ...state, wsConnected: connected })),
-    addObservation: (observation: ObservationData) =>
+    addObservation: (observation: ObservationDataForWeb) =>
       update(state => {
         const config = globalConfig.get();
         const currentTime = Date.now();

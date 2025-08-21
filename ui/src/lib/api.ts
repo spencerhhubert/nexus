@@ -6,6 +6,7 @@ import type {
   WebSocketEvent,
   NewObservationEvent,
   TrajectoriesUpdateEvent,
+  BricklinkPartData,
 } from './types';
 import { logger } from './logger';
 
@@ -164,6 +165,28 @@ class RobotAPI {
     } catch (e) {
       logger.log(1, 'Robot appears offline:', e);
       return false;
+    }
+  }
+
+  async getBricklinkPart(kindId: string): Promise<BricklinkPartData | null> {
+    try {
+      logger.log(1, `Fetching BrickLink part info for: ${kindId}`);
+      const response = await fetch(`${API_BASE}/api/bricklink/${kindId}`);
+
+      if (!response.ok) {
+        logger.error(
+          1,
+          `Failed to fetch BrickLink part: ${response.statusText}`
+        );
+        return null;
+      }
+
+      const partData: BricklinkPartData = await response.json();
+      logger.log(1, `Successfully fetched BrickLink part: ${partData.name}`);
+      return partData;
+    } catch (e) {
+      logger.error(1, 'Error fetching BrickLink part:', e);
+      return null;
     }
   }
 }

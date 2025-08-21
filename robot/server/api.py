@@ -7,6 +7,8 @@ import json
 import base64
 import cv2
 import time
+from robot.piece.bricklink.auth import mkAuth
+from robot.piece.bricklink.api import getPartInfo
 from robot.server.thread_safe_state import ThreadSafeState
 from robot.shared.types import (
     SystemStatus,
@@ -21,6 +23,7 @@ from robot.shared.types import (
     TrajectoriesUpdateEvent,
     SystemLifecycleStage,
     SortingState,
+    BricklinkPartData,
 )
 from robot.global_config import GlobalConfig
 
@@ -71,6 +74,28 @@ class RobotAPI:
                 return JSONResponse({"success": True})
             except Exception as e:
                 raise HTTPException(status_code=400, detail=str(e))
+
+        @self.app.get("/api/bricklink/{kind_id}")
+        async def get_bricklink_part(kind_id: str) -> JSONResponse:
+            try:
+                auth = mkAuth()
+                part_data = getPartInfo(kind_id, auth)
+
+                if part_data is None:
+                    raise HTTPException(
+                        status_code=404, detail=f"Part {kind_id} not found"
+                    )
+
+                return JSONResponse(part_data)
+            except ValueError as e:
+                raise HTTPException(
+                    status_code=500,
+                    detail=f"BrickLink API configuration error: {str(e)}",
+                )
+            except Exception as e:
+                raise HTTPException(
+                    status_code=500, detail=f"Error fetching part info: {str(e)}"
+                )
 
         @self.app.websocket("/api/ws")
         async def websocket_endpoint(websocket: WebSocket):
@@ -243,7 +268,7 @@ class RobotAPI:
         )
         event: NewObservationEvent = {
             "type": "new_observation",
-            "observation": observation.toJSON(),
+            "observation": observation.toJSONForWeb(),
         }
         await self._broadcastEvent(event)
         self.global_config["logger"].info("New observation broadcast completed")

@@ -1,6 +1,8 @@
 import time
 import uuid
 import numpy as np
+import base64
+import cv2
 from typing import TypedDict, Optional
 from robot.sorting.sorter import ClassificationResult
 
@@ -85,4 +87,36 @@ class Observation:
             masked_image_path=self.masked_image_path,
             classification_file_path=self.classification_file_path,
             classification_result=self.classification_result.toJSON(),
+        )
+
+    def toJSONForWeb(self):
+        # Convert masked image to base64 for web display
+        try:
+            _, buffer = cv2.imencode(".jpg", self.masked_image)
+            masked_image_b64 = base64.b64encode(buffer.tobytes()).decode("utf-8")
+        except Exception:
+            masked_image_b64 = ""
+
+        from robot.shared.types import ObservationJSONForWeb
+
+        return ObservationJSONForWeb(
+            observation_id=self.observation_id,
+            trajectory_id=self.trajectory_id,
+            created_at=self.created_at,
+            captured_at_ms=self.captured_at_ms,
+            center_x_percent=self.center_x_percent,
+            center_y_percent=self.center_y_percent,
+            bbox_width_percent=self.bbox_width_percent,
+            bbox_height_percent=self.bbox_height_percent,
+            leading_edge_x_percent=self.leading_edge_x_percent,
+            center_x_px=self.center_x_px,
+            center_y_px=self.center_y_px,
+            bbox_width_px=self.bbox_width_px,
+            bbox_height_px=self.bbox_height_px,
+            leading_edge_x_px=self.leading_edge_x_px,
+            full_image_path=self.full_image_path,
+            masked_image_path=self.masked_image_path,
+            classification_file_path=self.classification_file_path,
+            classification_result=self.classification_result.toJSON(),
+            masked_image=masked_image_b64,
         )

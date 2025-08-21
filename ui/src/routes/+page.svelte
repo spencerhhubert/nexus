@@ -3,13 +3,16 @@
   import { robotAPI } from "$lib/api";
   import { logger } from "$lib/logger";
   import { controlsPageState } from "$lib/stores/controlsPageState";
+  import type { TrajectoryData } from "$lib/types";
   import ConnectionStatus from "$lib/components/ConnectionStatus.svelte";
   import StatusPanel from "$lib/components/SystemStatus.svelte";
   import CameraFeed from "$lib/components/CameraFeed.svelte";
   import MotorControls from "$lib/components/MotorControls.svelte";
   import TrajectoryObservationDisplay from "$lib/components/TrajectoryObservationDisplay.svelte";
+  import ClassificationPanel from "$lib/components/ClassificationPanel.svelte";
 
   let checkInterval: number;
+  let selectedTrajectory = $state<TrajectoryData | null>(null);
 
   onMount(() => {
     attemptConnection();
@@ -38,6 +41,8 @@
     robotAPI.on("new_observation", (event) => {
       logger.log(1, "New observation received:", event.observation.observation_id);
       console.log("Raw observation event:", event);
+      console.log("Has masked_image:", !!event.observation.masked_image);
+      console.log("Masked image length:", event.observation.masked_image?.length || 0);
       console.log("Adding observation to state...");
       controlsPageState.addObservation(event.observation);
       console.log("Observation added to state");
@@ -132,10 +137,16 @@
     </div>
   {:else}
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
-      <StatusPanel pageState={controlsPageState} />
       <CameraFeed cameraFrame={$controlsPageState.cameraFrame} />
-      <MotorControls pageState={controlsPageState} />
-      <TrajectoryObservationDisplay pageState={controlsPageState} />
+      <ClassificationPanel pageState={controlsPageState} {selectedTrajectory} />
+      <TrajectoryObservationDisplay 
+        pageState={controlsPageState} 
+        on:selectTrajectory={(e) => selectedTrajectory = e.detail}
+      />
+      <div class="space-y-5">
+        <StatusPanel pageState={controlsPageState} />
+        <MotorControls pageState={controlsPageState} />
+      </div>
     </div>
   {/if}
 </div>

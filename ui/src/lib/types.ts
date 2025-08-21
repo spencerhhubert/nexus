@@ -71,6 +71,10 @@ export interface ObservationData {
   classification_result: Record<string, any>;
 }
 
+export interface ObservationDataForWeb extends ObservationData {
+  masked_image: string;
+}
+
 export interface TrajectoryData {
   trajectory_id: string;
   created_at: number;
@@ -83,12 +87,29 @@ export interface TrajectoryData {
 
 export interface NewObservationEvent {
   type: 'new_observation';
-  observation: ObservationData;
+  observation: ObservationDataForWeb;
 }
 
 export interface TrajectoriesUpdateEvent {
   type: 'trajectories_update';
   trajectories: TrajectoryData[];
+}
+
+export interface BricklinkPartData {
+  no: string;
+  name: string;
+  type: string;
+  category_id: number;
+  alternate_no: string;
+  image_url: string;
+  thumbnail_url: string;
+  weight: string;
+  dim_x: string;
+  dim_y: string;
+  dim_z: string;
+  year_released: number;
+  description: string;
+  is_obsolete: boolean;
 }
 
 export type WebSocketEvent =

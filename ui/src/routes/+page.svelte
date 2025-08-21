@@ -7,6 +7,7 @@
   import StatusPanel from "$lib/components/SystemStatus.svelte";
   import CameraFeed from "$lib/components/CameraFeed.svelte";
   import MotorControls from "$lib/components/MotorControls.svelte";
+  import TrajectoryObservationDisplay from "$lib/components/TrajectoryObservationDisplay.svelte";
 
   let checkInterval: number;
 
@@ -32,6 +33,19 @@
     robotAPI.on("camera_frame", (event) => {
       logger.log(1, "Camera frame received, size:", event.frame_data.length);
       controlsPageState.setCameraFrame(event.frame_data);
+    });
+
+    robotAPI.on("new_observation", (event) => {
+      logger.log(1, "New observation received:", event.observation.observation_id);
+      console.log("Raw observation event:", event);
+      console.log("Adding observation to state...");
+      controlsPageState.addObservation(event.observation);
+      console.log("Observation added to state");
+    });
+
+    robotAPI.on("trajectories_update", (event) => {
+      logger.log(1, "Trajectories update received, count:", event.trajectories.length);
+      controlsPageState.setTrajectories(event.trajectories);
     });
 
     robotAPI.on("connect", () => {
@@ -121,6 +135,7 @@
       <StatusPanel pageState={controlsPageState} />
       <CameraFeed cameraFrame={$controlsPageState.cameraFrame} />
       <MotorControls pageState={controlsPageState} />
+      <TrajectoryObservationDisplay pageState={controlsPageState} />
     </div>
   {/if}
 </div>

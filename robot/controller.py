@@ -46,7 +46,7 @@ from robot.async_profiling import (
 )
 
 
-from robot.server.types import SystemLifecycleStage, SortingState
+from robot.shared.types import SystemLifecycleStage, SortingState
 from robot.server.api import RobotAPI
 from robot.server.thread_safe_state import ThreadSafeState
 
@@ -636,6 +636,16 @@ class SortingController:
             )
 
             self.scene_tracker.addObservation(observation)
+
+            # Queue observation for WebSocket broadcast
+            if self.thread_safe_state.enqueueObservation(observation):
+                self.global_config["logger"].info(
+                    f"Queued observation for broadcast: {observation.observation_id}"
+                )
+            else:
+                self.global_config["logger"].warning(
+                    f"Failed to queue observation: {observation.observation_id}"
+                )
 
             profiling_record["observations_saved_count"] += 1
 

@@ -4,6 +4,8 @@ import type {
   StartSystemRequest,
   StopSystemRequest,
   WebSocketEvent,
+  NewObservationEvent,
+  TrajectoriesUpdateEvent,
 } from './types';
 import { logger } from './logger';
 

@@ -50,4 +50,49 @@ export interface StatusUpdateEvent {
   status: SystemStatus;
 }
 
-export type WebSocketEvent = CameraFrameEvent | StatusUpdateEvent;
+export interface ObservationData {
+  observation_id: string;
+  trajectory_id: string | null;
+  created_at: number;
+  captured_at_ms: number;
+  center_x_percent: number;
+  center_y_percent: number;
+  bbox_width_percent: number;
+  bbox_height_percent: number;
+  leading_edge_x_percent: number;
+  center_x_px: number;
+  center_y_px: number;
+  bbox_width_px: number;
+  bbox_height_px: number;
+  leading_edge_x_px: number;
+  full_image_path: string | null;
+  masked_image_path: string | null;
+  classification_file_path: string | null;
+  classification_result: Record<string, any>;
+}
+
+export interface TrajectoryData {
+  trajectory_id: string;
+  created_at: number;
+  updated_at: number;
+  observation_ids: string[];
+  consensus_classification: string | null;
+  lifecycle_stage: string;
+  target_bin: Record<string, any> | null;
+}
+
+export interface NewObservationEvent {
+  type: 'new_observation';
+  observation: ObservationData;
+}
+
+export interface TrajectoriesUpdateEvent {
+  type: 'trajectories_update';
+  trajectories: TrajectoryData[];
+}
+
+export type WebSocketEvent =
+  | CameraFrameEvent
+  | StatusUpdateEvent
+  | NewObservationEvent
+  | TrajectoriesUpdateEvent;

@@ -1,5 +1,6 @@
 import { writable } from 'svelte/store';
-import type { SystemStatus } from '../types';
+import type { SystemStatus, ObservationData, TrajectoryData } from '../types';
+import { globalConfig } from '../config/global';
 
 interface ControlsPageState {
   isOnline: boolean;
@@ -7,6 +8,8 @@ interface ControlsPageState {
   status: SystemStatus | null;
   cameraFrame: string | null;
   wsConnected: boolean;
+  observations: ObservationData[];
+  trajectories: TrajectoryData[];
 }
 
 const initialState: ControlsPageState = {
@@ -15,6 +18,8 @@ const initialState: ControlsPageState = {
   status: null,
   cameraFrame: null,
   wsConnected: false,
+  observations: [],
+  trajectories: [],
 };
 
 function createControlsPageStateStore() {
@@ -34,12 +39,53 @@ function createControlsPageStateStore() {
       update(state => ({ ...state, cameraFrame: frame })),
     setWsConnected: (connected: boolean) =>
       update(state => ({ ...state, wsConnected: connected })),
+    addObservation: (observation: ObservationData) =>
+      update(state => {
+        const config = globalConfig.get();
+        const currentTime = Date.now();
+        const cutoffTime = currentTime - config.observations.maxAgeMs;
+
+        const filteredObservations = state.observations.filter(
+          obs => obs.captured_at_ms >= cutoffTime
+        );
+
+        const updatedObservations = [...filteredObservations, observation];
+        if (updatedObservations.length > config.observations.maxCount) {
+          updatedObservations.splice(
+            0,
+            updatedObservations.length - config.observations.maxCount
+          );
+        }
+
+        return { ...state, observations: updatedObservations };
+      }),
+    setTrajectories: (trajectories: TrajectoryData[]) =>
+      update(state => {
+        const config = globalConfig.get();
+        const currentTime = Date.now();
+        const cutoffTime = currentTime - config.trajectories.maxAgeMs;
+
+        const filteredTrajectories = trajectories.filter(
+          traj => traj.updated_at >= cutoffTime
+        );
+
+        if (filteredTrajectories.length > config.trajectories.maxCount) {
+          filteredTrajectories.splice(
+            0,
+            filteredTrajectories.length - config.trajectories.maxCount
+          );
+        }
+
+        return { ...state, trajectories: filteredTrajectories };
+      }),
     reset: () =>
       update(state => ({
         ...state,
         isOnline: false,
         status: null,
         cameraFrame: null,
+        observations: [],
+        trajectories: [],
       })),
   };
 }

@@ -66,6 +66,8 @@ class GlobalConfig(TypedDict):
     max_trajectory_age: int
     min_number_observations_for_centering: int
     feeder_timeouts: FeederTimeoutsConfig
+    websocket_broadcast_fps: int
+    websocket_status_update_interval_s: float
 
 
 def buildGlobalConfig() -> GlobalConfig:
@@ -153,7 +155,7 @@ def buildGlobalConfig() -> GlobalConfig:
         "min_sending_to_bin_time_ms": 3000,
         "profiling_dir_path": "../profiles",
         "use_prev_bin_state": args.use_prev_bin_state,
-        "main_conveyor_speed": 100,
+        "main_conveyor_speed": 130,
         "feeder_conveyor_speed": 150,
         "first_vibration_hopper_motor_speed": 145,
         "second_vibration_hopper_motor_speed": 146,
@@ -172,6 +174,8 @@ def buildGlobalConfig() -> GlobalConfig:
             "second_vibration_hopper_motor_timeout_ms": 200,
             "timeout_between_feeder_steps_ms": 1000,
         },
+        "websocket_broadcast_fps": 30,
+        "websocket_status_update_interval_s": 0.2,
     }
 
     from robot.logger import Logger

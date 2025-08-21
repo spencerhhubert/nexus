@@ -157,7 +157,7 @@ def buildGlobalConfig() -> GlobalConfig:
         "use_prev_bin_state": args.use_prev_bin_state,
         "main_conveyor_speed": 130,
         "feeder_conveyor_speed": 150,
-        "first_vibration_hopper_motor_speed": 145,
+        "first_vibration_hopper_motor_speed": 148,
         "second_vibration_hopper_motor_speed": 146,
         "object_center_threshold_percent": 0.25,
         "getting_new_object_timeout_ms": 360 * 1000,

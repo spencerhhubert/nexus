@@ -68,17 +68,20 @@ class GettingNewObjectState(TypedDict):
     remaining_timeout_ms: int
 
 
-PAUSE_LENGTH_MS = 150
-FIRST_VIBRATION_LENGTH_MS = 500
-SECOND_VIBRATION_LENGTH_MS = 500
+PAUSE_LENGTH_MS = 200
+FIRST_VIBRATION_LENGTH_MS = 400
+SECOND_VIBRATION_LENGTH_MS = 800
 CONVEYOR_RUN_LENGTH_MS = 1000
 
-VIBRATION_CYCLE: List[FeederStep] = [
+FIRST_VIBRATION_HOPPER_CYCLE: List[FeederStep] = [
     {
         "action": FeederAction.RUN_FIRST_VIBRATION_HOPPER,
         "duration_ms": FIRST_VIBRATION_LENGTH_MS,
     },
     {"action": FeederAction.PAUSE, "duration_ms": PAUSE_LENGTH_MS},
+]
+
+SECOND_VIBRATION_HOPPER_CYCLE: List[FeederStep] = [
     {
         "action": FeederAction.RUN_SECOND_VIBRATION_HOPPER,
         "duration_ms": SECOND_VIBRATION_LENGTH_MS,
@@ -86,10 +89,15 @@ VIBRATION_CYCLE: List[FeederStep] = [
     {"action": FeederAction.PAUSE, "duration_ms": PAUSE_LENGTH_MS},
 ]
 
-FEEDER_PATTERN: List[FeederStep] = VIBRATION_CYCLE * 10 + [
+FEEDER_CONVEYOR_CYCLE: List[FeederStep] = [
     {"action": FeederAction.RUN_CONVEYOR, "duration_ms": CONVEYOR_RUN_LENGTH_MS},
     {"action": FeederAction.PAUSE, "duration_ms": PAUSE_LENGTH_MS},
 ]
+
+FEEDER_PATTERN: List[FeederStep] = (
+    FEEDER_CONVEYOR_CYCLE
+    + (FIRST_VIBRATION_HOPPER_CYCLE + SECOND_VIBRATION_HOPPER_CYCLE * 3) * 2
+)
 
 
 class StateMachineTimestamps(TypedDict):

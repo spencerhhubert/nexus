@@ -49,8 +49,11 @@ function createControlsPageStateStore() {
         const currentTime = Date.now();
         const cutoffTime = currentTime - config.observations.maxAgeMs;
 
+        // Filter by age and remove any existing observation with the same ID
         const filteredObservations = state.observations.filter(
-          obs => obs.captured_at_ms >= cutoffTime
+          obs =>
+            obs.captured_at_ms >= cutoffTime &&
+            obs.observation_id !== observation.observation_id
         );
 
         const updatedObservations = [...filteredObservations, observation];

@@ -4,7 +4,11 @@ import type {
   StartSystemRequest,
   StopSystemRequest,
   WebSocketEvent,
+  NewObservationEvent,
+  TrajectoriesUpdateEvent,
+  BricklinkPartData,
 } from './types';
+import { logger } from './logger';
 
 const API_BASE = 'http://localhost:8080';
 const WS_BASE = 'ws://localhost:8080/api';
@@ -48,23 +52,24 @@ class RobotAPI {
   }
 
   connectWebSocket(): void {
-    console.log(
+    logger.log(
+      1,
       'connectWebSocket() called, current ws state:',
       this.ws?.readyState
     );
     if (this.ws?.readyState === WebSocket.OPEN) {
-      console.log('WebSocket already open, skipping connection');
+      logger.log(1, 'WebSocket already open, skipping connection');
       return;
     }
 
     const wsUrl = `${WS_BASE}/ws`;
-    console.log('Attempting to connect WebSocket to:', wsUrl);
+    logger.log(1, 'Attempting to connect WebSocket to:', wsUrl);
     this.ws = new WebSocket(wsUrl);
 
     this.ws.onopen = () => {
-      console.log('WebSocket connected successfully');
+      logger.log(1, 'WebSocket connected successfully');
       if (this.reconnectInterval) {
-        console.log('Clearing reconnect interval');
+        logger.log(1, 'Clearing reconnect interval');
         clearInterval(this.reconnectInterval);
         this.reconnectInterval = null;
       }
@@ -78,15 +83,16 @@ class RobotAPI {
     this.ws.onmessage = event => {
       try {
         const data: WebSocketEvent = JSON.parse(event.data);
-        console.log('WebSocket message received:', data.type);
+        logger.log(1, 'WebSocket message received:', data.type);
         const handler = this.eventHandlers.get(data.type);
         if (handler) {
           handler(data);
         } else {
-          console.warn('No handler for WebSocket event type:', data.type);
+          logger.warn(1, 'No handler for WebSocket event type:', data.type);
         }
       } catch (e) {
-        console.error(
+        logger.error(
+          1,
           'Failed to parse WebSocket message:',
           e,
           'Raw data:',
@@ -96,7 +102,8 @@ class RobotAPI {
     };
 
     this.ws.onclose = event => {
-      console.log(
+      logger.log(
+        1,
         'WebSocket disconnected. Code:',
         event.code,
         'Reason:',
@@ -113,8 +120,12 @@ class RobotAPI {
     };
 
     this.ws.onerror = error => {
-      console.error('WebSocket error:', error);
-      console.log('WebSocket state when error occurred:', this.ws?.readyState);
+      logger.error(1, 'WebSocket error:', error);
+      logger.log(
+        1,
+        'WebSocket state when error occurred:',
+        this.ws?.readyState
+      );
     };
   }
 
@@ -122,7 +133,7 @@ class RobotAPI {
     if (this.reconnectInterval) return;
 
     this.reconnectInterval = setInterval(() => {
-      console.log('Attempting WebSocket reconnect...');
+      logger.log(1, 'Attempting WebSocket reconnect...');
       this.connectWebSocket();
     }, 3000);
   }
@@ -145,15 +156,37 @@ class RobotAPI {
 
   async isOnline(): Promise<boolean> {
     try {
-      console.log('Checking if robot is online...');
+      logger.log(1, 'Checking if robot is online...');
       const response = await fetch(`${API_BASE}/api/system/start`, {
         method: 'HEAD',
       });
-      console.log('Robot is online, response status:', response.status);
+      logger.log(1, 'Robot is online, response status:', response.status);
       return true;
     } catch (e) {
-      console.log('Robot appears offline:', e);
+      logger.log(1, 'Robot appears offline:', e);
       return false;
+    }
+  }
+
+  async getBricklinkPart(kindId: string): Promise<BricklinkPartData | null> {
+    try {
+      logger.log(1, `Fetching BrickLink part info for: ${kindId}`);
+      const response = await fetch(`${API_BASE}/api/bricklink/${kindId}`);
+
+      if (!response.ok) {
+        logger.error(
+          1,
+          `Failed to fetch BrickLink part: ${response.statusText}`
+        );
+        return null;
+      }
+
+      const partData: BricklinkPartData = await response.json();
+      logger.log(1, `Successfully fetched BrickLink part: ${partData.name}`);
+      return partData;
+    } catch (e) {
+      logger.error(1, 'Error fetching BrickLink part:', e);
+      return null;
     }
   }
 }

@@ -3,10 +3,12 @@ import { browser } from '$app/environment';
 
 export interface UserConfig {
   theme: 'light' | 'dark';
+  debugLevel: number;
 }
 
 const DEFAULT_CONFIG: UserConfig = {
   theme: 'light',
+  debugLevel: 0,
 };
 
 const CONFIG_KEY = 'user-config';
@@ -50,6 +52,7 @@ function createConfigStore() {
         ).matches;
         const initialConfig: UserConfig = {
           theme: prefersDark ? 'dark' : 'light',
+          debugLevel: 0,
         };
         set(initialConfig);
         localStorage.setItem(CONFIG_KEY, JSON.stringify(initialConfig));

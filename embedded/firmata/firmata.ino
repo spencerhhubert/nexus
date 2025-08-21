@@ -73,12 +73,18 @@ uint16_t SevenBitToInt16(byte *bytes) {
 
 // Motor control pins - automatically disabled when break beam is triggered
 // This is done in firmware to reduce latency since serial communication is too slow
-#define VIBRATION_HOPPER_ENABLE_PIN 3
-#define VIBRATION_HOPPER_INPUT1_PIN 22
-#define VIBRATION_HOPPER_INPUT2_PIN 24
-#define FEEDER_CONVEYOR_ENABLE_PIN 6
-#define FEEDER_CONVEYOR_INPUT1_PIN 30
-#define FEEDER_CONVEYOR_INPUT2_PIN 32
+#define FIRST_VIBRATION_HOPPER_ENABLE_PIN 3
+#define FIRST_VIBRATION_HOPPER_INPUT1_PIN 22
+#define FIRST_VIBRATION_HOPPER_INPUT2_PIN 24
+#define SECOND_VIBRATION_HOPPER_ENABLE_PIN 6
+#define SECOND_VIBRATION_HOPPER_INPUT1_PIN 30
+#define SECOND_VIBRATION_HOPPER_INPUT2_PIN 32
+#define MAIN_CONVEYOR_ENABLE_PIN 5
+#define MAIN_CONVEYOR_INPUT1_PIN 26
+#define MAIN_CONVEYOR_INPUT2_PIN 28
+#define FEEDER_CONVEYOR_ENABLE_PIN 9
+#define FEEDER_CONVEYOR_INPUT1_PIN 34
+#define FEEDER_CONVEYOR_INPUT2_PIN 36
 
 // Custom implementation to replace std::map
 struct PwmBoardEntry {
@@ -473,10 +479,20 @@ void updateBreakBeamSensor() {
         // Automatically disable motors when break beam is broken (reading == 0)
         // This is done in firmware for fast response since serial communication is too slow
         if (reading == 0) {
-            // Stop vibration hopper motor
-            analogWrite(VIBRATION_HOPPER_ENABLE_PIN, 0);
-            digitalWrite(VIBRATION_HOPPER_INPUT1_PIN, LOW);
-            digitalWrite(VIBRATION_HOPPER_INPUT2_PIN, LOW);
+            // Stop first vibration hopper motor
+            analogWrite(FIRST_VIBRATION_HOPPER_ENABLE_PIN, 0);
+            digitalWrite(FIRST_VIBRATION_HOPPER_INPUT1_PIN, LOW);
+            digitalWrite(FIRST_VIBRATION_HOPPER_INPUT2_PIN, LOW);
+            
+            // Stop second vibration hopper motor
+            analogWrite(SECOND_VIBRATION_HOPPER_ENABLE_PIN, 0);
+            digitalWrite(SECOND_VIBRATION_HOPPER_INPUT1_PIN, LOW);
+            digitalWrite(SECOND_VIBRATION_HOPPER_INPUT2_PIN, LOW);
+            
+            // Stop main conveyor motor
+            analogWrite(MAIN_CONVEYOR_ENABLE_PIN, 0);
+            digitalWrite(MAIN_CONVEYOR_INPUT1_PIN, LOW);
+            digitalWrite(MAIN_CONVEYOR_INPUT2_PIN, LOW);
             
             // Stop feeder conveyor motor
             analogWrite(FEEDER_CONVEYOR_ENABLE_PIN, 0);
@@ -742,17 +758,29 @@ void setup() {
     initServoTimeouts();
 
     // Initialize motor control pins for automatic break beam control
-    pinMode(VIBRATION_HOPPER_ENABLE_PIN, OUTPUT);
-    pinMode(VIBRATION_HOPPER_INPUT1_PIN, OUTPUT);
-    pinMode(VIBRATION_HOPPER_INPUT2_PIN, OUTPUT);
+    pinMode(FIRST_VIBRATION_HOPPER_ENABLE_PIN, OUTPUT);
+    pinMode(FIRST_VIBRATION_HOPPER_INPUT1_PIN, OUTPUT);
+    pinMode(FIRST_VIBRATION_HOPPER_INPUT2_PIN, OUTPUT);
+    pinMode(SECOND_VIBRATION_HOPPER_ENABLE_PIN, OUTPUT);
+    pinMode(SECOND_VIBRATION_HOPPER_INPUT1_PIN, OUTPUT);
+    pinMode(SECOND_VIBRATION_HOPPER_INPUT2_PIN, OUTPUT);
+    pinMode(MAIN_CONVEYOR_ENABLE_PIN, OUTPUT);
+    pinMode(MAIN_CONVEYOR_INPUT1_PIN, OUTPUT);
+    pinMode(MAIN_CONVEYOR_INPUT2_PIN, OUTPUT);
     pinMode(FEEDER_CONVEYOR_ENABLE_PIN, OUTPUT);
     pinMode(FEEDER_CONVEYOR_INPUT1_PIN, OUTPUT);
     pinMode(FEEDER_CONVEYOR_INPUT2_PIN, OUTPUT);
     
     // Initialize motors to off state
-    analogWrite(VIBRATION_HOPPER_ENABLE_PIN, 0);
-    digitalWrite(VIBRATION_HOPPER_INPUT1_PIN, LOW);
-    digitalWrite(VIBRATION_HOPPER_INPUT2_PIN, LOW);
+    analogWrite(FIRST_VIBRATION_HOPPER_ENABLE_PIN, 0);
+    digitalWrite(FIRST_VIBRATION_HOPPER_INPUT1_PIN, LOW);
+    digitalWrite(FIRST_VIBRATION_HOPPER_INPUT2_PIN, LOW);
+    analogWrite(SECOND_VIBRATION_HOPPER_ENABLE_PIN, 0);
+    digitalWrite(SECOND_VIBRATION_HOPPER_INPUT1_PIN, LOW);
+    digitalWrite(SECOND_VIBRATION_HOPPER_INPUT2_PIN, LOW);
+    analogWrite(MAIN_CONVEYOR_ENABLE_PIN, 0);
+    digitalWrite(MAIN_CONVEYOR_INPUT1_PIN, LOW);
+    digitalWrite(MAIN_CONVEYOR_INPUT2_PIN, LOW);
     analogWrite(FEEDER_CONVEYOR_ENABLE_PIN, 0);
     digitalWrite(FEEDER_CONVEYOR_INPUT1_PIN, LOW);
     digitalWrite(FEEDER_CONVEYOR_INPUT2_PIN, LOW);

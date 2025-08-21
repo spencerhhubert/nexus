@@ -1,52 +1,68 @@
 <script lang="ts">
   import { onMount, onDestroy } from "svelte";
   import { robotAPI } from "$lib/api";
-  import type { SystemStatus } from "$lib/types";
+  import { logger } from "$lib/logger";
+  import { controlsPageState } from "$lib/stores/controlsPageState";
+  import type { TrajectoryData } from "$lib/types";
   import ConnectionStatus from "$lib/components/ConnectionStatus.svelte";
   import StatusPanel from "$lib/components/SystemStatus.svelte";
   import CameraFeed from "$lib/components/CameraFeed.svelte";
   import MotorControls from "$lib/components/MotorControls.svelte";
-
-
-  let isOnline = $state(false);
-  let isLoading = $state(true);
-  let status = $state<SystemStatus | null>(null);
-  let cameraFrame = $state<string | null>(null);
+  import TrajectoryObservationDisplay from "$lib/components/TrajectoryObservationDisplay.svelte";
+  import ClassificationPanel from "$lib/components/ClassificationPanel.svelte";
 
   let checkInterval: number;
-  let wsConnected = $state(false);
+  let selectedTrajectory = $state<TrajectoryData | null>(null);
 
   onMount(() => {
     attemptConnection();
     checkInterval = setInterval(attemptConnection, 3000);
 
     robotAPI.on("status_update", (event) => {
-      console.log("Status update received:", event.status.lifecycle_stage);
-      status = event.status;
-      if (!isOnline) {
-        console.log("First status update received, marking as online");
-        isOnline = true;
-        isLoading = false;
+      logger.log(1, "Status update received:", event.status.lifecycle_stage);
+      controlsPageState.setStatus(event.status);
+      
+      let currentState: any;
+      const unsubscribe = controlsPageState.subscribe(state => currentState = state);
+      unsubscribe();
+      
+      if (!currentState?.isOnline) {
+        logger.log(1, "First status update received, marking as online");
+        controlsPageState.setOnline(true);
+        controlsPageState.setLoading(false);
       }
     });
 
     robotAPI.on("camera_frame", (event) => {
-      console.log("Camera frame received, size:", event.frame_data.length);
-      cameraFrame = event.frame_data;
+      logger.log(1, "Camera frame received, size:", event.frame_data.length);
+      controlsPageState.setCameraFrame(event.frame_data);
+    });
+
+    robotAPI.on("new_observation", (event) => {
+      logger.log(1, "New observation received:", event.observation.observation_id);
+      console.log("Raw observation event:", event);
+      console.log("Has masked_image:", !!event.observation.masked_image);
+      console.log("Masked image length:", event.observation.masked_image?.length || 0);
+      console.log("Adding observation to state...");
+      controlsPageState.addObservation(event.observation);
+      console.log("Observation added to state");
+    });
+
+    robotAPI.on("trajectories_update", (event) => {
+      logger.log(1, "Trajectories update received, count:", event.trajectories.length);
+      controlsPageState.setTrajectories(event.trajectories);
     });
 
     robotAPI.on("connect", () => {
-      console.log("WebSocket connected");
-      wsConnected = true;
-      isLoading = false;
+      logger.log(1, "WebSocket connected");
+      controlsPageState.setWsConnected(true);
+      controlsPageState.setLoading(false);
     });
 
     robotAPI.on("disconnect", (event) => {
-      console.log("WebSocket disconnected:", event);
-      wsConnected = false;
-      isOnline = false;
-      status = null;
-      cameraFrame = null;
+      logger.log(1, "WebSocket disconnected:", event);
+      controlsPageState.setWsConnected(false);
+      controlsPageState.reset();
     });
 
   });
@@ -57,37 +73,40 @@
   });
 
   async function attemptConnection() {
-    console.log("attemptConnection() called, wsConnected:", wsConnected);
-    if (wsConnected) {
-      console.log("Already connected, skipping");
+    let currentState: any;
+    const unsubscribe = controlsPageState.subscribe(state => currentState = state);
+    unsubscribe();
+    
+    logger.log(1, "attemptConnection() called, wsConnected:", currentState?.wsConnected);
+    if (currentState?.wsConnected) {
+      logger.log(1, "Already connected, skipping");
       return;
     }
 
     try {
-      console.log("Checking if robot is online...");
+      logger.log(1, "Checking if robot is online...");
       const online = await robotAPI.isOnline();
-      console.log("Robot online check result:", online);
+      logger.log(1, "Robot online check result:", online);
 
       if (online) {
-        console.log("Robot is online, attempting WebSocket connection...");
+        logger.log(1, "Robot is online, attempting WebSocket connection...");
         robotAPI.connectWebSocket();
-        console.log("WebSocket connection initiated");
+        logger.log(1, "WebSocket connection initiated");
       } else {
-        console.log("Robot is not online");
-        isOnline = false;
-        status = null;
-        cameraFrame = null;
+        logger.log(1, "Robot is not online");
+        controlsPageState.reset();
       }
     } catch (e) {
-      console.error("Error during connection attempt:", e);
-      isOnline = false;
-      status = null;
-      wsConnected = false;
+      logger.error(1, "Error during connection attempt:", e);
+      controlsPageState.reset();
+      controlsPageState.setWsConnected(false);
     }
 
-    if (!wsConnected) {
-      console.log("WebSocket not connected, setting loading to false");
-      isLoading = false;
+    const unsubscribe2 = controlsPageState.subscribe(state => currentState = state);
+    unsubscribe2();
+    if (!currentState?.wsConnected) {
+      logger.log(1, "WebSocket not connected, setting loading to false");
+      controlsPageState.setLoading(false);
     }
   }
 </script>
@@ -101,10 +120,10 @@
     class="flex justify-between items-center mb-8 pb-5 border-b border-surface-200 dark:border-surface-700"
   >
     <h1 class="text-3xl font-bold text-foreground-light dark:text-foreground-dark">Sorter Controls</h1>
-    <ConnectionStatus {isOnline} {isLoading} />
+    <ConnectionStatus isOnline={$controlsPageState.isOnline} isLoading={$controlsPageState.isLoading} />
   </header>
 
-  {#if !isOnline && !isLoading}
+  {#if !$controlsPageState.isOnline && !$controlsPageState.isLoading}
     <div class="text-center py-16">
       <h2 class="text-2xl font-semibold text-surface-700 dark:text-surface-300 mb-4">
         Sorter Server Offline
@@ -118,9 +137,16 @@
     </div>
   {:else}
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
-      <StatusPanel {status} />
-      <CameraFeed {cameraFrame} />
-      <MotorControls motors={status?.motors || null} />
+      <CameraFeed cameraFrame={$controlsPageState.cameraFrame} />
+      <ClassificationPanel pageState={controlsPageState} {selectedTrajectory} />
+      <TrajectoryObservationDisplay 
+        pageState={controlsPageState} 
+        on:selectTrajectory={(e) => selectedTrajectory = e.detail}
+      />
+      <div class="space-y-5">
+        <StatusPanel pageState={controlsPageState} />
+        <MotorControls pageState={controlsPageState} />
+      </div>
     </div>
   {/if}
 </div>

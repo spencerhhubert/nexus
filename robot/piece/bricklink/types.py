@@ -1,5 +1,6 @@
 from typing import TypedDict, List, Optional, Union
 from enum import Enum
+from robot.shared.types import BricklinkPartData
 
 
 class GENERATE_PIECE_KIND_FAILED_REASON(Enum):
@@ -13,23 +14,6 @@ class BricklinkApiMeta(TypedDict):
     description: str
     message: str
     code: int
-
-
-class BricklinkPartData(TypedDict):
-    no: str
-    name: str
-    type: str
-    category_id: int
-    alternate_no: str
-    image_url: str
-    thumbnail_url: str
-    weight: str
-    dim_x: str
-    dim_y: str
-    dim_z: str
-    year_released: int
-    description: str
-    is_obsolete: bool
 
 
 class BricklinkPartResponse(TypedDict):

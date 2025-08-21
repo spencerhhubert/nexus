@@ -1,6 +1,7 @@
 import threading
 import time
-from typing import Any, Optional, Dict, Tuple
+from typing import Any, Optional, Dict, Tuple, List
+from collections import deque
 
 
 class ThreadSafeState:
@@ -8,6 +9,7 @@ class ThreadSafeState:
         self._lock = threading.Lock()
         self._data: Dict[str, Any] = {}
         self._timestamps: Dict[str, float] = {}
+        self._observation_queue: deque = deque()
 
     def set(self, key: str, value: Any) -> bool:
         if self._lock.acquire(blocking=False):
@@ -78,6 +80,25 @@ class ThreadSafeState:
         if self._lock.acquire(blocking=False):
             try:
                 return list(self._data.keys())
+            finally:
+                self._lock.release()
+        return []
+
+    def enqueueObservation(self, observation) -> bool:
+        if self._lock.acquire(blocking=False):
+            try:
+                self._observation_queue.append(observation)
+                return True
+            finally:
+                self._lock.release()
+        return False
+
+    def dequeueObservations(self) -> List[Any]:
+        if self._lock.acquire(blocking=False):
+            try:
+                observations = list(self._observation_queue)
+                self._observation_queue.clear()
+                return observations
             finally:
                 self._lock.release()
         return []

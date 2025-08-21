@@ -7,8 +7,10 @@ import json
 import base64
 import cv2
 import time
+from robot.piece.bricklink.auth import mkAuth
+from robot.piece.bricklink.api import getPartInfo
 from robot.server.thread_safe_state import ThreadSafeState
-from robot.server.types import (
+from robot.shared.types import (
     SystemStatus,
     MotorInfo,
     SetMotorSpeedRequest,
@@ -17,13 +19,17 @@ from robot.server.types import (
     WebSocketEvent,
     CameraFrameEvent,
     StatusUpdateEvent,
+    NewObservationEvent,
+    TrajectoriesUpdateEvent,
     SystemLifecycleStage,
     SortingState,
+    BricklinkPartData,
 )
 from robot.global_config import GlobalConfig
 
 if TYPE_CHECKING:
     from robot.controller import SortingController
+
 
 class RobotAPI:
     def __init__(self, global_config: GlobalConfig, controller: "SortingController"):
@@ -68,6 +74,28 @@ class RobotAPI:
                 return JSONResponse({"success": True})
             except Exception as e:
                 raise HTTPException(status_code=400, detail=str(e))
+
+        @self.app.get("/api/bricklink/{kind_id}")
+        async def get_bricklink_part(kind_id: str) -> JSONResponse:
+            try:
+                auth = mkAuth()
+                part_data = getPartInfo(kind_id, auth)
+
+                if part_data is None:
+                    raise HTTPException(
+                        status_code=404, detail=f"Part {kind_id} not found"
+                    )
+
+                return JSONResponse(part_data)
+            except ValueError as e:
+                raise HTTPException(
+                    status_code=500,
+                    detail=f"BrickLink API configuration error: {str(e)}",
+                )
+            except Exception as e:
+                raise HTTPException(
+                    status_code=500, detail=f"Error fetching part info: {str(e)}"
+                )
 
         @self.app.websocket("/api/ws")
         async def websocket_endpoint(websocket: WebSocket):
@@ -228,6 +256,41 @@ class RobotAPI:
 
         await self._broadcastEvent(event)
 
+    async def broadcastNewObservation(self, observation):
+        if not self.active_websockets:
+            self.global_config["logger"].info(
+                "No active websockets for observation broadcast"
+            )
+            return
+
+        self.global_config["logger"].info(
+            f"Broadcasting new observation: {observation.observation_id}"
+        )
+        event: NewObservationEvent = {
+            "type": "new_observation",
+            "observation": observation.toJSONForWeb(),
+        }
+        await self._broadcastEvent(event)
+        self.global_config["logger"].info("New observation broadcast completed")
+
+    async def broadcastTrajectoriesUpdate(self):
+        if not self.active_websockets:
+            return
+
+        trajectories = self.controller.scene_tracker.getTrajectories()
+        trajectories_json = [traj.toJSON() for traj in trajectories]
+
+        event: TrajectoriesUpdateEvent = {
+            "type": "trajectories_update",
+            "trajectories": trajectories_json,
+        }
+        await self._broadcastEvent(event)
+
+    async def _processObservationQueue(self):
+        observations = self.controller.thread_safe_state.dequeueObservations()
+        for observation in observations:
+            await self.broadcastNewObservation(observation)
+
     async def _broadcastEvent(self, event: WebSocketEvent):
         disconnected = []
         for websocket in self.active_websockets:
@@ -246,14 +309,20 @@ class RobotAPI:
             asyncio.create_task(self._periodicBroadcast())
 
     async def _periodicBroadcast(self):
+        fps = self.global_config["websocket_broadcast_fps"]
+        status_interval = self.global_config["websocket_status_update_interval_s"]
+
         while True:
             try:
-                await asyncio.sleep(1 / 30)
+                await asyncio.sleep(1 / fps)
                 if self.active_websockets:
                     await self._checkAndBroadcastCameraFrame()
 
-                    if int(time.time() * 5) % 1 == 0:
+                    if int(time.time() / status_interval) % 1 == 0:
                         await self.broadcastStatusUpdate()
+                        await self.broadcastTrajectoriesUpdate()
+
+                    await self._processObservationQueue()
                 else:
                     await asyncio.sleep(1)
             except Exception as e:

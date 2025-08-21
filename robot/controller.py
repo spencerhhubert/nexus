@@ -46,7 +46,7 @@ from robot.async_profiling import (
 )
 
 
-from robot.server.types import SystemLifecycleStage, SortingState
+from robot.shared.types import SystemLifecycleStage, SortingState
 from robot.server.api import RobotAPI
 from robot.server.thread_safe_state import ThreadSafeState
 
@@ -68,17 +68,20 @@ class GettingNewObjectState(TypedDict):
     remaining_timeout_ms: int
 
 
-PAUSE_LENGTH_MS = 150
-FIRST_VIBRATION_LENGTH_MS = 500
-SECOND_VIBRATION_LENGTH_MS = 500
+PAUSE_LENGTH_MS = 200
+FIRST_VIBRATION_LENGTH_MS = 400
+SECOND_VIBRATION_LENGTH_MS = 800
 CONVEYOR_RUN_LENGTH_MS = 1000
 
-VIBRATION_CYCLE: List[FeederStep] = [
+FIRST_VIBRATION_HOPPER_CYCLE: List[FeederStep] = [
     {
         "action": FeederAction.RUN_FIRST_VIBRATION_HOPPER,
         "duration_ms": FIRST_VIBRATION_LENGTH_MS,
     },
     {"action": FeederAction.PAUSE, "duration_ms": PAUSE_LENGTH_MS},
+]
+
+SECOND_VIBRATION_HOPPER_CYCLE: List[FeederStep] = [
     {
         "action": FeederAction.RUN_SECOND_VIBRATION_HOPPER,
         "duration_ms": SECOND_VIBRATION_LENGTH_MS,
@@ -86,10 +89,15 @@ VIBRATION_CYCLE: List[FeederStep] = [
     {"action": FeederAction.PAUSE, "duration_ms": PAUSE_LENGTH_MS},
 ]
 
-FEEDER_PATTERN: List[FeederStep] = VIBRATION_CYCLE * 10 + [
+FEEDER_CONVEYOR_CYCLE: List[FeederStep] = [
     {"action": FeederAction.RUN_CONVEYOR, "duration_ms": CONVEYOR_RUN_LENGTH_MS},
     {"action": FeederAction.PAUSE, "duration_ms": PAUSE_LENGTH_MS},
 ]
+
+FEEDER_PATTERN: List[FeederStep] = (
+    FEEDER_CONVEYOR_CYCLE
+    + (FIRST_VIBRATION_HOPPER_CYCLE + SECOND_VIBRATION_HOPPER_CYCLE * 3) * 2
+)
 
 
 class StateMachineTimestamps(TypedDict):
@@ -518,13 +526,13 @@ class SortingController:
         first_vibration_hopper_motor: int,
         second_vibration_hopper_motor: int,
     ) -> None:
-        if (
-            feeder_conveyor == 0
-            and first_vibration_hopper_motor == 0
-            and second_vibration_hopper_motor == 0
-            and main_conveyor != 0
-        ):
-            main_conveyor -= 30
+        # if (
+        #     feeder_conveyor == 0
+        #     and first_vibration_hopper_motor == 0
+        #     and second_vibration_hopper_motor == 0
+        #     and main_conveyor != 0
+        # ):
+        #     main_conveyor -= 30
         if self.main_conveyor_speed != main_conveyor:
             self.main_conveyor_speed = main_conveyor
             if not self.global_config["disable_main_conveyor"]:
@@ -636,6 +644,16 @@ class SortingController:
             )
 
             self.scene_tracker.addObservation(observation)
+
+            # Queue observation for WebSocket broadcast
+            if self.thread_safe_state.enqueueObservation(observation):
+                self.global_config["logger"].info(
+                    f"Queued observation for broadcast: {observation.observation_id}"
+                )
+            else:
+                self.global_config["logger"].warning(
+                    f"Failed to queue observation: {observation.observation_id}"
+                )
 
             profiling_record["observations_saved_count"] += 1
 

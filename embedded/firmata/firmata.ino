@@ -114,17 +114,11 @@ int encoderCLKPin = -1;
 int encoderDTPin = -1;
 bool encoderEnabled = false;
 
-// Break beam sensor variables
-const int BREAK_BEAM_PING_INTERVAL_MS = 1;
-const int BREAK_BEAM_HISTORY_DURATION_MS = 150;
-const int BREAK_BEAM_HISTORY_SIZE = BREAK_BEAM_HISTORY_DURATION_MS / BREAK_BEAM_PING_INTERVAL_MS;
-
+// Break beam sensor variables - simplified approach
 int breakBeamSensorPin = -1;
 bool breakBeamEnabled = false;
-unsigned long breakBeamReadings[BREAK_BEAM_HISTORY_SIZE];
-unsigned long breakBeamTimestamps[BREAK_BEAM_HISTORY_SIZE];
-int breakBeamHistoryIndex = 0;
-unsigned long lastBreakBeamPing = 0;
+unsigned long lastBreakTimestamp = 0;  // Timestamp of most recent break
+int lastBreakBeamReading = 1;  // Track previous reading to detect transitions
 
 // Initialize all board entries as inactive
 void initPwmBoards() {
@@ -451,13 +445,8 @@ void setupBreakBeamSensor(byte sensorPin) {
     breakBeamSensorPin = sensorPin;
     pinMode(breakBeamSensorPin, INPUT_PULLUP);
     breakBeamEnabled = true;
-    breakBeamHistoryIndex = 0;
-    lastBreakBeamPing = millis();
-
-    for (int i = 0; i < BREAK_BEAM_HISTORY_SIZE; i++) {
-        breakBeamReadings[i] = 1;
-        breakBeamTimestamps[i] = 0;
-    }
+    lastBreakTimestamp = 0;
+    lastBreakBeamReading = 1;  // Assume unbroken initially
 
     if (DEBUG_LEVEL > 0) {
         char debugMsg[50];
@@ -469,98 +458,42 @@ void setupBreakBeamSensor(byte sensorPin) {
 void updateBreakBeamSensor() {
     if (!breakBeamEnabled) return;
 
-    unsigned long currentTime = millis();
-    if (currentTime - lastBreakBeamPing >= BREAK_BEAM_PING_INTERVAL_MS) {
-        int reading = digitalRead(breakBeamSensorPin);
+    int reading = digitalRead(breakBeamSensorPin);
+    
+    // Check for transition from unbroken (1) to broken (0)
+    if (lastBreakBeamReading == 1 && reading == 0) {
+        unsigned long currentTime = millis();
+        lastBreakTimestamp = currentTime;
+        
+        Firmata.sendString(STRING_DATA, "BREAK BEAM TRIGGERED - EMERGENCY MOTOR STOP");
 
-        breakBeamReadings[breakBeamHistoryIndex] = reading;
-        breakBeamTimestamps[breakBeamHistoryIndex] = currentTime;
+        // Stop first vibration hopper motor
+        analogWrite(FIRST_VIBRATION_HOPPER_ENABLE_PIN, 0);
+        digitalWrite(FIRST_VIBRATION_HOPPER_INPUT1_PIN, LOW);
+        digitalWrite(FIRST_VIBRATION_HOPPER_INPUT2_PIN, LOW);
 
-        // Automatically disable motors when break beam is broken (reading == 0)
-        // This is done in firmware for fast response since serial communication is too slow
-        // NOTE: Main conveyor is NOT disabled to keep objects moving
-        if (reading == 0) {
-            Firmata.sendString(STRING_DATA, "BREAK BEAM TRIGGERED - EMERGENCY MOTOR STOP");
+        // Stop second vibration hopper motor
+        analogWrite(SECOND_VIBRATION_HOPPER_ENABLE_PIN, 0);
+        digitalWrite(SECOND_VIBRATION_HOPPER_INPUT1_PIN, LOW);
+        digitalWrite(SECOND_VIBRATION_HOPPER_INPUT2_PIN, LOW);
 
-            // Stop first vibration hopper motor
-            analogWrite(FIRST_VIBRATION_HOPPER_ENABLE_PIN, 0);
-            digitalWrite(FIRST_VIBRATION_HOPPER_INPUT1_PIN, LOW);
-            digitalWrite(FIRST_VIBRATION_HOPPER_INPUT2_PIN, LOW);
-
-            // Stop second vibration hopper motor
-            analogWrite(SECOND_VIBRATION_HOPPER_ENABLE_PIN, 0);
-            digitalWrite(SECOND_VIBRATION_HOPPER_INPUT1_PIN, LOW);
-            digitalWrite(SECOND_VIBRATION_HOPPER_INPUT2_PIN, LOW);
-
-            // Stop feeder conveyor motor
-            analogWrite(FEEDER_CONVEYOR_ENABLE_PIN, 0);
-            digitalWrite(FEEDER_CONVEYOR_INPUT1_PIN, LOW);
-            digitalWrite(FEEDER_CONVEYOR_INPUT2_PIN, LOW);
-        }
-
-        // Debug every 100th reading to avoid spam
-        static int debugCounter = 0;
-        if (DEBUG_LEVEL > 0 && debugCounter++ % 100 == 0) {
+        // Stop feeder conveyor motor
+        analogWrite(FEEDER_CONVEYOR_ENABLE_PIN, 0);
+        digitalWrite(FEEDER_CONVEYOR_INPUT1_PIN, LOW);
+        digitalWrite(FEEDER_CONVEYOR_INPUT2_PIN, LOW);
+        
+        if (DEBUG_LEVEL > 0) {
             char debugMsg[60];
-            sprintf(debugMsg, "Break beam: pin=%d, reading=%d, time=%lu",
-                   breakBeamSensorPin, reading, currentTime);
+            sprintf(debugMsg, "Break beam triggered at %lu ms", currentTime);
             Firmata.sendString(STRING_DATA, debugMsg);
         }
-
-        breakBeamHistoryIndex = (breakBeamHistoryIndex + 1) % BREAK_BEAM_HISTORY_SIZE;
-        lastBreakBeamPing = currentTime;
     }
+    
+    lastBreakBeamReading = reading;
 }
 
-unsigned long findBreakingSince(unsigned long sinceTimestamp) {
-    unsigned long currentTime = millis();
-    unsigned long earliestValidTime = (currentTime > BREAK_BEAM_HISTORY_DURATION_MS) ?
-                                     (currentTime - BREAK_BEAM_HISTORY_DURATION_MS) : 0;
-
-    if (DEBUG_LEVEL > 0) {
-        char debugMsg[80];
-        sprintf(debugMsg, "Search: since=%lu, earliest=%lu, current=%lu",
-               sinceTimestamp, earliestValidTime, currentTime);
-        Firmata.sendString(STRING_DATA, debugMsg);
-    }
-
-    if (sinceTimestamp < earliestValidTime) {
-        sinceTimestamp = earliestValidTime;
-    }
-
-    int breakingCount = 0;
-    for (int i = 0; i < BREAK_BEAM_HISTORY_SIZE; i++) {
-        int idx = (breakBeamHistoryIndex - 1 - i + BREAK_BEAM_HISTORY_SIZE) % BREAK_BEAM_HISTORY_SIZE;
-
-        if (breakBeamTimestamps[idx] >= sinceTimestamp) {
-            if (breakBeamReadings[idx] == 0) {
-                breakingCount++;
-                if (DEBUG_LEVEL > 0) {
-                    char debugMsg[80];
-                    sprintf(debugMsg, "Found break at idx=%d, time=%lu, reading=%d",
-                           idx, breakBeamTimestamps[idx], breakBeamReadings[idx]);
-                    Firmata.sendString(STRING_DATA, debugMsg);
-                }
-                return breakBeamTimestamps[idx];
-            }
-        } else {
-            break;
-        }
-    }
-
-    if (DEBUG_LEVEL > 0) {
-        char debugMsg[80];
-        sprintf(debugMsg, "No breaks found in %d readings", BREAK_BEAM_HISTORY_SIZE);
-        Firmata.sendString(STRING_DATA, debugMsg);
-    }
-    return 0xFFFFFFFF;
-}
-
-unsigned long getLatestBreakBeamTimestamp() {
-    if (!breakBeamEnabled) return 0;
-
-    int latestIdx = (breakBeamHistoryIndex - 1 + BREAK_BEAM_HISTORY_SIZE) % BREAK_BEAM_HISTORY_SIZE;
-    return breakBeamTimestamps[latestIdx];
+unsigned long getLastBreakTimestamp() {
+    return lastBreakTimestamp;
 }
 
 void parseBreakBeamCommand(byte command, byte argc, byte *argv) {
@@ -585,32 +518,30 @@ void parseBreakBeamCommand(byte command, byte argc, byte *argv) {
                 return;
             }
 
-            // argv[0-4] are the 5 timestamp bytes (subcommand already stripped by sysexCallback)
+            // Reconstruct since_timestamp from 5 7-bit bytes
             unsigned long sinceTimestamp = (unsigned long)argv[0] |
                                          ((unsigned long)argv[1] << 7) |
                                          ((unsigned long)argv[2] << 14) |
                                          ((unsigned long)argv[3] << 21) |
                                          ((unsigned long)argv[4] << 28);
 
-            if (DEBUG_LEVEL > 0) {
-                char debugMsg[80];
-                sprintf(debugMsg, "Query since: %lu (bytes: %d,%d,%d,%d,%d)",
-                       sinceTimestamp, argv[0], argv[1], argv[2], argv[3], argv[4]);
-                Firmata.sendString(STRING_DATA, debugMsg);
-            }
-
-            unsigned long breakTimestamp = findBreakingSince(sinceTimestamp);
-            unsigned long latestTimestamp = getLatestBreakBeamTimestamp();
+            unsigned long lastBreak = getLastBreakTimestamp();
             unsigned long currentTime = millis();
+            
+            // Determine if there was a break since the requested timestamp
+            unsigned long breakTimestamp = 0xFFFFFFFF; // Default "no break found"
+            if (lastBreak > 0 && lastBreak >= sinceTimestamp) {
+                breakTimestamp = lastBreak;
+            }
 
             if (DEBUG_LEVEL > 0) {
                 char debugMsg[80];
-                sprintf(debugMsg, "Result: break=%lu, latest=%lu, current=%lu",
-                       breakTimestamp, latestTimestamp, currentTime);
+                sprintf(debugMsg, "Query since=%lu, lastBreak=%lu, returning=%lu", 
+                       sinceTimestamp, lastBreak, breakTimestamp);
                 Firmata.sendString(STRING_DATA, debugMsg);
             }
 
-            // Pack 32-bit values into 5 7-bit bytes each
+            // Pack both timestamps into 5 7-bit bytes each (10 bytes total)
             byte response[10];
             response[0] = breakTimestamp & 0x7F;
             response[1] = (breakTimestamp >> 7) & 0x7F;
@@ -618,19 +549,11 @@ void parseBreakBeamCommand(byte command, byte argc, byte *argv) {
             response[3] = (breakTimestamp >> 21) & 0x7F;
             response[4] = (breakTimestamp >> 28) & 0x7F;
 
-            response[5] = latestTimestamp & 0x7F;
-            response[6] = (latestTimestamp >> 7) & 0x7F;
-            response[7] = (latestTimestamp >> 14) & 0x7F;
-            response[8] = (latestTimestamp >> 21) & 0x7F;
-            response[9] = (latestTimestamp >> 28) & 0x7F;
-
-            if (DEBUG_LEVEL > 0) {
-                char debugMsg[80];
-                sprintf(debugMsg, "Response bytes: [%d,%d,%d,%d,%d] [%d,%d,%d,%d,%d]",
-                       response[0], response[1], response[2], response[3], response[4],
-                       response[5], response[6], response[7], response[8], response[9]);
-                Firmata.sendString(STRING_DATA, debugMsg);
-            }
+            response[5] = currentTime & 0x7F;
+            response[6] = (currentTime >> 7) & 0x7F;
+            response[7] = (currentTime >> 14) & 0x7F;
+            response[8] = (currentTime >> 21) & 0x7F;
+            response[9] = (currentTime >> 28) & 0x7F;
 
             Firmata.sendSysex(BREAK_BEAM, 10, response);
             break;
@@ -789,6 +712,9 @@ void setup() {
 }
 
 void loop() {
+    // Update break beam sensor readings every loop for maximum responsiveness
+    updateBreakBeamSensor();
+    
     while(Firmata.available()) { //only runs if message in buffer
         Firmata.processInput();
         if (!Firmata.isParsingMessage()) {
@@ -796,9 +722,10 @@ void loop() {
         }
     }
 
-    // Check for servos that should be turned off
-    checkServoTimeouts();
-
-    // Update break beam sensor readings
-    updateBreakBeamSensor();
+    // Check for servos that should be turned off only every 100 loops to reduce overhead
+    static int servoCheckCounter = 0;
+    if (++servoCheckCounter >= 100) {
+        checkServoTimeouts();
+        servoCheckCounter = 0;
+    }
 }

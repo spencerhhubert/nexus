@@ -166,7 +166,7 @@ class BreakBeamSensor:
         time.sleep(0.1)
         logger.info(f"Break beam sensor initialized on pin {sensor_pin}")
 
-    def queryBreakings(self, since_timestamp: int) -> tuple[int, int]:
+    def queryBreakings(self, since_timestamp: int) -> tuple[int, int, bool]:
         timestamp_bytes = [
             (since_timestamp >> 0) & 0x7F,
             (since_timestamp >> 7) & 0x7F,
@@ -182,29 +182,35 @@ class BreakBeamSensor:
         self.dev.sysex(0x60, [0x02] + timestamp_bytes)
         time.sleep(0.02)
 
-        if hasattr(self, "last_break_timestamp") and hasattr(
-            self, "last_query_timestamp"
+        if (
+            hasattr(self, "last_break_timestamp")
+            and hasattr(self, "last_query_timestamp")
+            and hasattr(self, "current_break_state")
         ):
             self.gc["logger"].info(
-                f"Break beam query result: break={self.last_break_timestamp}, latest={self.last_query_timestamp}"
+                f"Break beam query result: break={self.last_break_timestamp}, latest={self.last_query_timestamp}, currently_broken={self.current_break_state}"
             )
-            return (self.last_break_timestamp, self.last_query_timestamp)
+            return (
+                self.last_break_timestamp,
+                self.last_query_timestamp,
+                self.current_break_state,
+            )
         else:
             fallback_time = int(time.time() * 1000)
             self.gc["logger"].info(
-                f"No break beam response yet, returning fallback: (-1, {fallback_time})"
+                f"No break beam response yet, returning fallback: (-1, {fallback_time}, False)"
             )
-            return (-1, fallback_time)
+            return (-1, fallback_time, False)
 
     def _onBreakBeamResponse(self, *args):
         self.gc["logger"].info(
             f"Break beam response received: {len(args)} args = {list(args)}"
         )
 
-        # Firmata converts each byte to two 7-bit values, so we expect 20 args (10 bytes * 2)
-        if len(args) >= 20:
+        # Firmata converts each byte to two 7-bit values, so we expect 22 args (11 bytes * 2)
+        if len(args) >= 22:
             # Extract the actual bytes from the doubled format: [val, 0, val, 0, ...]
-            actual_bytes = [args[i] for i in range(0, 20, 2)]
+            actual_bytes = [args[i] for i in range(0, 22, 2)]
             self.gc["logger"].info(f"Extracted bytes: {actual_bytes}")
 
             # Reconstruct timestamps from 7-bit bytes
@@ -222,9 +228,10 @@ class BreakBeamSensor:
                 | (actual_bytes[8] << 21)
                 | (actual_bytes[9] << 28)
             )
+            current_break_state = actual_bytes[10] == 0  # 0 = broken, 1 = unbroken
 
             self.gc["logger"].info(
-                f"Reconstructed timestamps: break={break_timestamp}, latest={latest_timestamp}"
+                f"Reconstructed: break={break_timestamp}, latest={latest_timestamp}, currently_broken={current_break_state}"
             )
 
             # Check for "no break found" sentinel value
@@ -236,9 +243,10 @@ class BreakBeamSensor:
 
             self.last_break_timestamp = break_timestamp
             self.last_query_timestamp = latest_timestamp
+            self.current_break_state = current_break_state
         else:
             self.gc["logger"].warning(
-                f"Break beam response too short: got {len(args)} args, expected 20"
+                f"Break beam response too short: got {len(args)} args, expected 22"
             )
 
 

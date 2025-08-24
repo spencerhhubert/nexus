@@ -1,7 +1,6 @@
 #!/bin/bash
 
 source .env
-source ../.env
 
 PARENT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 

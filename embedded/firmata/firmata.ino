@@ -119,6 +119,7 @@ int breakBeamSensorPin = -1;
 bool breakBeamEnabled = false;
 unsigned long lastBreakTimestamp = 0;  // Timestamp of most recent break
 int lastBreakBeamReading = 1;  // Track previous reading to detect transitions
+bool emergencyShutoffActive = false;  // Track if we emergency shutoff last loop
 
 // Initialize all board entries as inactive
 void initPwmBoards() {
@@ -464,6 +465,7 @@ void updateBreakBeamSensor() {
     if (lastBreakBeamReading == 1 && reading == 0) {
         unsigned long currentTime = millis();
         lastBreakTimestamp = currentTime;
+        emergencyShutoffActive = true;
 
         Firmata.sendString(STRING_DATA, "BREAK BEAM TRIGGERED - EMERGENCY MOTOR STOP");
 
@@ -486,6 +488,19 @@ void updateBreakBeamSensor() {
             char debugMsg[60];
             sprintf(debugMsg, "Break beam triggered at %lu ms", currentTime);
             Firmata.sendString(STRING_DATA, debugMsg);
+        }
+    } else if (emergencyShutoffActive && reading == 0) {
+        // Breakbeam remains broken and we already shutoff - don't shutoff again
+        if (DEBUG_LEVEL > 0) {
+            Firmata.sendString(STRING_DATA, "Break beam still broken, keeping emergency shutoff");
+        }
+    } else if (reading == 1) {
+        // Breakbeam is unbroken, clear emergency shutoff flag
+        if (emergencyShutoffActive) {
+            emergencyShutoffActive = false;
+            if (DEBUG_LEVEL > 0) {
+                Firmata.sendString(STRING_DATA, "Break beam cleared, emergency shutoff deactivated");
+            }
         }
     }
 
@@ -541,8 +556,18 @@ void parseBreakBeamCommand(byte command, byte argc, byte *argv) {
                 Firmata.sendString(STRING_DATA, debugMsg);
             }
 
-            // Pack both timestamps into 5 7-bit bytes each (10 bytes total)
-            byte response[10];
+            // Get current breakbeam state (1 = unbroken, 0 = broken)
+            int currentBreakState = digitalRead(breakBeamSensorPin);
+
+            if (DEBUG_LEVEL > 0) {
+                char debugMsg[120];
+                sprintf(debugMsg, "Sending: breakTimestamp=%lu, currentTime=%lu, currentBreakState=%d", 
+                       breakTimestamp, currentTime, currentBreakState);
+                Firmata.sendString(STRING_DATA, debugMsg);
+            }
+
+            // Pack both timestamps and current break state into response (11 bytes total)
+            byte response[11];
             response[0] = breakTimestamp & 0x7F;
             response[1] = (breakTimestamp >> 7) & 0x7F;
             response[2] = (breakTimestamp >> 14) & 0x7F;
@@ -555,7 +580,9 @@ void parseBreakBeamCommand(byte command, byte argc, byte *argv) {
             response[8] = (currentTime >> 21) & 0x7F;
             response[9] = (currentTime >> 28) & 0x7F;
 
-            Firmata.sendSysex(BREAK_BEAM, 10, response);
+            response[10] = currentBreakState & 0x7F;  // Current break state (0 or 1)
+
+            Firmata.sendSysex(BREAK_BEAM, 11, response);
             break;
         }
         default: {

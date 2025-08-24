@@ -1,9 +1,9 @@
 #!/bin/bash
 
-source .env
-if [ -f ../.env ]; then
-    source ../.env
-fi
+# source .env
+# if [ -f ../.env ]; then
+#     source ../.env
+# fi
 
 PARENT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 

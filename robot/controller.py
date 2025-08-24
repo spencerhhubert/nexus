@@ -69,9 +69,9 @@ class GettingNewObjectState(TypedDict):
 
 
 PAUSE_LENGTH_MS = 200
-FIRST_VIBRATION_LENGTH_MS = 400
+FIRST_VIBRATION_LENGTH_MS = 500
 SECOND_VIBRATION_LENGTH_MS = 800
-CONVEYOR_RUN_LENGTH_MS = 1000
+CONVEYOR_RUN_LENGTH_MS = 2000
 
 FIRST_VIBRATION_HOPPER_CYCLE: List[FeederStep] = [
     {
@@ -96,7 +96,7 @@ FEEDER_CONVEYOR_CYCLE: List[FeederStep] = [
 
 FEEDER_PATTERN: List[FeederStep] = (
     FEEDER_CONVEYOR_CYCLE
-    + (FIRST_VIBRATION_HOPPER_CYCLE + SECOND_VIBRATION_HOPPER_CYCLE * 3) * 2
+    + (FIRST_VIBRATION_HOPPER_CYCLE + SECOND_VIBRATION_HOPPER_CYCLE * 3) * 4
 )
 
 
@@ -778,7 +778,7 @@ class SortingController:
                         )
 
                     self._setMotorSpeeds(
-                        main_conveyor=self.global_config["main_conveyor_speed"] + 50,
+                        main_conveyor=self.global_config["main_conveyor_speed"] + 70,
                         feeder_conveyor=0,
                         first_vibration_hopper_motor=0,
                         second_vibration_hopper_motor=0,

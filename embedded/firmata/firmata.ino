@@ -1,7 +1,7 @@
 #define ARDUINO_AVR_MEGA2560
 
 // Debug level - 0 = no debug, 1+ = debug prints
-int DEBUG_LEVEL = 0;
+int DEBUG_LEVEL = 1;
 
 #include <ConfigurableFirmata.h>
 #include <DigitalInputFirmata.h>
@@ -79,9 +79,9 @@ uint16_t SevenBitToInt16(byte *bytes) {
 #define SECOND_VIBRATION_HOPPER_ENABLE_PIN 6
 #define SECOND_VIBRATION_HOPPER_INPUT1_PIN 30
 #define SECOND_VIBRATION_HOPPER_INPUT2_PIN 32
-#define MAIN_CONVEYOR_ENABLE_PIN 5
-#define MAIN_CONVEYOR_INPUT1_PIN 26
-#define MAIN_CONVEYOR_INPUT2_PIN 28
+#define MAIN_CONVEYOR_ENABLE_PIN 5      // Defined for consistency but NOT auto-disabled by break beam
+#define MAIN_CONVEYOR_INPUT1_PIN 26     // Defined for consistency but NOT auto-disabled by break beam
+#define MAIN_CONVEYOR_INPUT2_PIN 28     // Defined for consistency but NOT auto-disabled by break beam
 #define FEEDER_CONVEYOR_ENABLE_PIN 9
 #define FEEDER_CONVEYOR_INPUT1_PIN 34
 #define FEEDER_CONVEYOR_INPUT2_PIN 36
@@ -115,8 +115,8 @@ int encoderDTPin = -1;
 bool encoderEnabled = false;
 
 // Break beam sensor variables
-const int BREAK_BEAM_PING_INTERVAL_MS = 5;
-const int BREAK_BEAM_HISTORY_DURATION_MS = 50;
+const int BREAK_BEAM_PING_INTERVAL_MS = 1;
+const int BREAK_BEAM_HISTORY_DURATION_MS = 150;
 const int BREAK_BEAM_HISTORY_SIZE = BREAK_BEAM_HISTORY_DURATION_MS / BREAK_BEAM_PING_INTERVAL_MS;
 
 int breakBeamSensorPin = -1;
@@ -478,22 +478,20 @@ void updateBreakBeamSensor() {
 
         // Automatically disable motors when break beam is broken (reading == 0)
         // This is done in firmware for fast response since serial communication is too slow
+        // NOTE: Main conveyor is NOT disabled to keep objects moving
         if (reading == 0) {
+            Firmata.sendString(STRING_DATA, "BREAK BEAM TRIGGERED - EMERGENCY MOTOR STOP");
+
             // Stop first vibration hopper motor
             analogWrite(FIRST_VIBRATION_HOPPER_ENABLE_PIN, 0);
             digitalWrite(FIRST_VIBRATION_HOPPER_INPUT1_PIN, LOW);
             digitalWrite(FIRST_VIBRATION_HOPPER_INPUT2_PIN, LOW);
-            
+
             // Stop second vibration hopper motor
             analogWrite(SECOND_VIBRATION_HOPPER_ENABLE_PIN, 0);
             digitalWrite(SECOND_VIBRATION_HOPPER_INPUT1_PIN, LOW);
             digitalWrite(SECOND_VIBRATION_HOPPER_INPUT2_PIN, LOW);
-            
-            // Stop main conveyor motor
-            analogWrite(MAIN_CONVEYOR_ENABLE_PIN, 0);
-            digitalWrite(MAIN_CONVEYOR_INPUT1_PIN, LOW);
-            digitalWrite(MAIN_CONVEYOR_INPUT2_PIN, LOW);
-            
+
             // Stop feeder conveyor motor
             analogWrite(FEEDER_CONVEYOR_ENABLE_PIN, 0);
             digitalWrite(FEEDER_CONVEYOR_INPUT1_PIN, LOW);
@@ -764,13 +762,10 @@ void setup() {
     pinMode(SECOND_VIBRATION_HOPPER_ENABLE_PIN, OUTPUT);
     pinMode(SECOND_VIBRATION_HOPPER_INPUT1_PIN, OUTPUT);
     pinMode(SECOND_VIBRATION_HOPPER_INPUT2_PIN, OUTPUT);
-    pinMode(MAIN_CONVEYOR_ENABLE_PIN, OUTPUT);
-    pinMode(MAIN_CONVEYOR_INPUT1_PIN, OUTPUT);
-    pinMode(MAIN_CONVEYOR_INPUT2_PIN, OUTPUT);
     pinMode(FEEDER_CONVEYOR_ENABLE_PIN, OUTPUT);
     pinMode(FEEDER_CONVEYOR_INPUT1_PIN, OUTPUT);
     pinMode(FEEDER_CONVEYOR_INPUT2_PIN, OUTPUT);
-    
+
     // Initialize motors to off state
     analogWrite(FIRST_VIBRATION_HOPPER_ENABLE_PIN, 0);
     digitalWrite(FIRST_VIBRATION_HOPPER_INPUT1_PIN, LOW);
@@ -778,9 +773,6 @@ void setup() {
     analogWrite(SECOND_VIBRATION_HOPPER_ENABLE_PIN, 0);
     digitalWrite(SECOND_VIBRATION_HOPPER_INPUT1_PIN, LOW);
     digitalWrite(SECOND_VIBRATION_HOPPER_INPUT2_PIN, LOW);
-    analogWrite(MAIN_CONVEYOR_ENABLE_PIN, 0);
-    digitalWrite(MAIN_CONVEYOR_INPUT1_PIN, LOW);
-    digitalWrite(MAIN_CONVEYOR_INPUT2_PIN, LOW);
     analogWrite(FEEDER_CONVEYOR_ENABLE_PIN, 0);
     digitalWrite(FEEDER_CONVEYOR_INPUT1_PIN, LOW);
     digitalWrite(FEEDER_CONVEYOR_INPUT2_PIN, LOW);

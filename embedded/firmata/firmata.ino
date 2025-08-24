@@ -1,7 +1,7 @@
 #define ARDUINO_AVR_MEGA2560
 
 // Debug level - 0 = no debug, 1+ = debug prints
-int DEBUG_LEVEL = 1;
+int DEBUG_LEVEL = 0;
 
 #include <ConfigurableFirmata.h>
 #include <DigitalInputFirmata.h>
@@ -459,12 +459,12 @@ void updateBreakBeamSensor() {
     if (!breakBeamEnabled) return;
 
     int reading = digitalRead(breakBeamSensorPin);
-    
+
     // Check for transition from unbroken (1) to broken (0)
     if (lastBreakBeamReading == 1 && reading == 0) {
         unsigned long currentTime = millis();
         lastBreakTimestamp = currentTime;
-        
+
         Firmata.sendString(STRING_DATA, "BREAK BEAM TRIGGERED - EMERGENCY MOTOR STOP");
 
         // Stop first vibration hopper motor
@@ -481,14 +481,14 @@ void updateBreakBeamSensor() {
         analogWrite(FEEDER_CONVEYOR_ENABLE_PIN, 0);
         digitalWrite(FEEDER_CONVEYOR_INPUT1_PIN, LOW);
         digitalWrite(FEEDER_CONVEYOR_INPUT2_PIN, LOW);
-        
+
         if (DEBUG_LEVEL > 0) {
             char debugMsg[60];
             sprintf(debugMsg, "Break beam triggered at %lu ms", currentTime);
             Firmata.sendString(STRING_DATA, debugMsg);
         }
     }
-    
+
     lastBreakBeamReading = reading;
 }
 
@@ -527,7 +527,7 @@ void parseBreakBeamCommand(byte command, byte argc, byte *argv) {
 
             unsigned long lastBreak = getLastBreakTimestamp();
             unsigned long currentTime = millis();
-            
+
             // Determine if there was a break since the requested timestamp
             unsigned long breakTimestamp = 0xFFFFFFFF; // Default "no break found"
             if (lastBreak > 0 && lastBreak >= sinceTimestamp) {
@@ -536,7 +536,7 @@ void parseBreakBeamCommand(byte command, byte argc, byte *argv) {
 
             if (DEBUG_LEVEL > 0) {
                 char debugMsg[80];
-                sprintf(debugMsg, "Query since=%lu, lastBreak=%lu, returning=%lu", 
+                sprintf(debugMsg, "Query since=%lu, lastBreak=%lu, returning=%lu",
                        sinceTimestamp, lastBreak, breakTimestamp);
                 Firmata.sendString(STRING_DATA, debugMsg);
             }
@@ -714,7 +714,7 @@ void setup() {
 void loop() {
     // Update break beam sensor readings every loop for maximum responsiveness
     updateBreakBeamSensor();
-    
+
     while(Firmata.available()) { //only runs if message in buffer
         Firmata.processInput();
         if (!Firmata.isParsingMessage()) {

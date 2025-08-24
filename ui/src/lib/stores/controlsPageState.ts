@@ -72,18 +72,39 @@ function createControlsPageStateStore() {
         const currentTime = Date.now();
         const cutoffTime = currentTime - config.trajectories.maxAgeMs;
 
-        const filteredTrajectories = trajectories.filter(
+        // Filter new trajectories by age and count
+        const newFiltered = trajectories.filter(
           traj => traj.updated_at >= cutoffTime
         );
-
-        if (filteredTrajectories.length > config.trajectories.maxCount) {
-          filteredTrajectories.splice(
-            0,
-            filteredTrajectories.length - config.trajectories.maxCount
-          );
+        
+        if (newFiltered.length > config.trajectories.maxCount) {
+          newFiltered.splice(0, newFiltered.length - config.trajectories.maxCount);
         }
 
-        return { ...state, trajectories: filteredTrajectories };
+        // Check if there would be any difference
+        if (state.trajectories.length === newFiltered.length) {
+          let hasChanges = false;
+          
+          for (let i = 0; i < state.trajectories.length; i++) {
+            const current = state.trajectories[i];
+            const incoming = newFiltered.find(t => t.trajectory_id === current.trajectory_id);
+            
+            if (!incoming || 
+                current.updated_at !== incoming.updated_at ||
+                current.lifecycle_stage !== incoming.lifecycle_stage ||
+                current.consensus_classification !== incoming.consensus_classification ||
+                current.observation_ids.length !== incoming.observation_ids.length) {
+              hasChanges = true;
+              break;
+            }
+          }
+          
+          if (!hasChanges) {
+            return state; // No changes, don't update
+          }
+        }
+
+        return { ...state, trajectories: newFiltered };
       }),
     reset: () =>
       update(state => ({

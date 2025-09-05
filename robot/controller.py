@@ -69,9 +69,13 @@ class GettingNewObjectState(TypedDict):
 
 
 PAUSE_LENGTH_MS = 200
-FIRST_VIBRATION_LENGTH_MS = 400
+FIRST_VIBRATION_LENGTH_MS = 500
 SECOND_VIBRATION_LENGTH_MS = 800
-CONVEYOR_RUN_LENGTH_MS = 1000
+CONVEYOR_RUN_LENGTH_MS = 150
+
+# Pulsing motor constants for stuck objects
+PULSE_MOTOR_ON_TIME_MS = 200
+PULSE_MOTOR_PAUSE_TIME_MS = 100
 
 FIRST_VIBRATION_HOPPER_CYCLE: List[FeederStep] = [
     {
@@ -96,7 +100,7 @@ FEEDER_CONVEYOR_CYCLE: List[FeederStep] = [
 
 FEEDER_PATTERN: List[FeederStep] = (
     FEEDER_CONVEYOR_CYCLE
-    + (FIRST_VIBRATION_HOPPER_CYCLE + SECOND_VIBRATION_HOPPER_CYCLE * 3) * 2
+    + (FIRST_VIBRATION_HOPPER_CYCLE * 2 + SECOND_VIBRATION_HOPPER_CYCLE * 3) * 4
 )
 
 
@@ -271,32 +275,7 @@ class SortingController:
             self._handleGettingNewObject(current_time_ms)
 
         elif self.sorting_state == SortingState.WAITING_FOR_OBJECT_TO_APPEAR:
-            if self.scene_tracker.objects_in_frame > 0:
-                self.sorting_state = SortingState.WAITING_FOR_OBJECT_TO_CENTER
-                self.global_config["logger"].info(
-                    "Object appeared in camera, switching to WAITING_FOR_OBJECT_TO_CENTER"
-                )
-                return
-
-            assert (
-                self.timestamps["waiting_for_object_to_appear_start_time_ms"]
-                is not None
-            )
-            time_waiting = (
-                current_time_ms
-                - self.timestamps["waiting_for_object_to_appear_start_time_ms"]
-            )
-            if (
-                time_waiting
-                > self.global_config["waiting_for_object_to_appear_timeout_ms"]
-            ):
-                self.global_config["logger"].info(
-                    "Timeout waiting for object to appear, returning to GETTING_NEW_OBJECT"
-                )
-                self.sorting_state = SortingState.GETTING_NEW_OBJECT
-                self.timestamps["getting_new_object_start_time"] = None
-                self.timestamps["waiting_for_object_to_appear_start_time_ms"] = None
-                return
+            self._handleWaitingForObjectToAppear(current_time_ms)
 
         elif self.sorting_state == SortingState.WAITING_FOR_OBJECT_TO_CENTER:
             self._setMotorSpeeds(
@@ -407,7 +386,7 @@ class SortingController:
         if self.timestamps["getting_new_object_start_time"] is None:
             self.timestamps["getting_new_object_start_time"] = current_time_ms
 
-        break_timestamp, latest_timestamp = self.irl_system[
+        break_timestamp, latest_timestamp, currently_broken = self.irl_system[
             "break_beam_sensor"
         ].queryBreakings(self.timestamps["break_beam_last_query_timestamp"])
         self.timestamps["break_beam_last_query_timestamp"] = latest_timestamp
@@ -460,6 +439,60 @@ class SortingController:
             self._advanceToNextFeederStep()
 
         self._setFeederMotorsForCurrentStep()
+
+    def _handleWaitingForObjectToAppear(self, current_time_ms: int) -> None:
+        # Check if breakbeam is currently broken and pulse motor if needed
+        _, _, currently_broken = self.irl_system["break_beam_sensor"].queryBreakings(
+            self.timestamps["break_beam_last_query_timestamp"]
+        )
+
+        if currently_broken:
+            self._pulseSecondVibrationMotor()
+
+        if self.scene_tracker.objects_in_frame > 0:
+            self.sorting_state = SortingState.WAITING_FOR_OBJECT_TO_CENTER
+            self.global_config["logger"].info(
+                "Object appeared in camera, switching to WAITING_FOR_OBJECT_TO_CENTER"
+            )
+            return
+
+        assert self.timestamps["waiting_for_object_to_appear_start_time_ms"] is not None
+        time_waiting = (
+            current_time_ms
+            - self.timestamps["waiting_for_object_to_appear_start_time_ms"]
+        )
+        if time_waiting > self.global_config["waiting_for_object_to_appear_timeout_ms"]:
+            self.global_config["logger"].info(
+                "Timeout waiting for object to appear, returning to GETTING_NEW_OBJECT"
+            )
+            self.sorting_state = SortingState.GETTING_NEW_OBJECT
+            self.timestamps["getting_new_object_start_time"] = None
+            self.timestamps["waiting_for_object_to_appear_start_time_ms"] = None
+            return
+
+    def _pulseSecondVibrationMotor(self) -> None:
+        self.global_config["logger"].info(
+            f"Break beam currently broken, pulsing second vibration motor for {PULSE_MOTOR_ON_TIME_MS}ms"
+        )
+        self._setMotorSpeeds(
+            main_conveyor=self.global_config["main_conveyor_speed"],
+            feeder_conveyor=0,
+            first_vibration_hopper_motor=0,
+            second_vibration_hopper_motor=self.global_config[
+                "second_vibration_hopper_motor_speed"
+            ],
+        )
+        # Wait with motor on
+        time.sleep(PULSE_MOTOR_ON_TIME_MS / 1000.0)
+
+        # Turn off motor and pause
+        self._setMotorSpeeds(
+            main_conveyor=self.global_config["main_conveyor_speed"],
+            feeder_conveyor=0,
+            first_vibration_hopper_motor=0,
+            second_vibration_hopper_motor=0,
+        )
+        time.sleep(PULSE_MOTOR_PAUSE_TIME_MS / 1000.0)
 
     def _advanceToNextFeederStep(self) -> None:
         # Advance to next step in the pattern
@@ -778,7 +811,7 @@ class SortingController:
                         )
 
                     self._setMotorSpeeds(
-                        main_conveyor=self.global_config["main_conveyor_speed"] + 50,
+                        main_conveyor=self.global_config["main_conveyor_speed"] + 70,
                         feeder_conveyor=0,
                         first_vibration_hopper_motor=0,
                         second_vibration_hopper_motor=0,

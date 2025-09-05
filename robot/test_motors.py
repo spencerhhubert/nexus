@@ -4,6 +4,9 @@ import threading
 from robot.global_config import buildGlobalConfig
 from robot.irl.config import buildIRLConfig, buildIRLSystemInterface
 
+PULSE_ON_TIME_MS = 800
+PULSE_OFF_TIME_MS = 200
+
 
 def main():
     if len(sys.argv) < 2:
@@ -64,6 +67,10 @@ def main():
 
     current_speed = 0
     running = True
+    pulse_state = True  # True = motor on, False = motor off
+    last_pulse_time = time.time()
+    motor_is_running = False  # Track actual motor state
+    last_set_speed = None  # Track the last speed we set
 
     def input_thread():
         nonlocal current_speed, running
@@ -76,7 +83,6 @@ def main():
                 try:
                     new_speed = int(user_input)
                     current_speed = new_speed
-                    motor.setSpeed(current_speed)
                     print(f"Motor speed set to: {current_speed}")
                 except ValueError:
                     print("Invalid input. Enter a number (-255 to 255) or 'q' to quit.")
@@ -88,19 +94,46 @@ def main():
         print(f"\nMotor: {motor_name}")
         print(f"Default speed: {gc[speed_key]}")
         print(f"Initial speed: {speed}")
+        print(f"Pulse timing: {PULSE_ON_TIME_MS}ms on, {PULSE_OFF_TIME_MS}ms off")
         print("\nEnter new speed values (-255 to 255) or 'q' to quit:")
 
         current_speed = speed
-        motor.setSpeed(current_speed)
-        print(f"Motor speed: {current_speed}")
 
         # Start input thread
         input_handler = threading.Thread(target=input_thread, daemon=True)
         input_handler.start()
 
-        # Main loop - just keep the program alive
+        # Main pulsing loop
         while running:
-            time.sleep(0.1)
+            current_time = time.time()
+
+            if pulse_state:
+                # Motor should be on, check if it's time to turn off
+                if (current_time - last_pulse_time) * 1000 >= PULSE_ON_TIME_MS:
+                    if motor_is_running:
+                        motor.setSpeed(0)
+                        motor_is_running = False
+                        last_set_speed = 0
+                    pulse_state = False
+                    last_pulse_time = current_time
+                    print("Motor OFF")
+                else:
+                    # Ensure motor is running at correct speed if not already
+                    if not motor_is_running or last_set_speed != current_speed:
+                        motor.setSpeed(current_speed)
+                        motor_is_running = True
+                        last_set_speed = current_speed
+            else:
+                # Motor should be off, check if it's time to turn on
+                if (current_time - last_pulse_time) * 1000 >= PULSE_OFF_TIME_MS:
+                    motor.setSpeed(current_speed)
+                    motor_is_running = True
+                    last_set_speed = current_speed
+                    pulse_state = True
+                    last_pulse_time = current_time
+                    print(f"Motor ON at speed {current_speed}")
+
+            time.sleep(0.01)  # Small sleep to prevent excessive CPU usage
 
     except KeyboardInterrupt:
         running = False

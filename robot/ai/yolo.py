@@ -42,14 +42,17 @@ class Profiling:
 
 
 class YOLOModel:
-    def __init__(self, weights_path: str):
-        self.model = YOLO(weights_path)
+    def __init__(self, model_name: str, weights_path: str = None):
+        if weights_path and weights_path.endswith(".pt"):
+            self.model = YOLO(weights_path)
+        else:
+            self.model = YOLO(model_name)
         self.profiling = Profiling()
 
     def analyze_frame(self, frame: np.ndarray) -> Dict[str, Any]:
         start_time = time.time()
 
-        results = self.model(frame, task="segment")
+        results = self.model(frame)
 
         inference_time = time.time() - start_time
         self.profiling.add_inference_time(inference_time)

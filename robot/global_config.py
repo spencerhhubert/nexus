@@ -25,7 +25,8 @@ class GlobalConfig(TypedDict):
     tensor_device: str
     main_camera_index: int
     fastsam_weights: str
-    yolo_11s_weights: str
+    yolo_model: str
+    yolo_weights_path: str
     disable_main_conveyor: bool
     disable_first_vibration_hopper_motor: bool
     disable_second_vibration_hopper_motor: bool
@@ -127,7 +128,8 @@ def buildGlobalConfig() -> GlobalConfig:
         "tensor_device": "cpu",
         "main_camera_index": 0,
         "fastsam_weights": "../weights/FastSAM-s.pt",
-        "yolo_11s_weights": "/Users/spencer/Documents/GitHub/nexus2/weights/yolo11s.pt",
+        "yolo_model": "yolo11n-seg",
+        "yolo_weights_path": "/Users/spencer/Documents/GitHub/nexus2/weights/yolo11n-seg.pt",
         "disable_main_conveyor": "main_conveyor" in disabled_motors,
         "disable_first_vibration_hopper_motor": "vibration_hopper" in disabled_motors
         or "first_vibration_hopper" in disabled_motors,

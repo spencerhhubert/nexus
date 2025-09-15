@@ -17,7 +17,7 @@ def main():
     irl_system = buildIRLSystemInterface(irl_config, gc)
 
     logger.info("Loading YOLO model...")
-    yolo_model = YOLOModel(gc["yolo_11s_weights"])
+    yolo_model = YOLOModel(gc["yolo_model"], gc["yolo_weights_path"])
 
     main_camera = irl_system["main_camera"]
     feeder_camera = irl_system["feeder_camera"]

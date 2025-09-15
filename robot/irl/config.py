@@ -40,7 +40,7 @@ class BreakBeamSensorConfig(TypedDict):
     sensor_pin: int
 
 
-class MainCameraConfig(TypedDict):
+class CameraConfig(TypedDict):
     device_index: int
     width: int
     height: int
@@ -54,7 +54,8 @@ class IRLConfig(TypedDict):
     feeder_conveyor_dc_motor: DCMotorConfig
     first_vibration_hopper_motor: DCMotorConfig
     second_vibration_hopper_motor: DCMotorConfig
-    main_camera: MainCameraConfig
+    main_camera: CameraConfig
+    feeder_camera: CameraConfig
     conveyor_encoder: EncoderConfig
     break_beam_sensor: BreakBeamSensorConfig
 
@@ -67,6 +68,7 @@ class IRLSystemInterface(TypedDict):
     first_vibration_hopper_motor: DCMotor
     second_vibration_hopper_motor: DCMotor
     main_camera: Camera
+    feeder_camera: Camera
     conveyor_encoder: Encoder
     break_beam_sensor: BreakBeamSensor
 
@@ -80,6 +82,8 @@ def buildIRLConfig() -> IRLConfig:
     if camera_index is None:
         raise ValueError("CAMERA_INDEX environment variable must be set")
 
+    feeder_camera_index = os.getenv("FEEDER_CAMERA_INDEX", "1")
+
     return {
         "mc_path": mc_path,
         "main_camera": {
@@ -88,6 +92,12 @@ def buildIRLConfig() -> IRLConfig:
             # "height": 1080,
             "width": 3840,
             "height": 2160,
+            "fps": 5,
+        },
+        "feeder_camera": {
+            "device_index": int(feeder_camera_index),
+            "width": 1920,
+            "height": 1080,
             "fps": 5,
         },
         "distribution_modules": [
@@ -292,6 +302,14 @@ def buildIRLSystemInterface(config: IRLConfig, gc: GlobalConfig) -> IRLSystemInt
         config["main_camera"]["fps"],
     )
 
+    feeder_camera = connectToCamera(
+        config["feeder_camera"]["device_index"],
+        gc,
+        config["feeder_camera"]["width"],
+        config["feeder_camera"]["height"],
+        config["feeder_camera"]["fps"],
+    )
+
     conveyor_encoder = Encoder(
         gc,
         mc,
@@ -315,6 +333,7 @@ def buildIRLSystemInterface(config: IRLConfig, gc: GlobalConfig) -> IRLSystemInt
         "first_vibration_hopper_motor": first_vibration_hopper_motor,
         "second_vibration_hopper_motor": second_vibration_hopper_motor,
         "main_camera": main_camera,
+        "feeder_camera": feeder_camera,
         "conveyor_encoder": conveyor_encoder,
         "break_beam_sensor": break_beam_sensor,
     }

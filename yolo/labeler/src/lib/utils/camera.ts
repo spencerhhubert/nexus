@@ -26,7 +26,7 @@ export async function startCamera(deviceId?: string): Promise<MediaStream | null
     const constraints: MediaStreamConstraints = {
       video: deviceId
         ? {
-            deviceId,
+            deviceId: { exact: deviceId },
             width: { ideal: 3840 },
             height: { ideal: 2160 }
           }
@@ -36,6 +36,7 @@ export async function startCamera(deviceId?: string): Promise<MediaStream | null
           },
       audio: false
     };
+
     return await navigator.mediaDevices.getUserMedia(constraints);
   } catch (error) {
     console.error('Error starting camera:', error);
@@ -48,9 +49,11 @@ export function captureFrame(video: HTMLVideoElement): string {
   canvas.width = video.videoWidth;
   canvas.height = video.videoHeight;
 
+  console.log(`Capturing frame at ${video.videoWidth}x${video.videoHeight}`);
+
   const ctx = canvas.getContext('2d');
   if (!ctx) throw new Error('Could not get canvas context');
 
   ctx.drawImage(video, 0, 0);
-  return canvas.toDataURL('image/jpeg');
+  return canvas.toDataURL('image/jpeg', 1.0);
 }

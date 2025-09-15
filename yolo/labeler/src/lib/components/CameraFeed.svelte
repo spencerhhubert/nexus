@@ -12,15 +12,10 @@
   let isStreaming = $state(false);
 
   onMount(async () => {
-    console.log('Loading camera devices...');
     devices = await getCameraDevices();
-    console.log('Devices loaded:', devices.length);
 
     if (devices.length > 0) {
       selectedDeviceId = devices[0].deviceId;
-      console.log('Selected device:', devices[0]);
-    } else {
-      console.warn('No camera devices found');
     }
   });
 
@@ -45,12 +40,16 @@
   }
 
   async function refreshDevices() {
-    console.log('Refreshing camera devices...');
     devices = await getCameraDevices();
-    console.log('Devices refreshed:', devices.length);
 
     if (devices.length > 0 && !selectedDeviceId) {
       selectedDeviceId = devices[0].deviceId;
+    }
+  }
+
+  async function handleDeviceChange() {
+    if (isStreaming) {
+      await startStream();
     }
   }
 
@@ -78,6 +77,7 @@
     <select
       id="camera-select"
       bind:value={selectedDeviceId}
+      onchange={handleDeviceChange}
       class="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
     >
       {#if devices.length === 0}

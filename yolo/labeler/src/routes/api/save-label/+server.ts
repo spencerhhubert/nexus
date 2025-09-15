@@ -21,6 +21,7 @@ export const POST: RequestHandler = async ({ request }) => {
     // Save image (convert base64 to buffer)
     // @ts-ignore
     const imageBuffer = Buffer.from(imageData.split(',')[1], 'base64');
+    console.log(`Saving image: ${filename}.jpg, size: ${imageBuffer.length} bytes`);
     await writeFile(imagePath, imageBuffer);
 
     // Save labels in YOLO format

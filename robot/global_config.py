@@ -128,8 +128,8 @@ def buildGlobalConfig() -> GlobalConfig:
         "tensor_device": "cpu",
         "main_camera_index": 0,
         "fastsam_weights": "../weights/FastSAM-s.pt",
-        "yolo_model": "yolo11n-seg",
-        "yolo_weights_path":"/Users/spencer/Documents/GitHub/nexus2/yolo/checkpoints/run_1757928646/weights/best.pt",
+        "yolo_model": "yolo11s-seg",
+        "yolo_weights_path":"/Users/spencer/Downloads/run_1757932503/weights/best.pt",
         "disable_main_conveyor": "main_conveyor" in disabled_motors,
         "disable_first_vibration_hopper_motor": "vibration_hopper" in disabled_motors
         or "first_vibration_hopper" in disabled_motors,

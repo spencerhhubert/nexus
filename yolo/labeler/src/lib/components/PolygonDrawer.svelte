@@ -6,48 +6,48 @@
     getSelectedClassId,
     addLabelToCurrentFrameAndMarkUnsaved,
     setSelectedClassId,
+    getIsDrawing,
+    startDrawing,
+    stopDrawing,
   } from "../stores/labeling.svelte";
 
-  let isDrawing = $state(false);
-  let localSelectedClassId = $state(getSelectedClassId());
+  let isDrawing = $derived(getIsDrawing());
+  let selectedClassId = $derived(getSelectedClassId());
   let hoverNearFirst = $state(false); // For hover feedback
   let warningMessage = $state<string>(""); // For UI warnings
 
-  // Sync local state with global state
-  $effect(() => {
-    setSelectedClassId(localSelectedClassId);
-  });
-
   // Auto-start drawing when class changes (but not on initial load)
-  let previousClassId = $state(localSelectedClassId);
+  let previousClassId = $state<number | undefined>(undefined);
   $effect(() => {
     if (
-      previousClassId !== localSelectedClassId &&
-      previousClassId !== undefined
+      previousClassId !== undefined &&
+      previousClassId !== selectedClassId
     ) {
       if (!isDrawing) {
         startDrawing();
       }
     }
-    previousClassId = localSelectedClassId;
+    previousClassId = selectedClassId;
   });
 
   let {
     imageData,
     labels = [],
     selectedLabelIndices = [],
+    fullscreen = false,
   }: {
     imageData: string;
     labels?: Label[];
     selectedLabelIndices?: number[];
+    fullscreen?: boolean;
   } = $props();
 
   let canvas = $state<HTMLCanvasElement>();
   let img = $state<HTMLImageElement>();
   let currentPoints = $state<Point[]>([]);
 
-  const DISTANCE_THRESHOLD = 5; // pixels for duplicate/hover
-  const AREA_THRESHOLD = 10; // min area in pixels^2
+  const DISTANCE_THRESHOLD = fullscreen ? 8 : 5; // pixels for duplicate/hover
+  const AREA_THRESHOLD = fullscreen ? 15 : 10; // min area in pixels^2
 
   function distance(p1: Point, p2: Point): number {
     return Math.sqrt((p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2);
@@ -141,7 +141,7 @@
 
     // Draw current polygon being drawn
     if (currentPoints.length > 0) {
-      const currentColor = CLASS_COLORS[CLASS_NAMES[localSelectedClassId]];
+      const currentColor = CLASS_COLORS[CLASS_NAMES[selectedClassId]];
       drawCurrentPolygon(ctx, currentPoints, currentColor);
     }
   }
@@ -155,7 +155,7 @@
 
     ctx.strokeStyle = color;
     ctx.fillStyle = color + "40"; // 25% opacity
-    ctx.lineWidth = 2;
+    ctx.lineWidth = fullscreen ? 3 : 2;
 
     ctx.beginPath();
     ctx.moveTo(points[0].x, points[0].y);
@@ -195,7 +195,7 @@
     }));
 
     ctx.strokeStyle = color;
-    ctx.lineWidth = 2;
+    ctx.lineWidth = fullscreen ? 3 : 2;
 
     // Set fill opacity based on selection
     if (isSelected) {
@@ -222,13 +222,13 @@
     denormalizedPoints.forEach((point, index) => {
       ctx.fillStyle = color;
       ctx.beginPath();
-      const radius = isSelected ? 6 : 4;
+      const radius = fullscreen ? (isSelected ? 8 : 6) : (isSelected ? 6 : 4);
       ctx.arc(point.x, point.y, radius, 0, 2 * Math.PI);
       ctx.fill();
 
       // Draw point number
       ctx.fillStyle = isSelected ? "white" : "black";
-      ctx.font = isSelected ? "14px Arial" : "12px Arial";
+      ctx.font = fullscreen ? (isSelected ? "16px Arial" : "14px Arial") : (isSelected ? "14px Arial" : "12px Arial");
       ctx.textAlign = "center";
       ctx.fillText(index.toString(), point.x, point.y + (isSelected ? 5 : 4));
     });
@@ -274,15 +274,15 @@
         canvas?.height || 1,
       );
       const label: Label = {
-        classId: localSelectedClassId,
-        className: CLASS_NAMES[localSelectedClassId],
+        classId: selectedClassId,
+        className: CLASS_NAMES[selectedClassId],
         points: normalizedPoints,
         isComplete: true,
       };
       addLabelToCurrentFrameAndMarkUnsaved(label);
       currentPoints = [];
-      isDrawing = false;
       hoverNearFirst = false;
+      warningMessage = "";
       redrawCanvas();
     } else {
       // Add point with validations
@@ -315,14 +315,14 @@
     redrawCanvas();
   }
 
-  function startDrawing() {
-    isDrawing = true;
+  function handleStartDrawing() {
+    startDrawing();
     currentPoints = [];
     warningMessage = "";
   }
 
-  function cancelDrawing() {
-    isDrawing = false;
+  function handleCancelDrawing() {
+    stopDrawing();
     currentPoints = [];
     hoverNearFirst = false;
     warningMessage = "";
@@ -341,12 +341,14 @@
 </script>
 
 <div class="space-y-4">
+  {#if !fullscreen}
   <div class="flex items-center gap-4">
     <div class="flex flex-col gap-2">
       <label for="class-select" class="text-sm font-medium">Class:</label>
       <select
         id="class-select"
-        bind:value={localSelectedClassId}
+        value={selectedClassId}
+        onchange={(e) => setSelectedClassId(Number((e.target as HTMLSelectElement).value))}
         class="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
       >
         {#each CLASS_NAMES as className, index}
@@ -354,10 +356,13 @@
         {/each}
       </select>
     </div>
+  </div>
+  {/if}
 
+  <div class="flex items-center gap-4">
     <div class="flex gap-2">
       <button
-        onclick={startDrawing}
+        onclick={handleStartDrawing}
         disabled={isDrawing}
         class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed"
       >
@@ -365,7 +370,7 @@
       </button>
 
       <button
-        onclick={cancelDrawing}
+        onclick={handleCancelDrawing}
         disabled={!isDrawing}
         class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed"
       >

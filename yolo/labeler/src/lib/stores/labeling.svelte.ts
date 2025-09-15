@@ -12,6 +12,7 @@ interface CapturedFrame {
 let capturedFrames = $state<CapturedFrame[]>([]);
 let currentFrameIndex = $state<number | null>(null);
 let selectedClassId = $state<number>(0);
+let isDrawing = $state<boolean>(false);
 
 export function getCapturedFrames() {
   return capturedFrames;
@@ -27,6 +28,22 @@ export function getSelectedClassId() {
 
 export function setSelectedClassId(id: number) {
   selectedClassId = id;
+}
+
+export function getIsDrawing() {
+  return isDrawing;
+}
+
+export function setIsDrawing(drawing: boolean) {
+  isDrawing = drawing;
+}
+
+export function startDrawing() {
+  isDrawing = true;
+}
+
+export function stopDrawing() {
+  isDrawing = false;
 }
 
 export function setCurrentFrameIndex(index: number | null) {

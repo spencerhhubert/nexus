@@ -1,10 +1,13 @@
 <script lang="ts">
   import PolygonDrawer from './PolygonDrawer.svelte';
-  import { getCurrentFrame, removeLabelFromCurrentFrame, getCurrentFrameIndex, markFrameAsSaved } from '../stores/labeling.svelte';
-  import { CLASS_COLORS } from '../constants.js';
+  import Modal from './Modal.svelte';
+  import { getCurrentFrame, removeLabelFromCurrentFrame, getCurrentFrameIndex, markFrameAsSaved, getSelectedClassId, setSelectedClassId } from '../stores/labeling.svelte';
+  import { CLASS_COLORS, CLASS_NAMES } from '../constants.js';
 
   let currentFrame = $derived(getCurrentFrame());
   let selectedLabelIndices = $state<number[]>([]);
+  let isFullscreenOpen = $state(false);
+  let selectedClassId = $derived(getSelectedClassId());
 
   function toggleLabelSelection(index: number) {
     if (selectedLabelIndices.includes(index)) {
@@ -66,6 +69,13 @@
     <div class="flex items-center justify-between">
       <h3 class="text-lg font-semibold">Labeling Frame</h3>
       <div class="flex items-center gap-4">
+        <button
+          onclick={() => isFullscreenOpen = true}
+          class="px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors"
+          title="Open in fullscreen for easier labeling"
+        >
+          🔍 Fullscreen
+        </button>
         <div class="text-sm text-gray-500">
           {currentFrame.labels.length} label{currentFrame.labels.length !== 1 ? 's' : ''}
         </div>
@@ -139,3 +149,47 @@
     <p class="text-gray-500">Select a frame to start labeling</p>
   </div>
 {/if}
+
+<Modal bind:isOpen={isFullscreenOpen} title="Fullscreen Labeling">
+  {#snippet children()}
+    {#if currentFrame}
+      <div class="h-full flex flex-col">
+        <div class="flex items-center justify-between mb-4 p-4 bg-gray-50 rounded-lg">
+          <div class="flex items-center gap-4">
+            <h4 class="font-semibold">Class:</h4>
+            <select
+              value={selectedClassId}
+              onchange={(e) => setSelectedClassId(Number((e.target as HTMLSelectElement).value))}
+              class="px-3 py-2 border rounded-md"
+            >
+              {#each CLASS_NAMES as className, index}
+                <option value={index}>{className}</option>
+              {/each}
+            </select>
+          </div>
+          <div class="flex items-center gap-4">
+            <div class="text-sm text-gray-600">
+              {currentFrame.labels.length} label{currentFrame.labels.length !== 1 ? 's' : ''}
+            </div>
+            <button
+              onclick={saveCurrentFrame}
+              class="px-4 py-2 {currentFrame.isSaved ? 'bg-green-100 text-green-800' : 'bg-blue-600 text-white hover:bg-blue-700'} rounded-md transition-colors"
+              disabled={currentFrame.isSaved}
+            >
+              {currentFrame.isSaved ? '✓ Saved' : 'Save Frame'}
+            </button>
+          </div>
+        </div>
+
+        <div class="flex-1 min-h-0">
+          <PolygonDrawer
+            imageData={currentFrame.imageData}
+            labels={currentFrame.labels}
+            selectedLabelIndices={selectedLabelIndices}
+            fullscreen={true}
+          />
+        </div>
+      </div>
+    {/if}
+  {/snippet}
+</Modal>

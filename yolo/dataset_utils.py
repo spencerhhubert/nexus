@@ -28,7 +28,6 @@ def split_train_val(data_path: str, val_split: float):
         print(f"Validation split {val_split} too small, no files to move")
         return
 
-    random.seed(42)
     val_files = random.sample(image_files, num_val)
 
     print(f"Splitting {len(image_files)} files: {len(image_files) - num_val} train, {num_val} validation")

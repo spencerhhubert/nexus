@@ -32,7 +32,7 @@ def build_config() -> Config:
     parser.add_argument(
         "--batch",
         type=int,
-        default=16,
+        default=20,
         help="Batch size for training",
     )
     parser.add_argument(
@@ -55,14 +55,15 @@ def build_config() -> Config:
         current_run_id = args.checkpoint_run_id
         print(f"Resuming training from checkpoint run: {current_run_id}")
     else:
-        current_run_id = f"run_{int(time.time())}"
+        timestamp = int(time.time())
+        current_run_id = f"run_{timestamp}"
         print(f"Starting new training run: {current_run_id}")
 
     os.makedirs(os.path.join(checkpoints_dir, current_run_id), exist_ok=True)
 
     return {
-        "yolo_base_model_path": "/Users/spencer/Documents/GitHub/nexus2/weights/yolo11n-seg.pt",
-        "yolo_model": "yolo11n-seg",
+        "yolo_base_model_path": "/Users/spencer/Documents/GitHub/nexus2/weights/yolo11s-seg.pt",
+        "yolo_model": "yolo11s-seg",
         "checkpoints_dir": checkpoints_dir,
         "current_run_id": current_run_id,
         # Data should be structured as:

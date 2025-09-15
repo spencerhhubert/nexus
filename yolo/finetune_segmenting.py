@@ -45,9 +45,11 @@ def main():
         device=config["device"],
         project=config["checkpoints_dir"],
         name=config["current_run_id"],
+        exist_ok=True,
         resume=resume,
         save=True,
         save_period=10,  # Save checkpoint every 10 epochs
+        imgsz=640
     )
 
     print("Training completed!")

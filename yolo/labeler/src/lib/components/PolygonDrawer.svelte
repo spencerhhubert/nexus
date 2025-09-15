@@ -12,6 +12,17 @@
     setSelectedClassId(localSelectedClassId);
   });
 
+  // Auto-start drawing when class changes (but not on initial load)
+  let previousClassId = $state(localSelectedClassId);
+  $effect(() => {
+    if (previousClassId !== localSelectedClassId && previousClassId !== undefined) {
+      if (!isDrawing) {
+        startDrawing();
+      }
+    }
+    previousClassId = localSelectedClassId;
+  });
+
   let { imageData, labels = [], selectedLabelIndices = [] }: {
     imageData: string;
     labels?: Label[];

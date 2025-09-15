@@ -49,7 +49,9 @@ def build_config() -> Config:
 
     args = parser.parse_args()
 
-    checkpoints_dir = "/Users/spencer/Documents/GitHub/nexus2/yolo/checkpoints"
+    repo_dir = "/Users/spencer/Documents/GitHub/nexus2"
+
+    checkpoints_dir = f"{repo_dir}/yolo/checkpoints"
 
     if args.checkpoint_run_id:
         current_run_id = args.checkpoint_run_id
@@ -62,12 +64,12 @@ def build_config() -> Config:
     os.makedirs(os.path.join(checkpoints_dir, current_run_id), exist_ok=True)
 
     return {
-        "yolo_base_model_path": "/Users/spencer/Documents/GitHub/nexus2/weights/yolo11s-seg.pt",
+        "yolo_base_model_path": f"{repo_dir}/weights/yolo11s-seg.pt",
         "yolo_model": "yolo11s-seg",
         "checkpoints_dir": checkpoints_dir,
         "current_run_id": current_run_id,
         # Data should be structured as:
-        # /Users/spencer/Documents/GitHub/nexus2/yolo/data/
+        # {repo_dir}/yolo/data/
         # ├── images/
         # │   ├── train/
         # │   │   ├── image001.jpg
@@ -92,18 +94,13 @@ def build_config() -> Config:
         # class_id x1 y1 x2 y2 x3 y3 ... xn yn
         # Where (x1,y1), (x2,y2), ..., (xn,yn) are normalized polygon coordinates
         # for segmentation masks. For bounding boxes only: class_id x_center y_center width height
-        "data_path": "/Users/spencer/Documents/GitHub/nexus2/yolo/data",
+        "data_path": f"{repo_dir}/yolo/data",
         "epochs": args.epochs,
         "batch_size": args.batch,
         "device": args.device,
         "val_split": args.val_split,
     }
 
-
-# Paths and constants
-DATA_PATH = "/Users/spencer/Documents/GitHub/nexus2/yolo/data"
-CHECKPOINTS_DIR = "/Users/spencer/Documents/GitHub/nexus2/yolo/checkpoints"
-WEIGHTS_DIR = "/Users/spencer/Documents/GitHub/nexus2/weights"
 
 # Class mapping for visualization
 CLASS_NAMES = {

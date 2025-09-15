@@ -230,7 +230,7 @@ def buildIRLSystemInterface(config: IRLConfig, gc: GlobalConfig) -> IRLSystemInt
         it.start()
 
         def messageHandler(*args, **kwargs) -> None:
-            logger.info(util.two_byte_iter_to_str(args))
+            logger.info(f"FIRMATA: {util.two_byte_iter_to_str(args)}")
 
         mc.add_cmd_handler(pyfirmata.STRING_DATA, messageHandler)
 

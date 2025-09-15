@@ -1,7 +1,7 @@
 #define ARDUINO_AVR_MEGA2560
 
 // Debug level - 0 = no debug, 1+ = debug prints
-int DEBUG_LEVEL = 0;
+int DEBUG_LEVEL = 1;
 
 #include <ConfigurableFirmata.h>
 #include <DigitalInputFirmata.h>
@@ -561,7 +561,7 @@ void parseBreakBeamCommand(byte command, byte argc, byte *argv) {
 
             if (DEBUG_LEVEL > 0) {
                 char debugMsg[120];
-                sprintf(debugMsg, "Sending: breakTimestamp=%lu, currentTime=%lu, currentBreakState=%d", 
+                sprintf(debugMsg, "Sending: breakTimestamp=%lu, currentTime=%lu, currentBreakState=%d",
                        breakTimestamp, currentTime, currentBreakState);
                 Firmata.sendString(STRING_DATA, debugMsg);
             }
@@ -644,7 +644,7 @@ void sysexCallback(byte command, byte argc, byte *argv) {
             if (DEBUG_LEVEL > 0) {
                 Firmata.sendString(STRING_DATA, "Processing PWM_SERVO");
             }
-            parsePwmServoCommand(argv[0], argc-1, argv+1);
+            // parsePwmServoCommand(argv[0], argc-1, argv+1);
         break;
         case DIGITAL_PIN:
             if (DEBUG_LEVEL > 0) {
@@ -662,7 +662,7 @@ void sysexCallback(byte command, byte argc, byte *argv) {
             if (DEBUG_LEVEL > 0) {
                 Firmata.sendString(STRING_DATA, "Processing BREAK_BEAM");
             }
-            parseBreakBeamCommand(argv[0], argc-1, argv+1);
+            // parseBreakBeamCommand(argv[0], argc-1, argv+1);
         break;
         default:
             if (DEBUG_LEVEL > 0) {
@@ -697,13 +697,14 @@ void setup() {
     Firmata.begin(57600);
 	Firmata.sendString(F("Booting device. Stand by..."));
 	initFirmata();
+	Firmata.sendString(F("Firmata init complete"));
 	Firmata.parse(SYSTEM_RESET);
 
     // Initialize our pwm_boards array
-    initPwmBoards();
+    // initPwmBoards();
 
     // Initialize servo timeout tracking
-    initServoTimeouts();
+    // initServoTimeouts();
 
     // Initialize motor control pins for automatic break beam control
     pinMode(FIRST_VIBRATION_HOPPER_ENABLE_PIN, OUTPUT);
@@ -740,7 +741,7 @@ void setup() {
 
 void loop() {
     // Update break beam sensor readings every loop for maximum responsiveness
-    updateBreakBeamSensor();
+    // updateBreakBeamSensor();
 
     while(Firmata.available()) { //only runs if message in buffer
         Firmata.processInput();
@@ -752,7 +753,7 @@ void loop() {
     // Check for servos that should be turned off only every 100 loops to reduce overhead
     static int servoCheckCounter = 0;
     if (++servoCheckCounter >= 100) {
-        checkServoTimeouts();
+        // checkServoTimeouts();
         servoCheckCounter = 0;
     }
 }

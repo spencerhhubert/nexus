@@ -7,13 +7,6 @@ if TYPE_CHECKING:
     from robot.logger import Logger
 
 
-class FeederTimeoutsConfig(TypedDict):
-    conveyor_run_for_timeout_ms: int
-    first_vibration_hopper_motor_timeout_ms: int
-    second_vibration_hopper_motor_timeout_ms: int
-    timeout_between_feeder_steps_ms: int
-
-
 class GlobalConfig(TypedDict):
     debug_level: int
     auto_confirm: bool
@@ -24,7 +17,6 @@ class GlobalConfig(TypedDict):
     db_path: str
     tensor_device: str
     main_camera_index: int
-    fastsam_weights: str
     yolo_model: str
     yolo_weights_path: str
     disable_main_conveyor: bool
@@ -33,16 +25,9 @@ class GlobalConfig(TypedDict):
     disable_feeder_conveyor: bool
     disable_distribution: bool
     disable_classification: bool
-    trajectory_matching_max_time_gap_ms: int
-    trajectory_matching_max_position_distance_px: int
-    trajectory_matching_min_bbox_size_ratio: float
-    trajectory_matching_max_bbox_size_ratio: float
-    trajectory_matching_classification_consistency_weight: float
-    trajectory_matching_spatial_weight: float
     capture_delay_ms: int
     camera_preview: bool
     enable_profiling: bool
-    max_worker_threads: int
     max_queue_size: int
     conveyor_door_open_angle: int
     bin_door_open_angle: int
@@ -52,24 +37,13 @@ class GlobalConfig(TypedDict):
     bin_door_close_delay_ms: int
     conveyor_door_gradual_close_duration_ms: int
     min_sending_to_bin_time_ms: int
-    profiling_dir_path: str
     use_prev_bin_state: Optional[str]
     main_conveyor_speed: int
     feeder_conveyor_speed: int
     first_vibration_hopper_motor_speed: int
     second_vibration_hopper_motor_speed: int
-    object_center_threshold_percent: float
-    getting_new_object_timeout_ms: int
-    classification_timeout_ms: int
     encoder_polling_delay_ms: int
     delay_between_firmata_commands_ms: int
-    waiting_for_object_to_center_timeout_ms: int
-    waiting_for_object_to_appear_timeout_ms: int
-    max_trajectory_age: int
-    min_number_observations_for_centering: int
-    feeder_timeouts: FeederTimeoutsConfig
-    websocket_broadcast_fps: int
-    websocket_status_update_interval_s: float
 
 
 def buildGlobalConfig() -> GlobalConfig:
@@ -166,7 +140,7 @@ def buildGlobalConfig() -> GlobalConfig:
         "feeder_conveyor_speed": 140,
         # "feeder_conveyor_speed": 0,
         # "first_vibration_hopper_motor_speed": 0,
-        "first_vibration_hopper_motor_speed": 135, #first hopper that pieces enter
+        "first_vibration_hopper_motor_speed": 135,  # first hopper that pieces enter
         "second_vibration_hopper_motor_speed": 135,
         "object_center_threshold_percent": 0.25,
         "getting_new_object_timeout_ms": 360 * 1000,

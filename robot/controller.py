@@ -9,7 +9,7 @@ from robot.bin_state_tracker import BinStateTracker
 from robot.sorting.bricklink_categories_sorting_profile import (
     mkBricklinkCategoriesSortingProfile,
 )
-from robot.shared.types import SystemLifecycleStage
+from robot.our_types import SystemLifecycleStage
 
 
 class Controller:
@@ -46,7 +46,10 @@ class Controller:
         self.lifecycle_stage = SystemLifecycleStage.RUNNING
 
         # Main loop - just wait and do nothing while running
-        while self.running and self.lifecycle_stage == SystemLifecycleStage.RUNNING:
+        while self.running and self.lifecycle_stage in [
+            SystemLifecycleStage.RUNNING,
+            SystemLifecycleStage.PAUSED,
+        ]:
             time.sleep(0.1)
 
         self.lifecycle_stage = SystemLifecycleStage.STOPPING
@@ -65,3 +68,11 @@ class Controller:
             self.irl_interface["second_vibration_hopper_motor"].setSpeed(speed)
         else:
             raise ValueError(f"Unknown motor_id: {motor_id}")
+
+    def pause(self):
+        if self.lifecycle_stage == SystemLifecycleStage.RUNNING:
+            self.lifecycle_stage = SystemLifecycleStage.PAUSED
+
+    def resume(self):
+        if self.lifecycle_stage == SystemLifecycleStage.PAUSED:
+            self.lifecycle_stage = SystemLifecycleStage.RUNNING

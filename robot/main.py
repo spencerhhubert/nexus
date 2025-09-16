@@ -1,7 +1,10 @@
 import time
+import threading
+import uvicorn
 from robot.irl.config import buildIRLSystemInterface, buildIRLConfig
 from robot.global_config import buildGlobalConfig
 from robot.controller import Controller
+from robot.api.server import app, init_api
 
 
 def main() -> None:
@@ -13,6 +16,16 @@ def main() -> None:
     logger.info(f"Running with debug level: {gc['debug_level']}")
 
     controller = Controller(gc, irl_system)
+    init_api(controller)
+
+    # Start API server in separate thread
+    api_thread = threading.Thread(
+        target=uvicorn.run,
+        args=[app],
+        kwargs={"host": "0.0.0.0", "port": 8000, "log_level": "info"},
+        daemon=True,
+    )
+    api_thread.start()
 
     try:
         controller.start()

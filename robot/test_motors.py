@@ -4,7 +4,7 @@ import threading
 from robot.global_config import buildGlobalConfig
 from robot.irl.config import buildIRLConfig, buildIRLSystemInterface
 
-PULSE_ON_TIME_MS = 800
+PULSE_ON_TIME_MS = 1000
 PULSE_OFF_TIME_MS = 200
 
 

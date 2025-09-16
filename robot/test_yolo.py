@@ -16,8 +16,9 @@ def main():
     logger.info("Connecting to cameras...")
     irl_system = buildIRLSystemInterface(irl_config, gc)
 
-    logger.info("Loading YOLO model...")
-    yolo_model = YOLOModel(gc["yolo_model"], gc["yolo_weights_path"])
+    logger.info("Loading YOLO models...")
+    main_yolo = YOLOModel(gc["yolo_model"], gc["yolo_weights_path"])
+    feeder_yolo = YOLOModel(gc["yolo_model"], gc["yolo_weights_path"])
 
     main_camera = irl_system["main_camera"]
     feeder_camera = irl_system["feeder_camera"]
@@ -32,27 +33,27 @@ def main():
 
             main_frame = main_camera.captureFrame()
             if main_frame is not None:
-                logger.info(f"Frame {frame_count}: Analyzing main camera frame...")
-                main_results = yolo_model.analyze_frame(main_frame)
+                logger.info(f"Frame {frame_count}: Tracking main camera frame...")
+                main_results = main_yolo.track_frame(main_frame)
 
                 if main_results["results"]:
-                    annotated_main = yolo_model.visualize_results(
-                        main_frame, main_results["results"]
+                    annotated_main = main_yolo.visualize_results(
+                        main_frame, main_results["results"], max_tracks=32
                     )
-                    cv2.imshow("Main Camera YOLO", annotated_main)
+                    cv2.imshow("Main Camera YOLO Tracking", annotated_main)
 
             feeder_frame = feeder_camera.captureFrame()
             if feeder_frame is not None:
-                logger.info(f"Frame {frame_count}: Analyzing feeder camera frame...")
-                feeder_results = yolo_model.analyze_frame(feeder_frame)
+                logger.info(f"Frame {frame_count}: Tracking feeder camera frame...")
+                feeder_results = feeder_yolo.track_frame(feeder_frame)
 
                 if feeder_results["results"]:
-                    annotated_feeder = yolo_model.visualize_results(
-                        feeder_frame, feeder_results["results"]
+                    annotated_feeder = feeder_yolo.visualize_results(
+                        feeder_frame, feeder_results["results"], max_tracks=32
                     )
-                    cv2.imshow("Feeder Camera YOLO", annotated_feeder)
+                    cv2.imshow("Feeder Camera YOLO Tracking", annotated_feeder)
 
-            yolo_model.profiling.printProfiling()
+            main_yolo.profiling.printProfiling()
 
             if cv2.waitKey(1) & 0xFF == ord("q"):
                 break

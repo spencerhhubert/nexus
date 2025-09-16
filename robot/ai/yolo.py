@@ -64,6 +64,34 @@ class YOLOModel:
             "frame_shape": frame.shape,
         }
 
-    def visualize_results(self, frame: np.ndarray, results) -> np.ndarray:
+    def track_frame(self, frame: np.ndarray) -> Dict[str, Any]:
+        start_time = time.time()
+
+        results = self.model.track(frame, persist=True)
+
+        inference_time = time.time() - start_time
+        self.profiling.add_inference_time(inference_time)
+        self.profiling.add_fps(1.0 / inference_time if inference_time > 0 else 0)
+
+        return {
+            "results": results,
+            "inference_time": inference_time,
+            "frame_shape": frame.shape,
+        }
+
+    def visualize_results(self, frame: np.ndarray, results, max_tracks: int = None) -> np.ndarray:
         annotated_frame = results[0].plot()
+
+        if hasattr(results[0], 'boxes') and results[0].boxes is not None and hasattr(results[0].boxes, 'id'):
+            boxes = results[0].boxes
+            if boxes.id is not None:
+                tracks_to_show = boxes.id[:max_tracks] if max_tracks else boxes.id
+                xyxy = boxes.xyxy[:len(tracks_to_show)] if max_tracks else boxes.xyxy
+
+                for i, track_id in enumerate(tracks_to_show):
+                    x1, y1, x2, y2 = xyxy[i].cpu().numpy()
+                    cv2.putText(annotated_frame, f'ID:{int(track_id)}',
+                               (int(x1), int(y1) - 10), cv2.FONT_HERSHEY_SIMPLEX,
+                               0.6, (0, 255, 255), 2)
+
         return annotated_frame

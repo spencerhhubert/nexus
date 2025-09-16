@@ -129,9 +129,10 @@ def buildGlobalConfig() -> GlobalConfig:
         "main_camera_index": 0,
         "fastsam_weights": "../weights/FastSAM-s.pt",
         "yolo_model": "yolo11n-seg",
-        # "yolo_weights_path":" /Users/spencer/Downloads/checkpoints/run_1757963343/weights/best.pt",
-        # "yolo_weights_path": "/Users/spencer/Downloads/checkpoints 2/run_1757970830/weights/best.pt",
+        # "yolo_weights_path":" /Users/spencer/Downloads/checkpoints (small)/run_1757963343/weights/best.pt",
+        # "yolo_weights_path": "/Users/spencer/Downloads/checkpoints (nano)/run_1757970830/weights/best.pt",
         "yolo_weights_path": "/Users/spencer/Downloads/checkpoints (nano 414)/run_1757975149/weights/best.pt",
+        # "yolo_weights_path": "/Users/spencer/Documents/GitHub/nexus2/weights/yolo11s-seg.pt",
         "disable_main_conveyor": "main_conveyor" in disabled_motors,
         "disable_first_vibration_hopper_motor": "vibration_hopper" in disabled_motors
         or "first_vibration_hopper" in disabled_motors,

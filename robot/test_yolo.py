@@ -8,8 +8,7 @@ from robot.global_config import buildGlobalConfig
 from robot.irl.config import buildIRLConfig, buildIRLSystemInterface
 
 
-def run_tracker_in_thread(camera, model_path, window_name, logger, result_queue):
-    """Run YOLO tracker in its own thread for concurrent processing."""
+def runTrackerInThread(camera, model_path, window_name, logger, result_queue):
     model = YOLO(model_path)
     frame_count = 0
 
@@ -56,13 +55,13 @@ def main():
     try:
         # Create and start tracker threads
         main_thread = threading.Thread(
-            target=run_tracker_in_thread,
+            target=runTrackerInThread,
             args=(main_camera, model_path, "Main Camera YOLO Tracking", logger, main_queue),
             daemon=True
         )
 
         feeder_thread = threading.Thread(
-            target=run_tracker_in_thread,
+            target=runTrackerInThread,
             args=(feeder_camera, model_path, "Feeder Camera YOLO Tracking", logger, feeder_queue),
             daemon=True
         )

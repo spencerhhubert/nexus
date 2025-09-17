@@ -10,6 +10,8 @@ from robot.sorting.bricklink_categories_sorting_profile import (
     mkBricklinkCategoriesSortingProfile,
 )
 from robot.our_types import SystemLifecycleStage
+from robot.vision_system import VisionSystem
+from robot.sorting_state_machine import SortingStateMachine
 
 
 class Controller:
@@ -23,16 +25,23 @@ class Controller:
             global_config, irl_interface["distribution_modules"], self.sorting_profile
         )
 
+        self.vision_system = VisionSystem(global_config, irl_interface)
+        self.sorting_state_machine = SortingStateMachine(
+            self.vision_system, irl_interface
+        )
+
         self.running = False
         self.controller_thread = None
 
     def start(self):
         self.running = True
+        self.vision_system.start()
         self.controller_thread = threading.Thread(target=self._loop)
         self.controller_thread.start()
 
     def stop(self):
         self.running = False
+        self.vision_system.stop()
         if self.controller_thread:
             self.controller_thread.join()
 
@@ -45,11 +54,14 @@ class Controller:
 
         self.lifecycle_stage = SystemLifecycleStage.RUNNING
 
-        # Main loop - just wait and do nothing while running
+        # Main loop - run sorting state machine when running
         while self.running and self.lifecycle_stage in [
             SystemLifecycleStage.RUNNING,
             SystemLifecycleStage.PAUSED,
         ]:
+            if self.lifecycle_stage == SystemLifecycleStage.RUNNING:
+                self.sorting_state_machine.step()
+            self.vision_system.update_display()
             time.sleep(0.1)
 
         self.lifecycle_stage = SystemLifecycleStage.STOPPING

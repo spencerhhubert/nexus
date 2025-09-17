@@ -12,6 +12,7 @@ from robot.sorting.bricklink_categories_sorting_profile import (
 from robot.our_types import SystemLifecycleStage
 from robot.vision_system import SegmentationModelManager
 from robot.sorting_state_machine import SortingStateMachine
+from robot.websocket_manager import WebSocketManager
 
 
 class Controller:
@@ -19,7 +20,7 @@ class Controller:
         self,
         global_config: GlobalConfig,
         irl_interface: IRLSystemInterface,
-        websocket_manager=None,
+        websocket_manager: WebSocketManager,
     ):
         self.global_config = global_config
         self.lifecycle_stage = SystemLifecycleStage.INITIALIZING

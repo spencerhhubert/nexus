@@ -4,7 +4,7 @@ from robot.our_types.feeder import FeederState
 from robot.vision_system import SegmentationModelManager
 from robot.irl.config import IRLSystemInterface
 
-FEEDER_MOTOR_PULSE_MS = 2000
+FEEDER_MOTOR_PULSE_MS = 1000
 FEEDER_MOTOR_PAUSE_MS = 200
 
 
@@ -59,12 +59,17 @@ class SortingStateMachine:
             self.feeder_motor_running
             and (current_time - self.feeder_motor_start_time) >= FEEDER_MOTOR_PULSE_MS
         ):
-            # Stop both feeder motors
+            # Hard stop both feeder motors
             self.logger.info(
-                f"MOTOR: Stopping feeder motors after {FEEDER_MOTOR_PULSE_MS}ms pulse"
+                f"MOTOR: Hard stopping feeder motors after {FEEDER_MOTOR_PULSE_MS}ms pulse"
             )
-            self.irl_interface["first_vibration_hopper_motor"].setSpeed(0)
-            self.irl_interface["second_vibration_hopper_motor"].setSpeed(0)
+            first_speed = self.vision_system.global_config["first_vibration_hopper_motor_speed"]
+            second_speed = self.vision_system.global_config["second_vibration_hopper_motor_speed"]
+
+            self.irl_interface["first_vibration_hopper_motor"].hardStop(first_speed)
+            self.irl_interface["second_vibration_hopper_motor"].hardStop(second_speed)
+            # self.irl_interface["first_vibration_hopper_motor"].setSpeed(0)
+            # self.irl_interface["second_vibration_hopper_motor"].setSpeed(0)
             self.feeder_motor_running = False
             self.feeder_motor_start_time = current_time  # Start pause timer
 

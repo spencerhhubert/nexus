@@ -146,6 +146,20 @@ class DCMotor:
         logger.info(f"Setting enable pin {self.enable_pin} to PWM value: {pwm_value}")
         self.dev.sysex(0x03, [0x03, self.enable_pin, pwm_value])
 
+    def hardStop(self, currentSpeed: int, backdriveSpeed: int = 255, backtimeDurationMs: int = 50) -> None:
+        backdriveSpeed = max(-255, min(255, backdriveSpeed))
+
+        if currentSpeed > 0:
+            backdriveDirection = -backdriveSpeed
+        elif currentSpeed < 0:
+            backdriveDirection = backdriveSpeed
+        else:
+            return
+
+        self.setSpeed(backdriveDirection)
+        time.sleep(backtimeDurationMs / 1000.0)
+        self.setSpeed(0)
+
 
 class BreakBeamSensor:
     def __init__(self, gc: GlobalConfig, dev: OurArduinoMega, sensor_pin: int):

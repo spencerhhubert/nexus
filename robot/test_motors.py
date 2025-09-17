@@ -46,15 +46,15 @@ def main():
                 sys.exit(1)
 
     motor_map = {
-        "main_conveyor": ("main_conveyor_dc_motor", "main_conveyor_speed"),
-        "feeder_conveyor": ("feeder_conveyor_dc_motor", "feeder_conveyor_speed"),
+        "main_conveyor": ("main_conveyor_dc_motor", "mainConveyorSpeed"),
+        "feeder_conveyor": ("feeder_conveyor_dc_motor", "feederConveyorSpeed"),
         "first_vibration_hopper": (
             "first_vibration_hopper_motor",
-            "first_vibration_hopper_motor_speed",
+            "firstVibrationHopperMotorSpeed",
         ),
         "second_vibration_hopper": (
             "second_vibration_hopper_motor",
-            "second_vibration_hopper_motor_speed",
+            "secondVibrationHopperMotorSpeed",
         ),
     }
 
@@ -64,14 +64,15 @@ def main():
         sys.exit(1)
 
     motor_key, speed_key = motor_map[motor_name]
-    if speed is None:
-        speed = gc[speed_key]
 
     print(f"Connecting to {motor_name} motor...")
 
     irl_config = buildIRLConfig()
     irl_system = buildIRLSystemInterface(irl_config, gc)
     motor = irl_system[motor_key]
+
+    if speed is None:
+        speed = irl_system["runtimeParams"][speed_key]
 
     current_speed = 0
     running = True
@@ -100,7 +101,7 @@ def main():
 
     try:
         print(f"\nMotor: {motor_name}")
-        print(f"Default speed: {gc[speed_key]}")
+        print(f"Default speed: {irl_system['runtimeParams'][speed_key]}")
         print(f"Initial speed: {speed}")
         if no_pulse:
             print("Mode: Continuous (no pulsing)")

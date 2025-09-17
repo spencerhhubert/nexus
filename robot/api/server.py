@@ -4,6 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from typing import Optional
 from .client import API
 from robot.our_types import SystemLifecycleStage
+from robot.our_types.irl_runtime_params import IRLSystemRuntimeParams
 from robot.websocket_manager import WebSocketManager
 
 app = FastAPI()
@@ -39,6 +40,21 @@ async def resume_system():
     if not api_client:
         raise HTTPException(status_code=503, detail="API not initialized")
     api_client.resume()
+    return {"success": True}
+
+
+@app.get("/irl-runtime-params")
+async def get_irl_runtime_params() -> IRLSystemRuntimeParams:
+    if not api_client:
+        raise HTTPException(status_code=503, detail="API not initialized")
+    return api_client.getIRLRuntimeParams()
+
+
+@app.put("/irl-runtime-params")
+async def update_irl_runtime_params(params: IRLSystemRuntimeParams):
+    if not api_client:
+        raise HTTPException(status_code=503, detail="API not initialized")
+    api_client.updateIRLRuntimeParams(params)
     return {"success": True}
 
 

@@ -9,6 +9,7 @@ import subprocess
 import re
 from robot.global_config import GlobalConfig
 from robot.util.units import inchesToCm
+from robot.our_types.irl_runtime_params import IRLSystemRuntimeParams, buildIRLSystemRuntimeParams
 
 
 class ServoMotorConfig(TypedDict):
@@ -71,6 +72,7 @@ class IRLSystemInterface(TypedDict):
     feeder_camera: Camera
     conveyor_encoder: Encoder
     break_beam_sensor: BreakBeamSensor
+    runtimeParams: IRLSystemRuntimeParams
 
 
 def buildIRLConfig() -> IRLConfig:
@@ -340,4 +342,5 @@ def buildIRLSystemInterface(config: IRLConfig, gc: GlobalConfig) -> IRLSystemInt
         "feeder_camera": feeder_camera,
         "conveyor_encoder": conveyor_encoder,
         "break_beam_sensor": break_beam_sensor,
+        "runtimeParams": buildIRLSystemRuntimeParams(gc),
     }

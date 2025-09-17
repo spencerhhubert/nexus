@@ -1,4 +1,5 @@
 from robot.our_types import SystemLifecycleStage
+from robot.our_types.irl_runtime_params import IRLSystemRuntimeParams
 
 
 class API:
@@ -13,3 +14,9 @@ class API:
 
     def resume(self):
         self.controller.resume()
+
+    def getIRLRuntimeParams(self) -> IRLSystemRuntimeParams:
+        return self.controller.irl_interface["runtimeParams"]
+
+    def updateIRLRuntimeParams(self, params: IRLSystemRuntimeParams):
+        self.controller.irl_interface["runtimeParams"] = params

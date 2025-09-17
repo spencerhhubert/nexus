@@ -3,6 +3,12 @@
   import userSettings from '$lib/stores/user-settings.svelte';
   import { onMount } from 'svelte';
 
+  interface Props {
+    children: import('svelte').Snippet;
+  }
+
+  let { children }: Props = $props();
+
   onMount(() => {
     // Apply dark class to html element
     const html = document.documentElement;
@@ -25,5 +31,5 @@
 </script>
 
 <main>
-  <slot />
+  {@render children()}
 </main>

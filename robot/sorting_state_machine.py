@@ -63,8 +63,9 @@ class SortingStateMachine:
             self.logger.info(
                 f"MOTOR: Hard stopping feeder motors after {FEEDER_MOTOR_PULSE_MS}ms pulse"
             )
-            first_speed = self.vision_system.global_config["first_vibration_hopper_motor_speed"]
-            second_speed = self.vision_system.global_config["second_vibration_hopper_motor_speed"]
+            runtime_params = self.irl_interface["runtimeParams"]
+            first_speed = runtime_params["firstVibrationHopperMotorSpeed"]
+            second_speed = runtime_params["secondVibrationHopperMotorSpeed"]
 
             self.irl_interface["first_vibration_hopper_motor"].hardStop(first_speed)
             self.irl_interface["second_vibration_hopper_motor"].hardStop(second_speed)
@@ -94,9 +95,8 @@ class SortingStateMachine:
                 self.logger.info("MOTOR: No objects detected - no feeding needed")
             elif has_second:
                 # Run second feeder motor to move object from second to first
-                speed = self.vision_system.global_config[
-                    "second_vibration_hopper_motor_speed"
-                ]
+                runtime_params = self.irl_interface["runtimeParams"]
+                speed = runtime_params["secondVibrationHopperMotorSpeed"]
                 self.logger.info(
                     f"MOTOR: Starting second feeder motor at speed {speed} - moving object from second to first feeder"
                 )
@@ -105,9 +105,8 @@ class SortingStateMachine:
                 self.feeder_motor_start_time = current_time
             elif not has_second:
                 # Run first feeder motor to move object from first to second
-                speed = self.vision_system.global_config[
-                    "first_vibration_hopper_motor_speed"
-                ]
+                runtime_params = self.irl_interface["runtimeParams"]
+                speed = runtime_params["firstVibrationHopperMotorSpeed"]
                 self.logger.info(
                     f"MOTOR: Starting first feeder motor at speed {speed} - moving object from first to second feeder"
                 )

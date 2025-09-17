@@ -57,7 +57,6 @@
   </div>
 
   <div class="mt-2 flex justify-between text-xs text-gray-500 dark:text-gray-400">
-    <span>Camera: {camera}</span>
     <span class="flex items-center gap-1">
       {#if pageState.state.wsConnected}
         <Wifi size={12} class="text-green-500" />

@@ -1,18 +1,21 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
   import { getLifecycleStage, pauseSystem, resumeSystem } from '$lib/api-client';
+  import { createPageState } from '$lib/stores/page-state.svelte';
+  import VideoFeed from '$lib/components/VideoFeed.svelte';
 
-  let lifecycleStage = 'unknown';
-  let loading = false;
+  const pageState = createPageState();
 
   async function fetchLifecycleStage() {
     try {
-      loading = true;
-      lifecycleStage = await getLifecycleStage();
+      pageState.setLoading(true);
+      const stage = await getLifecycleStage();
+      pageState.updateLifecycleStage(stage);
     } catch (error) {
       console.error('Failed to fetch lifecycle stage:', error);
-      lifecycleStage = 'error';
+      pageState.updateLifecycleStage('error');
     } finally {
-      loading = false;
+      pageState.setLoading(false);
     }
   }
 
@@ -33,6 +36,13 @@
       console.error('Failed to resume:', error);
     }
   }
+
+  onMount(() => {
+    fetchLifecycleStage();
+    return () => {
+      pageState.disconnect();
+    };
+  });
 </script>
 
 <svelte:head>
@@ -50,12 +60,12 @@
       <div class="flex items-center gap-4 mb-4">
         <span class="font-medium">Lifecycle Stage:</span>
         <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded">
-          {loading ? 'Loading...' : lifecycleStage}
+          {pageState.state.loading ? 'Loading...' : pageState.state.lifecycleStage}
         </span>
         <button
-          on:click={fetchLifecycleStage}
+          onclick={fetchLifecycleStage}
           class="px-3 py-1 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded hover:bg-gray-300 dark:hover:bg-gray-600"
-          disabled={loading}
+          disabled={pageState.state.loading}
         >
           Refresh
         </button>
@@ -66,18 +76,24 @@
       <h2 class="text-xl font-semibold mb-4">Controls</h2>
       <div class="flex gap-4">
         <button
-          on:click={handlePause}
+          onclick={handlePause}
           class="px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-white rounded"
         >
           Pause System
         </button>
         <button
-          on:click={handleResume}
+          onclick={handleResume}
           class="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded"
         >
           Resume System
         </button>
       </div>
+    </div>
+
+    <!-- Camera Feeds -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <VideoFeed camera="main_camera" title="Main Camera" />
+      <VideoFeed camera="feeder_camera" title="Feeder Camera" />
     </div>
   </div>
 </div>

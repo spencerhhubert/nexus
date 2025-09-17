@@ -15,7 +15,12 @@ from robot.sorting_state_machine import SortingStateMachine
 
 
 class Controller:
-    def __init__(self, global_config: GlobalConfig, irl_interface: IRLSystemInterface):
+    def __init__(
+        self,
+        global_config: GlobalConfig,
+        irl_interface: IRLSystemInterface,
+        websocket_manager=None,
+    ):
         self.global_config = global_config
         self.lifecycle_stage = SystemLifecycleStage.INITIALIZING
         self.irl_interface = irl_interface
@@ -25,7 +30,9 @@ class Controller:
             global_config, irl_interface["distribution_modules"], self.sorting_profile
         )
 
-        self.vision_system = VisionSystem(global_config, irl_interface)
+        self.vision_system = VisionSystem(
+            global_config, irl_interface, websocket_manager
+        )
         self.sorting_state_machine = SortingStateMachine(
             self.vision_system, irl_interface
         )
@@ -61,7 +68,6 @@ class Controller:
         ]:
             if self.lifecycle_stage == SystemLifecycleStage.RUNNING:
                 self.sorting_state_machine.step()
-            self.vision_system.update_display()
             time.sleep(0.1)
 
         self.lifecycle_stage = SystemLifecycleStage.STOPPING

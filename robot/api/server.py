@@ -1,8 +1,10 @@
-from fastapi import FastAPI, HTTPException
+import asyncio
+from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from typing import Optional
 from .client import API
 from robot.our_types import SystemLifecycleStage
+from robot.websocket_manager import WebSocketManager
 
 app = FastAPI()
 
@@ -15,11 +17,13 @@ app.add_middleware(
 )
 
 api_client: Optional[API] = None
+websocket_manager = WebSocketManager()
 
 
 def init_api(controller):
     global api_client
     api_client = API(controller)
+    return websocket_manager
 
 
 @app.get("/lifecycle", response_model=SystemLifecycleStage)
@@ -43,3 +47,16 @@ async def resume_system():
         raise HTTPException(status_code=503, detail="API not initialized")
     api_client.resume()
     return {"success": True}
+
+
+@app.websocket("/ws")
+async def websocket_endpoint(websocket: WebSocket):
+    # Set the event loop for the websocket manager
+    websocket_manager.set_event_loop(asyncio.get_event_loop())
+
+    await websocket_manager.connect(websocket)
+    try:
+        while True:
+            await websocket.receive_text()
+    except WebSocketDisconnect:
+        websocket_manager.disconnect(websocket)

@@ -1,18 +1,23 @@
 import time
 import threading
-import cv2
-from queue import Queue
 from typing import Optional
 from ultralytics import YOLO
 from robot.global_config import GlobalConfig
 from robot.irl.config import IRLSystemInterface
+from robot.our_types import CameraType
 
 
 class VisionSystem:
-    def __init__(self, global_config: GlobalConfig, irl_interface: IRLSystemInterface):
+    def __init__(
+        self,
+        global_config: GlobalConfig,
+        irl_interface: IRLSystemInterface,
+        websocket_manager=None,
+    ):
         self.global_config = global_config
         self.irl_interface = irl_interface
         self.logger = global_config["logger"]
+        self.websocket_manager = websocket_manager
 
         self.main_camera = irl_interface["main_camera"]
         self.feeder_camera = irl_interface["feeder_camera"]
@@ -23,14 +28,9 @@ class VisionSystem:
             else global_config["yolo_model"]
         )
 
-        self.main_results_queue = Queue()
-        self.feeder_results_queue = Queue()
-
         self.latest_main_results = None
         self.latest_feeder_results = None
         self.results_lock = threading.Lock()
-
-        self.show_preview = global_config.get("camera_preview", False)
 
         self.running = False
         self.main_thread = None
@@ -50,8 +50,6 @@ class VisionSystem:
 
     def stop(self):
         self.running = False
-        if self.show_preview:
-            cv2.destroyAllWindows()
         if self.main_thread:
             self.main_thread.join()
         if self.feeder_thread:
@@ -71,14 +69,12 @@ class VisionSystem:
                     with self.results_lock:
                         self.latest_main_results = results
 
-                    if self.show_preview:
-                        if results and len(results) > 0:
-                            annotated_frame = results[0].plot()
-                        else:
-                            annotated_frame = frame
-                        self.main_results_queue.put(
-                            ("Main Camera YOLO Tracking", annotated_frame)
-                        )
+                    if results and len(results) > 0:
+                        annotated_frame = results[0].plot()
+                    else:
+                        annotated_frame = frame
+
+                    self.broadcast_frame(CameraType.MAIN_CAMERA, annotated_frame)
 
                 time.sleep(0.1)
         except Exception as e:
@@ -98,39 +94,20 @@ class VisionSystem:
                     with self.results_lock:
                         self.latest_feeder_results = results
 
-                    if self.show_preview:
-                        if results and len(results) > 0:
-                            annotated_frame = results[0].plot()
-                        else:
-                            annotated_frame = frame
-                        self.feeder_results_queue.put(
-                            ("Feeder Camera YOLO Tracking", annotated_frame)
-                        )
+                    if results and len(results) > 0:
+                        annotated_frame = results[0].plot()
+                    else:
+                        annotated_frame = frame
+
+                    self.broadcast_frame(CameraType.FEEDER_CAMERA, annotated_frame)
 
                 time.sleep(0.1)
         except Exception as e:
             self.logger.error(f"Error in feeder camera tracking: {e}")
 
-    def update_display(self):
-        if not self.show_preview:
-            return
-
-        try:
-            if not self.main_results_queue.empty():
-                window_name, frame = self.main_results_queue.get_nowait()
-                cv2.namedWindow(window_name, cv2.WINDOW_NORMAL)
-                cv2.resizeWindow(window_name, 640, 480)
-                cv2.imshow(window_name, frame)
-
-            if not self.feeder_results_queue.empty():
-                window_name, frame = self.feeder_results_queue.get_nowait()
-                cv2.namedWindow(window_name, cv2.WINDOW_NORMAL)
-                cv2.resizeWindow(window_name, 640, 480)
-                cv2.imshow(window_name, frame)
-
-            cv2.waitKey(1)
-        except:
-            pass
+    def broadcast_frame(self, camera_type: CameraType, frame):
+        if self.websocket_manager:
+            self.websocket_manager.broadcast_frame(camera_type, frame)
 
     def get_main_camera_results(self):
         with self.results_lock:

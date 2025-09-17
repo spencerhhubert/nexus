@@ -1,0 +1,65 @@
+<script lang="ts">
+  import { getPageState } from '$lib/stores/page-state.svelte';
+
+  interface Props {
+    camera: 'main_camera' | 'feeder_camera';
+    title: string;
+  }
+
+  let { camera, title }: Props = $props();
+
+  const pageState = getPageState();
+
+  const frame = $derived(() => {
+    return camera === 'main_camera'
+      ? pageState.state.mainCameraFrame
+      : pageState.state.feederCameraFrame;
+  });
+
+  const imageSrc = $derived(() => {
+    const currentFrame = frame();
+    return currentFrame ? `data:image/jpeg;base64,${currentFrame.data}` : null;
+  });
+
+  const lastUpdate = $derived(() => {
+    const currentFrame = frame();
+    return currentFrame ? new Date(currentFrame.timestamp).toLocaleTimeString() : 'No data';
+  });
+</script>
+
+<div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+  <div class="flex justify-between items-center mb-4">
+    <h3 class="text-lg font-semibold">{title}</h3>
+    <span class="text-sm text-gray-500 dark:text-gray-400">
+      Last: {lastUpdate()}
+    </span>
+  </div>
+
+  <div class="relative bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden" style="aspect-ratio: 4/3;">
+    {#if imageSrc()}
+      <img
+        src={imageSrc()}
+        alt="{title} feed"
+        class="w-full h-full object-cover"
+      />
+    {:else}
+      <div class="flex items-center justify-center h-full text-gray-500 dark:text-gray-400">
+        <div class="text-center">
+          <div class="text-2xl mb-2">📷</div>
+          <div>No video feed</div>
+          {#if !pageState.state.wsConnected}
+            <div class="text-sm mt-1">WebSocket disconnected</div>
+          {/if}
+        </div>
+      </div>
+    {/if}
+  </div>
+
+  <div class="mt-2 flex justify-between text-xs text-gray-500 dark:text-gray-400">
+    <span>Camera: {camera}</span>
+    <span class="flex items-center gap-1">
+      <div class="w-2 h-2 rounded-full {pageState.state.wsConnected ? 'bg-green-500' : 'bg-red-500'}"></div>
+      {pageState.state.wsConnected ? 'Connected' : 'Disconnected'}
+    </span>
+  </div>
+</div>

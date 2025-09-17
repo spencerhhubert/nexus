@@ -55,39 +55,10 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  '/motors/speed': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    /** Set Motor Speed */
-    post: operations['set_motor_speed_motors_speed_post'];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
 }
 export type webhooks = Record<string, never>;
 export interface components {
   schemas: {
-    /** HTTPValidationError */
-    HTTPValidationError: {
-      /** Detail */
-      detail?: components['schemas']['ValidationError'][];
-    };
-    /** MotorSpeedRequest */
-    MotorSpeedRequest: {
-      /** Motor Id */
-      motor_id: string;
-      /** Speed */
-      speed: number;
-    };
     /**
      * SystemLifecycleStage
      * @enum {string}
@@ -99,15 +70,6 @@ export interface components {
       | 'paused'
       | 'stopping'
       | 'shutdown';
-    /** ValidationError */
-    ValidationError: {
-      /** Location */
-      loc: (string | number)[];
-      /** Message */
-      msg: string;
-      /** Error Type */
-      type: string;
-    };
   };
   responses: never;
   parameters: never;
@@ -173,39 +135,6 @@ export interface operations {
         };
         content: {
           'application/json': unknown;
-        };
-      };
-    };
-  };
-  set_motor_speed_motors_speed_post: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['MotorSpeedRequest'];
-      };
-    };
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': unknown;
-        };
-      };
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': components['schemas']['HTTPValidationError'];
         };
       };
     };

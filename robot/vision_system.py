@@ -3,6 +3,7 @@ import threading
 import numpy as np
 from typing import Optional
 from ultralytics import YOLO
+from scipy import ndimage
 from robot.global_config import GlobalConfig
 from robot.irl.config import IRLSystemInterface
 from robot.our_types import CameraType
@@ -158,36 +159,78 @@ class SegmentationModelManager:
 
         return masks_by_class
 
-    def hasObjectMostlyOnFirstFeeder(self):
+    def calculateSurroundingScore(self, obj_mask, feeder_mask, threshold=3):
+        """Calculate how much of the object's perimeter is surrounded by the feeder mask."""
+        if obj_mask.shape != feeder_mask.shape:
+            return 0.0
+
+        # Convert masks to boolean arrays
+        obj_mask = obj_mask.astype(bool)
+        feeder_mask = feeder_mask.astype(bool)
+
+        obj_pixels = np.sum(obj_mask)
+        if obj_pixels == 0:
+            return 0.0
+
+        # Create a dilated version of the object mask
+        structure = np.ones((threshold*2+1, threshold*2+1))
+        dilated_obj = ndimage.binary_dilation(obj_mask, structure=structure)
+
+        # Find the "border" area (dilated - original)
+        border_area = dilated_obj & ~obj_mask
+
+        # Count how much of this border area overlaps with feeder
+        surrounded_border = np.sum(border_area & feeder_mask)
+        total_border = np.sum(border_area)
+
+        if total_border == 0:
+            return 0.0
+
+        return surrounded_border / total_border
+
+    def determineObjectLocation(self):
+        """Determine if objects are on 'first', 'second', or 'none' of the feeders."""
         masks_by_class = self.getDetectedMasksByClass()
 
         object_masks = masks_by_class.get("object", [])
         first_feeder_masks = masks_by_class.get("first_feeder", [])
-
-        if not object_masks or not first_feeder_masks:
-            return False
-
-        for obj_mask in object_masks:
-            for feeder_mask in first_feeder_masks:
-                overlap = np.logical_and(obj_mask, feeder_mask)
-                overlap_ratio = np.sum(overlap) / np.sum(obj_mask)
-                if overlap_ratio > 0.5:  # Object is mostly on this feeder
-                    return True
-        return False
-
-    def hasObjectMostlyOnSecondFeeder(self):
-        masks_by_class = self.getDetectedMasksByClass()
-
-        object_masks = masks_by_class.get("object", [])
         second_feeder_masks = masks_by_class.get("second_feeder", [])
 
-        if not object_masks or not second_feeder_masks:
-            return False
+        self.logger.info(f"Object location check: {len(object_masks)} objects, {len(first_feeder_masks)} first_feeder, {len(second_feeder_masks)} second_feeder masks")
 
-        for obj_mask in object_masks:
-            for feeder_mask in second_feeder_masks:
-                overlap = np.logical_and(obj_mask, feeder_mask)
-                overlap_ratio = np.sum(overlap) / np.sum(obj_mask)
-                if overlap_ratio > 0.5:  # Object is mostly on this feeder
-                    return True
-        return False
+        if not object_masks:
+            self.logger.info("No objects detected")
+            return 'none'
+
+        if not first_feeder_masks and not second_feeder_masks:
+            self.logger.info("No feeder masks detected")
+            return 'none'
+
+        # Check each object against both feeders
+        max_second_score = 0.0
+        max_first_score = 0.0
+
+        for i, obj_mask in enumerate(object_masks):
+            # Check against second feeder masks (higher priority)
+            for j, second_mask in enumerate(second_feeder_masks):
+                score = self.calculateSurroundingScore(obj_mask, second_mask)
+                self.logger.info(f"Object {i} vs Second Feeder {j}: surrounding score = {score:.3f}")
+                max_second_score = max(max_second_score, score)
+
+            # Check against first feeder masks
+            for j, first_mask in enumerate(first_feeder_masks):
+                score = self.calculateSurroundingScore(obj_mask, first_mask)
+                self.logger.info(f"Object {i} vs First Feeder {j}: surrounding score = {score:.3f}")
+                max_first_score = max(max_first_score, score)
+
+        # Decision logic: second feeder takes priority
+        if max_second_score > 0.3:  # Threshold for being "on" the feeder
+            self.logger.info(f"Objects detected on second feeder (score: {max_second_score:.3f})")
+            return 'second'
+        elif max_first_score > 0.3:
+            self.logger.info(f"Objects detected on first feeder (score: {max_first_score:.3f})")
+            return 'first'
+        else:
+            self.logger.info(f"No objects sufficiently on feeders (second: {max_second_score:.3f}, first: {max_first_score:.3f})")
+            return 'none'
+

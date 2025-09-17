@@ -140,15 +140,10 @@ def buildGlobalConfig() -> GlobalConfig:
         "use_prev_bin_state": args.use_prev_bin_state,
         "main_conveyor_speed": 150,
         "feeder_conveyor_speed": 140,
-        # "feeder_conveyor_speed": 0,
-        # "first_vibration_hopper_motor_speed": 0,
-        "first_vibration_hopper_motor_speed": 0,  # first hopper that pieces enter
-        # "first_vibration_hopper_motor_speed": 140,  # first hopper that pieces enter
-        # "second_vibration_hopper_motor_speed": 150,
-        "second_vibration_hopper_motor_speed": 0,
-        # "second_vibration_hopper_motor_speed": 140,
-        "first_vibration_hopper_motor_pulse_ms": 1000,
-        "second_vibration_hopper_motor_pulse_ms": 1000,
+        "first_vibration_hopper_motor_speed": 140,  # first hopper that pieces enter
+        "second_vibration_hopper_motor_speed": 140,
+        "first_vibration_hopper_motor_pulse_ms": 200,
+        "second_vibration_hopper_motor_pulse_ms": 200,
         "feeder_conveyor_pulse_ms": 1000,
         "first_vibration_hopper_motor_pause_ms": 200,
         "second_vibration_hopper_motor_pause_ms": 200,

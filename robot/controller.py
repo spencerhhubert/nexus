@@ -48,9 +48,19 @@ class Controller:
 
     def stop(self):
         self.running = False
+        self.lifecycle_stage = SystemLifecycleStage.STOPPING
+
+        # Stop all motors
+        self.irl_interface["main_conveyor_dc_motor"].setSpeed(0)
+        self.irl_interface["feeder_conveyor_dc_motor"].setSpeed(0)
+        self.irl_interface["first_vibration_hopper_motor"].setSpeed(0)
+        self.irl_interface["second_vibration_hopper_motor"].setSpeed(0)
+
         self.vision_system.stop()
         if self.controller_thread:
             self.controller_thread.join()
+
+        self.lifecycle_stage = SystemLifecycleStage.SHUTDOWN
 
     def _loop(self):
         self.lifecycle_stage = SystemLifecycleStage.STARTING_HARDWARE

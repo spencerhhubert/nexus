@@ -82,23 +82,27 @@ def buildIRLConfig() -> IRLConfig:
     if camera_index is None:
         raise ValueError("CAMERA_INDEX environment variable must be set")
 
-    feeder_camera_index = os.getenv("FEEDER_CAMERA_INDEX", "1")
+    feeder_camera_index = os.getenv("FEEDER_CAMERA_INDEX")
+    if feeder_camera_index is None:
+        raise ValueError("FEEDER_CAMERA_INDEX environment variable must be set")
 
     return {
         "mc_path": mc_path,
         "main_camera": {
             "device_index": int(camera_index),
-            # "width": 1920,
-            # "height": 1080,
-            "width": 3840,
-            "height": 2160,
+            "width": 1920,
+            "height": 1080,
+            # "width": 3840,
+            # "height": 2160,
+            # "width": 1280,
+            # "height": 720,
             "fps": 30,
         },
         "feeder_camera": {
             "device_index": int(feeder_camera_index),
             "width": 1920,
             "height": 1080,
-            "fps": 30,
+            "fps": 5,
         },
         "distribution_modules": [
             {

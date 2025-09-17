@@ -140,8 +140,10 @@ def buildGlobalConfig() -> GlobalConfig:
         "feeder_conveyor_speed": 140,
         # "feeder_conveyor_speed": 0,
         # "first_vibration_hopper_motor_speed": 0,
-        "first_vibration_hopper_motor_speed": 135,  # first hopper that pieces enter
-        "second_vibration_hopper_motor_speed": 135,
+        # "first_vibration_hopper_motor_speed": -155, # first hopper that pieces enter
+        "first_vibration_hopper_motor_speed": 140,  # first hopper that pieces enter
+        # "second_vibration_hopper_motor_speed": 155,
+        "second_vibration_hopper_motor_speed": 140,
         "object_center_threshold_percent": 0.25,
         "getting_new_object_timeout_ms": 360 * 1000,
         "classification_timeout_ms": 10 * 1000,

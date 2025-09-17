@@ -1,7 +1,7 @@
 import time
 from robot.our_types.sorting import SortingState
 from robot.our_types.feeder import FeederState
-from robot.vision_system import VisionSystem
+from robot.vision_system import SegmentationModelManager
 from robot.irl.config import IRLSystemInterface
 
 FEEDER_MOTOR_PULSE_MS = 2000
@@ -9,7 +9,9 @@ FEEDER_MOTOR_PAUSE_MS = 200
 
 
 class SortingStateMachine:
-    def __init__(self, vision_system: VisionSystem, irl_interface: IRLSystemInterface):
+    def __init__(
+        self, vision_system: SegmentationModelManager, irl_interface: IRLSystemInterface
+    ):
         self.vision_system = vision_system
         self.irl_interface = irl_interface
         self.current_state = SortingState.GETTING_NEW_OBJECT_FROM_FEEDER
@@ -72,11 +74,11 @@ class SortingStateMachine:
             and (current_time - self.feeder_motor_start_time) >= FEEDER_MOTOR_PAUSE_MS
         ):
             # Check which feeder to run
-            has_second = self.vision_system.has_object_on_second_feeder()
-            has_first = self.vision_system.has_object_on_first_feeder()
+            has_second = self.vision_system.hasObjectOnSecondFeeder()
+            has_first = self.vision_system.hasObjectOnFirstFeeder()
 
             # Get total object count to determine if we should feed at all
-            masks_by_class = self.vision_system._get_detected_masks_by_class()
+            masks_by_class = self.vision_system.getDetectedMasksByClass()
             total_objects = len(masks_by_class.get("object", []))
 
             self.logger.info(

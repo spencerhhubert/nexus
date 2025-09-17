@@ -18,7 +18,7 @@ YOLO_CLASSES = {
 }
 
 
-class VisionSystem:
+class SegmentationModelManager:
     def __init__(
         self,
         global_config: GlobalConfig,
@@ -54,10 +54,10 @@ class VisionSystem:
     def start(self):
         self.running = True
 
-        self.main_thread = threading.Thread(target=self._track_main_camera, daemon=True)
+        self.main_thread = threading.Thread(target=self.trackMainCamera, daemon=True)
 
         self.feeder_thread = threading.Thread(
-            target=self._track_feeder_camera, daemon=True
+            target=self.trackFeederCamera, daemon=True
         )
 
         self.main_thread.start()
@@ -70,7 +70,7 @@ class VisionSystem:
         if self.feeder_thread:
             self.feeder_thread.join()
 
-    def _track_main_camera(self):
+    def trackMainCamera(self):
         model = YOLO(self.model_path)
         frame_count = 0
         try:
@@ -90,13 +90,13 @@ class VisionSystem:
                     else:
                         annotated_frame = frame
 
-                    self.broadcast_frame(CameraType.MAIN_CAMERA, annotated_frame)
+                    self.broadcastFrame(CameraType.MAIN_CAMERA, annotated_frame)
 
                 time.sleep(0.1)
         except Exception as e:
             self.logger.error(f"Error in main camera tracking: {e}")
 
-    def _track_feeder_camera(self):
+    def trackFeederCamera(self):
         model = YOLO(self.model_path)
         frame_count = 0
         try:
@@ -115,32 +115,29 @@ class VisionSystem:
                     else:
                         annotated_frame = frame
 
-                    self.broadcast_frame(CameraType.FEEDER_CAMERA, annotated_frame)
+                    self.broadcastFrame(CameraType.FEEDER_CAMERA, annotated_frame)
 
                 time.sleep(0.1)
         except Exception as e:
             self.logger.error(f"Error in feeder camera tracking: {e}")
 
-    def broadcast_frame(self, camera_type: CameraType, frame):
+    def broadcastFrame(self, camera_type: CameraType, frame):
         self.websocket_manager.broadcast_frame(camera_type, frame)
 
-    def get_main_camera_results(self):
+    def getMainCameraResults(self):
         with self.results_lock:
             return self.latest_main_results
 
-    def get_feeder_camera_results(self):
+    def getFeederCameraResults(self):
         with self.results_lock:
             return self.latest_feeder_results
 
-    def _masks_overlap(self, mask1, mask2):
-        """Check if two segmentation masks overlap"""
-        # Check if there's any pixel overlap between the two masks
+    def masksOverlap(self, mask1, mask2):
         overlap = np.logical_and(mask1, mask2)
         return np.any(overlap)
 
-    def _get_detected_masks_by_class(self):
-        """Get all detected masks organized by class from feeder camera"""
-        results = self.get_feeder_camera_results()
+    def getDetectedMasksByClass(self):
+        results = self.getFeederCameraResults()
         if not results or len(results) == 0:
             return {}
 
@@ -161,9 +158,8 @@ class VisionSystem:
 
         return masks_by_class
 
-    def has_object_on_first_feeder(self):
-        """Check if any object mask overlaps with any first_feeder mask"""
-        masks_by_class = self._get_detected_masks_by_class()
+    def hasObjectOnFirstFeeder(self):
+        masks_by_class = self.getDetectedMasksByClass()
 
         object_masks = masks_by_class.get("object", [])
         first_feeder_masks = masks_by_class.get("first_feeder", [])
@@ -171,16 +167,14 @@ class VisionSystem:
         if not object_masks or not first_feeder_masks:
             return False
 
-        # Check for overlaps between any object mask and any first feeder mask
         for obj_mask in object_masks:
             for feeder_mask in first_feeder_masks:
-                if self._masks_overlap(obj_mask, feeder_mask):
+                if self.masksOverlap(obj_mask, feeder_mask):
                     return True
         return False
 
-    def has_object_on_second_feeder(self):
-        """Check if any object mask overlaps with any second_feeder mask"""
-        masks_by_class = self._get_detected_masks_by_class()
+    def hasObjectOnSecondFeeder(self):
+        masks_by_class = self.getDetectedMasksByClass()
 
         object_masks = masks_by_class.get("object", [])
         second_feeder_masks = masks_by_class.get("second_feeder", [])
@@ -188,9 +182,8 @@ class VisionSystem:
         if not object_masks or not second_feeder_masks:
             return False
 
-        # Check for overlaps between any object mask and any second feeder mask
         for obj_mask in object_masks:
             for feeder_mask in second_feeder_masks:
-                if self._masks_overlap(obj_mask, feeder_mask):
+                if self.masksOverlap(obj_mask, feeder_mask):
                     return True
         return False

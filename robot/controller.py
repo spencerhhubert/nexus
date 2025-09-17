@@ -10,7 +10,7 @@ from robot.sorting.bricklink_categories_sorting_profile import (
     mkBricklinkCategoriesSortingProfile,
 )
 from robot.our_types import SystemLifecycleStage
-from robot.vision_system import VisionSystem
+from robot.vision_system import SegmentationModelManager
 from robot.sorting_state_machine import SortingStateMachine
 
 
@@ -30,7 +30,7 @@ class Controller:
             global_config, irl_interface["distribution_modules"], self.sorting_profile
         )
 
-        self.vision_system = VisionSystem(
+        self.vision_system = SegmentationModelManager(
             global_config, irl_interface, websocket_manager
         )
         self.sorting_state_machine = SortingStateMachine(

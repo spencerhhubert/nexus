@@ -67,26 +67,30 @@ export interface components {
     };
     /** IRLSystemRuntimeParams */
     IRLSystemRuntimeParams: {
-      /** Mainconveyorspeed */
-      mainConveyorSpeed: number;
-      /** Feederconveyorspeed */
-      feederConveyorSpeed: number;
-      /** Firstvibrationhoppermotorspeed */
-      firstVibrationHopperMotorSpeed: number;
-      /** Secondvibrationhoppermotorspeed */
-      secondVibrationHopperMotorSpeed: number;
-      /** Firstvibrationhoppermotorpulsems */
-      firstVibrationHopperMotorPulseMs: number;
-      /** Secondvibrationhoppermotorpulsems */
-      secondVibrationHopperMotorPulseMs: number;
-      /** Feederconveyorpulsems */
-      feederConveyorPulseMs: number;
-      /** Firstvibrationhoppermotorpausems */
-      firstVibrationHopperMotorPauseMs: number;
-      /** Secondvibrationhoppermotorpausems */
-      secondVibrationHopperMotorPauseMs: number;
-      /** Feederconveyorpausems */
-      feederConveyorPauseMs: number;
+      /** Main Conveyor Speed */
+      main_conveyor_speed: number;
+      /** Feeder Conveyor Speed */
+      feeder_conveyor_speed: number;
+      /** First Vibration Hopper Motor Speed */
+      first_vibration_hopper_motor_speed: number;
+      /** Second Vibration Hopper Motor Speed */
+      second_vibration_hopper_motor_speed: number;
+      /** First Vibration Hopper Motor Pulse Ms */
+      first_vibration_hopper_motor_pulse_ms: number;
+      /** Second Vibration Hopper Motor Pulse Ms */
+      second_vibration_hopper_motor_pulse_ms: number;
+      /** Feeder Conveyor Pulse Ms */
+      feeder_conveyor_pulse_ms: number;
+      /** First Vibration Hopper Motor Pause Ms */
+      first_vibration_hopper_motor_pause_ms: number;
+      /** Second Vibration Hopper Motor Pause Ms */
+      second_vibration_hopper_motor_pause_ms: number;
+      /** Feeder Conveyor Pause Ms */
+      feeder_conveyor_pause_ms: number;
+      /** First Vibration Hopper Motor Use Hard Stop */
+      first_vibration_hopper_motor_use_hard_stop: boolean;
+      /** Second Vibration Hopper Motor Use Hard Stop */
+      second_vibration_hopper_motor_use_hard_stop: boolean;
     };
     /** ValidationError */
     ValidationError: {

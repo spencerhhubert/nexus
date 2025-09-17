@@ -146,18 +146,20 @@ class DCMotor:
         logger.info(f"Setting enable pin {self.enable_pin} to PWM value: {pwm_value}")
         self.dev.sysex(0x03, [0x03, self.enable_pin, pwm_value])
 
-    def hardStop(self, currentSpeed: int, backdriveSpeed: int = 255, backtimeDurationMs: int = 50) -> None:
-        backdriveSpeed = max(-255, min(255, backdriveSpeed))
+    def backstop(
+        self, currentSpeed: int, backstopSpeed: int = 75, backstopDurationMs: int = 7
+    ) -> None:
+        backstopSpeed = max(-255, min(255, backstopSpeed))
 
         if currentSpeed > 0:
-            backdriveDirection = -backdriveSpeed
+            backstopDirection = -backstopSpeed
         elif currentSpeed < 0:
-            backdriveDirection = backdriveSpeed
+            backstopDirection = backstopSpeed
         else:
             return
 
-        self.setSpeed(backdriveDirection)
-        time.sleep(backtimeDurationMs / 1000.0)
+        self.setSpeed(backstopDirection)
+        time.sleep(backstopDurationMs / 1000.0)
         self.setSpeed(0)
 
 

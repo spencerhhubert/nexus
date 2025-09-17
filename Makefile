@@ -21,5 +21,3 @@ run:
 rm-tmp:
 	find robot -type d -name "__pycache__" -exec rm -rf {} +
 	rm -rf robot/.tmp
-generate:
-	npx openapi-typescript http://localhost:8000/openapi.json -o src/lib/api-types.ts

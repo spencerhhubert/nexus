@@ -9,7 +9,10 @@ import subprocess
 import re
 from robot.global_config import GlobalConfig
 from robot.util.units import inchesToCm
-from robot.our_types.irl_runtime_params import IRLSystemRuntimeParams, buildIRLSystemRuntimeParams
+from robot.our_types.irl_runtime_params import (
+    IRLSystemRuntimeParams,
+    buildIRLSystemRuntimeParams,
+)
 
 
 class ServoMotorConfig(TypedDict):

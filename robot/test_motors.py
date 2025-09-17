@@ -46,15 +46,15 @@ def main():
                 sys.exit(1)
 
     motor_map = {
-        "main_conveyor": ("main_conveyor_dc_motor", "mainConveyorSpeed"),
-        "feeder_conveyor": ("feeder_conveyor_dc_motor", "feederConveyorSpeed"),
+        "main_conveyor": ("main_conveyor_dc_motor", "main_conveyor_speed"),
+        "feeder_conveyor": ("feeder_conveyor_dc_motor", "feeder_conveyor_speed"),
         "first_vibration_hopper": (
             "first_vibration_hopper_motor",
-            "firstVibrationHopperMotorSpeed",
+            "first_vibration_hopper_motor_speed",
         ),
         "second_vibration_hopper": (
             "second_vibration_hopper_motor",
-            "secondVibrationHopperMotorSpeed",
+            "second_vibration_hopper_motor_speed",
         ),
     }
 

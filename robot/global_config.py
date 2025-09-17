@@ -42,6 +42,14 @@ class GlobalConfig(TypedDict):
     feeder_conveyor_speed: int
     first_vibration_hopper_motor_speed: int
     second_vibration_hopper_motor_speed: int
+    first_vibration_hopper_motor_pulse_ms: int
+    second_vibration_hopper_motor_pulse_ms: int
+    feeder_conveyor_pulse_ms: int
+    first_vibration_hopper_motor_pause_ms: int
+    second_vibration_hopper_motor_pause_ms: int
+    feeder_conveyor_pause_ms: int
+    first_vibration_hopper_motor_use_hard_stop: bool
+    second_vibration_hopper_motor_use_hard_stop: bool
     encoder_polling_delay_ms: int
     delay_between_firmata_commands_ms: int
 
@@ -115,12 +123,6 @@ def buildGlobalConfig() -> GlobalConfig:
         "disable_feeder_conveyor": "feeder_conveyor" in disabled_motors,
         "disable_distribution": "distribution" in disabled_motors,
         "disable_classification": "classification" in disabled_motors,
-        "trajectory_matching_max_time_gap_ms": 4000,
-        "trajectory_matching_max_position_distance_px": 3000,
-        "trajectory_matching_min_bbox_size_ratio": 0.15,
-        "trajectory_matching_max_bbox_size_ratio": 6.0,
-        "trajectory_matching_classification_consistency_weight": 0.5,
-        "trajectory_matching_spatial_weight": 0.5,
         "capture_delay_ms": 300,
         "camera_preview": args.preview,
         "enable_profiling": args.profile,
@@ -140,28 +142,24 @@ def buildGlobalConfig() -> GlobalConfig:
         "feeder_conveyor_speed": 140,
         # "feeder_conveyor_speed": 0,
         # "first_vibration_hopper_motor_speed": 0,
-        "first_vibration_hopper_motor_speed": 155, # first hopper that pieces enter
+        "first_vibration_hopper_motor_speed": 0,  # first hopper that pieces enter
         # "first_vibration_hopper_motor_speed": 140,  # first hopper that pieces enter
         # "second_vibration_hopper_motor_speed": 150,
         "second_vibration_hopper_motor_speed": 0,
         # "second_vibration_hopper_motor_speed": 140,
+        "first_vibration_hopper_motor_pulse_ms": 1000,
+        "second_vibration_hopper_motor_pulse_ms": 1000,
+        "feeder_conveyor_pulse_ms": 1000,
+        "first_vibration_hopper_motor_pause_ms": 200,
+        "second_vibration_hopper_motor_pause_ms": 200,
+        "feeder_conveyor_pause_ms": 200,
+        "first_vibration_hopper_motor_use_hard_stop": True,
+        "second_vibration_hopper_motor_use_hard_stop": True,
         "object_center_threshold_percent": 0.25,
         "getting_new_object_timeout_ms": 360 * 1000,
         "classification_timeout_ms": 10 * 1000,
         "encoder_polling_delay_ms": 1000,
         "delay_between_firmata_commands_ms": 10,
-        "waiting_for_object_to_center_timeout_ms": 7500,
-        "waiting_for_object_to_appear_timeout_ms": 10000,
-        "max_trajectory_age": 10000,
-        "min_number_observations_for_centering": 2,
-        "feeder_timeouts": {
-            "conveyor_run_for_timeout_ms": 400,
-            "first_vibration_hopper_motor_timeout_ms": 1200,
-            "second_vibration_hopper_motor_timeout_ms": 200,
-            "timeout_between_feeder_steps_ms": 1000,
-        },
-        "websocket_broadcast_fps": 30,
-        "websocket_status_update_interval_s": 0.2,
     }
 
     from robot.logger import Logger

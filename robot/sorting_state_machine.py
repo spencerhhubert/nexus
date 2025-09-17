@@ -4,9 +4,6 @@ from robot.our_types.feeder import FeederState
 from robot.vision_system import SegmentationModelManager
 from robot.irl.config import IRLSystemInterface
 
-FEEDER_MOTOR_PULSE_MS = 1000
-FEEDER_MOTOR_PAUSE_MS = 200
-
 
 class SortingStateMachine:
     def __init__(
@@ -21,63 +18,103 @@ class SortingStateMachine:
         # Feeder motor timing state
         self.feeder_motor_running = False
         self.feeder_motor_start_time = 0
+        self.current_motor_type = None  # 'first' or 'second'
 
     def step(self):
         if self.current_state == SortingState.GETTING_NEW_OBJECT_FROM_FEEDER:
-            self._run_getting_new_object_from_feeder()
+            self._runGettingNewObjectFromFeeder()
         elif (
             self.current_state
             == SortingState.WAITING_FOR_OBJECT_TO_APPEAR_UNDER_MAIN_CAMERA
         ):
-            self._run_waiting_for_object_to_appear_under_main_camera()
+            self._runWaitingForObjectToAppearUnderMainCamera()
         elif (
             self.current_state
             == SortingState.WAITING_FOR_OBJECT_TO_CENTER_UNDER_MAIN_CAMERA
         ):
-            self._run_waiting_for_object_to_center_under_main_camera()
+            self._runWaitingForObjectToCenterUnderMainCamera()
         elif self.current_state == SortingState.CLASSIFYING:
-            self._run_classifying()
+            self._runClassifying()
         elif self.current_state == SortingState.SENDING_OBJECT_TO_BIN:
-            self._run_sending_object_to_bin()
+            self._runSendingObjectToBin()
         elif self.current_state == SortingState.FS_OBJECT_AT_END_OF_2ND_FEEDER:
-            self._run_fs_object_at_end_of_2nd_feeder()
+            self._runFsObjectAtEndOf2ndFeeder()
         elif self.current_state == SortingState.FS_OBJECT_UNDERNEATH_EXIT_OF_1ST_FEEDER:
-            self._run_fs_object_underneath_exit_of_1st_feeder()
+            self._runFsObjectUnderneathExitOf1stFeeder()
         elif (
             self.current_state
             == SortingState.FS_NO_OBJECT_UNDERNEATH_EXIT_OF_FIRST_FEEDER
         ):
-            self._run_fs_no_object_underneath_exit_of_first_feeder()
+            self._runFsNoObjectUnderneathExitOfFirstFeeder()
         elif self.current_state == SortingState.FS_FIRST_FEEDER_EMPTY:
-            self._run_fs_first_feeder_empty()
+            self._runFsFirstFeederEmpty()
 
-    def _run_getting_new_object_from_feeder(self):
+    def _runGettingNewObjectFromFeeder(self):
         current_time = time.time() * 1000  # Convert to milliseconds
 
         # Check if motor should stop (after pulse)
+        runtime_params = self.irl_interface["runtimeParams"]
+
+        # Get pulse duration based on which motor is running
+        if self.current_motor_type == "first":
+            pulse_duration = runtime_params["first_vibration_hopper_motor_pulse_ms"]
+        else:  # 'second'
+            pulse_duration = runtime_params["second_vibration_hopper_motor_pulse_ms"]
+
         if (
             self.feeder_motor_running
-            and (current_time - self.feeder_motor_start_time) >= FEEDER_MOTOR_PULSE_MS
+            and (current_time - self.feeder_motor_start_time) >= pulse_duration
         ):
-            # Hard stop both feeder motors
-            self.logger.info(
-                f"MOTOR: Hard stopping feeder motors after {FEEDER_MOTOR_PULSE_MS}ms pulse"
-            )
-            runtime_params = self.irl_interface["runtimeParams"]
-            first_speed = runtime_params["firstVibrationHopperMotorSpeed"]
-            second_speed = runtime_params["secondVibrationHopperMotorSpeed"]
+            first_speed = runtime_params["first_vibration_hopper_motor_speed"]
+            second_speed = runtime_params["second_vibration_hopper_motor_speed"]
+            first_use_hard_stop = runtime_params[
+                "first_vibration_hopper_motor_use_hard_stop"
+            ]
+            second_use_hard_stop = runtime_params[
+                "second_vibration_hopper_motor_use_hard_stop"
+            ]
 
-            self.irl_interface["first_vibration_hopper_motor"].hardStop(first_speed)
-            self.irl_interface["second_vibration_hopper_motor"].hardStop(second_speed)
-            # self.irl_interface["first_vibration_hopper_motor"].setSpeed(0)
-            # self.irl_interface["second_vibration_hopper_motor"].setSpeed(0)
+            # Stop the motor that was running
+            if self.current_motor_type == "first":
+                if first_use_hard_stop:
+                    self.logger.info(
+                        f"MOTOR: Backstopping first feeder motor after {pulse_duration}ms pulse"
+                    )
+                    self.irl_interface["first_vibration_hopper_motor"].backstop(
+                        first_speed
+                    )
+                else:
+                    self.logger.info(
+                        f"MOTOR: Regular stopping first feeder motor after {pulse_duration}ms pulse"
+                    )
+                    self.irl_interface["first_vibration_hopper_motor"].setSpeed(0)
+            elif self.current_motor_type == "second":
+                if second_use_hard_stop:
+                    self.logger.info(
+                        f"MOTOR: Backstopping second feeder motor after {pulse_duration}ms pulse"
+                    )
+                    self.irl_interface["second_vibration_hopper_motor"].backstop(
+                        second_speed
+                    )
+                else:
+                    self.logger.info(
+                        f"MOTOR: Regular stopping second feeder motor after {pulse_duration}ms pulse"
+                    )
+                    self.irl_interface["second_vibration_hopper_motor"].setSpeed(0)
+
             self.feeder_motor_running = False
             self.feeder_motor_start_time = current_time  # Start pause timer
 
         # Check if pause is over (after pause)
-        elif (
+        # Get pause duration based on which motor was running
+        if self.current_motor_type == "first":
+            pause_duration = runtime_params["first_vibration_hopper_motor_pause_ms"]
+        else:  # 'second'
+            pause_duration = runtime_params["second_vibration_hopper_motor_pause_ms"]
+
+        if (
             not self.feeder_motor_running
-            and (current_time - self.feeder_motor_start_time) >= FEEDER_MOTOR_PAUSE_MS
+            and (current_time - self.feeder_motor_start_time) >= pause_duration
         ):
             # Check which feeder to run
             has_second = self.vision_system.hasObjectOnSecondFeeder()
@@ -96,46 +133,48 @@ class SortingStateMachine:
             elif has_second:
                 # Run second feeder motor to move object from second to first
                 runtime_params = self.irl_interface["runtimeParams"]
-                speed = runtime_params["secondVibrationHopperMotorSpeed"]
+                speed = runtime_params["second_vibration_hopper_motor_speed"]
                 self.logger.info(
                     f"MOTOR: Starting second feeder motor at speed {speed} - moving object from second to first feeder"
                 )
                 self.irl_interface["second_vibration_hopper_motor"].setSpeed(speed)
                 self.feeder_motor_running = True
                 self.feeder_motor_start_time = current_time
+                self.current_motor_type = "second"
             elif not has_second:
                 # Run first feeder motor to move object from first to second
                 runtime_params = self.irl_interface["runtimeParams"]
-                speed = runtime_params["firstVibrationHopperMotorSpeed"]
+                speed = runtime_params["first_vibration_hopper_motor_speed"]
                 self.logger.info(
                     f"MOTOR: Starting first feeder motor at speed {speed} - moving object from first to second feeder"
                 )
                 self.irl_interface["first_vibration_hopper_motor"].setSpeed(speed)
                 self.feeder_motor_running = True
                 self.feeder_motor_start_time = current_time
+                self.current_motor_type = "first"
             else:
                 self.logger.info("MOTOR: No action - unexpected state")
 
-    def _run_waiting_for_object_to_appear_under_main_camera(self):
+    def _runWaitingForObjectToAppearUnderMainCamera(self):
         pass
 
-    def _run_waiting_for_object_to_center_under_main_camera(self):
+    def _runWaitingForObjectToCenterUnderMainCamera(self):
         pass
 
-    def _run_classifying(self):
+    def _runClassifying(self):
         pass
 
-    def _run_sending_object_to_bin(self):
+    def _runSendingObjectToBin(self):
         pass
 
-    def _run_fs_object_at_end_of_2nd_feeder(self):
+    def _runFsObjectAtEndOf2ndFeeder(self):
         pass
 
-    def _run_fs_object_underneath_exit_of_1st_feeder(self):
+    def _runFsObjectUnderneathExitOf1stFeeder(self):
         pass
 
-    def _run_fs_no_object_underneath_exit_of_first_feeder(self):
+    def _runFsNoObjectUnderneathExitOfFirstFeeder(self):
         pass
 
-    def _run_fs_first_feeder_empty(self):
+    def _runFsFirstFeederEmpty(self):
         pass

@@ -32,7 +32,6 @@
     isSavingParams = true;
     try {
       await updateIRLRuntimeParams(runtimeParams);
-      onClose();
     } catch (error) {
       console.error('Failed to save runtime params:', error);
     } finally {

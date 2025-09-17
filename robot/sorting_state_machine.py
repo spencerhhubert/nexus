@@ -53,7 +53,7 @@ class SortingStateMachine:
         current_time = time.time() * 1000  # Convert to milliseconds
 
         # Check if motor should stop (after pulse)
-        runtime_params = self.irl_interface["runtimeParams"]
+        runtime_params = self.irl_interface["runtime_params"]
 
         # Get pulse duration based on which motor is running
         if self.current_motor_type == "first":
@@ -132,7 +132,7 @@ class SortingStateMachine:
                 self.logger.info("MOTOR: No objects detected - no feeding needed")
             elif has_second:
                 # Run second feeder motor to move object from second to first
-                runtime_params = self.irl_interface["runtimeParams"]
+                runtime_params = self.irl_interface["runtime_params"]
                 speed = runtime_params["second_vibration_hopper_motor_speed"]
                 self.logger.info(
                     f"MOTOR: Starting second feeder motor at speed {speed} - moving object from second to first feeder"
@@ -143,7 +143,7 @@ class SortingStateMachine:
                 self.current_motor_type = "second"
             elif not has_second:
                 # Run first feeder motor to move object from first to second
-                runtime_params = self.irl_interface["runtimeParams"]
+                runtime_params = self.irl_interface["runtime_params"]
                 speed = runtime_params["first_vibration_hopper_motor_speed"]
                 self.logger.info(
                     f"MOTOR: Starting first feeder motor at speed {speed} - moving object from first to second feeder"

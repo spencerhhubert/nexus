@@ -16,7 +16,7 @@ class API:
         self.controller.resume()
 
     def getIRLRuntimeParams(self) -> IRLSystemRuntimeParams:
-        return self.controller.irl_interface["runtimeParams"]
+        return self.controller.irl_interface["runtime_params"]
 
     def updateIRLRuntimeParams(self, params: IRLSystemRuntimeParams):
-        self.controller.irl_interface["runtimeParams"] = params
+        self.controller.irl_interface["runtime_params"] = params

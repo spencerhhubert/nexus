@@ -72,7 +72,7 @@ def main():
     motor = irl_system[motor_key]
 
     if speed is None:
-        speed = irl_system["runtimeParams"][speed_key]
+        speed = irl_system["runtime_params"][speed_key]
 
     current_speed = 0
     running = True

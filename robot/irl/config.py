@@ -345,5 +345,5 @@ def buildIRLSystemInterface(config: IRLConfig, gc: GlobalConfig) -> IRLSystemInt
         "feeder_camera": feeder_camera,
         "conveyor_encoder": conveyor_encoder,
         "break_beam_sensor": break_beam_sensor,
-        "runtimeParams": buildIRLSystemRuntimeParams(gc),
+        "runtime_params": buildIRLSystemRuntimeParams(gc),
     }

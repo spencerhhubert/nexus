@@ -75,7 +75,7 @@ class IRLSystemInterface(TypedDict):
     feeder_camera: Camera
     conveyor_encoder: Encoder
     break_beam_sensor: BreakBeamSensor
-    runtimeParams: IRLSystemRuntimeParams
+    runtime_params: IRLSystemRuntimeParams
 
 
 def buildIRLConfig() -> IRLConfig:

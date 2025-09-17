@@ -125,6 +125,11 @@ class Controller:
     def pause(self):
         if self.lifecycle_stage == SystemLifecycleStage.RUNNING:
             self.lifecycle_stage = SystemLifecycleStage.PAUSED
+            # Stop all motors when pausing
+            self.irl_interface["main_conveyor_dc_motor"].setSpeed(0)
+            self.irl_interface["feeder_conveyor_dc_motor"].setSpeed(0)
+            self.irl_interface["first_vibration_hopper_motor"].setSpeed(0)
+            self.irl_interface["second_vibration_hopper_motor"].setSpeed(0)
 
     def resume(self):
         if self.lifecycle_stage == SystemLifecycleStage.PAUSED:

@@ -158,7 +158,7 @@ class SegmentationModelManager:
 
         return masks_by_class
 
-    def hasObjectOnFirstFeeder(self):
+    def hasObjectMostlyOnFirstFeeder(self):
         masks_by_class = self.getDetectedMasksByClass()
 
         object_masks = masks_by_class.get("object", [])
@@ -169,11 +169,13 @@ class SegmentationModelManager:
 
         for obj_mask in object_masks:
             for feeder_mask in first_feeder_masks:
-                if self.masksOverlap(obj_mask, feeder_mask):
+                overlap = np.logical_and(obj_mask, feeder_mask)
+                overlap_ratio = np.sum(overlap) / np.sum(obj_mask)
+                if overlap_ratio > 0.5:  # Object is mostly on this feeder
                     return True
         return False
 
-    def hasObjectOnSecondFeeder(self):
+    def hasObjectMostlyOnSecondFeeder(self):
         masks_by_class = self.getDetectedMasksByClass()
 
         object_masks = masks_by_class.get("object", [])
@@ -184,6 +186,8 @@ class SegmentationModelManager:
 
         for obj_mask in object_masks:
             for feeder_mask in second_feeder_masks:
-                if self.masksOverlap(obj_mask, feeder_mask):
+                overlap = np.logical_and(obj_mask, feeder_mask)
+                overlap_ratio = np.sum(overlap) / np.sum(obj_mask)
+                if overlap_ratio > 0.5:  # Object is mostly on this feeder
                     return True
         return False

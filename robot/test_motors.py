@@ -101,7 +101,7 @@ def main():
 
     try:
         print(f"\nMotor: {motor_name}")
-        print(f"Default speed: {irl_system['runtimeParams'][speed_key]}")
+        print(f"Default speed: {irl_system['runtime_params'][speed_key]}")
         print(f"Initial speed: {speed}")
         if no_pulse:
             print("Mode: Continuous (no pulsing)")

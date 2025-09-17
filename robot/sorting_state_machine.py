@@ -117,8 +117,8 @@ class SortingStateMachine:
             and (current_time - self.feeder_motor_start_time) >= pause_duration
         ):
             # Check which feeder to run
-            has_second = self.vision_system.hasObjectOnSecondFeeder()
-            has_first = self.vision_system.hasObjectOnFirstFeeder()
+            has_second = self.vision_system.hasObjectMostlyOnSecondFeeder()
+            has_first = self.vision_system.hasObjectMostlyOnFirstFeeder()
 
             # Get total object count to determine if we should feed at all
             masks_by_class = self.vision_system.getDetectedMasksByClass()

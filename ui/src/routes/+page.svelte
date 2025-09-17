@@ -1,11 +1,11 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { getLifecycleStage, pauseSystem, resumeSystem } from '$lib/api-client';
+  import { pauseSystem, resumeSystem } from '$lib/api-client';
   import { createPageState } from '$lib/stores/page-state.svelte';
   import VideoFeed from '$lib/components/VideoFeed.svelte';
   import Modal from '$lib/components/Modal.svelte';
   import userSettings from '$lib/stores/user-settings.svelte';
-  import { Play, Pause, RotateCcw, Settings, Sun, Moon } from 'lucide-svelte';
+  import { Play, Pause, Settings, Sun, Moon, Wifi, WifiOff, Loader } from 'lucide-svelte';
 
   const pageState = createPageState();
   let isSettingsOpen = $state(false);
@@ -25,23 +25,9 @@
     isSettingsOpen = false;
   }
 
-  async function fetchLifecycleStage() {
-    try {
-      pageState.setLoading(true);
-      const stage = await getLifecycleStage();
-      pageState.updateLifecycleStage(stage);
-    } catch (error) {
-      console.error('Failed to fetch lifecycle stage:', error);
-      pageState.updateLifecycleStage('error');
-    } finally {
-      pageState.setLoading(false);
-    }
-  }
-
   async function handlePause() {
     try {
       await pauseSystem();
-      await fetchLifecycleStage();
     } catch (error) {
       console.error('Failed to pause:', error);
     }
@@ -50,14 +36,12 @@
   async function handleResume() {
     try {
       await resumeSystem();
-      await fetchLifecycleStage();
     } catch (error) {
       console.error('Failed to resume:', error);
     }
   }
 
   onMount(() => {
-    fetchLifecycleStage();
     return () => {
       pageState.disconnect();
     };
@@ -72,12 +56,30 @@
 <div class="max-w-7xl mx-auto p-5">
   <header class="flex justify-between items-center mb-8 pb-5 border-b border-gray-200 dark:border-gray-700">
     <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Sorter</h1>
-    <button
-      onclick={openSettings}
-      class="p-2 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 border border-gray-300 dark:border-gray-600"
-    >
-      <Settings size={20} />
-    </button>
+
+    <div class="flex items-center gap-4">
+      <!-- Connection Status -->
+      <div class="flex items-center gap-2 px-3 py-1 border border-gray-300 dark:border-gray-600">
+        {#if pageState.state.wsConnected}
+          <Wifi size={16} class="text-green-500" />
+          <span class="text-sm text-gray-700 dark:text-gray-300">Connected</span>
+        {:else if pageState.state.reconnecting}
+          <Loader size={16} class="text-yellow-500 animate-spin" />
+          <span class="text-sm text-gray-700 dark:text-gray-300">Connecting...</span>
+        {:else}
+          <WifiOff size={16} class="text-red-500" />
+          <span class="text-sm text-gray-700 dark:text-gray-300">Disconnected</span>
+        {/if}
+      </div>
+
+      <!-- Settings Button -->
+      <button
+        onclick={openSettings}
+        class="p-2 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 border border-gray-300 dark:border-gray-600"
+      >
+        <Settings size={20} />
+      </button>
+    </div>
   </header>
 
   <div class="space-y-6">
@@ -92,16 +94,14 @@
       <div class="flex items-center gap-4 mb-4">
         <span class="font-medium text-gray-700 dark:text-gray-300">Lifecycle Stage:</span>
         <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 border border-blue-200 dark:border-blue-800">
-          {pageState.state.loading ? 'Loading...' : pageState.state.lifecycleStage}
+          {pageState.state.lifecycleStage}
         </span>
-        <button
-          onclick={fetchLifecycleStage}
-          class="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 border border-gray-300 dark:border-gray-600 flex items-center gap-2"
-          disabled={pageState.state.loading}
-        >
-          <RotateCcw size={16} />
-          Refresh
-        </button>
+      </div>
+      <div class="flex items-center gap-4 mb-4">
+        <span class="font-medium text-gray-700 dark:text-gray-300">Sorting State:</span>
+        <span class="px-3 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 border border-green-200 dark:border-green-800">
+          {pageState.state.sortingState}
+        </span>
       </div>
     </div>
 

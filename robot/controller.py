@@ -40,6 +40,7 @@ class Controller:
 
         self.running = False
         self.controller_thread = None
+        self.websocket_manager = websocket_manager
 
     def start(self):
         self.running = True
@@ -73,17 +74,40 @@ class Controller:
         self.lifecycle_stage = SystemLifecycleStage.RUNNING
 
         # Main loop - run sorting state machine when running
+        last_status_broadcast = 0
         while self.running and self.lifecycle_stage in [
             SystemLifecycleStage.RUNNING,
             SystemLifecycleStage.PAUSED,
         ]:
             if self.lifecycle_stage == SystemLifecycleStage.RUNNING:
                 self.sorting_state_machine.step()
+
+            # Broadcast system status every 500ms
+            current_time = time.time() * 1000
+            if current_time - last_status_broadcast >= 500:
+                self._broadcast_system_status()
+                last_status_broadcast = current_time
+
             time.sleep(0.1)
 
         self.lifecycle_stage = SystemLifecycleStage.STOPPING
 
         self.lifecycle_stage = SystemLifecycleStage.SHUTDOWN
+
+    def _broadcast_system_status(self):
+        from robot.our_types import MotorStatus
+
+        # Get current motor speeds (we don't track these currently, so use 0 for now)
+        motors = {
+            "main_conveyor": MotorStatus(speed=0),
+            "feeder_conveyor": MotorStatus(speed=0),
+            "first_vibration_hopper": MotorStatus(speed=0),
+            "second_vibration_hopper": MotorStatus(speed=0),
+        }
+
+        self.websocket_manager.broadcast_system_status(
+            self.lifecycle_stage, self.sorting_state_machine.current_state, motors
+        )
 
     def set_motor_speed(self, motor_id: str, speed: int):
         # Set motor speed via IRL interface

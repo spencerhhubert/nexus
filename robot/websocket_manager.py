@@ -2,10 +2,10 @@ import asyncio
 import base64
 import json
 import threading
-from typing import Set
+from typing import Set, Dict
 import cv2
 from fastapi import WebSocket
-from robot.our_types import CameraType
+from robot.our_types import CameraType, SystemLifecycleStage, SortingState, MotorStatus
 
 
 class WebSocketManager:
@@ -47,6 +47,32 @@ class WebSocketManager:
 
         except Exception as e:
             print(f"Error broadcasting frame: {e}")
+
+    def broadcast_system_status(
+        self,
+        lifecycle_stage: SystemLifecycleStage,
+        sorting_state: SortingState,
+        motors: Dict[str, MotorStatus],
+    ):
+        if not self.active_connections or not self.loop:
+            return
+
+        try:
+            message = {
+                "type": "system_status",
+                "lifecycle_stage": lifecycle_stage.value,
+                "sorting_state": sorting_state.value,
+                "motors": motors,
+            }
+
+            message_json = json.dumps(message)
+
+            asyncio.run_coroutine_threadsafe(
+                self._broadcast_to_all(message_json), self.loop
+            )
+
+        except Exception as e:
+            print(f"Error broadcasting system status: {e}")
 
     async def _send_safe(self, websocket: WebSocket, message: str):
         try:

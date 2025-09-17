@@ -26,13 +26,6 @@ def init_api(controller):
     return websocket_manager
 
 
-@app.get("/lifecycle", response_model=SystemLifecycleStage)
-async def get_lifecycle():
-    if not api_client:
-        raise HTTPException(status_code=503, detail="API not initialized")
-    return api_client.get_lifecycle_stage()
-
-
 @app.put("/pause")
 async def pause_system():
     if not api_client:

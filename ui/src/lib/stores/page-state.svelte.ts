@@ -9,7 +9,13 @@ interface CameraFrame {
 interface PageState {
   // System status
   lifecycleStage: string;
-  loading: boolean;
+  sortingState: string;
+  motors: {
+    main_conveyor: { speed: number };
+    feeder_conveyor: { speed: number };
+    first_vibration_hopper: { speed: number };
+    second_vibration_hopper: { speed: number };
+  };
 
   // Camera feeds
   mainCameraFrame: CameraFrame | null;
@@ -18,16 +24,24 @@ interface PageState {
   // WebSocket connection
   wsConnected: boolean;
   wsError: string | null;
+  reconnecting: boolean;
 }
 
 class PageStateStore {
   state = $state<PageState>({
     lifecycleStage: 'unknown',
-    loading: false,
+    sortingState: 'unknown',
+    motors: {
+      main_conveyor: { speed: 0 },
+      feeder_conveyor: { speed: 0 },
+      first_vibration_hopper: { speed: 0 },
+      second_vibration_hopper: { speed: 0 },
+    },
     mainCameraFrame: null,
     feederCameraFrame: null,
     wsConnected: false,
     wsError: null,
+    reconnecting: false,
   });
 
   private ws: WebSocket | null = null;
@@ -37,12 +51,15 @@ class PageStateStore {
   }
 
   private connectWebSocket() {
+    this.state.reconnecting = true;
+
     try {
       this.ws = new WebSocket('ws://localhost:8000/ws');
 
       this.ws.onopen = () => {
         this.state.wsConnected = true;
         this.state.wsError = null;
+        this.state.reconnecting = false;
       };
 
       this.ws.onmessage = event => {
@@ -60,6 +77,10 @@ class PageStateStore {
             } else if (message.camera === 'feeder_camera') {
               this.state.feederCameraFrame = frame;
             }
+          } else if (message.type === 'system_status') {
+            this.state.lifecycleStage = message.lifecycle_stage;
+            this.state.sortingState = message.sorting_state;
+            this.state.motors = message.motors;
           }
         } catch (e) {
           console.error('Failed to parse WebSocket message:', e);
@@ -68,25 +89,20 @@ class PageStateStore {
 
       this.ws.onclose = () => {
         this.state.wsConnected = false;
+        this.state.reconnecting = true;
         setTimeout(() => this.connectWebSocket(), 3000);
       };
 
       this.ws.onerror = error => {
         this.state.wsError = 'WebSocket connection error';
+        this.state.reconnecting = false;
         console.error('WebSocket error:', error);
       };
     } catch (error) {
       this.state.wsError = 'Failed to create WebSocket connection';
+      this.state.reconnecting = false;
       console.error('WebSocket creation error:', error);
     }
-  }
-
-  updateLifecycleStage(stage: string) {
-    this.state.lifecycleStage = stage;
-  }
-
-  setLoading(loading: boolean) {
-    this.state.loading = loading;
   }
 
   disconnect() {

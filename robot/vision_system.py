@@ -3,7 +3,6 @@ import threading
 import numpy as np
 from typing import Optional
 from ultralytics import YOLO
-from scipy import ndimage
 from robot.global_config import GlobalConfig
 from robot.irl.config import IRLSystemInterface
 from robot.our_types import CameraType
@@ -159,37 +158,47 @@ class SegmentationModelManager:
 
         return masks_by_class
 
-    def calculateSurroundingScore(self, obj_mask, feeder_mask, threshold=3):
-        """Calculate how much of the object's perimeter is surrounded by the feeder mask."""
-        if obj_mask.shape != feeder_mask.shape:
+    def getBoundingBoxFromMask(self, mask):
+        """Extract bounding box coordinates from a mask."""
+        rows = np.any(mask, axis=1)
+        cols = np.any(mask, axis=0)
+
+        if not np.any(rows) or not np.any(cols):
+            return None
+
+        rmin, rmax = np.where(rows)[0][[0, -1]]
+        cmin, cmax = np.where(cols)[0][[0, -1]]
+
+        return (cmin, rmin, cmax, rmax)  # (x1, y1, x2, y2)
+
+    def calculateBoundingBoxOverlap(self, bbox1, bbox2):
+        """Calculate what percentage of bbox1 is within bbox2."""
+        if bbox1 is None or bbox2 is None:
             return 0.0
 
-        # Convert masks to boolean arrays
-        obj_mask = obj_mask.astype(bool)
-        feeder_mask = feeder_mask.astype(bool)
+        x1_1, y1_1, x2_1, y2_1 = bbox1
+        x1_2, y1_2, x2_2, y2_2 = bbox2
 
-        obj_pixels = np.sum(obj_mask)
-        if obj_pixels == 0:
+        # Calculate intersection
+        x1_inter = max(x1_1, x1_2)
+        y1_inter = max(y1_1, y1_2)
+        x2_inter = min(x2_1, x2_2)
+        y2_inter = min(y2_1, y2_2)
+
+        if x1_inter >= x2_inter or y1_inter >= y2_inter:
             return 0.0
 
-        # Create a dilated version of the object mask
-        structure = np.ones((threshold*2+1, threshold*2+1))
-        dilated_obj = ndimage.binary_dilation(obj_mask, structure=structure)
+        # Calculate areas
+        intersection_area = (x2_inter - x1_inter) * (y2_inter - y1_inter)
+        bbox1_area = (x2_1 - x1_1) * (y2_1 - y1_1)
 
-        # Find the "border" area (dilated - original)
-        border_area = dilated_obj & ~obj_mask
-
-        # Count how much of this border area overlaps with feeder
-        surrounded_border = np.sum(border_area & feeder_mask)
-        total_border = np.sum(border_area)
-
-        if total_border == 0:
+        if bbox1_area == 0:
             return 0.0
 
-        return surrounded_border / total_border
+        return intersection_area / bbox1_area
 
     def determineObjectLocation(self):
-        """Determine if objects are on 'first', 'second', or 'none' of the feeders."""
+        """Determine if objects are on 'first', 'second', or 'none' of the feeders using bounding box overlap."""
         masks_by_class = self.getDetectedMasksByClass()
 
         object_masks = masks_by_class.get("object", [])
@@ -206,31 +215,47 @@ class SegmentationModelManager:
             self.logger.info("No feeder masks detected")
             return 'none'
 
-        # Check each object against both feeders
-        max_second_score = 0.0
-        max_first_score = 0.0
+        # Get bounding boxes for feeders
+        first_feeder_bbox = None
+        second_feeder_bbox = None
 
+        if first_feeder_masks:
+            first_feeder_bbox = self.getBoundingBoxFromMask(first_feeder_masks[0])
+
+        if second_feeder_masks:
+            second_feeder_bbox = self.getBoundingBoxFromMask(second_feeder_masks[0])
+
+        # First pass: Check if ANY object needs second feeder cleared (priority)
         for i, obj_mask in enumerate(object_masks):
-            # Check against second feeder masks (higher priority)
-            for j, second_mask in enumerate(second_feeder_masks):
-                score = self.calculateSurroundingScore(obj_mask, second_mask)
-                self.logger.info(f"Object {i} vs Second Feeder {j}: surrounding score = {score:.3f}")
-                max_second_score = max(max_second_score, score)
+            obj_bbox = self.getBoundingBoxFromMask(obj_mask)
+            if obj_bbox is None:
+                continue
 
-            # Check against first feeder masks
-            for j, first_mask in enumerate(first_feeder_masks):
-                score = self.calculateSurroundingScore(obj_mask, first_mask)
-                self.logger.info(f"Object {i} vs First Feeder {j}: surrounding score = {score:.3f}")
-                max_first_score = max(max_first_score, score)
+            # Calculate overlaps
+            first_overlap = self.calculateBoundingBoxOverlap(obj_bbox, first_feeder_bbox) if first_feeder_bbox else 0.0
+            second_overlap = self.calculateBoundingBoxOverlap(obj_bbox, second_feeder_bbox) if second_feeder_bbox else 0.0
 
-        # Decision logic: second feeder takes priority
-        if max_second_score > 0.3:  # Threshold for being "on" the feeder
-            self.logger.info(f"Objects detected on second feeder (score: {max_second_score:.3f})")
-            return 'second'
-        elif max_first_score > 0.3:
-            self.logger.info(f"Objects detected on first feeder (score: {max_first_score:.3f})")
-            return 'first'
-        else:
-            self.logger.info(f"No objects sufficiently on feeders (second: {max_second_score:.3f}, first: {max_first_score:.3f})")
-            return 'none'
+            self.logger.info(f"Object {i}: overlap with first={first_overlap:.3f}, second={second_overlap:.3f}")
+
+            # Priority check: >50% within second feeder and NOT >50% within first feeder
+            if second_overlap > 0.5 and first_overlap <= 0.5:
+                self.logger.info(f"Object {i} is >50% in second feeder ({second_overlap:.3f}) and ≤50% in first ({first_overlap:.3f}) - running second feeder")
+                return 'second'
+
+        # Second pass: Only if no objects need second feeder, check for first feeder
+        for i, obj_mask in enumerate(object_masks):
+            obj_bbox = self.getBoundingBoxFromMask(obj_mask)
+            if obj_bbox is None:
+                continue
+
+            # Calculate overlaps (only need first overlap for this check)
+            first_overlap = self.calculateBoundingBoxOverlap(obj_bbox, first_feeder_bbox) if first_feeder_bbox else 0.0
+
+            # Check if >50% within first feeder
+            if first_overlap > 0.5:
+                self.logger.info(f"Object {i} is >50% in first feeder ({first_overlap:.3f}) - running first feeder")
+                return 'first'
+
+        self.logger.info("No objects meet criteria for feeder action")
+        return 'none'
 

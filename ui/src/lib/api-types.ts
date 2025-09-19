@@ -87,10 +87,6 @@ export interface components {
       second_vibration_hopper_motor_pause_ms: number;
       /** Feeder Conveyor Pause Ms */
       feeder_conveyor_pause_ms: number;
-      /** First Vibration Hopper Motor Use Hard Stop */
-      first_vibration_hopper_motor_use_hard_stop: boolean;
-      /** Second Vibration Hopper Motor Use Hard Stop */
-      second_vibration_hopper_motor_use_hard_stop: boolean;
     };
     /** ValidationError */
     ValidationError: {

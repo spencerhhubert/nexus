@@ -1,5 +1,7 @@
 check:
 	pyright --pythonpath "$(MY_PYTHON_PATH)" robot
+check-ui:
+	cd ui && npm run check
 format:
 	ruff format robot && cd ui && npm run format
 vulture:

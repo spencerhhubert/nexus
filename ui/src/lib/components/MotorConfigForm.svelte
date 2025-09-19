@@ -1,6 +1,5 @@
 <script lang="ts">
   import NumberInput from './NumberInput.svelte';
-  import Checkbox from './Checkbox.svelte';
 
   interface Props {
     runtimeParams: any;
@@ -41,7 +40,7 @@
     />
   </div>
 
-  <div class="border-t border-gray-200 dark:border-gray-600 pt-4">
+  <div class="pt-4">
     <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">Pulse/Pause Timing (ms)</h3>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <NumberInput
@@ -85,22 +84,6 @@
         bind:value={runtimeParams.feeder_conveyor_pause_ms}
         min={0}
         max={10000}
-      />
-    </div>
-  </div>
-
-  <div class="border-t border-gray-200 dark:border-gray-600 py-4">
-    <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">Hard Stop Options</h3>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <Checkbox
-        id="first_vibration_hopper_motor_use_hard_stop"
-        label="Use Hard Stop for First Vibration Hopper"
-        bind:checked={runtimeParams.first_vibration_hopper_motor_use_hard_stop}
-      />
-      <Checkbox
-        id="second_vibration_hopper_motor_use_hard_stop"
-        label="Use Hard Stop for Second Vibration Hopper"
-        bind:checked={runtimeParams.second_vibration_hopper_motor_use_hard_stop}
       />
     </div>
   </div>

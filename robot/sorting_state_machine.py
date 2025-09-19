@@ -22,6 +22,8 @@ class SortingStateMachine:
         self.current_motor_type = None  # 'first' or 'second'
 
     def step(self):
+        # handle current state, then figure out what to do next
+        # ie, analysis always happens after state's action
         if self.current_state == SortingState.GETTING_NEW_OBJECT_FROM_FEEDER:
             self._runGettingNewObjectFromFeeder()
         elif (
@@ -130,7 +132,6 @@ class SortingStateMachine:
         self.current_motor_type = motor_type
 
     def _stopMotorPulse(self):
-        """Stop the currently running motor pulse with optional backstop."""
         if not self.feeder_motor_running:
             return
 
@@ -139,27 +140,17 @@ class SortingStateMachine:
 
         if self.current_motor_type == "first":
             speed = runtime_params["first_vibration_hopper_motor_speed"]
-            use_hard_stop = runtime_params["first_vibration_hopper_motor_use_hard_stop"]
             motor = self.irl_interface["first_vibration_hopper_motor"]
             pulse_duration = runtime_params["first_vibration_hopper_motor_pulse_ms"]
         else:  # 'second'
             speed = runtime_params["second_vibration_hopper_motor_speed"]
-            use_hard_stop = runtime_params[
-                "second_vibration_hopper_motor_use_hard_stop"
-            ]
             motor = self.irl_interface["second_vibration_hopper_motor"]
             pulse_duration = runtime_params["second_vibration_hopper_motor_pulse_ms"]
 
-        if use_hard_stop:
-            self.logger.info(
-                f"MOTOR: Backstopping {self.current_motor_type} motor after {pulse_duration}ms pulse"
-            )
-            motor.backstop(speed)
-        else:
-            self.logger.info(
-                f"MOTOR: Regular stopping {self.current_motor_type} motor after {pulse_duration}ms pulse"
-            )
-            motor.setSpeed(0)
+        self.logger.info(
+            f"MOTOR: Backstopping {self.current_motor_type} motor after {pulse_duration}ms pulse"
+        )
+        motor.backstop(speed)
 
         self.feeder_motor_running = False
         self.feeder_motor_start_time = current_time  # Start pause timer

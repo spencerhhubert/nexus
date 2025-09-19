@@ -49,7 +49,7 @@ def main():
         resume=resume,
         save=True,
         save_period=10,  # Save checkpoint every 10 epochs
-        imgsz=414
+        imgsz=416
     )
 
     print("Training completed!")

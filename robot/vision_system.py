@@ -197,6 +197,34 @@ class SegmentationModelManager:
 
         return intersection_area / bbox1_area
 
+    def calculateMinDistanceToMask(self, obj_bbox, mask):
+        """Calculate minimum distance from object bounding box to any pixel in the mask."""
+        if obj_bbox is None or mask is None:
+            return float("inf")
+
+        # Get object bounding box coordinates
+        x1_obj, y1_obj, x2_obj, y2_obj = obj_bbox
+
+        # Find all pixels in the mask
+        mask_pixels = np.where(mask)
+        if len(mask_pixels[0]) == 0:
+            return float("inf")
+
+        # Convert to (y, x) coordinates
+        mask_y, mask_x = mask_pixels
+
+        # Calculate minimum distance from bounding box to any mask pixel
+        min_distance = float("inf")
+
+        for my, mx in zip(mask_y, mask_x):
+            # Distance from point to rectangle
+            dx = max(x1_obj - mx, 0, mx - x2_obj)
+            dy = max(y1_obj - my, 0, my - y2_obj)
+            distance = np.sqrt(dx * dx + dy * dy)
+            min_distance = min(min_distance, distance)
+
+        return min_distance
+
     def determineObjectLocation(self):
         """Determine if objects are on 'first', 'second', or 'none' of the feeders using bounding box overlap."""
         masks_by_class = self.getDetectedMasksByClass()
@@ -205,15 +233,17 @@ class SegmentationModelManager:
         first_feeder_masks = masks_by_class.get("first_feeder", [])
         second_feeder_masks = masks_by_class.get("second_feeder", [])
 
-        self.logger.info(f"Object location check: {len(object_masks)} objects, {len(first_feeder_masks)} first_feeder, {len(second_feeder_masks)} second_feeder masks")
+        self.logger.info(
+            f"Object location check: {len(object_masks)} objects, {len(first_feeder_masks)} first_feeder, {len(second_feeder_masks)} second_feeder masks"
+        )
 
         if not object_masks:
             self.logger.info("No objects detected")
-            return 'none'
+            return "none"
 
         if not first_feeder_masks and not second_feeder_masks:
             self.logger.info("No feeder masks detected")
-            return 'none'
+            return "none"
 
         # Get bounding boxes for feeders
         first_feeder_bbox = None
@@ -232,15 +262,42 @@ class SegmentationModelManager:
                 continue
 
             # Calculate overlaps
-            first_overlap = self.calculateBoundingBoxOverlap(obj_bbox, first_feeder_bbox) if first_feeder_bbox else 0.0
-            second_overlap = self.calculateBoundingBoxOverlap(obj_bbox, second_feeder_bbox) if second_feeder_bbox else 0.0
+            first_overlap = (
+                self.calculateBoundingBoxOverlap(obj_bbox, first_feeder_bbox)
+                if first_feeder_bbox
+                else 0.0
+            )
+            second_overlap = (
+                self.calculateBoundingBoxOverlap(obj_bbox, second_feeder_bbox)
+                if second_feeder_bbox
+                else 0.0
+            )
 
-            self.logger.info(f"Object {i}: overlap with first={first_overlap:.3f}, second={second_overlap:.3f}")
+            # Calculate distance to first feeder mask
+            distance_to_first = (
+                self.calculateMinDistanceToMask(obj_bbox, first_feeder_masks[0])
+                if first_feeder_masks
+                else float("inf")
+            )
 
-            # Priority check: >50% within second feeder and NOT >50% within first feeder
-            if second_overlap > 0.5 and first_overlap <= 0.5:
-                self.logger.info(f"Object {i} is >50% in second feeder ({second_overlap:.3f}) and ≤50% in first ({first_overlap:.3f}) - running second feeder")
-                return 'second'
+            self.logger.info(
+                f"Object {i}: overlap with first={first_overlap:.3f}, second={second_overlap:.3f}, distance to first feeder={distance_to_first:.1f} pixels"
+            )
+
+            # Priority check: >50% within second feeder AND <50% within first feeder AND within distance threshold of first feeder
+            if second_overlap > 0.5 and first_overlap < 0.5:
+                # Import threshold from state machine (we'll pass it as parameter)
+                from robot.sorting_state_machine import SECOND_FEEDER_DISTANCE_THRESHOLD
+
+                if distance_to_first <= SECOND_FEEDER_DISTANCE_THRESHOLD:
+                    self.logger.info(
+                        f"Object {i} is >50% in second feeder ({second_overlap:.3f}), <50% in first ({first_overlap:.3f}), and within {SECOND_FEEDER_DISTANCE_THRESHOLD}px of first feeder ({distance_to_first:.1f}px) - running second feeder"
+                    )
+                    return "second"
+                else:
+                    self.logger.info(
+                        f"Object {i} is >50% in second feeder but too far from first feeder ({distance_to_first:.1f}px > {SECOND_FEEDER_DISTANCE_THRESHOLD}px) - ignoring"
+                    )
 
         # Second pass: Only if no objects need second feeder, check for first feeder
         for i, obj_mask in enumerate(object_masks):
@@ -249,13 +306,18 @@ class SegmentationModelManager:
                 continue
 
             # Calculate overlaps (only need first overlap for this check)
-            first_overlap = self.calculateBoundingBoxOverlap(obj_bbox, first_feeder_bbox) if first_feeder_bbox else 0.0
+            first_overlap = (
+                self.calculateBoundingBoxOverlap(obj_bbox, first_feeder_bbox)
+                if first_feeder_bbox
+                else 0.0
+            )
 
             # Check if >50% within first feeder
             if first_overlap > 0.5:
-                self.logger.info(f"Object {i} is >50% in first feeder ({first_overlap:.3f}) - running first feeder")
-                return 'first'
+                self.logger.info(
+                    f"Object {i} is >50% in first feeder ({first_overlap:.3f}) - running first feeder"
+                )
+                return "first"
 
         self.logger.info("No objects meet criteria for feeder action")
-        return 'none'
-
+        return "none"

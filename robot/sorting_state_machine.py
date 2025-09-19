@@ -4,6 +4,9 @@ from robot.our_types.feeder import FeederState
 from robot.vision_system import SegmentationModelManager
 from robot.irl.config import IRLSystemInterface
 
+# Pixel distance threshold for second feeder priority logic
+SECOND_FEEDER_DISTANCE_THRESHOLD = 30
+
 
 class SortingStateMachine:
     def __init__(
@@ -59,14 +62,18 @@ class SortingStateMachine:
 
         self.logger.info(f"FEEDER DECISION: Object location = {object_location}")
 
-        if object_location == 'second':
+        if object_location == "second":
             # Priority: Clear second feeder first
-            self.logger.info("MOTOR DECISION: Objects on second feeder - running second motor to clear it")
-            self._startMotorPulse('second')
-        elif object_location == 'first':
+            self.logger.info(
+                "MOTOR DECISION: Objects on second feeder - running second motor to clear it"
+            )
+            self._startMotorPulse("second")
+        elif object_location == "first":
             # Run first feeder to move objects to second
-            self.logger.info("MOTOR DECISION: Objects on first feeder - running first motor to move to second")
-            self._startMotorPulse('first')
+            self.logger.info(
+                "MOTOR DECISION: Objects on first feeder - running first motor to move to second"
+            )
+            self._startMotorPulse("first")
         else:
             # No action needed
             self.logger.info("MOTOR DECISION: No objects on feeders - no action needed")
@@ -81,7 +88,9 @@ class SortingStateMachine:
             if self.current_motor_type == "first":
                 pulse_duration = runtime_params["first_vibration_hopper_motor_pulse_ms"]
             else:  # 'second'
-                pulse_duration = runtime_params["second_vibration_hopper_motor_pulse_ms"]
+                pulse_duration = runtime_params[
+                    "second_vibration_hopper_motor_pulse_ms"
+                ]
 
             if (current_time - self.feeder_motor_start_time) >= pulse_duration:
                 self._stopMotorPulse()
@@ -92,7 +101,9 @@ class SortingStateMachine:
             if self.current_motor_type == "first":
                 pause_duration = runtime_params["first_vibration_hopper_motor_pause_ms"]
             else:  # 'second'
-                pause_duration = runtime_params["second_vibration_hopper_motor_pause_ms"]
+                pause_duration = runtime_params[
+                    "second_vibration_hopper_motor_pause_ms"
+                ]
 
             if (current_time - self.feeder_motor_start_time) < pause_duration:
                 return True  # Still pausing
@@ -135,15 +146,21 @@ class SortingStateMachine:
             pulse_duration = runtime_params["first_vibration_hopper_motor_pulse_ms"]
         else:  # 'second'
             speed = runtime_params["second_vibration_hopper_motor_speed"]
-            use_hard_stop = runtime_params["second_vibration_hopper_motor_use_hard_stop"]
+            use_hard_stop = runtime_params[
+                "second_vibration_hopper_motor_use_hard_stop"
+            ]
             motor = self.irl_interface["second_vibration_hopper_motor"]
             pulse_duration = runtime_params["second_vibration_hopper_motor_pulse_ms"]
 
         if use_hard_stop:
-            self.logger.info(f"MOTOR: Backstopping {self.current_motor_type} motor after {pulse_duration}ms pulse")
+            self.logger.info(
+                f"MOTOR: Backstopping {self.current_motor_type} motor after {pulse_duration}ms pulse"
+            )
             motor.backstop(speed)
         else:
-            self.logger.info(f"MOTOR: Regular stopping {self.current_motor_type} motor after {pulse_duration}ms pulse")
+            self.logger.info(
+                f"MOTOR: Regular stopping {self.current_motor_type} motor after {pulse_duration}ms pulse"
+            )
             motor.setSpeed(0)
 
         self.feeder_motor_running = False

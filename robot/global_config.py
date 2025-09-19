@@ -50,6 +50,9 @@ class GlobalConfig(TypedDict):
     feeder_conveyor_pause_ms: int
     encoder_polling_delay_ms: int
     delay_between_firmata_commands_ms: int
+    classifying_timeout_ms: int
+    waiting_for_object_to_center_timeout_ms: int
+    waiting_for_object_to_appear_timeout_ms: int
 
 
 def buildGlobalConfig() -> GlobalConfig:
@@ -111,8 +114,9 @@ def buildGlobalConfig() -> GlobalConfig:
         "yolo_model": "yolo11n-seg",
         # "yolo_weights_path":" /Users/spencer/Downloads/checkpoints (small)/run_1757963343/weights/best.pt",
         # "yolo_weights_path": "/Users/spencer/Downloads/checkpoints (nano)/run_1757970830/weights/best.pt",
-        "yolo_weights_path": "/Users/spencer/Downloads/checkpoints (nano 414)/run_1757975149/weights/best.pt",
+        # "yolo_weights_path": "/Users/spencer/Downloads/checkpoints (nano 414)/run_1757975149/weights/best.pt",
         # "yolo_weights_path": "/Users/spencer/Documents/GitHub/nexus2/weights/yolo11s-seg.pt",
+        "yolo_weights_path": "/Users/spencer/Downloads/run_1758315224/weights/best.pt",
         "disable_main_conveyor": "main_conveyor" in disabled_motors,
         "disable_first_vibration_hopper_motor": "vibration_hopper" in disabled_motors
         or "first_vibration_hopper" in disabled_motors,
@@ -136,7 +140,7 @@ def buildGlobalConfig() -> GlobalConfig:
         "min_sending_to_bin_time_ms": 3000,
         "profiling_dir_path": "../profiles",
         "use_prev_bin_state": args.use_prev_bin_state,
-        "main_conveyor_speed": 150,
+        "main_conveyor_speed": 160,
         "feeder_conveyor_speed": 140,
         "first_vibration_hopper_motor_speed": 165,  # first hopper that pieces enter
         "second_vibration_hopper_motor_speed": 150,
@@ -147,10 +151,11 @@ def buildGlobalConfig() -> GlobalConfig:
         "second_vibration_hopper_motor_pause_ms": 200,
         "feeder_conveyor_pause_ms": 200,
         "object_center_threshold_percent": 0.25,
-        "getting_new_object_timeout_ms": 360 * 1000,
-        "classification_timeout_ms": 10 * 1000,
         "encoder_polling_delay_ms": 1000,
         "delay_between_firmata_commands_ms": 10,
+        "classifying_timeout_ms": 5000,
+        "waiting_for_object_to_center_timeout_ms": 5000,
+        "waiting_for_object_to_appear_timeout_ms": 5000,
     }
 
     from robot.logger import Logger

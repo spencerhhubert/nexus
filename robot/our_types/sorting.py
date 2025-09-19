@@ -13,8 +13,10 @@ class SortingState(Enum):
     SENDING_OBJECT_TO_BIN = "sending_object_to_bin"
     # fs states are basically substates of GETTING_NEW_OBJECT_FROM_FEEDER
     # stands for Feeder State
-    FS_OBJECT_AT_END_OF_2ND_FEEDER = "fs_object_at_end_of_2nd_feeder"
-    FS_OBJECT_UNDERNEATH_EXIT_OF_1ST_FEEDER = "fs_object_underneath_exit_of_1st_feeder"
+    FS_OBJECT_AT_END_OF_SECOND_FEEDER = "fs_object_at_end_of_second_feeder"
+    FS_OBJECT_UNDERNEATH_EXIT_OF_FIRST_FEEDER = (
+        "fs_object_underneath_exit_of_first_feeder"
+    )
     FS_NO_OBJECT_UNDERNEATH_EXIT_OF_FIRST_FEEDER = (
         "fs_no_object_underneath_exit_of_first_feeder"
     )

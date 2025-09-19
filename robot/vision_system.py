@@ -1,11 +1,12 @@
 import time
 import threading
 import numpy as np
-from typing import Optional
+from typing import Optional, Dict, List, Tuple, Any
 from ultralytics import YOLO
 from robot.global_config import GlobalConfig
 from robot.irl.config import IRLSystemInterface
 from robot.our_types import CameraType
+from robot.our_types.vision_system import FeederState, MainCameraState
 from robot.websocket_manager import WebSocketManager
 
 # YOLO model class definitions
@@ -17,6 +18,12 @@ YOLO_CLASSES = {
     4: "feeder_conveyor",
 }
 
+# Vision analysis constants
+SECOND_FEEDER_DISTANCE_THRESHOLD = 30
+MAIN_CONVEYOR_THRESHOLD = 0.5  # 50% object coverage for main conveyor detection
+OBJECT_CENTER_THRESHOLD = 0.4  # 40% of frame center for object centering
+RIGHT_SIDE_THRESHOLD = 0.3  # 30% from right edge for object positioning
+
 
 class SegmentationModelManager:
     def __init__(
@@ -24,7 +31,7 @@ class SegmentationModelManager:
         global_config: GlobalConfig,
         irl_interface: IRLSystemInterface,
         websocket_manager: WebSocketManager,
-    ):
+    ) -> None:
         self.global_config = global_config
         self.irl_interface = irl_interface
         self.logger = global_config["logger"]
@@ -51,26 +58,26 @@ class SegmentationModelManager:
         self.main_thread = None
         self.feeder_thread = None
 
-    def start(self):
+    def start(self) -> None:
         self.running = True
 
-        self.main_thread = threading.Thread(target=self.trackMainCamera, daemon=True)
+        self.main_thread = threading.Thread(target=self._trackMainCamera, daemon=True)
 
         self.feeder_thread = threading.Thread(
-            target=self.trackFeederCamera, daemon=True
+            target=self._trackFeederCamera, daemon=True
         )
 
         self.main_thread.start()
         self.feeder_thread.start()
 
-    def stop(self):
+    def stop(self) -> None:
         self.running = False
         if self.main_thread:
             self.main_thread.join()
         if self.feeder_thread:
             self.feeder_thread.join()
 
-    def trackMainCamera(self):
+    def _trackMainCamera(self) -> None:
         model = YOLO(self.model_path)
         frame_count = 0
         try:
@@ -90,13 +97,13 @@ class SegmentationModelManager:
                     else:
                         annotated_frame = frame
 
-                    self.broadcastFrame(CameraType.MAIN_CAMERA, annotated_frame)
+                    self._broadcastFrame(CameraType.MAIN_CAMERA, annotated_frame)
 
                 time.sleep(0.1)
         except Exception as e:
             self.logger.error(f"Error in main camera tracking: {e}")
 
-    def trackFeederCamera(self):
+    def _trackFeederCamera(self) -> None:
         model = YOLO(self.model_path)
         frame_count = 0
         try:
@@ -115,33 +122,33 @@ class SegmentationModelManager:
                     else:
                         annotated_frame = frame
 
-                    self.broadcastFrame(CameraType.FEEDER_CAMERA, annotated_frame)
+                    self._broadcastFrame(CameraType.FEEDER_CAMERA, annotated_frame)
 
                 time.sleep(0.1)
         except Exception as e:
             self.logger.error(f"Error in feeder camera tracking: {e}")
 
-    def broadcastFrame(self, camera_type: CameraType, frame):
+    def _broadcastFrame(self, camera_type: CameraType, frame: np.ndarray) -> None:
         self.websocket_manager.broadcast_frame(camera_type, frame)
 
-    def getMainCameraResults(self):
+    def _getMainCameraResults(self) -> Any:
         with self.results_lock:
             return self.latest_main_results
 
-    def getFeederCameraResults(self):
+    def _getFeederCameraResults(self) -> Any:
         with self.results_lock:
             return self.latest_feeder_results
 
-    def masksOverlap(self, mask1, mask2):
+    def _masksOverlap(self, mask1: np.ndarray, mask2: np.ndarray) -> bool:
         overlap = np.logical_and(mask1, mask2)
-        return np.any(overlap)
+        return bool(np.any(overlap))
 
-    def getDetectedMasksByClass(self):
-        results = self.getFeederCameraResults()
+    def _getDetectedMasksByClass(self) -> Dict[str, List[np.ndarray]]:
+        results = self._getFeederCameraResults()
         if not results or len(results) == 0:
             return {}
 
-        masks_by_class = {}
+        masks_by_class: Dict[str, List[np.ndarray]] = {}
 
         for result in results:
             if result.masks is not None:
@@ -158,7 +165,9 @@ class SegmentationModelManager:
 
         return masks_by_class
 
-    def getBoundingBoxFromMask(self, mask):
+    def _getBoundingBoxFromMask(
+        self, mask: np.ndarray
+    ) -> Optional[Tuple[int, int, int, int]]:
         """Extract bounding box coordinates from a mask."""
         rows = np.any(mask, axis=1)
         cols = np.any(mask, axis=0)
@@ -171,7 +180,11 @@ class SegmentationModelManager:
 
         return (cmin, rmin, cmax, rmax)  # (x1, y1, x2, y2)
 
-    def calculateBoundingBoxOverlap(self, bbox1, bbox2):
+    def _calculateBoundingBoxOverlap(
+        self,
+        bbox1: Optional[Tuple[int, int, int, int]],
+        bbox2: Optional[Tuple[int, int, int, int]],
+    ) -> float:
         """Calculate what percentage of bbox1 is within bbox2."""
         if bbox1 is None or bbox2 is None:
             return 0.0
@@ -197,7 +210,9 @@ class SegmentationModelManager:
 
         return intersection_area / bbox1_area
 
-    def calculateMinDistanceToMask(self, obj_bbox, mask):
+    def _calculateMinDistanceToMask(
+        self, obj_bbox: Optional[Tuple[int, int, int, int]], mask: Optional[np.ndarray]
+    ) -> float:
         """Calculate minimum distance from object bounding box to any pixel in the mask."""
         if obj_bbox is None or mask is None:
             return float("inf")
@@ -225,9 +240,9 @@ class SegmentationModelManager:
 
         return min_distance
 
-    def determineObjectLocation(self):
-        """Determine if objects are on 'first', 'second', or 'none' of the feeders using bounding box overlap."""
-        masks_by_class = self.getDetectedMasksByClass()
+    def determineFeederState(self) -> Optional[FeederState]:
+        """Determine feeder state based on object locations."""
+        masks_by_class = self._getDetectedMasksByClass()
 
         object_masks = masks_by_class.get("object", [])
         first_feeder_masks = masks_by_class.get("first_feeder", [])
@@ -237,45 +252,47 @@ class SegmentationModelManager:
             f"Object location check: {len(object_masks)} objects, {len(first_feeder_masks)} first_feeder, {len(second_feeder_masks)} second_feeder masks"
         )
 
-        if not object_masks:
-            self.logger.info("No objects detected")
-            return "none"
-
+        # Return None only if we can't find feeder masks
         if not first_feeder_masks and not second_feeder_masks:
             self.logger.info("No feeder masks detected")
-            return "none"
+            return None
+
+        # If no objects detected, determine empty state
+        if not object_masks:
+            self.logger.info("No objects detected - first feeder empty")
+            return FeederState.FIRST_FEEDER_EMPTY
 
         # Get bounding boxes for feeders
         first_feeder_bbox = None
         second_feeder_bbox = None
 
         if first_feeder_masks:
-            first_feeder_bbox = self.getBoundingBoxFromMask(first_feeder_masks[0])
+            first_feeder_bbox = self._getBoundingBoxFromMask(first_feeder_masks[0])
 
         if second_feeder_masks:
-            second_feeder_bbox = self.getBoundingBoxFromMask(second_feeder_masks[0])
+            second_feeder_bbox = self._getBoundingBoxFromMask(second_feeder_masks[0])
 
         # First pass: Check if ANY object needs second feeder cleared (priority)
         for i, obj_mask in enumerate(object_masks):
-            obj_bbox = self.getBoundingBoxFromMask(obj_mask)
+            obj_bbox = self._getBoundingBoxFromMask(obj_mask)
             if obj_bbox is None:
                 continue
 
             # Calculate overlaps
             first_overlap = (
-                self.calculateBoundingBoxOverlap(obj_bbox, first_feeder_bbox)
+                self._calculateBoundingBoxOverlap(obj_bbox, first_feeder_bbox)
                 if first_feeder_bbox
                 else 0.0
             )
             second_overlap = (
-                self.calculateBoundingBoxOverlap(obj_bbox, second_feeder_bbox)
+                self._calculateBoundingBoxOverlap(obj_bbox, second_feeder_bbox)
                 if second_feeder_bbox
                 else 0.0
             )
 
             # Calculate distance to first feeder mask
             distance_to_first = (
-                self.calculateMinDistanceToMask(obj_bbox, first_feeder_masks[0])
+                self._calculateMinDistanceToMask(obj_bbox, first_feeder_masks[0])
                 if first_feeder_masks
                 else float("inf")
             )
@@ -286,14 +303,11 @@ class SegmentationModelManager:
 
             # Priority check: >50% within second feeder AND <50% within first feeder AND within distance threshold of first feeder
             if second_overlap > 0.5 and first_overlap < 0.5:
-                # Import threshold from state machine (we'll pass it as parameter)
-                from robot.sorting_state_machine import SECOND_FEEDER_DISTANCE_THRESHOLD
-
                 if distance_to_first <= SECOND_FEEDER_DISTANCE_THRESHOLD:
                     self.logger.info(
                         f"Object {i} is >50% in second feeder ({second_overlap:.3f}), <50% in first ({first_overlap:.3f}), and within {SECOND_FEEDER_DISTANCE_THRESHOLD}px of first feeder ({distance_to_first:.1f}px) - running second feeder"
                     )
-                    return "second"
+                    return FeederState.OBJECT_AT_END_OF_SECOND_FEEDER
                 else:
                     self.logger.info(
                         f"Object {i} is >50% in second feeder but too far from first feeder ({distance_to_first:.1f}px > {SECOND_FEEDER_DISTANCE_THRESHOLD}px) - ignoring"
@@ -301,13 +315,13 @@ class SegmentationModelManager:
 
         # Second pass: Only if no objects need second feeder, check for first feeder
         for i, obj_mask in enumerate(object_masks):
-            obj_bbox = self.getBoundingBoxFromMask(obj_mask)
+            obj_bbox = self._getBoundingBoxFromMask(obj_mask)
             if obj_bbox is None:
                 continue
 
             # Calculate overlaps (only need first overlap for this check)
             first_overlap = (
-                self.calculateBoundingBoxOverlap(obj_bbox, first_feeder_bbox)
+                self._calculateBoundingBoxOverlap(obj_bbox, first_feeder_bbox)
                 if first_feeder_bbox
                 else 0.0
             )
@@ -317,7 +331,115 @@ class SegmentationModelManager:
                 self.logger.info(
                     f"Object {i} is >50% in first feeder ({first_overlap:.3f}) - running first feeder"
                 )
-                return "first"
+                return FeederState.OBJECT_UNDERNEATH_EXIT_OF_FIRST_FEEDER
 
-        self.logger.info("No objects meet criteria for feeder action")
-        return "none"
+        # If we reach here, there are objects but they don't meet the criteria for feeder action
+        # Need to determine if first feeder is empty or just no objects underneath exit
+        if not first_feeder_masks:
+            return FeederState.FIRST_FEEDER_EMPTY
+
+        # Check if any objects have any overlap with first feeder
+        first_feeder_bbox = self._getBoundingBoxFromMask(first_feeder_masks[0])
+        for obj_mask in object_masks:
+            obj_bbox = self._getBoundingBoxFromMask(obj_mask)
+            if obj_bbox and first_feeder_bbox:
+                overlap = self._calculateBoundingBoxOverlap(obj_bbox, first_feeder_bbox)
+                if overlap > 0:
+                    self.logger.info(
+                        "Objects detected in first feeder but not underneath exit"
+                    )
+                    return FeederState.NO_OBJECT_UNDERNEATH_EXIT_OF_FIRST_FEEDER
+
+        self.logger.info("No objects detected in first feeder - feeder empty")
+        return FeederState.FIRST_FEEDER_EMPTY
+
+    def _getMainCameraMasksByClass(self) -> Dict[str, List[np.ndarray]]:
+        """Get detected masks by class from main camera results."""
+        results = self._getMainCameraResults()
+        if not results or len(results) == 0:
+            return {}
+
+        masks_by_class: Dict[str, List[np.ndarray]] = {}
+        for result in results:
+            if result.masks is not None:
+                for i, mask in enumerate(result.masks):
+                    class_id = int(result.boxes[i].cls.item())
+                    class_name = YOLO_CLASSES.get(class_id, f"unknown_{class_id}")
+                    mask_data = mask.data[0].cpu().numpy()
+
+                    if class_name not in masks_by_class:
+                        masks_by_class[class_name] = []
+                    masks_by_class[class_name].append(mask_data)
+
+        return masks_by_class
+
+    def determineMainCameraState(self) -> MainCameraState:
+        """Determine main camera state based on object positions."""
+        masks_by_class = self._getMainCameraMasksByClass()
+        object_masks = masks_by_class.get("object", [])
+        main_conveyor_masks = masks_by_class.get("main_conveyor", [])
+
+        if not object_masks or not main_conveyor_masks:
+            return MainCameraState.NO_OBJECT_UNDER_CAMERA
+
+        main_conveyor_bbox = self._getBoundingBoxFromMask(main_conveyor_masks[0])
+        if not main_conveyor_bbox:
+            return MainCameraState.NO_OBJECT_UNDER_CAMERA
+
+        # Get frame dimensions from the first object mask
+        if object_masks:
+            frame_height, frame_width = object_masks[0].shape
+        else:
+            return MainCameraState.NO_OBJECT_UNDER_CAMERA
+
+        for obj_mask in object_masks:
+            obj_bbox = self._getBoundingBoxFromMask(obj_mask)
+            if not obj_bbox:
+                continue
+
+            # Check if object is >50% on main conveyor
+            conveyor_overlap = self._calculateBoundingBoxOverlap(
+                obj_bbox, main_conveyor_bbox
+            )
+            if conveyor_overlap > MAIN_CONVEYOR_THRESHOLD:
+                # Object is on main conveyor, determine its position
+                obj_center_x = (obj_bbox[0] + obj_bbox[2]) / 2
+                frame_center_x = frame_width / 2
+                right_edge_threshold = frame_width * (1 - RIGHT_SIDE_THRESHOLD)
+
+                # Check if object is within 30% of right side
+                if obj_center_x >= right_edge_threshold:
+                    return (
+                        MainCameraState.WAITING_FOR_OBJECT_TO_CENTER_UNDER_MAIN_CAMERA
+                    )
+
+                # Check if object is within 40% of center
+                center_threshold = frame_width * OBJECT_CENTER_THRESHOLD / 2
+                if abs(obj_center_x - frame_center_x) <= center_threshold:
+                    return MainCameraState.OBJECT_CENTERED_UNDER_MAIN_CAMERA
+
+        return MainCameraState.NO_OBJECT_UNDER_CAMERA
+
+    def hasObjectOnMainConveyorInFeederView(self) -> bool:
+        """Check if there's an object on main conveyor visible in feeder camera view."""
+        feeder_masks = self._getDetectedMasksByClass()
+        object_masks = feeder_masks.get("object", [])
+        main_conveyor_masks = feeder_masks.get("main_conveyor", [])
+
+        if not object_masks or not main_conveyor_masks:
+            return False
+
+        main_conveyor_bbox = self._getBoundingBoxFromMask(main_conveyor_masks[0])
+        if not main_conveyor_bbox:
+            return False
+
+        for obj_mask in object_masks:
+            obj_bbox = self._getBoundingBoxFromMask(obj_mask)
+            if obj_bbox and main_conveyor_bbox:
+                conveyor_overlap = self._calculateBoundingBoxOverlap(
+                    obj_bbox, main_conveyor_bbox
+                )
+                if conveyor_overlap > MAIN_CONVEYOR_THRESHOLD:
+                    return True
+
+        return False

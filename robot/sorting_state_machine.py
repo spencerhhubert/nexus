@@ -1,6 +1,5 @@
 import time
 from robot.our_types.sorting import SortingState
-from robot.our_types.feeder import FeederState
 from robot.vision_system import SegmentationModelManager
 from robot.irl.config import IRLSystemInterface
 
@@ -15,7 +14,6 @@ class SortingStateMachine:
         self.vision_system = vision_system
         self.irl_interface = irl_interface
         self.current_state = SortingState.GETTING_NEW_OBJECT_FROM_FEEDER
-        self.feeder_state = FeederState
         self.logger = vision_system.logger
 
         # Feeder motor timing state

@@ -38,7 +38,7 @@ def build_config() -> Config:
     parser.add_argument(
         "--device",
         type=str,
-        default="cpu",
+        default="cuda",
         help="Device for training (cpu, cuda, mps, etc.)",
     )
     parser.add_argument(
@@ -65,7 +65,7 @@ def build_config() -> Config:
 
     return {
         "yolo_base_model_path": f"{repo_dir}/weights/yolo11s-seg.pt",
-        "yolo_model": "yolo11s-seg",
+        "yolo_model": "yolo11n-seg",
         "checkpoints_dir": checkpoints_dir,
         "current_run_id": current_run_id,
         # Data should be structured as:

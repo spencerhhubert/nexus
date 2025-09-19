@@ -1,7 +1,7 @@
 check:
 	pyright --pythonpath "$(MY_PYTHON_PATH)" robot
 format:
-	ruff format robot
+	ruff format robot && cd ui && npm run format
 vulture:
 	$(MY_PYTHON_PATH) -m vulture robot
 migrate:

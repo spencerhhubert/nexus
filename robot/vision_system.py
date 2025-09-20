@@ -180,7 +180,6 @@ class SegmentationModelManager:
     def _getBoundingBoxFromMask(
         self, mask: np.ndarray
     ) -> Optional[Tuple[int, int, int, int]]:
-        """Extract bounding box coordinates from a mask."""
         rows = np.any(mask, axis=1)
         cols = np.any(mask, axis=0)
 
@@ -197,7 +196,6 @@ class SegmentationModelManager:
         bbox1: Optional[Tuple[int, int, int, int]],
         bbox2: Optional[Tuple[int, int, int, int]],
     ) -> float:
-        """Calculate what percentage of bbox1 is within bbox2."""
         if bbox1 is None or bbox2 is None:
             return 0.0
 
@@ -225,7 +223,6 @@ class SegmentationModelManager:
     def _calculateMinDistanceToMask(
         self, obj_bbox: Optional[Tuple[int, int, int, int]], mask: Optional[np.ndarray]
     ) -> float:
-        """Calculate minimum distance from object bounding box to any pixel in the mask."""
         if obj_bbox is None or mask is None:
             return float("inf")
 
@@ -255,7 +252,6 @@ class SegmentationModelManager:
     def _calculateMaskEdgeProximity(
         self, object_mask: np.ndarray, target_mask: np.ndarray, proximity_px: int = 3
     ) -> float:
-        """Calculate what percentage of object mask pixels are within proximity_px of target mask edges."""
         if object_mask.shape != target_mask.shape:
             return 0.0
 
@@ -275,7 +271,6 @@ class SegmentationModelManager:
         return near_target_pixels / total_object_pixels
 
     def determineFeederState(self) -> Optional[FeederState]:
-        """Determine feeder state based on object locations using clean rule hierarchy."""
         masks_by_class = self._getDetectedMasksByClass()
 
         object_masks = masks_by_class.get("object", [])
@@ -368,7 +363,6 @@ class SegmentationModelManager:
         # TODO: OBJECT_AT_END_OF_SECOND_FEEDER unimplemented - for careful control of feeder with respect to conveyor
 
     def _getMainCameraMasksByClass(self) -> Dict[str, List[np.ndarray]]:
-        """Get detected masks by class from main camera results."""
         results = self._getMainCameraResults()
         if not results or len(results) == 0:
             return {}
@@ -434,7 +428,6 @@ class SegmentationModelManager:
         return MainCameraState.NO_OBJECT_UNDER_CAMERA
 
     def hasObjectOnMainConveyorInFeederView(self) -> bool:
-        """Check if there's an object touching main conveyor visible in feeder camera view."""
         feeder_masks = self._getDetectedMasksByClass()
         object_masks = feeder_masks.get("object", [])
         main_conveyor_masks = feeder_masks.get("main_conveyor", [])

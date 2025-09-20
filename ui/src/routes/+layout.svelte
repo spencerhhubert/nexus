@@ -2,6 +2,7 @@
   import '../app.css';
   import userSettings from '$lib/stores/user-settings.svelte';
   import { onMount } from 'svelte';
+ 	import favicon from '$lib/assets/favicon.svg';
 
   interface Props {
     children: import('svelte').Snippet;
@@ -29,6 +30,10 @@
     }
   });
 </script>
+
+<svelte:head>
+	<link rel="icon" href={favicon} />
+</svelte:head>
 
 <main>
   {@render children()}

@@ -1,7 +1,11 @@
 import time
+from collections import Counter
 from typing import Dict, Optional, Union, TypedDict, Literal
 from robot.our_types.sorting import SortingState
 from robot.our_types.vision_system import FeederState, MainCameraState
+from robot.our_types.known_object import KnownObject
+from robot.our_types.classify import ClassificationConsensus
+from robot.ai.classify import classifyPiece
 from robot.vision_system import (
     SegmentationModelManager,
     YOLO_CLASSES,
@@ -121,6 +125,9 @@ class SortingStateMachine:
         for state in SortingState:
             self.runtime_variables[state] = {}
 
+        # Known objects for classification
+        self.known_objects: Dict[str, KnownObject] = {}
+
     def step(self):
         # Execute current state's action and get next state
         next_state = None
@@ -220,24 +227,52 @@ class SortingStateMachine:
                 main_conveyor.setSpeed(0)
                 self.logger.info("CLASSIFYING: Set main conveyor speed to zero")
 
-            # Get frames for classification
-            frames = self.vision_system.getFramesForClassification()
+            # Get the centered object ID
+            centered_object_id = self.vision_system.getCurrentCenteredObjectId()
 
-            if frames:
-                # Classify the piece
-                from robot.ai.classify import classifyPiece
+            if centered_object_id:
+                # Build known object for this track ID
+                frames = self.vision_system.getFramesForTrackId(centered_object_id)
 
-                classification_result = classifyPiece(frames, gc)
+                if frames:
+                    # Take up to 5 frames
+                    selected_frames = frames[:5]
+                    classification_results = []
 
-                if classification_result:
-                    self.logger.info(f"CLASSIFICATION RESULT: {classification_result}")
-                    print(f"Classification result: {classification_result}")
+                    # Classify each frame
+                    for frame in selected_frames:
+                        result = classifyPiece([frame], gc)
+                        if result and result["id"]:
+                            classification_results.append(result["id"])
+
+                    # Calculate consensus
+                    if classification_results:
+                        id_counts = Counter(classification_results)
+                        most_common_id = (
+                            id_counts.most_common(1)[0][0] if id_counts else None
+                        )
+
+                        consensus = ClassificationConsensus(id=most_common_id)
+
+                        # Create and store known object
+                        known_object = KnownObject(
+                            main_camera_id=centered_object_id,
+                            observations=[],  # Not needed for this simplified approach
+                            classification_consensus=consensus,
+                        )
+                        self.known_objects[centered_object_id] = known_object
+
+                        self.logger.info(f"CLASSIFICATION CONSENSUS: {consensus}")
+                        print(f"Classification consensus: {consensus}")
+                    else:
+                        self.logger.warning("No valid classification results obtained")
+                        print("No valid classification results obtained")
                 else:
-                    self.logger.warning("Classification failed - no result returned")
-                    print("Classification failed - no result returned")
+                    self.logger.warning("No complete frames found for track ID")
+                    print("No complete frames found for track ID")
             else:
-                self.logger.warning("No frames available for classification")
-                print("No frames available for classification")
+                self.logger.warning("No centered object found for classification")
+                print("No centered object found for classification")
 
             # Go to sending object to bin state
             return SortingState.SENDING_OBJECT_TO_BIN

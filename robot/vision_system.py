@@ -388,7 +388,6 @@ class SegmentationModelManager:
         return masks_by_class
 
     def determineMainCameraState(self) -> MainCameraState:
-        """Determine main camera state based on object positions."""
         masks_by_class = self._getMainCameraMasksByClass()
         object_masks = masks_by_class.get("object", [])
         main_conveyor_masks = masks_by_class.get("main_conveyor", [])
@@ -499,3 +498,92 @@ class SegmentationModelManager:
                 f"Selected {len(selected_frames)} frames for classification"
             )
             return selected_frames
+
+    def getFramesForTrackId(self, track_id: str) -> List[np.ndarray]:
+        with self.frame_history_lock:
+            selected_frames = []
+
+            for frame, results in self.main_camera_frames:
+                if not results or len(results) == 0:
+                    continue
+
+                for result in results:
+                    if (
+                        result.masks is not None
+                        and hasattr(result, "boxes")
+                        and result.boxes.id is not None
+                    ):
+                        for i, mask in enumerate(result.masks):
+                            if i < len(result.boxes.id):
+                                current_track_id = str(int(result.boxes.id[i].item()))
+                                class_id = int(result.boxes[i].cls.item())
+
+                                if (
+                                    current_track_id == track_id and class_id == 0
+                                ):  # "object" class
+                                    mask_data = mask.data[0].cpu().numpy()
+
+                                    # Check if mask is completely in frame (not touching edges)
+                                    if not (
+                                        mask_data[0, :].any()
+                                        or mask_data[-1, :].any()
+                                        or mask_data[:, 0].any()
+                                        or mask_data[:, -1].any()
+                                    ):
+                                        selected_frames.append(frame)
+                                        break
+
+            self.logger.info(
+                f"Found {len(selected_frames)} complete frames for track ID {track_id}"
+            )
+            return selected_frames
+
+    def getCurrentCenteredObjectId(self) -> Optional[str]:
+        results = self._getMainCameraResults()
+        if not results or len(results) == 0:
+            return None
+
+        masks_by_class = self._getMainCameraMasksByClass()
+        object_masks = masks_by_class.get("object", [])
+        main_conveyor_masks = masks_by_class.get("main_conveyor", [])
+
+        if not object_masks or not main_conveyor_masks:
+            return None
+
+        main_conveyor_bbox = self._getBoundingBoxFromMask(main_conveyor_masks[0])
+        if not main_conveyor_bbox:
+            return None
+
+        frame_height, frame_width = object_masks[0].shape
+
+        for result in results:
+            if (
+                result.masks is not None
+                and hasattr(result, "boxes")
+                and result.boxes.id is not None
+            ):
+                for i, mask in enumerate(result.masks):
+                    if i < len(result.boxes.id):
+                        class_id = int(result.boxes[i].cls.item())
+                        if class_id == 0:  # "object" class
+                            track_id = str(int(result.boxes.id[i].item()))
+                            mask_data = mask.data[0].cpu().numpy()
+                            obj_bbox = self._getBoundingBoxFromMask(mask_data)
+
+                            if obj_bbox:
+                                conveyor_overlap = self._calculateBoundingBoxOverlap(
+                                    obj_bbox, main_conveyor_bbox
+                                )
+                                if conveyor_overlap > MAIN_CONVEYOR_THRESHOLD:
+                                    obj_center_x = (obj_bbox[0] + obj_bbox[2]) / 2
+                                    frame_center_x = frame_width / 2
+                                    center_threshold = (
+                                        frame_width * OBJECT_CENTER_THRESHOLD / 2
+                                    )
+
+                                    if (
+                                        abs(obj_center_x - frame_center_x)
+                                        <= center_threshold
+                                    ):
+                                        return track_id
+        return None

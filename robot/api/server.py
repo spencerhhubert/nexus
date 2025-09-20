@@ -5,6 +5,9 @@ from typing import Optional
 from .client import API
 from robot.our_types import SystemLifecycleStage
 from robot.our_types.irl_runtime_params import IRLSystemRuntimeParams
+from robot.our_types.bricklink import BricklinkPartData
+from robot.piece.bricklink.api import getPartInfo
+from robot.piece.bricklink.auth import mkAuth
 from robot.websocket_manager import WebSocketManager
 
 app = FastAPI()
@@ -56,6 +59,24 @@ async def update_irl_runtime_params(params: IRLSystemRuntimeParams):
         raise HTTPException(status_code=503, detail="API not initialized")
     api_client.updateIRLRuntimeParams(params)
     return {"success": True}
+
+
+@app.get("/bricklink/part/{part_id}/")
+async def get_bricklink_part_info(part_id: str) -> BricklinkPartData:
+    try:
+        auth = mkAuth()
+        part_data = getPartInfo(part_id, auth)
+
+        if not part_data:
+            raise HTTPException(status_code=404, detail=f"Part '{part_id}' not found")
+
+        return part_data
+    except ValueError as e:
+        raise HTTPException(status_code=500, detail=f"Authentication error: {str(e)}")
+    except Exception as e:
+        raise HTTPException(
+            status_code=500, detail=f"Failed to fetch part info: {str(e)}"
+        )
 
 
 @app.websocket("/ws")

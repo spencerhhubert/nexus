@@ -1,4 +1,5 @@
 import { setContext, getContext } from 'svelte';
+import type { KnownObject } from '../types/websocket';
 
 interface CameraFrame {
   camera: 'main_camera' | 'feeder_camera';
@@ -21,6 +22,9 @@ interface PageState {
   mainCameraFrame: CameraFrame | null;
   feederCameraFrame: CameraFrame | null;
 
+  // Known objects
+  knownObjects: Map<string, KnownObject>;
+
   // WebSocket connection
   wsConnected: boolean;
   wsError: string | null;
@@ -39,6 +43,7 @@ class PageStateStore {
     },
     mainCameraFrame: null,
     feederCameraFrame: null,
+    knownObjects: new Map(),
     wsConnected: false,
     wsError: null,
     reconnecting: false,
@@ -81,6 +86,36 @@ class PageStateStore {
             this.state.lifecycleStage = message.lifecycle_stage;
             this.state.sortingState = message.sorting_state;
             this.state.motors = message.motors;
+          } else if (message.type === 'known_object_update') {
+            const uuid = message.uuid;
+            const newMap = new Map(this.state.knownObjects);
+
+            if (newMap.has(uuid)) {
+              const existing = newMap.get(uuid)!;
+              const updated = { ...existing };
+
+              if (message.main_camera_id !== undefined) {
+                updated.main_camera_id = message.main_camera_id;
+              }
+              if (message.image !== undefined) {
+                updated.image = message.image;
+              }
+              if (message.classification_id !== undefined) {
+                updated.classification_id = message.classification_id;
+              }
+
+              newMap.set(uuid, updated);
+            } else {
+              const newObject: KnownObject = {
+                uuid: uuid,
+                main_camera_id: message.main_camera_id,
+                image: message.image,
+                classification_id: message.classification_id,
+              };
+              newMap.set(uuid, newObject);
+            }
+
+            this.state.knownObjects = newMap;
           }
         } catch (e) {
           console.error('Failed to parse WebSocket message:', e);

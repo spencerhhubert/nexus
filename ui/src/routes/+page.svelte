@@ -7,6 +7,7 @@
   import SystemControls from '$lib/components/SystemControls.svelte';
   import SettingsModal from '$lib/components/SettingsModal.svelte';
   import MotorConfigModal from '$lib/components/MotorConfigModal.svelte';
+  import KnownObjectsList from '$lib/components/KnownObjectsList.svelte';
 
   const pageState = createPageState();
   let isSettingsOpen = $state(false);
@@ -43,13 +44,23 @@
   <AppHeader isConnected={pageState.state.wsConnected} onSettingsOpen={openSettings} />
 
   <div class="container mx-auto p-6">
-    <div class="space-y-6">
-      <CameraFeeds />
-      <SystemStatus
-        lifecycleStage={pageState.state.lifecycleStage}
-        sortingState={pageState.state.sortingState}
-      />
-      <SystemControls onMotorConfigOpen={openMotorConfig} />
+    <div class="flex gap-6 h-[calc(100vh-120px)]">
+      <!-- Known Objects List - Left Panel -->
+      <div class="w-80 flex-shrink-0">
+        <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 h-full">
+          <KnownObjectsList />
+        </div>
+      </div>
+
+      <!-- Main Content - Center Panel -->
+      <div class="flex-1 space-y-6">
+        <CameraFeeds />
+        <SystemStatus
+          lifecycleStage={pageState.state.lifecycleStage}
+          sortingState={pageState.state.sortingState}
+        />
+        <SystemControls onMotorConfigOpen={openMotorConfig} />
+      </div>
     </div>
   </div>
 </div>

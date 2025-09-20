@@ -35,7 +35,7 @@ class Controller:
             global_config, irl_interface, websocket_manager
         )
         self.sorting_state_machine = SortingStateMachine(
-            self.vision_system, irl_interface
+            self.vision_system, irl_interface, websocket_manager
         )
 
         self.running = False

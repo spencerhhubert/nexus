@@ -1,18 +1,18 @@
-from typing_extensions import TypedDict
+from typing_extensions import TypedDict, NotRequired
 
 
 class BricklinkPartData(TypedDict):
     no: str
     name: str
     type: str
-    category_id: int
-    alternate_no: str
-    image_url: str
-    thumbnail_url: str
-    weight: str
-    dim_x: str
-    dim_y: str
-    dim_z: str
-    year_released: int
-    description: str
-    is_obsolete: bool
+    category_id: NotRequired[int]
+    alternate_no: NotRequired[str]
+    image_url: NotRequired[str]
+    thumbnail_url: NotRequired[str]
+    weight: NotRequired[str]
+    dim_x: NotRequired[str]
+    dim_y: NotRequired[str]
+    dim_z: NotRequired[str]
+    year_released: NotRequired[int]
+    description: NotRequired[str]
+    is_obsolete: NotRequired[bool]

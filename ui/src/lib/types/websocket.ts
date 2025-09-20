@@ -20,4 +20,22 @@ export interface CameraFrameMessage {
   data: string;
 }
 
-export type WebSocketMessage = SystemStatusMessage | CameraFrameMessage;
+export interface KnownObject {
+  uuid: string;
+  main_camera_id?: string;
+  image?: string;
+  classification_id?: string;
+}
+
+export interface KnownObjectMessage {
+  type: 'known_object_update';
+  uuid: string;
+  main_camera_id?: string;
+  image?: string;
+  classification_id?: string;
+}
+
+export type WebSocketMessage =
+  | SystemStatusMessage
+  | CameraFrameMessage
+  | KnownObjectMessage;

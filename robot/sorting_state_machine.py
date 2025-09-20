@@ -6,7 +6,9 @@ from robot.our_types.sorting import SortingState
 from robot.our_types.vision_system import FeederState, MainCameraState
 from robot.our_types.known_object import KnownObject
 from robot.our_types.classify import ClassificationConsensus
+from robot.our_types.observation import BoundingBox
 from robot.ai.classify import classifyPiece
+from robot.util.images import cropImageToBbox
 from robot.vision_system import (
     SegmentationModelManager,
     YOLO_CLASSES,
@@ -14,6 +16,7 @@ from robot.vision_system import (
     MAIN_CONVEYOR_THRESHOLD,
 )
 from robot.irl.config import IRLSystemInterface
+from robot.websocket_manager import WebSocketManager
 
 
 SECOND_FEEDER_THRESHOLD = 0.5  # 50% object coverage for second feeder
@@ -114,10 +117,14 @@ SENDING_OBJECT_TO_BIN:
 
 class SortingStateMachine:
     def __init__(
-        self, vision_system: SegmentationModelManager, irl_interface: IRLSystemInterface
+        self,
+        vision_system: SegmentationModelManager,
+        irl_interface: IRLSystemInterface,
+        websocket_manager: WebSocketManager,
     ):
         self.vision_system = vision_system
         self.irl_interface = irl_interface
+        self.websocket_manager = websocket_manager
         self.current_state = SortingState.GETTING_NEW_OBJECT_FROM_FEEDER
         self.logger = vision_system.logger
 
@@ -236,6 +243,46 @@ class SortingStateMachine:
                 frames = self.vision_system.getFramesForTrackId(centered_object_id)
 
                 if frames:
+                    # Create initial known object and send to frontend
+                    object_uuid = str(uuid.uuid4())
+
+                    # Get bounding box from current results for cropping
+                    current_results = self.vision_system._getMainCameraResults()
+                    cropped_image = None
+
+                    if current_results:
+                        for result in current_results:
+                            if (
+                                result.masks is not None
+                                and hasattr(result, "boxes")
+                                and result.boxes.id is not None
+                            ):
+                                for i, mask in enumerate(result.masks):
+                                    if i < len(result.boxes.id):
+                                        track_id = str(int(result.boxes.id[i].item()))
+                                        if track_id == centered_object_id:
+                                            bbox_tensor = result.boxes[i].xyxy[0]
+                                            bbox = BoundingBox(
+                                                x1=int(bbox_tensor[0].item()),
+                                                y1=int(bbox_tensor[1].item()),
+                                                x2=int(bbox_tensor[2].item()),
+                                                y2=int(bbox_tensor[3].item()),
+                                            )
+                                            cropped_image = cropImageToBbox(
+                                                frames[0], bbox
+                                            )
+                                            break
+
+                    # Send initial known object event
+                    self.logger.info(
+                        f"WEBSOCKET: Sending initial known object event for UUID {object_uuid}"
+                    )
+                    self.websocket_manager.broadcastKnownObject(
+                        uuid=object_uuid,
+                        main_camera_id=centered_object_id,
+                        image=cropped_image,
+                    )
+
                     # Take up to 5 frames
                     selected_frames = frames[:5]
                     classification_results = []
@@ -257,12 +304,20 @@ class SortingStateMachine:
 
                         # Create and store known object
                         known_object = KnownObject(
-                            uuid=str(uuid.uuid4()),
+                            uuid=object_uuid,
                             main_camera_id=centered_object_id,
                             observations=[],  # Not needed for this simplified approach
                             classification_consensus=consensus,
                         )
                         self.known_objects[centered_object_id] = known_object
+
+                        # Send classification update
+                        self.logger.info(
+                            f"WEBSOCKET: Sending classification update for UUID {object_uuid}: {most_common_id}"
+                        )
+                        self.websocket_manager.broadcastKnownObject(
+                            uuid=object_uuid, classification_id=most_common_id
+                        )
 
                         self.logger.info(f"CLASSIFICATION CONSENSUS: {consensus}")
                         print(f"Classification consensus: {consensus}")

@@ -2,8 +2,9 @@ import asyncio
 import base64
 import json
 import threading
-from typing import Set, Dict
+from typing import Set, Dict, Optional
 import cv2
+import numpy as np
 from fastapi import WebSocket
 from robot.our_types import CameraType, SystemLifecycleStage, SortingState, MotorStatus
 
@@ -73,6 +74,50 @@ class WebSocketManager:
 
         except Exception as e:
             print(f"Error broadcasting system status: {e}")
+
+    def broadcastKnownObject(
+        self,
+        uuid: str,
+        main_camera_id: Optional[str] = None,
+        image: Optional[np.ndarray] = None,
+        classification_id: Optional[str] = None,
+    ):
+        print(
+            f"WEBSOCKET DEBUG: broadcastKnownObject called with UUID={uuid}, connections={len(self.active_connections)}, loop={self.loop is not None}"
+        )
+
+        if not self.active_connections or not self.loop:
+            print(
+                f"WEBSOCKET DEBUG: Early return - connections={len(self.active_connections) if self.active_connections else 0}, loop={self.loop is not None}"
+            )
+            return
+
+        try:
+            message = {
+                "type": "known_object_update",
+                "uuid": uuid,
+            }
+
+            if main_camera_id is not None:
+                message["main_camera_id"] = main_camera_id
+
+            if image is not None:
+                _, buffer = cv2.imencode(".jpg", image)
+                image_base64 = base64.b64encode(buffer.tobytes()).decode("utf-8")
+                message["image"] = image_base64
+
+            if classification_id is not None:
+                message["classification_id"] = classification_id
+
+            message_json = json.dumps(message)
+            print(f"WEBSOCKET DEBUG: Broadcasting message: {message_json}")
+
+            asyncio.run_coroutine_threadsafe(
+                self._broadcast_to_all(message_json), self.loop
+            )
+
+        except Exception as e:
+            print(f"Error broadcasting known object: {e}")
 
     async def _send_safe(self, websocket: WebSocket, message: str):
         try:

@@ -27,3 +27,13 @@ export async function updateIRLRuntimeParams(params: any) {
   });
   if (error) throw new Error('Failed to update IRL runtime params');
 }
+
+export async function getBricklinkPartInfo(partId: string) {
+  const { data, error } = await apiClient.GET('/bricklink/part/{part_id}/', {
+    params: {
+      path: { part_id: partId },
+    },
+  });
+  if (error) throw new Error('Failed to get BrickLink part info');
+  return data;
+}

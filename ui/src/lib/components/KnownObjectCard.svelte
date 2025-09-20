@@ -3,6 +3,7 @@
   import { getBricklinkPartInfo } from '$lib/api-client';
   import KnownObjectLoadingState from './KnownObjectLoadingState.svelte';
 
+
   interface Props {
     knownObject: KnownObject;
   }
@@ -15,6 +16,56 @@
   let lastFetchedPartId: string | null = $state(null);
   let retryCount: number = $state(0);
   let lastRetryTime: number = $state(0);
+  let processedImageUrl: string | null = $state(null);
+
+  function decodeHtmlEntities(str: string): string {
+    const textarea = document.createElement('textarea');
+    textarea.innerHTML = str;
+    return textarea.value;
+  }
+
+  function removeWhiteBackground(imageUrl: string): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+
+        if (!ctx) {
+          reject(new Error('Could not get canvas context'));
+          return;
+        }
+
+        canvas.width = img.width;
+        canvas.height = img.height;
+
+        ctx.drawImage(img, 0, 0);
+
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const data = imageData.data;
+
+        // Remove white pixels (make them transparent)
+        for (let i = 0; i < data.length; i += 4) {
+          const r = data[i];
+          const g = data[i + 1];
+          const b = data[i + 2];
+
+          // Check if pixel is close to white
+          if (r > 240 && g > 240 && b > 240) {
+            data[i + 3] = 0; // Set alpha to 0 (transparent)
+          }
+        }
+
+        ctx.putImageData(imageData, 0, 0);
+        resolve(canvas.toDataURL('image/png'));
+      };
+
+      img.onerror = () => reject(new Error('Failed to load image'));
+      img.src = `https:${imageUrl}`;
+    });
+  }
 
   async function fetchBricklinkData(partId: string) {
     if (fetchingData) return;
@@ -26,6 +77,17 @@
       lastFetchedPartId = partId;
       retryCount = 0;
       fetchError = false;
+
+      // Process the thumbnail to remove white background
+      if (data.thumbnail_url) {
+        try {
+          const processedUrl = await removeWhiteBackground(data.thumbnail_url);
+          processedImageUrl = processedUrl;
+        } catch (error) {
+          console.error('Failed to process thumbnail:', error);
+          processedImageUrl = null;
+        }
+      }
     } catch (error) {
       console.error('Failed to fetch BrickLink data:', error);
       retryCount++;
@@ -70,15 +132,15 @@
     <div class="p-4 flex items-start gap-4">
       <div class="flex-shrink-0">
         <img
-          src="https:{bricklinkData.thumbnail_url}"
+          src="{processedImageUrl || `https:${bricklinkData.thumbnail_url}`}"
           alt="{bricklinkData.name}"
-          class="w-24 h-24 object-contain border border-gray-300 dark:border-gray-600 bg-white"
+          class="w-24 h-24 object-contain border border-gray-300 dark:border-gray-600"
         />
       </div>
 
       <div class="flex-1 min-w-0">
         <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-2">
-          {bricklinkData.name}
+          {decodeHtmlEntities(bricklinkData.name)}
         </h3>
 
         <div class="space-y-1 text-xs text-gray-600 dark:text-gray-400">

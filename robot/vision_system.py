@@ -20,7 +20,7 @@ YOLO_CLASSES = {
 }
 
 # Vision analysis constants
-SECOND_FEEDER_DISTANCE_THRESHOLD = 30
+SECOND_FEEDER_DISTANCE_THRESHOLD = 20
 MAIN_CONVEYOR_THRESHOLD = 0.5  # 50% object coverage for main conveyor detection
 OBJECT_CENTER_THRESHOLD = 0.4  # 40% of frame center for object centering
 RIGHT_SIDE_THRESHOLD = 0.3  # 30% from right edge for object positioning
@@ -264,7 +264,7 @@ class SegmentationModelManager:
         return near_target_pixels / total_object_pixels
 
     def determineFeederState(self) -> Optional[FeederState]:
-        """Determine feeder state based on object locations."""
+        """Determine feeder state based on object locations using clean rule hierarchy."""
         masks_by_class = self._getDetectedMasksByClass()
 
         object_masks = masks_by_class.get("object", [])
@@ -285,95 +285,102 @@ class SegmentationModelManager:
             self.logger.info("No objects detected - first feeder empty")
             return FeederState.FIRST_FEEDER_EMPTY
 
-        # Get bounding boxes for feeders
-        first_feeder_bbox = None
-        second_feeder_bbox = None
+        # PHASE 1: Classify all objects by their primary location
+        objects_on_main_conveyor = []
+        objects_on_second_feeder = []
+        objects_on_first_feeder = []
 
-        if first_feeder_masks:
-            first_feeder_bbox = self._getBoundingBoxFromMask(first_feeder_masks[0])
-
-        if second_feeder_masks:
-            second_feeder_bbox = self._getBoundingBoxFromMask(second_feeder_masks[0])
-
-        # First pass: Check if ANY object needs second feeder cleared (priority)
         for i, obj_mask in enumerate(object_masks):
             obj_bbox = self._getBoundingBoxFromMask(obj_mask)
             if obj_bbox is None:
                 continue
 
-            # Calculate overlaps
-            first_overlap = (
-                self._calculateBoundingBoxOverlap(obj_bbox, first_feeder_bbox)
-                if first_feeder_bbox
-                else 0.0
-            )
-            second_overlap = (
-                self._calculateBoundingBoxOverlap(obj_bbox, second_feeder_bbox)
-                if second_feeder_bbox
-                else 0.0
-            )
-
-            # Calculate distance to first feeder mask
-            distance_to_first = (
-                self._calculateMinDistanceToMask(obj_bbox, first_feeder_masks[0])
-                if first_feeder_masks
-                else float("inf")
-            )
-
-            self.logger.info(
-                f"Object {i}: overlap with first={first_overlap:.3f}, second={second_overlap:.3f}, distance to first feeder={distance_to_first:.1f} pixels"
-            )
-
-            # Priority check: >50% within second feeder AND <50% within first feeder AND within distance threshold of first feeder
-            if second_overlap > 0.5 and first_overlap < 0.5:
-                if distance_to_first <= SECOND_FEEDER_DISTANCE_THRESHOLD:
+            # Check main conveyor (using edge proximity)
+            main_conveyor_masks = masks_by_class.get("main_conveyor", [])
+            if main_conveyor_masks:
+                main_conveyor_proximity = self._calculateMaskEdgeProximity(
+                    obj_mask, main_conveyor_masks[0]
+                )
+                if main_conveyor_proximity > MAIN_CONVEYOR_THRESHOLD:
+                    objects_on_main_conveyor.append(i)
                     self.logger.info(
-                        f"Object {i} is >50% in second feeder ({second_overlap:.3f}), <50% in first ({first_overlap:.3f}), and within {SECOND_FEEDER_DISTANCE_THRESHOLD}px of first feeder ({distance_to_first:.1f}px) - running second feeder"
+                        f"Object {i}: on main conveyor (proximity={main_conveyor_proximity:.3f})"
+                    )
+                    continue
+
+            # Check second feeder (>50% surrounded)
+            if second_feeder_masks:
+                second_proximity = self._calculateMaskEdgeProximity(
+                    obj_mask, second_feeder_masks[0]
+                )
+                if second_proximity > 0.5:
+                    objects_on_second_feeder.append((i, obj_bbox, second_proximity))
+                    self.logger.info(
+                        f"Object {i}: on second feeder (surrounded={second_proximity:.3f})"
+                    )
+                    continue
+
+            # Check first feeder (>50% overlap)
+            if first_feeder_masks:
+                first_feeder_bbox = self._getBoundingBoxFromMask(first_feeder_masks[0])
+                if first_feeder_bbox:
+                    first_overlap = self._calculateBoundingBoxOverlap(
+                        obj_bbox, first_feeder_bbox
+                    )
+                    if first_overlap > 0.5:
+                        objects_on_first_feeder.append(i)
+                        self.logger.info(
+                            f"Object {i}: on first feeder (overlap={first_overlap:.3f})"
+                        )
+
+        # PHASE 2: Apply rules in priority order
+
+        # Rule 1: Any object on main conveyor - handled by state machine, not here
+        if objects_on_main_conveyor:
+            self.logger.info(
+                f"Objects on main conveyor: {objects_on_main_conveyor} - handled by state machine"
+            )
+
+        # Rule 2: Objects on second feeder - check dropzone
+        if objects_on_second_feeder:
+            # Check if any second feeder object is far from first feeder (dropzone)
+            first_feeder_bbox = (
+                self._getBoundingBoxFromMask(first_feeder_masks[0])
+                if first_feeder_masks
+                else None
+            )
+
+            for i, obj_bbox, proximity in objects_on_second_feeder:
+                distance_to_first = (
+                    self._calculateMinDistanceToMask(obj_bbox, first_feeder_masks[0])
+                    if first_feeder_masks
+                    else float("inf")
+                )
+
+                if distance_to_first < SECOND_FEEDER_DISTANCE_THRESHOLD:
+                    self.logger.info(
+                        f"Object {i} in dropzone: >{SECOND_FEEDER_DISTANCE_THRESHOLD}px from first feeder ({distance_to_first:.1f}px) - running second feeder"
                     )
                     return FeederState.OBJECT_AT_END_OF_SECOND_FEEDER
-                else:
-                    self.logger.info(
-                        f"Object {i} is >50% in second feeder but too far from first feeder ({distance_to_first:.1f}px > {SECOND_FEEDER_DISTANCE_THRESHOLD}px) - ignoring"
-                    )
 
-        # Second pass: Only if no objects need second feeder, check for first feeder
-        for i, obj_mask in enumerate(object_masks):
-            obj_bbox = self._getBoundingBoxFromMask(obj_mask)
-            if obj_bbox is None:
-                continue
-
-            # Calculate overlaps (only need first overlap for this check)
-            first_overlap = (
-                self._calculateBoundingBoxOverlap(obj_bbox, first_feeder_bbox)
-                if first_feeder_bbox
-                else 0.0
-            )
-
-            # Check if >50% within first feeder
-            if first_overlap > 0.5:
+            # Rule 3: Second feeder objects close to first + any first feeder objects → run first feeder
+            if objects_on_first_feeder:
                 self.logger.info(
-                    f"Object {i} is >50% in first feeder ({first_overlap:.3f}) - running first feeder"
+                    "Objects on second feeder (close to first) + objects on first feeder - running first feeder"
                 )
-                return FeederState.OBJECT_UNDERNEATH_EXIT_OF_FIRST_FEEDER
+                return FeederState.NO_OBJECT_UNDERNEATH_EXIT_OF_FIRST_FEEDER
 
-        # If we reach here, there are objects but they don't meet the criteria for feeder action
-        # Need to determine if first feeder is empty or just no objects underneath exit
-        if not first_feeder_masks:
+            # Rule 4: Second feeder objects + empty first feeder → wait (first feeder empty state)
+            self.logger.info("Objects on second feeder, first feeder empty - waiting")
             return FeederState.FIRST_FEEDER_EMPTY
 
-        # Check if any objects have any overlap with first feeder
-        first_feeder_bbox = self._getBoundingBoxFromMask(first_feeder_masks[0])
-        for obj_mask in object_masks:
-            obj_bbox = self._getBoundingBoxFromMask(obj_mask)
-            if obj_bbox and first_feeder_bbox:
-                overlap = self._calculateBoundingBoxOverlap(obj_bbox, first_feeder_bbox)
-                if overlap > 0:
-                    self.logger.info(
-                        "Objects detected in first feeder but not underneath exit"
-                    )
-                    return FeederState.NO_OBJECT_UNDERNEATH_EXIT_OF_FIRST_FEEDER
+        # Rule 5: Only first feeder objects → run first feeder
+        if objects_on_first_feeder:
+            self.logger.info("Objects only on first feeder - running first feeder")
+            return FeederState.NO_OBJECT_UNDERNEATH_EXIT_OF_FIRST_FEEDER
 
-        self.logger.info("No objects detected in first feeder - feeder empty")
+        # Rule 6: No objects anywhere → empty
+        self.logger.info("No objects detected in any feeder - first feeder empty")
         return FeederState.FIRST_FEEDER_EMPTY
 
     def _getMainCameraMasksByClass(self) -> Dict[str, List[np.ndarray]]:

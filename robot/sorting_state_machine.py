@@ -54,10 +54,21 @@ STATE MACHINE OVERVIEW:
 GETTING_NEW_OBJECT_FROM_FEEDER:
 - Analyzes feeder camera to determine which feeder state to transition to
 - Does not run motors directly, only determines next state
+- CLEAN RULE HIERARCHY:
+  1. Main camera: Object centered → CLASSIFYING
+  2. Main camera: Object detected but not centered → WAITING_FOR_OBJECT_TO_CENTER_UNDER_MAIN_CAMERA
+  3. Feeder camera: Object touching main conveyor edges → WAITING_FOR_OBJECT_TO_APPEAR_UNDER_MAIN_CAMERA
+  4. Objects on second feeder >SECOND_FEEDER_DISTANCE_THRESHOLD from first feeder → FS_OBJECT_AT_END_OF_SECOND_FEEDER (run second feeder)
+  5. Objects on second feeder close to first + objects on first feeder → FS_NO_OBJECT_UNDERNEATH_EXIT_OF_FIRST_FEEDER (run first feeder)
+  6. Objects on second feeder + empty first feeder → FS_FIRST_FEEDER_EMPTY (wait)
+  7. Objects only on first feeder → FS_NO_OBJECT_UNDERNEATH_EXIT_OF_FIRST_FEEDER (run first feeder)
+  8. No objects anywhere → FS_FIRST_FEEDER_EMPTY
 
 FS_OBJECT_AT_END_OF_SECOND_FEEDER:
 - Pulses second feeder motor to move objects forward
-- Transitions when objects are no longer at end of second feeder
+- Triggered when object >50% surrounded by second feeder AND >SECOND_FEEDER_DISTANCE_THRESHOLD from first feeder
+- Represents objects in the dropzone that are far from the first feeder
+- Transitions when objects move or are cleared
 
 FS_OBJECT_UNDERNEATH_EXIT_OF_FIRST_FEEDER:
 - Pulses second feeder motor to clear objects blocking first feeder exit
@@ -65,6 +76,7 @@ FS_OBJECT_UNDERNEATH_EXIT_OF_FIRST_FEEDER:
 
 FS_NO_OBJECT_UNDERNEATH_EXIT_OF_FIRST_FEEDER:
 - Pulses first feeder motor to move objects from first to second feeder
+- Triggered when: object >50% on second feeder and >SECOND_FEEDER_DISTANCE_THRESHOLD from first feeder, OR object >50% in first feeder
 - Transitions when objects appear underneath first feeder exit
 
 FS_FIRST_FEEDER_EMPTY:
@@ -72,7 +84,8 @@ FS_FIRST_FEEDER_EMPTY:
 - Transitions when objects appear in first feeder
 
 WAITING_FOR_OBJECT_TO_APPEAR_UNDER_MAIN_CAMERA:
-- Wait state - object detected on main conveyor in feeder camera
+- Wait state - object detected touching main conveyor edges in feeder camera (using edge proximity detection)
+- Triggered when >50% of object pixels are within 3px of main conveyor mask edges
 - Transitions when object appears under main camera
 
 WAITING_FOR_OBJECT_TO_CENTER_UNDER_MAIN_CAMERA:

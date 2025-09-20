@@ -134,7 +134,7 @@
         <img
           src="{processedImageUrl || `https:${bricklinkData.thumbnail_url}`}"
           alt="{bricklinkData.name}"
-          class="w-24 h-24 object-contain border border-gray-300 dark:border-gray-600"
+          class="w-24 h-24 object-contain"
         />
       </div>
 

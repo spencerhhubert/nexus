@@ -1,6 +1,7 @@
 import time
 import threading
 import numpy as np
+import cv2
 from typing import Optional, Dict, List, Tuple, Any
 from ultralytics import YOLO
 from robot.global_config import GlobalConfig
@@ -240,6 +241,28 @@ class SegmentationModelManager:
 
         return min_distance
 
+    def _calculateMaskEdgeProximity(
+        self, object_mask: np.ndarray, target_mask: np.ndarray, proximity_px: int = 3
+    ) -> float:
+        """Calculate what percentage of object mask pixels are within proximity_px of target mask edges."""
+        if object_mask.shape != target_mask.shape:
+            return 0.0
+
+        # Create a dilated version of the target mask (expand edges by proximity_px)
+        kernel = np.ones((proximity_px * 2 + 1, proximity_px * 2 + 1), np.uint8)
+        dilated_target = cv2.dilate(target_mask.astype(np.uint8), kernel, iterations=1)
+
+        # Count object pixels within the dilated target area
+        object_pixels_near_target = np.logical_and(object_mask, dilated_target)
+
+        # Calculate percentage
+        total_object_pixels = np.sum(object_mask)
+        if total_object_pixels == 0:
+            return 0.0
+
+        near_target_pixels = np.sum(object_pixels_near_target)
+        return near_target_pixels / total_object_pixels
+
     def determineFeederState(self) -> Optional[FeederState]:
         """Determine feeder state based on object locations."""
         masks_by_class = self._getDetectedMasksByClass()
@@ -421,7 +444,7 @@ class SegmentationModelManager:
         return MainCameraState.NO_OBJECT_UNDER_CAMERA
 
     def hasObjectOnMainConveyorInFeederView(self) -> bool:
-        """Check if there's an object on main conveyor visible in feeder camera view."""
+        """Check if there's an object touching main conveyor visible in feeder camera view."""
         feeder_masks = self._getDetectedMasksByClass()
         object_masks = feeder_masks.get("object", [])
         main_conveyor_masks = feeder_masks.get("main_conveyor", [])
@@ -429,17 +452,13 @@ class SegmentationModelManager:
         if not object_masks or not main_conveyor_masks:
             return False
 
-        main_conveyor_bbox = self._getBoundingBoxFromMask(main_conveyor_masks[0])
-        if not main_conveyor_bbox:
-            return False
+        main_conveyor_mask = main_conveyor_masks[0]
 
         for obj_mask in object_masks:
-            obj_bbox = self._getBoundingBoxFromMask(obj_mask)
-            if obj_bbox and main_conveyor_bbox:
-                conveyor_overlap = self._calculateBoundingBoxOverlap(
-                    obj_bbox, main_conveyor_bbox
-                )
-                if conveyor_overlap > MAIN_CONVEYOR_THRESHOLD:
-                    return True
+            edge_proximity = self._calculateMaskEdgeProximity(
+                obj_mask, main_conveyor_mask
+            )
+            if edge_proximity > MAIN_CONVEYOR_THRESHOLD:
+                return True
 
         return False

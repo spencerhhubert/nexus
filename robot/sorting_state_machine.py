@@ -41,6 +41,11 @@ class WaitingForObjectToCenterRuntimeVariables(TypedDict, total=False):
     waiting_for_object_to_center_timeout_start_ts: Optional[float]
 
 
+class FsObjectUnderneathExitOfFirstFeederRuntimeVariables(TypedDict, total=False):
+    fs_object_at_end_of_second_feeder_timeout_start_ts: Optional[float]
+    first_feeder_pulse_count: Optional[int]
+
+
 # States with no runtime variables
 class EmptyRuntimeVariables(TypedDict, total=False):
     pass
@@ -209,6 +214,34 @@ class SortingStateMachine:
         if "classifying_timeout_start_ts" not in state_vars:
             state_vars["classifying_timeout_start_ts"] = current_time
 
+            # Set conveyor speed to zero
+            if not gc["disable_main_conveyor"]:
+                main_conveyor = self.irl_interface["main_conveyor_dc_motor"]
+                main_conveyor.setSpeed(0)
+                self.logger.info("CLASSIFYING: Set main conveyor speed to zero")
+
+            # Get frames for classification
+            frames = self.vision_system.getFramesForClassification()
+
+            if frames:
+                # Classify the piece
+                from robot.ai.classify import classifyPiece
+
+                classification_result = classifyPiece(frames, gc)
+
+                if classification_result:
+                    self.logger.info(f"CLASSIFICATION RESULT: {classification_result}")
+                    print(f"Classification result: {classification_result}")
+                else:
+                    self.logger.warning("Classification failed - no result returned")
+                    print("Classification failed - no result returned")
+            else:
+                self.logger.warning("No frames available for classification")
+                print("No frames available for classification")
+
+            # Go to sending object to bin state
+            return SortingState.SENDING_OBJECT_TO_BIN
+
         start_time = state_vars["classifying_timeout_start_ts"]
         timeout_duration = gc["classifying_timeout_ms"] / 1000.0
         if current_time - start_time >= timeout_duration:
@@ -220,6 +253,18 @@ class SortingStateMachine:
         return self.current_state
 
     def _runSendingObjectToBin(self) -> SortingState:
+        state_vars = self.runtime_variables[self.current_state]
+        current_time = time.time()
+
+        if "sending_object_to_bin_start_ts" not in state_vars:
+            state_vars["sending_object_to_bin_start_ts"] = current_time
+            self.logger.info("SENDING_OBJECT_TO_BIN: Starting 5 second wait")
+
+        start_time = state_vars["sending_object_to_bin_start_ts"]
+        if current_time - start_time >= 5.0:
+            self.logger.info("SENDING_OBJECT_TO_BIN: 5 second wait complete")
+            return SortingState.GETTING_NEW_OBJECT_FROM_FEEDER
+
         return self.current_state
 
     def _runFsObjectAtEndOfSecondFeeder(self) -> SortingState:
@@ -228,7 +273,37 @@ class SortingStateMachine:
         return next_state or self.current_state
 
     def _runFsObjectUnderneathExitOfFirstFeeder(self) -> SortingState:
-        self._startMotorPulseIfNeeded("second_vibration_hopper_motor")
+        gc = self.vision_system.global_config
+        state_vars = self.runtime_variables[self.current_state]
+        current_time = time.time()
+
+        # Initialize timeout tracking on first entry
+        if "fs_object_at_end_of_second_feeder_timeout_start_ts" not in state_vars:
+            state_vars["fs_object_at_end_of_second_feeder_timeout_start_ts"] = (
+                current_time
+            )
+            state_vars["first_feeder_pulse_count"] = 0
+            self.logger.info(
+                "FS_OBJECT_UNDERNEATH_EXIT_OF_FIRST_FEEDER: Starting timeout tracking"
+            )
+
+        # Check if timeout has expired
+        timeout_start = state_vars["fs_object_at_end_of_second_feeder_timeout_start_ts"]
+        timeout_duration = gc["fs_object_at_end_of_second_feeder_timeout_ms"] / 1000.0
+        pulse_count = state_vars.get("first_feeder_pulse_count", 0)
+
+        if current_time - timeout_start >= timeout_duration and pulse_count < 2:
+            self.logger.info(
+                f"FS_OBJECT_UNDERNEATH_EXIT_OF_FIRST_FEEDER: Timeout expired, pulsing first feeder (count: {pulse_count + 1}/2)"
+            )
+            self._startMotorPulseIfNeeded("first_vibration_hopper_motor")
+            state_vars["first_feeder_pulse_count"] = pulse_count + 1
+            state_vars["fs_object_at_end_of_second_feeder_timeout_start_ts"] = (
+                current_time  # Reset timeout
+            )
+        else:
+            self._startMotorPulseIfNeeded("second_vibration_hopper_motor")
+
         next_state = self._determineNextStateFromFrameAnalysis()
         return next_state or self.current_state
 

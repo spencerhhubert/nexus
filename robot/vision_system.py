@@ -55,6 +55,11 @@ class SegmentationModelManager:
         self.latest_feeder_results = None
         self.results_lock = threading.Lock()
 
+        # Frame tracking for classification
+        self.main_camera_frames: List[Tuple[np.ndarray, Any]] = []
+        self.frame_history_lock = threading.Lock()
+        self.max_frame_history = 30
+
         self.running = False
         self.main_thread = None
         self.feeder_thread = None
@@ -92,6 +97,12 @@ class SegmentationModelManager:
 
                     with self.results_lock:
                         self.latest_main_results = results
+
+                    # Store frame and results for classification
+                    with self.frame_history_lock:
+                        self.main_camera_frames.append((frame.copy(), results))
+                        if len(self.main_camera_frames) > self.max_frame_history:
+                            self.main_camera_frames.pop(0)
 
                     if results and len(results) > 0:
                         annotated_frame = results[0].plot()
@@ -308,80 +319,53 @@ class SegmentationModelManager:
                     )
                     continue
 
-            # Check second feeder (>60% surrounded)
+            # Check second feeder (>50% surrounded)
             if second_feeder_masks:
                 second_proximity = self._calculateMaskEdgeProximity(
                     obj_mask, second_feeder_masks[0]
                 )
-                if second_proximity > 0.6:
+                if second_proximity > 0.5:
                     objects_on_second_feeder.append((i, obj_bbox, second_proximity))
                     self.logger.info(
                         f"Object {i}: on second feeder (surrounded={second_proximity:.3f})"
                     )
                     continue
 
-            # Check first feeder (>60% overlap)
+            # Check first feeder (>50% proximity)
             if first_feeder_masks:
-                first_feeder_bbox = self._getBoundingBoxFromMask(first_feeder_masks[0])
-                if first_feeder_bbox:
-                    first_overlap = self._calculateBoundingBoxOverlap(
-                        obj_bbox, first_feeder_bbox
-                    )
-                    if first_overlap > 0.6:
-                        objects_on_first_feeder.append(i)
-                        self.logger.info(
-                            f"Object {i}: on first feeder (overlap={first_overlap:.3f})"
-                        )
-
-        # PHASE 2: Apply rules in priority order
-
-        # Rule 1: Any object on main conveyor - handled by state machine, not here
-        if objects_on_main_conveyor:
-            self.logger.info(
-                f"Objects on main conveyor: {objects_on_main_conveyor} - handled by state machine"
-            )
-
-        # Rule 2: Objects on second feeder - check dropzone
-        if objects_on_second_feeder:
-            # Check if any second feeder object is far from first feeder (dropzone)
-            first_feeder_bbox = (
-                self._getBoundingBoxFromMask(first_feeder_masks[0])
-                if first_feeder_masks
-                else None
-            )
-
-            for i, obj_bbox, proximity in objects_on_second_feeder:
-                distance_to_first = (
-                    self._calculateMinDistanceToMask(obj_bbox, first_feeder_masks[0])
-                    if first_feeder_masks
-                    else float("inf")
+                first_proximity = self._calculateMaskEdgeProximity(
+                    obj_mask, first_feeder_masks[0]
                 )
-
-                if distance_to_first < SECOND_FEEDER_DISTANCE_THRESHOLD:
+                if first_proximity > 0.5:
+                    objects_on_first_feeder.append(i)
                     self.logger.info(
-                        f"Object {i} in dropzone: >{SECOND_FEEDER_DISTANCE_THRESHOLD}px from first feeder ({distance_to_first:.1f}px) - running second feeder"
+                        f"Object {i}: on first feeder (proximity={first_proximity:.3f})"
                     )
-                    return FeederState.OBJECT_AT_END_OF_SECOND_FEEDER
 
-            # Rule 3: Second feeder objects close to first + any first feeder objects → run first feeder
-            if objects_on_first_feeder:
-                self.logger.info(
-                    "Objects on second feeder (close to first) + objects on first feeder - running first feeder"
+        # PHASE 2: Apply rules - check if dropzone is clear
+
+        # Check if dropzone is clear (objects on second feeder are far from first feeder mask)
+        dropzone_clear = True
+        if objects_on_second_feeder and first_feeder_masks:
+            for i, obj_bbox, proximity in objects_on_second_feeder:
+                distance_to_first = self._calculateMinDistanceToMask(
+                    obj_bbox, first_feeder_masks[0]
                 )
-                return FeederState.NO_OBJECT_UNDERNEATH_EXIT_OF_FIRST_FEEDER
+                if distance_to_first < SECOND_FEEDER_DISTANCE_THRESHOLD:
+                    dropzone_clear = False
+                    self.logger.info(
+                        f"Object {i} in dropzone: {distance_to_first:.1f}px from first feeder mask"
+                    )
+                    break
 
-            # Rule 4: Second feeder objects + empty first feeder → wait (first feeder empty state)
-            self.logger.info("Objects on second feeder, first feeder empty - waiting")
-            return FeederState.FIRST_FEEDER_EMPTY
-
-        # Rule 5: Only first feeder objects → run first feeder
-        if objects_on_first_feeder:
-            self.logger.info("Objects only on first feeder - running first feeder")
+        if dropzone_clear:
+            self.logger.info("Dropzone clear - running first feeder")
             return FeederState.NO_OBJECT_UNDERNEATH_EXIT_OF_FIRST_FEEDER
+        else:
+            self.logger.info("Dropzone blocked - running second feeder")
+            return FeederState.OBJECT_UNDERNEATH_EXIT_OF_FIRST_FEEDER
 
-        # Rule 6: No objects anywhere → empty
-        self.logger.info("No objects detected in any feeder - first feeder empty")
-        return FeederState.FIRST_FEEDER_EMPTY
+        # TODO: OBJECT_AT_END_OF_SECOND_FEEDER unimplemented - for careful control of feeder with respect to conveyor
 
     def _getMainCameraMasksByClass(self) -> Dict[str, List[np.ndarray]]:
         """Get detected masks by class from main camera results."""
@@ -469,3 +453,49 @@ class SegmentationModelManager:
                 return True
 
         return False
+
+    def getFramesForClassification(self) -> List[np.ndarray]:
+        with self.frame_history_lock:
+            if not self.main_camera_frames:
+                return []
+
+            selected_frames = []
+
+            # Add most recent frame
+            recent_frame, _ = self.main_camera_frames[-1]
+            selected_frames.append(recent_frame)
+
+            # Find frames where object mask doesn't touch frame edges
+            for frame, results in reversed(self.main_camera_frames[:-1]):
+                if len(selected_frames) >= 6:
+                    break
+
+                if not results or len(results) == 0:
+                    continue
+
+                # Check if any object mask touches frame edges
+                frame_touches_edge = False
+                for result in results:
+                    if result.masks is not None:
+                        for mask in result.masks:
+                            mask_data = mask.data[0].cpu().numpy()
+
+                            # Check if mask touches any edge
+                            if (
+                                mask_data[0, :].any()  # Top edge
+                                or mask_data[-1, :].any()  # Bottom edge
+                                or mask_data[:, 0].any()  # Left edge
+                                or mask_data[:, -1].any()
+                            ):  # Right edge
+                                frame_touches_edge = True
+                                break
+                    if frame_touches_edge:
+                        break
+
+                if not frame_touches_edge:
+                    selected_frames.append(frame)
+
+            self.logger.info(
+                f"Selected {len(selected_frames)} frames for classification"
+            )
+            return selected_frames

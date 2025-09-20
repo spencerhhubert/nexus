@@ -1,10 +1,11 @@
 import numpy as np
 import requests
 from PIL import Image
-from typing import cast
+from typing import cast, Optional, Dict, List
 import io
 from robot.global_config import GlobalConfig
 from robot.ai.brickognize_types import BrickognizeClassificationResult
+from robot.our_types.classify import ClassificationResult
 
 
 def brickognizeClassifySegment(
@@ -34,3 +35,42 @@ def brickognizeClassifySegment(
     ]
     global_config["logger"].info(f"Brickognize Filtered Response {out}")
     return out
+
+
+def classifyPiece(
+    frames: List[np.ndarray], global_config: GlobalConfig
+) -> Optional[ClassificationResult]:
+    if not frames:
+        global_config["logger"].warning("No frames provided for classification")
+        return None
+
+    provider = global_config.get("classification_provider", "brickognize")
+    global_config["logger"].info(f"Using classification provider: {provider}")
+
+    if provider == "brickognize":
+        return classifyWithBrickognize(frames[0], global_config)
+    elif provider == "brickit":
+        return classifyWithBrickit(frames[0], global_config)
+    else:
+        global_config["logger"].error(f"Unknown classification provider: {provider}")
+        return None
+
+
+def classifyWithBrickognize(
+    frame: np.ndarray, global_config: GlobalConfig
+) -> Optional[ClassificationResult]:
+    try:
+        result = brickognizeClassifySegment(frame, global_config)
+        if result and result.get("items") and len(result["items"]) > 0:
+            best_item = result["items"][0]
+            return ClassificationResult(id=best_item.get("id"))
+        return ClassificationResult(id=None)
+    except Exception as e:
+        global_config["logger"].error(f"Brickognize classification failed: {e}")
+        return None
+
+
+def classifyWithBrickit(
+    frame: np.ndarray, global_config: GlobalConfig
+) -> Optional[ClassificationResult]:
+    raise NotImplementedError("Brickit classification not implemented yet")

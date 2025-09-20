@@ -53,6 +53,7 @@ class GlobalConfig(TypedDict):
     classifying_timeout_ms: int
     waiting_for_object_to_center_timeout_ms: int
     waiting_for_object_to_appear_timeout_ms: int
+    fs_object_at_end_of_second_feeder_timeout_ms: int
 
 
 def buildGlobalConfig() -> GlobalConfig:
@@ -156,6 +157,7 @@ def buildGlobalConfig() -> GlobalConfig:
         "classifying_timeout_ms": 5000,
         "waiting_for_object_to_center_timeout_ms": 5000,
         "waiting_for_object_to_appear_timeout_ms": 5000,
+        "fs_object_at_end_of_second_feeder_timeout_ms": 8000,
     }
 
     from robot.logger import Logger

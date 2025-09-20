@@ -110,6 +110,7 @@ class DCMotor:
         self.enable_pin = enable_pin
         self.input_1_pin = input_1_pin
         self.input_2_pin = input_2_pin
+        self.current_speed: Optional[int] = None
 
         logger = gc["logger"]
         logger.info(f"Setting pin {self.input_1_pin} to OUTPUT")
@@ -119,9 +120,16 @@ class DCMotor:
         logger.info(f"Setting pin {self.enable_pin} to OUTPUT")
         self.dev.sysex(0x03, [0x01, self.enable_pin, 1])
 
-    def setSpeed(self, speed: int) -> None:
+    def setSpeed(self, speed: int, override: bool = False) -> None:
         original_speed = speed
         speed = max(-255, min(255, speed))
+
+        if self.current_speed == speed and not override:
+            logger = self.gc["logger"]
+            logger.info(
+                f"DCMotor setSpeed: speed unchanged at {speed}, skipping command"
+            )
+            return
 
         logger = self.gc["logger"]
         logger.info(f"DCMotor setSpeed: requested={original_speed}, clamped={speed}")
@@ -145,6 +153,8 @@ class DCMotor:
         pwm_value = int(abs(speed))
         logger.info(f"Setting enable pin {self.enable_pin} to PWM value: {pwm_value}")
         self.dev.sysex(0x03, [0x03, self.enable_pin, pwm_value])
+
+        self.current_speed = speed
 
     def backstop(
         self, currentSpeed: int, backstopSpeed: int = 75, backstopDurationMs: int = 7

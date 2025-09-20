@@ -621,21 +621,21 @@ void sysexCallback(byte command, byte argc, byte *argv) {
         if (DEBUG_LEVEL > 0) {
             char debugMsg[80];
             sprintf(debugMsg, "Argv[0]: %d", argv[0]);
-            // Firmata.sendString(STRING_DATA, debugMsg);
+            Firmata.sendString(STRING_DATA, debugMsg);
         }
     }
     if (argc > 1) {
         if (DEBUG_LEVEL > 0) {
             char debugMsg[80];
             sprintf(debugMsg, "Argv[1]: %d", argv[1]);
-            // Firmata.sendString(STRING_DATA, debugMsg);
+            Firmata.sendString(STRING_DATA, debugMsg);
         }
     }
     if (argc > 2) {
         if (DEBUG_LEVEL > 0) {
             char debugMsg[80];
             sprintf(debugMsg, "Argv[2]: %d", argv[2]);
-            // Firmata.sendString(STRING_DATA, debugMsg);
+            Firmata.sendString(STRING_DATA, debugMsg);
         }
     }
 
@@ -644,7 +644,7 @@ void sysexCallback(byte command, byte argc, byte *argv) {
             if (DEBUG_LEVEL > 0) {
                 Firmata.sendString(STRING_DATA, "Processing PWM_SERVO");
             }
-            // parsePwmServoCommand(argv[0], argc-1, argv+1);
+            parsePwmServoCommand(argv[0], argc-1, argv+1);
         break;
         case DIGITAL_PIN:
             if (DEBUG_LEVEL > 0) {
@@ -662,7 +662,7 @@ void sysexCallback(byte command, byte argc, byte *argv) {
             if (DEBUG_LEVEL > 0) {
                 Firmata.sendString(STRING_DATA, "Processing BREAK_BEAM");
             }
-            // parseBreakBeamCommand(argv[0], argc-1, argv+1);
+            parseBreakBeamCommand(argv[0], argc-1, argv+1);
         break;
         default:
             if (DEBUG_LEVEL > 0) {
@@ -701,10 +701,10 @@ void setup() {
 	Firmata.parse(SYSTEM_RESET);
 
     // Initialize our pwm_boards array
-    // initPwmBoards();
+    initPwmBoards();
 
     // Initialize servo timeout tracking
-    // initServoTimeouts();
+    initServoTimeouts();
 
     // Initialize motor control pins for automatic break beam control
     pinMode(FIRST_VIBRATION_HOPPER_ENABLE_PIN, OUTPUT);
@@ -753,7 +753,7 @@ void loop() {
     // Check for servos that should be turned off only every 100 loops to reduce overhead
     static int servoCheckCounter = 0;
     if (++servoCheckCounter >= 100) {
-        // checkServoTimeouts();
+        checkServoTimeouts();
         servoCheckCounter = 0;
     }
 }

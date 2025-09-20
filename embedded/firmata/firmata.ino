@@ -1,7 +1,7 @@
 #define ARDUINO_AVR_MEGA2560
 
 // Debug level - 0 = no debug, 1+ = debug prints
-int DEBUG_LEVEL = 1;
+int DEBUG_LEVEL = 0;
 
 #include <ConfigurableFirmata.h>
 #include <DigitalInputFirmata.h>

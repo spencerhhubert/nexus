@@ -157,8 +157,12 @@ class DCMotor:
         self.current_speed = speed
 
     def backstop(
-        self, currentSpeed: int, backstopSpeed: int = 75, backstopDurationMs: int = 7
+        self, currentSpeed: int, backstopSpeed: int = 75, backstopDurationMs: int = 10
     ) -> None:
+        DO_BACKSTOP = True
+        if not DO_BACKSTOP:
+            self.setSpeed(0)
+            return
         backstopSpeed = max(-255, min(255, backstopSpeed))
 
         if currentSpeed > 0:

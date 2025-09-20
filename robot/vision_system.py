@@ -20,7 +20,7 @@ YOLO_CLASSES = {
 }
 
 # Vision analysis constants
-SECOND_FEEDER_DISTANCE_THRESHOLD = 20
+SECOND_FEEDER_DISTANCE_THRESHOLD = 30
 MAIN_CONVEYOR_THRESHOLD = 0.5  # 50% object coverage for main conveyor detection
 OBJECT_CENTER_THRESHOLD = 0.4  # 40% of frame center for object centering
 RIGHT_SIDE_THRESHOLD = 0.3  # 30% from right edge for object positioning
@@ -308,26 +308,26 @@ class SegmentationModelManager:
                     )
                     continue
 
-            # Check second feeder (>50% surrounded)
+            # Check second feeder (>60% surrounded)
             if second_feeder_masks:
                 second_proximity = self._calculateMaskEdgeProximity(
                     obj_mask, second_feeder_masks[0]
                 )
-                if second_proximity > 0.5:
+                if second_proximity > 0.6:
                     objects_on_second_feeder.append((i, obj_bbox, second_proximity))
                     self.logger.info(
                         f"Object {i}: on second feeder (surrounded={second_proximity:.3f})"
                     )
                     continue
 
-            # Check first feeder (>50% overlap)
+            # Check first feeder (>60% overlap)
             if first_feeder_masks:
                 first_feeder_bbox = self._getBoundingBoxFromMask(first_feeder_masks[0])
                 if first_feeder_bbox:
                     first_overlap = self._calculateBoundingBoxOverlap(
                         obj_bbox, first_feeder_bbox
                     )
-                    if first_overlap > 0.5:
+                    if first_overlap > 0.6:
                         objects_on_first_feeder.append(i)
                         self.logger.info(
                             f"Object {i}: on first feeder (overlap={first_overlap:.3f})"

@@ -1,4 +1,5 @@
 import time
+import uuid
 from collections import Counter
 from typing import Dict, Optional, Union, TypedDict, Literal
 from robot.our_types.sorting import SortingState
@@ -256,6 +257,7 @@ class SortingStateMachine:
 
                         # Create and store known object
                         known_object = KnownObject(
+                            uuid=str(uuid.uuid4()),
                             main_camera_id=centered_object_id,
                             observations=[],  # Not needed for this simplified approach
                             classification_consensus=consensus,

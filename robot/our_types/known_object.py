@@ -4,6 +4,7 @@ from robot.our_types.classify import ClassificationConsensus
 
 
 class KnownObject(TypedDict):
+    uuid: str
     main_camera_id: str
     observations: List[Observation]
     classification_consensus: ClassificationConsensus

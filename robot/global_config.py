@@ -144,7 +144,7 @@ def buildGlobalConfig() -> GlobalConfig:
         "main_conveyor_speed": 200,
         "feeder_conveyor_speed": 140,
         "first_vibration_hopper_motor_speed": 160,  # first hopper that pieces enter
-        "second_vibration_hopper_motor_speed": 150,
+        "second_vibration_hopper_motor_speed": 155,
         "first_vibration_hopper_motor_pulse_ms": 600,
         "second_vibration_hopper_motor_pulse_ms": 500,
         "feeder_conveyor_pulse_ms": 1000,

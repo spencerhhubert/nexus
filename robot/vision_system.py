@@ -21,7 +21,7 @@ YOLO_CLASSES = {
 
 # Vision analysis constants
 SECOND_FEEDER_DISTANCE_THRESHOLD = 30
-MAIN_CONVEYOR_THRESHOLD = 0.5  # 50% object coverage for main conveyor detection
+MAIN_CONVEYOR_THRESHOLD = 0.7  # 50% object coverage for main conveyor detection
 OBJECT_CENTER_THRESHOLD = 0.4  # 40% of frame center for object centering
 RIGHT_SIDE_THRESHOLD = 0.3  # 30% from right edge for object positioning
 
@@ -295,24 +295,42 @@ class SegmentationModelManager:
         objects_on_main_conveyor = []
         objects_on_second_feeder = []
         objects_on_first_feeder = []
+        objects_at_end_of_second_feeder = []
 
         for i, obj_mask in enumerate(object_masks):
             obj_bbox = self._getBoundingBoxFromMask(obj_mask)
             if obj_bbox is None:
                 continue
 
-            # Check main conveyor (using edge proximity)
+            # Check for objects at end of second feeder (bbox >50% in main conveyor BUT not touching conveyor surface)
             main_conveyor_masks = masks_by_class.get("main_conveyor", [])
             if main_conveyor_masks:
-                main_conveyor_proximity = self._calculateMaskEdgeProximity(
-                    obj_mask, main_conveyor_masks[0]
+                main_conveyor_bbox = self._getBoundingBoxFromMask(
+                    main_conveyor_masks[0]
                 )
-                if main_conveyor_proximity > MAIN_CONVEYOR_THRESHOLD:
-                    objects_on_main_conveyor.append(i)
-                    self.logger.info(
-                        f"Object {i}: on main conveyor (proximity={main_conveyor_proximity:.3f})"
+                if main_conveyor_bbox:
+                    bbox_overlap = self._calculateBoundingBoxOverlap(
+                        obj_bbox, main_conveyor_bbox
                     )
-                    continue
+                    main_conveyor_proximity = self._calculateMaskEdgeProximity(
+                        obj_mask, main_conveyor_masks[0]
+                    )
+
+                    if (
+                        bbox_overlap > MAIN_CONVEYOR_THRESHOLD
+                        and main_conveyor_proximity <= MAIN_CONVEYOR_THRESHOLD
+                    ):
+                        objects_at_end_of_second_feeder.append(i)
+                        self.logger.info(
+                            f"Object {i}: at end of second feeder (bbox_overlap={bbox_overlap:.3f}, proximity={main_conveyor_proximity:.3f})"
+                        )
+                        continue
+                    elif main_conveyor_proximity > MAIN_CONVEYOR_THRESHOLD:
+                        objects_on_main_conveyor.append(i)
+                        self.logger.info(
+                            f"Object {i}: on main conveyor (proximity={main_conveyor_proximity:.3f})"
+                        )
+                        continue
 
             # Check second feeder (>50% surrounded)
             if second_feeder_masks:
@@ -337,7 +355,21 @@ class SegmentationModelManager:
                         f"Object {i}: on first feeder (proximity={first_proximity:.3f})"
                     )
 
-        # PHASE 2: Apply rules - check if dropzone is clear
+        # PHASE 2: Apply rules - check for objects on main conveyor first
+
+        # If objects are detected on main conveyor, return that state
+        if objects_on_main_conveyor:
+            self.logger.info(
+                f"Objects detected on main conveyor: {len(objects_on_main_conveyor)}"
+            )
+            return FeederState.OBJECT_ON_MAIN_CONVEYOR
+
+        # If objects are at end of second feeder, return that state
+        if objects_at_end_of_second_feeder:
+            self.logger.info(
+                f"Objects detected at end of second feeder: {len(objects_at_end_of_second_feeder)}"
+            )
+            return FeederState.OBJECT_AT_END_OF_SECOND_FEEDER
 
         # Check if dropzone is clear (objects on second feeder are far from first feeder mask)
         dropzone_clear = True

@@ -8,6 +8,7 @@ class FeederState(Enum):
         "no_object_underneath_exit_of_first_feeder"
     )
     FIRST_FEEDER_EMPTY = "first_feeder_empty"
+    OBJECT_ON_MAIN_CONVEYOR = "object_on_main_conveyor"
 
 
 class MainCameraState(Enum):

@@ -21,6 +21,10 @@ from robot.websocket_manager import WebSocketManager
 
 SECOND_FEEDER_THRESHOLD = 0.5  # 50% object coverage for second feeder
 
+# Variables for handling objects at end of second feeder
+REDUCED_PULSE_LENGTH_FACTOR = 0.5  # Halve the pulse length
+REDUCED_MOTOR_SPEED_FACTOR = 0.95  # Reduce motor speed by 15%
+
 # Type definitions
 MotorType = Literal[
     "first_vibration_hopper_motor",
@@ -360,7 +364,9 @@ class SortingStateMachine:
         return self.current_state
 
     def _runFsObjectAtEndOfSecondFeeder(self) -> SortingState:
-        self._startMotorPulseIfNeeded("second_vibration_hopper_motor")
+        self._startMotorPulseIfNeeded(
+            "second_vibration_hopper_motor", use_reduced_settings=True
+        )
         next_state = self._determineNextStateFromFrameAnalysis()
         return next_state or self.current_state
 
@@ -408,7 +414,9 @@ class SortingStateMachine:
         next_state = self._determineNextStateFromFrameAnalysis()
         return next_state or self.current_state
 
-    def _startMotorPulseIfNeeded(self, motor_type: MotorType):
+    def _startMotorPulseIfNeeded(
+        self, motor_type: MotorType, use_reduced_settings: bool = False
+    ):
         state_vars = self.runtime_variables[self.current_state]
         current_time = time.time()
         runtime_params = self.irl_interface["runtime_params"]
@@ -427,6 +435,8 @@ class SortingStateMachine:
                 pulse_duration = (
                     runtime_params["second_vibration_hopper_motor_pulse_ms"] / 1000.0
                 )
+                if use_reduced_settings:
+                    pulse_duration *= REDUCED_PULSE_LENGTH_FACTOR
             else:  # feeder_conveyor_motor
                 pulse_duration = runtime_params["feeder_conveyor_pulse_ms"] / 1000.0
 
@@ -457,12 +467,14 @@ class SortingStateMachine:
 
         # Start new pulse
         if not state_vars.get("motor_running"):
-            self._startMotorPulse(motor_type)
+            self._startMotorPulse(motor_type, use_reduced_settings)
             state_vars["motor_running"] = True
             state_vars["motor_type"] = motor_type
             state_vars["motor_start_time"] = current_time
 
-    def _startMotorPulse(self, motor_type: MotorType):
+    def _startMotorPulse(
+        self, motor_type: MotorType, use_reduced_settings: bool = False
+    ):
         runtime_params = self.irl_interface["runtime_params"]
 
         if motor_type == "first_vibration_hopper_motor":
@@ -471,8 +483,13 @@ class SortingStateMachine:
             self.logger.info(f"MOTOR: Starting first feeder motor at speed {speed}")
         elif motor_type == "second_vibration_hopper_motor":
             speed = runtime_params["second_vibration_hopper_motor_speed"]
+            if use_reduced_settings:
+                speed = int(speed * REDUCED_MOTOR_SPEED_FACTOR)
             motor = self.irl_interface["second_vibration_hopper_motor"]
-            self.logger.info(f"MOTOR: Starting second feeder motor at speed {speed}")
+            speed_info = f" (reduced)" if use_reduced_settings else ""
+            self.logger.info(
+                f"MOTOR: Starting second feeder motor at speed {speed}{speed_info}"
+            )
         elif motor_type == "feeder_conveyor_motor":
             speed = runtime_params["feeder_conveyor_speed"]
             motor = self.irl_interface["feeder_conveyor_dc_motor"]
@@ -519,6 +536,8 @@ class SortingStateMachine:
             return SortingState.FS_NO_OBJECT_UNDERNEATH_EXIT_OF_FIRST_FEEDER
         elif feeder_state == FeederState.FIRST_FEEDER_EMPTY:
             return SortingState.FS_FIRST_FEEDER_EMPTY
+        elif feeder_state == FeederState.OBJECT_ON_MAIN_CONVEYOR:
+            return SortingState.WAITING_FOR_OBJECT_TO_APPEAR_UNDER_MAIN_CAMERA
         else:
             self.logger.error(f"Unknown feeder state: {feeder_state}")
             return None

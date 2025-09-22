@@ -118,7 +118,8 @@ def buildGlobalConfig() -> GlobalConfig:
         # "yolo_weights_path": "/Users/spencer/Downloads/checkpoints (nano 414)/run_1757975149/weights/best.pt",
         # "yolo_weights_path": "/Users/spencer/Documents/GitHub/nexus2/weights/yolo11s-seg.pt",
         # "yolo_weights_path": "/Users/spencer/Downloads/run_1758315224/weights/best.pt", #nano more data
-        "yolo_weights_path": "/Users/spencer/Downloads/run_1758315429/weights/best.pt",  # small more data
+        # "yolo_weights_path": "/Users/spencer/Downloads/run_1758315429/weights/best.pt",  # small more data
+        "yolo_weights_path": "/Users/spencer/Downloads/run_1758582313/weights/best.pt",  # small, moved camera
         "disable_main_conveyor": "main_conveyor" in disabled_motors,
         "disable_first_vibration_hopper_motor": "vibration_hopper" in disabled_motors
         or "first_vibration_hopper" in disabled_motors,

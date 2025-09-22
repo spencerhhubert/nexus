@@ -102,13 +102,13 @@ def buildIRLConfig() -> IRLConfig:
             # "height": 2160,
             # "width": 1280,
             # "height": 720,
-            "fps": 30,
+            "fps": 15,
         },
         "feeder_camera": {
             "device_index": int(feeder_camera_index),
             "width": 1920,
             "height": 1080,
-            "fps": 5,
+            "fps": 15,
         },
         "distribution_modules": [
             {

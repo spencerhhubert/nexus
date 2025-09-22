@@ -122,7 +122,7 @@ class DCMotor:
 
     def setSpeed(self, speed: int, override: bool = False) -> None:
         original_speed = speed
-        speed = max(-255, min(255, speed))
+        speed = max(-254, min(254, speed))
 
         if self.current_speed == speed and not override:
             logger = self.gc["logger"]

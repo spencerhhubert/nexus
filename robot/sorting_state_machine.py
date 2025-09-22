@@ -12,9 +12,6 @@ from robot.ai.classify import classifyPiece
 from robot.util.images import cropImageToBbox
 from robot.vision_system import (
     SegmentationModelManager,
-    YOLO_CLASSES,
-    SECOND_FEEDER_DISTANCE_THRESHOLD,
-    MAIN_CONVEYOR_THRESHOLD,
 )
 from robot.irl.config import IRLSystemInterface
 from robot.websocket_manager import WebSocketManager
@@ -400,7 +397,7 @@ class SortingStateMachine:
                     main_speed = self.irl_interface["runtime_params"][
                         "main_conveyor_speed"
                     ]
-                    main_conveyor.setSpeed(main_speed)
+                    main_conveyor.setSpeed(main_speed + 100)
                     self.logger.info("SENDING_OBJECT_TO_BIN: Main conveyor started")
 
                 # Record start timestamp for distance calculation

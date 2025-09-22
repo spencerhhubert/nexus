@@ -354,16 +354,12 @@ class SortingStateMachine:
                         )
 
                         self.logger.info(f"CLASSIFICATION CONSENSUS: {consensus}")
-                        print(f"Classification consensus: {consensus}")
                     else:
                         self.logger.warning("No valid classification results obtained")
-                        print("No valid classification results obtained")
                 else:
                     self.logger.warning("No complete frames found for track ID")
-                    print("No complete frames found for track ID")
             else:
                 self.logger.warning("No centered object found for classification")
-                print("No centered object found for classification")
 
             # Go to sending object to bin state
             return SortingState.SENDING_OBJECT_TO_BIN
@@ -736,40 +732,50 @@ class SortingStateMachine:
 
     def _openDoorsForBin(self, bin_coords: BinCoordinates) -> None:
         distribution_modules = self.irl_interface["distribution_modules"]
+        gc = self.vision_system.global_config
+
         if bin_coords["distribution_module_idx"] < len(distribution_modules):
             module = distribution_modules[bin_coords["distribution_module_idx"]]
 
-            # Open conveyor door (servo to open position)
-            module.servo.setAngle(90)
+            # Open conveyor door
+            conveyor_open_angle = gc["conveyor_door_open_angle"]
+            module.servo.setAngle(conveyor_open_angle)
             self.logger.info(
-                f"DOOR: Opened conveyor door for module {bin_coords['distribution_module_idx']}"
+                f"DOOR: Opened conveyor door for module {bin_coords['distribution_module_idx']} to {conveyor_open_angle}°"
             )
 
             # Open bin door
             if bin_coords["bin_idx"] < len(module.bins):
                 bin_servo = module.bins[bin_coords["bin_idx"]].servo
-                bin_servo.setAngle(90)
+                bin_open_angle = gc["bin_door_open_angle"]
+                bin_servo.setAngle(bin_open_angle)
                 self.logger.info(
-                    f"DOOR: Opened bin door {bin_coords['bin_idx']} in module {bin_coords['distribution_module_idx']}"
+                    f"DOOR: Opened bin door {bin_coords['bin_idx']} in module {bin_coords['distribution_module_idx']} to {bin_open_angle}°"
                 )
 
     def _closeConveyorDoorGradually(self, distribution_module_idx: int) -> None:
         distribution_modules = self.irl_interface["distribution_modules"]
+        gc = self.vision_system.global_config
+
         if distribution_module_idx < len(distribution_modules):
             module = distribution_modules[distribution_module_idx]
             # Close conveyor door gradually (2 second duration)
-            module.servo.setAngle(0, 2000)
+            conveyor_closed_angle = gc["conveyor_door_closed_angle"]
+            module.servo.setAngle(conveyor_closed_angle, 2000)
             self.logger.info(
-                f"DOOR: Closing conveyor door gradually for module {distribution_module_idx}"
+                f"DOOR: Closing conveyor door gradually for module {distribution_module_idx} to {conveyor_closed_angle}°"
             )
 
     def _closeBinDoor(self, bin_coords: BinCoordinates) -> None:
         distribution_modules = self.irl_interface["distribution_modules"]
+        gc = self.vision_system.global_config
+
         if bin_coords["distribution_module_idx"] < len(distribution_modules):
             module = distribution_modules[bin_coords["distribution_module_idx"]]
             if bin_coords["bin_idx"] < len(module.bins):
                 bin_servo = module.bins[bin_coords["bin_idx"]].servo
-                bin_servo.setAngle(0)
+                bin_closed_angle = gc["bin_door_closed_angle"]
+                bin_servo.setAngle(bin_closed_angle)
                 self.logger.info(
-                    f"DOOR: Closed bin door {bin_coords['bin_idx']} in module {bin_coords['distribution_module_idx']}"
+                    f"DOOR: Closed bin door {bin_coords['bin_idx']} in module {bin_coords['distribution_module_idx']} to {bin_closed_angle}°"
                 )

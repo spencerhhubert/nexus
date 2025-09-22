@@ -13,6 +13,8 @@ from robot.our_types import SystemLifecycleStage
 from robot.vision_system import SegmentationModelManager
 from robot.sorting_state_machine import SortingStateMachine
 from robot.websocket_manager import WebSocketManager
+from robot.encoder_manager import EncoderManager
+from robot.our_types import MotorStatus
 
 
 class Controller:
@@ -34,8 +36,13 @@ class Controller:
         self.vision_system = SegmentationModelManager(
             global_config, irl_interface, websocket_manager
         )
+
+        self.encoder_manager = EncoderManager(
+            global_config, irl_interface["conveyor_encoder"]
+        )
+
         self.sorting_state_machine = SortingStateMachine(
-            self.vision_system, irl_interface, websocket_manager
+            self.vision_system, irl_interface, websocket_manager, self.encoder_manager
         )
 
         self.running = False
@@ -59,6 +66,7 @@ class Controller:
         self.irl_interface["second_vibration_hopper_motor"].setSpeed(0)
 
         self.vision_system.stop()
+        self.encoder_manager.stop()
         if self.controller_thread:
             self.controller_thread.join()
 
@@ -95,8 +103,6 @@ class Controller:
         self.lifecycle_stage = SystemLifecycleStage.SHUTDOWN
 
     def _broadcast_system_status(self):
-        from robot.our_types import MotorStatus
-
         # Get current motor speeds (we don't track these currently, so use 0 for now)
         motors = {
             "main_conveyor": MotorStatus(speed=0),
@@ -105,8 +111,13 @@ class Controller:
             "second_vibration_hopper": MotorStatus(speed=0),
         }
 
+        encoder_status = self.encoder_manager.getStatus()
+
         self.websocket_manager.broadcast_system_status(
-            self.lifecycle_stage, self.sorting_state_machine.current_state, motors
+            self.lifecycle_stage,
+            self.sorting_state_machine.current_state,
+            motors,
+            encoder_status,
         )
 
     def set_motor_speed(self, motor_id: str, speed: int):

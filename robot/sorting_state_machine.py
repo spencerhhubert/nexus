@@ -17,6 +17,7 @@ from robot.vision_system import (
 )
 from robot.irl.config import IRLSystemInterface
 from robot.websocket_manager import WebSocketManager
+from robot.encoder_manager import EncoderManager
 
 
 SECOND_FEEDER_THRESHOLD = 0.5  # 50% object coverage for second feeder
@@ -125,10 +126,12 @@ class SortingStateMachine:
         vision_system: SegmentationModelManager,
         irl_interface: IRLSystemInterface,
         websocket_manager: WebSocketManager,
+        encoder_manager: EncoderManager,
     ):
         self.vision_system = vision_system
         self.irl_interface = irl_interface
         self.websocket_manager = websocket_manager
+        self.encoder_manager = encoder_manager
         self.current_state = SortingState.GETTING_NEW_OBJECT_FROM_FEEDER
         self.logger = vision_system.logger
 

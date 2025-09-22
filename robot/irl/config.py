@@ -1,6 +1,7 @@
 from pyfirmata import util, pyfirmata
 from robot.irl.our_arduino import OurArduinoMega
-from robot.irl.motors import PCA9685, Servo, DCMotor, Encoder, BreakBeamSensor
+from robot.irl.motors import PCA9685, Servo, DCMotor, BreakBeamSensor
+from robot.irl.encoder import Encoder
 from robot.irl.distribution import Bin, DistributionModule
 from robot.irl.camera import Camera, connectToCamera
 from typing import Dict, List, Tuple, TypedDict, Optional

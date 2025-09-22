@@ -1,10 +1,10 @@
 from pyfirmata import util
 import time
 import threading
-import math
 from typing import Dict, Any, List, Optional, cast
 from robot.global_config import GlobalConfig
 from robot.irl.our_arduino import OurArduinoMega
+from robot.irl.encoder import Encoder
 
 
 class PCA9685:
@@ -278,89 +278,3 @@ class BreakBeamSensor:
             self.gc["logger"].warning(
                 f"Break beam response too short: got {len(args)} args, expected 22"
             )
-
-
-class Encoder:
-    def __init__(
-        self,
-        gc: GlobalConfig,
-        dev: OurArduinoMega,
-        clk_pin: int,
-        dt_pin: int,
-        pulses_per_revolution: int,
-        wheel_diameter_mm: float,
-    ):
-        self.gc = gc
-        self.dev = dev
-        self.clk_pin = clk_pin
-        self.dt_pin = dt_pin
-        self.pulses_per_revolution = pulses_per_revolution
-        self.wheel_diameter_cm = wheel_diameter_mm / 10  # Convert mm to cm
-        self.wheel_circumference_cm = math.pi * self.wheel_diameter_cm
-
-        self.pulse_count = 0
-        self.last_update_time = time.time()
-        self.lock = threading.Lock()
-
-        self.last_encoder_position = 0
-
-        logger = gc["logger"]
-        logger.info(f"Setting up encoder with CLK={self.clk_pin}, DT={self.dt_pin}")
-
-        self.dev.add_cmd_handler(
-            0x50, self._onEncoderResponse
-        )  # Register sysex handler for encoder responses
-        self.dev.sysex(0x50, [0x01, self.clk_pin, self.dt_pin])  # ENCODER_SETUP command
-
-        time.sleep(0.1)
-
-        self.polling_thread = threading.Thread(target=self._pollEncoder, daemon=True)
-        self.polling_thread.start()
-
-        logger.info(
-            f"Encoder initialized: CLK={clk_pin}, DT={dt_pin}, PPR={pulses_per_revolution}, wheel_diameter={self.wheel_diameter_cm}cm"
-        )
-
-    def _pollEncoder(self) -> None:
-        time.sleep(0.5)
-        self.gc["logger"].info("Encoder polling thread started")
-
-        while True:
-            try:
-                # Request current encoder position from Arduino via sysex
-                self.dev.sysex(0x50, [0x02])  # ENCODER_READ command
-                time.sleep(self.gc["encoder_polling_delay_ms"] / 1000.0)
-            except Exception as e:
-                self.gc["logger"].error(f"Encoder polling error: {e}")
-                time.sleep(0.1)
-
-    def _onEncoderResponse(self, *args):
-        # Firmata sends each byte as 2 7-bit bytes, so we get 4 bytes total
-        # Original data: [low_byte, high_byte] becomes [low_7bits, 0, high_7bits, 0]
-        if len(args) >= 4:
-            position = args[0] | (args[2] << 7)  # Reconstruct from 7-bit chunks
-
-            if position != self.last_encoder_position:
-                pulse_diff = abs(position - self.last_encoder_position)
-                with self.lock:
-                    self.pulse_count += pulse_diff
-                self.last_encoder_position = position
-
-    def getPulseCount(self) -> int:
-        with self.lock:
-            return self.pulse_count
-
-    def getLastUpdateTime(self) -> float:
-        with self.lock:
-            return self.last_update_time
-
-    def resetPulseCount(self) -> None:
-        with self.lock:
-            self.pulse_count = 0
-            self.last_update_time = time.time()
-
-    def getPulsesPerRevolution(self) -> int:
-        return self.pulses_per_revolution
-
-    def getWheelCircumferenceCm(self) -> float:
-        return self.wheel_circumference_cm

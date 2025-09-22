@@ -1,5 +1,5 @@
 import { setContext, getContext } from 'svelte';
-import type { KnownObject } from '../types/websocket';
+import type { KnownObject, EncoderStatus } from '../types/websocket';
 
 interface CameraFrame {
   camera: 'main_camera' | 'feeder_camera';
@@ -17,6 +17,7 @@ interface PageState {
     first_vibration_hopper: { speed: number };
     second_vibration_hopper: { speed: number };
   };
+  encoder: EncoderStatus | null;
 
   // Camera feeds
   mainCameraFrame: CameraFrame | null;
@@ -41,6 +42,7 @@ class PageStateStore {
       first_vibration_hopper: { speed: 0 },
       second_vibration_hopper: { speed: 0 },
     },
+    encoder: null,
     mainCameraFrame: null,
     feederCameraFrame: null,
     knownObjects: new Map(),
@@ -86,6 +88,7 @@ class PageStateStore {
             this.state.lifecycleStage = message.lifecycle_stage;
             this.state.sortingState = message.sorting_state;
             this.state.motors = message.motors;
+            this.state.encoder = message.encoder || null;
           } else if (message.type === 'known_object_update') {
             const uuid = message.uuid;
             const newMap = new Map(this.state.knownObjects);

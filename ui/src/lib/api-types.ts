@@ -86,27 +86,27 @@ export interface components {
       /** Type */
       type: string;
       /** Category Id */
-      category_id: number;
+      category_id?: number;
       /** Alternate No */
-      alternate_no: string;
+      alternate_no?: string;
       /** Image Url */
-      image_url: string;
+      image_url?: string;
       /** Thumbnail Url */
-      thumbnail_url: string;
+      thumbnail_url?: string;
       /** Weight */
-      weight: string;
+      weight?: string;
       /** Dim X */
-      dim_x: string;
+      dim_x?: string;
       /** Dim Y */
-      dim_y: string;
+      dim_y?: string;
       /** Dim Z */
-      dim_z: string;
+      dim_z?: string;
       /** Year Released */
-      year_released: number;
+      year_released?: number;
       /** Description */
-      description: string;
+      description?: string;
       /** Is Obsolete */
-      is_obsolete: boolean;
+      is_obsolete?: boolean;
     };
     /** HTTPValidationError */
     HTTPValidationError: {

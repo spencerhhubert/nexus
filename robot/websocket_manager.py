@@ -2,7 +2,7 @@ import asyncio
 import base64
 import json
 import threading
-from typing import Set, Dict, Optional
+from typing import Set, Dict, Optional, Any
 import cv2
 import numpy as np
 from fastapi import WebSocket
@@ -54,6 +54,7 @@ class WebSocketManager:
         lifecycle_stage: SystemLifecycleStage,
         sorting_state: SortingState,
         motors: Dict[str, MotorStatus],
+        encoder_status: Optional[Dict[str, Any]] = None,
     ):
         if not self.active_connections or not self.loop:
             return
@@ -65,6 +66,9 @@ class WebSocketManager:
                 "sorting_state": sorting_state.value,
                 "motors": motors,
             }
+
+            if encoder_status is not None:
+                message["encoder"] = encoder_status
 
             message_json = json.dumps(message)
 

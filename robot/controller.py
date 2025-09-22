@@ -97,7 +97,7 @@ class Controller:
             # Broadcast system status every 500ms
             current_time = time.time() * 1000
             if current_time - last_status_broadcast >= 500:
-                self._broadcast_system_status()
+                self._broadcastSystemStatus()
                 last_status_broadcast = current_time
 
             time.sleep(0.1)
@@ -106,7 +106,7 @@ class Controller:
 
         self.lifecycle_stage = SystemLifecycleStage.SHUTDOWN
 
-    def _broadcast_system_status(self):
+    def _broadcastSystemStatus(self):
         # Get current motor speeds (we don't track these currently, so use 0 for now)
         motors = {
             "main_conveyor": MotorStatus(speed=0),
@@ -123,19 +123,6 @@ class Controller:
             motors,
             encoder_status,
         )
-
-    def set_motor_speed(self, motor_id: str, speed: int):
-        # Set motor speed via IRL interface
-        if motor_id == "main_conveyor_dc_motor":
-            self.irl_interface["main_conveyor_dc_motor"].setSpeed(speed)
-        elif motor_id == "feeder_conveyor_dc_motor":
-            self.irl_interface["feeder_conveyor_dc_motor"].setSpeed(speed)
-        elif motor_id == "first_vibration_hopper_motor":
-            self.irl_interface["first_vibration_hopper_motor"].setSpeed(speed)
-        elif motor_id == "second_vibration_hopper_motor":
-            self.irl_interface["second_vibration_hopper_motor"].setSpeed(speed)
-        else:
-            raise ValueError(f"Unknown motor_id: {motor_id}")
 
     def pause(self):
         if self.lifecycle_stage == SystemLifecycleStage.RUNNING:

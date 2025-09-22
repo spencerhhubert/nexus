@@ -42,7 +42,11 @@ class Controller:
         )
 
         self.sorting_state_machine = SortingStateMachine(
-            self.vision_system, irl_interface, websocket_manager, self.encoder_manager
+            self.vision_system,
+            irl_interface,
+            websocket_manager,
+            self.encoder_manager,
+            self.bin_state_tracker,
         )
 
         self.running = False

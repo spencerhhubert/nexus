@@ -19,6 +19,7 @@ from robot.vision_system import (
 from robot.irl.config import IRLSystemInterface
 from robot.websocket_manager import WebSocketManager
 from robot.encoder_manager import EncoderManager
+from robot.bin_state_tracker import BinStateTracker
 
 
 SECOND_FEEDER_THRESHOLD = 0.5  # 50% object coverage for second feeder
@@ -128,11 +129,13 @@ class SortingStateMachine:
         irl_interface: IRLSystemInterface,
         websocket_manager: WebSocketManager,
         encoder_manager: EncoderManager,
+        bin_state_tracker: BinStateTracker,
     ):
         self.vision_system = vision_system
         self.irl_interface = irl_interface
         self.websocket_manager = websocket_manager
         self.encoder_manager = encoder_manager
+        self.bin_state_tracker = bin_state_tracker
         self.current_state = SortingState.GETTING_NEW_OBJECT_FROM_FEEDER
         self.logger = vision_system.logger
 
@@ -332,7 +335,9 @@ class SortingStateMachine:
                             f"WEBSOCKET: Sending classification update for UUID {object_uuid}: {most_common_id}"
                         )
                         self.websocket_manager.broadcastKnownObject(
-                            uuid=object_uuid, classification_id=most_common_id
+                            uuid=object_uuid,
+                            classification_id=most_common_id,
+                            bin_coordinates=bin_coordinates,
                         )
 
                         self.logger.info(f"CLASSIFICATION CONSENSUS: {consensus}")
@@ -694,11 +699,23 @@ class SortingStateMachine:
     def _determineBinCoordinates(
         self, classification_id: Optional[str]
     ) -> Optional[BinCoordinates]:
-        # For now, use the first available bin (bin 0 of module 0)
-        # TODO: Implement proper bin selection logic based on classification
-        if classification_id:
-            return BinCoordinates(distribution_module_idx=0, bin_idx=0)
-        return None
+        if not classification_id:
+            return None
+
+        # Use bin state tracker to find available bin for this classification
+        bin_coordinates = self.bin_state_tracker.findAvailableBin(classification_id)
+        if bin_coordinates:
+            # Reserve the bin for this classification
+            self.bin_state_tracker.reserveBin(bin_coordinates, classification_id)
+            self.logger.info(
+                f"BINS: Assigned classification {classification_id} to bin {bin_coordinates}"
+            )
+            return bin_coordinates
+        else:
+            self.logger.warning(
+                f"BINS: No available bin found for classification {classification_id}"
+            )
+            return None
 
     def _getDistanceToDistributionModule(self, distribution_module_idx: int) -> float:
         if distribution_module_idx < len(self.irl_interface["distribution_modules"]):

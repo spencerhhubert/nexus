@@ -7,6 +7,7 @@ import cv2
 import numpy as np
 from fastapi import WebSocket
 from robot.our_types import CameraType, SystemLifecycleStage, SortingState, MotorStatus
+from robot.our_types.bin import BinCoordinates
 
 
 class WebSocketManager:
@@ -85,6 +86,7 @@ class WebSocketManager:
         main_camera_id: Optional[str] = None,
         image: Optional[np.ndarray] = None,
         classification_id: Optional[str] = None,
+        bin_coordinates: Optional[BinCoordinates] = None,
     ):
         print(
             f"WEBSOCKET DEBUG: broadcastKnownObject called with UUID={uuid}, connections={len(self.active_connections)}, loop={self.loop is not None}"
@@ -97,7 +99,7 @@ class WebSocketManager:
             return
 
         try:
-            message = {
+            message: Dict[str, Any] = {
                 "type": "known_object_update",
                 "uuid": uuid,
             }
@@ -112,6 +114,14 @@ class WebSocketManager:
 
             if classification_id is not None:
                 message["classification_id"] = classification_id
+
+            if bin_coordinates is not None:
+                message["bin_coordinates"] = {
+                    "distribution_module_idx": bin_coordinates[
+                        "distribution_module_idx"
+                    ],
+                    "bin_idx": bin_coordinates["bin_idx"],
+                }
 
             message_json = json.dumps(message)
             print(f"WEBSOCKET DEBUG: Broadcasting message: {message_json}")

@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { KnownObject } from '../types/websocket';
   import { getBricklinkPartInfo } from '$lib/api-client';
+  import type { components } from '$lib/api-types';
   import KnownObjectLoadingState from './KnownObjectLoadingState.svelte';
 
 
@@ -10,7 +11,7 @@
 
   let { knownObject }: Props = $props();
 
-  let bricklinkData = $state(null);
+  let bricklinkData = $state<components['schemas']['BricklinkPartData'] | null>(null);
   let fetchingData: boolean = $state(false);
   let fetchError: boolean = $state(false);
   let lastFetchedPartId: string | null = $state(null);
@@ -147,6 +148,11 @@
           <div>
             {bricklinkData.no}
           </div>
+          {#if knownObject.bin_coordinates}
+            <div>
+              Bin {knownObject.bin_coordinates.distribution_module_idx}, {knownObject.bin_coordinates.bin_idx}
+            </div>
+          {/if}
         </div>
       </div>
     </div>
@@ -156,6 +162,11 @@
       <div class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-1">
         {knownObject.classification_id}
       </div>
+      {#if knownObject.bin_coordinates}
+        <div class="text-xs text-gray-600 dark:text-gray-400 mb-1">
+          Bin {knownObject.bin_coordinates.distribution_module_idx},{knownObject.bin_coordinates.bin_idx}
+        </div>
+      {/if}
       <div class="text-xs text-red-500 dark:text-red-400">
         Failed to load part info
       </div>
@@ -166,6 +177,11 @@
       <div class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-1">
         {knownObject.classification_id}
       </div>
+      {#if knownObject.bin_coordinates}
+        <div class="text-xs text-gray-600 dark:text-gray-400 mb-1">
+          Bin {knownObject.bin_coordinates.distribution_module_idx},{knownObject.bin_coordinates.bin_idx}
+        </div>
+      {/if}
       <div class="text-xs text-blue-500 dark:text-blue-400">
         Loading part info...
       </div>

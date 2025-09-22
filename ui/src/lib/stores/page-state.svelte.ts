@@ -106,6 +106,9 @@ class PageStateStore {
               if (message.classification_id !== undefined) {
                 updated.classification_id = message.classification_id;
               }
+              if (message.bin_coordinates !== undefined) {
+                updated.bin_coordinates = message.bin_coordinates;
+              }
 
               newMap.set(uuid, updated);
             } else {
@@ -114,6 +117,7 @@ class PageStateStore {
                 main_camera_id: message.main_camera_id,
                 image: message.image,
                 classification_id: message.classification_id,
+                bin_coordinates: message.bin_coordinates,
               };
               newMap.set(uuid, newObject);
             }

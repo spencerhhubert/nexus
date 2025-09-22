@@ -28,11 +28,17 @@ export interface CameraFrameMessage {
   data: string;
 }
 
+export interface BinCoordinates {
+  distribution_module_idx: number;
+  bin_idx: number;
+}
+
 export interface KnownObject {
   uuid: string;
   main_camera_id?: string;
   image?: string;
   classification_id?: string;
+  bin_coordinates?: BinCoordinates;
 }
 
 export interface KnownObjectMessage {
@@ -41,6 +47,7 @@ export interface KnownObjectMessage {
   main_camera_id?: string;
   image?: string;
   classification_id?: string;
+  bin_coordinates?: BinCoordinates;
 }
 
 export type WebSocketMessage =

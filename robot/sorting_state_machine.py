@@ -304,20 +304,33 @@ class SortingStateMachine:
                     # Classify each frame
                     for frame in selected_frames:
                         result = classifyPiece([frame], gc)
-                        if result and result["id"]:
-                            classification_results.append(result["id"])
+                        if result:
+                            classification_results.append(result)
 
                     # Calculate consensus
                     if classification_results:
-                        id_counts = Counter(classification_results)
-                        most_common_id = (
-                            id_counts.most_common(1)[0][0] if id_counts else None
+                        id_counts = Counter([r["id"] for r in classification_results])
+                        category_counts = Counter(
+                            [r["category_id"] for r in classification_results]
                         )
 
-                        consensus = ClassificationConsensus(id=most_common_id)
+                        most_common_id = (
+                            id_counts.most_common(1)[0][0] if id_counts else ""
+                        )
+                        most_common_category = (
+                            category_counts.most_common(1)[0][0]
+                            if category_counts
+                            else ""
+                        )
+
+                        consensus = ClassificationConsensus(
+                            id=most_common_id, category_id=most_common_category
+                        )
 
                         # Determine bin coordinates for this classification
-                        bin_coordinates = self._determineBinCoordinates(most_common_id)
+                        bin_coordinates = self._determineBinCoordinates(
+                            most_common_category
+                        )
 
                         # Create and store known object
                         known_object = KnownObject(
@@ -332,7 +345,7 @@ class SortingStateMachine:
 
                         # Send classification update
                         self.logger.info(
-                            f"WEBSOCKET: Sending classification update for UUID {object_uuid}: {most_common_id}"
+                            f"WEBSOCKET: Sending classification update for UUID {object_uuid}: {most_common_id} (category: {most_common_category})"
                         )
                         self.websocket_manager.broadcastKnownObject(
                             uuid=object_uuid,
@@ -696,24 +709,22 @@ class SortingStateMachine:
             main_speed = self.irl_interface["runtime_params"]["main_conveyor_speed"]
             main_conveyor.setSpeed(main_speed)
 
-    def _determineBinCoordinates(
-        self, classification_id: Optional[str]
-    ) -> Optional[BinCoordinates]:
-        if not classification_id:
+    def _determineBinCoordinates(self, category_id: str) -> Optional[BinCoordinates]:
+        if not category_id:
             return None
 
-        # Use bin state tracker to find available bin for this classification
-        bin_coordinates = self.bin_state_tracker.findAvailableBin(classification_id)
+        # Use bin state tracker to find available bin for this category
+        bin_coordinates = self.bin_state_tracker.findAvailableBin(category_id)
         if bin_coordinates:
-            # Reserve the bin for this classification
-            self.bin_state_tracker.reserveBin(bin_coordinates, classification_id)
+            # Reserve the bin for this category
+            self.bin_state_tracker.reserveBin(bin_coordinates, category_id)
             self.logger.info(
-                f"BINS: Assigned classification {classification_id} to bin {bin_coordinates}"
+                f"BINS: Assigned category {category_id} to bin {bin_coordinates}"
             )
             return bin_coordinates
         else:
             self.logger.warning(
-                f"BINS: No available bin found for classification {classification_id}"
+                f"BINS: No available bin found for category {category_id}"
             )
             return None
 

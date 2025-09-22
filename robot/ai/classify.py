@@ -63,8 +63,14 @@ def classifyWithBrickognize(
         result = brickognizeClassifySegment(frame, global_config)
         if result and result.get("items") and len(result["items"]) > 0:
             best_item = result["items"][0]
-            return ClassificationResult(id=best_item.get("id"))
-        return ClassificationResult(id=None)
+            item_id = best_item.get("id")
+            category = best_item.get("category")
+
+            if item_id and category:
+                return ClassificationResult(id=item_id, category_id=category)
+
+        # Return None if classification failed
+        return None
     except Exception as e:
         global_config["logger"].error(f"Brickognize classification failed: {e}")
         return None

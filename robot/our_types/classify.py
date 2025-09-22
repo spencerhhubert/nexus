@@ -2,8 +2,10 @@ from typing import TypedDict, Optional
 
 
 class ClassificationResult(TypedDict):
-    id: Optional[str]
+    id: str
+    category_id: str
 
 
 class ClassificationConsensus(TypedDict):
-    id: Optional[str]
+    id: str
+    category_id: str

@@ -7,6 +7,7 @@ from robot.our_types.vision_system import FeederState, MainCameraState
 from robot.our_types.known_object import KnownObject
 from robot.our_types.classify import ClassificationConsensus
 from robot.our_types.observation import BoundingBox
+from robot.our_types.bin import BinCoordinates
 from robot.ai.classify import classifyPiece
 from robot.util.images import cropImageToBbox
 from robot.vision_system import (
@@ -142,6 +143,9 @@ class SortingStateMachine:
 
         # Known objects for classification
         self.known_objects: Dict[str, KnownObject] = {}
+
+        # Pending object being sent to bin
+        self.pending_known_object: Optional[KnownObject] = None
 
     def step(self):
         # Execute current state's action and get next state
@@ -309,14 +313,19 @@ class SortingStateMachine:
 
                         consensus = ClassificationConsensus(id=most_common_id)
 
+                        # Determine bin coordinates for this classification
+                        bin_coordinates = self._determineBinCoordinates(most_common_id)
+
                         # Create and store known object
                         known_object = KnownObject(
                             uuid=object_uuid,
                             main_camera_id=centered_object_id,
                             observations=[],  # Not needed for this simplified approach
                             classification_consensus=consensus,
+                            bin_coordinates=bin_coordinates,
                         )
                         self.known_objects[centered_object_id] = known_object
+                        self.pending_known_object = known_object
 
                         # Send classification update
                         self.logger.info(
@@ -354,15 +363,90 @@ class SortingStateMachine:
     def _runSendingObjectToBin(self) -> SortingState:
         state_vars = self.runtime_variables[self.current_state]
         current_time = time.time()
+        gc = self.vision_system.global_config
 
         if "sending_object_to_bin_start_ts" not in state_vars:
             state_vars["sending_object_to_bin_start_ts"] = current_time
-            self.logger.info("SENDING_OBJECT_TO_BIN: Starting 5 second wait")
 
-        start_time = state_vars["sending_object_to_bin_start_ts"]
-        if current_time - start_time >= 5.0:
-            self.logger.info("SENDING_OBJECT_TO_BIN: 5 second wait complete")
-            return SortingState.GETTING_NEW_OBJECT_FROM_FEEDER
+            if (
+                self.pending_known_object
+                and self.pending_known_object["bin_coordinates"]
+            ):
+                bin_coords = self.pending_known_object["bin_coordinates"]
+                self.logger.info(
+                    f"SENDING_OBJECT_TO_BIN: Starting for bin {bin_coords}"
+                )
+
+                # Open doors for the target bin
+                self._openDoorsForBin(bin_coords)
+
+                # Turn on main conveyor only
+                if not gc["disable_main_conveyor"]:
+                    main_conveyor = self.irl_interface["main_conveyor_dc_motor"]
+                    main_speed = self.irl_interface["runtime_params"][
+                        "main_conveyor_speed"
+                    ]
+                    main_conveyor.setSpeed(main_speed)
+                    self.logger.info("SENDING_OBJECT_TO_BIN: Main conveyor started")
+
+                # Record start timestamp for distance calculation
+                state_vars["conveyor_start_timestamp"] = current_time
+            else:
+                self.logger.warning(
+                    "SENDING_OBJECT_TO_BIN: No pending known object or bin coordinates"
+                )
+                return SortingState.GETTING_NEW_OBJECT_FROM_FEEDER
+
+        # Check if we have traveled the required distance
+        if self.pending_known_object and self.pending_known_object["bin_coordinates"]:
+            bin_coords = self.pending_known_object["bin_coordinates"]
+            target_distance = self._getDistanceToDistributionModule(
+                bin_coords["distribution_module_idx"]
+            )
+
+            start_timestamp = state_vars.get("conveyor_start_timestamp", current_time)
+            distance_traveled = self.encoder_manager.getDistanceTraveledSince(
+                start_timestamp
+            )
+
+            self.logger.info(
+                f"SENDING_OBJECT_TO_BIN: Distance traveled: {distance_traveled} cm, target distance {target_distance}"
+            )
+
+            if distance_traveled >= target_distance:
+                if "conveyor_door_close_start_ts" not in state_vars:
+                    # Wait conveyor_door_close_delay_ms before closing doors
+                    state_vars["conveyor_door_close_start_ts"] = current_time
+                    self.logger.info(
+                        "SENDING_OBJECT_TO_BIN: Target distance reached, starting door close delay"
+                    )
+
+                close_start_time = state_vars["conveyor_door_close_start_ts"]
+                conveyor_delay = gc["conveyor_door_close_delay_ms"] / 1000.0
+
+                if current_time - close_start_time >= conveyor_delay:
+                    if "conveyor_door_closed" not in state_vars:
+                        # Close conveyor door gradually
+                        self._closeConveyorDoorGradually(
+                            bin_coords["distribution_module_idx"]
+                        )
+                        state_vars["conveyor_door_closed"] = True
+                        state_vars["bin_door_close_start_ts"] = current_time
+                        self.logger.info(
+                            "SENDING_OBJECT_TO_BIN: Conveyor door closed, starting bin door delay"
+                        )
+
+                    bin_close_start_time = state_vars.get(
+                        "bin_door_close_start_ts", current_time
+                    )
+                    bin_delay = gc["bin_door_close_delay_ms"] / 1000.0
+
+                    if current_time - bin_close_start_time >= bin_delay:
+                        # Close bin door and finish
+                        self._closeBinDoor(bin_coords)
+                        self.pending_known_object = None
+                        self.logger.info("SENDING_OBJECT_TO_BIN: Sequence complete")
+                        return SortingState.GETTING_NEW_OBJECT_FROM_FEEDER
 
         return self.current_state
 
@@ -606,3 +690,58 @@ class SortingStateMachine:
             main_conveyor = self.irl_interface["main_conveyor_dc_motor"]
             main_speed = self.irl_interface["runtime_params"]["main_conveyor_speed"]
             main_conveyor.setSpeed(main_speed)
+
+    def _determineBinCoordinates(
+        self, classification_id: Optional[str]
+    ) -> Optional[BinCoordinates]:
+        # For now, use the first available bin (bin 0 of module 0)
+        # TODO: Implement proper bin selection logic based on classification
+        if classification_id:
+            return BinCoordinates(distribution_module_idx=0, bin_idx=0)
+        return None
+
+    def _getDistanceToDistributionModule(self, distribution_module_idx: int) -> float:
+        if distribution_module_idx < len(self.irl_interface["distribution_modules"]):
+            module = self.irl_interface["distribution_modules"][distribution_module_idx]
+            return float(module.distance_from_camera_center_to_door_begin_cm)
+        return 0.0
+
+    def _openDoorsForBin(self, bin_coords: BinCoordinates) -> None:
+        distribution_modules = self.irl_interface["distribution_modules"]
+        if bin_coords["distribution_module_idx"] < len(distribution_modules):
+            module = distribution_modules[bin_coords["distribution_module_idx"]]
+
+            # Open conveyor door (servo to open position)
+            module.servo.setAngle(90)
+            self.logger.info(
+                f"DOOR: Opened conveyor door for module {bin_coords['distribution_module_idx']}"
+            )
+
+            # Open bin door
+            if bin_coords["bin_idx"] < len(module.bins):
+                bin_servo = module.bins[bin_coords["bin_idx"]].servo
+                bin_servo.setAngle(90)
+                self.logger.info(
+                    f"DOOR: Opened bin door {bin_coords['bin_idx']} in module {bin_coords['distribution_module_idx']}"
+                )
+
+    def _closeConveyorDoorGradually(self, distribution_module_idx: int) -> None:
+        distribution_modules = self.irl_interface["distribution_modules"]
+        if distribution_module_idx < len(distribution_modules):
+            module = distribution_modules[distribution_module_idx]
+            # Close conveyor door gradually (2 second duration)
+            module.servo.setAngle(0, 2000)
+            self.logger.info(
+                f"DOOR: Closing conveyor door gradually for module {distribution_module_idx}"
+            )
+
+    def _closeBinDoor(self, bin_coords: BinCoordinates) -> None:
+        distribution_modules = self.irl_interface["distribution_modules"]
+        if bin_coords["distribution_module_idx"] < len(distribution_modules):
+            module = distribution_modules[bin_coords["distribution_module_idx"]]
+            if bin_coords["bin_idx"] < len(module.bins):
+                bin_servo = module.bins[bin_coords["bin_idx"]].servo
+                bin_servo.setAngle(0)
+                self.logger.info(
+                    f"DOOR: Closed bin door {bin_coords['bin_idx']} in module {bin_coords['distribution_module_idx']}"
+                )

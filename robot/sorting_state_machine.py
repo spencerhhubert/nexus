@@ -23,6 +23,7 @@ SECOND_FEEDER_THRESHOLD = 0.5
 REDUCED_PULSE_LENGTH_FACTOR = 0.5
 REDUCED_MOTOR_SPEED_FACTOR = 0.95
 FIRST_FEEDER_EMPTY_PULSE_COUNT = 5
+FIRST_FEEDER_EMPTY_CYCLE_PAUSE_DURATION_S = 1.0
 
 # Type definitions
 MotorType = Literal[
@@ -57,7 +58,15 @@ class FsObjectUnderneathExitOfFirstFeederRuntimeVariables(TypedDict, total=False
     first_feeder_pulse_count: Optional[int]
 
 
-# States with no runtime variables
+class FsFirstFeederEmptyRuntimeVariables(TypedDict, total=False):
+    cycle_phase: Optional[
+        Literal["conveyor_pulse", "conveyor_pause", "feeder_pulses", "cycle_pause"]
+    ]
+    first_feeder_pulse_count: Optional[int]
+    phase_start_time: Optional[float]
+    conveyor_started: Optional[bool]
+
+
 class EmptyRuntimeVariables(TypedDict, total=False):
     pass
 
@@ -140,6 +149,8 @@ class SortingStateMachine:
         for state in SortingState:
             self.runtime_variables[state] = {}
 
+        self.fs_first_feeder_empty_vars: FsFirstFeederEmptyRuntimeVariables = {}
+
         # Known objects for classification
         self.known_objects: Dict[str, KnownObject] = {}
 
@@ -184,6 +195,10 @@ class SortingStateMachine:
             self.logger.info(
                 f"STATE TRANSITION: {self.current_state.value} -> {next_state.value}"
             )
+
+            if self.current_state == SortingState.FS_FIRST_FEEDER_EMPTY:
+                self.cleanupFsFirstFeederEmpty()
+
             self.cleanupRuntimeVariables(self.current_state)
             self.setMotorsToDefaultSpeed()
             self.current_state = next_state
@@ -508,64 +523,73 @@ class SortingStateMachine:
         return next_state or self.current_state
 
     def _runFsFirstFeederEmpty(self) -> SortingState:
-        state_vars = self.runtime_variables[self.current_state]
         current_time = time.time()
         runtime_params = self.irl_interface["runtime_params"]
 
-        if "cycle_phase" not in state_vars:
-            state_vars["cycle_phase"] = "conveyor_pulse"
-            state_vars["first_feeder_pulse_count"] = 0
-            state_vars["phase_start_time"] = current_time
+        if "cycle_phase" not in self.fs_first_feeder_empty_vars:
+            self.fs_first_feeder_empty_vars["cycle_phase"] = "conveyor_pulse"
+            self.fs_first_feeder_empty_vars["first_feeder_pulse_count"] = 0
+            self.fs_first_feeder_empty_vars["phase_start_time"] = current_time
 
-        phase = state_vars["cycle_phase"]
-        phase_start_time = state_vars["phase_start_time"]
+        phase = self.fs_first_feeder_empty_vars["cycle_phase"]
+        phase_start_time = self.fs_first_feeder_empty_vars["phase_start_time"]
 
         if phase == "conveyor_pulse":
-            if "conveyor_started" not in state_vars:
+            if not self.fs_first_feeder_empty_vars.get("conveyor_started"):
                 feeder_conveyor = self.irl_interface["feeder_conveyor_dc_motor"]
                 speed = runtime_params["feeder_conveyor_speed"]
                 feeder_conveyor.setSpeed(speed)
-                state_vars["conveyor_started"] = True
-                self.logger.info(f"MOTOR: Starting feeder conveyor pulse at speed {speed}")
+                self.fs_first_feeder_empty_vars["conveyor_started"] = True
+                self.logger.info(
+                    f"MOTOR: Starting feeder conveyor pulse at speed {speed}"
+                )
 
-            pulse_duration = runtime_params["feeder_conveyor_pulse_duration_ms"] / 1000.0
+            pulse_duration = (
+                runtime_params["feeder_conveyor_pulse_duration_ms"] / 1000.0
+            )
             if current_time - phase_start_time >= pulse_duration:
                 feeder_conveyor = self.irl_interface["feeder_conveyor_dc_motor"]
                 feeder_conveyor.setSpeed(0)
-                state_vars["cycle_phase"] = "conveyor_pause"
-                state_vars["phase_start_time"] = current_time
-                del state_vars["conveyor_started"]
+                self.fs_first_feeder_empty_vars["cycle_phase"] = "conveyor_pause"
+                self.fs_first_feeder_empty_vars["phase_start_time"] = current_time
+                self.fs_first_feeder_empty_vars["conveyor_started"] = False
                 self.logger.info("MOTOR: Stopped feeder conveyor, starting pause")
 
         elif phase == "conveyor_pause":
             pause_duration = runtime_params["feeder_conveyor_pause_ms"] / 1000.0
             if current_time - phase_start_time >= pause_duration:
-                state_vars["cycle_phase"] = "feeder_pulses"
-                state_vars["first_feeder_pulse_count"] = 0
-                state_vars["phase_start_time"] = current_time
+                self.fs_first_feeder_empty_vars["cycle_phase"] = "feeder_pulses"
+                self.fs_first_feeder_empty_vars["first_feeder_pulse_count"] = 0
+                self.fs_first_feeder_empty_vars["phase_start_time"] = current_time
                 self.logger.info("MOTOR: Starting first feeder pulse sequence")
 
         elif phase == "feeder_pulses":
-            pulse_count = state_vars["first_feeder_pulse_count"]
+            pulse_count = self.fs_first_feeder_empty_vars["first_feeder_pulse_count"]
             if pulse_count < FIRST_FEEDER_EMPTY_PULSE_COUNT:
-                was_motor_running = state_vars.get("motor_running", False)
                 self._startMotorPulseIfNeeded("first_vibration_hopper_motor")
-                is_motor_running = state_vars.get("motor_running", False)
-
-                if was_motor_running and not is_motor_running:
-                    state_vars["first_feeder_pulse_count"] = pulse_count + 1
-                    self.logger.info(f"MOTOR: Completed first feeder pulse {pulse_count + 1}/{FIRST_FEEDER_EMPTY_PULSE_COUNT}")
+                if not self.runtime_variables[self.current_state].get("motor_running"):
+                    self.fs_first_feeder_empty_vars["first_feeder_pulse_count"] = (
+                        pulse_count + 1
+                    )
+                    self.logger.info(
+                        f"MOTOR: Completed first feeder pulse {pulse_count + 1}/{FIRST_FEEDER_EMPTY_PULSE_COUNT}"
+                    )
             else:
-                state_vars["cycle_phase"] = "cycle_pause"
-                state_vars["phase_start_time"] = current_time
-                self.logger.info("MOTOR: Completed feeder pulse sequence, starting cycle pause")
+                self.fs_first_feeder_empty_vars["cycle_phase"] = "cycle_pause"
+                self.fs_first_feeder_empty_vars["phase_start_time"] = current_time
+                self.logger.info(
+                    "MOTOR: Completed feeder pulse sequence, starting cycle pause"
+                )
 
         elif phase == "cycle_pause":
-            cycle_pause_duration = 1.0
-            if current_time - phase_start_time >= cycle_pause_duration:
-                state_vars["cycle_phase"] = "conveyor_pulse"
-                state_vars["first_feeder_pulse_count"] = 0
-                state_vars["phase_start_time"] = current_time
+            if (
+                current_time - phase_start_time
+                >= FIRST_FEEDER_EMPTY_CYCLE_PAUSE_DURATION_S
+            ):
+                self.fs_first_feeder_empty_vars["cycle_phase"] = "conveyor_pulse"
+                self.fs_first_feeder_empty_vars["first_feeder_pulse_count"] = 0
+                self.fs_first_feeder_empty_vars["phase_start_time"] = current_time
+                self.fs_first_feeder_empty_vars["conveyor_started"] = False
                 self.logger.info("MOTOR: Starting new conveyor+feeder cycle")
 
         next_state = self._determineNextStateFromFrameAnalysis()
@@ -733,6 +757,14 @@ class SortingStateMachine:
                 return SortingState.FS_FIRST_FEEDER_EMPTY
 
         return None
+
+    def cleanupFsFirstFeederEmpty(self) -> None:
+        feeder_conveyor = self.irl_interface["feeder_conveyor_dc_motor"]
+        feeder_conveyor.setSpeed(0)
+        self.fs_first_feeder_empty_vars = {}
+        self.logger.info(
+            "CLEANUP: Stopped feeder conveyor and cleared FS_FIRST_FEEDER_EMPTY state"
+        )
 
     def cleanupRuntimeVariables(self, state: SortingState):
         self.runtime_variables[state] = {}

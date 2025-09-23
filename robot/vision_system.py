@@ -21,9 +21,10 @@ YOLO_CLASSES = {
 
 # Vision analysis constants
 SECOND_FEEDER_DISTANCE_THRESHOLD = 30
-MAIN_CONVEYOR_THRESHOLD = 0.7  # 50% object coverage for main conveyor detection
-OBJECT_CENTER_THRESHOLD = 0.4  # 40% of frame center for object centering
-RIGHT_SIDE_THRESHOLD = 0.3  # 30% from right edge for object positioning
+MAIN_CONVEYOR_THRESHOLD = 0.7
+OBJECT_CENTER_THRESHOLD = 0.4
+RIGHT_SIDE_THRESHOLD = 0.3
+MARGIN_FOR_MAIN_CONVEYOR_BOUNDING_BOX_PX = -15
 
 
 class SegmentationModelManager:
@@ -189,7 +190,32 @@ class SegmentationModelManager:
         rmin, rmax = np.where(rows)[0][[0, -1]]
         cmin, cmax = np.where(cols)[0][[0, -1]]
 
-        return (cmin, rmin, cmax, rmax)  # (x1, y1, x2, y2)
+        return (cmin, rmin, cmax, rmax)
+
+    def _applyMarginToBoundingBox(
+        self, bbox: Tuple[int, int, int, int], margin_px: int, frame_shape: Optional[Tuple[int, int]] = None
+    ) -> Tuple[int, int, int, int]:
+        x1, y1, x2, y2 = bbox
+
+        if margin_px >= 0:
+            new_x1 = x1 - margin_px
+            new_y1 = y1 - margin_px
+            new_x2 = x2 + margin_px
+            new_y2 = y2 + margin_px
+        else:
+            new_x1 = x1 - margin_px
+            new_y1 = y1 - margin_px
+            new_x2 = x2 + margin_px
+            new_y2 = y2 + margin_px
+
+        if frame_shape:
+            frame_height, frame_width = frame_shape
+            new_x1 = max(0, min(new_x1, frame_width - 1))
+            new_y1 = max(0, min(new_y1, frame_height - 1))
+            new_x2 = max(0, min(new_x2, frame_width - 1))
+            new_y2 = max(0, min(new_y2, frame_height - 1))
+
+        return (new_x1, new_y1, new_x2, new_y2)
 
     def _calculateBoundingBoxOverlap(
         self,
@@ -313,8 +339,11 @@ class SegmentationModelManager:
                         main_conveyor_mask
                     )
                     if main_conveyor_bbox:
+                        main_conveyor_bbox_with_margin = self._applyMarginToBoundingBox(
+                            main_conveyor_bbox, MARGIN_FOR_MAIN_CONVEYOR_BOUNDING_BOX_PX, main_conveyor_mask.shape
+                        )
                         bbox_overlap = self._calculateBoundingBoxOverlap(
-                            obj_bbox, main_conveyor_bbox
+                            obj_bbox, main_conveyor_bbox_with_margin
                         )
                         total_bbox_overlap += bbox_overlap
 
@@ -457,8 +486,11 @@ class SegmentationModelManager:
             for main_conveyor_mask in main_conveyor_masks:
                 main_conveyor_bbox = self._getBoundingBoxFromMask(main_conveyor_mask)
                 if main_conveyor_bbox:
+                    main_conveyor_bbox_with_margin = self._applyMarginToBoundingBox(
+                        main_conveyor_bbox, MARGIN_FOR_MAIN_CONVEYOR_BOUNDING_BOX_PX, main_conveyor_mask.shape
+                    )
                     conveyor_overlap = self._calculateBoundingBoxOverlap(
-                        obj_bbox, main_conveyor_bbox
+                        obj_bbox, main_conveyor_bbox_with_margin
                     )
                     total_conveyor_overlap += conveyor_overlap
 

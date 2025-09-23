@@ -305,54 +305,71 @@ class SegmentationModelManager:
             # Check for objects at end of second feeder (bbox >50% in main conveyor BUT not touching conveyor surface)
             main_conveyor_masks = masks_by_class.get("main_conveyor", [])
             if main_conveyor_masks:
-                main_conveyor_bbox = self._getBoundingBoxFromMask(
-                    main_conveyor_masks[0]
-                )
-                if main_conveyor_bbox:
-                    bbox_overlap = self._calculateBoundingBoxOverlap(
-                        obj_bbox, main_conveyor_bbox
-                    )
-                    main_conveyor_proximity = self._calculateMaskEdgeProximity(
-                        obj_mask, main_conveyor_masks[0]
-                    )
+                total_bbox_overlap = 0.0
+                total_main_conveyor_proximity = 0.0
 
-                    if (
-                        bbox_overlap > MAIN_CONVEYOR_THRESHOLD
-                        and main_conveyor_proximity <= MAIN_CONVEYOR_THRESHOLD
-                    ):
-                        objects_at_end_of_second_feeder.append(i)
-                        self.logger.info(
-                            f"Object {i}: at end of second feeder (bbox_overlap={bbox_overlap:.3f}, proximity={main_conveyor_proximity:.3f})"
+                for main_conveyor_mask in main_conveyor_masks:
+                    main_conveyor_bbox = self._getBoundingBoxFromMask(
+                        main_conveyor_mask
+                    )
+                    if main_conveyor_bbox:
+                        bbox_overlap = self._calculateBoundingBoxOverlap(
+                            obj_bbox, main_conveyor_bbox
                         )
-                        continue
-                    elif main_conveyor_proximity > MAIN_CONVEYOR_THRESHOLD:
-                        objects_on_main_conveyor.append(i)
-                        self.logger.info(
-                            f"Object {i}: on main conveyor (proximity={main_conveyor_proximity:.3f})"
-                        )
-                        continue
+                        total_bbox_overlap += bbox_overlap
+
+                    main_conveyor_proximity = self._calculateMaskEdgeProximity(
+                        obj_mask, main_conveyor_mask
+                    )
+                    total_main_conveyor_proximity += main_conveyor_proximity
+
+                if (
+                    total_bbox_overlap > MAIN_CONVEYOR_THRESHOLD
+                    and total_main_conveyor_proximity <= MAIN_CONVEYOR_THRESHOLD
+                ):
+                    objects_at_end_of_second_feeder.append(i)
+                    self.logger.info(
+                        f"Object {i}: at end of second feeder (bbox_overlap={total_bbox_overlap:.3f}, proximity={total_main_conveyor_proximity:.3f})"
+                    )
+                    continue
+                elif total_main_conveyor_proximity > MAIN_CONVEYOR_THRESHOLD:
+                    objects_on_main_conveyor.append(i)
+                    self.logger.info(
+                        f"Object {i}: on main conveyor (proximity={total_main_conveyor_proximity:.3f})"
+                    )
+                    continue
 
             # Check second feeder (>50% surrounded)
             if second_feeder_masks:
-                second_proximity = self._calculateMaskEdgeProximity(
-                    obj_mask, second_feeder_masks[0]
-                )
-                if second_proximity > 0.5:
-                    objects_on_second_feeder.append((i, obj_bbox, second_proximity))
+                total_second_proximity = 0.0
+                for second_feeder_mask in second_feeder_masks:
+                    second_proximity = self._calculateMaskEdgeProximity(
+                        obj_mask, second_feeder_mask
+                    )
+                    total_second_proximity += second_proximity
+
+                if total_second_proximity > 0.5:
+                    objects_on_second_feeder.append(
+                        (i, obj_bbox, total_second_proximity)
+                    )
                     self.logger.info(
-                        f"Object {i}: on second feeder (surrounded={second_proximity:.3f})"
+                        f"Object {i}: on second feeder (surrounded={total_second_proximity:.3f})"
                     )
                     continue
 
             # Check first feeder (>50% proximity)
             if first_feeder_masks:
-                first_proximity = self._calculateMaskEdgeProximity(
-                    obj_mask, first_feeder_masks[0]
-                )
-                if first_proximity > 0.5:
+                total_first_proximity = 0.0
+                for first_feeder_mask in first_feeder_masks:
+                    first_proximity = self._calculateMaskEdgeProximity(
+                        obj_mask, first_feeder_mask
+                    )
+                    total_first_proximity += first_proximity
+
+                if total_first_proximity > 0.5:
                     objects_on_first_feeder.append(i)
                     self.logger.info(
-                        f"Object {i}: on first feeder (proximity={first_proximity:.3f})"
+                        f"Object {i}: on first feeder (proximity={total_first_proximity:.3f})"
                     )
 
         if objects_on_main_conveyor:
@@ -374,13 +391,19 @@ class SegmentationModelManager:
         dropzone_clear = True
         if objects_on_second_feeder and first_feeder_masks:
             for i, obj_bbox, proximity in objects_on_second_feeder:
-                distance_to_first = self._calculateMinDistanceToMask(
-                    obj_bbox, first_feeder_masks[0]
-                )
-                if distance_to_first < SECOND_FEEDER_DISTANCE_THRESHOLD:
+                min_distance_to_first = float("inf")
+                for first_feeder_mask in first_feeder_masks:
+                    distance_to_first = self._calculateMinDistanceToMask(
+                        obj_bbox, first_feeder_mask
+                    )
+                    min_distance_to_first = min(
+                        min_distance_to_first, distance_to_first
+                    )
+
+                if min_distance_to_first < SECOND_FEEDER_DISTANCE_THRESHOLD:
                     dropzone_clear = False
                     self.logger.info(
-                        f"Object {i} in dropzone: {distance_to_first:.1f}px from first feeder mask"
+                        f"Object {i} in dropzone: {min_distance_to_first:.1f}px from first feeder mask"
                     )
                     break
 
@@ -418,10 +441,6 @@ class SegmentationModelManager:
         if not object_masks or not main_conveyor_masks:
             return MainCameraState.NO_OBJECT_UNDER_CAMERA
 
-        main_conveyor_bbox = self._getBoundingBoxFromMask(main_conveyor_masks[0])
-        if not main_conveyor_bbox:
-            return MainCameraState.NO_OBJECT_UNDER_CAMERA
-
         # Get frame dimensions from the first object mask
         if object_masks:
             frame_height, frame_width = object_masks[0].shape
@@ -433,11 +452,17 @@ class SegmentationModelManager:
             if not obj_bbox:
                 continue
 
-            # Check if object is >50% on main conveyor
-            conveyor_overlap = self._calculateBoundingBoxOverlap(
-                obj_bbox, main_conveyor_bbox
-            )
-            if conveyor_overlap > MAIN_CONVEYOR_THRESHOLD:
+            # Check if object is >50% on main conveyor (sum across all conveyor masks)
+            total_conveyor_overlap = 0.0
+            for main_conveyor_mask in main_conveyor_masks:
+                main_conveyor_bbox = self._getBoundingBoxFromMask(main_conveyor_mask)
+                if main_conveyor_bbox:
+                    conveyor_overlap = self._calculateBoundingBoxOverlap(
+                        obj_bbox, main_conveyor_bbox
+                    )
+                    total_conveyor_overlap += conveyor_overlap
+
+            if total_conveyor_overlap > MAIN_CONVEYOR_THRESHOLD:
                 # Object is on main conveyor, determine its position
                 obj_center_x = (obj_bbox[0] + obj_bbox[2]) / 2
                 frame_center_x = frame_width / 2
@@ -464,13 +489,15 @@ class SegmentationModelManager:
         if not object_masks or not main_conveyor_masks:
             return False
 
-        main_conveyor_mask = main_conveyor_masks[0]
-
         for obj_mask in object_masks:
-            edge_proximity = self._calculateMaskEdgeProximity(
-                obj_mask, main_conveyor_mask
-            )
-            if edge_proximity > MAIN_CONVEYOR_THRESHOLD:
+            total_edge_proximity = 0.0
+            for main_conveyor_mask in main_conveyor_masks:
+                edge_proximity = self._calculateMaskEdgeProximity(
+                    obj_mask, main_conveyor_mask
+                )
+                total_edge_proximity += edge_proximity
+
+            if total_edge_proximity > MAIN_CONVEYOR_THRESHOLD:
                 return True
 
         return False

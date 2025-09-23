@@ -48,6 +48,7 @@ class GlobalConfig(TypedDict):
     first_vibration_hopper_motor_pause_ms: int
     second_vibration_hopper_motor_pause_ms: int
     feeder_conveyor_pause_ms: int
+    feeder_conveyor_pulse_duration_ms: int
     encoder_polling_delay_ms: int
     delay_between_firmata_commands_ms: int
     classifying_timeout_ms: int
@@ -153,6 +154,7 @@ def buildGlobalConfig() -> GlobalConfig:
         "first_vibration_hopper_motor_pause_ms": 500,
         "second_vibration_hopper_motor_pause_ms": 500,
         "feeder_conveyor_pause_ms": 200,
+        "feeder_conveyor_pulse_duration_ms": 5000,
         "object_center_threshold_percent": 0.25,
         "encoder_polling_delay_ms": 1000,
         "delay_between_firmata_commands_ms": 8,

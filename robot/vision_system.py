@@ -286,10 +286,10 @@ class SegmentationModelManager:
             self.logger.info("No feeder masks detected")
             return None
 
-        # If no objects detected, determine empty state
+        # If no objects detected anywhere, return None (can't determine state)
         if not object_masks:
-            self.logger.info("No objects detected - first feeder empty")
-            return FeederState.FIRST_FEEDER_EMPTY
+            self.logger.info("No objects detected anywhere")
+            return None
 
         # PHASE 1: Classify all objects by their primary location
         objects_on_main_conveyor = []
@@ -355,23 +355,22 @@ class SegmentationModelManager:
                         f"Object {i}: on first feeder (proximity={first_proximity:.3f})"
                     )
 
-        # PHASE 2: Apply rules - check for objects on main conveyor first
-
-        # If objects are detected on main conveyor, return that state
         if objects_on_main_conveyor:
             self.logger.info(
                 f"Objects detected on main conveyor: {len(objects_on_main_conveyor)}"
             )
             return FeederState.OBJECT_ON_MAIN_CONVEYOR
 
-        # If objects are at end of second feeder, return that state
         if objects_at_end_of_second_feeder:
             self.logger.info(
                 f"Objects detected at end of second feeder: {len(objects_at_end_of_second_feeder)}"
             )
             return FeederState.OBJECT_AT_END_OF_SECOND_FEEDER
 
-        # Check if dropzone is clear (objects on second feeder are far from first feeder mask)
+        if not objects_on_first_feeder:
+            self.logger.info("First feeder empty")
+            return FeederState.FIRST_FEEDER_EMPTY
+
         dropzone_clear = True
         if objects_on_second_feeder and first_feeder_masks:
             for i, obj_bbox, proximity in objects_on_second_feeder:
@@ -391,8 +390,6 @@ class SegmentationModelManager:
         else:
             self.logger.info("Dropzone blocked - running second feeder")
             return FeederState.OBJECT_UNDERNEATH_EXIT_OF_FIRST_FEEDER
-
-        # TODO: OBJECT_AT_END_OF_SECOND_FEEDER unimplemented - for careful control of feeder with respect to conveyor
 
     def _getMainCameraMasksByClass(self) -> Dict[str, List[np.ndarray]]:
         results = self._getMainCameraResults()

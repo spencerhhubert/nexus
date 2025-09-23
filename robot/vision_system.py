@@ -193,7 +193,10 @@ class SegmentationModelManager:
         return (cmin, rmin, cmax, rmax)
 
     def _applyMarginToBoundingBox(
-        self, bbox: Tuple[int, int, int, int], margin_px: int, frame_shape: Optional[Tuple[int, int]] = None
+        self,
+        bbox: Tuple[int, int, int, int],
+        margin_px: int,
+        frame_shape: Optional[Tuple[int, int]] = None,
     ) -> Tuple[int, int, int, int]:
         x1, y1, x2, y2 = bbox
 
@@ -340,7 +343,9 @@ class SegmentationModelManager:
                     )
                     if main_conveyor_bbox:
                         main_conveyor_bbox_with_margin = self._applyMarginToBoundingBox(
-                            main_conveyor_bbox, MARGIN_FOR_MAIN_CONVEYOR_BOUNDING_BOX_PX, main_conveyor_mask.shape
+                            main_conveyor_bbox,
+                            MARGIN_FOR_MAIN_CONVEYOR_BOUNDING_BOX_PX,
+                            (main_conveyor_mask.shape[0], main_conveyor_mask.shape[1]),
                         )
                         bbox_overlap = self._calculateBoundingBoxOverlap(
                             obj_bbox, main_conveyor_bbox_with_margin
@@ -487,7 +492,9 @@ class SegmentationModelManager:
                 main_conveyor_bbox = self._getBoundingBoxFromMask(main_conveyor_mask)
                 if main_conveyor_bbox:
                     main_conveyor_bbox_with_margin = self._applyMarginToBoundingBox(
-                        main_conveyor_bbox, MARGIN_FOR_MAIN_CONVEYOR_BOUNDING_BOX_PX, main_conveyor_mask.shape
+                        main_conveyor_bbox,
+                        MARGIN_FOR_MAIN_CONVEYOR_BOUNDING_BOX_PX,
+                        (main_conveyor_mask.shape[0], main_conveyor_mask.shape[1]),
                     )
                     conveyor_overlap = self._calculateBoundingBoxOverlap(
                         obj_bbox, main_conveyor_bbox_with_margin

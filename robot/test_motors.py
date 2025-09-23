@@ -4,18 +4,20 @@ import threading
 from robot.global_config import buildGlobalConfig
 from robot.irl.config import buildIRLConfig, buildIRLSystemInterface
 
-PULSE_ON_TIME_MS = 800
+PULSE_ON_TIME_MS = 200
 PULSE_OFF_TIME_MS = 200
 
 
 def main():
     if len(sys.argv) < 2:
-        print("Usage: python test_motors.py <motor_name> [initial_speed]")
+        print("Usage: python test_motors.py <motor_name> [initial_speed] [--no-pulse]")
         print("Available motors:")
         print("  main_conveyor")
         print("  feeder_conveyor")
         print("  first_vibration_hopper")
         print("  second_vibration_hopper")
+        print("Options:")
+        print("  --no-pulse    Run motor continuously without pulsing")
         sys.exit(1)
 
     motor_name = sys.argv[1]
@@ -30,12 +32,18 @@ def main():
     logger = gc["logger"]
 
     speed = None
-    if len(our_args) > 1:
-        try:
-            speed = int(our_args[1])
-        except ValueError:
-            print(f"Invalid speed value: {our_args[1]}")
-            sys.exit(1)
+    no_pulse = False
+
+    # Parse arguments
+    for arg in our_args[1:]:
+        if arg == "--no-pulse":
+            no_pulse = True
+        elif speed is None:
+            try:
+                speed = int(arg)
+            except ValueError:
+                print(f"Invalid speed value: {arg}")
+                sys.exit(1)
 
     motor_map = {
         "main_conveyor": ("main_conveyor_dc_motor", "main_conveyor_speed"),
@@ -56,14 +64,15 @@ def main():
         sys.exit(1)
 
     motor_key, speed_key = motor_map[motor_name]
-    if speed is None:
-        speed = gc[speed_key]
 
     print(f"Connecting to {motor_name} motor...")
 
     irl_config = buildIRLConfig()
     irl_system = buildIRLSystemInterface(irl_config, gc)
     motor = irl_system[motor_key]
+
+    if speed is None:
+        speed = irl_system["runtime_params"][speed_key]
 
     current_speed = 0
     running = True
@@ -92,9 +101,12 @@ def main():
 
     try:
         print(f"\nMotor: {motor_name}")
-        print(f"Default speed: {gc[speed_key]}")
+        print(f"Default speed: {irl_system['runtime_params'][speed_key]}")
         print(f"Initial speed: {speed}")
-        print(f"Pulse timing: {PULSE_ON_TIME_MS}ms on, {PULSE_OFF_TIME_MS}ms off")
+        if no_pulse:
+            print("Mode: Continuous (no pulsing)")
+        else:
+            print(f"Pulse timing: {PULSE_ON_TIME_MS}ms on, {PULSE_OFF_TIME_MS}ms off")
         print("\nEnter new speed values (-255 to 255) or 'q' to quit:")
 
         current_speed = speed
@@ -103,37 +115,49 @@ def main():
         input_handler = threading.Thread(target=input_thread, daemon=True)
         input_handler.start()
 
-        # Main pulsing loop
-        while running:
-            current_time = time.time()
+        if no_pulse:
+            # Continuous mode - just maintain motor speed
+            motor.setSpeed(current_speed)
+            print(f"Motor running continuously at speed {current_speed}")
 
-            if pulse_state:
-                # Motor should be on, check if it's time to turn off
-                if (current_time - last_pulse_time) * 1000 >= PULSE_ON_TIME_MS:
-                    if motor_is_running:
-                        motor.setSpeed(0)
-                        motor_is_running = False
-                        last_set_speed = 0
-                    pulse_state = False
-                    last_pulse_time = current_time
-                    print("Motor OFF")
+            while running:
+                if last_set_speed != current_speed:
+                    motor.setSpeed(current_speed)
+                    last_set_speed = current_speed
+                    print(f"Motor speed changed to {current_speed}")
+                time.sleep(0.01)
+        else:
+            # Main pulsing loop
+            while running:
+                current_time = time.time()
+
+                if pulse_state:
+                    # Motor should be on, check if it's time to turn off
+                    if (current_time - last_pulse_time) * 1000 >= PULSE_ON_TIME_MS:
+                        if motor_is_running:
+                            motor.setSpeed(0)
+                            motor_is_running = False
+                            last_set_speed = 0
+                        pulse_state = False
+                        last_pulse_time = current_time
+                        print("Motor OFF")
+                    else:
+                        # Ensure motor is running at correct speed if not already
+                        if not motor_is_running or last_set_speed != current_speed:
+                            motor.setSpeed(current_speed)
+                            motor_is_running = True
+                            last_set_speed = current_speed
                 else:
-                    # Ensure motor is running at correct speed if not already
-                    if not motor_is_running or last_set_speed != current_speed:
+                    # Motor should be off, check if it's time to turn on
+                    if (current_time - last_pulse_time) * 1000 >= PULSE_OFF_TIME_MS:
                         motor.setSpeed(current_speed)
                         motor_is_running = True
                         last_set_speed = current_speed
-            else:
-                # Motor should be off, check if it's time to turn on
-                if (current_time - last_pulse_time) * 1000 >= PULSE_OFF_TIME_MS:
-                    motor.setSpeed(current_speed)
-                    motor_is_running = True
-                    last_set_speed = current_speed
-                    pulse_state = True
-                    last_pulse_time = current_time
-                    print(f"Motor ON at speed {current_speed}")
+                        pulse_state = True
+                        last_pulse_time = current_time
+                        print(f"Motor ON at speed {current_speed}")
 
-            time.sleep(0.01)  # Small sleep to prevent excessive CPU usage
+                time.sleep(0.01)  # Small sleep to prevent excessive CPU usage
 
     except KeyboardInterrupt:
         running = False

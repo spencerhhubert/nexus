@@ -1,6 +1,6 @@
 from typing import TypedDict, List, Optional, Union
 from enum import Enum
-from robot.shared.types import BricklinkPartData
+from robot.our_types import BricklinkPartData
 
 
 class GENERATE_PIECE_KIND_FAILED_REASON(Enum):

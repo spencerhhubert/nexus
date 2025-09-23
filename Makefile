@@ -1,7 +1,9 @@
 check:
 	pyright --pythonpath "$(MY_PYTHON_PATH)" robot
+check-ui:
+	cd ui && npm run check
 format:
-	ruff format robot
+	ruff format robot && cd ui && npm run format
 vulture:
 	$(MY_PYTHON_PATH) -m vulture robot
 migrate:
@@ -21,3 +23,5 @@ run:
 rm-tmp:
 	find robot -type d -name "__pycache__" -exec rm -rf {} +
 	rm -rf robot/.tmp
+generate:
+		cd ui && npx openapi-typescript http://localhost:8000/openapi.json -o src/lib/api-types.ts

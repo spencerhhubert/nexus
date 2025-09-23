@@ -1,6 +1,7 @@
 from pyfirmata import util, pyfirmata
 from robot.irl.our_arduino import OurArduinoMega
-from robot.irl.motors import PCA9685, Servo, DCMotor, Encoder, BreakBeamSensor
+from robot.irl.motors import PCA9685, Servo, DCMotor, BreakBeamSensor
+from robot.irl.encoder import Encoder
 from robot.irl.distribution import Bin, DistributionModule
 from robot.irl.camera import Camera, connectToCamera
 from typing import Dict, List, Tuple, TypedDict, Optional
@@ -9,6 +10,10 @@ import subprocess
 import re
 from robot.global_config import GlobalConfig
 from robot.util.units import inchesToCm
+from robot.our_types.irl_runtime_params import (
+    IRLSystemRuntimeParams,
+    buildIRLSystemRuntimeParams,
+)
 
 
 class ServoMotorConfig(TypedDict):
@@ -40,7 +45,7 @@ class BreakBeamSensorConfig(TypedDict):
     sensor_pin: int
 
 
-class MainCameraConfig(TypedDict):
+class CameraConfig(TypedDict):
     device_index: int
     width: int
     height: int
@@ -54,7 +59,8 @@ class IRLConfig(TypedDict):
     feeder_conveyor_dc_motor: DCMotorConfig
     first_vibration_hopper_motor: DCMotorConfig
     second_vibration_hopper_motor: DCMotorConfig
-    main_camera: MainCameraConfig
+    main_camera: CameraConfig
+    feeder_camera: CameraConfig
     conveyor_encoder: EncoderConfig
     break_beam_sensor: BreakBeamSensorConfig
 
@@ -67,8 +73,10 @@ class IRLSystemInterface(TypedDict):
     first_vibration_hopper_motor: DCMotor
     second_vibration_hopper_motor: DCMotor
     main_camera: Camera
+    feeder_camera: Camera
     conveyor_encoder: Encoder
     break_beam_sensor: BreakBeamSensor
+    runtime_params: IRLSystemRuntimeParams
 
 
 def buildIRLConfig() -> IRLConfig:
@@ -80,15 +88,27 @@ def buildIRLConfig() -> IRLConfig:
     if camera_index is None:
         raise ValueError("CAMERA_INDEX environment variable must be set")
 
+    feeder_camera_index = os.getenv("FEEDER_CAMERA_INDEX")
+    if feeder_camera_index is None:
+        raise ValueError("FEEDER_CAMERA_INDEX environment variable must be set")
+
     return {
         "mc_path": mc_path,
         "main_camera": {
             "device_index": int(camera_index),
-            # "width": 1920,
-            # "height": 1080,
-            "width": 3840,
-            "height": 2160,
-            "fps": 5,
+            "width": 1920,
+            "height": 1080,
+            # "width": 3840,
+            # "height": 2160,
+            # "width": 1280,
+            # "height": 720,
+            "fps": 15,
+        },
+        "feeder_camera": {
+            "device_index": int(feeder_camera_index),
+            "width": 1920,
+            "height": 1080,
+            "fps": 15,
         },
         "distribution_modules": [
             {
@@ -230,7 +250,7 @@ def buildIRLSystemInterface(config: IRLConfig, gc: GlobalConfig) -> IRLSystemInt
         it.start()
 
         def messageHandler(*args, **kwargs) -> None:
-            logger.info(util.two_byte_iter_to_str(args))
+            logger.info(f"FIRMATA: {util.two_byte_iter_to_str(args)}")
 
         mc.add_cmd_handler(pyfirmata.STRING_DATA, messageHandler)
 
@@ -292,6 +312,14 @@ def buildIRLSystemInterface(config: IRLConfig, gc: GlobalConfig) -> IRLSystemInt
         config["main_camera"]["fps"],
     )
 
+    feeder_camera = connectToCamera(
+        config["feeder_camera"]["device_index"],
+        gc,
+        config["feeder_camera"]["width"],
+        config["feeder_camera"]["height"],
+        config["feeder_camera"]["fps"],
+    )
+
     conveyor_encoder = Encoder(
         gc,
         mc,
@@ -315,6 +343,8 @@ def buildIRLSystemInterface(config: IRLConfig, gc: GlobalConfig) -> IRLSystemInt
         "first_vibration_hopper_motor": first_vibration_hopper_motor,
         "second_vibration_hopper_motor": second_vibration_hopper_motor,
         "main_camera": main_camera,
+        "feeder_camera": feeder_camera,
         "conveyor_encoder": conveyor_encoder,
         "break_beam_sensor": break_beam_sensor,
+        "runtime_params": buildIRLSystemRuntimeParams(gc),
     }

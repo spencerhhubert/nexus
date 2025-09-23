@@ -1,43 +1,40 @@
 <script lang="ts">
-	import favicon from '$lib/assets/favicon.svg';
-	import '../app.css';
-	import SettingsModal from '$lib/components/SettingsModal.svelte';
-	import { Settings } from 'lucide-svelte';
-	import { config } from '$lib/stores/config';
-	import { onMount } from 'svelte';
+  import '../app.css';
+  import userSettings from '$lib/stores/user-settings.svelte';
+  import { onMount } from 'svelte';
+ 	import favicon from '$lib/assets/favicon.svg';
 
-	let { children } = $props();
-	let showSettings = $state(false);
+  interface Props {
+    children: import('svelte').Snippet;
+  }
 
-	onMount(() => {
-		config.init();
-	});
+  let { children }: Props = $props();
 
-	function openSettings() {
-		showSettings = true;
-	}
+  onMount(() => {
+    // Apply dark class to html element
+    const html = document.documentElement;
+    if ($userSettings.theme === 'dark') {
+      html.classList.add('dark');
+    } else {
+      html.classList.remove('dark');
+    }
+  });
+
+  // Watch for theme changes
+  $effect(() => {
+    const html = document.documentElement;
+    if ($userSettings.theme === 'dark') {
+      html.classList.add('dark');
+    } else {
+      html.classList.remove('dark');
+    }
+  });
 </script>
 
 <svelte:head>
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
-<div class="min-h-screen bg-background-light dark:bg-background-dark transition-colors duration-200">
-	<!-- Header with settings -->
-	<header class="relative w-full p-4">
-		<button
-			onclick={openSettings}
-			class="absolute top-4 right-4 p-2 text-surface-600 dark:text-surface-400 hover:text-surface-800 dark:hover:text-surface-200 hover:bg-surface-100 dark:hover:bg-surface-700 transition-colors"
-			aria-label="Open settings"
-		>
-			<Settings size={20} />
-		</button>
-	</header>
-
-	<!-- Main content -->
-	<main class="px-4 pb-4">
-		{@render children?.()}
-	</main>
-</div>
-
-<SettingsModal bind:open={showSettings} />
+<main>
+  {@render children()}
+</main>

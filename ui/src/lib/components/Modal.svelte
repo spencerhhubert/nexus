@@ -1,91 +1,60 @@
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte';
   import { X } from 'lucide-svelte';
 
-  const dispatch = createEventDispatcher();
-
-  export let open = false;
-  export let title = '';
-  export let showCloseButton = true;
-
-  function closeModal() {
-    open = false;
-    dispatch('close');
+  interface Props {
+    isOpen: boolean;
+    title?: string;
+    onClose: () => void;
+    wide?: boolean;
   }
+
+  let { isOpen = false, title, onClose, wide = false }: Props = $props();
 
   function handleBackdropClick(event: MouseEvent) {
     if (event.target === event.currentTarget) {
-      closeModal();
+      onClose();
+    }
+  }
+
+  function handleKeydown(event: KeyboardEvent) {
+    if (event.key === 'Escape') {
+      onClose();
     }
   }
 
   function handleBackdropKeydown(event: KeyboardEvent) {
     if (event.key === 'Enter' || event.key === ' ') {
-      event.preventDefault();
-      if (event.target === event.currentTarget) {
-        closeModal();
-      }
-    }
-  }
-
-  function handleKeydown(event: KeyboardEvent) {
-    if (event.key === 'Escape' && open) {
-      closeModal();
+      onClose();
     }
   }
 </script>
 
 <svelte:window on:keydown={handleKeydown} />
 
-{#if open}
+{#if isOpen}
   <div
-    class="fixed inset-0 z-50 flex items-center justify-center"
+    class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+    onclick={handleBackdropClick}
+    onkeydown={handleBackdropKeydown}
     role="dialog"
     aria-modal="true"
-    aria-labelledby={title ? 'modal-title' : undefined}
+    tabindex="0"
   >
-    <!-- Backdrop -->
-    <div
-      class="fixed inset-0 bg-black/50 transition-opacity"
-      on:click={handleBackdropClick}
-      on:keydown={handleBackdropKeydown}
-      role="button"
-      tabindex="-1"
-    ></div>
-    
-    <!-- Modal -->
-    <div class="relative z-10 w-full max-w-md mx-4">
-      <div class="bg-surface-50 dark:bg-surface-800 shadow-xl border border-surface-200 dark:border-surface-700">
-        <!-- Header -->
-        {#if title || showCloseButton}
-          <div class="flex items-center justify-between p-4 border-b border-surface-200 dark:border-surface-700">
-            {#if title}
-              <h2 id="modal-title" class="text-lg font-medium text-foreground-light dark:text-foreground-dark">
-                {title}
-              </h2>
-            {:else}
-              <div></div>
-            {/if}
-            
-            {#if showCloseButton}
-              <button
-                on:click={closeModal}
-                class="p-1 text-surface-400 hover:text-surface-600 dark:text-surface-500 dark:hover:text-surface-300 hover:bg-surface-100 dark:hover:bg-surface-700 transition-colors"
-                aria-label="Close modal"
-              >
-                <X size={20} />
-              </button>
-            {/if}
-          </div>
+    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 w-full {wide ? 'max-w-4xl' : 'max-w-md'} mx-4">
+      <div class="flex justify-between items-center p-6 border-b border-gray-200 dark:border-gray-700">
+        {#if title}
+          <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">{title}</h2>
         {/if}
-        
-        <!-- Content -->
-        <div class="p-4">
-          <slot />
-        </div>
-        
-        <!-- Footer -->
-        <slot name="footer" />
+        <button
+          onclick={onClose}
+          class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 p-1"
+          aria-label="Close modal"
+        >
+          <X size={20} />
+        </button>
+      </div>
+      <div class="p-6">
+        <slot />
       </div>
     </div>
   </div>

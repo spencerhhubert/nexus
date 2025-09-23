@@ -1,34 +1,19 @@
-import { config } from './stores/config';
-import { get } from 'svelte/store';
-
-export class DebugLogger {
-  private getDebugLevel(): number {
-    return get(config).debugLevel;
-  }
-
+class Logger {
   log(level: number, ...args: any[]): void {
-    if (this.getDebugLevel() >= level) {
-      console.log(...args);
-    }
+    console.log(...args);
   }
 
-  info(level: number, ...args: any[]): void {
-    if (this.getDebugLevel() >= level) {
-      console.info(...args);
-    }
+  info(...args: any[]): void {
+    console.info(...args);
   }
 
-  warn(level: number, ...args: any[]): void {
-    if (this.getDebugLevel() >= level) {
-      console.warn(...args);
-    }
+  warn(...args: any[]): void {
+    console.warn(...args);
   }
 
   error(level: number, ...args: any[]): void {
-    if (this.getDebugLevel() >= level) {
-      console.error(...args);
-    }
+    console.error(...args);
   }
 }
 
-export const logger = new DebugLogger();
+export const logger = new Logger();

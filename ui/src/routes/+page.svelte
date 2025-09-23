@@ -1,152 +1,70 @@
 <script lang="ts">
-  import { onMount, onDestroy } from "svelte";
-  import { robotAPI } from "$lib/api";
-  import { logger } from "$lib/logger";
-  import { controlsPageState } from "$lib/stores/controlsPageState";
-  import type { TrajectoryData } from "$lib/types";
-  import ConnectionStatus from "$lib/components/ConnectionStatus.svelte";
-  import StatusPanel from "$lib/components/SystemStatus.svelte";
-  import CameraFeed from "$lib/components/CameraFeed.svelte";
-  import MotorControls from "$lib/components/MotorControls.svelte";
-  import TrajectoryObservationDisplay from "$lib/components/TrajectoryObservationDisplay.svelte";
-  import ClassificationPanel from "$lib/components/ClassificationPanel.svelte";
+  import { onMount } from 'svelte';
+  import { createPageState } from '$lib/stores/page-state.svelte';
+  import AppHeader from '$lib/components/AppHeader.svelte';
+  import CameraFeeds from '$lib/components/CameraFeeds.svelte';
+  import SystemStatus from '$lib/components/SystemStatus.svelte';
+  import SystemControls from '$lib/components/SystemControls.svelte';
+  import SettingsModal from '$lib/components/SettingsModal.svelte';
+  import MotorConfigModal from '$lib/components/MotorConfigModal.svelte';
+  import KnownObjectsList from '$lib/components/KnownObjectsList.svelte';
 
-  let checkInterval: number;
-  let selectedTrajectory = $state<TrajectoryData | null>(null);
+  const pageState = createPageState();
+  let isSettingsOpen = $state(false);
+  let isMotorConfigOpen = $state(false);
+
+  function openSettings() {
+    isSettingsOpen = true;
+  }
+
+  function closeSettings() {
+    isSettingsOpen = false;
+  }
+
+  function openMotorConfig() {
+    isMotorConfigOpen = true;
+  }
+
+  function closeMotorConfig() {
+    isMotorConfigOpen = false;
+  }
 
   onMount(() => {
-    attemptConnection();
-    checkInterval = setInterval(attemptConnection, 3000);
-
-    robotAPI.on("status_update", (event) => {
-      logger.log(1, "Status update received:", event.status.lifecycle_stage);
-      controlsPageState.setStatus(event.status);
-      
-      let currentState: any;
-      const unsubscribe = controlsPageState.subscribe(state => currentState = state);
-      unsubscribe();
-      
-      if (!currentState?.isOnline) {
-        logger.log(1, "First status update received, marking as online");
-        controlsPageState.setOnline(true);
-        controlsPageState.setLoading(false);
-      }
-    });
-
-    robotAPI.on("camera_frame", (event) => {
-      logger.log(1, "Camera frame received, size:", event.frame_data.length);
-      controlsPageState.setCameraFrame(event.frame_data);
-    });
-
-    robotAPI.on("new_observation", (event) => {
-      logger.log(1, "New observation received:", event.observation.observation_id);
-      console.log("Raw observation event:", event);
-      console.log("Has masked_image:", !!event.observation.masked_image);
-      console.log("Masked image length:", event.observation.masked_image?.length || 0);
-      console.log("Adding observation to state...");
-      controlsPageState.addObservation(event.observation);
-      console.log("Observation added to state");
-    });
-
-    robotAPI.on("trajectories_update", (event) => {
-      logger.log(1, "Trajectories update received, count:", event.trajectories.length);
-      controlsPageState.setTrajectories(event.trajectories);
-    });
-
-    robotAPI.on("connect", () => {
-      logger.log(1, "WebSocket connected");
-      controlsPageState.setWsConnected(true);
-      controlsPageState.setLoading(false);
-    });
-
-    robotAPI.on("disconnect", (event) => {
-      logger.log(1, "WebSocket disconnected:", event);
-      controlsPageState.setWsConnected(false);
-      controlsPageState.reset();
-    });
-
+    return () => {
+      pageState.disconnect();
+    };
   });
-
-  onDestroy(() => {
-    if (checkInterval) clearInterval(checkInterval);
-    robotAPI.disconnect();
-  });
-
-  async function attemptConnection() {
-    let currentState: any;
-    const unsubscribe = controlsPageState.subscribe(state => currentState = state);
-    unsubscribe();
-    
-    logger.log(1, "attemptConnection() called, wsConnected:", currentState?.wsConnected);
-    if (currentState?.wsConnected) {
-      logger.log(1, "Already connected, skipping");
-      return;
-    }
-
-    try {
-      logger.log(1, "Checking if robot is online...");
-      const online = await robotAPI.isOnline();
-      logger.log(1, "Robot online check result:", online);
-
-      if (online) {
-        logger.log(1, "Robot is online, attempting WebSocket connection...");
-        robotAPI.connectWebSocket();
-        logger.log(1, "WebSocket connection initiated");
-      } else {
-        logger.log(1, "Robot is not online");
-        controlsPageState.reset();
-      }
-    } catch (e) {
-      logger.error(1, "Error during connection attempt:", e);
-      controlsPageState.reset();
-      controlsPageState.setWsConnected(false);
-    }
-
-    const unsubscribe2 = controlsPageState.subscribe(state => currentState = state);
-    unsubscribe2();
-    if (!currentState?.wsConnected) {
-      logger.log(1, "WebSocket not connected, setting loading to false");
-      controlsPageState.setLoading(false);
-    }
-  }
 </script>
 
 <svelte:head>
   <title>Sorter</title>
 </svelte:head>
 
-<div class="max-w-7xl mx-auto p-5">
-  <header
-    class="flex justify-between items-center mb-8 pb-5 border-b border-surface-200 dark:border-surface-700"
-  >
-    <h1 class="text-3xl font-bold text-foreground-light dark:text-foreground-dark">Sorter Controls</h1>
-    <ConnectionStatus isOnline={$controlsPageState.isOnline} isLoading={$controlsPageState.isLoading} />
-  </header>
+<div class="min-h-screen bg-gray-50 dark:bg-gray-900">
+  <AppHeader isConnected={pageState.state.wsConnected} isReconnecting={pageState.state.reconnecting} onSettingsOpen={openSettings} />
 
-  {#if !$controlsPageState.isOnline && !$controlsPageState.isLoading}
-    <div class="text-center py-16">
-      <h2 class="text-2xl font-semibold text-surface-700 dark:text-surface-300 mb-4">
-        Sorter Server Offline
-      </h2>
-      <p class="text-surface-600 dark:text-surface-400 mb-6">
-        Waiting for connection to sorting machine...
-      </p>
-      <div
-        class="w-10 h-10 border-4 border-surface-300 dark:border-surface-600 border-t-primary-500 dark:border-t-primary-400 rounded-full animate-spin mx-auto"
-      ></div>
-    </div>
-  {:else}
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
-      <CameraFeed cameraFrame={$controlsPageState.cameraFrame} />
-      <ClassificationPanel pageState={controlsPageState} {selectedTrajectory} />
-      <TrajectoryObservationDisplay 
-        pageState={controlsPageState} 
-        on:selectTrajectory={(e) => selectedTrajectory = e.detail}
-      />
-      <div class="space-y-5">
-        <StatusPanel pageState={controlsPageState} />
-        <MotorControls pageState={controlsPageState} />
+  <div class="container mx-auto p-6">
+    <div class="flex gap-6 h-[calc(100vh-120px)]">
+      <!-- Known Objects List - Left Panel -->
+      <div class="w-80 flex-shrink-0">
+        <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 h-full">
+          <KnownObjectsList />
+        </div>
+      </div>
+
+      <!-- Main Content - Center Panel -->
+      <div class="flex-1 space-y-6">
+        <CameraFeeds />
+        <SystemStatus
+          lifecycleStage={pageState.state.lifecycleStage}
+          sortingState={pageState.state.sortingState}
+          encoder={pageState.state.encoder}
+        />
+        <SystemControls onMotorConfigOpen={openMotorConfig} />
       </div>
     </div>
-  {/if}
+  </div>
 </div>
+
+<SettingsModal isOpen={isSettingsOpen} onClose={closeSettings} />
+<MotorConfigModal isOpen={isMotorConfigOpen} onClose={closeMotorConfig} />

@@ -1,10 +1,10 @@
 from pyfirmata import util
 import time
 import threading
-import math
 from typing import Dict, Any, List, Optional, cast
 from robot.global_config import GlobalConfig
 from robot.irl.our_arduino import OurArduinoMega
+from robot.irl.encoder import Encoder
 
 
 class PCA9685:
@@ -110,6 +110,7 @@ class DCMotor:
         self.enable_pin = enable_pin
         self.input_1_pin = input_1_pin
         self.input_2_pin = input_2_pin
+        self.current_speed: Optional[int] = None
 
         logger = gc["logger"]
         logger.info(f"Setting pin {self.input_1_pin} to OUTPUT")
@@ -119,9 +120,16 @@ class DCMotor:
         logger.info(f"Setting pin {self.enable_pin} to OUTPUT")
         self.dev.sysex(0x03, [0x01, self.enable_pin, 1])
 
-    def setSpeed(self, speed: int) -> None:
+    def setSpeed(self, speed: int, override: bool = False) -> None:
         original_speed = speed
-        speed = max(-255, min(255, speed))
+        speed = max(-254, min(254, speed))
+
+        if self.current_speed == speed and not override:
+            logger = self.gc["logger"]
+            logger.info(
+                f"DCMotor setSpeed: speed unchanged at {speed}, skipping command"
+            )
+            return
 
         logger = self.gc["logger"]
         logger.info(f"DCMotor setSpeed: requested={original_speed}, clamped={speed}")
@@ -145,6 +153,28 @@ class DCMotor:
         pwm_value = int(abs(speed))
         logger.info(f"Setting enable pin {self.enable_pin} to PWM value: {pwm_value}")
         self.dev.sysex(0x03, [0x03, self.enable_pin, pwm_value])
+
+        self.current_speed = speed
+
+    def backstop(
+        self, currentSpeed: int, backstopSpeed: int = 75, backstopDurationMs: int = 10
+    ) -> None:
+        DO_BACKSTOP = True
+        if not DO_BACKSTOP:
+            self.setSpeed(0)
+            return
+        backstopSpeed = max(-255, min(255, backstopSpeed))
+
+        if currentSpeed > 0:
+            backstopDirection = -backstopSpeed
+        elif currentSpeed < 0:
+            backstopDirection = backstopSpeed
+        else:
+            return
+
+        self.setSpeed(backstopDirection)
+        time.sleep(backstopDurationMs / 1000.0)
+        self.setSpeed(0)
 
 
 class BreakBeamSensor:
@@ -248,89 +278,3 @@ class BreakBeamSensor:
             self.gc["logger"].warning(
                 f"Break beam response too short: got {len(args)} args, expected 22"
             )
-
-
-class Encoder:
-    def __init__(
-        self,
-        gc: GlobalConfig,
-        dev: OurArduinoMega,
-        clk_pin: int,
-        dt_pin: int,
-        pulses_per_revolution: int,
-        wheel_diameter_mm: float,
-    ):
-        self.gc = gc
-        self.dev = dev
-        self.clk_pin = clk_pin
-        self.dt_pin = dt_pin
-        self.pulses_per_revolution = pulses_per_revolution
-        self.wheel_diameter_cm = wheel_diameter_mm / 10  # Convert mm to cm
-        self.wheel_circumference_cm = math.pi * self.wheel_diameter_cm
-
-        self.pulse_count = 0
-        self.last_update_time = time.time()
-        self.lock = threading.Lock()
-
-        self.last_encoder_position = 0
-
-        logger = gc["logger"]
-        logger.info(f"Setting up encoder with CLK={self.clk_pin}, DT={self.dt_pin}")
-
-        self.dev.add_cmd_handler(
-            0x50, self._onEncoderResponse
-        )  # Register sysex handler for encoder responses
-        self.dev.sysex(0x50, [0x01, self.clk_pin, self.dt_pin])  # ENCODER_SETUP command
-
-        time.sleep(0.1)
-
-        self.polling_thread = threading.Thread(target=self._pollEncoder, daemon=True)
-        self.polling_thread.start()
-
-        logger.info(
-            f"Encoder initialized: CLK={clk_pin}, DT={dt_pin}, PPR={pulses_per_revolution}, wheel_diameter={self.wheel_diameter_cm}cm"
-        )
-
-    def _pollEncoder(self) -> None:
-        time.sleep(0.5)
-        self.gc["logger"].info("Encoder polling thread started")
-
-        while True:
-            try:
-                # Request current encoder position from Arduino via sysex
-                self.dev.sysex(0x50, [0x02])  # ENCODER_READ command
-                time.sleep(self.gc["encoder_polling_delay_ms"] / 1000.0)
-            except Exception as e:
-                self.gc["logger"].error(f"Encoder polling error: {e}")
-                time.sleep(0.1)
-
-    def _onEncoderResponse(self, *args):
-        # Firmata sends each byte as 2 7-bit bytes, so we get 4 bytes total
-        # Original data: [low_byte, high_byte] becomes [low_7bits, 0, high_7bits, 0]
-        if len(args) >= 4:
-            position = args[0] | (args[2] << 7)  # Reconstruct from 7-bit chunks
-
-            if position != self.last_encoder_position:
-                pulse_diff = abs(position - self.last_encoder_position)
-                with self.lock:
-                    self.pulse_count += pulse_diff
-                self.last_encoder_position = position
-
-    def getPulseCount(self) -> int:
-        with self.lock:
-            return self.pulse_count
-
-    def getLastUpdateTime(self) -> float:
-        with self.lock:
-            return self.last_update_time
-
-    def resetPulseCount(self) -> None:
-        with self.lock:
-            self.pulse_count = 0
-            self.last_update_time = time.time()
-
-    def getPulsesPerRevolution(self) -> int:
-        return self.pulses_per_revolution
-
-    def getWheelCircumferenceCm(self) -> float:
-        return self.wheel_circumference_cm

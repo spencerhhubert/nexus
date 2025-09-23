@@ -7,13 +7,6 @@ if TYPE_CHECKING:
     from robot.logger import Logger
 
 
-class FeederTimeoutsConfig(TypedDict):
-    conveyor_run_for_timeout_ms: int
-    first_vibration_hopper_motor_timeout_ms: int
-    second_vibration_hopper_motor_timeout_ms: int
-    timeout_between_feeder_steps_ms: int
-
-
 class GlobalConfig(TypedDict):
     debug_level: int
     auto_confirm: bool
@@ -24,23 +17,17 @@ class GlobalConfig(TypedDict):
     db_path: str
     tensor_device: str
     main_camera_index: int
-    fastsam_weights: str
+    yolo_model: str
+    yolo_weights_path: str
     disable_main_conveyor: bool
     disable_first_vibration_hopper_motor: bool
     disable_second_vibration_hopper_motor: bool
     disable_feeder_conveyor: bool
     disable_distribution: bool
     disable_classification: bool
-    trajectory_matching_max_time_gap_ms: int
-    trajectory_matching_max_position_distance_px: int
-    trajectory_matching_min_bbox_size_ratio: float
-    trajectory_matching_max_bbox_size_ratio: float
-    trajectory_matching_classification_consistency_weight: float
-    trajectory_matching_spatial_weight: float
     capture_delay_ms: int
     camera_preview: bool
     enable_profiling: bool
-    max_worker_threads: int
     max_queue_size: int
     conveyor_door_open_angle: int
     bin_door_open_angle: int
@@ -50,24 +37,24 @@ class GlobalConfig(TypedDict):
     bin_door_close_delay_ms: int
     conveyor_door_gradual_close_duration_ms: int
     min_sending_to_bin_time_ms: int
-    profiling_dir_path: str
     use_prev_bin_state: Optional[str]
     main_conveyor_speed: int
     feeder_conveyor_speed: int
     first_vibration_hopper_motor_speed: int
     second_vibration_hopper_motor_speed: int
-    object_center_threshold_percent: float
-    getting_new_object_timeout_ms: int
-    classification_timeout_ms: int
+    first_vibration_hopper_motor_pulse_ms: int
+    second_vibration_hopper_motor_pulse_ms: int
+    feeder_conveyor_pulse_ms: int
+    first_vibration_hopper_motor_pause_ms: int
+    second_vibration_hopper_motor_pause_ms: int
+    feeder_conveyor_pause_ms: int
+    feeder_conveyor_pulse_duration_ms: int
     encoder_polling_delay_ms: int
     delay_between_firmata_commands_ms: int
+    classifying_timeout_ms: int
     waiting_for_object_to_center_timeout_ms: int
     waiting_for_object_to_appear_timeout_ms: int
-    max_trajectory_age: int
-    min_number_observations_for_centering: int
-    feeder_timeouts: FeederTimeoutsConfig
-    websocket_broadcast_fps: int
-    websocket_status_update_interval_s: float
+    fs_object_at_end_of_second_feeder_timeout_ms: int
 
 
 def buildGlobalConfig() -> GlobalConfig:
@@ -126,6 +113,14 @@ def buildGlobalConfig() -> GlobalConfig:
         "tensor_device": "cpu",
         "main_camera_index": 0,
         "fastsam_weights": "../weights/FastSAM-s.pt",
+        "yolo_model": "yolo11n-seg",
+        # "yolo_weights_path":" /Users/spencer/Downloads/checkpoints (small)/run_1757963343/weights/best.pt",
+        # "yolo_weights_path": "/Users/spencer/Downloads/checkpoints (nano)/run_1757970830/weights/best.pt",
+        # "yolo_weights_path": "/Users/spencer/Downloads/checkpoints (nano 414)/run_1757975149/weights/best.pt",
+        # "yolo_weights_path": "/Users/spencer/Documents/GitHub/nexus2/weights/yolo11s-seg.pt",
+        # "yolo_weights_path": "/Users/spencer/Downloads/run_1758315224/weights/best.pt", #nano more data
+        # "yolo_weights_path": "/Users/spencer/Downloads/run_1758315429/weights/best.pt",  # small more data
+        "yolo_weights_path": "/Users/spencer/Downloads/run_1758582313/weights/best.pt",  # small, moved camera
         "disable_main_conveyor": "main_conveyor" in disabled_motors,
         "disable_first_vibration_hopper_motor": "vibration_hopper" in disabled_motors
         or "first_vibration_hopper" in disabled_motors,
@@ -134,12 +129,6 @@ def buildGlobalConfig() -> GlobalConfig:
         "disable_feeder_conveyor": "feeder_conveyor" in disabled_motors,
         "disable_distribution": "distribution" in disabled_motors,
         "disable_classification": "classification" in disabled_motors,
-        "trajectory_matching_max_time_gap_ms": 4000,
-        "trajectory_matching_max_position_distance_px": 3000,
-        "trajectory_matching_min_bbox_size_ratio": 0.15,
-        "trajectory_matching_max_bbox_size_ratio": 6.0,
-        "trajectory_matching_classification_consistency_weight": 0.5,
-        "trajectory_matching_spatial_weight": 0.5,
         "capture_delay_ms": 300,
         "camera_preview": args.preview,
         "enable_profiling": args.profile,
@@ -155,29 +144,24 @@ def buildGlobalConfig() -> GlobalConfig:
         "min_sending_to_bin_time_ms": 3000,
         "profiling_dir_path": "../profiles",
         "use_prev_bin_state": args.use_prev_bin_state,
-        "main_conveyor_speed": 150,
+        "main_conveyor_speed": 200,
         "feeder_conveyor_speed": 140,
-        # "feeder_conveyor_speed": 0,
-        # "first_vibration_hopper_motor_speed": 0,
-        "first_vibration_hopper_motor_speed": 149,
-        "second_vibration_hopper_motor_speed": 140,
+        "first_vibration_hopper_motor_speed": 160,  # first hopper that pieces enter
+        "second_vibration_hopper_motor_speed": 155,
+        "first_vibration_hopper_motor_pulse_ms": 600,
+        "second_vibration_hopper_motor_pulse_ms": 500,
+        "feeder_conveyor_pulse_ms": 1000,
+        "first_vibration_hopper_motor_pause_ms": 500,
+        "second_vibration_hopper_motor_pause_ms": 500,
+        "feeder_conveyor_pause_ms": 200,
+        "feeder_conveyor_pulse_duration_ms": 5000,
         "object_center_threshold_percent": 0.25,
-        "getting_new_object_timeout_ms": 360 * 1000,
-        "classification_timeout_ms": 10 * 1000,
         "encoder_polling_delay_ms": 1000,
-        "delay_between_firmata_commands_ms": 10,
-        "waiting_for_object_to_center_timeout_ms": 7500,
-        "waiting_for_object_to_appear_timeout_ms": 10000,
-        "max_trajectory_age": 10000,
-        "min_number_observations_for_centering": 2,
-        "feeder_timeouts": {
-            "conveyor_run_for_timeout_ms": 400,
-            "first_vibration_hopper_motor_timeout_ms": 1200,
-            "second_vibration_hopper_motor_timeout_ms": 200,
-            "timeout_between_feeder_steps_ms": 1000,
-        },
-        "websocket_broadcast_fps": 30,
-        "websocket_status_update_interval_s": 0.2,
+        "delay_between_firmata_commands_ms": 8,
+        "classifying_timeout_ms": 5000,
+        "waiting_for_object_to_center_timeout_ms": 5000,
+        "waiting_for_object_to_appear_timeout_ms": 5000,
+        "fs_object_at_end_of_second_feeder_timeout_ms": 4000,
     }
 
     from robot.logger import Logger

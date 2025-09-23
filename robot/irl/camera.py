@@ -57,20 +57,6 @@ class Camera:
         return self.cap.isOpened()
 
 
-def discoverCameras() -> List[int]:
-    available_cameras = []
-
-    for i in range(10):
-        cap = cv2.VideoCapture(i)
-        if cap.isOpened():
-            ret, _ = cap.read()
-            if ret:
-                available_cameras.append(i)
-        cap.release()
-
-    return available_cameras
-
-
 def connectToCamera(
     camera_device_index: int,
     global_config: GlobalConfig,
@@ -78,62 +64,17 @@ def connectToCamera(
     height: int,
     fps: int,
 ) -> Camera:
-    debug_level = global_config["debug_level"]
-    auto_confirm = global_config["auto_confirm"]
-    camera = None
+    global_config["logger"].info(
+        f"Attempting to connect to camera at index {camera_device_index}"
+    )
 
-    try:
-        global_config["logger"].info(
-            f"Attempting to connect to camera at index {camera_device_index}"
-        )
-        camera = Camera(
-            global_config,
-            camera_device_index,
-            width,
-            height,
-            fps,
-        )
-
-    except Exception as e:
-        if debug_level > 0:
-            print(f"Failed to connect to camera at index {camera_device_index}: {e}")
-
-        discovered_cameras = discoverCameras()
-        if not discovered_cameras:
-            print(
-                f"Failed to connect to camera at index {camera_device_index} and could not discover any cameras"
-            )
-            raise e
-
-        discovered_camera = discovered_cameras[0]
-
-        if not auto_confirm:
-            response = input(
-                f"Failed to use camera from environment at index {camera_device_index}. Would you like to automatically try to use discovered camera at index {discovered_camera}? (y/N): "
-            )
-            if response.lower() not in ["y", "yes"]:
-                print("User declined to use discovered camera")
-                raise e
-
-        if debug_level > 0:
-            print(
-                f"Attempting to connect to discovered camera at index {discovered_camera}"
-            )
-
-        try:
-            camera = Camera(
-                global_config,
-                discovered_camera,
-                width,
-                height,
-                fps,
-            )
-            print(f"Successfully connected to camera at index {discovered_camera}")
-        except Exception as discovery_error:
-            print(
-                f"Failed to connect to discovered camera at index {discovered_camera}: {discovery_error}"
-            )
-            raise e
+    camera = Camera(
+        global_config,
+        camera_device_index,
+        width,
+        height,
+        fps,
+    )
 
     # wait for focus to reset back to manual setting. opencv will automatically set the focus to auto, and it'll need to go back to manual before use
     time.sleep(3)

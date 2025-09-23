@@ -561,7 +561,7 @@ void parseBreakBeamCommand(byte command, byte argc, byte *argv) {
 
             if (DEBUG_LEVEL > 0) {
                 char debugMsg[120];
-                sprintf(debugMsg, "Sending: breakTimestamp=%lu, currentTime=%lu, currentBreakState=%d", 
+                sprintf(debugMsg, "Sending: breakTimestamp=%lu, currentTime=%lu, currentBreakState=%d",
                        breakTimestamp, currentTime, currentBreakState);
                 Firmata.sendString(STRING_DATA, debugMsg);
             }
@@ -621,21 +621,21 @@ void sysexCallback(byte command, byte argc, byte *argv) {
         if (DEBUG_LEVEL > 0) {
             char debugMsg[80];
             sprintf(debugMsg, "Argv[0]: %d", argv[0]);
-            // Firmata.sendString(STRING_DATA, debugMsg);
+            Firmata.sendString(STRING_DATA, debugMsg);
         }
     }
     if (argc > 1) {
         if (DEBUG_LEVEL > 0) {
             char debugMsg[80];
             sprintf(debugMsg, "Argv[1]: %d", argv[1]);
-            // Firmata.sendString(STRING_DATA, debugMsg);
+            Firmata.sendString(STRING_DATA, debugMsg);
         }
     }
     if (argc > 2) {
         if (DEBUG_LEVEL > 0) {
             char debugMsg[80];
             sprintf(debugMsg, "Argv[2]: %d", argv[2]);
-            // Firmata.sendString(STRING_DATA, debugMsg);
+            Firmata.sendString(STRING_DATA, debugMsg);
         }
     }
 
@@ -697,6 +697,7 @@ void setup() {
     Firmata.begin(57600);
 	Firmata.sendString(F("Booting device. Stand by..."));
 	initFirmata();
+	Firmata.sendString(F("Firmata init complete"));
 	Firmata.parse(SYSTEM_RESET);
 
     // Initialize our pwm_boards array
@@ -740,7 +741,7 @@ void setup() {
 
 void loop() {
     // Update break beam sensor readings every loop for maximum responsiveness
-    updateBreakBeamSensor();
+    // updateBreakBeamSensor();
 
     while(Firmata.available()) { //only runs if message in buffer
         Firmata.processInput();

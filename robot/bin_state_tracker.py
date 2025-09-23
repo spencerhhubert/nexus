@@ -4,11 +4,7 @@ from robot.global_config import GlobalConfig
 from robot.sorting.sorting_profile import SortingProfile
 from robot.irl.distribution import DistributionModule
 from robot.storage.sqlite3.operations import saveBinStateToDatabase
-
-
-class BinCoordinates(TypedDict):
-    distribution_module_idx: int
-    bin_idx: int
+from robot.our_types.bin import BinCoordinates
 
 
 # Maps bin coordinate keys (e.g. "0_1") to category IDs (e.g. "misc", "fallback", or BrickLink category IDs)

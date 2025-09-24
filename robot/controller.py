@@ -30,7 +30,7 @@ class Controller:
 
         self.sorting_profile = mkBricklinkCategoriesSortingProfile(global_config)
         self.bin_state_tracker = BinStateTracker(
-            global_config, irl_interface["distribution_modules"], self.sorting_profile
+            global_config, irl_interface["distribution_modules"], self.sorting_profile, global_config["use_prev_bin_state"]
         )
 
         self.vision_system = SegmentationModelManager(

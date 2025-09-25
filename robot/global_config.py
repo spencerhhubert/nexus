@@ -110,7 +110,7 @@ def buildGlobalConfig() -> GlobalConfig:
         "run_id": run_id,
         "run_blob_dir": run_blob_dir,
         "db_path": "../database.db",
-        "tensor_device": "cpu",
+        "tensor_device": "mps",
         "main_camera_index": 0,
         "fastsam_weights": "../weights/FastSAM-s.pt",
         "yolo_model": "yolo11n-seg",

@@ -97,6 +97,8 @@ class SegmentationModelManager:
 
     def _trackMainCamera(self) -> None:
         model = YOLO(self.model_path)
+        if self.global_config.get("tensor_device"):
+            model.to(self.global_config["tensor_device"])
         frame_count = 0
         try:
             while self.running:
@@ -142,6 +144,8 @@ class SegmentationModelManager:
 
     def _trackFeederCamera(self) -> None:
         model = YOLO(self.model_path)
+        if self.global_config.get("tensor_device"):
+            model.to(self.global_config["tensor_device"])
         frame_count = 0
         try:
             while self.running:

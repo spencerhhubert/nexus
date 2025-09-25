@@ -1,5 +1,7 @@
+import time
 from robot.our_types import SystemLifecycleStage
 from robot.our_types.irl_runtime_params import IRLSystemRuntimeParams
+from robot.our_types.bin_state import BinState
 
 
 class API:
@@ -23,3 +25,9 @@ class API:
 
     def updateIRLRuntimeParams(self, params: IRLSystemRuntimeParams):
         self.controller.irl_interface["runtime_params"] = params
+
+    def getBinState(self) -> BinState:
+        return {
+            "bin_contents": self.controller.bin_state_tracker.current_state,
+            "timestamp": int(time.time() * 1000),
+        }

@@ -42,3 +42,22 @@ export async function getBricklinkPartInfo(partId: string) {
   if (error) throw new Error('Failed to get BrickLink part info');
   return data;
 }
+
+export async function getBinState() {
+  const { data, error } = await apiClient.GET('/bin-state');
+  if (error) throw new Error('Failed to get bin state');
+  return data;
+}
+
+export async function getBricklinkCategoryInfo(categoryId: number) {
+  const { data, error } = await apiClient.GET(
+    '/bricklink/category/{category_id}',
+    {
+      params: {
+        path: { category_id: categoryId },
+      },
+    }
+  );
+  if (error) throw new Error('Failed to get BrickLink category info');
+  return data;
+}

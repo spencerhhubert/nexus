@@ -1,0 +1,236 @@
+<script lang="ts">
+  import { onMount, onDestroy } from 'svelte';
+  import { getBinState, getBricklinkCategoryInfo } from '$lib/api-client';
+  import type { BinStateUpdateMessage, WebSocketMessage } from '$lib/types/websocket';
+  import type { components } from '$lib/api-types';
+
+  type BinState = components['schemas']['BinState'];
+
+  let bin_state: BinState | null = $state(null);
+  let category_names: Record<string, string> = $state({});
+  let websocket: WebSocket | null = null;
+
+  const MISC_CATEGORY = 'misc';
+  const UNKNOWN_CATEGORY = 'fallback';
+
+  async function loadBinState() {
+    try {
+      bin_state = await getBinState();
+      await loadCategoryNames();
+    } catch (error) {
+      console.error('Failed to load bin state:', error);
+    }
+  }
+
+  async function loadCategoryNames() {
+    if (!bin_state) return;
+
+    const new_category_names: Record<string, string> = {};
+
+    for (const category_id of Object.values(bin_state.bin_contents)) {
+      if (category_id && !category_names[category_id] &&
+          category_id !== MISC_CATEGORY &&
+          category_id !== UNKNOWN_CATEGORY) {
+        try {
+          const category_info = await getBricklinkCategoryInfo(parseInt(category_id));
+          new_category_names[category_id] = category_info.category_name;
+        } catch (error) {
+          console.error(`Failed to load category ${category_id}:`, error);
+          new_category_names[category_id] = category_id;
+        }
+      }
+    }
+
+    category_names = { ...category_names, ...new_category_names };
+  }
+
+  function connectWebSocket() {
+    websocket = new WebSocket('ws://localhost:8000/ws');
+
+    websocket.onmessage = (event) => {
+      try {
+        const message: WebSocketMessage = JSON.parse(event.data);
+        if (message.type === 'bin_state_update') {
+          handleBinStateUpdate(message as BinStateUpdateMessage);
+        }
+      } catch (error) {
+        console.error('Failed to parse websocket message:', error);
+      }
+    };
+
+    websocket.onerror = (error) => {
+      console.error('WebSocket error:', error);
+    };
+
+    websocket.onclose = () => {
+      setTimeout(connectWebSocket, 5000);
+    };
+  }
+
+  async function handleBinStateUpdate(message: BinStateUpdateMessage) {
+    bin_state = {
+      bin_contents: message.bin_contents,
+      timestamp: message.timestamp
+    };
+    await loadCategoryNames();
+  }
+
+  function getBinDisplayName(category_id: string | null): string {
+    if (!category_id) return 'Empty';
+    if (category_id === MISC_CATEGORY) return 'Misc';
+    if (category_id === UNKNOWN_CATEGORY) return 'Unknown';
+    return category_names[category_id] || 'Occupied';
+  }
+
+  function parseBinCoordinates(bin_key: string): { module_idx: number; bin_idx: number } {
+    const [module_idx, bin_idx] = bin_key.split('_').map(Number);
+    return { module_idx, bin_idx };
+  }
+
+  function groupBinsByModule(): Record<number, Array<{ key: string; bin_idx: number; category_id: string | null }>> {
+    if (!bin_state) return {};
+
+    const grouped: Record<number, Array<{ key: string; bin_idx: number; category_id: string | null }>> = {};
+
+    for (const [bin_key, category_id] of Object.entries(bin_state.bin_contents)) {
+      const { module_idx, bin_idx } = parseBinCoordinates(bin_key);
+
+      if (!grouped[module_idx]) {
+        grouped[module_idx] = [];
+      }
+
+      grouped[module_idx].push({ key: bin_key, bin_idx, category_id });
+    }
+
+    // Sort bins within each module by bin_idx
+    for (const module_bins of Object.values(grouped)) {
+      module_bins.sort((a, b) => a.bin_idx - b.bin_idx);
+    }
+
+    return grouped;
+  }
+
+  onMount(() => {
+    loadBinState();
+    connectWebSocket();
+  });
+
+  onDestroy(() => {
+    if (websocket) {
+      websocket.close();
+    }
+  });
+
+  const grouped_bins = $derived(groupBinsByModule());
+</script>
+
+<div class="bin-state-display">
+  <h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">Bin State</h3>
+
+  {#if bin_state}
+    <div class="modules-container">
+      {#each Object.entries(grouped_bins).sort(([a], [b]) => Number(a) - Number(b)) as [module_idx, bins]}
+        <div class="module-container">
+          <h4 class="text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
+            Module {Number(module_idx) + 1}
+          </h4>
+          <div class="bins-grid">
+            {#each bins as { key, bin_idx, category_id }}
+              <div class="bin-cell"
+                   class:empty={!category_id}
+                   class:misc={category_id === MISC_CATEGORY}
+                   class:unknown={category_id === UNKNOWN_CATEGORY}
+                   class:occupied={category_id && category_id !== MISC_CATEGORY && category_id !== UNKNOWN_CATEGORY}>
+                <div class="bin-coordinates">{Number(module_idx) + 1},{bin_idx + 1}</div>
+                <div class="bin-content">{getBinDisplayName(category_id)}</div>
+              </div>
+            {/each}
+          </div>
+        </div>
+      {/each}
+    </div>
+  {:else}
+    <div class="text-gray-500 dark:text-gray-400">Loading bin state...</div>
+  {/if}
+</div>
+
+<style>
+  .bin-state-display {
+    padding: 1rem;
+  }
+
+  .modules-container {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .module-container {
+    border: 1px solid #e5e7eb;
+    padding: 1rem;
+    background: white;
+    flex: 1;
+  }
+
+  .bins-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .bin-cell {
+    border: 2px solid #d1d5db;
+    padding: 0.5rem;
+    text-align: center;
+    font-size: 0.75rem;
+    min-height: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .bin-cell.empty {
+    border-color: #e5e7eb;
+    background-color: #f9fafb;
+  }
+
+  .bin-cell.misc {
+    border-color: #3b82f6;
+    background-color: #dbeafe;
+  }
+
+  .bin-cell.unknown {
+    border-color: #f59e0b;
+    background-color: #fef3c7;
+  }
+
+  .bin-cell.occupied {
+    border-color: #10b981;
+    background-color: #d1fae5;
+  }
+
+  .bin-coordinates {
+    font-weight: 600;
+    color: #374151;
+  }
+
+  .bin-content {
+    font-size: 0.625rem;
+    margin-top: 0.25rem;
+    color: #6b7280;
+  }
+
+  :global(.dark) .module-container {
+    background: #374151;
+    border-color: #4b5563;
+  }
+
+  :global(.dark) .bin-coordinates {
+    color: #f3f4f6;
+  }
+
+  :global(.dark) .bin-content {
+    color: #d1d5db;
+  }
+</style>

@@ -8,6 +8,7 @@
   import SettingsModal from '$lib/components/SettingsModal.svelte';
   import MotorConfigModal from '$lib/components/MotorConfigModal.svelte';
   import KnownObjectsList from '$lib/components/KnownObjectsList.svelte';
+  import BinStateDisplay from '$lib/components/BinStateDisplay.svelte';
 
   const pageState = createPageState();
   let isSettingsOpen = $state(false);
@@ -55,6 +56,9 @@
       <!-- Main Content - Center Panel -->
       <div class="flex-1 space-y-6">
         <CameraFeeds />
+        <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+          <BinStateDisplay />
+        </div>
         <SystemStatus
           lifecycleStage={pageState.state.lifecycleStage}
           sortingState={pageState.state.sortingState}

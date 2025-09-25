@@ -1,28 +1,11 @@
-from typing import Dict, List, Optional, TypedDict
+from typing import List, Optional
 import time
 from robot.global_config import GlobalConfig
 from robot.sorting.sorting_profile import SortingProfile
 from robot.irl.distribution import DistributionModule
 from robot.storage.sqlite3.operations import saveBinStateToDatabase
 from robot.our_types.bin import BinCoordinates
-
-
-# Maps bin coordinate keys (e.g. "0_1") to category IDs (e.g. "misc", "fallback", or BrickLink category IDs)
-# None means the bin is empty
-BinContentsMap = Dict[str, Optional[str]]
-
-
-class BinState(TypedDict):
-    bin_contents: BinContentsMap
-    timestamp: int
-
-
-class PersistedBinState(TypedDict):
-    id: str
-    bin_contents: BinContentsMap
-    created_at: int
-    updated_at: int
-    deleted_at: Optional[int]
+from robot.our_types.bin_state import BinContentsMap, BinState, PersistedBinState
 
 
 class BinStateTracker:

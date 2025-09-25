@@ -43,8 +43,8 @@
 <div class="min-h-screen bg-gray-50 dark:bg-gray-900">
   <AppHeader isConnected={pageState.state.wsConnected} isReconnecting={pageState.state.reconnecting} onSettingsOpen={openSettings} />
 
-  <div class="container mx-auto p-6">
-    <div class="flex gap-6 h-[calc(100vh-120px)]">
+  <div class="container mx-auto p-6 mb-12">
+    <div class="flex gap-6">
       <!-- Known Objects List - Left Panel -->
       <div class="w-80 flex-shrink-0">
         <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 h-full">
@@ -60,7 +60,10 @@
           sortingState={pageState.state.sortingState}
           encoder={pageState.state.encoder}
         />
-        <SystemControls onMotorConfigOpen={openMotorConfig} />
+        <SystemControls
+          onMotorConfigOpen={openMotorConfig}
+          lifecycleStage={pageState.state.lifecycleStage}
+        />
       </div>
     </div>
   </div>

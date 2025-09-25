@@ -46,6 +46,14 @@ async def resume_system():
     return {"success": True}
 
 
+@app.put("/run")
+async def run_system():
+    if not api_client:
+        raise HTTPException(status_code=503, detail="API not initialized")
+    api_client.run()
+    return {"success": True}
+
+
 @app.get("/irl-runtime-params")
 async def get_irl_runtime_params() -> IRLSystemRuntimeParams:
     if not api_client:

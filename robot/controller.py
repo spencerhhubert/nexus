@@ -86,11 +86,12 @@ class Controller:
         initializeDatabase(self.global_config)
         ensureBlobStorageExists(self.global_config)
 
-        self.lifecycle_stage = SystemLifecycleStage.RUNNING
+        self.lifecycle_stage = SystemLifecycleStage.READY
 
         # Main loop - run sorting state machine when running
         last_status_broadcast = 0
         while self.running and self.lifecycle_stage in [
+            SystemLifecycleStage.READY,
             SystemLifecycleStage.RUNNING,
             SystemLifecycleStage.PAUSED,
         ]:
@@ -138,4 +139,8 @@ class Controller:
 
     def resume(self):
         if self.lifecycle_stage == SystemLifecycleStage.PAUSED:
+            self.lifecycle_stage = SystemLifecycleStage.RUNNING
+
+    def run(self):
+        if self.lifecycle_stage == SystemLifecycleStage.READY:
             self.lifecycle_stage = SystemLifecycleStage.RUNNING

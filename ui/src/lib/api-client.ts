@@ -15,6 +15,11 @@ export async function resumeSystem() {
   if (error) throw new Error('Failed to resume system');
 }
 
+export async function runSystem() {
+  const { error } = await apiClient.PUT('/run');
+  if (error) throw new Error('Failed to run system');
+}
+
 export async function getIRLRuntimeParams() {
   const { data, error } = await apiClient.GET('/irl-runtime-params');
   if (error) throw new Error('Failed to get IRL runtime params');

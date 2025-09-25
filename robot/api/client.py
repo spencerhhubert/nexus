@@ -15,6 +15,9 @@ class API:
     def resume(self):
         self.controller.resume()
 
+    def run(self):
+        self.controller.run()
+
     def getIRLRuntimeParams(self) -> IRLSystemRuntimeParams:
         return self.controller.irl_interface["runtime_params"]
 

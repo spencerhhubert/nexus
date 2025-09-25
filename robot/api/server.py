@@ -7,9 +7,10 @@ from robot.our_types import SystemLifecycleStage
 from robot.our_types.irl_runtime_params import IRLSystemRuntimeParams
 from robot.our_types.bricklink import BricklinkPartData
 from robot.our_types.bin_state import BinState
-from robot.piece.bricklink.api import getPartInfo, getCategoryInfo
+from robot.piece.bricklink.api import getPartInfo, getCategoryInfo, getCategories
 from robot.piece.bricklink.auth import mkAuth
 from robot.piece.bricklink.types import BricklinkCategoryData
+from typing import List
 from robot.websocket_manager import WebSocketManager
 
 app = FastAPI()
@@ -78,6 +79,21 @@ async def get_bin_state() -> BinState:
     return api_client.getBinState()
 
 
+@app.put("/bin-state")
+async def update_bin_state(request: dict):
+    if not api_client:
+        raise HTTPException(status_code=503, detail="API not initialized")
+
+    coordinates = {
+        "distribution_module_idx": request["distribution_module_idx"],
+        "bin_idx": request["bin_idx"],
+    }
+    category_id = request.get("category_id")
+
+    api_client.updateBinCategory(coordinates, category_id)
+    return {"success": True}
+
+
 @app.get("/bricklink/part/{part_id}/")
 async def get_bricklink_part_info(part_id: str) -> BricklinkPartData:
     try:
@@ -113,6 +129,20 @@ async def get_bricklink_category_info(category_id: int) -> BricklinkCategoryData
     except Exception as e:
         raise HTTPException(
             status_code=500, detail=f"Failed to fetch category info: {str(e)}"
+        )
+
+
+@app.get("/bricklink/categories")
+async def get_bricklink_categories() -> List[BricklinkCategoryData]:
+    try:
+        auth = mkAuth()
+        categories = getCategories(auth)
+        return categories
+    except ValueError as e:
+        raise HTTPException(status_code=500, detail=f"Authentication error: {str(e)}")
+    except Exception as e:
+        raise HTTPException(
+            status_code=500, detail=f"Failed to fetch categories: {str(e)}"
         )
 
 

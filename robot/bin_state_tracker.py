@@ -6,6 +6,7 @@ from robot.irl.distribution import DistributionModule
 from robot.storage.sqlite3.operations import saveBinStateToDatabase
 from robot.our_types.bin import BinCoordinates
 from robot.our_types.bin_state import BinContentsMap, BinState, PersistedBinState
+from robot.websocket_manager import WebSocketManager
 
 
 class BinStateTracker:
@@ -14,15 +15,19 @@ class BinStateTracker:
         global_config: GlobalConfig,
         distribution_modules: List[DistributionModule],
         sorting_profile: SortingProfile,
+        websocket_manager: WebSocketManager,
         bin_state_id: Optional[str] = None,
     ):
         self.global_config = global_config
         self.distribution_modules = distribution_modules
         self.available_bin_coordinates = self._buildAvailableBinCoordinates()
         self.sorting_profile = sorting_profile
+        self.websocket_manager = websocket_manager
         self.misc_category_id = "misc"
         self.fallback_category_id = "fallback"
         self.current_bin_state_id: Optional[str] = None
+        self.misc_bin_coordinates: Optional[BinCoordinates] = None
+        self.fallback_bin_coordinates: Optional[BinCoordinates] = None
 
         self.current_state: BinContentsMap = {}
         for coordinates in self.available_bin_coordinates:
@@ -65,10 +70,13 @@ class BinStateTracker:
             last_bin = self.available_bin_coordinates[-1]
             self._reserveBinInternal(second_to_last_bin, self.misc_category_id)
             self._reserveBinInternal(last_bin, self.fallback_category_id)
+            self.misc_bin_coordinates = second_to_last_bin
+            self.fallback_bin_coordinates = last_bin
         elif len(self.available_bin_coordinates) == 1:
             # If only one bin, use it as misc
             last_bin = self.available_bin_coordinates[-1]
             self._reserveBinInternal(last_bin, self.misc_category_id)
+            self.misc_bin_coordinates = last_bin
 
         # Save initial state if this is a new bin state
         if not previous_state:
@@ -93,15 +101,21 @@ class BinStateTracker:
         return available_bins
 
     def findAvailableBin(self, category_id: str) -> Optional[BinCoordinates]:
-        # First, try to find a bin that already has this category
-        for coordinates in self.available_bin_coordinates:
+        # Sort coordinates to ensure consistent "first bin" selection
+        sorted_coordinates = sorted(
+            self.available_bin_coordinates,
+            key=lambda c: (c["distribution_module_idx"], c["bin_idx"]),
+        )
+
+        # First, try to find the first bin that already has this category
+        for coordinates in sorted_coordinates:
             key = binCoordinatesToKey(coordinates)
             current_category = self.current_state.get(key)
             if current_category == category_id:
                 return coordinates
 
         # If no existing bin found, look for an empty bin
-        for coordinates in self.available_bin_coordinates:
+        for coordinates in sorted_coordinates:
             key = binCoordinatesToKey(coordinates)
             current_category = self.current_state.get(key)
             if current_category is None:
@@ -116,11 +130,8 @@ class BinStateTracker:
                 f"No available bins for category '{category_id}', falling back to fallback bin"
             )
 
-            for coordinates in self.available_bin_coordinates:
-                key = binCoordinatesToKey(coordinates)
-                current_category = self.current_state.get(key)
-                if current_category == self.fallback_category_id:
-                    return coordinates
+            if self.fallback_bin_coordinates:
+                return self.fallback_bin_coordinates
 
         return None
 
@@ -135,9 +146,43 @@ class BinStateTracker:
         self._reserveBinInternal(coordinates, category_id)
         self.current_bin_state_id = self.saveBinState()
 
+        bin_state: BinState = {
+            "bin_contents": self.current_state,
+            "timestamp": int(time.time() * 1000),
+        }
+
+        self.websocket_manager.broadcast_bin_state(bin_state)
+
     def saveBinState(self) -> str:
         bin_state_id = saveBinStateToDatabase(self.global_config, self.current_state)
         return bin_state_id
+
+    def updateBinCategory(
+        self, coordinates: BinCoordinates, category_id: Optional[str]
+    ) -> None:
+        key = binCoordinatesToKey(coordinates)
+        self.current_state[key] = category_id
+        self.current_bin_state_id = self.saveBinState()
+
+        # Broadcast the updated bin state
+        from robot.our_types.bin_state import BinState
+        import time
+
+        bin_state: BinState = {
+            "bin_contents": self.current_state,
+            "timestamp": int(time.time() * 1000),
+        }
+
+        # Get websocket manager from global context if available
+        self.websocket_manager.broadcast_bin_state(bin_state)
+
+    def setMiscBin(self, coordinates: BinCoordinates) -> None:
+        self.misc_bin_coordinates = coordinates
+        self.updateBinCategory(coordinates, self.misc_category_id)
+
+    def setFallbackBin(self, coordinates: BinCoordinates) -> None:
+        self.fallback_bin_coordinates = coordinates
+        self.updateBinCategory(coordinates, self.fallback_category_id)
 
 
 def binCoordinatesToKey(coordinates: BinCoordinates) -> str:

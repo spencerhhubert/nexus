@@ -1,5 +1,5 @@
 import createClient from 'openapi-fetch';
-import type { paths } from './api-types';
+import type { paths, components } from './api-types';
 
 export const apiClient = createClient<paths>({
   baseUrl: 'http://localhost:8000',
@@ -60,4 +60,35 @@ export async function getBricklinkCategoryInfo(categoryId: number) {
   );
   if (error) throw new Error('Failed to get BrickLink category info');
   return data;
+}
+
+export async function getBricklinkCategories(): Promise<
+  components['schemas']['BricklinkCategoryData'][]
+> {
+  const response = await fetch('http://localhost:8000/bricklink/categories');
+  if (!response.ok) {
+    throw new Error('Failed to get BrickLink categories');
+  }
+  return await response.json();
+}
+
+export async function updateBinState(
+  coordinates: { distribution_module_idx: number; bin_idx: number },
+  categoryId: string | null
+) {
+  const response = await fetch('http://localhost:8000/bin-state', {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      distribution_module_idx: coordinates.distribution_module_idx,
+      bin_idx: coordinates.bin_idx,
+      category_id: categoryId,
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to update bin state');
+  }
 }

@@ -1,4 +1,13 @@
 from enum import Enum
+from dataclasses import dataclass
+
+
+@dataclass
+class CameraPerformanceMetrics:
+    fps_1s: float
+    fps_5s: float
+    latency_1s: float
+    latency_5s: float
 
 
 class FeederState(Enum):

@@ -6,6 +6,7 @@ from robot.irl.distribution import DistributionModule
 from robot.storage.sqlite3.operations import saveBinStateToDatabase
 from robot.our_types.bin import BinCoordinates
 from robot.our_types.bin_state import BinContentsMap, BinState, PersistedBinState
+from robot.websocket_manager import WebSocketManager
 
 
 class BinStateTracker:
@@ -14,12 +15,14 @@ class BinStateTracker:
         global_config: GlobalConfig,
         distribution_modules: List[DistributionModule],
         sorting_profile: SortingProfile,
+        websocket_manager: WebSocketManager,
         bin_state_id: Optional[str] = None,
     ):
         self.global_config = global_config
         self.distribution_modules = distribution_modules
         self.available_bin_coordinates = self._buildAvailableBinCoordinates()
         self.sorting_profile = sorting_profile
+        self.websocket_manager = websocket_manager
         self.misc_category_id = "misc"
         self.fallback_category_id = "fallback"
         self.current_bin_state_id: Optional[str] = None
@@ -143,6 +146,13 @@ class BinStateTracker:
         self._reserveBinInternal(coordinates, category_id)
         self.current_bin_state_id = self.saveBinState()
 
+        bin_state: BinState = {
+            "bin_contents": self.current_state,
+            "timestamp": int(time.time() * 1000),
+        }
+
+        self.websocket_manager.broadcast_bin_state(bin_state)
+
     def saveBinState(self) -> str:
         bin_state_id = saveBinStateToDatabase(self.global_config, self.current_state)
         return bin_state_id
@@ -164,12 +174,7 @@ class BinStateTracker:
         }
 
         # Get websocket manager from global context if available
-        try:
-            from robot.api.server import websocket_manager
-
-            websocket_manager.broadcast_bin_state(bin_state)
-        except ImportError:
-            pass
+        self.websocket_manager.broadcast_bin_state(bin_state)
 
     def setMiscBin(self, coordinates: BinCoordinates) -> None:
         self.misc_bin_coordinates = coordinates

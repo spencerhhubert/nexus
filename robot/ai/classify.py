@@ -6,6 +6,8 @@ import io
 from robot.global_config import GlobalConfig
 from robot.ai.brickognize_types import BrickognizeClassificationResult
 from robot.our_types.classify import ClassificationResult
+from robot.piece.bricklink.api import getPartInfo
+from robot.piece.bricklink.auth import mkAuth
 
 
 def brickognizeClassifySegment(
@@ -64,12 +66,15 @@ def classifyWithBrickognize(
         if result and result.get("items") and len(result["items"]) > 0:
             best_item = result["items"][0]
             item_id = best_item.get("id")
-            category = best_item.get("category")
 
-            if item_id and category:
-                return ClassificationResult(id=item_id, category_id=category)
+            if item_id:
+                auth = mkAuth()
+                part_data = getPartInfo(item_id, auth)
+                if part_data and part_data.get("category_id"):
+                    return ClassificationResult(
+                        id=item_id, category_id=str(part_data["category_id"])
+                    )
 
-        # Return None if classification failed
         return None
     except Exception as e:
         global_config["logger"].error(f"Brickognize classification failed: {e}")

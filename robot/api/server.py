@@ -27,7 +27,7 @@ api_client: Optional[API] = None
 websocket_manager = WebSocketManager()
 
 
-def init_api(controller):
+def init_api(controller) -> WebSocketManager:
     global api_client
     api_client = API(controller)
     return websocket_manager

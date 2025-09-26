@@ -24,11 +24,11 @@ YOLO_CLASSES = {
 }
 
 # Vision analysis constants
-SECOND_FEEDER_DISTANCE_THRESHOLD = 30
+SECOND_FEEDER_DISTANCE_THRESHOLD = 20
 MAIN_CONVEYOR_THRESHOLD = 0.7
 OBJECT_CENTER_THRESHOLD = 0.4
 RIGHT_SIDE_THRESHOLD = 0.3
-MARGIN_FOR_MAIN_CONVEYOR_BOUNDING_BOX_PX = -15
+MARGIN_FOR_MAIN_CONVEYOR_BOUNDING_BOX_PX = -40
 
 
 class SegmentationModelManager:
@@ -97,6 +97,8 @@ class SegmentationModelManager:
 
     def _trackMainCamera(self) -> None:
         model = YOLO(self.model_path)
+        if self.global_config.get("tensor_device"):
+            model.to(self.global_config["tensor_device"])
         frame_count = 0
         try:
             while self.running:
@@ -105,7 +107,7 @@ class SegmentationModelManager:
 
                 if frame is not None:
                     start_time = time.time()
-                    results = model.track(frame, persist=True)
+                    results = model.track(frame, persist=True, tracker="bytetrack.yaml")
                     # results = model(frame)
                     processing_time = time.time() - start_time
 
@@ -142,6 +144,8 @@ class SegmentationModelManager:
 
     def _trackFeederCamera(self) -> None:
         model = YOLO(self.model_path)
+        if self.global_config.get("tensor_device"):
+            model.to(self.global_config["tensor_device"])
         frame_count = 0
         try:
             while self.running:
@@ -150,7 +154,7 @@ class SegmentationModelManager:
 
                 if frame is not None:
                     start_time = time.time()
-                    results = model.track(frame, persist=True)
+                    results = model.track(frame, persist=True, tracker="bytetrack.yaml")
                     processing_time = time.time() - start_time
 
                     self._trackPerformance(CameraType.FEEDER_CAMERA, processing_time)

@@ -150,7 +150,7 @@
           </div>
           {#if knownObject.bin_coordinates}
             <div>
-              Bin {knownObject.bin_coordinates.distribution_module_idx}, {knownObject.bin_coordinates.bin_idx}
+              Bin {knownObject.bin_coordinates.distribution_module_idx + 1}, {knownObject.bin_coordinates.bin_idx + 1}
             </div>
           {/if}
         </div>

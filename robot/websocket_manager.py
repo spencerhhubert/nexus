@@ -8,6 +8,8 @@ import numpy as np
 from fastapi import WebSocket
 from robot.our_types import CameraType, SystemLifecycleStage, SortingState, MotorStatus
 from robot.our_types.bin import BinCoordinates
+from robot.our_types.bin_state import BinState
+from robot.our_types.vision_system import CameraPerformanceMetrics
 
 
 class WebSocketManager:
@@ -132,6 +134,51 @@ class WebSocketManager:
 
         except Exception as e:
             print(f"Error broadcasting known object: {e}")
+
+    def broadcast_bin_state(self, bin_state: BinState):
+        if not self.active_connections or not self.loop:
+            return
+
+        try:
+            message = {
+                "type": "bin_state_update",
+                "bin_contents": bin_state["bin_contents"],
+                "timestamp": bin_state["timestamp"],
+            }
+
+            message_json = json.dumps(message)
+
+            asyncio.run_coroutine_threadsafe(
+                self._broadcast_to_all(message_json), self.loop
+            )
+
+        except Exception as e:
+            print(f"Error broadcasting bin state: {e}")
+
+    def broadcast_camera_performance(
+        self, camera_type: CameraType, metrics: CameraPerformanceMetrics
+    ):
+        if not self.active_connections or not self.loop:
+            return
+
+        try:
+            message = {
+                "type": "camera_performance",
+                "camera": camera_type.value,
+                "fps_1s": metrics.fps_1s,
+                "fps_5s": metrics.fps_5s,
+                "latency_1s": metrics.latency_1s,
+                "latency_5s": metrics.latency_5s,
+            }
+
+            message_json = json.dumps(message)
+
+            asyncio.run_coroutine_threadsafe(
+                self._broadcast_to_all(message_json), self.loop
+            )
+
+        except Exception as e:
+            print(f"Error broadcasting camera performance: {e}")
 
     async def _send_safe(self, websocket: WebSocket, message: str):
         try:

@@ -33,6 +33,7 @@ class Controller:
             global_config,
             irl_interface["distribution_modules"],
             self.sorting_profile,
+            websocket_manager,
             global_config["use_prev_bin_state"],
         )
 

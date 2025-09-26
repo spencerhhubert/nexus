@@ -7,6 +7,13 @@ interface CameraFrame {
   timestamp: number;
 }
 
+interface CameraPerformanceMetrics {
+  fps_1s: number;
+  fps_5s: number;
+  latency_1s: number;
+  latency_5s: number;
+}
+
 interface PageState {
   // System status
   lifecycleStage: string;
@@ -22,6 +29,10 @@ interface PageState {
   // Camera feeds
   mainCameraFrame: CameraFrame | null;
   feederCameraFrame: CameraFrame | null;
+
+  // Camera performance
+  mainCameraPerformance: CameraPerformanceMetrics | null;
+  feederCameraPerformance: CameraPerformanceMetrics | null;
 
   // Known objects
   knownObjects: Map<string, KnownObject>;
@@ -45,6 +56,8 @@ class PageStateStore {
     encoder: null,
     mainCameraFrame: null,
     feederCameraFrame: null,
+    mainCameraPerformance: null,
+    feederCameraPerformance: null,
     knownObjects: new Map(),
     wsConnected: false,
     wsError: null,
@@ -123,6 +136,19 @@ class PageStateStore {
             }
 
             this.state.knownObjects = newMap;
+          } else if (message.type === 'camera_performance') {
+            const performance: CameraPerformanceMetrics = {
+              fps_1s: message.fps_1s,
+              fps_5s: message.fps_5s,
+              latency_1s: message.latency_1s,
+              latency_5s: message.latency_5s,
+            };
+
+            if (message.camera === 'main_camera') {
+              this.state.mainCameraPerformance = performance;
+            } else if (message.camera === 'feeder_camera') {
+              this.state.feederCameraPerformance = performance;
+            }
           }
         } catch (e) {
           console.error('Failed to parse WebSocket message:', e);

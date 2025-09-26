@@ -1,4 +1,5 @@
-from typing import TypedDict, List, Optional, Union
+from typing import List, Optional, Union
+from typing_extensions import TypedDict
 from enum import Enum
 from robot.our_types import BricklinkPartData
 
@@ -30,6 +31,11 @@ class BricklinkCategoryData(TypedDict):
 class BricklinkCategoriesResponse(TypedDict):
     meta: BricklinkApiMeta
     data: List[BricklinkCategoryData]
+
+
+class BricklinkCategoryResponse(TypedDict):
+    meta: BricklinkApiMeta
+    data: BricklinkCategoryData
 
 
 class BricklinkColorData(TypedDict):

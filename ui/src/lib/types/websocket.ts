@@ -50,7 +50,14 @@ export interface KnownObjectMessage {
   bin_coordinates?: BinCoordinates;
 }
 
+export interface BinStateUpdateMessage {
+  type: 'bin_state_update';
+  bin_contents: Record<string, string | null>;
+  timestamp: number;
+}
+
 export type WebSocketMessage =
   | SystemStatusMessage
   | CameraFrameMessage
-  | KnownObjectMessage;
+  | KnownObjectMessage
+  | BinStateUpdateMessage;

@@ -5,6 +5,7 @@ from robot.irl.config import buildIRLSystemInterface, buildIRLConfig
 from robot.global_config import buildGlobalConfig
 from robot.controller import Controller
 from robot.api.server import app, init_api
+from robot.websocket_manager import WebSocketManager
 
 
 def main() -> None:
@@ -15,7 +16,7 @@ def main() -> None:
     logger = gc["logger"]
     logger.info(f"Running with debug level: {gc['debug_level']}")
 
-    websocket_manager = init_api(None)
+    websocket_manager: WebSocketManager = init_api(None)
     controller = Controller(gc, irl_system, websocket_manager)
     init_api(controller)
 

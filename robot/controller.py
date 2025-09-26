@@ -30,7 +30,11 @@ class Controller:
 
         self.sorting_profile = mkBricklinkCategoriesSortingProfile(global_config)
         self.bin_state_tracker = BinStateTracker(
-            global_config, irl_interface["distribution_modules"], self.sorting_profile
+            global_config,
+            irl_interface["distribution_modules"],
+            self.sorting_profile,
+            websocket_manager,
+            global_config["use_prev_bin_state"],
         )
 
         self.vision_system = SegmentationModelManager(
@@ -83,11 +87,12 @@ class Controller:
         initializeDatabase(self.global_config)
         ensureBlobStorageExists(self.global_config)
 
-        self.lifecycle_stage = SystemLifecycleStage.RUNNING
+        self.lifecycle_stage = SystemLifecycleStage.READY
 
         # Main loop - run sorting state machine when running
         last_status_broadcast = 0
         while self.running and self.lifecycle_stage in [
+            SystemLifecycleStage.READY,
             SystemLifecycleStage.RUNNING,
             SystemLifecycleStage.PAUSED,
         ]:
@@ -135,4 +140,8 @@ class Controller:
 
     def resume(self):
         if self.lifecycle_stage == SystemLifecycleStage.PAUSED:
+            self.lifecycle_stage = SystemLifecycleStage.RUNNING
+
+    def run(self):
+        if self.lifecycle_stage == SystemLifecycleStage.READY:
             self.lifecycle_stage = SystemLifecycleStage.RUNNING

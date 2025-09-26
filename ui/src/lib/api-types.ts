@@ -38,6 +38,23 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/run': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    /** Run System */
+    put: operations['run_system_run_put'];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/irl-runtime-params': {
     parameters: {
       query?: never;
@@ -49,6 +66,23 @@ export interface paths {
     get: operations['get_irl_runtime_params_irl_runtime_params_get'];
     /** Update Irl Runtime Params */
     put: operations['update_irl_runtime_params_irl_runtime_params_put'];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/bin-state': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Get Bin State */
+    get: operations['get_bin_state_bin_state_get'];
+    put?: never;
     post?: never;
     delete?: never;
     options?: never;
@@ -73,10 +107,45 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/bricklink/category/{category_id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Get Bricklink Category Info */
+    get: operations['get_bricklink_category_info_bricklink_category__category_id__get'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
 }
 export type webhooks = Record<string, never>;
 export interface components {
   schemas: {
+    /** BinState */
+    BinState: {
+      /** Bin Contents */
+      bin_contents: {
+        [key: string]: string | null;
+      };
+      /** Timestamp */
+      timestamp: number;
+    };
+    /** BricklinkCategoryData */
+    BricklinkCategoryData: {
+      /** Category Id */
+      category_id: number;
+      /** Category Name */
+      category_name: string;
+      /** Parent Id */
+      parent_id: number;
+    };
     /** BricklinkPartData */
     BricklinkPartData: {
       /** No */
@@ -135,6 +204,8 @@ export interface components {
       second_vibration_hopper_motor_pause_ms: number;
       /** Feeder Conveyor Pause Ms */
       feeder_conveyor_pause_ms: number;
+      /** Feeder Conveyor Pulse Duration Ms */
+      feeder_conveyor_pulse_duration_ms: number;
     };
     /** ValidationError */
     ValidationError: {
@@ -175,6 +246,26 @@ export interface operations {
     };
   };
   resume_system_resume_put: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': unknown;
+        };
+      };
+    };
+  };
+  run_system_run_put: {
     parameters: {
       query?: never;
       header?: never;
@@ -247,6 +338,26 @@ export interface operations {
       };
     };
   };
+  get_bin_state_bin_state_get: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['BinState'];
+        };
+      };
+    };
+  };
   get_bricklink_part_info_bricklink_part__part_id___get: {
     parameters: {
       query?: never;
@@ -265,6 +376,37 @@ export interface operations {
         };
         content: {
           'application/json': components['schemas']['BricklinkPartData'];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
+    };
+  };
+  get_bricklink_category_info_bricklink_category__category_id__get: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        category_id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['BricklinkCategoryData'];
         };
       };
       /** @description Validation Error */

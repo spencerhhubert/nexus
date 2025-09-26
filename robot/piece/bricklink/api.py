@@ -7,6 +7,7 @@ from robot.piece.bricklink.types import (
     BricklinkPartResponse,
     BricklinkPartData,
     BricklinkCategoriesResponse,
+    BricklinkCategoryResponse,
     BricklinkCategoryData,
     BricklinkColorsResponse,
     BricklinkColorData,
@@ -65,6 +66,20 @@ def getCategories(auth: OAuth1) -> List[BricklinkCategoryData]:
         return typed_response["data"]
     except Exception as e:
         return []
+
+
+def getCategoryInfo(category_id: int, auth: OAuth1) -> Optional[BricklinkCategoryData]:
+    endpoint = f"/categories/{category_id}"
+    response_data = _makeApiRequest(endpoint, auth)
+
+    if not response_data:
+        return None
+
+    try:
+        typed_response = cast(BricklinkCategoryResponse, response_data)
+        return typed_response["data"]
+    except Exception as e:
+        return None
 
 
 def getColors(auth: OAuth1) -> List[BricklinkColorData]:

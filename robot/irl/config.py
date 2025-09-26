@@ -102,13 +102,13 @@ def buildIRLConfig() -> IRLConfig:
             # "height": 2160,
             # "width": 1280,
             # "height": 720,
-            "fps": 15,
+            "fps": 30,
         },
         "feeder_camera": {
             "device_index": int(feeder_camera_index),
             "width": 1920,
             "height": 1080,
-            "fps": 15,
+            "fps": 30,
         },
         "distribution_modules": [
             {
@@ -163,7 +163,7 @@ def buildIRLConfig() -> IRLConfig:
             "input_2_pin": 32,
         },
         "main_conveyor_dc_motor": {
-            "enable_pin": 5,
+            "enable_pin": 4,
             "input_1_pin": 26,
             "input_2_pin": 28,
         },

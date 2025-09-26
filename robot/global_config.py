@@ -55,6 +55,7 @@ class GlobalConfig(TypedDict):
     waiting_for_object_to_center_timeout_ms: int
     waiting_for_object_to_appear_timeout_ms: int
     fs_object_at_end_of_second_feeder_timeout_ms: int
+    state_machine_steps_per_second: int
 
 
 def buildGlobalConfig() -> GlobalConfig:
@@ -110,7 +111,7 @@ def buildGlobalConfig() -> GlobalConfig:
         "run_id": run_id,
         "run_blob_dir": run_blob_dir,
         "db_path": "../database.db",
-        "tensor_device": "cpu",
+        "tensor_device": "mps",
         "main_camera_index": 0,
         "fastsam_weights": "../weights/FastSAM-s.pt",
         "yolo_model": "yolo11n-seg",
@@ -120,7 +121,9 @@ def buildGlobalConfig() -> GlobalConfig:
         # "yolo_weights_path": "/Users/spencer/Documents/GitHub/nexus2/weights/yolo11s-seg.pt",
         # "yolo_weights_path": "/Users/spencer/Downloads/run_1758315224/weights/best.pt", #nano more data
         # "yolo_weights_path": "/Users/spencer/Downloads/run_1758315429/weights/best.pt",  # small more data
-        "yolo_weights_path": "/Users/spencer/Downloads/run_1758582313/weights/best.pt",  # small, moved camera
+        # "yolo_weights_path": "/Users/spencer/Downloads/run_1758582313/weights/best.pt",  # small, moved camera
+        # "yolo_weights_path": "/Users/spencer/Downloads/run_1758827336/weights/best.pt",  # medium, new data03, 640
+        "yolo_weights_path": "/Users/spencer/Downloads/run_1758831161/weights/best.pt",  # nano, new data03, 640, 150 epochs
         "disable_main_conveyor": "main_conveyor" in disabled_motors,
         "disable_first_vibration_hopper_motor": "vibration_hopper" in disabled_motors
         or "first_vibration_hopper" in disabled_motors,
@@ -144,7 +147,7 @@ def buildGlobalConfig() -> GlobalConfig:
         "min_sending_to_bin_time_ms": 3000,
         "profiling_dir_path": "../profiles",
         "use_prev_bin_state": args.use_prev_bin_state,
-        "main_conveyor_speed": 200,
+        "main_conveyor_speed": 115,
         "feeder_conveyor_speed": 140,
         "first_vibration_hopper_motor_speed": 160,  # first hopper that pieces enter
         "second_vibration_hopper_motor_speed": 155,
@@ -162,6 +165,7 @@ def buildGlobalConfig() -> GlobalConfig:
         "waiting_for_object_to_center_timeout_ms": 5000,
         "waiting_for_object_to_appear_timeout_ms": 5000,
         "fs_object_at_end_of_second_feeder_timeout_ms": 4000,
+        "state_machine_steps_per_second": 15,
     }
 
     from robot.logger import Logger

@@ -67,64 +67,12 @@ class FsFirstFeederEmptyRuntimeVariables(TypedDict, total=False):
     conveyor_started: Optional[bool]
 
 
-class EmptyRuntimeVariables(TypedDict, total=False):
-    pass
-
-
-StateMachineRuntimeVariables = Dict[SortingState, Dict]
-
-"""
-STATE MACHINE OVERVIEW:
-
-GETTING_NEW_OBJECT_FROM_FEEDER:
-- Analyzes feeder camera to determine which feeder state to transition to
-- Does not run motors directly, only determines next state
-- CLEAN RULE HIERARCHY:
-  1. Main camera: Object centered → CLASSIFYING
-  2. Main camera: Object detected but not centered → WAITING_FOR_OBJECT_TO_CENTER_UNDER_MAIN_CAMERA
-  3. Feeder camera: Object touching main conveyor edges → WAITING_FOR_OBJECT_TO_APPEAR_UNDER_MAIN_CAMERA
-  4. Objects on second feeder >SECOND_FEEDER_DISTANCE_THRESHOLD from first feeder → FS_OBJECT_AT_END_OF_SECOND_FEEDER (run second feeder)
-  5. Objects on second feeder close to first + objects on first feeder → FS_NO_OBJECT_UNDERNEATH_EXIT_OF_FIRST_FEEDER (run first feeder)
-  6. Objects on second feeder + empty first feeder → FS_FIRST_FEEDER_EMPTY (wait)
-  7. Objects only on first feeder → FS_NO_OBJECT_UNDERNEATH_EXIT_OF_FIRST_FEEDER (run first feeder)
-  8. No objects anywhere → FS_FIRST_FEEDER_EMPTY
-
-FS_OBJECT_AT_END_OF_SECOND_FEEDER:
-- Pulses second feeder motor to move objects forward
-- Triggered when object >50% surrounded by second feeder AND >SECOND_FEEDER_DISTANCE_THRESHOLD from first feeder
-- Represents objects in the dropzone that are far from the first feeder
-- Transitions when objects move or are cleared
-
-FS_OBJECT_UNDERNEATH_EXIT_OF_FIRST_FEEDER:
-- Pulses second feeder motor to clear objects blocking first feeder exit
-- Transitions when first feeder exit is clear
-
-FS_NO_OBJECT_UNDERNEATH_EXIT_OF_FIRST_FEEDER:
-- Pulses first feeder motor to move objects from first to second feeder
-- Triggered when: object >50% on second feeder and >SECOND_FEEDER_DISTANCE_THRESHOLD from first feeder, OR object >50% in first feeder
-- Transitions when objects appear underneath first feeder exit
-
-FS_FIRST_FEEDER_EMPTY:
-- Wait state - no objects detected in first feeder
-- Transitions when objects appear in first feeder
-
-WAITING_FOR_OBJECT_TO_APPEAR_UNDER_MAIN_CAMERA:
-- Wait state - object detected touching main conveyor edges in feeder camera (using edge proximity detection)
-- Triggered when >50% of object pixels are within 3px of main conveyor mask edges
-- Transitions when object appears under main camera
-
-WAITING_FOR_OBJECT_TO_CENTER_UNDER_MAIN_CAMERA:
-- Wait state - object detected under main camera but not centered
-- Transitions when object moves to center position
-
-CLASSIFYING:
-- Wait state - object is centered and ready for classification
-- Transitions to SENDING_OBJECT_TO_BIN after classification
-
-SENDING_OBJECT_TO_BIN:
-- Wait state - object is being sorted to appropriate bin
-- Transitions back to GETTING_NEW_OBJECT_FROM_FEEDER when complete
-"""
+class SendingObjectToBinRuntimeVariables(TypedDict, total=False):
+    sending_object_to_bin_start_ts: Optional[float]
+    conveyor_start_timestamp: Optional[float]
+    conveyor_door_close_start_ts: Optional[float]
+    conveyor_door_closed: Optional[bool]
+    bin_door_close_start_ts: Optional[float]
 
 
 class SortingStateMachine:
@@ -144,11 +92,13 @@ class SortingStateMachine:
         self.current_state = SortingState.GETTING_NEW_OBJECT_FROM_FEEDER
         self.logger = vision_system.logger
 
-        # Initialize runtime variables for all states
-        self.runtime_variables: StateMachineRuntimeVariables = {}
-        for state in SortingState:
-            self.runtime_variables[state] = {}
-
+        # State-specific runtime variables
+        self.motor_state_vars: MotorStateRuntimeVariables = {}
+        self.classifying_vars: ClassifyingRuntimeVariables = {}
+        self.waiting_for_object_to_appear_vars: WaitingForObjectToAppearRuntimeVariables = {}
+        self.waiting_for_object_to_center_vars: WaitingForObjectToCenterRuntimeVariables = {}
+        self.fs_object_underneath_exit_vars: FsObjectUnderneathExitOfFirstFeederRuntimeVariables = {}
+        self.sending_object_to_bin_vars: SendingObjectToBinRuntimeVariables = {}
         self.fs_first_feeder_empty_vars: FsFirstFeederEmptyRuntimeVariables = {}
 
         # Known objects for classification
@@ -196,29 +146,37 @@ class SortingStateMachine:
                 f"STATE TRANSITION: {self.current_state.value} -> {next_state.value}"
             )
 
-            if self.current_state == SortingState.FS_FIRST_FEEDER_EMPTY:
-                self.cleanupFsFirstFeederEmpty()
-
-            self.cleanupRuntimeVariables(self.current_state)
+            self.cleanupCurrentState()
             self.setMotorsToDefaultSpeed()
             self.current_state = next_state
-        time.sleep(0.02)
+
+        # Sleep based on configured state machine FPS
+        steps_per_second = self.vision_system.global_config[
+            "state_machine_steps_per_second"
+        ]
+        time.sleep(1.0 / steps_per_second)
 
     def _runGettingNewObjectFromFeeder(self) -> SortingState:
         next_state = self._determineNextStateFromFrameAnalysis()
         return next_state or self.current_state
 
     def _runWaitingForObjectToAppearUnderMainCamera(self) -> SortingState:
-        state_vars = self.runtime_variables[self.current_state]
         current_time = time.time()
         gc = self.vision_system.global_config
 
-        if "waiting_for_object_to_appear_timeout_start_ts" not in state_vars:
-            state_vars["waiting_for_object_to_appear_timeout_start_ts"] = current_time
+        if (
+            "waiting_for_object_to_appear_timeout_start_ts"
+            not in self.waiting_for_object_to_appear_vars
+        ):
+            self.waiting_for_object_to_appear_vars[
+                "waiting_for_object_to_appear_timeout_start_ts"
+            ] = current_time
 
-        start_time = state_vars["waiting_for_object_to_appear_timeout_start_ts"]
+        start_time = self.waiting_for_object_to_appear_vars.get(
+            "waiting_for_object_to_appear_timeout_start_ts"
+        )
         timeout_duration = gc["waiting_for_object_to_appear_timeout_ms"] / 1000.0
-        if current_time - start_time >= timeout_duration:
+        if start_time and current_time - start_time >= timeout_duration:
             self.logger.info(
                 f"TIMEOUT: {self.current_state.value} timed out after {timeout_duration}s"
             )
@@ -228,16 +186,22 @@ class SortingStateMachine:
         return next_state or self.current_state
 
     def _runWaitingForObjectToCenterUnderMainCamera(self) -> SortingState:
-        state_vars = self.runtime_variables[self.current_state]
         current_time = time.time()
         gc = self.vision_system.global_config
 
-        if "waiting_for_object_to_center_timeout_start_ts" not in state_vars:
-            state_vars["waiting_for_object_to_center_timeout_start_ts"] = current_time
+        if (
+            "waiting_for_object_to_center_timeout_start_ts"
+            not in self.waiting_for_object_to_center_vars
+        ):
+            self.waiting_for_object_to_center_vars[
+                "waiting_for_object_to_center_timeout_start_ts"
+            ] = current_time
 
-        start_time = state_vars["waiting_for_object_to_center_timeout_start_ts"]
+        start_time = self.waiting_for_object_to_center_vars.get(
+            "waiting_for_object_to_center_timeout_start_ts"
+        )
         timeout_duration = gc["waiting_for_object_to_center_timeout_ms"] / 1000.0
-        if current_time - start_time >= timeout_duration:
+        if start_time and current_time - start_time >= timeout_duration:
             self.logger.info(
                 f"TIMEOUT: {self.current_state.value} timed out after {timeout_duration}s"
             )
@@ -247,12 +211,11 @@ class SortingStateMachine:
         return next_state or self.current_state
 
     def _runClassifying(self) -> SortingState:
-        state_vars = self.runtime_variables[self.current_state]
         current_time = time.time()
         gc = self.vision_system.global_config
 
-        if "classifying_timeout_start_ts" not in state_vars:
-            state_vars["classifying_timeout_start_ts"] = current_time
+        if "classifying_timeout_start_ts" not in self.classifying_vars:
+            self.classifying_vars["classifying_timeout_start_ts"] = current_time
 
             # Set conveyor speed to zero
             if not gc["disable_main_conveyor"]:
@@ -375,9 +338,9 @@ class SortingStateMachine:
             # Go to sending object to bin state
             return SortingState.SENDING_OBJECT_TO_BIN
 
-        start_time = state_vars["classifying_timeout_start_ts"]
+        start_time = self.classifying_vars.get("classifying_timeout_start_ts")
         timeout_duration = gc["classifying_timeout_ms"] / 1000.0
-        if current_time - start_time >= timeout_duration:
+        if start_time and current_time - start_time >= timeout_duration:
             self.logger.info(
                 f"TIMEOUT: {self.current_state.value} timed out after {timeout_duration}s"
             )
@@ -386,12 +349,13 @@ class SortingStateMachine:
         return self.current_state
 
     def _runSendingObjectToBin(self) -> SortingState:
-        state_vars = self.runtime_variables[self.current_state]
         current_time = time.time()
         gc = self.vision_system.global_config
 
-        if "sending_object_to_bin_start_ts" not in state_vars:
-            state_vars["sending_object_to_bin_start_ts"] = current_time
+        if "sending_object_to_bin_start_ts" not in self.sending_object_to_bin_vars:
+            self.sending_object_to_bin_vars["sending_object_to_bin_start_ts"] = (
+                current_time
+            )
 
             if (
                 self.pending_known_object
@@ -411,11 +375,14 @@ class SortingStateMachine:
                     main_speed = self.irl_interface["runtime_params"][
                         "main_conveyor_speed"
                     ]
-                    main_conveyor.setSpeed(main_speed + 100)
+                    EXTRA_SPEED = 100
+                    main_conveyor.setSpeed(main_speed + EXTRA_SPEED)
                     self.logger.info("SENDING_OBJECT_TO_BIN: Main conveyor started")
 
                 # Record start timestamp for distance calculation
-                state_vars["conveyor_start_timestamp"] = current_time
+                self.sending_object_to_bin_vars["conveyor_start_timestamp"] = (
+                    current_time
+                )
             else:
                 self.logger.warning(
                     "SENDING_OBJECT_TO_BIN: No pending known object or bin coordinates"
@@ -429,7 +396,10 @@ class SortingStateMachine:
                 bin_coords["distribution_module_idx"]
             )
 
-            start_timestamp = state_vars.get("conveyor_start_timestamp", current_time)
+            start_timestamp = (
+                self.sending_object_to_bin_vars.get("conveyor_start_timestamp")
+                or current_time
+            )
             distance_traveled = self.encoder_manager.getDistanceTraveledSince(
                 start_timestamp
             )
@@ -439,30 +409,43 @@ class SortingStateMachine:
             )
 
             if distance_traveled >= target_distance:
-                if "conveyor_door_close_start_ts" not in state_vars:
+                if (
+                    "conveyor_door_close_start_ts"
+                    not in self.sending_object_to_bin_vars
+                ):
                     # Wait conveyor_door_close_delay_ms before closing doors
-                    state_vars["conveyor_door_close_start_ts"] = current_time
+                    self.sending_object_to_bin_vars["conveyor_door_close_start_ts"] = (
+                        current_time
+                    )
                     self.logger.info(
                         "SENDING_OBJECT_TO_BIN: Target distance reached, starting door close delay"
                     )
 
-                close_start_time = state_vars["conveyor_door_close_start_ts"]
+                close_start_time = self.sending_object_to_bin_vars.get(
+                    "conveyor_door_close_start_ts"
+                )
                 conveyor_delay = gc["conveyor_door_close_delay_ms"] / 1000.0
 
-                if current_time - close_start_time >= conveyor_delay:
-                    if "conveyor_door_closed" not in state_vars:
+                if (
+                    close_start_time
+                    and current_time - close_start_time >= conveyor_delay
+                ):
+                    if "conveyor_door_closed" not in self.sending_object_to_bin_vars:
                         # Close conveyor door gradually
                         self._closeConveyorDoorGradually(
                             bin_coords["distribution_module_idx"]
                         )
-                        state_vars["conveyor_door_closed"] = True
-                        state_vars["bin_door_close_start_ts"] = current_time
+                        self.sending_object_to_bin_vars["conveyor_door_closed"] = True
+                        self.sending_object_to_bin_vars["bin_door_close_start_ts"] = (
+                            current_time
+                        )
                         self.logger.info(
                             "SENDING_OBJECT_TO_BIN: Conveyor door closed, starting bin door delay"
                         )
 
-                    bin_close_start_time = state_vars.get(
-                        "bin_door_close_start_ts", current_time
+                    bin_close_start_time = (
+                        self.sending_object_to_bin_vars.get("bin_door_close_start_ts")
+                        or current_time
                     )
                     bin_delay = gc["bin_door_close_delay_ms"] / 1000.0
 
@@ -484,33 +467,45 @@ class SortingStateMachine:
 
     def _runFsObjectUnderneathExitOfFirstFeeder(self) -> SortingState:
         gc = self.vision_system.global_config
-        state_vars = self.runtime_variables[self.current_state]
         current_time = time.time()
 
         # Initialize timeout tracking on first entry
-        if "fs_object_at_end_of_second_feeder_timeout_start_ts" not in state_vars:
-            state_vars["fs_object_at_end_of_second_feeder_timeout_start_ts"] = (
-                current_time
-            )
-            state_vars["first_feeder_pulse_count"] = 0
+        if (
+            "fs_object_at_end_of_second_feeder_timeout_start_ts"
+            not in self.fs_object_underneath_exit_vars
+        ):
+            self.fs_object_underneath_exit_vars[
+                "fs_object_at_end_of_second_feeder_timeout_start_ts"
+            ] = current_time
+            self.fs_object_underneath_exit_vars["first_feeder_pulse_count"] = 0
             self.logger.info(
                 "FS_OBJECT_UNDERNEATH_EXIT_OF_FIRST_FEEDER: Starting timeout tracking"
             )
 
         # Check if timeout has expired
-        timeout_start = state_vars["fs_object_at_end_of_second_feeder_timeout_start_ts"]
+        timeout_start = self.fs_object_underneath_exit_vars.get(
+            "fs_object_at_end_of_second_feeder_timeout_start_ts"
+        )
         timeout_duration = gc["fs_object_at_end_of_second_feeder_timeout_ms"] / 1000.0
-        pulse_count = state_vars.get("first_feeder_pulse_count", 0)
+        pulse_count = (
+            self.fs_object_underneath_exit_vars.get("first_feeder_pulse_count") or 0
+        )
 
-        if current_time - timeout_start >= timeout_duration and pulse_count < 2:
+        if (
+            timeout_start
+            and current_time - timeout_start >= timeout_duration
+            and pulse_count < 2
+        ):
             self.logger.info(
                 f"FS_OBJECT_UNDERNEATH_EXIT_OF_FIRST_FEEDER: Timeout expired, pulsing first feeder (count: {pulse_count + 1}/2)"
             )
             self._startMotorPulseIfNeeded("first_vibration_hopper_motor")
-            state_vars["first_feeder_pulse_count"] = pulse_count + 1
-            state_vars["fs_object_at_end_of_second_feeder_timeout_start_ts"] = (
-                current_time  # Reset timeout
+            self.fs_object_underneath_exit_vars["first_feeder_pulse_count"] = (
+                pulse_count + 1
             )
+            self.fs_object_underneath_exit_vars[
+                "fs_object_at_end_of_second_feeder_timeout_start_ts"
+            ] = current_time  # Reset timeout
         else:
             self._startMotorPulseIfNeeded("second_vibration_hopper_motor")
 
@@ -531,8 +526,8 @@ class SortingStateMachine:
             self.fs_first_feeder_empty_vars["first_feeder_pulse_count"] = 0
             self.fs_first_feeder_empty_vars["phase_start_time"] = current_time
 
-        phase = self.fs_first_feeder_empty_vars["cycle_phase"]
-        phase_start_time = self.fs_first_feeder_empty_vars["phase_start_time"]
+        phase = self.fs_first_feeder_empty_vars.get("cycle_phase")
+        phase_start_time = self.fs_first_feeder_empty_vars.get("phase_start_time")
 
         if phase == "conveyor_pulse":
             if not self.fs_first_feeder_empty_vars.get("conveyor_started"):
@@ -547,7 +542,7 @@ class SortingStateMachine:
             pulse_duration = (
                 runtime_params["feeder_conveyor_pulse_duration_ms"] / 1000.0
             )
-            if current_time - phase_start_time >= pulse_duration:
+            if phase_start_time and current_time - phase_start_time >= pulse_duration:
                 feeder_conveyor = self.irl_interface["feeder_conveyor_dc_motor"]
                 feeder_conveyor.setSpeed(0)
                 self.fs_first_feeder_empty_vars["cycle_phase"] = "conveyor_pause"
@@ -557,17 +552,19 @@ class SortingStateMachine:
 
         elif phase == "conveyor_pause":
             pause_duration = runtime_params["feeder_conveyor_pause_ms"] / 1000.0
-            if current_time - phase_start_time >= pause_duration:
+            if phase_start_time and current_time - phase_start_time >= pause_duration:
                 self.fs_first_feeder_empty_vars["cycle_phase"] = "feeder_pulses"
                 self.fs_first_feeder_empty_vars["first_feeder_pulse_count"] = 0
                 self.fs_first_feeder_empty_vars["phase_start_time"] = current_time
                 self.logger.info("MOTOR: Starting first feeder pulse sequence")
 
         elif phase == "feeder_pulses":
-            pulse_count = self.fs_first_feeder_empty_vars["first_feeder_pulse_count"]
+            pulse_count = (
+                self.fs_first_feeder_empty_vars.get("first_feeder_pulse_count") or 0
+            )
             if pulse_count < FIRST_FEEDER_EMPTY_PULSE_COUNT:
                 self._startMotorPulseIfNeeded("first_vibration_hopper_motor")
-                if not self.runtime_variables[self.current_state].get("motor_running"):
+                if not self.motor_state_vars.get("motor_running"):
                     self.fs_first_feeder_empty_vars["first_feeder_pulse_count"] = (
                         pulse_count + 1
                     )
@@ -583,7 +580,8 @@ class SortingStateMachine:
 
         elif phase == "cycle_pause":
             if (
-                current_time - phase_start_time
+                phase_start_time
+                and current_time - phase_start_time
                 >= FIRST_FEEDER_EMPTY_CYCLE_PAUSE_DURATION_S
             ):
                 self.fs_first_feeder_empty_vars["cycle_phase"] = "conveyor_pulse"
@@ -598,14 +596,17 @@ class SortingStateMachine:
     def _startMotorPulseIfNeeded(
         self, motor_type: MotorType, use_reduced_settings: bool = False
     ):
-        state_vars = self.runtime_variables[self.current_state]
         current_time = time.time()
         runtime_params = self.irl_interface["runtime_params"]
 
+        self.logger.info(
+            f"MOTOR: Starting pulse for {motor_type}, reduced settings: {use_reduced_settings}"
+        )
+
         # Check if motor is already running
         if (
-            state_vars.get("motor_running")
-            and state_vars.get("motor_type") == motor_type
+            self.motor_state_vars.get("motor_running")
+            and self.motor_state_vars.get("motor_type") == motor_type
         ):
             # Check if pulse duration has elapsed
             if motor_type == "first_vibration_hopper_motor":
@@ -621,16 +622,20 @@ class SortingStateMachine:
             else:  # feeder_conveyor_motor
                 pulse_duration = runtime_params["feeder_conveyor_pulse_ms"] / 1000.0
 
-            start_time = state_vars.get("motor_start_time") or 0.0
+            start_time = self.motor_state_vars.get("motor_start_time") or 0.0
             if current_time - start_time >= pulse_duration:
                 # Stop pulse and start backstop
                 self._stopMotorPulse(motor_type)
-                state_vars["motor_running"] = False
-                state_vars["motor_start_time"] = current_time  # Start pause timer
+                self.motor_state_vars["motor_running"] = False
+                self.motor_state_vars["motor_start_time"] = (
+                    current_time  # Start pause timer
+                )
             return
 
         # Check if we're in pause period
-        if not state_vars.get("motor_running") and state_vars.get("motor_start_time"):
+        if not self.motor_state_vars.get("motor_running") and self.motor_state_vars.get(
+            "motor_start_time"
+        ):
             if motor_type == "first_vibration_hopper_motor":
                 pause_duration = (
                     runtime_params["first_vibration_hopper_motor_pause_ms"] / 1000.0
@@ -642,16 +647,16 @@ class SortingStateMachine:
             else:  # feeder_conveyor_motor
                 pause_duration = runtime_params["feeder_conveyor_pause_ms"] / 1000.0
 
-            start_time = state_vars.get("motor_start_time") or 0.0
+            start_time = self.motor_state_vars.get("motor_start_time") or 0.0
             if current_time - start_time < pause_duration:
                 return  # Still pausing
 
         # Start new pulse
-        if not state_vars.get("motor_running"):
+        if not self.motor_state_vars.get("motor_running"):
             self._startMotorPulse(motor_type, use_reduced_settings)
-            state_vars["motor_running"] = True
-            state_vars["motor_type"] = motor_type
-            state_vars["motor_start_time"] = current_time
+            self.motor_state_vars["motor_running"] = True
+            self.motor_state_vars["motor_type"] = motor_type
+            self.motor_state_vars["motor_start_time"] = current_time
 
     def _startMotorPulse(
         self, motor_type: MotorType, use_reduced_settings: bool = False
@@ -758,6 +763,37 @@ class SortingStateMachine:
 
         return None
 
+    def cleanupClassifying(self) -> None:
+        self.classifying_vars = {}
+        self.logger.info("CLEANUP: Cleared CLASSIFYING state")
+
+    def cleanupSendingObjectToBin(self) -> None:
+        gc = self.vision_system.global_config
+        if not gc["disable_main_conveyor"]:
+            main_conveyor = self.irl_interface["main_conveyor_dc_motor"]
+            main_speed = self.irl_interface["runtime_params"]["main_conveyor_speed"]
+            main_conveyor.setSpeed(main_speed)
+        self.pending_known_object = None
+        self.sending_object_to_bin_vars = {}
+        self.logger.info(
+            "CLEANUP: Reset main conveyor and cleared SENDING_OBJECT_TO_BIN state"
+        )
+
+    def cleanupMotorState(self) -> None:
+        self.motor_state_vars = {}
+        self.logger.info("CLEANUP: Cleared motor state variables")
+
+    def cleanupWaitingStates(self) -> None:
+        self.waiting_for_object_to_appear_vars = {}
+        self.waiting_for_object_to_center_vars = {}
+        self.logger.info("CLEANUP: Cleared waiting state variables")
+
+    def cleanupFsObjectUnderneathExit(self) -> None:
+        self.fs_object_underneath_exit_vars = {}
+        self.logger.info(
+            "CLEANUP: Cleared FS_OBJECT_UNDERNEATH_EXIT_OF_FIRST_FEEDER state"
+        )
+
     def cleanupFsFirstFeederEmpty(self) -> None:
         feeder_conveyor = self.irl_interface["feeder_conveyor_dc_motor"]
         feeder_conveyor.setSpeed(0)
@@ -766,8 +802,32 @@ class SortingStateMachine:
             "CLEANUP: Stopped feeder conveyor and cleared FS_FIRST_FEEDER_EMPTY state"
         )
 
-    def cleanupRuntimeVariables(self, state: SortingState):
-        self.runtime_variables[state] = {}
+    def cleanupCurrentState(self) -> None:
+        if self.current_state == SortingState.CLASSIFYING:
+            self.cleanupClassifying()
+        elif self.current_state == SortingState.SENDING_OBJECT_TO_BIN:
+            self.cleanupSendingObjectToBin()
+        elif (
+            self.current_state
+            == SortingState.WAITING_FOR_OBJECT_TO_APPEAR_UNDER_MAIN_CAMERA
+        ):
+            self.cleanupWaitingStates()
+        elif (
+            self.current_state
+            == SortingState.WAITING_FOR_OBJECT_TO_CENTER_UNDER_MAIN_CAMERA
+        ):
+            self.cleanupWaitingStates()
+        elif (
+            self.current_state == SortingState.FS_OBJECT_UNDERNEATH_EXIT_OF_FIRST_FEEDER
+        ):
+            self.cleanupFsObjectUnderneathExit()
+        elif self.current_state == SortingState.FS_FIRST_FEEDER_EMPTY:
+            self.cleanupFsFirstFeederEmpty()
+        elif self.current_state in [
+            SortingState.FS_OBJECT_AT_END_OF_SECOND_FEEDER,
+            SortingState.FS_NO_OBJECT_UNDERNEATH_EXIT_OF_FIRST_FEEDER,
+        ]:
+            self.cleanupMotorState()
 
     def setMotorsToDefaultSpeed(self):
         gc = self.vision_system.global_config

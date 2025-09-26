@@ -1,5 +1,5 @@
 import createClient from 'openapi-fetch';
-import type { paths } from './api-types';
+import type { paths, components } from './api-types';
 
 export const apiClient = createClient<paths>({
   baseUrl: 'http://localhost:8000',
@@ -13,6 +13,11 @@ export async function pauseSystem() {
 export async function resumeSystem() {
   const { error } = await apiClient.PUT('/resume');
   if (error) throw new Error('Failed to resume system');
+}
+
+export async function runSystem() {
+  const { error } = await apiClient.PUT('/run');
+  if (error) throw new Error('Failed to run system');
 }
 
 export async function getIRLRuntimeParams() {
@@ -36,4 +41,54 @@ export async function getBricklinkPartInfo(partId: string) {
   });
   if (error) throw new Error('Failed to get BrickLink part info');
   return data;
+}
+
+export async function getBinState() {
+  const { data, error } = await apiClient.GET('/bin-state');
+  if (error) throw new Error('Failed to get bin state');
+  return data;
+}
+
+export async function getBricklinkCategoryInfo(categoryId: number) {
+  const { data, error } = await apiClient.GET(
+    '/bricklink/category/{category_id}',
+    {
+      params: {
+        path: { category_id: categoryId },
+      },
+    }
+  );
+  if (error) throw new Error('Failed to get BrickLink category info');
+  return data;
+}
+
+export async function getBricklinkCategories(): Promise<
+  components['schemas']['BricklinkCategoryData'][]
+> {
+  const response = await fetch('http://localhost:8000/bricklink/categories');
+  if (!response.ok) {
+    throw new Error('Failed to get BrickLink categories');
+  }
+  return await response.json();
+}
+
+export async function updateBinState(
+  coordinates: { distribution_module_idx: number; bin_idx: number },
+  categoryId: string | null
+) {
+  const response = await fetch('http://localhost:8000/bin-state', {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      distribution_module_idx: coordinates.distribution_module_idx,
+      bin_idx: coordinates.bin_idx,
+      category_id: categoryId,
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to update bin state');
+  }
 }

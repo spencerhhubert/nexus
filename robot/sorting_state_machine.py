@@ -149,7 +149,12 @@ class SortingStateMachine:
             self.cleanupCurrentState()
             self.setMotorsToDefaultSpeed()
             self.current_state = next_state
-        time.sleep(0.02)
+
+        # Sleep based on configured state machine FPS
+        steps_per_second = self.vision_system.global_config[
+            "state_machine_steps_per_second"
+        ]
+        time.sleep(1.0 / steps_per_second)
 
     def _runGettingNewObjectFromFeeder(self) -> SortingState:
         next_state = self._determineNextStateFromFrameAnalysis()
@@ -370,7 +375,8 @@ class SortingStateMachine:
                     main_speed = self.irl_interface["runtime_params"][
                         "main_conveyor_speed"
                     ]
-                    main_conveyor.setSpeed(main_speed + 100)
+                    EXTRA_SPEED = 100
+                    main_conveyor.setSpeed(main_speed + EXTRA_SPEED)
                     self.logger.info("SENDING_OBJECT_TO_BIN: Main conveyor started")
 
                 # Record start timestamp for distance calculation
@@ -592,6 +598,10 @@ class SortingStateMachine:
     ):
         current_time = time.time()
         runtime_params = self.irl_interface["runtime_params"]
+
+        self.logger.info(
+            f"MOTOR: Starting pulse for {motor_type}, reduced settings: {use_reduced_settings}"
+        )
 
         # Check if motor is already running
         if (

@@ -7,7 +7,11 @@ from ultralytics import YOLO
 from robot.global_config import GlobalConfig
 from robot.irl.config import IRLSystemInterface
 from robot.our_types import CameraType
-from robot.our_types.vision_system import FeederState, MainCameraState
+from robot.our_types.vision_system import (
+    FeederState,
+    MainCameraState,
+    CameraPerformanceMetrics,
+)
 from robot.websocket_manager import WebSocketManager
 
 # YOLO model class definitions
@@ -20,11 +24,11 @@ YOLO_CLASSES = {
 }
 
 # Vision analysis constants
-SECOND_FEEDER_DISTANCE_THRESHOLD = 30
+SECOND_FEEDER_DISTANCE_THRESHOLD = 20
 MAIN_CONVEYOR_THRESHOLD = 0.7
 OBJECT_CENTER_THRESHOLD = 0.4
 RIGHT_SIDE_THRESHOLD = 0.3
-MARGIN_FOR_MAIN_CONVEYOR_BOUNDING_BOX_PX = -15
+MARGIN_FOR_MAIN_CONVEYOR_BOUNDING_BOX_PX = -40
 
 
 class SegmentationModelManager:
@@ -65,6 +69,13 @@ class SegmentationModelManager:
         self.main_thread = None
         self.feeder_thread = None
 
+        # Performance tracking
+        self.main_frame_times = []
+        self.feeder_frame_times = []
+        self.main_processing_times = []
+        self.feeder_processing_times = []
+        self.performance_lock = threading.Lock()
+
     def start(self) -> None:
         self.running = True
 
@@ -86,6 +97,8 @@ class SegmentationModelManager:
 
     def _trackMainCamera(self) -> None:
         model = YOLO(self.model_path)
+        if self.global_config.get("tensor_device"):
+            model.to(self.global_config["tensor_device"])
         frame_count = 0
         try:
             while self.running:
@@ -93,8 +106,12 @@ class SegmentationModelManager:
                 frame = self.main_camera.captureFrame()
 
                 if frame is not None:
-                    results = model.track(frame, persist=True)
+                    start_time = time.time()
+                    results = model.track(frame, persist=True, tracker="bytetrack.yaml")
                     # results = model(frame)
+                    processing_time = time.time() - start_time
+
+                    self._trackPerformance(CameraType.MAIN_CAMERA, processing_time)
 
                     with self.results_lock:
                         self.latest_main_results = results
@@ -112,12 +129,23 @@ class SegmentationModelManager:
 
                     self._broadcastFrame(CameraType.MAIN_CAMERA, annotated_frame)
 
+                    # Broadcast performance metrics every 30 frames
+                    if frame_count % 30 == 0:
+                        metrics = self._calculatePerformanceMetrics(
+                            CameraType.MAIN_CAMERA
+                        )
+                        self.websocket_manager.broadcast_camera_performance(
+                            CameraType.MAIN_CAMERA, metrics
+                        )
+
                 time.sleep(0.1)
         except Exception as e:
             self.logger.error(f"Error in main camera tracking: {e}")
 
     def _trackFeederCamera(self) -> None:
         model = YOLO(self.model_path)
+        if self.global_config.get("tensor_device"):
+            model.to(self.global_config["tensor_device"])
         frame_count = 0
         try:
             while self.running:
@@ -125,7 +153,11 @@ class SegmentationModelManager:
                 frame = self.feeder_camera.captureFrame()
 
                 if frame is not None:
-                    results = model.track(frame, persist=True)
+                    start_time = time.time()
+                    results = model.track(frame, persist=True, tracker="bytetrack.yaml")
+                    processing_time = time.time() - start_time
+
+                    self._trackPerformance(CameraType.FEEDER_CAMERA, processing_time)
 
                     with self.results_lock:
                         self.latest_feeder_results = results
@@ -137,12 +169,97 @@ class SegmentationModelManager:
 
                     self._broadcastFrame(CameraType.FEEDER_CAMERA, annotated_frame)
 
+                    # Broadcast performance metrics every 30 frames
+                    if frame_count % 30 == 0:
+                        metrics = self._calculatePerformanceMetrics(
+                            CameraType.FEEDER_CAMERA
+                        )
+                        self.websocket_manager.broadcast_camera_performance(
+                            CameraType.FEEDER_CAMERA, metrics
+                        )
+
                 time.sleep(0.1)
         except Exception as e:
             self.logger.error(f"Error in feeder camera tracking: {e}")
 
     def _broadcastFrame(self, camera_type: CameraType, frame: np.ndarray) -> None:
         self.websocket_manager.broadcast_frame(camera_type, frame)
+
+    def _trackPerformance(
+        self, camera_type: CameraType, processing_time: float
+    ) -> None:
+        current_time = time.time()
+
+        with self.performance_lock:
+            if camera_type == CameraType.MAIN_CAMERA:
+                self.main_frame_times.append(current_time)
+                self.main_processing_times.append(processing_time)
+
+                # Keep only last 5 seconds of data
+                cutoff_time = current_time - 5.0
+                while self.main_frame_times and self.main_frame_times[0] < cutoff_time:
+                    self.main_frame_times.pop(0)
+                    self.main_processing_times.pop(0)
+
+            else:  # FEEDER_CAMERA
+                self.feeder_frame_times.append(current_time)
+                self.feeder_processing_times.append(processing_time)
+
+                # Keep only last 5 seconds of data
+                cutoff_time = current_time - 5.0
+                while (
+                    self.feeder_frame_times and self.feeder_frame_times[0] < cutoff_time
+                ):
+                    self.feeder_frame_times.pop(0)
+                    self.feeder_processing_times.pop(0)
+
+    def _calculatePerformanceMetrics(
+        self, camera_type: CameraType
+    ) -> CameraPerformanceMetrics:
+        current_time = time.time()
+
+        with self.performance_lock:
+            if camera_type == CameraType.MAIN_CAMERA:
+                frame_times = self.main_frame_times
+                processing_times = self.main_processing_times
+            else:
+                frame_times = self.feeder_frame_times
+                processing_times = self.feeder_processing_times
+
+            if len(frame_times) < 2:
+                return CameraPerformanceMetrics(
+                    fps_1s=0.0, fps_5s=0.0, latency_1s=0.0, latency_5s=0.0
+                )
+
+            # Calculate FPS for 1s and 5s windows
+            cutoff_1s = current_time - 1.0
+            cutoff_5s = current_time - 5.0
+
+            frames_1s = sum(1 for t in frame_times if t >= cutoff_1s)
+            frames_5s = len(frame_times)
+
+            fps_1s = frames_1s / 1.0 if frames_1s > 0 else 0.0
+            fps_5s = frames_5s / 5.0 if frames_5s > 0 else 0.0
+
+            # Calculate average latency for 1s and 5s windows
+            processing_1s = [
+                p for i, p in enumerate(processing_times) if frame_times[i] >= cutoff_1s
+            ]
+            processing_5s = processing_times
+
+            latency_1s = (
+                sum(processing_1s) / len(processing_1s) * 1000 if processing_1s else 0.0
+            )
+            latency_5s = (
+                sum(processing_5s) / len(processing_5s) * 1000 if processing_5s else 0.0
+            )
+
+            return CameraPerformanceMetrics(
+                fps_1s=fps_1s,
+                fps_5s=fps_5s,
+                latency_1s=latency_1s,
+                latency_5s=latency_5s,
+            )
 
     def _getMainCameraResults(self) -> Any:
         with self.results_lock:

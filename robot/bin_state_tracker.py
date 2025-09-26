@@ -6,6 +6,7 @@ from robot.irl.distribution import DistributionModule
 from robot.storage.sqlite3.operations import saveBinStateToDatabase
 from robot.our_types.bin import BinCoordinates
 from robot.our_types.bin_state import BinContentsMap, BinState, PersistedBinState
+from robot.websocket_manager import WebSocketManager
 
 
 class BinStateTracker:
@@ -14,7 +15,7 @@ class BinStateTracker:
         global_config: GlobalConfig,
         distribution_modules: List[DistributionModule],
         sorting_profile: SortingProfile,
-        websocket_manager,
+        websocket_manager: WebSocketManager,
         bin_state_id: Optional[str] = None,
     ):
         self.global_config = global_config

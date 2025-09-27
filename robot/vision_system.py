@@ -768,7 +768,14 @@ class SegmentationModelManager:
         if not object_masks or not main_conveyor_masks:
             return None
 
-        main_conveyor_bbox = self._getBoundingBoxFromMask(main_conveyor_masks[0])
+        # Combine all main conveyor masks into one
+        combined_main_conveyor_mask = np.zeros_like(main_conveyor_masks[0])
+        for mask in main_conveyor_masks:
+            combined_main_conveyor_mask = np.logical_or(
+                combined_main_conveyor_mask, mask
+            )
+
+        main_conveyor_bbox = self._getBoundingBoxFromMask(combined_main_conveyor_mask)
         if not main_conveyor_bbox:
             return None
 

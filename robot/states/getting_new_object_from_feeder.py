@@ -130,28 +130,49 @@ class GettingNewObjectFromFeeder(BaseState):
             if not recent_detections:
                 return None
 
-            # Check for objects on main conveyor (highest priority)
+            # Check for objects on main conveyor - only use direct detection within recent timeframe
+            current_time = time.time()
+            steps_per_second = self.gc["state_machine_steps_per_second"]
+            step_duration_ms = (1.0 / steps_per_second) * 1000
+            recent_threshold_ms = step_duration_ms  # Within one step
+
             for readings in recent_detections:
                 for reading in readings:
-                    if reading.region == FeederRegion.MAIN_CONVEYOR:
+                    time_since_reading_ms = (current_time - reading.timestamp) * 1000
+                    if (
+                        reading.region == FeederRegion.MAIN_CONVEYOR
+                        and time_since_reading_ms < recent_threshold_ms
+                    ):
+                        self.logger.info(
+                            f"MAIN CONVEYOR DETECTED: Object on main conveyor {time_since_reading_ms:.1f}ms ago"
+                        )
                         return FeederState.OBJECT_ON_MAIN_CONVEYOR
 
-            # Check for objects at exit of second feeder that went MIA (likely on main conveyor)
-            for readings in recent_detections:
-                exit_readings = [
-                    reading
-                    for reading in readings
-                    if reading.region == FeederRegion.EXIT_OF_SECOND_FEEDER
-                ]
-                if exit_readings:
-                    last_exit_time = max(reading.timestamp for reading in exit_readings)
-                    post_exit_readings = [
-                        reading
-                        for reading in readings
-                        if reading.timestamp > last_exit_time
-                    ]
-                    if not post_exit_readings:
-                        return FeederState.OBJECT_ON_MAIN_CONVEYOR
+            # # Check for objects at exit of second feeder that went MIA (likely on main conveyor)
+            # current_time = time.time()
+            # steps_per_second = self.gc["state_machine_steps_per_second"]
+            # step_duration_ms = (1.0 / steps_per_second) * 1000
+            # disappearance_threshold_ms = step_duration_ms * 3  # 3 steps worth of time
+
+            # for readings in recent_detections:
+            #     exit_readings = [
+            #         reading
+            #         for reading in readings
+            #         if reading.region == FeederRegion.EXIT_OF_SECOND_FEEDER
+            #     ]
+            #     if exit_readings:
+            #         last_exit_time = max(reading.timestamp for reading in exit_readings)
+            #         time_since_exit_ms = (current_time - last_exit_time) * 1000
+
+            #         # If object was at exit recently but no readings after, assume it fell onto main conveyor
+            #         post_exit_readings = [
+            #             reading
+            #             for reading in readings
+            #             if reading.timestamp > last_exit_time
+            #         ]
+            #         if not post_exit_readings and time_since_exit_ms < disappearance_threshold_ms:
+            #             self.logger.info(f"OBJECT DISAPPEARED: Object at exit {time_since_exit_ms:.1f}ms ago, assuming on main conveyor")
+            #             return FeederState.OBJECT_ON_MAIN_CONVEYOR
 
             # Check for objects at end of second feeder
             for readings in recent_detections:

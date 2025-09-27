@@ -46,7 +46,7 @@
       <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">{title}</h3>
       <div class="flex items-center gap-3">
         <button
-          on:click={togglePerformance}
+          onclick={togglePerformance}
           class="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
           title="Performance metrics"
         >
@@ -58,7 +58,7 @@
       </div>
     </div>
 
-    <div class="relative bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600" style="aspect-ratio: 4/3;">
+    <div class="relative bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600" style="aspect-ratio: 16/9;">
       {#if imageSrc()}
         <img
           src={imageSrc()}

@@ -14,6 +14,7 @@ class Config(TypedDict):
     batch_size: int
     device: str
     val_split: Optional[float]
+    img_size: int
 
 
 def build_config() -> Config:
@@ -46,6 +47,19 @@ def build_config() -> Config:
         type=float,
         help="Validation split ratio (e.g., 0.2 for 20%% validation). If not provided, no splitting is performed.",
     )
+    parser.add_argument(
+        "--model_size",
+        type=str,
+        choices=["nano", "small", "medium"],
+        default="small",
+        help="Model size: nano, small, or medium",
+    )
+    parser.add_argument(
+        "--img_size",
+        type=int,
+        default=416,
+        help="Image size for training",
+    )
 
     args = parser.parse_args()
 
@@ -53,19 +67,27 @@ def build_config() -> Config:
 
     checkpoints_dir = f"{repo_dir}/yolo/checkpoints"
 
+    model_size_map = {
+        "nano": ("yolo11n-seg.pt", "yolo11n-seg"),
+        "small": ("yolo11s-seg.pt", "yolo11s-seg"),
+        "medium": ("yolo11m-seg.pt", "yolo11m-seg")
+    }
+
+    model_file, model_name = model_size_map[args.model_size]
+
     if args.checkpoint_run_id:
         current_run_id = args.checkpoint_run_id
         print(f"Resuming training from checkpoint run: {current_run_id}")
     else:
         timestamp = int(time.time())
-        current_run_id = f"run_{timestamp}"
+        current_run_id = f"run_{timestamp}_{args.img_size}_{args.model_size}_{args.epochs}epochs_{args.batch}batch"
         print(f"Starting new training run: {current_run_id}")
 
     os.makedirs(os.path.join(checkpoints_dir, current_run_id), exist_ok=True)
 
     return {
-        "yolo_base_model_path": f"{repo_dir}/weights/yolo11s-seg.pt",
-        "yolo_model": "yolo11n-seg",
+        "yolo_base_model_path": f"{repo_dir}/weights/{model_file}",
+        "yolo_model": model_name,
         "checkpoints_dir": checkpoints_dir,
         "current_run_id": current_run_id,
         # Data should be structured as:
@@ -99,6 +121,7 @@ def build_config() -> Config:
         "batch_size": args.batch,
         "device": args.device,
         "val_split": args.val_split,
+        "img_size": args.img_size,
     }
 
 

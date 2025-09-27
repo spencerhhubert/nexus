@@ -10,6 +10,7 @@ from robot.our_types import CameraType, SystemLifecycleStage, SortingState, Moto
 from robot.our_types.bin import BinCoordinates
 from robot.our_types.bin_state import BinState
 from robot.our_types.vision_system import CameraPerformanceMetrics
+from robot.our_types.feeder_state import FeederState
 
 
 class WebSocketManager:
@@ -179,6 +180,25 @@ class WebSocketManager:
 
         except Exception as e:
             print(f"Error broadcasting camera performance: {e}")
+
+    def broadcast_feeder_status(self, feeder_state: Optional[FeederState]):
+        if not self.active_connections or not self.loop:
+            return
+
+        try:
+            message = {
+                "type": "feeder_status",
+                "feeder_state": feeder_state.value if feeder_state else None,
+            }
+
+            message_json = json.dumps(message)
+
+            asyncio.run_coroutine_threadsafe(
+                self._broadcast_to_all(message_json), self.loop
+            )
+
+        except Exception as e:
+            print(f"Error broadcasting feeder status: {e}")
 
     async def _send_safe(self, websocket: WebSocket, message: str):
         try:

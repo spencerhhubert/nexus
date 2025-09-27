@@ -5,10 +5,11 @@
   interface Props {
     lifecycleStage: string;
     sortingState: string;
+    feederState: string | null;
     encoder: EncoderStatus | null;
   }
 
-  let { lifecycleStage, sortingState, encoder }: Props = $props();
+  let { lifecycleStage, sortingState, feederState, encoder }: Props = $props();
 
   function formatSpeed(speedCmPerS: number): string {
     return `${speedCmPerS.toFixed(1)} cm/s`;
@@ -23,6 +24,7 @@
     <div class="flex-1 space-y-6">
       <BadgeWithTitle title="Lifecycle Stage" text={lifecycleStage} variant="blue" />
       <BadgeWithTitle title="Sorting State" text={sortingState} variant="green" />
+      <BadgeWithTitle title="Feeder State" text={feederState || 'Unknown'} variant="yellow" />
     </div>
 
     <!-- Right side - Conveyor Speed -->

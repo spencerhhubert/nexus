@@ -18,6 +18,7 @@ interface PageState {
   // System status
   lifecycleStage: string;
   sortingState: string;
+  feederState: string | null;
   motors: {
     main_conveyor: { speed: number };
     feeder_conveyor: { speed: number };
@@ -47,6 +48,7 @@ class PageStateStore {
   state = $state<PageState>({
     lifecycleStage: 'unknown',
     sortingState: 'unknown',
+    feederState: null,
     motors: {
       main_conveyor: { speed: 0 },
       feeder_conveyor: { speed: 0 },
@@ -149,6 +151,8 @@ class PageStateStore {
             } else if (message.camera === 'feeder_camera') {
               this.state.feederCameraPerformance = performance;
             }
+          } else if (message.type === 'feeder_status') {
+            this.state.feederState = message.feeder_state;
           }
         } catch (e) {
           console.error('Failed to parse WebSocket message:', e);

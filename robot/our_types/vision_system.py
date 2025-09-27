@@ -13,7 +13,7 @@ class CameraPerformanceMetrics:
 
 class FeederRegion(Enum):
     FIRST_FEEDER_MASK = "first_feeder_mask"
-    UNDER_EXIT_OF_SECOND_FEEDER = "under_exit_of_second_feeder"
+    UNDER_EXIT_OF_FIRST_FEEDER = "under_exit_of_first_feeder"
     SECOND_FEEDER_MASK = "second_feeder_mask"
     EXIT_OF_SECOND_FEEDER = "exit_of_second_feeder"
     MAIN_CONVEYOR = "main_conveyor"
@@ -28,6 +28,7 @@ class RegionReading:
 
 @dataclass
 class ObjectDetection:
+    track_id: str
     region_readings: List[RegionReading] = field(default_factory=list)
 
 

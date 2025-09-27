@@ -56,8 +56,14 @@ export interface BinStateUpdateMessage {
   timestamp: number;
 }
 
+export interface FeederStatusMessage {
+  type: 'feeder_status';
+  feeder_state: string | null;
+}
+
 export type WebSocketMessage =
   | SystemStatusMessage
   | CameraFrameMessage
   | KnownObjectMessage
-  | BinStateUpdateMessage;
+  | BinStateUpdateMessage
+  | FeederStatusMessage;

@@ -15,12 +15,13 @@ from robot.irl.config import IRLSystemInterface
 from robot.websocket_manager import WebSocketManager
 from robot.bin_state_tracker import BinStateTracker
 from robot.states.shared_variables import SharedVariables
+from robot.global_config import GlobalConfig
 
 
 class Classifying(BaseState):
     def __init__(
         self,
-        global_config,
+        global_config: GlobalConfig,
         vision_system: SegmentationModelManager,
         websocket_manager: WebSocketManager,
         irl_interface: IRLSystemInterface,

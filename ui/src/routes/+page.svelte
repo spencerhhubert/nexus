@@ -62,6 +62,7 @@
         <SystemStatus
           lifecycleStage={pageState.state.lifecycleStage}
           sortingState={pageState.state.sortingState}
+          feederState={pageState.state.feederState}
           encoder={pageState.state.encoder}
         />
         <SystemControls

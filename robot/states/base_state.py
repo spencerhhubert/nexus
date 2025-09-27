@@ -5,12 +5,13 @@ from robot.our_types.vision_system import MainCameraState
 from robot.vision_system import SegmentationModelManager
 from robot.irl.config import IRLSystemInterface
 from robot.websocket_manager import WebSocketManager
+from robot.global_config import GlobalConfig
 
 
 class BaseState(IStateMachine):
     def __init__(
         self,
-        global_config,
+        global_config: GlobalConfig,
         vision_system: SegmentationModelManager,
         websocket_manager: WebSocketManager,
         irl_interface: IRLSystemInterface,

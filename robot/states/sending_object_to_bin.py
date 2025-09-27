@@ -8,6 +8,7 @@ from robot.vision_system import SegmentationModelManager
 from robot.irl.config import IRLSystemInterface
 from robot.websocket_manager import WebSocketManager
 from robot.encoder_manager import EncoderManager
+from robot.states.shared_variables import SharedVariables
 
 
 class SendingObjectToBin(BaseState):
@@ -18,9 +19,11 @@ class SendingObjectToBin(BaseState):
         websocket_manager: WebSocketManager,
         irl_interface: IRLSystemInterface,
         encoder_manager: EncoderManager,
+        shared_variables: SharedVariables,
     ):
         super().__init__(global_config, vision_system, websocket_manager, irl_interface)
         self.encoder_manager = encoder_manager
+        self.shared_variables = shared_variables
         self.logger = global_config["logger"].ctx(state="SendingObjectToBin")
 
         self.start_ts: Optional[float] = None
@@ -28,7 +31,6 @@ class SendingObjectToBin(BaseState):
         self.conveyor_door_close_start_ts: Optional[float] = None
         self.conveyor_door_closed: bool = False
         self.bin_door_close_start_ts: Optional[float] = None
-        self.pending_known_object: Optional[KnownObject] = None
 
     def step(self) -> Optional[SortingState]:
         self._setMainConveyorToDefaultSpeed()
@@ -39,10 +41,12 @@ class SendingObjectToBin(BaseState):
             self.start_ts = current_time
 
             if (
-                self.pending_known_object
-                and self.pending_known_object["bin_coordinates"]
+                self.shared_variables.pending_known_object
+                and self.shared_variables.pending_known_object["bin_coordinates"]
             ):
-                bin_coords = self.pending_known_object["bin_coordinates"]
+                bin_coords = self.shared_variables.pending_known_object[
+                    "bin_coordinates"
+                ]
                 self.logger.info(
                     f"SENDING_OBJECT_TO_BIN: Starting for bin {bin_coords}"
                 )
@@ -69,8 +73,11 @@ class SendingObjectToBin(BaseState):
                 return SortingState.GETTING_NEW_OBJECT_FROM_FEEDER
 
         # Check if we have traveled the required distance
-        if self.pending_known_object and self.pending_known_object["bin_coordinates"]:
-            bin_coords = self.pending_known_object["bin_coordinates"]
+        if (
+            self.shared_variables.pending_known_object
+            and self.shared_variables.pending_known_object["bin_coordinates"]
+        ):
+            bin_coords = self.shared_variables.pending_known_object["bin_coordinates"]
             target_distance = self._getDistanceToDistributionModule(
                 bin_coords["distribution_module_idx"]
             )
@@ -114,7 +121,7 @@ class SendingObjectToBin(BaseState):
                     if current_time - bin_close_start_time >= bin_delay:
                         # Close bin door and finish
                         self._closeBinDoor(bin_coords)
-                        self.pending_known_object = None
+                        self.shared_variables.pending_known_object = None
                         self.logger.info("SENDING_OBJECT_TO_BIN: Sequence complete")
                         return SortingState.GETTING_NEW_OBJECT_FROM_FEEDER
 
@@ -126,7 +133,7 @@ class SendingObjectToBin(BaseState):
             main_speed = self.irl_interface["runtime_params"]["main_conveyor_speed"]
             main_conveyor.setSpeed(main_speed)
 
-        self.pending_known_object = None
+        self.shared_variables.pending_known_object = None
         self.start_ts = None
         self.conveyor_start_timestamp = None
         self.conveyor_door_close_start_ts = None

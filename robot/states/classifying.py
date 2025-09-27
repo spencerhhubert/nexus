@@ -14,6 +14,7 @@ from robot.vision_system import SegmentationModelManager
 from robot.irl.config import IRLSystemInterface
 from robot.websocket_manager import WebSocketManager
 from robot.bin_state_tracker import BinStateTracker
+from robot.states.shared_variables import SharedVariables
 
 
 class Classifying(BaseState):
@@ -24,14 +25,15 @@ class Classifying(BaseState):
         websocket_manager: WebSocketManager,
         irl_interface: IRLSystemInterface,
         bin_state_tracker: BinStateTracker,
+        shared_variables: SharedVariables,
     ):
         super().__init__(global_config, vision_system, websocket_manager, irl_interface)
         self.bin_state_tracker = bin_state_tracker
+        self.shared_variables = shared_variables
         self.logger = global_config["logger"].ctx(state="Classifying")
 
         self.timeout_start_ts: Optional[float] = None
         self.known_objects: Dict[str, KnownObject] = {}
-        self.pending_known_object: Optional[KnownObject] = None
 
     def step(self) -> Optional[SortingState]:
         self._setMainConveyorToDefaultSpeed()
@@ -139,7 +141,7 @@ class Classifying(BaseState):
                             bin_coordinates=bin_coordinates,
                         )
                         self.known_objects[centered_object_id] = known_object
-                        self.pending_known_object = known_object
+                        self.shared_variables.pending_known_object = known_object
 
                         # Send classification update
                         self.logger.info(

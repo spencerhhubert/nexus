@@ -12,6 +12,7 @@ from robot.states.waiting_for_object_to_center_under_main_camera import (
 )
 from robot.states.classifying import Classifying
 from robot.states.sending_object_to_bin import SendingObjectToBin
+from robot.states.shared_variables import SharedVariables
 from robot.vision_system import SegmentationModelManager
 from robot.irl.config import IRLSystemInterface
 from robot.websocket_manager import WebSocketManager
@@ -35,6 +36,7 @@ class SortingStateMachine:
         self.websocket_manager = websocket_manager
         self.encoder_manager = encoder_manager
         self.bin_state_tracker = bin_state_tracker
+        self.shared_variables = SharedVariables()
         self.current_state = SortingState.GETTING_NEW_OBJECT_FROM_FEEDER
         self.logger = vision_system.logger
 
@@ -54,6 +56,7 @@ class SortingStateMachine:
                 websocket_manager,
                 irl_interface,
                 bin_state_tracker,
+                self.shared_variables,
             ),
             SortingState.SENDING_OBJECT_TO_BIN: SendingObjectToBin(
                 self.global_config,
@@ -61,6 +64,7 @@ class SortingStateMachine:
                 websocket_manager,
                 irl_interface,
                 encoder_manager,
+                self.shared_variables,
             ),
         }
 

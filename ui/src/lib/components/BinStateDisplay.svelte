@@ -97,6 +97,19 @@
     return category_names[category_id] || 'Occupied';
   }
 
+  function getBinClasses(category_id: string | null): string {
+    if (!category_id) {
+      return 'border-gray-200 dark:border-gray-600 bg-gray-100 dark:bg-gray-700';
+    }
+    if (category_id === MISC_CATEGORY) {
+      return 'border-blue-200 dark:border-blue-800 bg-blue-100 dark:bg-blue-900';
+    }
+    if (category_id === UNKNOWN_CATEGORY) {
+      return 'border-yellow-200 dark:border-yellow-800 bg-yellow-100 dark:bg-yellow-900';
+    }
+    return 'border-green-200 dark:border-green-800 bg-green-100 dark:bg-green-900';
+  }
+
   async function clearBin(module_idx: number, bin_idx: number) {
     try {
       await updateBinState(
@@ -197,34 +210,30 @@
   ]);
 </script>
 
-<div class="bin-state-display">
+<div class="p-4">
   <h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">Bin State</h3>
 
   {#if bin_state}
-    <div class="modules-container">
+    <div class="flex gap-4 items-start w-full">
       {#each Object.entries(grouped_bins).sort(([a], [b]) => Number(a) - Number(b)) as [module_idx, bins]}
-        <div class="module-container">
+        <div class="border border-gray-300 dark:border-gray-600 p-4 bg-white dark:bg-gray-700 flex-1">
           <h4 class="text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
             Module {Number(module_idx) + 1}
           </h4>
-          <div class="bins-grid">
+          <div class="flex flex-col gap-2">
             {#each bins as { key, bin_idx, category_id }}
               <div
                    role="button"
                    tabindex="0"
-                   class="bin-cell"
+                   class="border-2 p-2 text-center text-xs min-h-[60px] flex flex-col justify-center relative {getBinClasses(category_id)}"
                    onkeydown={(e) => (e.key === 'Enter' || e.key === ' ') && e.preventDefault()}
-                   class:empty={!category_id}
-                   class:misc={category_id === MISC_CATEGORY}
-                   class:unknown={category_id === UNKNOWN_CATEGORY}
-                   class:occupied={category_id && category_id !== MISC_CATEGORY && category_id !== UNKNOWN_CATEGORY}
                    onmouseenter={() => hovered_bin = key}
                    onmouseleave={() => hovered_bin = null}>
-                <div class="bin-coordinates">{Number(module_idx) + 1},{bin_idx + 1}</div>
-                <div class="bin-content">{getBinDisplayName(category_id)}</div>
+                <div class="font-semibold text-gray-700 dark:text-gray-200">{Number(module_idx) + 1},{bin_idx + 1}</div>
+                <div class="text-[0.625rem] mt-1 text-gray-600 dark:text-gray-300">{getBinDisplayName(category_id)}</div>
 
                 {#if category_id && duplicate_categories.has(category_id)}
-                  <div class="warning-icon">
+                  <div class="absolute top-1 right-1">
                     <Tooltip text="Multiple bins have the same category">
                       {#snippet children()}
                         <AlertTriangle size={16} color="#f59e0b" />
@@ -234,7 +243,7 @@
                 {/if}
 
                 {#if hovered_bin === key}
-                  <div class="action-icons">
+                  <div class="absolute top-1 left-1 flex gap-1">
                     <button class="action-icon trash" onclick={(e) => { e.stopPropagation(); clearBin(Number(module_idx), bin_idx); }} title="Clear bin">
                       <Trash2 size={16} />
                     </button>
@@ -245,7 +254,7 @@
                 {/if}
 
                 {#if editing_bin === key}
-                  <div class="dropdown-overlay">
+                  <div class="absolute top-full left-0 right-0 z-[1001] mt-1">
                     <SearchableDropdown
                       items={category_dropdown_items}
                       onSelect={selectCategory}
@@ -266,100 +275,6 @@
 </div>
 
 <style>
-  .bin-state-display {
-    padding: 1rem;
-  }
-
-  .modules-container {
-    display: flex;
-    gap: 1rem;
-    align-items: flex-start;
-    width: 100%;
-  }
-
-  .module-container {
-    border: 1px solid #e5e7eb;
-    padding: 1rem;
-    background: white;
-    flex: 1;
-  }
-
-  .bins-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .bin-cell {
-    border: 2px solid #d1d5db;
-    padding: 0.5rem;
-    text-align: center;
-    font-size: 0.75rem;
-    min-height: 60px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    position: relative;
-  }
-
-  .bin-cell.empty {
-    border-color: #e5e7eb;
-    background-color: #f9fafb;
-  }
-
-  .bin-cell.misc {
-    border-color: #3b82f6;
-    background-color: #dbeafe;
-  }
-
-  .bin-cell.unknown {
-    border-color: #f59e0b;
-    background-color: #fef3c7;
-  }
-
-  .bin-cell.occupied {
-    border-color: #10b981;
-    background-color: #d1fae5;
-  }
-
-  .bin-coordinates {
-    font-weight: 600;
-    color: #374151;
-  }
-
-  .bin-content {
-    font-size: 0.625rem;
-    margin-top: 0.25rem;
-    color: #6b7280;
-  }
-
-  :global(.dark) .module-container {
-    background: #374151;
-    border-color: #4b5563;
-  }
-
-  :global(.dark) .bin-coordinates {
-    color: #f3f4f6;
-  }
-
-  :global(.dark) .bin-content {
-    color: #d1d5db;
-  }
-
-  .warning-icon {
-    position: absolute;
-    top: 0.25rem;
-    right: 0.25rem;
-  }
-
-  .action-icons {
-    position: absolute;
-    top: 0.25rem;
-    left: 0.25rem;
-    display: flex;
-    gap: 0.25rem;
-  }
-
   .action-icon {
     background: rgba(255, 255, 255, 0.9);
     border: 1px solid #d1d5db;
@@ -384,15 +299,6 @@
     background: #dbeafe;
     border-color: #93c5fd;
     color: #2563eb;
-  }
-
-  .dropdown-overlay {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    z-index: 1001;
-    margin-top: 0.25rem;
   }
 
   :global(.dark) .action-icon {

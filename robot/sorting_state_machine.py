@@ -17,6 +17,7 @@ from robot.irl.config import IRLSystemInterface
 from robot.websocket_manager import WebSocketManager
 from robot.encoder_manager import EncoderManager
 from robot.bin_state_tracker import BinStateTracker
+from robot.global_config import GlobalConfig
 
 
 SECOND_FEEDER_THRESHOLD = 0.5
@@ -78,19 +79,21 @@ class SendingObjectToBinRuntimeVariables(TypedDict, total=False):
 class SortingStateMachine:
     def __init__(
         self,
+        global_config: GlobalConfig,
         vision_system: SegmentationModelManager,
         irl_interface: IRLSystemInterface,
         websocket_manager: WebSocketManager,
         encoder_manager: EncoderManager,
         bin_state_tracker: BinStateTracker,
     ):
+        self.global_config = global_config
         self.vision_system = vision_system
         self.irl_interface = irl_interface
         self.websocket_manager = websocket_manager
         self.encoder_manager = encoder_manager
         self.bin_state_tracker = bin_state_tracker
         self.current_state = SortingState.GETTING_NEW_OBJECT_FROM_FEEDER
-        self.logger = vision_system.logger
+        self.logger = global_config["logger"]
 
         # State-specific runtime variables
         self.motor_state_vars: MotorStateRuntimeVariables = {}
@@ -151,18 +154,20 @@ class SortingStateMachine:
             self.current_state = next_state
 
         # Sleep based on configured state machine FPS
-        steps_per_second = self.vision_system.global_config[
+        steps_per_second = self.global_config[
             "state_machine_steps_per_second"
         ]
         time.sleep(1.0 / steps_per_second)
 
     def _runGettingNewObjectFromFeeder(self) -> SortingState:
+        self.logger.info("RUNNING GETTING_NEW_OBJECT_FROM_FEEDER")
         next_state = self._determineNextStateFromFrameAnalysis()
         return next_state or self.current_state
 
     def _runWaitingForObjectToAppearUnderMainCamera(self) -> SortingState:
+        self.logger.info("RUNNING WAITING_FOR_OBJECT_TO_APPEAR_UNDER_MAIN_CAMERA")
         current_time = time.time()
-        gc = self.vision_system.global_config
+        gc = self.global_config
 
         if (
             "waiting_for_object_to_appear_timeout_start_ts"
@@ -186,8 +191,9 @@ class SortingStateMachine:
         return next_state or self.current_state
 
     def _runWaitingForObjectToCenterUnderMainCamera(self) -> SortingState:
+        self.logger.info("RUNNING WAITING_FOR_OBJECT_TO_CENTER_UNDER_MAIN_CAMERA")
         current_time = time.time()
-        gc = self.vision_system.global_config
+        gc = self.global_config
 
         if (
             "waiting_for_object_to_center_timeout_start_ts"
@@ -211,8 +217,9 @@ class SortingStateMachine:
         return next_state or self.current_state
 
     def _runClassifying(self) -> SortingState:
+        self.logger.info("RUNNING CLASSIFYING")
         current_time = time.time()
-        gc = self.vision_system.global_config
+        gc = self.global_config
 
         if "classifying_timeout_start_ts" not in self.classifying_vars:
             self.classifying_vars["classifying_timeout_start_ts"] = current_time
@@ -349,8 +356,9 @@ class SortingStateMachine:
         return self.current_state
 
     def _runSendingObjectToBin(self) -> SortingState:
+        self.logger.info("RUNNING SENDING_OBJECT_TO_BIN")
         current_time = time.time()
-        gc = self.vision_system.global_config
+        gc = self.global_config
 
         if "sending_object_to_bin_start_ts" not in self.sending_object_to_bin_vars:
             self.sending_object_to_bin_vars["sending_object_to_bin_start_ts"] = (
@@ -459,6 +467,7 @@ class SortingStateMachine:
         return self.current_state
 
     def _runFsObjectAtEndOfSecondFeeder(self) -> SortingState:
+        self.logger.info("RUNNING FS_OBJECT_AT_END_OF_SECOND_FEEDER")
         self._startMotorPulseIfNeeded(
             "second_vibration_hopper_motor", use_reduced_settings=True
         )
@@ -466,7 +475,8 @@ class SortingStateMachine:
         return next_state or self.current_state
 
     def _runFsObjectUnderneathExitOfFirstFeeder(self) -> SortingState:
-        gc = self.vision_system.global_config
+        self.logger.info("RUNNING FS_OBJECT_UNDERNEATH_EXIT_OF_FIRST_FEEDER")
+        gc = self.global_config
         current_time = time.time()
 
         # Initialize timeout tracking on first entry
@@ -513,11 +523,13 @@ class SortingStateMachine:
         return next_state or self.current_state
 
     def _runFsNoObjectUnderneathExitOfFirstFeeder(self) -> SortingState:
+        self.logger.info("RUNNING FS_NO_OBJECT_UNDERNEATH_EXIT_OF_FIRST_FEEDER")
         self._startMotorPulseIfNeeded("first_vibration_hopper_motor")
         next_state = self._determineNextStateFromFrameAnalysis()
         return next_state or self.current_state
 
     def _runFsFirstFeederEmpty(self) -> SortingState:
+        self.logger.info("RUNNING FS_FIRST_FEEDER_EMPTY")
         current_time = time.time()
         runtime_params = self.irl_interface["runtime_params"]
 
@@ -768,7 +780,7 @@ class SortingStateMachine:
         self.logger.info("CLEANUP: Cleared CLASSIFYING state")
 
     def cleanupSendingObjectToBin(self) -> None:
-        gc = self.vision_system.global_config
+        gc = self.global_config
         if not gc["disable_main_conveyor"]:
             main_conveyor = self.irl_interface["main_conveyor_dc_motor"]
             main_speed = self.irl_interface["runtime_params"]["main_conveyor_speed"]
@@ -830,7 +842,7 @@ class SortingStateMachine:
             self.cleanupMotorState()
 
     def setMotorsToDefaultSpeed(self):
-        gc = self.vision_system.global_config
+        gc = self.global_config
 
         # Stop vibration motors with backstop
         if not gc["disable_first_vibration_hopper_motor"]:
@@ -880,7 +892,7 @@ class SortingStateMachine:
 
     def _openDoorsForBin(self, bin_coords: BinCoordinates) -> None:
         distribution_modules = self.irl_interface["distribution_modules"]
-        gc = self.vision_system.global_config
+        gc = self.global_config
 
         if bin_coords["distribution_module_idx"] < len(distribution_modules):
             module = distribution_modules[bin_coords["distribution_module_idx"]]
@@ -903,7 +915,7 @@ class SortingStateMachine:
 
     def _closeConveyorDoorGradually(self, distribution_module_idx: int) -> None:
         distribution_modules = self.irl_interface["distribution_modules"]
-        gc = self.vision_system.global_config
+        gc = self.global_config
 
         if distribution_module_idx < len(distribution_modules):
             module = distribution_modules[distribution_module_idx]
@@ -916,7 +928,7 @@ class SortingStateMachine:
 
     def _closeBinDoor(self, bin_coords: BinCoordinates) -> None:
         distribution_modules = self.irl_interface["distribution_modules"]
-        gc = self.vision_system.global_config
+        gc = self.global_config
 
         if bin_coords["distribution_module_idx"] < len(distribution_modules):
             module = distribution_modules[bin_coords["distribution_module_idx"]]

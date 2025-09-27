@@ -46,6 +46,7 @@ class Controller:
         )
 
         self.sorting_state_machine = SortingStateMachine(
+            global_config,
             self.vision_system,
             irl_interface,
             websocket_manager,

@@ -11,6 +11,9 @@ from robot.our_types.vision_system import (
     FeederState,
     MainCameraState,
     CameraPerformanceMetrics,
+    FeederRegion,
+    RegionReading,
+    ObjectDetection,
 )
 from robot.websocket_manager import WebSocketManager
 
@@ -75,6 +78,10 @@ class SegmentationModelManager:
         self.main_processing_times = []
         self.feeder_processing_times = []
         self.performance_lock = threading.Lock()
+
+        # Object detection tracking
+        self.object_detections: List[ObjectDetection] = []
+        self.detection_lock = threading.Lock()
 
     def start(self) -> None:
         self.running = True
@@ -161,6 +168,9 @@ class SegmentationModelManager:
 
                     with self.results_lock:
                         self.latest_feeder_results = results
+
+                    # Update object detections tracking
+                    self._updateObjectDetections()
 
                     if results and len(results) > 0:
                         annotated_frame = results[0].plot()
@@ -416,7 +426,175 @@ class SegmentationModelManager:
         near_target_pixels = np.sum(object_pixels_near_target)
         return near_target_pixels / total_object_pixels
 
+    def _analyzeObjectRegions(
+        self, obj_mask: np.ndarray, masks_by_class: Dict[str, List[np.ndarray]]
+    ) -> FeederRegion:
+        obj_bbox = self._getBoundingBoxFromMask(obj_mask)
+        if obj_bbox is None:
+            return FeederRegion.UNKNOWN
+
+        # Check main conveyor first
+        main_conveyor_masks = masks_by_class.get("main_conveyor", [])
+        if main_conveyor_masks:
+            total_main_conveyor_proximity = 0.0
+            for main_conveyor_mask in main_conveyor_masks:
+                main_conveyor_proximity = self._calculateMaskEdgeProximity(
+                    obj_mask, main_conveyor_mask
+                )
+                total_main_conveyor_proximity += main_conveyor_proximity
+
+            if total_main_conveyor_proximity > MAIN_CONVEYOR_THRESHOLD:
+                return FeederRegion.MAIN_CONVEYOR
+
+        # Check second feeder masks
+        second_feeder_masks = masks_by_class.get("second_feeder", [])
+        if second_feeder_masks:
+            total_second_proximity = 0.0
+            for second_feeder_mask in second_feeder_masks:
+                second_proximity = self._calculateMaskEdgeProximity(
+                    obj_mask, second_feeder_mask
+                )
+                total_second_proximity += second_proximity
+
+            if total_second_proximity > 0.5:
+                # Check if at exit of second feeder
+                main_conveyor_masks = masks_by_class.get("main_conveyor", [])
+                if main_conveyor_masks:
+                    total_bbox_overlap = 0.0
+                    for main_conveyor_mask in main_conveyor_masks:
+                        main_conveyor_bbox = self._getBoundingBoxFromMask(
+                            main_conveyor_mask
+                        )
+                        if main_conveyor_bbox:
+                            main_conveyor_bbox_with_margin = (
+                                self._applyMarginToBoundingBox(
+                                    main_conveyor_bbox,
+                                    MARGIN_FOR_MAIN_CONVEYOR_BOUNDING_BOX_PX,
+                                    (
+                                        main_conveyor_mask.shape[0],
+                                        main_conveyor_mask.shape[1],
+                                    ),
+                                )
+                            )
+                            bbox_overlap = self._calculateBoundingBoxOverlap(
+                                obj_bbox, main_conveyor_bbox_with_margin
+                            )
+                            total_bbox_overlap += bbox_overlap
+
+                    if total_bbox_overlap > MAIN_CONVEYOR_THRESHOLD:
+                        return FeederRegion.EXIT_OF_SECOND_FEEDER
+
+                return FeederRegion.SECOND_FEEDER_MASK
+
+        # Check first feeder masks
+        first_feeder_masks = masks_by_class.get("first_feeder", [])
+        if first_feeder_masks:
+            total_first_proximity = 0.0
+            for first_feeder_mask in first_feeder_masks:
+                first_proximity = self._calculateMaskEdgeProximity(
+                    obj_mask, first_feeder_mask
+                )
+                total_first_proximity += first_proximity
+
+            if total_first_proximity > 0.5:
+                # Check if under exit of second feeder (near first feeder)
+                if second_feeder_masks:
+                    min_distance_to_first = float("inf")
+                    for first_feeder_mask in first_feeder_masks:
+                        distance_to_first = self._calculateMinDistanceToMask(
+                            obj_bbox, first_feeder_mask
+                        )
+                        min_distance_to_first = min(
+                            min_distance_to_first, distance_to_first
+                        )
+
+                    if min_distance_to_first < SECOND_FEEDER_DISTANCE_THRESHOLD:
+                        return FeederRegion.UNDER_EXIT_OF_SECOND_FEEDER
+
+                return FeederRegion.FIRST_FEEDER_MASK
+
+        return FeederRegion.UNKNOWN
+
+    def _updateObjectDetections(self) -> None:
+        masks_by_class = self._getDetectedMasksByClass()
+        object_masks = masks_by_class.get("object", [])
+
+        if not object_masks:
+            return
+
+        current_time = time.time()
+
+        with self.detection_lock:
+            # For now, just add new detections for each object
+            # Future enhancement: match with existing tracked objects
+            for obj_mask in object_masks:
+                region = self._analyzeObjectRegions(obj_mask, masks_by_class)
+                region_reading = RegionReading(timestamp=current_time, region=region)
+
+                # Simple approach: create new detection for each object
+                # In future, this should match with tracked objects by ID
+                detection = ObjectDetection()
+                detection.region_readings.append(region_reading)
+                self.object_detections.append(detection)
+
+            # Cleanup old detections (keep only last 5 seconds)
+            cutoff_time = current_time - 5.0
+            self.object_detections = [
+                detection
+                for detection in self.object_detections
+                if detection.region_readings
+                and detection.region_readings[-1].timestamp >= cutoff_time
+            ]
+
+    def _checkForObjectTransitions(self, window_ms: float = 500.0) -> bool:
+        window_seconds = window_ms / 1000.0
+        current_time = time.time()
+        cutoff_time = current_time - window_seconds
+
+        with self.detection_lock:
+            for detection in self.object_detections:
+                recent_readings = [
+                    reading
+                    for reading in detection.region_readings
+                    if reading.timestamp >= cutoff_time
+                ]
+
+                if not recent_readings:
+                    continue
+
+                # Check if object went to main conveyor
+                for reading in recent_readings:
+                    if reading.region == FeederRegion.MAIN_CONVEYOR:
+                        return True
+
+                # Check if object went MIA from exit of second feeder
+                exit_readings = [
+                    reading
+                    for reading in recent_readings
+                    if reading.region == FeederRegion.EXIT_OF_SECOND_FEEDER
+                ]
+
+                if exit_readings:
+                    # Check if there are subsequent readings showing the object disappeared
+                    last_exit_time = max(reading.timestamp for reading in exit_readings)
+                    post_exit_readings = [
+                        reading
+                        for reading in recent_readings
+                        if reading.timestamp > last_exit_time
+                    ]
+
+                    # If no readings after being at exit, object went MIA
+                    if not post_exit_readings:
+                        return True
+
+        return False
+
     def determineFeederState(self) -> Optional[FeederState]:
+        # Future enhancement: use object transition detection
+        # object_transition_detected = self._checkForObjectTransitions(window_ms=500.0)
+        # if object_transition_detected:
+        #     return FeederState.WAITING_FOR_OBJECT_TO_CENTER_UNDER_MAIN_CAMERA
+
         masks_by_class = self._getDetectedMasksByClass()
 
         object_masks = masks_by_class.get("object", [])

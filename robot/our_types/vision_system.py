@@ -1,5 +1,6 @@
 from enum import Enum
-from dataclasses import dataclass
+from dataclasses import dataclass, field
+from typing import List
 
 
 @dataclass
@@ -8,6 +9,26 @@ class CameraPerformanceMetrics:
     fps_5s: float
     latency_1s: float
     latency_5s: float
+
+
+class FeederRegion(Enum):
+    FIRST_FEEDER_MASK = "first_feeder_mask"
+    UNDER_EXIT_OF_SECOND_FEEDER = "under_exit_of_second_feeder"
+    SECOND_FEEDER_MASK = "second_feeder_mask"
+    EXIT_OF_SECOND_FEEDER = "exit_of_second_feeder"
+    MAIN_CONVEYOR = "main_conveyor"
+    UNKNOWN = "unknown"
+
+
+@dataclass
+class RegionReading:
+    timestamp: float
+    region: FeederRegion
+
+
+@dataclass
+class ObjectDetection:
+    region_readings: List[RegionReading] = field(default_factory=list)
 
 
 class FeederState(Enum):

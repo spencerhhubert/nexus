@@ -46,7 +46,7 @@ class SegmentationModelManager:
     ) -> None:
         self.global_config = global_config
         self.irl_interface = irl_interface
-        self.logger = global_config["logger"]
+        self.logger = global_config["logger"].ctx(system="vision_system")
         self.websocket_manager = websocket_manager
 
         self.main_camera = irl_interface["main_camera"]
@@ -519,6 +519,7 @@ class SegmentationModelManager:
         return FeederRegion.UNKNOWN
 
     def _updateObjectDetections(self) -> None:
+        # note: _updateObjectDetections is called by both the main and feeder camera loop, but it only looks at masks in the feeder camera
         masks_by_class = self._getDetectedMasksByClass()
         object_masks = masks_by_class.get("object", [])
 

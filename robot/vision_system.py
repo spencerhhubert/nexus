@@ -4,6 +4,9 @@ import numpy as np
 import cv2
 from typing import Optional, Dict, List, Tuple, Any
 from ultralytics import YOLO
+import logging
+
+logging.getLogger("ultralytics").setLevel(logging.WARNING)
 from robot.global_config import GlobalConfig
 from robot.irl.config import IRLSystemInterface
 from robot.our_types import CameraType

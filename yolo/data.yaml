@@ -1,0 +1,20 @@
+# YOLO segmentation dataset configuration
+# Update paths and class names according to your dataset
+
+# Dataset root directory (relative to this file)
+path: /Users/spencer/Documents/GitHub/nexus2/yolo/data
+
+# Relative paths to train and validation image directories
+train: images/train
+val: images/val
+
+# Number of classes
+nc: 5 # Update this to match your number of classes
+
+# Class names (update with your actual class names)
+names:
+  0: object
+  1: first_feeder
+  2: second_feeder
+  3: main_conveyor
+  4: feeder_conveyor

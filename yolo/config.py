@@ -69,7 +69,7 @@ def build_config() -> Config:
 
     args = parser.parse_args()
 
-    repo_dir = "/Users/spencer/Documents/GitHub/nexus2"
+    repo_dir = os.environ["REPO_DIR"]
 
     checkpoints_dir = f"{repo_dir}/yolo/checkpoints"
 

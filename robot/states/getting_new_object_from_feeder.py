@@ -95,6 +95,9 @@ class GettingNewObjectFromFeeder(BaseState):
 
         # Check if we should transition to main camera
         if self.feeder_state == FeederState.OBJECT_ON_MAIN_CONVEYOR:
+            self.logger.info(
+                "TRANSITION: Object detected on main conveyor, transitioning to main camera"
+            )
             return SortingState.WAITING_FOR_OBJECT_TO_APPEAR_UNDER_MAIN_CAMERA
 
         next_state = self._determineNextStateFromFrameAnalysis()
@@ -109,8 +112,9 @@ class GettingNewObjectFromFeeder(BaseState):
         self.logger.info("CLEANUP: Cleared GETTING_NEW_OBJECT_FROM_FEEDER state")
 
     def _determineFeederState(self) -> Optional[FeederState]:
-        # Get object detections from the last 500ms
-        window_ms = 500.0
+        steps_per_second = self.gc["state_machine_steps_per_second"]
+        step_duration_ms = (1.0 / steps_per_second) * 1000
+        window_ms = step_duration_ms
         window_seconds = window_ms / 1000.0
         current_time = time.time()
         cutoff_time = current_time - window_seconds
@@ -118,6 +122,21 @@ class GettingNewObjectFromFeeder(BaseState):
         with self.vision_system.detection_lock:
             # Analyze recent object readings to determine state
             recent_detections = []
+
+            # remove this in future: log object detections for debugging
+            self.logger.info(
+                f"OBJECT DETECTIONS: Found {len(self.vision_system.object_detections)} total detections"
+            )
+            for i, detection in enumerate(self.vision_system.object_detections):
+                self.logger.info(
+                    f"  Detection {i}: {len(detection.region_readings)} readings"
+                )
+                for j, reading in enumerate(detection.region_readings):
+                    if reading.timestamp >= cutoff_time:
+                        self.logger.info(
+                            f"    Reading {j}: region={reading.region}, timestamp={reading.timestamp}"
+                        )
+
             for detection in self.vision_system.object_detections:
                 recent_readings = [
                     reading
@@ -132,8 +151,6 @@ class GettingNewObjectFromFeeder(BaseState):
 
             # Check for objects on main conveyor - only use direct detection within recent timeframe
             current_time = time.time()
-            steps_per_second = self.gc["state_machine_steps_per_second"]
-            step_duration_ms = (1.0 / steps_per_second) * 1000
             recent_threshold_ms = step_duration_ms  # Within one step
 
             for readings in recent_detections:

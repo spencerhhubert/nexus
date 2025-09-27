@@ -126,9 +126,9 @@ class DCMotor:
 
         if self.current_speed == speed and not override:
             logger = self.gc["logger"]
-            logger.info(
-                f"DCMotor setSpeed: speed unchanged at {speed}, skipping command"
-            )
+            # logger.info(
+            #     f"DCMotor setSpeed: speed unchanged at {speed}, skipping command"
+            # )
             return
 
         logger = self.gc["logger"]

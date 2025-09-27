@@ -44,8 +44,15 @@ def main():
     main_camera = irl_system["main_camera"]
     feeder_camera = irl_system["feeder_camera"]
 
-    model_path = (
-        gc["yolo_weights_path"] if gc["yolo_weights_path"] else gc["yolo_model"]
+    main_model_path = (
+        gc["main_camera_yolo_weights_path"]
+        if gc["main_camera_yolo_weights_path"]
+        else gc["yolo_model"]
+    )
+    feeder_model_path = (
+        gc["feeder_camera_yolo_weights_path"]
+        if gc["feeder_camera_yolo_weights_path"]
+        else gc["yolo_model"]
     )
 
     logger.info("Starting threaded YOLO tracking...")
@@ -60,7 +67,7 @@ def main():
             target=runTrackerInThread,
             args=(
                 main_camera,
-                model_path,
+                main_model_path,
                 "Main Camera YOLO Tracking",
                 logger,
                 main_queue,
@@ -72,7 +79,7 @@ def main():
             target=runTrackerInThread,
             args=(
                 feeder_camera,
-                model_path,
+                feeder_model_path,
                 "Feeder Camera YOLO Tracking",
                 logger,
                 feeder_queue,

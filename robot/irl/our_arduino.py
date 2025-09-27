@@ -29,7 +29,7 @@ class OurArduinoMega(ArduinoMega):
         while self.running:
             try:
                 command, data = self.command_queue.get(timeout=1.0)
-                self.gc["logger"].info(f"Sending command {command} with data {data}")
+                # self.gc["logger"].info(f"Sending command {command} with data {data}")
                 self.send_sysex(command, data)
                 time.sleep(self.command_delay_ms)
                 self.command_queue.task_done()

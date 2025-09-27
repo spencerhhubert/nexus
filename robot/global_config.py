@@ -18,7 +18,8 @@ class GlobalConfig(TypedDict):
     tensor_device: str
     main_camera_index: int
     yolo_model: str
-    yolo_weights_path: str
+    feeder_camera_yolo_weights_path: str
+    main_camera_yolo_weights_path: str
     disable_main_conveyor: bool
     disable_first_vibration_hopper_motor: bool
     disable_second_vibration_hopper_motor: bool
@@ -123,7 +124,10 @@ def buildGlobalConfig() -> GlobalConfig:
         # "yolo_weights_path": "/Users/spencer/Downloads/run_1758315429/weights/best.pt",  # small more data
         # "yolo_weights_path": "/Users/spencer/Downloads/run_1758582313/weights/best.pt",  # small, moved camera
         # "yolo_weights_path": "/Users/spencer/Downloads/run_1758827336/weights/best.pt",  # medium, new data03, 640
-        "yolo_weights_path": "/Users/spencer/Downloads/run_1758831161/weights/best.pt",  # nano, new data03, 640, 150 epochs
+        # "yolo_weights_path": "/Users/spencer/Downloads/run_1758831161/weights/best.pt",  # nano, new data03, 640, 150 epochs
+        # "yolo_weights_path": "/Users/spencer/Downloads/run_1758827930/weights/best.pt",  # small, new data03, 416, 100 epochs
+        "feeder_camera_yolo_weights_path": "/Users/spencer/Downloads/run_1759011892_416_small_150epochs_8batch_yolo_data_feeder_camera/weights/epoch100.pt",
+        "main_camera_yolo_weights_path": "/Users/spencer/Downloads/run_1759012309_416_small_150epochs_8batch_yolo_data_main_camera/weights/epoch100.pt",
         "disable_main_conveyor": "main_conveyor" in disabled_motors,
         "disable_first_vibration_hopper_motor": "vibration_hopper" in disabled_motors
         or "first_vibration_hopper" in disabled_motors,
@@ -148,12 +152,14 @@ def buildGlobalConfig() -> GlobalConfig:
         "profiling_dir_path": "../profiles",
         "use_prev_bin_state": args.use_prev_bin_state,
         "main_conveyor_speed": 110,
-        "feeder_conveyor_speed": 140,
+        "feeder_conveyor_speed": 80,
         "first_vibration_hopper_motor_speed": 162,  # first hopper that pieces enter
+        # "first_vibration_hopper_motor_speed": 80,  # first hopper that pieces enter
         "second_vibration_hopper_motor_speed": 165,
+        # "second_vibration_hopper_motor_speed": 80,
         "first_vibration_hopper_motor_pulse_ms": 200,
         "second_vibration_hopper_motor_pulse_ms": 400,
-        "feeder_conveyor_pulse_ms": 1000,
+        "feeder_conveyor_pulse_ms": 500,
         "first_vibration_hopper_motor_pause_ms": 500,
         "second_vibration_hopper_motor_pause_ms": 500,
         "feeder_conveyor_pause_ms": 200,

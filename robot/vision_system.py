@@ -33,7 +33,7 @@ SECOND_FEEDER_DISTANCE_THRESHOLD = 20
 MAIN_CONVEYOR_THRESHOLD = 0.7
 OBJECT_CENTER_THRESHOLD = 0.4
 RIGHT_SIDE_THRESHOLD = 0.3
-MARGIN_FOR_MAIN_CONVEYOR_BOUNDING_BOX_PX = -40
+MARGIN_FOR_MAIN_CONVEYOR_BOUNDING_BOX_PX = -15
 
 
 class SegmentationModelManager:
@@ -51,14 +51,24 @@ class SegmentationModelManager:
         self.main_camera = irl_interface["main_camera"]
         self.feeder_camera = irl_interface["feeder_camera"]
 
-        if global_config["yolo_weights_path"]:
-            self.model_path = global_config["yolo_weights_path"]
+        if global_config["feeder_camera_yolo_weights_path"]:
+            self.feeder_model_path = global_config["feeder_camera_yolo_weights_path"]
         else:
             self.logger.error(
-                "No YOLO model path found: 'yolo_weights_path' is missing or empty in global_config"
+                "No YOLO model path found: 'feeder_camera_yolo_weights_path' is missing or empty in global_config"
             )
             raise ValueError(
-                "No YOLO model path found: 'yolo_weights_path' is missing or empty in global_config"
+                "No YOLO model path found: 'feeder_camera_yolo_weights_path' is missing or empty in global_config"
+            )
+
+        if global_config["main_camera_yolo_weights_path"]:
+            self.main_model_path = global_config["main_camera_yolo_weights_path"]
+        else:
+            self.logger.error(
+                "No YOLO model path found: 'main_camera_yolo_weights_path' is missing or empty in global_config"
+            )
+            raise ValueError(
+                "No YOLO model path found: 'main_camera_yolo_weights_path' is missing or empty in global_config"
             )
 
         self.latest_main_results = None
@@ -105,7 +115,7 @@ class SegmentationModelManager:
             self.feeder_thread.join()
 
     def _trackMainCamera(self) -> None:
-        model = YOLO(self.model_path)
+        model = YOLO(self.main_model_path)
         if self.global_config.get("tensor_device"):
             model.to(self.global_config["tensor_device"])
         frame_count = 0
@@ -116,7 +126,10 @@ class SegmentationModelManager:
 
                 if frame is not None:
                     start_time = time.time()
-                    results = model.track(frame, persist=True, tracker="bytetrack.yaml")
+                    results = model.track(
+                        frame,
+                        persist=True,
+                    )
                     # results = model(frame)
                     processing_time = time.time() - start_time
 
@@ -152,7 +165,7 @@ class SegmentationModelManager:
             self.logger.error(f"Error in main camera tracking: {e}")
 
     def _trackFeederCamera(self) -> None:
-        model = YOLO(self.model_path)
+        model = YOLO(self.feeder_model_path)
         if self.global_config.get("tensor_device"):
             model.to(self.global_config["tensor_device"])
         frame_count = 0
@@ -163,7 +176,10 @@ class SegmentationModelManager:
 
                 if frame is not None:
                     start_time = time.time()
-                    results = model.track(frame, persist=True, tracker="bytetrack.yaml")
+                    results = model.track(
+                        frame,
+                        persist=True,
+                    )
                     processing_time = time.time() - start_time
 
                     self._trackPerformance(CameraType.FEEDER_CAMERA, processing_time)
@@ -307,6 +323,30 @@ class SegmentationModelManager:
 
         return masks_by_class
 
+    def _getDetectedMasks(self) -> Dict[str, List[Tuple[np.ndarray, Optional[str]]]]:
+        results = self._getFeederCameraResults()
+        if not results or len(results) == 0:
+            return {}
+
+        masks_by_class: Dict[str, List[Tuple[np.ndarray, Optional[str]]]] = {}
+
+        for result in results:
+            if result.masks is not None:
+                for i, mask in enumerate(result.masks):
+                    class_id = int(result.boxes[i].cls.item())
+                    class_name = YOLO_CLASSES.get(class_id, f"unknown_{class_id}")
+                    mask_data = mask.data[0].cpu().numpy()
+
+                    track_id = None
+                    if result.boxes.id is not None and i < len(result.boxes.id):
+                        track_id = str(int(result.boxes.id[i].item()))
+
+                    if class_name not in masks_by_class:
+                        masks_by_class[class_name] = []
+                    masks_by_class[class_name].append((mask_data, track_id))
+
+        return masks_by_class
+
     def _getBoundingBoxFromMask(
         self, mask: np.ndarray
     ) -> Optional[Tuple[int, int, int, int]]:
@@ -437,7 +477,10 @@ class SegmentationModelManager:
 
         # Check main conveyor first
         main_conveyor_masks = masks_by_class.get("main_conveyor", [])
+        first_feeder_masks = masks_by_class.get("first_feeder", [])
+        second_feeder_masks = masks_by_class.get("second_feeder", [])
         if main_conveyor_masks:
+            feeder_masks_negative = first_feeder_masks + second_feeder_masks
             total_main_conveyor_proximity = 0.0
             for main_conveyor_mask in main_conveyor_masks:
                 main_conveyor_proximity = self._calculateMaskEdgeProximity(
@@ -651,22 +694,32 @@ class SegmentationModelManager:
         return MainCameraState.NO_OBJECT_UNDER_CAMERA
 
     def hasObjectOnMainConveyorInFeederView(self) -> bool:
-        feeder_masks = self._getDetectedMasksByClass()
+        feeder_masks = self._getDetectedMasks()
         object_masks = feeder_masks.get("object", [])
         main_conveyor_masks = feeder_masks.get("main_conveyor", [])
+        first_feeder_masks = feeder_masks.get("first_feeder", [])
+        second_feeder_masks = feeder_masks.get("second_feeder", [])
 
         if not object_masks or not main_conveyor_masks:
             return False
 
-        for obj_mask in object_masks:
+        feeder_masks_negative = [mask for mask, _ in first_feeder_masks] + [
+            mask for mask, _ in second_feeder_masks
+        ]
+        main_conveyor_mask_data = [mask for mask, _ in main_conveyor_masks]
+
+        for obj_mask, track_id in object_masks:
             total_edge_proximity = 0.0
-            for main_conveyor_mask in main_conveyor_masks:
+            for main_conveyor_mask in main_conveyor_mask_data:
                 edge_proximity = self._calculateMaskEdgeProximity(
                     obj_mask, main_conveyor_mask
                 )
                 total_edge_proximity += edge_proximity
 
             if total_edge_proximity > MAIN_CONVEYOR_THRESHOLD:
+                self.logger.info(
+                    f"Object detected on main conveyor in feeder view with proximity: {total_edge_proximity}, track_id: {track_id}"
+                )
                 return True
 
         return False

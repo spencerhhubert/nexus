@@ -135,12 +135,12 @@ def main():
                     # Motor should be on, check if it's time to turn off
                     if (current_time - last_pulse_time) * 1000 >= PULSE_ON_TIME_MS:
                         if motor_is_running:
-                            motor.setSpeed(0)
+                            motor.backstop(current_speed)
                             motor_is_running = False
                             last_set_speed = 0
                         pulse_state = False
                         last_pulse_time = current_time
-                        print("Motor OFF")
+                        print("Motor OFF (backstopped)")
                     else:
                         # Ensure motor is running at correct speed if not already
                         if not motor_is_running or last_set_speed != current_speed:
@@ -163,7 +163,7 @@ def main():
         running = False
     finally:
         print("\nStopping motor...")
-        motor.setSpeed(0)
+        motor.backstop(current_speed)
         irl_system["arduino"].flush()
         irl_system["arduino"].close()
         print("Test complete")

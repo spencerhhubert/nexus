@@ -4,6 +4,7 @@ import numpy as np
 import cv2
 from typing import Optional, Dict, List, Tuple, Any
 from ultralytics import YOLO
+import logging
 from robot.global_config import GlobalConfig
 from robot.irl.config import IRLSystemInterface
 from robot.our_types import CameraType
@@ -11,6 +12,9 @@ from robot.our_types.vision_system import (
     FeederState,
     MainCameraState,
     CameraPerformanceMetrics,
+    FeederRegion,
+    RegionReading,
+    ObjectDetection,
 )
 from robot.websocket_manager import WebSocketManager
 
@@ -58,6 +62,8 @@ class SegmentationModelManager:
 
         self.latest_main_results = None
         self.latest_feeder_results = None
+
+        self.object_detections: Dict[int, ObjectDetection] = {}
         self.results_lock = threading.Lock()
 
         # Frame tracking for classification
@@ -96,6 +102,9 @@ class SegmentationModelManager:
             self.feeder_thread.join()
 
     def _trackMainCamera(self) -> None:
+        # Disable YOLO logging
+        logging.getLogger("ultralytics").setLevel(logging.WARNING)
+
         model = YOLO(self.model_path)
         if self.global_config.get("tensor_device"):
             model.to(self.global_config["tensor_device"])
@@ -143,6 +152,9 @@ class SegmentationModelManager:
             self.logger.error(f"Error in main camera tracking: {e}")
 
     def _trackFeederCamera(self) -> None:
+        # Disable YOLO logging
+        logging.getLogger("ultralytics").setLevel(logging.WARNING)
+
         model = YOLO(self.model_path)
         if self.global_config.get("tensor_device"):
             model.to(self.global_config["tensor_device"])
@@ -417,6 +429,14 @@ class SegmentationModelManager:
         return near_target_pixels / total_object_pixels
 
     def determineFeederState(self) -> Optional[FeederState]:
+        # Update object tracking first
+        self._updateObjectDetections()
+        self._cleanupOldDetections()
+
+        # Check for transition to object on main conveyor using new tracking logic
+        if self._shouldTransitionToObjectOnMainConveyor():
+            return FeederState.OBJECT_ON_MAIN_CONVEYOR
+
         masks_by_class = self._getDetectedMasksByClass()
 
         object_masks = masks_by_class.get("object", [])
@@ -655,6 +675,174 @@ class SegmentationModelManager:
 
             if total_edge_proximity > MAIN_CONVEYOR_THRESHOLD:
                 return True
+
+        return False
+
+    def _classifyObjectIntoFeederRegion(
+        self, obj_mask: np.ndarray, masks_by_class: Dict[str, List[np.ndarray]]
+    ) -> FeederRegion:
+        obj_bbox = self._getBoundingBoxFromMask(obj_mask)
+        if obj_bbox is None:
+            return FeederRegion.UNKNOWN
+
+        first_feeder_masks = masks_by_class.get("first_feeder", [])
+        second_feeder_masks = masks_by_class.get("second_feeder", [])
+        main_conveyor_masks = masks_by_class.get("main_conveyor", [])
+
+        # Check for objects at end of second feeder (bbox >50% in main conveyor BUT not touching conveyor surface)
+        if main_conveyor_masks:
+            total_bbox_overlap = 0.0
+            total_main_conveyor_proximity = 0.0
+
+            for main_conveyor_mask in main_conveyor_masks:
+                main_conveyor_bbox = self._getBoundingBoxFromMask(main_conveyor_mask)
+                if main_conveyor_bbox:
+                    main_conveyor_bbox_with_margin = self._applyMarginToBoundingBox(
+                        main_conveyor_bbox, MARGIN_FOR_MAIN_CONVEYOR_BOUNDING_BOX_PX
+                    )
+                    bbox_overlap = self._calculateBoundingBoxOverlap(
+                        obj_bbox, main_conveyor_bbox_with_margin
+                    )
+                    total_bbox_overlap += bbox_overlap
+
+                main_conveyor_proximity = self._calculateMaskEdgeProximity(
+                    obj_mask, main_conveyor_mask
+                )
+                total_main_conveyor_proximity += main_conveyor_proximity
+
+            if (
+                total_bbox_overlap > 0.5
+                and total_main_conveyor_proximity < MAIN_CONVEYOR_THRESHOLD
+            ):
+                return FeederRegion.EXIT_OF_SECOND_FEEDER
+            elif total_main_conveyor_proximity > MAIN_CONVEYOR_THRESHOLD:
+                return FeederRegion.MAIN_CONVEYOR
+
+        # Check second feeder (>50% proximity)
+        if second_feeder_masks:
+            total_second_proximity = 0.0
+            for second_feeder_mask in second_feeder_masks:
+                second_proximity = self._calculateMaskEdgeProximity(
+                    obj_mask, second_feeder_mask
+                )
+                total_second_proximity += second_proximity
+
+            if total_second_proximity > 0.5:
+                return FeederRegion.SECOND_FEEDER_MASK
+
+        # Check first feeder (>50% proximity)
+        if first_feeder_masks:
+            total_first_proximity = 0.0
+            for first_feeder_mask in first_feeder_masks:
+                first_proximity = self._calculateMaskEdgeProximity(
+                    obj_mask, first_feeder_mask
+                )
+                total_first_proximity += first_proximity
+
+            if total_first_proximity > 0.5:
+                return FeederRegion.FIRST_FEEDER_MASK
+
+        return FeederRegion.UNKNOWN
+
+    def _updateObjectDetections(self) -> None:
+        current_time = time.time()
+        results = self._getFeederCameraResults()
+
+        if not results or len(results) == 0:
+            return
+
+        masks_by_class = self._getDetectedMasksByClass()
+        object_masks = masks_by_class.get("object", [])
+
+        # Track current frame objects
+        current_objects = set()
+
+        for result in results:
+            if result.masks is not None and result.boxes.id is not None:
+                for i, mask in enumerate(result.masks):
+                    class_id = int(result.boxes[i].cls.item())
+                    if class_id == 0:  # Object class
+                        track_id = int(result.boxes.id[i].item())
+                        current_objects.add(track_id)
+
+                        mask_data = mask.data[0].cpu().numpy()
+                        region = self._classifyObjectIntoFeederRegion(
+                            mask_data, masks_by_class
+                        )
+
+                        # Initialize or update object detection
+                        if track_id not in self.object_detections:
+                            self.object_detections[track_id] = ObjectDetection(
+                                yolo_id=track_id, region_readings=[]
+                            )
+
+                        # Add new reading
+                        self.object_detections[track_id].region_readings.append(
+                            RegionReading(timestamp=current_time, region=region)
+                        )
+
+    def _cleanupOldDetections(self, cleanup_threshold_ms: float = 2000) -> None:
+        current_time = time.time()
+        to_remove = []
+
+        for yolo_id, detection in self.object_detections.items():
+            if not detection.region_readings:
+                to_remove.append(yolo_id)
+                continue
+
+            last_reading_time = detection.region_readings[-1].timestamp
+            if (current_time - last_reading_time) * 1000 > cleanup_threshold_ms:
+                to_remove.append(yolo_id)
+
+        for yolo_id in to_remove:
+            del self.object_detections[yolo_id]
+
+        if to_remove:
+            self.logger.info(f"Cleaned up {len(to_remove)} old object detections")
+
+    def _shouldTransitionToObjectOnMainConveyor(self, window_ms: float = 500) -> bool:
+        current_time = time.time()
+        window_seconds = window_ms / 1000.0
+
+        for detection in self.object_detections.values():
+            recent_readings = [
+                reading
+                for reading in detection.region_readings
+                if (current_time - reading.timestamp) <= window_seconds
+            ]
+
+            if not recent_readings:
+                continue
+
+            # Condition 1: Object was on main conveyor in recent readings
+            for reading in recent_readings:
+                if reading.region == FeederRegion.MAIN_CONVEYOR:
+                    self.logger.info(
+                        f"Object {detection.yolo_id} detected on main conveyor in recent readings"
+                    )
+                    return True
+
+            # Condition 2: Object was at end of second feeder but has now disappeared from view
+            # (indicating it likely moved to main conveyor)
+            was_at_exit = any(
+                reading.region == FeederRegion.EXIT_OF_SECOND_FEEDER
+                for reading in recent_readings
+            )
+
+            if was_at_exit:
+                # Check if this object has disappeared recently (no readings in the last portion of the window)
+                very_recent_threshold = window_seconds * 0.3  # Last 30% of the window
+                very_recent_readings = [
+                    reading
+                    for reading in recent_readings
+                    if (current_time - reading.timestamp) <= very_recent_threshold
+                ]
+
+                if not very_recent_readings:
+                    self.logger.info(
+                        f"Object {detection.yolo_id} was at exit of second feeder but has disappeared - likely moved to main conveyor"
+                    )
+                    return True
 
         return False
 

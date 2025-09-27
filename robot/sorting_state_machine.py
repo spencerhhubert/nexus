@@ -154,9 +154,7 @@ class SortingStateMachine:
             self.current_state = next_state
 
         # Sleep based on configured state machine FPS
-        steps_per_second = self.global_config[
-            "state_machine_steps_per_second"
-        ]
+        steps_per_second = self.global_config["state_machine_steps_per_second"]
         time.sleep(1.0 / steps_per_second)
 
     def _runGettingNewObjectFromFeeder(self) -> SortingState:

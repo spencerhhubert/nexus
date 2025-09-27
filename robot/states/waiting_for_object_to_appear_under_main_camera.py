@@ -1,14 +1,13 @@
 import time
 from typing import Optional
-from robot.states.istate_machine import IStateMachine
+from robot.states.base_state import BaseState
 from robot.our_types.sorting import SortingState
-from robot.our_types.vision_system import MainCameraState
 from robot.vision_system import SegmentationModelManager
 from robot.irl.config import IRLSystemInterface
 from robot.websocket_manager import WebSocketManager
 
 
-class WaitingForObjectToAppearUnderMainCamera(IStateMachine):
+class WaitingForObjectToAppearUnderMainCamera(BaseState):
     def __init__(
         self,
         global_config,
@@ -16,20 +15,15 @@ class WaitingForObjectToAppearUnderMainCamera(IStateMachine):
         websocket_manager: WebSocketManager,
         irl_interface: IRLSystemInterface,
     ):
-        self.global_config = global_config
-        self.vision_system = vision_system
-        self.websocket_manager = websocket_manager
-        self.irl_interface = irl_interface
-        self.logger = global_config["logger"]
+        super().__init__(global_config, vision_system, websocket_manager, irl_interface)
+        self.logger = global_config["logger"].ctx(
+            state="WaitingForObjectToAppearUnderMainCamera"
+        )
 
         self.timeout_start_ts: Optional[float] = None
 
     def step(self) -> Optional[SortingState]:
-        # Set main conveyor to default speed
-        if not self.global_config["disable_main_conveyor"]:
-            main_conveyor = self.irl_interface["main_conveyor_dc_motor"]
-            main_speed = self.irl_interface["runtime_params"]["main_conveyor_speed"]
-            main_conveyor.setSpeed(main_speed)
+        self._setMainConveyorToDefaultSpeed()
 
         current_time = time.time()
 
@@ -53,19 +47,3 @@ class WaitingForObjectToAppearUnderMainCamera(IStateMachine):
         self.logger.info(
             "CLEANUP: Cleared WAITING_FOR_OBJECT_TO_APPEAR_UNDER_MAIN_CAMERA state"
         )
-
-    def _determineNextStateFromFrameAnalysis(self) -> Optional[SortingState]:
-        main_camera_state = self.vision_system.determineMainCameraState()
-
-        if main_camera_state == MainCameraState.OBJECT_CENTERED_UNDER_MAIN_CAMERA:
-            return SortingState.CLASSIFYING
-        elif (
-            main_camera_state
-            == MainCameraState.WAITING_FOR_OBJECT_TO_CENTER_UNDER_MAIN_CAMERA
-        ):
-            return SortingState.WAITING_FOR_OBJECT_TO_CENTER_UNDER_MAIN_CAMERA
-
-        if self.vision_system.hasObjectOnMainConveyorInFeederView():
-            return SortingState.WAITING_FOR_OBJECT_TO_APPEAR_UNDER_MAIN_CAMERA
-
-        return None

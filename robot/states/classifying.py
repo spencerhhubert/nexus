@@ -2,7 +2,7 @@ import time
 import uuid
 from collections import Counter
 from typing import Optional, Dict
-from robot.states.istate_machine import IStateMachine
+from robot.states.base_state import BaseState
 from robot.our_types.sorting import SortingState
 from robot.our_types.known_object import KnownObject
 from robot.our_types.classify import ClassificationConsensus
@@ -16,7 +16,7 @@ from robot.websocket_manager import WebSocketManager
 from robot.bin_state_tracker import BinStateTracker
 
 
-class Classifying(IStateMachine):
+class Classifying(BaseState):
     def __init__(
         self,
         global_config,
@@ -25,23 +25,16 @@ class Classifying(IStateMachine):
         irl_interface: IRLSystemInterface,
         bin_state_tracker: BinStateTracker,
     ):
-        self.global_config = global_config
-        self.vision_system = vision_system
-        self.websocket_manager = websocket_manager
-        self.irl_interface = irl_interface
+        super().__init__(global_config, vision_system, websocket_manager, irl_interface)
         self.bin_state_tracker = bin_state_tracker
-        self.logger = global_config["logger"]
+        self.logger = global_config["logger"].ctx(state="Classifying")
 
         self.timeout_start_ts: Optional[float] = None
         self.known_objects: Dict[str, KnownObject] = {}
         self.pending_known_object: Optional[KnownObject] = None
 
     def step(self) -> Optional[SortingState]:
-        # Set main conveyor to default speed (will be overridden to zero for classification)
-        if not self.global_config["disable_main_conveyor"]:
-            main_conveyor = self.irl_interface["main_conveyor_dc_motor"]
-            main_speed = self.irl_interface["runtime_params"]["main_conveyor_speed"]
-            main_conveyor.setSpeed(main_speed)
+        self._setMainConveyorToDefaultSpeed()
 
         current_time = time.time()
 

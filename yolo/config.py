@@ -60,6 +60,12 @@ def build_config() -> Config:
         default=416,
         help="Image size for training",
     )
+    parser.add_argument(
+        "--data_path",
+        type=str,
+        default="yolo/data",
+        help="Data path relative to repo directory",
+    )
 
     args = parser.parse_args()
 
@@ -80,7 +86,8 @@ def build_config() -> Config:
         print(f"Resuming training from checkpoint run: {current_run_id}")
     else:
         timestamp = int(time.time())
-        current_run_id = f"run_{timestamp}_{args.img_size}_{args.model_size}_{args.epochs}epochs_{args.batch}batch"
+        data_path_clean = args.data_path.replace("/", "_")
+        current_run_id = f"run_{timestamp}_{args.img_size}_{args.model_size}_{args.epochs}epochs_{args.batch}batch_{data_path_clean}"
         print(f"Starting new training run: {current_run_id}")
 
     os.makedirs(os.path.join(checkpoints_dir, current_run_id), exist_ok=True)
@@ -116,7 +123,7 @@ def build_config() -> Config:
         # class_id x1 y1 x2 y2 x3 y3 ... xn yn
         # Where (x1,y1), (x2,y2), ..., (xn,yn) are normalized polygon coordinates
         # for segmentation masks. For bounding boxes only: class_id x_center y_center width height
-        "data_path": f"{repo_dir}/yolo/data",
+        "data_path": f"{repo_dir}/{args.data_path}",
         "epochs": args.epochs,
         "batch_size": args.batch,
         "device": args.device,

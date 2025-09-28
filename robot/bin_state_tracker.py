@@ -1,6 +1,8 @@
 from typing import List, Optional
 import time
 from robot.global_config import GlobalConfig
+
+ENABLE_MISC_BIN = False
 from robot.sorting.sorting_profile import SortingProfile
 from robot.irl.distribution import DistributionModule
 from robot.storage.sqlite3.operations import saveBinStateToDatabase
@@ -64,19 +66,20 @@ class BinStateTracker:
                 f"Loaded previous bin state: {self.current_bin_state_id}"
             )
 
-        # Reserve the second to last bin as misc and the last bin as fallback
-        if len(self.available_bin_coordinates) >= 2:
+        # Reserve bins based on ENABLE_MISC_BIN setting
+        if ENABLE_MISC_BIN and len(self.available_bin_coordinates) >= 2:
+            # Reserve second to last bin as misc and last bin as fallback
             second_to_last_bin = self.available_bin_coordinates[-2]
             last_bin = self.available_bin_coordinates[-1]
             self._reserveBinInternal(second_to_last_bin, self.misc_category_id)
             self._reserveBinInternal(last_bin, self.fallback_category_id)
             self.misc_bin_coordinates = second_to_last_bin
             self.fallback_bin_coordinates = last_bin
-        elif len(self.available_bin_coordinates) == 1:
-            # If only one bin, use it as misc
+        elif len(self.available_bin_coordinates) >= 1:
+            # Reserve only last bin as fallback
             last_bin = self.available_bin_coordinates[-1]
-            self._reserveBinInternal(last_bin, self.misc_category_id)
-            self.misc_bin_coordinates = last_bin
+            self._reserveBinInternal(last_bin, self.fallback_category_id)
+            self.fallback_bin_coordinates = last_bin
 
         # Save initial state if this is a new bin state
         if not previous_state:
@@ -121,16 +124,21 @@ class BinStateTracker:
             if current_category is None:
                 return coordinates
 
-        # If no empty bin available, fall back to fallback bin for categorized items
+        # If no empty bin available, handle overflow
         if (
             category_id != self.misc_category_id
             and category_id != self.fallback_category_id
         ):
-            self.global_config["logger"].info(
-                f"No available bins for category '{category_id}', falling back to fallback bin"
-            )
-
-            if self.fallback_bin_coordinates:
+            # For successfully classified items, prefer misc bin if enabled
+            if ENABLE_MISC_BIN and self.misc_bin_coordinates:
+                self.global_config["logger"].info(
+                    f"No available bins for category '{category_id}', sending to misc bin"
+                )
+                return self.misc_bin_coordinates
+            elif self.fallback_bin_coordinates:
+                self.global_config["logger"].info(
+                    f"No available bins for category '{category_id}', sending to fallback bin"
+                )
                 return self.fallback_bin_coordinates
 
         return None
@@ -143,6 +151,20 @@ class BinStateTracker:
         self.current_state[key] = category_id
 
     def reserveBin(self, coordinates: BinCoordinates, category_id: str) -> None:
+        # Prevent overwriting fallback bin category unless it's explicitly for fallback
+        key = binCoordinatesToKey(coordinates)
+        current_category = self.current_state.get(key)
+
+        if (
+            current_category == self.fallback_category_id
+            and category_id != self.fallback_category_id
+        ):
+            # Don't overwrite fallback bin with other categories
+            self.global_config["logger"].warning(
+                f"Attempted to overwrite fallback bin with category '{category_id}', ignoring"
+            )
+            return
+
         self._reserveBinInternal(coordinates, category_id)
         self.current_bin_state_id = self.saveBinState()
 

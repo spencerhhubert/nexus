@@ -126,7 +126,8 @@ def buildGlobalConfig() -> GlobalConfig:
         # "yolo_weights_path": "/Users/spencer/Downloads/run_1758827336/weights/best.pt",  # medium, new data03, 640
         # "yolo_weights_path": "/Users/spencer/Downloads/run_1758831161/weights/best.pt",  # nano, new data03, 640, 150 epochs
         # "yolo_weights_path": "/Users/spencer/Downloads/run_1758827930/weights/best.pt",  # small, new data03, 416, 100 epochs
-        "feeder_camera_yolo_weights_path": "/Users/spencer/Downloads/run_1759011892_416_small_150epochs_8batch_yolo_data_feeder_camera/weights/epoch100.pt",
+        # "feeder_camera_yolo_weights_path": "/Users/spencer/Downloads/run_1759011892_416_small_150epochs_8batch_yolo_data_feeder_camera/weights/last.pt",
+        "feeder_camera_yolo_weights_path": "/Users/spencer/Downloads/run_1759021739_640_nano_150epochs_8batch_yolo_data_feeder_camera/weights/last.pt",
         # "main_camera_yolo_weights_path": "/Users/spencer/Downloads/run_1759012309_416_small_150epochs_8batch_yolo_data_main_camera/weights/epoch100.pt",
         "main_camera_yolo_weights_path": "/Users/spencer/Downloads/run_1759016097_416_nano_150epochs_8batch_yolo_data_main_camera/weights/epoch100.pt",
         "disable_main_conveyor": "main_conveyor" in disabled_motors,
@@ -152,7 +153,7 @@ def buildGlobalConfig() -> GlobalConfig:
         "min_sending_to_bin_time_ms": 3000,
         "profiling_dir_path": "../profiles",
         "use_prev_bin_state": args.use_prev_bin_state,
-        "main_conveyor_speed": 110,
+        "main_conveyor_speed": 150,
         "feeder_conveyor_speed": 80,
         "first_vibration_hopper_motor_speed": 162,  # first hopper that pieces enter
         # "first_vibration_hopper_motor_speed": 80,  # first hopper that pieces enter

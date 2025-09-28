@@ -18,7 +18,7 @@
   let hovered_bin: string | null = $state(null);
 
   const MISC_CATEGORY = 'misc';
-  const UNKNOWN_CATEGORY = 'fallback';
+  const FALLBACK_CATEGORY = 'fallback';
 
   async function loadBinState() {
     try {
@@ -45,7 +45,7 @@
     for (const category_id of Object.values(bin_state.bin_contents)) {
       if (category_id && !category_names[category_id] &&
           category_id !== MISC_CATEGORY &&
-          category_id !== UNKNOWN_CATEGORY) {
+          category_id !== FALLBACK_CATEGORY) {
         try {
           const category_info = await getBricklinkCategoryInfo(parseInt(category_id));
           new_category_names[category_id] = category_info.category_name;
@@ -93,7 +93,7 @@
   function getBinDisplayName(category_id: string | null): string {
     if (!category_id) return 'Empty';
     if (category_id === MISC_CATEGORY) return 'Misc';
-    if (category_id === UNKNOWN_CATEGORY) return 'Unknown';
+    if (category_id === FALLBACK_CATEGORY) return 'Fallback';
     return category_names[category_id] || 'Occupied';
   }
 
@@ -104,7 +104,7 @@
     if (category_id === MISC_CATEGORY) {
       return 'border-blue-200 dark:border-blue-800 bg-blue-100 dark:bg-blue-900';
     }
-    if (category_id === UNKNOWN_CATEGORY) {
+    if (category_id === FALLBACK_CATEGORY) {
       return 'border-yellow-200 dark:border-yellow-800 bg-yellow-100 dark:bg-yellow-900';
     }
     return 'border-green-200 dark:border-green-800 bg-green-100 dark:bg-green-900';
@@ -205,7 +205,7 @@
 
   const category_dropdown_items = $derived.by(() => [
     { id: MISC_CATEGORY, name: 'Misc' },
-    { id: UNKNOWN_CATEGORY, name: 'Unknown' },
+    { id: FALLBACK_CATEGORY, name: 'Fallback' },
     ...all_categories.map(cat => ({ id: cat.category_id.toString(), name: cat.category_name }))
   ]);
 </script>

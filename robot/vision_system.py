@@ -30,7 +30,8 @@ YOLO_CLASSES = {
 
 # Vision analysis constants
 SECOND_FEEDER_DISTANCE_THRESHOLD = 20
-MAIN_CONVEYOR_THRESHOLD = 0.7
+MAIN_CONVEYOR_BOUNDING_BOX_OVERLAP_THRESHOLD = 0.9
+MAIN_CONVEYOR_MASK_PROXIMITY_THRESHOLD = 0.9
 OBJECT_CENTER_THRESHOLD = 0.4
 RIGHT_SIDE_THRESHOLD = 0.3
 MARGIN_FOR_MAIN_CONVEYOR_BOUNDING_BOX_PX = -15
@@ -178,7 +179,7 @@ class SegmentationModelManager:
                     start_time = time.time()
                     results = model.track(
                         frame,
-                        persist=False,
+                        persist=True,
                     )
                     processing_time = time.time() - start_time
 
@@ -488,7 +489,7 @@ class SegmentationModelManager:
                 )
                 total_main_conveyor_proximity += main_conveyor_proximity
 
-            if total_main_conveyor_proximity > MAIN_CONVEYOR_THRESHOLD:
+            if total_main_conveyor_proximity > MAIN_CONVEYOR_MASK_PROXIMITY_THRESHOLD:
                 return FeederRegion.MAIN_CONVEYOR
 
         # Check second feeder masks
@@ -541,7 +542,7 @@ class SegmentationModelManager:
                             )
                             total_bbox_overlap += bbox_overlap
 
-                    if total_bbox_overlap > MAIN_CONVEYOR_THRESHOLD:
+                    if total_bbox_overlap > MAIN_CONVEYOR_BOUNDING_BOX_OVERLAP_THRESHOLD:
                         return FeederRegion.EXIT_OF_SECOND_FEEDER
 
                 return FeederRegion.SECOND_FEEDER_MASK
@@ -674,7 +675,7 @@ class SegmentationModelManager:
                     )
                     total_conveyor_overlap += conveyor_overlap
 
-            if total_conveyor_overlap > MAIN_CONVEYOR_THRESHOLD:
+            if total_conveyor_overlap > MAIN_CONVEYOR_BOUNDING_BOX_OVERLAP_THRESHOLD:
                 # Object is on main conveyor, determine its position
                 obj_center_x = (obj_bbox[0] + obj_bbox[2]) / 2
                 frame_center_x = frame_width / 2
@@ -716,7 +717,7 @@ class SegmentationModelManager:
                 )
                 total_edge_proximity += edge_proximity
 
-            if total_edge_proximity > MAIN_CONVEYOR_THRESHOLD:
+            if total_edge_proximity > MAIN_CONVEYOR_MASK_PROXIMITY_THRESHOLD:
                 self.logger.info(
                     f"Object detected on main conveyor in feeder view with proximity: {total_edge_proximity}, track_id: {track_id}"
                 )
@@ -852,7 +853,7 @@ class SegmentationModelManager:
                                 conveyor_overlap = self._calculateBoundingBoxOverlap(
                                     obj_bbox, main_conveyor_bbox
                                 )
-                                if conveyor_overlap > MAIN_CONVEYOR_THRESHOLD:
+                                if conveyor_overlap > MAIN_CONVEYOR_BOUNDING_BOX_OVERLAP_THRESHOLD:
                                     obj_center_x = (obj_bbox[0] + obj_bbox[2]) / 2
                                     frame_center_x = frame_width / 2
                                     center_threshold = (

@@ -11,7 +11,7 @@
 </script>
 
 <header class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
-  <div class="container mx-auto p-4">
+  <div class="page-width p-4">
     <div class="flex justify-between items-center">
     <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">Sorting Machine Controls</h1>
 

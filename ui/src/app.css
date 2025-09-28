@@ -4,6 +4,14 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .page-width {
+    max-width: 1600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
 @layer base {
   html {
     font-family: 'Roboto', ui-sans-serif, system-ui, sans-serif;

@@ -128,7 +128,7 @@ class SegmentationModelManager:
                     start_time = time.time()
                     results = model.track(
                         frame,
-                        persist=True,
+                        persist=False,  # Persist true is really bad in this situation. if it misses the first few frames of segmentation, it'll never find the object as it crosses the frame
                     )
                     # results = model(frame)
                     processing_time = time.time() - start_time
@@ -178,7 +178,7 @@ class SegmentationModelManager:
                     start_time = time.time()
                     results = model.track(
                         frame,
-                        persist=True,
+                        persist=False,
                     )
                     processing_time = time.time() - start_time
 

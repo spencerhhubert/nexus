@@ -127,7 +127,8 @@ def buildGlobalConfig() -> GlobalConfig:
         # "yolo_weights_path": "/Users/spencer/Downloads/run_1758831161/weights/best.pt",  # nano, new data03, 640, 150 epochs
         # "yolo_weights_path": "/Users/spencer/Downloads/run_1758827930/weights/best.pt",  # small, new data03, 416, 100 epochs
         "feeder_camera_yolo_weights_path": "/Users/spencer/Downloads/run_1759011892_416_small_150epochs_8batch_yolo_data_feeder_camera/weights/epoch100.pt",
-        "main_camera_yolo_weights_path": "/Users/spencer/Downloads/run_1759012309_416_small_150epochs_8batch_yolo_data_main_camera/weights/epoch100.pt",
+        # "main_camera_yolo_weights_path": "/Users/spencer/Downloads/run_1759012309_416_small_150epochs_8batch_yolo_data_main_camera/weights/epoch100.pt",
+        "main_camera_yolo_weights_path": "/Users/spencer/Downloads/run_1759016097_416_nano_150epochs_8batch_yolo_data_main_camera/weights/epoch100.pt",
         "disable_main_conveyor": "main_conveyor" in disabled_motors,
         "disable_first_vibration_hopper_motor": "vibration_hopper" in disabled_motors
         or "first_vibration_hopper" in disabled_motors,

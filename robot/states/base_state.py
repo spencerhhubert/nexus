@@ -1,4 +1,5 @@
 from typing import Optional
+import threading
 from robot.states.istate_machine import IStateMachine
 from robot.our_types.sorting import SortingState
 from robot.our_types.vision_system import MainCameraState
@@ -20,6 +21,8 @@ class BaseState(IStateMachine):
         self.vision_system = vision_system
         self.websocket_manager = websocket_manager
         self.irl_interface = irl_interface
+        self._execution_thread: Optional[threading.Thread] = None
+        self._stop_event = threading.Event()
 
     def _determineNextStateFromFrameAnalysis(self) -> Optional[SortingState]:
         main_camera_state = self.vision_system.determineMainCameraState()
@@ -42,3 +45,22 @@ class BaseState(IStateMachine):
             main_conveyor = self.irl_interface["main_conveyor_dc_motor"]
             main_speed = self.irl_interface["runtime_params"]["main_conveyor_speed"]
             main_conveyor.setSpeed(main_speed)
+
+    def cleanup(self) -> None:
+        self._stopExecutionThread()
+
+    def _ensureExecutionThreadStarted(self) -> None:
+        if self._execution_thread is None or not self._execution_thread.is_alive():
+            self._stop_event.clear()
+            self._execution_thread = threading.Thread(
+                target=self._executionLoop, daemon=True
+            )
+            self._execution_thread.start()
+
+    def _executionLoop(self) -> None:
+        pass
+
+    def _stopExecutionThread(self) -> None:
+        if self._execution_thread is not None and self._execution_thread.is_alive():
+            self._stop_event.set()
+            self._execution_thread.join(timeout=2.0)

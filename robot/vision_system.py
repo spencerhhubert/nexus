@@ -2,6 +2,7 @@ import time
 import threading
 import numpy as np
 import cv2
+import os
 from typing import Optional, Dict, List, Tuple, Any
 from ultralytics import YOLO
 import logging
@@ -97,8 +98,17 @@ class SegmentationModelManager:
         self.object_detections: List[ObjectDetection] = []
         self.detection_lock = threading.Lock()
 
+        # Video recording
+        self.main_camera_raw_writer = None
+        self.main_camera_annotated_writer = None
+        self.feeder_camera_raw_writer = None
+        self.feeder_camera_annotated_writer = None
+
     def start(self) -> None:
         self.running = True
+
+        if self.global_config["recording_enabled"]:
+            self._initializeVideoWriters()
 
         self.main_thread = threading.Thread(target=self._trackMainCamera, daemon=True)
 
@@ -116,6 +126,49 @@ class SegmentationModelManager:
         if self.feeder_thread:
             self.feeder_thread.join()
 
+        if self.global_config["recording_enabled"]:
+            self._cleanupVideoWriters()
+
+    def _initializeVideoWriters(self) -> None:
+        recordings_dir = os.path.join(self.global_config["run_blob_dir"], "recordings")
+        os.makedirs(recordings_dir, exist_ok=True)
+
+        fourcc = cv2.VideoWriter_fourcc("M", "J", "P", "G")
+        fps = 10.0  # Approximate based on 0.1s sleep
+        frame_size = (1920, 1080)  # Full 1080p resolution
+
+        self.main_camera_raw_writer = cv2.VideoWriter(
+            os.path.join(recordings_dir, "main_camera_raw.avi"), fourcc, fps, frame_size
+        )
+        self.main_camera_annotated_writer = cv2.VideoWriter(
+            os.path.join(recordings_dir, "main_camera_annotated.avi"),
+            fourcc,
+            fps,
+            frame_size,
+        )
+        self.feeder_camera_raw_writer = cv2.VideoWriter(
+            os.path.join(recordings_dir, "feeder_camera_raw.avi"),
+            fourcc,
+            fps,
+            frame_size,
+        )
+        self.feeder_camera_annotated_writer = cv2.VideoWriter(
+            os.path.join(recordings_dir, "feeder_camera_annotated.avi"),
+            fourcc,
+            fps,
+            frame_size,
+        )
+
+    def _cleanupVideoWriters(self) -> None:
+        if self.main_camera_raw_writer:
+            self.main_camera_raw_writer.release()
+        if self.main_camera_annotated_writer:
+            self.main_camera_annotated_writer.release()
+        if self.feeder_camera_raw_writer:
+            self.feeder_camera_raw_writer.release()
+        if self.feeder_camera_annotated_writer:
+            self.feeder_camera_annotated_writer.release()
+
     def _trackMainCamera(self) -> None:
         model = YOLO(self.main_model_path)
         if self.global_config.get("tensor_device"):
@@ -127,6 +180,17 @@ class SegmentationModelManager:
                 frame = self.main_camera.captureFrame()
 
                 if frame is not None:
+                    # Record raw frame
+                    if (
+                        self.global_config["recording_enabled"]
+                        and self.main_camera_raw_writer
+                    ):
+                        if frame.shape[:2] != (1080, 1920):  # height, width
+                            frame_resized = cv2.resize(frame, (1920, 1080))
+                            self.main_camera_raw_writer.write(frame_resized)
+                        else:
+                            self.main_camera_raw_writer.write(frame)
+
                     start_time = time.time()
                     results = model.track(
                         frame,
@@ -150,6 +214,19 @@ class SegmentationModelManager:
                         annotated_frame = results[0].plot()
                     else:
                         annotated_frame = frame
+
+                    # Record annotated frame
+                    if (
+                        self.global_config["recording_enabled"]
+                        and self.main_camera_annotated_writer
+                    ):
+                        if annotated_frame.shape[:2] != (1080, 1920):  # height, width
+                            annotated_resized = cv2.resize(
+                                annotated_frame, (1920, 1080)
+                            )
+                            self.main_camera_annotated_writer.write(annotated_resized)
+                        else:
+                            self.main_camera_annotated_writer.write(annotated_frame)
 
                     self._broadcastFrame(CameraType.MAIN_CAMERA, annotated_frame)
 
@@ -177,6 +254,17 @@ class SegmentationModelManager:
                 frame = self.feeder_camera.captureFrame()
 
                 if frame is not None:
+                    # Record raw frame
+                    if (
+                        self.global_config["recording_enabled"]
+                        and self.feeder_camera_raw_writer
+                    ):
+                        if frame.shape[:2] != (1080, 1920):  # height, width
+                            frame_resized = cv2.resize(frame, (1920, 1080))
+                            self.feeder_camera_raw_writer.write(frame_resized)
+                        else:
+                            self.feeder_camera_raw_writer.write(frame)
+
                     start_time = time.time()
                     results = model.track(
                         frame,
@@ -196,6 +284,19 @@ class SegmentationModelManager:
                         annotated_frame = results[0].plot()
                     else:
                         annotated_frame = frame
+
+                    # Record annotated frame
+                    if (
+                        self.global_config["recording_enabled"]
+                        and self.feeder_camera_annotated_writer
+                    ):
+                        if annotated_frame.shape[:2] != (1080, 1920):  # height, width
+                            annotated_resized = cv2.resize(
+                                annotated_frame, (1920, 1080)
+                            )
+                            self.feeder_camera_annotated_writer.write(annotated_resized)
+                        else:
+                            self.feeder_camera_annotated_writer.write(annotated_frame)
 
                     self._broadcastFrame(CameraType.FEEDER_CAMERA, annotated_frame)
 

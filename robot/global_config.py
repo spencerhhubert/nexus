@@ -29,6 +29,7 @@ class GlobalConfig(TypedDict):
     capture_delay_ms: int
     camera_preview: bool
     enable_profiling: bool
+    recording_enabled: bool
     max_queue_size: int
     conveyor_door_open_angle: int
     bin_door_open_angle: int
@@ -92,6 +93,11 @@ def buildGlobalConfig() -> GlobalConfig:
         help="Enable camera preview window",
     )
     parser.add_argument(
+        "--record",
+        action="store_true",
+        help="Record raw and annotated camera feeds to video files",
+    )
+    parser.add_argument(
         "--use_prev_bin_state",
         nargs="?",
         const="latest",
@@ -141,6 +147,7 @@ def buildGlobalConfig() -> GlobalConfig:
         "capture_delay_ms": 300,
         "camera_preview": args.preview,
         "enable_profiling": args.profile,
+        "recording_enabled": args.record,
         "max_worker_threads": 4,
         "max_queue_size": 8,
         "conveyor_door_open_angle": 60,

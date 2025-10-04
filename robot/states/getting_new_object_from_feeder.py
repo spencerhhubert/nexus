@@ -60,9 +60,10 @@ class GettingNewObjectFromFeeder(BaseState):
             if self.feeder_state == FeederState.OBJECT_AT_END_OF_SECOND_FEEDER:
                 if not self.gc["disable_second_vibration_hopper_motor"]:
                     motor = self.irl_interface["second_vibration_hopper_motor"]
-                    speed = self.gc["second_vibration_hopper_motor_speed"]
-                    pulse_ms = self.gc["second_vibration_hopper_motor_pulse_ms"] / 2
-                    pause_ms = self.gc["second_vibration_hopper_motor_pause_ms"]
+                    runtime = self.irl_interface["runtime_params"]
+                    speed = runtime["second_vibration_hopper_motor_speed"]
+                    pulse_ms = runtime["second_vibration_hopper_motor_pulse_ms"] / 2
+                    pause_ms = runtime["second_vibration_hopper_motor_pause_ms"]
 
                     motor.setSpeed(speed)
                     self.logger.info("FEEDER PULSE: Second feeder (half duration)")
@@ -75,9 +76,10 @@ class GettingNewObjectFromFeeder(BaseState):
             ):
                 if not self.gc["disable_second_vibration_hopper_motor"]:
                     motor = self.irl_interface["second_vibration_hopper_motor"]
-                    speed = self.gc["second_vibration_hopper_motor_speed"]
-                    pulse_ms = self.gc["second_vibration_hopper_motor_pulse_ms"]
-                    pause_ms = self.gc["second_vibration_hopper_motor_pause_ms"]
+                    runtime = self.irl_interface["runtime_params"]
+                    speed = runtime["second_vibration_hopper_motor_speed"]
+                    pulse_ms = runtime["second_vibration_hopper_motor_pulse_ms"]
+                    pause_ms = runtime["second_vibration_hopper_motor_pause_ms"]
 
                     motor.setSpeed(speed)
                     self.logger.info("FEEDER PULSE: Second feeder")
@@ -91,9 +93,10 @@ class GettingNewObjectFromFeeder(BaseState):
             ):
                 if not self.gc["disable_first_vibration_hopper_motor"]:
                     motor = self.irl_interface["first_vibration_hopper_motor"]
-                    speed = self.gc["first_vibration_hopper_motor_speed"]
-                    pulse_ms = self.gc["first_vibration_hopper_motor_pulse_ms"]
-                    pause_ms = self.gc["first_vibration_hopper_motor_pause_ms"]
+                    runtime = self.irl_interface["runtime_params"]
+                    speed = runtime["first_vibration_hopper_motor_speed"]
+                    pulse_ms = runtime["first_vibration_hopper_motor_pulse_ms"]
+                    pause_ms = runtime["first_vibration_hopper_motor_pause_ms"]
 
                     motor.setSpeed(speed)
                     self.logger.info("FEEDER PULSE: First feeder")
@@ -105,9 +108,10 @@ class GettingNewObjectFromFeeder(BaseState):
                 if self.pulse_count == 0:
                     if not self.gc["disable_feeder_conveyor"]:
                         motor = self.irl_interface["feeder_conveyor_dc_motor"]
-                        speed = self.gc["feeder_conveyor_speed"]
-                        pulse_ms = self.gc["feeder_conveyor_pulse_duration_ms"]
-                        pause_ms = self.gc["feeder_conveyor_pause_ms"]
+                        runtime = self.irl_interface["runtime_params"]
+                        speed = runtime["feeder_conveyor_speed"]
+                        pulse_ms = runtime["feeder_conveyor_pulse_ms"]
+                        pause_ms = runtime["feeder_conveyor_pause_ms"]
 
                         motor.setSpeed(speed)
                         self.logger.info(
@@ -120,9 +124,10 @@ class GettingNewObjectFromFeeder(BaseState):
                 else:
                     if not self.gc["disable_first_vibration_hopper_motor"]:
                         motor = self.irl_interface["first_vibration_hopper_motor"]
-                        speed = self.gc["first_vibration_hopper_motor_speed"]
-                        pulse_ms = self.gc["first_vibration_hopper_motor_pulse_ms"]
-                        pause_ms = self.gc["first_vibration_hopper_motor_pause_ms"]
+                        runtime = self.irl_interface["runtime_params"]
+                        speed = runtime["first_vibration_hopper_motor_speed"]
+                        pulse_ms = runtime["first_vibration_hopper_motor_pulse_ms"]
+                        pause_ms = runtime["first_vibration_hopper_motor_pause_ms"]
 
                         motor.setSpeed(speed)
                         self.logger.info(

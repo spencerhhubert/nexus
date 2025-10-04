@@ -85,12 +85,6 @@
         min={0}
         max={10000}
       />
-      <NumberInput
-        id="feeder_conveyor_pulse_duration_ms"
-        label="Feeder Conveyor First Feeder Empty Pulse Duration"
-        bind:value={runtimeParams.feeder_conveyor_pulse_duration_ms}
-        min={0}
-      />
     </div>
   </div>
 </div>

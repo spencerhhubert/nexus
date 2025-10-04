@@ -13,7 +13,6 @@ class IRLSystemRuntimeParams(TypedDict):
     first_vibration_hopper_motor_pause_ms: int
     second_vibration_hopper_motor_pause_ms: int
     feeder_conveyor_pause_ms: int
-    feeder_conveyor_pulse_duration_ms: int
 
 
 def buildIRLSystemRuntimeParams(gc: GlobalConfig) -> IRLSystemRuntimeParams:
@@ -38,5 +37,4 @@ def buildIRLSystemRuntimeParams(gc: GlobalConfig) -> IRLSystemRuntimeParams:
             "second_vibration_hopper_motor_pause_ms"
         ],
         "feeder_conveyor_pause_ms": gc["feeder_conveyor_pause_ms"],
-        "feeder_conveyor_pulse_duration_ms": gc["feeder_conveyor_pulse_duration_ms"],
     }

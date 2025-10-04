@@ -5,7 +5,7 @@ from robot.global_config import buildGlobalConfig
 from robot.irl.config import buildIRLConfig, buildIRLSystemInterface
 
 PULSE_ON_TIME_MS = 200
-PULSE_OFF_TIME_MS = 200
+PULSE_OFF_TIME_MS = 800
 
 
 def main():

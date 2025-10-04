@@ -50,7 +50,6 @@ class GlobalConfig(TypedDict):
     first_vibration_hopper_motor_pause_ms: int
     second_vibration_hopper_motor_pause_ms: int
     feeder_conveyor_pause_ms: int
-    feeder_conveyor_pulse_duration_ms: int
     encoder_polling_delay_ms: int
     delay_between_firmata_commands_ms: int
     classifying_timeout_ms: int
@@ -111,8 +110,11 @@ def buildGlobalConfig() -> GlobalConfig:
     base_blob_path = "../.blob"
     run_blob_dir = os.path.join(base_blob_path, run_id)
 
-    gc = {
-        "debug_level": int(os.getenv("DEBUG", "0")),
+    from robot.logger import Logger
+
+    debug_level = int(os.getenv("DEBUG", "0"))
+    gc: GlobalConfig = {
+        "debug_level": debug_level,
         "auto_confirm": args.auto_confirm,
         "blob_storage_path": base_blob_path,
         "run_id": run_id,
@@ -120,7 +122,6 @@ def buildGlobalConfig() -> GlobalConfig:
         "db_path": "../database.db",
         "tensor_device": "cpu",
         "main_camera_index": 0,
-        "fastsam_weights": "../weights/FastSAM-s.pt",
         "yolo_model": "yolo11n-seg",
         # "yolo_weights_path":" /Users/spencer/Downloads/checkpoints (small)/run_1757963343/weights/best.pt",
         # "yolo_weights_path": "/Users/spencer/Downloads/checkpoints (nano)/run_1757970830/weights/best.pt",
@@ -148,7 +149,6 @@ def buildGlobalConfig() -> GlobalConfig:
         "camera_preview": args.preview,
         "enable_profiling": args.profile,
         "recording_enabled": args.record,
-        "max_worker_threads": 4,
         "max_queue_size": 8,
         "conveyor_door_open_angle": 60,
         "bin_door_open_angle": 180 - 50,
@@ -158,22 +158,19 @@ def buildGlobalConfig() -> GlobalConfig:
         "bin_door_close_delay_ms": 1000,
         "conveyor_door_gradual_close_duration_ms": 750,
         "min_sending_to_bin_time_ms": 3000,
-        "profiling_dir_path": "../profiles",
         "use_prev_bin_state": args.use_prev_bin_state,
         "main_conveyor_speed": 150,
         "feeder_conveyor_speed": 80,
-        "first_vibration_hopper_motor_speed": 162,  # first hopper that pieces enter
+        "first_vibration_hopper_motor_speed": 172,  # first hopper that pieces enter
         # "first_vibration_hopper_motor_speed": 80,  # first hopper that pieces enter
         "second_vibration_hopper_motor_speed": 165,
         # "second_vibration_hopper_motor_speed": 80,
         "first_vibration_hopper_motor_pulse_ms": 200,
         "second_vibration_hopper_motor_pulse_ms": 400,
-        "feeder_conveyor_pulse_ms": 500,
         "first_vibration_hopper_motor_pause_ms": 500,
         "second_vibration_hopper_motor_pause_ms": 500,
+        "feeder_conveyor_pulse_ms": 1500,
         "feeder_conveyor_pause_ms": 200,
-        "feeder_conveyor_pulse_duration_ms": 5000,
-        "object_center_threshold_percent": 0.25,
         "encoder_polling_delay_ms": 1000,
         "delay_between_firmata_commands_ms": 8,
         "classifying_timeout_ms": 5000,
@@ -181,10 +178,7 @@ def buildGlobalConfig() -> GlobalConfig:
         "waiting_for_object_to_appear_timeout_ms": 5000,
         "fs_object_at_end_of_second_feeder_timeout_ms": 4000,
         "state_machine_steps_per_second": 15,
+        "logger": Logger(debug_level),
     }
-
-    from robot.logger import Logger
-
-    gc["logger"] = Logger(gc["debug_level"])
 
     return cast(GlobalConfig, gc)

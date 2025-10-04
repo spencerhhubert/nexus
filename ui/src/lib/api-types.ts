@@ -204,8 +204,6 @@ export interface components {
       second_vibration_hopper_motor_pause_ms: number;
       /** Feeder Conveyor Pause Ms */
       feeder_conveyor_pause_ms: number;
-      /** Feeder Conveyor Pulse Duration Ms */
-      feeder_conveyor_pulse_duration_ms: number;
     };
     /** ValidationError */
     ValidationError: {

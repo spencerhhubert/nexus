@@ -12,6 +12,9 @@ from robot.states.shared_variables import SharedVariables
 from robot.global_config import GlobalConfig
 
 
+DELAY_CHECK_ENCODER_MS = 100
+
+
 class SendingObjectToBin(BaseState):
     def __init__(
         self,
@@ -26,124 +29,101 @@ class SendingObjectToBin(BaseState):
         self.encoder_manager = encoder_manager
         self.shared_variables = shared_variables
         self.logger = global_config["logger"].ctx(state="SendingObjectToBin")
-
-        self.start_ts: Optional[float] = None
-        self.conveyor_start_timestamp: Optional[float] = None
-        self.conveyor_door_close_start_ts: Optional[float] = None
-        self.conveyor_door_closed: bool = False
-        self.bin_door_close_start_ts: Optional[float] = None
+        self.sequence_complete = False
 
     def step(self) -> Optional[SortingState]:
         self._setMainConveyorToDefaultSpeed()
+        self._ensureExecutionThreadStarted()
 
-        current_time = time.time()
-
-        if self.start_ts is None:
-            self.start_ts = current_time
-
-            if (
-                self.shared_variables.pending_known_object
-                and self.shared_variables.pending_known_object["bin_coordinates"]
-            ):
-                bin_coords = self.shared_variables.pending_known_object[
-                    "bin_coordinates"
-                ]
-                self.logger.info(
-                    f"SENDING_OBJECT_TO_BIN: Starting for bin {bin_coords}"
-                )
-
-                # Open doors for the target bin
-                self._openDoorsForBin(bin_coords)
-
-                # Turn on main conveyor only
-                if not self.global_config["disable_main_conveyor"]:
-                    main_conveyor = self.irl_interface["main_conveyor_dc_motor"]
-                    main_speed = self.irl_interface["runtime_params"][
-                        "main_conveyor_speed"
-                    ]
-                    EXTRA_SPEED = 100
-                    main_conveyor.setSpeed(main_speed + EXTRA_SPEED)
-                    self.logger.info("SENDING_OBJECT_TO_BIN: Main conveyor started")
-
-                # Record start timestamp for distance calculation
-                self.conveyor_start_timestamp = current_time
-            else:
-                self.logger.warning(
-                    "SENDING_OBJECT_TO_BIN: No pending known object or bin coordinates"
-                )
-                return SortingState.GETTING_NEW_OBJECT_FROM_FEEDER
-
-        # Check if we have traveled the required distance
-        if (
-            self.shared_variables.pending_known_object
-            and self.shared_variables.pending_known_object["bin_coordinates"]
-        ):
-            bin_coords = self.shared_variables.pending_known_object["bin_coordinates"]
-            target_distance = self._getDistanceToDistributionModule(
-                bin_coords["distribution_module_idx"]
-            )
-
-            start_timestamp = self.conveyor_start_timestamp or current_time
-            distance_traveled = self.encoder_manager.getDistanceTraveledSince(
-                start_timestamp
-            )
-
-            self.logger.info(
-                f"SENDING_OBJECT_TO_BIN: Distance traveled: {distance_traveled} cm, target distance {target_distance}"
-            )
-
-            if distance_traveled >= target_distance:
-                if self.conveyor_door_close_start_ts is None:
-                    # Wait conveyor_door_close_delay_ms before closing doors
-                    self.conveyor_door_close_start_ts = current_time
-                    self.logger.info(
-                        "SENDING_OBJECT_TO_BIN: Target distance reached, starting door close delay"
-                    )
-
-                conveyor_delay = (
-                    self.global_config["conveyor_door_close_delay_ms"] / 1000.0
-                )
-
-                if current_time - self.conveyor_door_close_start_ts >= conveyor_delay:
-                    if not self.conveyor_door_closed:
-                        # Close conveyor door gradually
-                        self._closeConveyorDoorGradually(
-                            bin_coords["distribution_module_idx"]
-                        )
-                        self.conveyor_door_closed = True
-                        self.bin_door_close_start_ts = current_time
-                        self.logger.info(
-                            "SENDING_OBJECT_TO_BIN: Conveyor door closed, starting bin door delay"
-                        )
-
-                    bin_close_start_time = self.bin_door_close_start_ts or current_time
-                    bin_delay = self.global_config["bin_door_close_delay_ms"] / 1000.0
-
-                    if current_time - bin_close_start_time >= bin_delay:
-                        # Close bin door and finish
-                        self._closeBinDoor(bin_coords)
-                        self.shared_variables.pending_known_object = None
-                        self.logger.info("SENDING_OBJECT_TO_BIN: Sequence complete")
-                        return SortingState.GETTING_NEW_OBJECT_FROM_FEEDER
+        if self.sequence_complete:
+            return SortingState.GETTING_NEW_OBJECT_FROM_FEEDER
 
         return None
 
     def cleanup(self) -> None:
+        super().cleanup()
+
         if not self.global_config["disable_main_conveyor"]:
             main_conveyor = self.irl_interface["main_conveyor_dc_motor"]
             main_speed = self.irl_interface["runtime_params"]["main_conveyor_speed"]
             main_conveyor.setSpeed(main_speed)
 
         self.shared_variables.pending_known_object = None
-        self.start_ts = None
-        self.conveyor_start_timestamp = None
-        self.conveyor_door_close_start_ts = None
-        self.conveyor_door_closed = False
-        self.bin_door_close_start_ts = None
+        self.sequence_complete = False
 
         self.logger.info(
             "CLEANUP: Reset main conveyor and cleared SENDING_OBJECT_TO_BIN state"
         )
+
+    def _executionLoop(self) -> None:
+        if not (
+            self.shared_variables.pending_known_object
+            and self.shared_variables.pending_known_object["bin_coordinates"]
+        ):
+            self.logger.warning(
+                "SENDING_OBJECT_TO_BIN: No pending known object or bin coordinates"
+            )
+            self.sequence_complete = True
+            return
+
+        bin_coords = self.shared_variables.pending_known_object["bin_coordinates"]
+        self.logger.info(f"SENDING_OBJECT_TO_BIN: Starting for bin {bin_coords}")
+
+        self._openDoorsForBin(bin_coords)
+
+        if not self.global_config["disable_main_conveyor"]:
+            main_conveyor = self.irl_interface["main_conveyor_dc_motor"]
+            main_speed = self.irl_interface["runtime_params"]["main_conveyor_speed"]
+            EXTRA_SPEED = 100
+            main_conveyor.setSpeed(main_speed + EXTRA_SPEED)
+            self.logger.info("SENDING_OBJECT_TO_BIN: Main conveyor started")
+
+        conveyor_start_timestamp = time.time()
+        target_distance = self._getDistanceToDistributionModule(
+            bin_coords["distribution_module_idx"]
+        )
+
+        while not self._stop_event.is_set():
+            distance_traveled = self.encoder_manager.getDistanceTraveledSince(
+                conveyor_start_timestamp
+            )
+            self.logger.info(
+                f"SENDING_OBJECT_TO_BIN: Distance traveled: {distance_traveled} cm, target distance {target_distance}"
+            )
+
+            if distance_traveled >= target_distance:
+                break
+
+            time.sleep(DELAY_CHECK_ENCODER_MS / 1000)
+
+        if self._stop_event.is_set():
+            return
+
+        conveyor_delay_ms = self.global_config["conveyor_door_close_delay_ms"]
+        self.logger.info(
+            "SENDING_OBJECT_TO_BIN: Target distance reached, starting door close delay"
+        )
+        time.sleep(conveyor_delay_ms / 1000.0)
+
+        if self._stop_event.is_set():
+            return
+
+        self._closeConveyorDoorGradually(bin_coords["distribution_module_idx"])
+        self.logger.info(
+            "SENDING_OBJECT_TO_BIN: Conveyor door closed, starting bin door delay"
+        )
+
+        bin_delay_ms = self.global_config["bin_door_close_delay_ms"]
+        time.sleep(bin_delay_ms / 1000.0)
+
+        if self._stop_event.is_set():
+            return
+
+        self._closeBinDoor(bin_coords)
+        self.shared_variables.pending_known_object = None
+        self.logger.info("SENDING_OBJECT_TO_BIN: Sequence complete")
+
+        self.sequence_complete = True
 
     def _getDistanceToDistributionModule(self, distribution_module_idx: int) -> float:
         if distribution_module_idx < len(self.irl_interface["distribution_modules"]):

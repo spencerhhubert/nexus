@@ -242,15 +242,15 @@ class GettingNewObjectFromFeeder(BaseState):
                     elif reading.region == FeederRegion.UNDER_EXIT_OF_FIRST_FEEDER:
                         objects_under_exit_of_first_feeder = True
 
-            # First feeder empty only if no objects detected on first feeder
+            # Check dropzone first - clear it before dealing with first feeder
+            if objects_under_exit_of_first_feeder:
+                return FeederState.OBJECT_UNDERNEATH_EXIT_OF_FIRST_FEEDER
+
+            # First feeder empty only if no objects on first feeder AND dropzone is clear
             if not objects_on_first_feeder:
                 return FeederState.FIRST_FEEDER_EMPTY
 
-            # If we have objects on first feeder, determine based on dropzone
-            if objects_on_first_feeder:
-                if objects_under_exit_of_first_feeder:
-                    return FeederState.OBJECT_UNDERNEATH_EXIT_OF_FIRST_FEEDER
-                else:
-                    return FeederState.NO_OBJECT_UNDERNEATH_EXIT_OF_FIRST_FEEDER
+            # Objects on first feeder but not in dropzone
+            return FeederState.NO_OBJECT_UNDERNEATH_EXIT_OF_FIRST_FEEDER
 
         return None

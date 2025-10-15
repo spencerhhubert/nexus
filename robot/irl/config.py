@@ -182,7 +182,7 @@ def discoverArduinoBoard() -> Optional[str]:
         )
 
         for line in result.stdout.split("\n"):
-            if "Arduino Mega" in line and "Serial Port (USB)" in line:
+            if "Arduino" in line and "Serial Port (USB)" in line:
                 parts = line.split()
                 if parts:
                     return parts[0]
@@ -206,7 +206,7 @@ def connectToArduino(mc_path: str, gc: GlobalConfig) -> OurArduinoNano:
         discovered_path = discoverArduinoBoard()
         if discovered_path is None:
             logger.error(
-                f"Failed to connect to Arduino at {mc_path} and could not discover any Arduino Mega boards"
+                f"Failed to connect to Arduino at {mc_path} and could not discover any Arduino boards"
             )
             raise e
 

@@ -1,6 +1,6 @@
 from pyfirmata import util, pyfirmata
-from robot.irl.our_arduino import OurArduinoMega
-from robot.irl.motors import PCA9685, Servo, DCMotor, BreakBeamSensor
+from robot.irl.our_arduino import OurArduinoNano
+from robot.irl.motors import PCA9685, Servo, DCMotor
 from robot.irl.encoder import Encoder
 from robot.irl.distribution import Bin, DistributionModule
 from robot.irl.camera import Camera, connectToCamera
@@ -41,10 +41,6 @@ class EncoderConfig(TypedDict):
     wheel_diameter_mm: float
 
 
-class BreakBeamSensorConfig(TypedDict):
-    sensor_pin: int
-
-
 class CameraConfig(TypedDict):
     device_index: int
     width: int
@@ -62,11 +58,10 @@ class IRLConfig(TypedDict):
     main_camera: CameraConfig
     feeder_camera: CameraConfig
     conveyor_encoder: EncoderConfig
-    break_beam_sensor: BreakBeamSensorConfig
 
 
 class IRLSystemInterface(TypedDict):
-    arduino: OurArduinoMega
+    arduino: OurArduinoNano
     distribution_modules: List[DistributionModule]
     main_conveyor_dc_motor: DCMotor
     feeder_conveyor_dc_motor: DCMotor
@@ -75,7 +70,6 @@ class IRLSystemInterface(TypedDict):
     main_camera: Camera
     feeder_camera: Camera
     conveyor_encoder: Encoder
-    break_beam_sensor: BreakBeamSensor
     runtime_params: IRLSystemRuntimeParams
 
 
@@ -153,33 +147,30 @@ def buildIRLConfig() -> IRLConfig:
             },
         ],
         "first_vibration_hopper_motor": {
-            "enable_pin": 3,
-            "input_1_pin": 22,
-            "input_2_pin": 24,
+            "enable_pin": 5,
+            "input_1_pin": 4,
+            "input_2_pin": 7,
         },
         "second_vibration_hopper_motor": {
             "enable_pin": 6,
-            "input_1_pin": 30,
-            "input_2_pin": 32,
+            "input_1_pin": 8,
+            "input_2_pin": 11,
         },
         "main_conveyor_dc_motor": {
-            "enable_pin": 4,
-            "input_1_pin": 26,
-            "input_2_pin": 28,
+            "enable_pin": 9,
+            "input_1_pin": 12,
+            "input_2_pin": 13,
         },
         "feeder_conveyor_dc_motor": {
-            "enable_pin": 9,
-            "input_1_pin": 34,
-            "input_2_pin": 36,
+            "enable_pin": 10,
+            "input_1_pin": 14,
+            "input_2_pin": 15,
         },
         "conveyor_encoder": {
-            "clk_pin": 18,
-            "dt_pin": 19,
+            "clk_pin": 2,
+            "dt_pin": 3,
             "pulses_per_revolution": 20,
             "wheel_diameter_mm": 30.0,
-        },
-        "break_beam_sensor": {
-            "sensor_pin": 51,
         },
     }
 
@@ -201,13 +192,13 @@ def discoverArduinoBoard() -> Optional[str]:
         return None
 
 
-def connectToArduino(mc_path: str, gc: GlobalConfig) -> OurArduinoMega:
+def connectToArduino(mc_path: str, gc: GlobalConfig) -> OurArduinoNano:
     logger = gc["logger"]
     auto_confirm = gc["auto_confirm"]
 
     try:
         logger.info(f"Attempting to connect to Arduino at {mc_path}")
-        mc = OurArduinoMega(gc, mc_path, gc["delay_between_firmata_commands_ms"])
+        mc = OurArduinoNano(gc, mc_path, gc["delay_between_firmata_commands_ms"])
         return mc
     except Exception as e:
         logger.error(f"Failed to connect to Arduino at {mc_path}: {e}")
@@ -230,7 +221,7 @@ def connectToArduino(mc_path: str, gc: GlobalConfig) -> OurArduinoMega:
         logger.info(f"Attempting to connect to discovered Arduino at {discovered_path}")
 
         try:
-            mc = OurArduinoMega(
+            mc = OurArduinoNano(
                 gc, discovered_path, gc["delay_between_firmata_commands_ms"]
             )
             logger.info(f"Successfully connected to Arduino at {discovered_path}")
@@ -329,12 +320,6 @@ def buildIRLSystemInterface(config: IRLConfig, gc: GlobalConfig) -> IRLSystemInt
         config["conveyor_encoder"]["wheel_diameter_mm"],
     )
 
-    break_beam_sensor = BreakBeamSensor(
-        gc,
-        mc,
-        config["break_beam_sensor"]["sensor_pin"],
-    )
-
     return {
         "arduino": mc,
         "distribution_modules": dms,
@@ -345,6 +330,5 @@ def buildIRLSystemInterface(config: IRLConfig, gc: GlobalConfig) -> IRLSystemInt
         "main_camera": main_camera,
         "feeder_camera": feeder_camera,
         "conveyor_encoder": conveyor_encoder,
-        "break_beam_sensor": break_beam_sensor,
         "runtime_params": buildIRLSystemRuntimeParams(gc),
     }

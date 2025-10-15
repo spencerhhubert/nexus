@@ -1,12 +1,12 @@
 import time
 import queue
 import threading
-from pyfirmata import ArduinoMega
+from pyfirmata import Arduino
 from typing import List
 from robot.global_config import GlobalConfig
 
 
-class OurArduinoMega(ArduinoMega):
+class OurArduinoNano(Arduino):
     def __init__(self, gc: GlobalConfig, port: str, command_delay_ms: int):
         super().__init__(port)
         self.gc = gc

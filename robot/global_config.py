@@ -159,12 +159,12 @@ def buildGlobalConfig() -> GlobalConfig:
         "conveyor_door_gradual_close_duration_ms": 750,
         "min_sending_to_bin_time_ms": 3000,
         "use_prev_bin_state": args.use_prev_bin_state,
-        "main_conveyor_speed": 150,
-        "feeder_conveyor_speed": 80,
-        "first_vibration_hopper_motor_speed": 172,  # first hopper that pieces enter
-        # "first_vibration_hopper_motor_speed": 80,  # first hopper that pieces enter
-        "second_vibration_hopper_motor_speed": 165,
-        # "second_vibration_hopper_motor_speed": 80,
+        "main_conveyor_speed": -150,
+        "feeder_conveyor_speed": -80,
+        # "first_vibration_hopper_motor_speed": 172,  # first hopper that pieces enter
+        "first_vibration_hopper_motor_speed": -80,  # first hopper that pieces enter
+        # "second_vibration_hopper_motor_speed": 165,
+        "second_vibration_hopper_motor_speed": -80,
         "first_vibration_hopper_motor_pulse_ms": 200,
         "second_vibration_hopper_motor_pulse_ms": 400,
         "first_vibration_hopper_motor_pause_ms": 500,

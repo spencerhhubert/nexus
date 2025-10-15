@@ -1,5 +1,3 @@
-#define ARDUINO_AVR_MEGA2560
-
 // Debug level - 0 = no debug, 1+ = debug prints
 int DEBUG_LEVEL = 0;
 
@@ -54,12 +52,6 @@ uint16_t SevenBitToInt16(byte *bytes) {
 #define ENCODER_READ 0x02
 #define ENCODER_RESET 0x03
 
-//Break Beam Sensor SysEx commands
-#define BREAK_BEAM 0x60 //identifier for all break beam sensor commands
-//subcommands
-#define BREAK_BEAM_SETUP 0x01
-#define BREAK_BEAM_QUERY 0x02
-
 #define SERVOMIN  100
 #define SERVOMAX  477
 #define SERVO_FREQ 50
@@ -71,20 +63,19 @@ uint16_t SevenBitToInt16(byte *bytes) {
 // Maximum number of PWM boards we'll support
 #define MAX_PWM_BOARDS 8
 
-// Motor control pins - automatically disabled when break beam is triggered
-// This is done in firmware to reduce latency since serial communication is too slow
-#define FIRST_VIBRATION_HOPPER_ENABLE_PIN 3
-#define FIRST_VIBRATION_HOPPER_INPUT1_PIN 22
-#define FIRST_VIBRATION_HOPPER_INPUT2_PIN 24
+// Motor control pins
+#define FIRST_VIBRATION_HOPPER_ENABLE_PIN 5
+#define FIRST_VIBRATION_HOPPER_INPUT1_PIN 4
+#define FIRST_VIBRATION_HOPPER_INPUT2_PIN 7
 #define SECOND_VIBRATION_HOPPER_ENABLE_PIN 6
-#define SECOND_VIBRATION_HOPPER_INPUT1_PIN 30
-#define SECOND_VIBRATION_HOPPER_INPUT2_PIN 32
-#define MAIN_CONVEYOR_ENABLE_PIN 5      // Defined for consistency but NOT auto-disabled by break beam
-#define MAIN_CONVEYOR_INPUT1_PIN 26     // Defined for consistency but NOT auto-disabled by break beam
-#define MAIN_CONVEYOR_INPUT2_PIN 28     // Defined for consistency but NOT auto-disabled by break beam
-#define FEEDER_CONVEYOR_ENABLE_PIN 9
-#define FEEDER_CONVEYOR_INPUT1_PIN 34
-#define FEEDER_CONVEYOR_INPUT2_PIN 36
+#define SECOND_VIBRATION_HOPPER_INPUT1_PIN 8
+#define SECOND_VIBRATION_HOPPER_INPUT2_PIN 11
+#define MAIN_CONVEYOR_ENABLE_PIN 9
+#define MAIN_CONVEYOR_INPUT1_PIN 12
+#define MAIN_CONVEYOR_INPUT2_PIN 13
+#define FEEDER_CONVEYOR_ENABLE_PIN 10
+#define FEEDER_CONVEYOR_INPUT1_PIN 14  // A0
+#define FEEDER_CONVEYOR_INPUT2_PIN 15  // A1
 
 // Custom implementation to replace std::map
 struct PwmBoardEntry {
@@ -113,13 +104,6 @@ volatile int lastCLK = 0;
 int encoderCLKPin = -1;
 int encoderDTPin = -1;
 bool encoderEnabled = false;
-
-// Break beam sensor variables - simplified approach
-int breakBeamSensorPin = -1;
-bool breakBeamEnabled = false;
-unsigned long lastBreakTimestamp = 0;  // Timestamp of most recent break
-int lastBreakBeamReading = 1;  // Track previous reading to detect transitions
-bool emergencyShutoffActive = false;  // Track if we emergency shutoff last loop
 
 // Initialize all board entries as inactive
 void initPwmBoards() {
@@ -442,160 +426,6 @@ void parseEncoderCommand(byte command, byte argc, byte *argv) {
     }
 }
 
-void setupBreakBeamSensor(byte sensorPin) {
-    breakBeamSensorPin = sensorPin;
-    pinMode(breakBeamSensorPin, INPUT_PULLUP);
-    breakBeamEnabled = true;
-    lastBreakTimestamp = 0;
-    lastBreakBeamReading = 1;  // Assume unbroken initially
-
-    if (DEBUG_LEVEL > 0) {
-        char debugMsg[50];
-        sprintf(debugMsg, "Break beam sensor setup on pin %d", sensorPin);
-        Firmata.sendString(STRING_DATA, debugMsg);
-    }
-}
-
-void updateBreakBeamSensor() {
-    if (!breakBeamEnabled) return;
-
-    int reading = digitalRead(breakBeamSensorPin);
-
-    // Check for transition from unbroken (1) to broken (0)
-    if (lastBreakBeamReading == 1 && reading == 0) {
-        unsigned long currentTime = millis();
-        lastBreakTimestamp = currentTime;
-        emergencyShutoffActive = true;
-
-        Firmata.sendString(STRING_DATA, "BREAK BEAM TRIGGERED - EMERGENCY MOTOR STOP");
-
-        // Stop first vibration hopper motor
-        analogWrite(FIRST_VIBRATION_HOPPER_ENABLE_PIN, 0);
-        digitalWrite(FIRST_VIBRATION_HOPPER_INPUT1_PIN, LOW);
-        digitalWrite(FIRST_VIBRATION_HOPPER_INPUT2_PIN, LOW);
-
-        // Stop second vibration hopper motor
-        analogWrite(SECOND_VIBRATION_HOPPER_ENABLE_PIN, 0);
-        digitalWrite(SECOND_VIBRATION_HOPPER_INPUT1_PIN, LOW);
-        digitalWrite(SECOND_VIBRATION_HOPPER_INPUT2_PIN, LOW);
-
-        // Stop feeder conveyor motor
-        analogWrite(FEEDER_CONVEYOR_ENABLE_PIN, 0);
-        digitalWrite(FEEDER_CONVEYOR_INPUT1_PIN, LOW);
-        digitalWrite(FEEDER_CONVEYOR_INPUT2_PIN, LOW);
-
-        if (DEBUG_LEVEL > 0) {
-            char debugMsg[60];
-            sprintf(debugMsg, "Break beam triggered at %lu ms", currentTime);
-            Firmata.sendString(STRING_DATA, debugMsg);
-        }
-    } else if (emergencyShutoffActive && reading == 0) {
-        // Breakbeam remains broken and we already shutoff - don't shutoff again
-        if (DEBUG_LEVEL > 0) {
-            Firmata.sendString(STRING_DATA, "Break beam still broken, keeping emergency shutoff");
-        }
-    } else if (reading == 1) {
-        // Breakbeam is unbroken, clear emergency shutoff flag
-        if (emergencyShutoffActive) {
-            emergencyShutoffActive = false;
-            if (DEBUG_LEVEL > 0) {
-                Firmata.sendString(STRING_DATA, "Break beam cleared, emergency shutoff deactivated");
-            }
-        }
-    }
-
-    lastBreakBeamReading = reading;
-}
-
-unsigned long getLastBreakTimestamp() {
-    return lastBreakTimestamp;
-}
-
-void parseBreakBeamCommand(byte command, byte argc, byte *argv) {
-    if (DEBUG_LEVEL > 0) {
-        char debugMsg[80];
-        sprintf(debugMsg, "Break beam cmd: %d, argc: %d", command, argc);
-        Firmata.sendString(STRING_DATA, debugMsg);
-    }
-
-    switch (command) {
-        case BREAK_BEAM_SETUP: {
-            setupBreakBeamSensor(argv[0]);
-            break;
-        }
-        case BREAK_BEAM_QUERY: {
-            if (argc < 5) {
-                if (DEBUG_LEVEL > 0) {
-                    char debugMsg[80];
-                    sprintf(debugMsg, "Break beam query: got %d args, need 5 timestamp bytes", argc);
-                    Firmata.sendString(STRING_DATA, debugMsg);
-                }
-                return;
-            }
-
-            // Reconstruct since_timestamp from 5 7-bit bytes
-            unsigned long sinceTimestamp = (unsigned long)argv[0] |
-                                         ((unsigned long)argv[1] << 7) |
-                                         ((unsigned long)argv[2] << 14) |
-                                         ((unsigned long)argv[3] << 21) |
-                                         ((unsigned long)argv[4] << 28);
-
-            unsigned long lastBreak = getLastBreakTimestamp();
-            unsigned long currentTime = millis();
-
-            // Determine if there was a break since the requested timestamp
-            unsigned long breakTimestamp = 0xFFFFFFFF; // Default "no break found"
-            if (lastBreak > 0 && lastBreak >= sinceTimestamp) {
-                breakTimestamp = lastBreak;
-            }
-
-            if (DEBUG_LEVEL > 0) {
-                char debugMsg[80];
-                sprintf(debugMsg, "Query since=%lu, lastBreak=%lu, returning=%lu",
-                       sinceTimestamp, lastBreak, breakTimestamp);
-                Firmata.sendString(STRING_DATA, debugMsg);
-            }
-
-            // Get current breakbeam state (1 = unbroken, 0 = broken)
-            int currentBreakState = digitalRead(breakBeamSensorPin);
-
-            if (DEBUG_LEVEL > 0) {
-                char debugMsg[120];
-                sprintf(debugMsg, "Sending: breakTimestamp=%lu, currentTime=%lu, currentBreakState=%d",
-                       breakTimestamp, currentTime, currentBreakState);
-                Firmata.sendString(STRING_DATA, debugMsg);
-            }
-
-            // Pack both timestamps and current break state into response (11 bytes total)
-            byte response[11];
-            response[0] = breakTimestamp & 0x7F;
-            response[1] = (breakTimestamp >> 7) & 0x7F;
-            response[2] = (breakTimestamp >> 14) & 0x7F;
-            response[3] = (breakTimestamp >> 21) & 0x7F;
-            response[4] = (breakTimestamp >> 28) & 0x7F;
-
-            response[5] = currentTime & 0x7F;
-            response[6] = (currentTime >> 7) & 0x7F;
-            response[7] = (currentTime >> 14) & 0x7F;
-            response[8] = (currentTime >> 21) & 0x7F;
-            response[9] = (currentTime >> 28) & 0x7F;
-
-            response[10] = currentBreakState & 0x7F;  // Current break state (0 or 1)
-
-            Firmata.sendSysex(BREAK_BEAM, 11, response);
-            break;
-        }
-        default: {
-            if (DEBUG_LEVEL > 0) {
-                char debugMsg[80];
-                sprintf(debugMsg, "Unknown break beam cmd: %d", command);
-                Firmata.sendString(STRING_DATA, debugMsg);
-            }
-            break;
-        }
-    }
-}
-
 
 
 void systemResetCallback() {
@@ -658,12 +488,6 @@ void sysexCallback(byte command, byte argc, byte *argv) {
             }
             parseEncoderCommand(argv[0], argc-1, argv+1);
         break;
-        case BREAK_BEAM:
-            if (DEBUG_LEVEL > 0) {
-                Firmata.sendString(STRING_DATA, "Processing BREAK_BEAM");
-            }
-            parseBreakBeamCommand(argv[0], argc-1, argv+1);
-        break;
         default:
             if (DEBUG_LEVEL > 0) {
                 char debugMsg[80];
@@ -706,7 +530,7 @@ void setup() {
     // Initialize servo timeout tracking
     initServoTimeouts();
 
-    // Initialize motor control pins for automatic break beam control
+    // Initialize motor control pins
     pinMode(FIRST_VIBRATION_HOPPER_ENABLE_PIN, OUTPUT);
     pinMode(FIRST_VIBRATION_HOPPER_INPUT1_PIN, OUTPUT);
     pinMode(FIRST_VIBRATION_HOPPER_INPUT2_PIN, OUTPUT);
@@ -728,21 +552,18 @@ void setup() {
     digitalWrite(FEEDER_CONVEYOR_INPUT1_PIN, LOW);
     digitalWrite(FEEDER_CONVEYOR_INPUT2_PIN, LOW);
 
-    // to get smoother operation for the dc motors running over pwm, increase the speed timers 2 and 5
-    // Change PWM frequency for pins 3 & 5 (Timer 3):
-    TCCR3B = TCCR3B & B11111000 | B00000001; // ~31kHz
+    // Arduino Nano PWM frequency adjustment for smoother DC motor operation
+    // Timer 0 (pins 5, 6): Increase to ~31kHz
+    TCCR0B = TCCR0B & B11111000 | B00000001;
 
-    // Change PWM frequency for pin 6 (Timer 4):
-    TCCR4B = TCCR4B & B11111000 | B00000001; // ~31kHz
+    // Timer 1 (pins 9, 10): Increase to ~31kHz
+    TCCR1B = TCCR1B & B11111000 | B00000001;
 
 
     Firmata.sendString(F("Setup complete. Ready for commands."));
 }
 
 void loop() {
-    // Update break beam sensor readings every loop for maximum responsiveness
-    // updateBreakBeamSensor();
-
     while(Firmata.available()) { //only runs if message in buffer
         Firmata.processInput();
         if (!Firmata.isParsingMessage()) {

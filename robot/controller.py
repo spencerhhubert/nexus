@@ -132,6 +132,11 @@ class Controller:
 
     def pause(self):
         if self.lifecycle_stage == SystemLifecycleStage.RUNNING:
+            # Clean up current state (stops execution threads)
+            current_state = self.sorting_state_machine.current_state
+            if current_state in self.sorting_state_machine.states_map:
+                self.sorting_state_machine.states_map[current_state].cleanup()
+
             self.lifecycle_stage = SystemLifecycleStage.PAUSED
             # Stop all motors when pausing
             self.irl_interface["main_conveyor_dc_motor"].setSpeed(0)

@@ -551,9 +551,12 @@ class SegmentationModelManager:
         return min_distance
 
     def _calculateMaskEdgeProximity(
-        self, object_mask: np.ndarray, target_mask: np.ndarray, proximity_px: int = 3
+        self, object_mask: np.ndarray, target_mask: np.ndarray, proximity_px: int = 6
     ) -> float:
         if object_mask.shape != target_mask.shape:
+            self.logger.warning(
+                "Can't calculate mask edge proximity, masks are not the same shape"
+            )
             return 0.0
 
         # Create a dilated version of the target mask (expand edges by proximity_px)
@@ -572,10 +575,14 @@ class SegmentationModelManager:
         return near_target_pixels / total_object_pixels
 
     def _analyzeObjectRegions(
-        self, obj_mask: np.ndarray, masks_by_class: Dict[str, List[np.ndarray]]
+        self,
+        obj_mask: np.ndarray,
+        masks_by_class: Dict[str, List[np.ndarray]],
+        track_id: str,
     ) -> FeederRegion:
         obj_bbox = self._getBoundingBoxFromMask(obj_mask)
         if obj_bbox is None:
+            self.logger.info(f"REGION[{track_id}]: UNKNOWN - no bounding box")
             return FeederRegion.UNKNOWN
 
         # Check main conveyor first
@@ -595,6 +602,9 @@ class SegmentationModelManager:
                 total_main_conveyor_proximity
                 > FEEDER_CAMERA_MAIN_CONVEYOR_MASK_PROXIMITY_THRESHOLD
             ):
+                self.logger.info(
+                    f"REGION[{track_id}]: MAIN_CONVEYOR - proximity={total_main_conveyor_proximity:.3f} > threshold={FEEDER_CAMERA_MAIN_CONVEYOR_MASK_PROXIMITY_THRESHOLD}"
+                )
                 return FeederRegion.MAIN_CONVEYOR
 
         # Check second feeder masks
@@ -621,7 +631,9 @@ class SegmentationModelManager:
                         )
 
                     if min_distance_to_first < SECOND_FEEDER_DISTANCE_THRESHOLD:
-                        self.logger.info("Object detected under exit of first feeder")
+                        self.logger.info(
+                            f"REGION[{track_id}]: UNDER_EXIT_OF_FIRST_FEEDER - distance={min_distance_to_first:.1f}px < threshold={SECOND_FEEDER_DISTANCE_THRESHOLD}px, second_proximity={total_second_proximity:.3f}"
+                        )
                         return FeederRegion.UNDER_EXIT_OF_FIRST_FEEDER
 
                 # Check if at exit of second feeder
@@ -652,8 +664,14 @@ class SegmentationModelManager:
                         total_bbox_overlap
                         > MAIN_CONVEYOR_BOUNDING_BOX_OVERLAP_THRESHOLD
                     ):
+                        self.logger.info(
+                            f"REGION[{track_id}]: EXIT_OF_SECOND_FEEDER - bbox_overlap={total_bbox_overlap:.3f} > threshold={MAIN_CONVEYOR_BOUNDING_BOX_OVERLAP_THRESHOLD}, second_proximity={total_second_proximity:.3f}"
+                        )
                         return FeederRegion.EXIT_OF_SECOND_FEEDER
 
+                self.logger.info(
+                    f"REGION[{track_id}]: SECOND_FEEDER_MASK - second_proximity={total_second_proximity:.3f}"
+                )
                 return FeederRegion.SECOND_FEEDER_MASK
 
         # Check first feeder masks
@@ -667,8 +685,12 @@ class SegmentationModelManager:
                 total_first_proximity += first_proximity
 
             if total_first_proximity > 0.5:
+                self.logger.info(
+                    f"REGION[{track_id}]: FIRST_FEEDER_MASK - first_proximity={total_first_proximity:.3f} > 0.5"
+                )
                 return FeederRegion.FIRST_FEEDER_MASK
 
+        self.logger.info(f"REGION[{track_id}]: UNKNOWN - no matching region")
         return FeederRegion.UNKNOWN
 
     def _updateObjectDetections(self) -> None:
@@ -696,10 +718,12 @@ class SegmentationModelManager:
 
                                 # Analyze what region this object is in
                                 region = self._analyzeObjectRegions(
-                                    mask_data, masks_by_class
+                                    mask_data, masks_by_class, track_id
                                 )
                                 region_reading = RegionReading(
-                                    timestamp=current_time, region=region
+                                    timestamp=current_time,
+                                    region=region,
+                                    track_id=track_id,
                                 )
 
                                 # Find existing detection for this track_id or create new one

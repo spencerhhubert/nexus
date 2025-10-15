@@ -24,6 +24,7 @@ class FeederRegion(Enum):
 class RegionReading:
     timestamp: float
     region: FeederRegion
+    track_id: str
 
 
 @dataclass

@@ -34,6 +34,8 @@ SECOND_FEEDER_DISTANCE_THRESHOLD = 40
 MAIN_CONVEYOR_BOUNDING_BOX_OVERLAP_THRESHOLD = 0.75
 FEEDER_CAMERA_MAIN_CONVEYOR_MASK_PROXIMITY_THRESHOLD = 0.9
 MAIN_CAMERA_MAIN_CONVEYOR_MASK_PROXIMITY_THRESHOLD = 0.5
+SECOND_FEEDER_PROXIMITY_THRESHOLD = 0.7
+FIRST_FEEDER_PROXIMITY_THRESHOLD = 0.5
 OBJECT_CENTER_THRESHOLD = 0.4
 RIGHT_SIDE_THRESHOLD = 0.3
 MARGIN_FOR_MAIN_CONVEYOR_BOUNDING_BOX_PX = -20
@@ -617,7 +619,7 @@ class SegmentationModelManager:
                 )
                 total_second_proximity += second_proximity
 
-            if total_second_proximity > 0.5:
+            if total_second_proximity > SECOND_FEEDER_PROXIMITY_THRESHOLD:
                 # Check if under exit of first feeder (object on second feeder but near first)
                 first_feeder_masks = masks_by_class.get("first_feeder", [])
                 if first_feeder_masks:
@@ -684,9 +686,9 @@ class SegmentationModelManager:
                 )
                 total_first_proximity += first_proximity
 
-            if total_first_proximity > 0.5:
+            if total_first_proximity > FIRST_FEEDER_PROXIMITY_THRESHOLD:
                 self.logger.info(
-                    f"REGION[{track_id}]: FIRST_FEEDER_MASK - first_proximity={total_first_proximity:.3f} > 0.5"
+                    f"REGION[{track_id}]: FIRST_FEEDER_MASK - first_proximity={total_first_proximity:.3f} > threshold={FIRST_FEEDER_PROXIMITY_THRESHOLD}"
                 )
                 return FeederRegion.FIRST_FEEDER_MASK
 

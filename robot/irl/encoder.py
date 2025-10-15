@@ -2,14 +2,14 @@ import time
 import math
 from typing import Optional
 from robot.global_config import GlobalConfig
-from robot.irl.our_arduino import OurArduinoMega
+from robot.irl.our_arduino import OurArduinoNano
 
 
 class Encoder:
     def __init__(
         self,
         gc: GlobalConfig,
-        dev: OurArduinoMega,
+        dev: OurArduinoNano,
         clk_pin: int,
         dt_pin: int,
         pulses_per_revolution: int,

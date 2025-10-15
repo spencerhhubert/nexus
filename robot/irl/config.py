@@ -1,5 +1,5 @@
 from pyfirmata import util, pyfirmata
-from robot.irl.our_arduino import OurArduinoMega
+from robot.irl.our_arduino import OurArduinoNano
 from robot.irl.motors import PCA9685, Servo, DCMotor
 from robot.irl.encoder import Encoder
 from robot.irl.distribution import Bin, DistributionModule
@@ -61,7 +61,7 @@ class IRLConfig(TypedDict):
 
 
 class IRLSystemInterface(TypedDict):
-    arduino: OurArduinoMega
+    arduino: OurArduinoNano
     distribution_modules: List[DistributionModule]
     main_conveyor_dc_motor: DCMotor
     feeder_conveyor_dc_motor: DCMotor
@@ -192,13 +192,13 @@ def discoverArduinoBoard() -> Optional[str]:
         return None
 
 
-def connectToArduino(mc_path: str, gc: GlobalConfig) -> OurArduinoMega:
+def connectToArduino(mc_path: str, gc: GlobalConfig) -> OurArduinoNano:
     logger = gc["logger"]
     auto_confirm = gc["auto_confirm"]
 
     try:
         logger.info(f"Attempting to connect to Arduino at {mc_path}")
-        mc = OurArduinoMega(gc, mc_path, gc["delay_between_firmata_commands_ms"])
+        mc = OurArduinoNano(gc, mc_path, gc["delay_between_firmata_commands_ms"])
         return mc
     except Exception as e:
         logger.error(f"Failed to connect to Arduino at {mc_path}: {e}")
@@ -221,7 +221,7 @@ def connectToArduino(mc_path: str, gc: GlobalConfig) -> OurArduinoMega:
         logger.info(f"Attempting to connect to discovered Arduino at {discovered_path}")
 
         try:
-            mc = OurArduinoMega(
+            mc = OurArduinoNano(
                 gc, discovered_path, gc["delay_between_firmata_commands_ms"]
             )
             logger.info(f"Successfully connected to Arduino at {discovered_path}")

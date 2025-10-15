@@ -3,12 +3,12 @@ import time
 import threading
 from typing import Dict, Any, List, Optional, cast
 from robot.global_config import GlobalConfig
-from robot.irl.our_arduino import OurArduinoMega
+from robot.irl.our_arduino import OurArduinoNano
 from robot.irl.encoder import Encoder
 
 
 class PCA9685:
-    def __init__(self, gc: GlobalConfig, dev: OurArduinoMega, addr: int):
+    def __init__(self, gc: GlobalConfig, dev: OurArduinoNano, addr: int):
         self.gc = gc
         self.dev = dev
         self.addr = addr
@@ -100,7 +100,7 @@ class DCMotor:
     def __init__(
         self,
         gc: GlobalConfig,
-        dev: OurArduinoMega,
+        dev: OurArduinoNano,
         enable_pin: int,
         input_1_pin: int,
         input_2_pin: int,
@@ -178,7 +178,7 @@ class DCMotor:
 
 
 class BreakBeamSensor:
-    def __init__(self, gc: GlobalConfig, dev: OurArduinoMega, sensor_pin: int):
+    def __init__(self, gc: GlobalConfig, dev: OurArduinoNano, sensor_pin: int):
         self.gc = gc
         self.dev = dev
         self.sensor_pin = sensor_pin

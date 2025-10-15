@@ -6,7 +6,7 @@ from typing import List
 from robot.global_config import GlobalConfig
 
 
-class OurArduinoMega(Arduino):
+class OurArduinoNano(Arduino):
     def __init__(self, gc: GlobalConfig, port: str, command_delay_ms: int):
         super().__init__(port)
         self.gc = gc

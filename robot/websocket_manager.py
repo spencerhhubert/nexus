@@ -6,18 +6,32 @@ from typing import Set, Dict, Optional, Any
 import cv2
 import numpy as np
 from fastapi import WebSocket
-from robot.our_types import CameraType, SystemLifecycleStage, SortingState, MotorStatus
+from robot.our_types import (
+    CameraType,
+    SystemLifecycleStage,
+    SortingState,
+    MotorStatus,
+    CameraFrameMessage,
+    SystemStatusMessage,
+    KnownObjectUpdateMessage,
+    BinStateUpdateMessage,
+    CameraPerformanceMessage,
+    FeederStatusMessage,
+)
 from robot.our_types.bin import BinCoordinates
 from robot.our_types.bin_state import BinState
 from robot.our_types.vision_system import CameraPerformanceMetrics
 from robot.our_types.feeder_state import FeederState
+from robot.global_config import GlobalConfig
+from robot.logger import Logger
 
 
 class WebSocketManager:
-    def __init__(self):
+    def __init__(self, gc: GlobalConfig):
         self.active_connections: Set[WebSocket] = set()
         self.loop = None
         self.loop_thread = None
+        self.logger: Logger = gc["logger"].ctx(component="websocket_manager")
 
     def set_event_loop(self, loop):
         self.loop = loop
@@ -37,7 +51,7 @@ class WebSocketManager:
             _, buffer = cv2.imencode(".jpg", frame)
             frame_base64 = base64.b64encode(buffer.tobytes()).decode("utf-8")
 
-            message = {
+            message: CameraFrameMessage = {
                 "type": "camera_frame",
                 "camera": camera_type.value,
                 "data": frame_base64,
@@ -45,13 +59,12 @@ class WebSocketManager:
 
             message_json = json.dumps(message)
 
-            # Schedule the broadcast in the event loop
             asyncio.run_coroutine_threadsafe(
                 self._broadcast_to_all(message_json), self.loop
             )
 
         except Exception as e:
-            print(f"Error broadcasting frame: {e}")
+            self.logger.error(f"Error broadcasting frame: {e}")
 
     def broadcast_system_status(
         self,
@@ -64,15 +77,13 @@ class WebSocketManager:
             return
 
         try:
-            message = {
+            message: SystemStatusMessage = {
                 "type": "system_status",
                 "lifecycle_stage": lifecycle_stage.value,
                 "sorting_state": sorting_state.value,
                 "motors": motors,
+                "encoder": encoder_status,
             }
-
-            if encoder_status is not None:
-                message["encoder"] = encoder_status
 
             message_json = json.dumps(message)
 
@@ -81,7 +92,7 @@ class WebSocketManager:
             )
 
         except Exception as e:
-            print(f"Error broadcasting system status: {e}")
+            self.logger.error(f"Error broadcasting system status: {e}")
 
     def broadcastKnownObject(
         self,
@@ -91,18 +102,18 @@ class WebSocketManager:
         classification_id: Optional[str] = None,
         bin_coordinates: Optional[BinCoordinates] = None,
     ):
-        print(
-            f"WEBSOCKET DEBUG: broadcastKnownObject called with UUID={uuid}, connections={len(self.active_connections)}, loop={self.loop is not None}"
+        self.logger.info(
+            f"broadcastKnownObject called with UUID={uuid}, connections={len(self.active_connections)}, loop={self.loop is not None}"
         )
 
         if not self.active_connections or not self.loop:
-            print(
-                f"WEBSOCKET DEBUG: Early return - connections={len(self.active_connections) if self.active_connections else 0}, loop={self.loop is not None}"
+            self.logger.info(
+                f"Early return - connections={len(self.active_connections) if self.active_connections else 0}, loop={self.loop is not None}"
             )
             return
 
         try:
-            message: Dict[str, Any] = {
+            message: KnownObjectUpdateMessage = {
                 "type": "known_object_update",
                 "uuid": uuid,
             }
@@ -127,21 +138,21 @@ class WebSocketManager:
                 }
 
             message_json = json.dumps(message)
-            print(f"WEBSOCKET DEBUG: Broadcasting message: {message_json}")
+            self.logger.info(f"Broadcasting message: {message_json}")
 
             asyncio.run_coroutine_threadsafe(
                 self._broadcast_to_all(message_json), self.loop
             )
 
         except Exception as e:
-            print(f"Error broadcasting known object: {e}")
+            self.logger.error(f"Error broadcasting known object: {e}")
 
     def broadcast_bin_state(self, bin_state: BinState):
         if not self.active_connections or not self.loop:
             return
 
         try:
-            message = {
+            message: BinStateUpdateMessage = {
                 "type": "bin_state_update",
                 "bin_contents": bin_state["bin_contents"],
                 "timestamp": bin_state["timestamp"],
@@ -154,7 +165,7 @@ class WebSocketManager:
             )
 
         except Exception as e:
-            print(f"Error broadcasting bin state: {e}")
+            self.logger.error(f"Error broadcasting bin state: {e}")
 
     def broadcast_camera_performance(
         self, camera_type: CameraType, metrics: CameraPerformanceMetrics
@@ -163,7 +174,7 @@ class WebSocketManager:
             return
 
         try:
-            message = {
+            message: CameraPerformanceMessage = {
                 "type": "camera_performance",
                 "camera": camera_type.value,
                 "fps_1s": metrics.fps_1s,
@@ -179,14 +190,14 @@ class WebSocketManager:
             )
 
         except Exception as e:
-            print(f"Error broadcasting camera performance: {e}")
+            self.logger.error(f"Error broadcasting camera performance: {e}")
 
     def broadcast_feeder_status(self, feeder_state: Optional[FeederState]):
         if not self.active_connections or not self.loop:
             return
 
         try:
-            message = {
+            message: FeederStatusMessage = {
                 "type": "feeder_status",
                 "feeder_state": feeder_state.value if feeder_state else None,
             }
@@ -198,7 +209,7 @@ class WebSocketManager:
             )
 
         except Exception as e:
-            print(f"Error broadcasting feeder status: {e}")
+            self.logger.error(f"Error broadcasting feeder status: {e}")
 
     async def _send_safe(self, websocket: WebSocket, message: str):
         try:

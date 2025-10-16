@@ -61,9 +61,19 @@ export interface FeederStatusMessage {
   feeder_state: string | null;
 }
 
+export interface CameraPerformanceMessage {
+  type: 'camera_performance';
+  camera: 'main_camera' | 'feeder_camera';
+  fps_1s: number;
+  fps_5s: number;
+  latency_1s: number;
+  latency_5s: number;
+}
+
 export type WebSocketMessage =
   | SystemStatusMessage
   | CameraFrameMessage
   | KnownObjectMessage
   | BinStateUpdateMessage
-  | FeederStatusMessage;
+  | FeederStatusMessage
+  | CameraPerformanceMessage;

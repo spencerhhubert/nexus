@@ -16,9 +16,9 @@ def main() -> None:
     logger = gc["logger"]
     logger.info(f"Running with debug level: {gc['debug_level']}")
 
-    websocket_manager: WebSocketManager = init_api(None)
+    websocket_manager: WebSocketManager = init_api(None, gc)
     controller = Controller(gc, irl_system, websocket_manager)
-    init_api(controller)
+    init_api(controller, None)
 
     # Start API server in separate thread
     api_thread = threading.Thread(

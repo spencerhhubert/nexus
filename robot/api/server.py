@@ -12,6 +12,7 @@ from robot.piece.bricklink.auth import mkAuth
 from robot.piece.bricklink.types import BricklinkCategoryData
 from typing import List
 from robot.websocket_manager import WebSocketManager
+from robot.global_config import GlobalConfig
 
 app = FastAPI()
 
@@ -24,12 +25,23 @@ app.add_middleware(
 )
 
 api_client: Optional[API] = None
-websocket_manager = WebSocketManager()
+websocket_manager: Optional[WebSocketManager] = None
 
 
-def init_api(controller) -> WebSocketManager:
-    global api_client
-    api_client = API(controller)
+def init_api(controller, gc: Optional[GlobalConfig] = None) -> WebSocketManager:
+    global api_client, websocket_manager
+
+    if gc is not None and websocket_manager is None:
+        websocket_manager = WebSocketManager(gc)
+
+    if controller is not None:
+        api_client = API(controller)
+
+    if websocket_manager is None:
+        raise RuntimeError(
+            "WebSocketManager not initialized - call init_api with gc first"
+        )
+
     return websocket_manager
 
 
@@ -148,7 +160,10 @@ async def get_bricklink_categories() -> List[BricklinkCategoryData]:
 
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
-    # Set the event loop for the websocket manager
+    if websocket_manager is None:
+        await websocket.close()
+        return
+
     websocket_manager.set_event_loop(asyncio.get_event_loop())
 
     await websocket_manager.connect(websocket)

@@ -553,7 +553,7 @@ class SegmentationModelManager:
         return min_distance
 
     def _calculateMaskEdgeProximity(
-        self, object_mask: np.ndarray, target_mask: np.ndarray, proximity_px: int = 10
+        self, object_mask: np.ndarray, target_mask: np.ndarray, proximity_px: int = 8
     ) -> float:
         if object_mask.shape != target_mask.shape:
             self.logger.warning(
@@ -561,20 +561,20 @@ class SegmentationModelManager:
             )
             return 0.0
 
-        # Create a dilated version of the target mask (expand edges by proximity_px)
+        # Create a dilated version of the object mask (expand edges by proximity_px)
         kernel = np.ones((proximity_px * 2 + 1, proximity_px * 2 + 1), np.uint8)
-        dilated_target = cv2.dilate(target_mask.astype(np.uint8), kernel, iterations=1)
+        dilated_object = cv2.dilate(object_mask.astype(np.uint8), kernel, iterations=1)
 
-        # Count object pixels within the dilated target area
-        object_pixels_near_target = np.logical_and(object_mask, dilated_target)
+        # Count dilated object pixels that overlap with target
+        overlap_pixels = np.logical_and(dilated_object, target_mask)
 
-        # Calculate percentage
-        total_object_pixels = np.sum(object_mask)
-        if total_object_pixels == 0:
+        # Calculate percentage based on dilated object area
+        total_dilated_pixels = np.sum(dilated_object)
+        if total_dilated_pixels == 0:
             return 0.0
 
-        near_target_pixels = np.sum(object_pixels_near_target)
-        return near_target_pixels / total_object_pixels
+        overlap_count = np.sum(overlap_pixels)
+        return overlap_count / total_dilated_pixels
 
     def _analyzeObjectRegions(
         self,

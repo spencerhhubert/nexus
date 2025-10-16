@@ -45,10 +45,10 @@
   <AppHeader isConnected={pageState.state.wsConnected} isReconnecting={pageState.state.reconnecting} onSettingsOpen={openSettings} />
 
   <div class="page-width p-6 mb-12">
-    <div class="flex gap-6">
+    <div class="flex gap-6 items-start">
       <!-- Known Objects List - Left Panel -->
       <div class="w-80 flex-shrink-0">
-        <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 h-full">
+        <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 max-h-[1200px] flex flex-col">
           <KnownObjectsList />
         </div>
       </div>

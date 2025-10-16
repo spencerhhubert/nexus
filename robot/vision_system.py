@@ -553,7 +553,7 @@ class SegmentationModelManager:
         return min_distance
 
     def _calculateMaskEdgeProximity(
-        self, object_mask: np.ndarray, target_mask: np.ndarray, proximity_px: int = 6
+        self, object_mask: np.ndarray, target_mask: np.ndarray, proximity_px: int = 10
     ) -> float:
         if object_mask.shape != target_mask.shape:
             self.logger.warning(
@@ -587,112 +587,104 @@ class SegmentationModelManager:
             self.logger.info(f"REGION[{track_id}]: UNKNOWN - no bounding box")
             return FeederRegion.UNKNOWN
 
-        # Check main conveyor first
+        # Calculate all proximities upfront
         main_conveyor_masks = masks_by_class.get("main_conveyor", [])
         first_feeder_masks = masks_by_class.get("first_feeder", [])
         second_feeder_masks = masks_by_class.get("second_feeder", [])
-        if main_conveyor_masks:
-            feeder_masks_negative = first_feeder_masks + second_feeder_masks
-            total_main_conveyor_proximity = 0.0
-            for main_conveyor_mask in main_conveyor_masks:
-                main_conveyor_proximity = self._calculateMaskEdgeProximity(
-                    obj_mask, main_conveyor_mask
-                )
-                total_main_conveyor_proximity += main_conveyor_proximity
 
-            if (
-                total_main_conveyor_proximity
-                > FEEDER_CAMERA_MAIN_CONVEYOR_MASK_PROXIMITY_THRESHOLD
-            ):
-                self.logger.info(
-                    f"REGION[{track_id}]: MAIN_CONVEYOR - proximity={total_main_conveyor_proximity:.3f} > threshold={FEEDER_CAMERA_MAIN_CONVEYOR_MASK_PROXIMITY_THRESHOLD}"
-                )
-                return FeederRegion.MAIN_CONVEYOR
+        total_main_conveyor_proximity = 0.0
+        for main_conveyor_mask in main_conveyor_masks:
+            total_main_conveyor_proximity += self._calculateMaskEdgeProximity(
+                obj_mask, main_conveyor_mask, 3
+            )
+
+        total_second_proximity = 0.0
+        for second_feeder_mask in second_feeder_masks:
+            total_second_proximity += self._calculateMaskEdgeProximity(
+                obj_mask, second_feeder_mask
+            )
+
+        total_first_proximity = 0.0
+        for first_feeder_mask in first_feeder_masks:
+            total_first_proximity += self._calculateMaskEdgeProximity(
+                obj_mask, first_feeder_mask
+            )
+
+        self.logger.info(
+            f"REGION[{track_id}]: Proximities - main_conveyor={total_main_conveyor_proximity:.3f}, second_feeder={total_second_proximity:.3f}, first_feeder={total_first_proximity:.3f}"
+        )
+
+        # Check main conveyor first
+        if (
+            total_main_conveyor_proximity
+            > FEEDER_CAMERA_MAIN_CONVEYOR_MASK_PROXIMITY_THRESHOLD
+        ):
+            self.logger.info(
+                f"REGION[{track_id}]: MAIN_CONVEYOR - proximity={total_main_conveyor_proximity:.3f} > threshold={FEEDER_CAMERA_MAIN_CONVEYOR_MASK_PROXIMITY_THRESHOLD}"
+            )
+            return FeederRegion.MAIN_CONVEYOR
 
         # Check second feeder masks
-        second_feeder_masks = masks_by_class.get("second_feeder", [])
-        if second_feeder_masks:
-            total_second_proximity = 0.0
-            for second_feeder_mask in second_feeder_masks:
-                second_proximity = self._calculateMaskEdgeProximity(
-                    obj_mask, second_feeder_mask
-                )
-                total_second_proximity += second_proximity
+        if total_second_proximity > SECOND_FEEDER_PROXIMITY_THRESHOLD:
+            # Check if under exit of first feeder (object on second feeder but near first)
+            if first_feeder_masks:
+                min_distance_to_first = float("inf")
+                for first_feeder_mask in first_feeder_masks:
+                    distance_to_first = self._calculateMinDistanceToMask(
+                        obj_bbox, first_feeder_mask
+                    )
+                    min_distance_to_first = min(
+                        min_distance_to_first, distance_to_first
+                    )
 
-            if total_second_proximity > SECOND_FEEDER_PROXIMITY_THRESHOLD:
-                # Check if under exit of first feeder (object on second feeder but near first)
-                first_feeder_masks = masks_by_class.get("first_feeder", [])
-                if first_feeder_masks:
-                    min_distance_to_first = float("inf")
-                    for first_feeder_mask in first_feeder_masks:
-                        distance_to_first = self._calculateMinDistanceToMask(
-                            obj_bbox, first_feeder_mask
-                        )
-                        min_distance_to_first = min(
-                            min_distance_to_first, distance_to_first
-                        )
+                if min_distance_to_first < SECOND_FEEDER_DISTANCE_THRESHOLD:
+                    self.logger.info(
+                        f"REGION[{track_id}]: UNDER_EXIT_OF_FIRST_FEEDER - distance={min_distance_to_first:.1f}px < threshold={SECOND_FEEDER_DISTANCE_THRESHOLD}px, second_proximity={total_second_proximity:.3f}"
+                    )
+                    return FeederRegion.UNDER_EXIT_OF_FIRST_FEEDER
 
-                    if min_distance_to_first < SECOND_FEEDER_DISTANCE_THRESHOLD:
-                        self.logger.info(
-                            f"REGION[{track_id}]: UNDER_EXIT_OF_FIRST_FEEDER - distance={min_distance_to_first:.1f}px < threshold={SECOND_FEEDER_DISTANCE_THRESHOLD}px, second_proximity={total_second_proximity:.3f}"
+            # Check if at exit of second feeder
+            if main_conveyor_masks:
+                total_bbox_overlap = 0.0
+                for main_conveyor_mask in main_conveyor_masks:
+                    main_conveyor_bbox = self._getBoundingBoxFromMask(
+                        main_conveyor_mask
+                    )
+                    if main_conveyor_bbox:
+                        main_conveyor_bbox_with_margin = self._applyMarginToBoundingBox(
+                            main_conveyor_bbox,
+                            MARGIN_FOR_MAIN_CONVEYOR_BOUNDING_BOX_PX,
+                            (
+                                main_conveyor_mask.shape[0],
+                                main_conveyor_mask.shape[1],
+                            ),
                         )
-                        return FeederRegion.UNDER_EXIT_OF_FIRST_FEEDER
-
-                # Check if at exit of second feeder
-                main_conveyor_masks = masks_by_class.get("main_conveyor", [])
-                if main_conveyor_masks:
-                    total_bbox_overlap = 0.0
-                    for main_conveyor_mask in main_conveyor_masks:
-                        main_conveyor_bbox = self._getBoundingBoxFromMask(
-                            main_conveyor_mask
+                        bbox_overlap = self._calculateBoundingBoxOverlap(
+                            obj_bbox, main_conveyor_bbox_with_margin
                         )
-                        if main_conveyor_bbox:
-                            main_conveyor_bbox_with_margin = (
-                                self._applyMarginToBoundingBox(
-                                    main_conveyor_bbox,
-                                    MARGIN_FOR_MAIN_CONVEYOR_BOUNDING_BOX_PX,
-                                    (
-                                        main_conveyor_mask.shape[0],
-                                        main_conveyor_mask.shape[1],
-                                    ),
-                                )
-                            )
-                            bbox_overlap = self._calculateBoundingBoxOverlap(
-                                obj_bbox, main_conveyor_bbox_with_margin
-                            )
-                            total_bbox_overlap += bbox_overlap
+                        total_bbox_overlap += bbox_overlap
 
-                    if (
-                        total_bbox_overlap
-                        > MAIN_CONVEYOR_BOUNDING_BOX_OVERLAP_THRESHOLD
-                    ):
-                        self.logger.info(
-                            f"REGION[{track_id}]: EXIT_OF_SECOND_FEEDER - bbox_overlap={total_bbox_overlap:.3f} > threshold={MAIN_CONVEYOR_BOUNDING_BOX_OVERLAP_THRESHOLD}, second_proximity={total_second_proximity:.3f}"
-                        )
-                        return FeederRegion.EXIT_OF_SECOND_FEEDER
+                if total_bbox_overlap > MAIN_CONVEYOR_BOUNDING_BOX_OVERLAP_THRESHOLD:
+                    self.logger.info(
+                        f"REGION[{track_id}]: EXIT_OF_SECOND_FEEDER - bbox_overlap={total_bbox_overlap:.3f} > threshold={MAIN_CONVEYOR_BOUNDING_BOX_OVERLAP_THRESHOLD}, second_proximity={total_second_proximity:.3f}"
+                    )
+                    return FeederRegion.EXIT_OF_SECOND_FEEDER
 
-                self.logger.info(
-                    f"REGION[{track_id}]: SECOND_FEEDER_MASK - second_proximity={total_second_proximity:.3f}"
-                )
-                return FeederRegion.SECOND_FEEDER_MASK
+            self.logger.info(
+                f"REGION[{track_id}]: SECOND_FEEDER_MASK - second_proximity={total_second_proximity:.3f}"
+            )
+            return FeederRegion.SECOND_FEEDER_MASK
 
         # Check first feeder masks
-        first_feeder_masks = masks_by_class.get("first_feeder", [])
-        if first_feeder_masks:
-            total_first_proximity = 0.0
-            for first_feeder_mask in first_feeder_masks:
-                first_proximity = self._calculateMaskEdgeProximity(
-                    obj_mask, first_feeder_mask
-                )
-                total_first_proximity += first_proximity
+        if total_first_proximity > FIRST_FEEDER_PROXIMITY_THRESHOLD:
+            self.logger.info(
+                f"REGION[{track_id}]: FIRST_FEEDER_MASK - first_proximity={total_first_proximity:.3f} > threshold={FIRST_FEEDER_PROXIMITY_THRESHOLD}"
+            )
+            return FeederRegion.FIRST_FEEDER_MASK
 
-            if total_first_proximity > FIRST_FEEDER_PROXIMITY_THRESHOLD:
-                self.logger.info(
-                    f"REGION[{track_id}]: FIRST_FEEDER_MASK - first_proximity={total_first_proximity:.3f} > threshold={FIRST_FEEDER_PROXIMITY_THRESHOLD}"
-                )
-                return FeederRegion.FIRST_FEEDER_MASK
-
-        self.logger.info(f"REGION[{track_id}]: UNKNOWN - no matching region")
+        self.logger.info(
+            f"REGION[{track_id}]: UNKNOWN - no matching region, all proximities below threshold"
+        )
         return FeederRegion.UNKNOWN
 
     def _updateObjectDetections(self) -> None:
@@ -848,7 +840,7 @@ class SegmentationModelManager:
             total_edge_proximity = 0.0
             for main_conveyor_mask in main_conveyor_mask_data:
                 edge_proximity = self._calculateMaskEdgeProximity(
-                    obj_mask, main_conveyor_mask
+                    obj_mask, main_conveyor_mask, 3
                 )
                 total_edge_proximity += edge_proximity
 

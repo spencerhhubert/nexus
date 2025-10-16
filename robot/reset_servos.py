@@ -94,6 +94,9 @@ def main():
                 else conveyor_door_closed_angle
             )
             logger.info(f"DM{target_dm_idx}_ConveyorDoor: {angle}°")
+            # we call this twice on purpose. long story
+            distribution_module.servo.setAngle(angle)
+            time.sleep(1)
             distribution_module.servo.setAngle(angle)
             time.sleep(1)
 
@@ -101,6 +104,8 @@ def main():
             bin_obj = distribution_module.bins[target_bin_idx]
             angle = bin_door_open_angle if position == "open" else bin_door_closed_angle
             logger.info(f"DM{target_dm_idx}_Bin{target_bin_idx}: {angle}°")
+            bin_obj.servo.setAngle(angle)
+            time.sleep(1)
             bin_obj.servo.setAngle(angle)
             time.sleep(1)
 
@@ -122,6 +127,8 @@ def main():
                 logger.info(f"DM{dm_idx}_ConveyorDoor: {angle}°")
                 distribution_module.servo.setAngle(angle)
                 time.sleep(1)
+                distribution_module.servo.setAngle(angle)
+                time.sleep(1)
 
                 # Set bin door servos
                 for bin_idx, bin_obj in enumerate(distribution_module.bins):
@@ -131,6 +138,8 @@ def main():
                         else bin_door_closed_angle
                     )
                     logger.info(f"DM{dm_idx}_Bin{bin_idx}: {angle}°")
+                    bin_obj.servo.setAngle(angle)
+                    time.sleep(1)
                     bin_obj.servo.setAngle(angle)
                     time.sleep(1)
 

@@ -81,8 +81,35 @@ class Controller:
 
         self.lifecycle_stage = SystemLifecycleStage.SHUTDOWN
 
+    def _initHardware(self):
+        conveyor_door_closed_angle = self.global_config["conveyor_door_closed_angle"]
+        bin_door_closed_angle = self.global_config["bin_door_closed_angle"]
+        logger = self.global_config["logger"]
+
+        for dm_idx, distribution_module in enumerate(
+            self.irl_interface["distribution_modules"]
+        ):
+            logger.info(
+                f"Initializing DM{dm_idx}_ConveyorDoor to {conveyor_door_closed_angle}°"
+            )
+            distribution_module.servo.setAngle(conveyor_door_closed_angle)
+            time.sleep(1)
+            distribution_module.servo.setAngle(conveyor_door_closed_angle)
+            time.sleep(1)
+
+            for bin_idx, bin_obj in enumerate(reversed(distribution_module.bins)):
+                logger.info(
+                    f"Initializing DM{dm_idx}_Bin{bin_idx} to {bin_door_closed_angle}°"
+                )
+                bin_obj.servo.setAngle(bin_door_closed_angle)
+                time.sleep(1)
+                bin_obj.servo.setAngle(bin_door_closed_angle)
+                time.sleep(1)
+
     def _loop(self):
         self.lifecycle_stage = SystemLifecycleStage.STARTING_HARDWARE
+
+        self._initHardware()
 
         # Initialize storage
         initializeDatabase(self.global_config)

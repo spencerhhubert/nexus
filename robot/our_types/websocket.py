@@ -49,3 +49,9 @@ class CameraPerformanceMessage(TypedDict):
 class FeederStatusMessage(TypedDict):
     type: str
     feeder_state: Optional[str]
+
+
+class SortingStatsMessage(TypedDict):
+    type: str
+    total_known_objects: int
+    average_time_between_known_objects_seconds: Optional[float]

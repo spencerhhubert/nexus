@@ -11,6 +11,7 @@ from .websocket import (
     BinStateUpdateMessage,
     CameraPerformanceMessage,
     FeederStatusMessage,
+    SortingStatsMessage,
 )
 
 __all__ = [
@@ -26,4 +27,5 @@ __all__ = [
     "BinStateUpdateMessage",
     "CameraPerformanceMessage",
     "FeederStatusMessage",
+    "SortingStatsMessage",
 ]

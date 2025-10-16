@@ -140,9 +140,11 @@ class Classifying(BaseState):
                             observations=[],  # Not needed for this simplified approach
                             classification_consensus=consensus,
                             bin_coordinates=bin_coordinates,
+                            created_at=int(time.time()),
                         )
                         self.known_objects[centered_object_id] = known_object
                         self.shared_variables.pending_known_object = known_object
+                        self.shared_variables.all_known_objects.append(known_object)
 
                         # Send classification update
                         self.logger.info(

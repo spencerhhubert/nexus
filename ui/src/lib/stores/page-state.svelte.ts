@@ -14,6 +14,11 @@ interface CameraPerformanceMetrics {
   latency_5s: number;
 }
 
+interface SortingStats {
+  total_known_objects: number;
+  average_time_between_known_objects_seconds: number | null;
+}
+
 interface PageState {
   // System status
   lifecycleStage: string;
@@ -26,6 +31,7 @@ interface PageState {
     second_vibration_hopper: { speed: number };
   };
   encoder: EncoderStatus | null;
+  sortingStats: SortingStats | null;
 
   // Camera feeds
   mainCameraFrame: CameraFrame | null;
@@ -56,6 +62,7 @@ class PageStateStore {
       second_vibration_hopper: { speed: 0 },
     },
     encoder: null,
+    sortingStats: null,
     mainCameraFrame: null,
     feederCameraFrame: null,
     mainCameraPerformance: null,
@@ -153,6 +160,12 @@ class PageStateStore {
             }
           } else if (message.type === 'feeder_status') {
             this.state.feederState = message.feeder_state;
+          } else if (message.type === 'sorting_stats') {
+            this.state.sortingStats = {
+              total_known_objects: message.total_known_objects,
+              average_time_between_known_objects_seconds:
+                message.average_time_between_known_objects_seconds,
+            };
           }
         } catch (e) {
           console.error('Failed to parse WebSocket message:', e);

@@ -2,17 +2,28 @@
   import type { EncoderStatus } from '$lib/types/websocket';
   import BadgeWithTitle from './BadgeWithTitle.svelte';
 
+  interface SortingStats {
+    total_known_objects: number;
+    average_time_between_known_objects_seconds: number | null;
+  }
+
   interface Props {
     lifecycleStage: string;
     sortingState: string;
     feederState: string | null;
     encoder: EncoderStatus | null;
+    sortingStats: SortingStats | null;
   }
 
-  let { lifecycleStage, sortingState, feederState, encoder }: Props = $props();
+  let { lifecycleStage, sortingState, feederState, encoder, sortingStats }: Props = $props();
 
   function formatSpeed(speedCmPerS: number): string {
     return `${speedCmPerS.toFixed(1)} cm/s`;
+  }
+
+  function formatAvgTime(seconds: number | null): string {
+    if (seconds === null) return 'N/A';
+    return `${seconds.toFixed(1)}s`;
   }
 </script>
 
@@ -27,7 +38,7 @@
       <BadgeWithTitle title="Feeder State" text={feederState || 'Unknown'} variant="yellow" />
     </div>
 
-    <!-- Right side - Conveyor Speed -->
+    <!-- Middle - Conveyor Speed -->
     <div class="flex-1">
       <h3 class="text-sm text-gray-500 dark:text-gray-400 mb-3">Conveyor Speed</h3>
       {#if encoder}
@@ -40,6 +51,21 @@
       {:else}
         <div class="text-gray-500 dark:text-gray-400 text-sm">
           No encoder data available
+        </div>
+      {/if}
+    </div>
+
+    <!-- Right side - Sorting Stats -->
+    <div class="flex-1">
+      <h3 class="text-sm text-gray-500 dark:text-gray-400 mb-3">Sorting Stats</h3>
+      {#if sortingStats}
+        <div class="grid grid-cols-2 gap-6">
+          <BadgeWithTitle title="Total Sorted" text={sortingStats.total_known_objects.toString()} variant="green" />
+          <BadgeWithTitle title="Avg Time Between" text={formatAvgTime(sortingStats.average_time_between_known_objects_seconds)} variant="purple" />
+        </div>
+      {:else}
+        <div class="text-gray-500 dark:text-gray-400 text-sm">
+          No sorting data available
         </div>
       {/if}
     </div>

@@ -64,6 +64,7 @@
           sortingState={pageState.state.sortingState}
           feederState={pageState.state.feederState}
           encoder={pageState.state.encoder}
+          sortingStats={pageState.state.sortingStats}
         />
         <SystemControls
           onMotorConfigOpen={openMotorConfig}

@@ -17,6 +17,7 @@ from robot.our_types import (
     BinStateUpdateMessage,
     CameraPerformanceMessage,
     FeederStatusMessage,
+    SortingStatsMessage,
 )
 from robot.our_types.bin import BinCoordinates
 from robot.our_types.bin_state import BinState
@@ -210,6 +211,30 @@ class WebSocketManager:
 
         except Exception as e:
             self.logger.error(f"Error broadcasting feeder status: {e}")
+
+    def broadcast_sorting_stats(
+        self,
+        total_known_objects: int,
+        average_time_between_known_objects_seconds: Optional[float],
+    ):
+        if not self.active_connections or not self.loop:
+            return
+
+        try:
+            message: SortingStatsMessage = {
+                "type": "sorting_stats",
+                "total_known_objects": total_known_objects,
+                "average_time_between_known_objects_seconds": average_time_between_known_objects_seconds,
+            }
+
+            message_json = json.dumps(message)
+
+            asyncio.run_coroutine_threadsafe(
+                self._broadcast_to_all(message_json), self.loop
+            )
+
+        except Exception as e:
+            self.logger.error(f"Error broadcasting sorting stats: {e}")
 
     async def _send_safe(self, websocket: WebSocket, message: str):
         try:

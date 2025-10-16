@@ -15,6 +15,7 @@ from robot.sorting_state_machine import SortingStateMachine
 from robot.websocket_manager import WebSocketManager
 from robot.encoder_manager import EncoderManager
 from robot.our_types import MotorStatus
+from robot.sorting_stats import calculate_sorting_stats
 
 
 class Controller:
@@ -159,6 +160,12 @@ class Controller:
             motors,
             encoder_status,
         )
+
+        all_known_objects = (
+            self.sorting_state_machine.shared_variables.all_known_objects
+        )
+        total, avg_time = calculate_sorting_stats(all_known_objects)
+        self.websocket_manager.broadcast_sorting_stats(total, avg_time)
 
     def pause(self):
         if self.lifecycle_stage == SystemLifecycleStage.RUNNING:

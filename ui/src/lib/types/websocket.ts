@@ -70,10 +70,17 @@ export interface CameraPerformanceMessage {
   latency_5s: number;
 }
 
+export interface SortingStatsMessage {
+  type: 'sorting_stats';
+  total_known_objects: number;
+  average_time_between_known_objects_seconds: number | null;
+}
+
 export type WebSocketMessage =
   | SystemStatusMessage
   | CameraFrameMessage
   | KnownObjectMessage
   | BinStateUpdateMessage
   | FeederStatusMessage
-  | CameraPerformanceMessage;
+  | CameraPerformanceMessage
+  | SortingStatsMessage;

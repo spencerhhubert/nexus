@@ -10,3 +10,4 @@ class KnownObject(TypedDict):
     observations: List[Observation]
     classification_consensus: ClassificationConsensus
     bin_coordinates: Optional[BinCoordinates]
+    created_at: int

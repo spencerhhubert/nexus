@@ -32,9 +32,9 @@ YOLO_CLASSES = {
 # Vision analysis constants
 SECOND_FEEDER_DISTANCE_THRESHOLD = 40
 MAIN_CONVEYOR_BOUNDING_BOX_OVERLAP_THRESHOLD = 0.75
-FEEDER_CAMERA_MAIN_CONVEYOR_MASK_PROXIMITY_THRESHOLD = 0.9
+FEEDER_CAMERA_MAIN_CONVEYOR_MASK_PROXIMITY_THRESHOLD = 0.6
 MAIN_CAMERA_MAIN_CONVEYOR_MASK_PROXIMITY_THRESHOLD = 0.5
-SECOND_FEEDER_PROXIMITY_THRESHOLD = 0.6
+SECOND_FEEDER_PROXIMITY_THRESHOLD = 0.5
 FIRST_FEEDER_PROXIMITY_THRESHOLD = 0.5
 OBJECT_CENTER_THRESHOLD = 0.4
 RIGHT_SIDE_THRESHOLD = 0.3
@@ -553,7 +553,7 @@ class SegmentationModelManager:
         return min_distance
 
     def _calculateMaskEdgeProximity(
-        self, object_mask: np.ndarray, target_mask: np.ndarray, proximity_px: int = 8
+        self, object_mask: np.ndarray, target_mask: np.ndarray, proximity_px: int = 12
     ) -> float:
         if object_mask.shape != target_mask.shape:
             self.logger.warning(
@@ -595,7 +595,7 @@ class SegmentationModelManager:
         total_main_conveyor_proximity = 0.0
         for main_conveyor_mask in main_conveyor_masks:
             total_main_conveyor_proximity += self._calculateMaskEdgeProximity(
-                obj_mask, main_conveyor_mask, 3
+                obj_mask, main_conveyor_mask
             )
 
         total_second_proximity = 0.0
@@ -840,7 +840,7 @@ class SegmentationModelManager:
             total_edge_proximity = 0.0
             for main_conveyor_mask in main_conveyor_mask_data:
                 edge_proximity = self._calculateMaskEdgeProximity(
-                    obj_mask, main_conveyor_mask, 3
+                    obj_mask, main_conveyor_mask
                 )
                 total_edge_proximity += edge_proximity
 

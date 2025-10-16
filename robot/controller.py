@@ -92,6 +92,9 @@ class Controller:
             logger.info(
                 f"Initializing DM{dm_idx}_ConveyorDoor to {conveyor_door_closed_angle}°"
             )
+            # intentional we call this twice
+            # blah blah blah long story short I think the servos dont get the amps they need so we need to try twice
+            # but we cant use setAngle with a duration because that can only be called once an angle has been set at least once
             distribution_module.servo.setAngle(conveyor_door_closed_angle)
             time.sleep(1)
             distribution_module.servo.setAngle(conveyor_door_closed_angle)

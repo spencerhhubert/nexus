@@ -164,7 +164,7 @@ def buildGlobalConfig() -> GlobalConfig:
         # "first_vibration_hopper_motor_speed": 172,  # first hopper that pieces enter
         "first_vibration_hopper_motor_speed": -80,  # first hopper that pieces enter
         # "second_vibration_hopper_motor_speed": 165,
-        "second_vibration_hopper_motor_speed": -80,
+        "second_vibration_hopper_motor_speed": -83,
         "first_vibration_hopper_motor_pulse_ms": 200,
         "second_vibration_hopper_motor_pulse_ms": 400,
         "first_vibration_hopper_motor_pause_ms": 500,

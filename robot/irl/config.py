@@ -108,7 +108,7 @@ def buildIRLConfig() -> IRLConfig:
             {
                 "distance_from_camera_center_to_door_begin_cm": int(inchesToCm(8)),
                 "num_bins": 4,
-                "controller_address": 0x41,
+                "controller_address": 0x40,
                 "conveyor_door_servo": {"channel": 15},
                 "bin_door_servos": [
                     {"channel": 0},
@@ -136,7 +136,7 @@ def buildIRLConfig() -> IRLConfig:
                     inchesToCm(8 + 2 * (6 + 2 / 16))
                 ),
                 "num_bins": 4,
-                "controller_address": 0x40,
+                "controller_address": 0x41,
                 "conveyor_door_servo": {"channel": 15},
                 "bin_door_servos": [
                     {"channel": 0},

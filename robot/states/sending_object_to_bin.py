@@ -139,7 +139,7 @@ class SendingObjectToBin(BaseState):
 
             # Open conveyor door
             conveyor_open_angle = self.global_config["conveyor_door_open_angle"]
-            module.servo.setAngle(conveyor_open_angle)
+            module.servo.setAngle(conveyor_open_angle, 500)
             self.logger.info(
                 f"DOOR: Opened conveyor door for module {bin_coords['distribution_module_idx']} to {conveyor_open_angle}°"
             )

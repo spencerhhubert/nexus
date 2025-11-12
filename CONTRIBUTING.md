@@ -1,5 +1,7 @@
 # Contributing to basically Sorter
 
+Basically Technologies LLC develops and distributes the basically Sorter as kits and assembled units.
+
 ## License Agreement
 
 By contributing to this project, you agree that your contributions will be licensed under the same licenses as the project:
@@ -19,15 +21,18 @@ This applies to all versions of the basically Sorter project (V1, V2, and beyond
 
 ## Non-Commercial vs Commercial Use
 
-**Non-commercial use (free):**
-- Personal hobby projects
-- Educational purposes
-- Research and development
+**Non-commercial use of design files (free):**
+- Use design files to build Sorters for personal projects
+- Use design files for educational purposes
+- Use design files for research and development
 
-**Commercial use (requires license):**
-- Manufacturing and selling Sorters
-- Using Sorters in business operations
-- Offering sorting as a commercial service
+**Commercial use of design files (requires license):**
+- Use design files to manufacture Sorters for sale
+- Modify designs and manufacture products for sale
+- Distribute design files for commercial purposes
+
+**Important: Purchased Products**
+If you purchase a basically Sorter from Basically Technologies LLC or an authorized distributor, you may use that physical unit for any purpose, including commercial use. The non-commercial restriction applies only to the design files, not to products you legally purchase.
 
 For commercial licensing: contact@basically.website
 
@@ -51,4 +56,3 @@ Full license text available in the `/licenses` folder:
 - Hardware: CC-BY-NC-SA-4.0.txt
 - Software: MIT-COMMONS-CLAUSE.txt
 - Documentation: CC-BY-NC-SA-4.0.txt
-```
